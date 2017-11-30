@@ -1,0 +1,39 @@
+dao模块不能调用其他service的bo
+如何自定义字段？在po中？
+
+
+
+
+管家号和公众号关系表
+此次模块涉及表：
+wzy_manage_monitor_gzh_relation	管家与公众号的多对多关系
+wzy_monitor_gzh	公众号
+wzy_monitor_gzh_group 公众号监测组
+wzy_monitor_gzh_group_realation	公众号和管家关系
+
+
+
+字符串拼接？？
+
+
+11/23
+sql v1.22.0
+
+逻辑删除group
+
+检查查询 group时is_deleted
+
+@Transactional添加在哪儿
+
+
+
+mapper返回boolean或int=x
+
+service内部方法返回boolean在通过判断抛出异常=x
+
+用equals=x
+
+pagebean一直往下传=x
+
+
+添加组后的返回值是？？

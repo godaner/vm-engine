@@ -1,0 +1,30 @@
+//通过管家id，获取所有的监控分组信息（包括id,name）
+public String getGzhMonitorGroupsWithIdNumByAccountId(Long accountId);
+//通过关键字（微信公众号name），分组id查询监控的账户信息（包括id，name，所属分组）
+public String getMonitorGzhsWithIdNameGroup(Long accountId,String gzhName,Long groupId,String queryWay)
+//通过管家id，关键字（监测分组name），获取的监控分组信息（包括id,name，监测的公众号数）
+public String getMonitorGroupsWithIdNameGzhNumByAccountId(tring uid,String ,String groupName);
+//通过分组id，来源平台，name ->更新监测组（8个汉字，字母或数字）
+public String updateMonitorGroup(Long groupId,String from,String groupName)
+//通过分组id删除分组
+public String deleteMonitorGroup(Long groupId);
+//通过分组id和公众号id更新分组和公众号的对应关系
+public String updateMonitorGroupGzhRealation(Long groupId,String gzhIds);
+//通过管家id获取其管理的公众号信息（id，name）
+public String getGzhsByAccountId(Long accountId);
+
+//刪除监测组
+public String deleteMonitorGroup(Long groupId);
+
+
+	
+	
+	
+	
+	@ThriftMethod
+    String searchArticle(@ThriftField(value = 1, name = "uid") Long uid,
+                         @ThriftField(value = 2, name = "gzhMonitorGroups") String gzhMonitorGroups,
+                         @ThriftField(value = 3, name = "searchQueryBean") String searchQueryBean,
+                         @ThriftField(value = 4, name = "keywordGroupIds") String keywordGroupIds,
+                         @ThriftField(value = 5, name = "shouldKeywords") String shouldKeywords,
+                         @ThriftField(value = 6, name = "mustKeywords") String mustKeywords);

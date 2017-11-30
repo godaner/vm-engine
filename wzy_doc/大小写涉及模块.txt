@@ -1,0 +1,18 @@
+杜小虎反馈：
+数据库未区分大小写涉及到的模块有：
+1、管家：分组管理-->新建分组、内容监测-->检测账号-->分组管理-->新建分组、权限管理-->新增管理员、权限管理-->新增角色
+2、助手：素材管理-->标签管理-->新建标签、权限管理-->新增审核人员
+
+
+
+
+罗建反馈：
+1、管家：
+分组管理-->新建分组、   wzt_customized_group(group_name)
+内容监测-->检测账号-->分组管理-->新建分组、wzy_monitor_gzh_group(name)
+权限管理-->新增管理员、wzt_account(username)   wzy_account_gj(account_name)
+权限管理-->新增角色 wzt_role(role_name)
+
+2、助手：
+素材管理-->标签管理-->新建标签、wzy_content_tag(tag_name)
+权限管理-->新增审核人员  wzy_account_audit(auditor_account_name)

@@ -1,0 +1,48 @@
+http://192.168.0.185:8090/Host%E7%BB%91%E5%AE%9A
+wiki.wzy.com
+git教程：https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000
+
+http://redmine.wzy.com/  绑了host访问这个， 任务分配都在这上面进行
+赵超(赵超)
+用户名 zhangke ,  密码123456789
+张可
+
+
+
+ http://gitlab.wezyun.com:7890/users/sign_in
+ 
+ 
+ gitgit@gitlab.wezyun.com:wzy_intern/wzy_backend_java_trainning.git
+ 
+ 
+ http://localhost:8010/activity/1/info?wechatId=1
+ 
+ jenkins http://devcd.wzy.com/jenkins/view/dev/
+ 
+ 
+ 
+ 192.168.0.185 dev1	
+ 
+ 192.168.0.187 dev2	测试环境
+ 
+ 192.168.0.122 dev3 可练习
+ 
+ root#123456
+ 
+ 
+ 助手 http://wzy-zsdevtest.ngrok.wezyun.com  微政云测试   123456789
+管家 http://wzy-gjdevtest.ngrok.wezyun.com  wezyun         123456789
+
+
+
+svn	zhangke#zhangke
+
+
+
+vm项目git地址=》git@gitlab.wezyun.com:_godaner/vm.git
+
+
+清博 
+http://open.gsdata.cn/
+m13540235413@163.com
+wzy@123456
