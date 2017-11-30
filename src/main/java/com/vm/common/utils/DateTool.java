@@ -604,7 +604,7 @@ public class DateTool {
     }
     //20161231_20161225week
 
-    public static void main(String[] args) throws ParseException {
+//    public static void main(String[] args) throws ParseException {
 //        Random r = new Random();
 //        r.nextInt(1);
 //        System.out.println(DateTool.getDateOfNextYear(getNow()));
@@ -638,14 +638,14 @@ public class DateTool {
 
 //        Long t = DateTool.parseUnixTime("2017-04-07 17:03:12",YYYY_MM_DD,null);
 
-        int now = DateTool.unixTime().intValue();
-        String yesterDay = DateTool.getYesterday(now,DateTool.YYYY_MM_DD);
-        long yesterDayBeginTime = DateTool.getDayBeginTime(yesterDay);
-        long yesterDayEndTime = DateTool.getDayEndTime(yesterDay);
-
-        System.out.println(yesterDayBeginTime);
-        System.out.println(yesterDayEndTime);
-    }
+//        int now = DateTool.unixTime().intValue();
+//        String yesterDay = DateTool.getYesterday(now,DateTool.YYYY_MM_DD);
+//        long yesterDayBeginTime = DateTool.getDayBeginTime(yesterDay);
+//        long yesterDayEndTime = DateTool.getDayEndTime(yesterDay);
+//
+//        System.out.println(yesterDayBeginTime);
+//        System.out.println(yesterDayEndTime);
+//    }
 
     public static String getMonthLastDayByString(String yeaerMonth) {
 

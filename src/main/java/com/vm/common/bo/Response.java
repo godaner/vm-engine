@@ -95,7 +95,7 @@ public class Response {
 
         //通用
         SUCCESS(1, "success"),
-        FAILURE(-1, "fail");
+        FAILURE(2, "fail");
 
         int code;
         String name;

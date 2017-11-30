@@ -50,12 +50,5 @@ public class PageBean {
         this.orderType = orderType;
     }
 
-    public static void main(String[] args) {
-        PageBean pageBean = new PageBean();
-        pageBean.setStart(0);
-        pageBean.setSize(10);
-        pageBean.setOrderBy("create_time");
-        pageBean.setOrderType("DESC");
-        System.out.println(JSONObject.toJSONString(pageBean));
-    }
+    
 }
