@@ -1,4 +1,4 @@
-
+package com.vm.test.utils;
 
 
 import java.io.File;
@@ -16,9 +16,9 @@ import java.util.regex.Pattern;
  * 通过配置文件gmx.properties中的信息生成mapper.xml文件;
  */
 public class GenerateMapperXml {
-    /*public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         generateMapperXmlByPros();
-    }*/
+    }
     //默认配置文件
     private static final String DEFAULT_PRO = "gmx.properties";
 
@@ -108,6 +108,7 @@ public class GenerateMapperXml {
             //替换*为表名
             path = path.replace("*", tableName);
             saveToFile(mapperString, path);
+            System.out.println("xml path: " + path);
             System.out.println("--------------------" + tableName + " END --------------------");
         }
 

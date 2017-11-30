@@ -1,7 +1,12 @@
 package com.vm.controller.users;
 
 import com.vm.common.bo.Response;
-import com.vm.controller.BaseController;
+import com.vm.controller.ServiceController;
+import com.vm.service.exception.VMRuntimeException;
+import com.vm.service.exception.ValidateRuntimeException;
+import com.vm.service.users.UsersService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,17 +26,26 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/users")
-public class UsersController extends BaseController {
+public class UsersController extends ServiceController<UsersService> {
+
+    private Logger logger = LoggerFactory.getLogger(UsersController.class);
 
     @RequestMapping("/insert/{name}/{password}")
     public Response insert(@PathVariable("name") String name, @PathVariable("password") String password){
 
 
         try {
-            System.out.println("insert");
-        } catch (Exception e) {
-            response.setFailure();
+            service.add(name,password);
+        } catch (ValidateRuntimeException e) {
+            logger.error("updateMonitorGroup error name {} ,password {}, ",name,password);
+            response.setCode(e.getErrorCode().intValue());
+            response.setMsg(e.getMessage());
+            response.setMsg(e.getMessage());
             e.printStackTrace();
+        }catch (Exception e) {
+            logger.error("updateMonitorGroup error name {} ,password {}, ",name,password);
+            response.setCode(VMRuntimeException.ErrorCode.UNKNOWN.getCode().intValue());
+            response.setMsg(VMRuntimeException.ErrorCode.UNKNOWN.getMsg());
         }
         return response;
     }

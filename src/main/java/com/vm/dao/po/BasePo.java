@@ -1,5 +1,7 @@
 package com.vm.dao.po;
 
+import com.vm.common.bo.ByteConstantVar;
+
 /**
  * <b>Title:</b>
  * <br/>
@@ -16,19 +18,19 @@ public class BasePo {
     /**
      * 主键自增id
      */
-    Long id;
+    protected Long id;
     /**
      * 创建时间，unixtimestamp
      */
-    Integer createTime;
+    protected Integer createTime;
     /**
      * 更新时间,unixtimestamp
      */
-    Integer updateTime;
+    protected Integer updateTime;
     /**
      * 是否被删除
      */
-    Integer isDeleted;
+    protected Byte status;
 
     public Long getId() {
         return id;
@@ -54,26 +56,31 @@ public class BasePo {
         this.updateTime = updateTime;
     }
 
-    public Integer getIsDeleted() {
-        return isDeleted;
+    public Byte getStatus() {
+        return status;
     }
 
-    public void setIsDeleted(Integer isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 
-    public enum DeleteStatus{
-        NO(1,"未删除"),YES(2, "已经删除");
+    /**
+     * 对象状态
+     */
+    public enum Status{
+        NORMAL(ByteConstantVar.ONE,"正常"),
+        FORAZEN(ByteConstantVar.TWO, "冻结"),
+        DELETED(ByteConstantVar.THREE, "删除");
 
-        DeleteStatus(int code, String name) {
+        Status(Byte code, String name) {
             this.code = code;
             this.name = name;
         }
 
-        int code;
+        Byte code;
         String name;
 
-        public int getCode() {
+        public Byte getCode() {
             return code;
         }
 
