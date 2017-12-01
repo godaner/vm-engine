@@ -12,15 +12,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import javassist.ClassClassPath;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtMethod;
-import javassist.Modifier;
-import javassist.NotFoundException;
-import javassist.bytecode.CodeAttribute;
-import javassist.bytecode.LocalVariableAttribute;
-import javassist.bytecode.MethodInfo;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -44,7 +35,7 @@ public class ControllerServiceAop {
     private LoggerWrapper logger = LoggerWrapper.newLoggerWrapper(ControllerServiceAop.class);
 
     @Around("declareJoinPointExpression()")
-    public Object doAroundAdvice(ProceedingJoinPoint joinPoint) throws ClassNotFoundException, NotFoundException {
+    public Object doAroundAdvice(ProceedingJoinPoint joinPoint) {
         StringBuffer sb = new StringBuffer(joinPoint.getSignature().toString() +" ==>PARAMS: "+ Arrays.toString(joinPoint.getArgs()));
 
         logger.info(sb.toString());
@@ -53,8 +44,11 @@ public class ControllerServiceAop {
         Object data = null;
         try {
             data = joinPoint.proceed();//调用执行目标方法,先執行aop在執行了responsebody
-            if(data !=null){
+            if(data !=null && data instanceof Map){
                 response.setData((Map<Object, Object>) data);
+            }
+            if(data !=null && data instanceof Response){
+                response = (Response)data;
             }
         } catch (ValidateRuntimeException e) {
             logger.info(sb.toString()+" ==>ERROR: "+e);
