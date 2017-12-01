@@ -3,5 +3,9 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>/frontend/views/index.jsp</display-name>
+  <welcome-file-list>
+
+  <welcome-file>/frontend/views/index.jsp</welcome-file>
+  </welcome-file-list>
 </web-app>
+

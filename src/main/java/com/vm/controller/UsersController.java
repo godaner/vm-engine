@@ -1,18 +1,12 @@
 package com.vm.controller;
 
 import com.google.common.collect.ImmutableMap;
-import com.vm.base.bo.Response;
 import com.vm.base.utils.LoggerWrapper;
-import com.vm.service.exception.VMRuntimeException;
-import com.vm.service.exception.ValidateRuntimeException;
 import com.vm.service.users.UsersService;
-import jdk.nashorn.internal.ir.annotations.Immutable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
@@ -35,16 +29,18 @@ public class UsersController extends ServiceController<UsersService> {
 
     private LoggerWrapper logger = LoggerWrapper.newLoggerWrapper(UsersController.class);
 
-    @RequestMapping("/forward/{name}")
-    public Object insert(@PathVariable("name") String name){
+    @RequestMapping("/a")
+    public String insert(Model model) {
 
-        return "forward:frontend/views/"+name;
+        model.addAttribute("name", "厉害了!!");
+
+        return "frontend/views/index";
     }
 
     @RequestMapping("/query/{id}")
-    public Object query(@PathVariable("id") Long id){
+    public Object query(@PathVariable("id") Long id) {
         int i = 0;
-        i = i/i;
-        return ImmutableMap.of("k1","v1","k2","v2");
+        i = i / i;
+        return ImmutableMap.of("k1", "v1", "k2", "v2");
     }
 }

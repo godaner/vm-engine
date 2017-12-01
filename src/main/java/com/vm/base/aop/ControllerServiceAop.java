@@ -2,22 +2,12 @@ package com.vm.base.aop;
 
 import com.vm.base.bo.Response;
 import com.vm.base.utils.LoggerWrapper;
-import com.vm.controller.UsersController;
 import com.vm.service.exception.VMRuntimeException;
 import com.vm.service.exception.ValidateRuntimeException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.stereotype.Component;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -40,15 +30,23 @@ public class ControllerServiceAop {
 
         logger.info(sb.toString());
 
-        Response response = new Response();
+        Response response = null;
         Object data = null;
         try {
             data = joinPoint.proceed();//调用执行目标方法,先執行aop在執行了responsebody
-            if(data !=null && data instanceof Map){
-                response.setData((Map<Object, Object>) data);
+
+            if(data == null){//无参数
+                return null;
             }
-            if(data !=null && data instanceof Response){
+            response = new Response();
+
+            //如果返回值为Map或者Response的实例，代表采用ajax方式
+            if(data instanceof Map){
+                response.setData((Map<Object, Object>) data);
+            }else if(data instanceof Response){
                 response = (Response)data;
+            }else{
+                return data;
             }
         } catch (ValidateRuntimeException e) {
             logger.info(sb.toString()+" ==>ERROR: "+e);

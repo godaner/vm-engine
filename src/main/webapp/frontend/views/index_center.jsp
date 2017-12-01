@@ -11,7 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-    index_center
+index_center
 </body>
 
 </html>
