@@ -1,7 +1,7 @@
 package com.vm.controller;
 
 
-import com.vm.common.bo.Response;
+import com.vm.base.bo.Response;
 
 /**
  * Created by ZhangKe on 2017/11/24.

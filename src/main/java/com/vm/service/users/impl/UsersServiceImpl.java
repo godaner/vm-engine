@@ -1,6 +1,6 @@
 package com.vm.service.users.impl;
 
-import com.vm.common.utils.DateTool;
+import com.vm.base.utils.DateTool;
 import com.vm.dao.mapper.UsersMapper;
 import com.vm.dao.po.BasePo;
 import com.vm.dao.po.Users;

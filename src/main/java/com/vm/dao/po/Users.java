@@ -1,6 +1,6 @@
 package com.vm.dao.po;
 
-import com.vm.common.bo.ByteConstantVar;
+import com.vm.base.bo.ByteConstantVar;
 
 /**
  * Created by ZhangKe on 2017/11/30.
