@@ -46,3 +46,8 @@ vm项目git地址=》git@gitlab.wezyun.com:_godaner/vm.git
 http://open.gsdata.cn/
 m13540235413@163.com
 wzy@123456
+
+
+
+分布式
+pullWechatMassMsg
