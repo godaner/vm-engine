@@ -31,11 +31,9 @@ public class TempleController extends ServiceController<UsersService> {
     private LoggerWrapper logger = LoggerWrapper.newLoggerWrapper(TempleController.class);
 
     @RequestMapping("/a")
-    public Object a(Model model,@RequestBody Temple temple) {
+    public Object a(Model model) {
 
-        logger.info("temple {}",temple);
-
-        model.addAttribute("name", temple.getUsername());
+        model.addAttribute("name", "zhangke");
         return "/frontend/index";
     }
     @RequestMapping("/b")

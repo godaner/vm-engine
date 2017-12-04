@@ -22,5 +22,6 @@
 hs_err_pid*
 *.class
 target
+
 build
 
