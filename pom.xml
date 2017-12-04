@@ -26,10 +26,10 @@
     </properties>
     <dependencies>
         <!--spring boot start-->
-        <!--<dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>-->
+        </dependency>
         <!--spring boot end-->
 
         <!--spring-boot-starter-test start-->
