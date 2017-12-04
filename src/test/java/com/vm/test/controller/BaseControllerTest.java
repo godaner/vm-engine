@@ -42,35 +42,39 @@ public class BaseControllerTest {
 
     /**
      * 获取当前主机测试的url前缀
+     *
      * @return
      */
-    protected String getLocalHost(){
-        return "http://localhost:"+port+"/";
+    protected String getLocalHost() {
+        return "http://localhost:" + port + "/";
     }
 
+
     /**
-     * 通过map生成的json字符串类型的 HttpEntity
-     * @param map
+     * 通过对象（自定义对象或者map）生成的json字符串类型的 HttpEntity
+     *
+     * @param obj
      * @return
      */
-    protected HttpEntity<String> getJsonRequestEntity(Map<Object,Object> map){
+    protected HttpEntity<String> getJsonRequestEntity(Object obj) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String requestJsonStr = JSON.toJSONString(map);
-        HttpEntity<String> entity = new HttpEntity<String>(requestJsonStr,headers);
+        String requestJsonStr = JSON.toJSONString(obj);
+        HttpEntity<String> entity = new HttpEntity<String>(requestJsonStr, headers);
         return entity;
     }
+
     @Test
-    public void demo(){
+    public void demo() {
         //请求路径
-        String url = getLocalHost()+"/temple/a";
+//        String url = getLocalHost()+"/temple/a";
         //生成json请求
-        HttpEntity<String> entity = getJsonRequestEntity(ImmutableMap.of(
-                "username","zhangtsan",
-                "password","i"
-        ));
-        String result = rt.postForObject(url, entity, String.class);
-        System.out.println(result);
+//        HttpEntity<String> entity = getJsonRequestEntity(ImmutableMap.of(
+//                "username","zhangtsan",
+//                "password","i"
+//        ));
+//        String result = rt.postForObject(url, entity, String.class);
+//        System.out.println(result);
 
     }
 }

@@ -36,7 +36,6 @@ public class TempleController extends ServiceController<UsersService> {
         logger.info("temple {}",temple);
 
         model.addAttribute("name", temple.getUsername());
-
         return "frontend/views/index";
     }
     @RequestMapping("/b")
