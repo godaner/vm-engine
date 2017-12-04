@@ -51,4 +51,9 @@ public class TempleController extends ServiceController<UsersService> {
         i = i / i;
         return ImmutableMap.of("k1", "v1", "k2", "v2");
     }
+    @RequestMapping("/forward/{pagename}")
+    public Object forward(Model model,@PathVariable("pagename") String pagename) {
+        model.addAttribute("name",pagename);
+        return "frontend/views/"+pagename;
+    }
 }
