@@ -33,7 +33,8 @@ public class TempleController extends ServiceController<UsersService> {
     @RequestMapping("/a")
     public Object a(Model model) {
 
-        model.addAttribute("name", "zhangke");
+        setRequestAttr("name","zhangke");
+
         return "frontend/index";
     }
 
