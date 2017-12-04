@@ -36,7 +36,7 @@ public class TempleController extends ServiceController<UsersService> {
         logger.info("temple {}",temple);
 
         model.addAttribute("name", temple.getUsername());
-        return "frontend/views/index";
+        return "/frontend/index";
     }
     @RequestMapping("/b")
     public @ResponseBody Object b() {
@@ -53,6 +53,6 @@ public class TempleController extends ServiceController<UsersService> {
     @RequestMapping("/forward/{pagename}")
     public Object forward(Model model,@PathVariable("pagename") String pagename) {
         model.addAttribute("name",pagename);
-        return "frontend/views/"+pagename;
+        return "/frontend/"+pagename;
     }
 }
