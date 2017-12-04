@@ -36,9 +36,11 @@ public class TempleController extends ServiceController<UsersService> {
         model.addAttribute("name", "zhangke");
         return "/frontend/index";
     }
+
     @RequestMapping("/b")
-    public @ResponseBody Object b() {
-        map.put("a","b");
+    public @ResponseBody
+    Object b() {
+        map.put("a", "b");
         return map;
     }
 
@@ -48,9 +50,6 @@ public class TempleController extends ServiceController<UsersService> {
         i = i / i;
         return ImmutableMap.of("k1", "v1", "k2", "v2");
     }
-    @RequestMapping("/forward/{pagename}")
-    public Object forward(Model model,@PathVariable("pagename") String pagename) {
-        model.addAttribute("name",pagename);
-        return "/frontend/"+pagename;
-    }
+
+
 }

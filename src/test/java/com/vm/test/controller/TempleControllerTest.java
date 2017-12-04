@@ -9,9 +9,9 @@ import org.springframework.http.HttpEntity;
  */
 public class TempleControllerTest extends BaseControllerTest{
     @Test
-    public void a(){
+    public void b(){
 
-        String url = getLocalHost()+"/temple/a";
+        String url = getLocalHost()+"/temple/b";
 //        String url = getLocalHost()+"/temple/b";
         /*json请求*/
         HttpEntity<String> entity = getJsonRequestEntity(ImmutableMap.of(
