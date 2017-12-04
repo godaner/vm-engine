@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.vm.dao.mapper.UsersMapper">
-<resultMap type="com.vm.dao.po.Users"  id="UsersMap">
+<resultMap type="com.vm.dao.po.Temple" id="UsersMap">
   <id column="id" property="id"/>
   <result column="username" property="username"/>
   <result column="password" property="password"/>
@@ -65,7 +65,7 @@
 			id = #{id}
 	</delete>
 
-<update id="update" parameterType="com.vm.dao.po.Users" >
+<update id="update" parameterType="com.vm.dao.po.Temple" >
 UPDATE
 		vm_users
 <set>

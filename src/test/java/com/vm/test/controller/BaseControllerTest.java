@@ -1,5 +1,6 @@
 package com.vm.test.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.vm.BootApp;
 import com.vm.base.utils.LoggerWrapper;
 import org.junit.Rule;
@@ -10,8 +11,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.boot.test.rule.OutputCapture;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Map;
 
 import static org.junit.Assert.assertThat;
 
@@ -31,4 +37,25 @@ public class BaseControllerTest {
     public OutputCapture capture = new OutputCapture();
 
     protected RestTemplate rt = new RestTemplate();
+
+    /**
+     * 获取当前主机测试的url前缀
+     * @return
+     */
+    protected String getLocalHost(){
+        return "http://localhost:"+port+"/";
+    }
+
+    /**
+     * 通过map生成的json字符串类型的 HttpEntity
+     * @param map
+     * @return
+     */
+    protected HttpEntity<String> getJsonRequestEntity(Map<Object,Object> map){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        String requestJsonStr = JSON.toJSONString(map);
+        HttpEntity<String> entity = new HttpEntity<String>(requestJsonStr,headers);
+        return entity;
+    }
 }

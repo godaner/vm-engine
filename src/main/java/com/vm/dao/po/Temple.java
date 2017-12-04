@@ -5,7 +5,7 @@ import com.vm.base.bo.ByteConstantVar;
 /**
  * Created by ZhangKe on 2017/11/30.
  */
-public class Users extends BasePo{
+public class Temple extends BasePo{
     private String username;
     private String password;
     private Byte sex;
@@ -14,7 +14,7 @@ public class Users extends BasePo{
 
     @Override
     public String toString() {
-        return "Users{" +
+        return "Temple{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", sex=" + sex +
@@ -27,7 +27,7 @@ public class Users extends BasePo{
                 "} " + super.toString();
     }
 
-    public Users() {
+    public Temple() {
     }
 
     public String getUsername() {
@@ -71,7 +71,7 @@ public class Users extends BasePo{
         this.description = description;
     }
 
-    public Users(String username, String password, Byte sex, Integer birthday, String description) {
+    public Temple(String username, String password, Byte sex, Integer birthday, String description) {
 
         this.username = username;
         this.password = password;

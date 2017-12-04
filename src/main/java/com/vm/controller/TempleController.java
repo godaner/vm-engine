@@ -2,13 +2,14 @@ package com.vm.controller;
 
 import com.google.common.collect.ImmutableMap;
 import com.vm.base.utils.LoggerWrapper;
+import com.vm.dao.po.Temple;
 import com.vm.service.users.UsersService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
@@ -24,17 +25,24 @@ import java.util.Map;
  * <b>Date:</b>2017/11/17 13:12
  */
 @Controller
-@RequestMapping("/users")
-public class UsersController extends ServiceController<UsersService> {
+@RequestMapping("/temple")
+public class TempleController extends ServiceController<UsersService> {
 
-    private LoggerWrapper logger = LoggerWrapper.newLoggerWrapper(UsersController.class);
+    private LoggerWrapper logger = LoggerWrapper.newLoggerWrapper(TempleController.class);
 
     @RequestMapping("/a")
-    public String insert(Model model) {
+    public Object a(Model model,@RequestBody Temple temple) {
 
-        model.addAttribute("name", "厉害了!!");
+        logger.info("temple {}",temple);
+
+        model.addAttribute("name", temple.getUsername());
 
         return "frontend/views/index";
+    }
+    @RequestMapping("/b")
+    public @ResponseBody Object b() {
+        map.put("a","b");
+        return map;
     }
 
     @RequestMapping("/query/{id}")

@@ -8,6 +8,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -16,6 +18,8 @@ import javax.servlet.http.HttpSession;
 public class BaseController {
     //响应对象
     protected Response response = new Response();
+    //响应键值对
+    protected Map<Object,Object> map = new ConcurrentHashMap<Object,Object>();
     /**
      * 设置req和res,方便使用
      */

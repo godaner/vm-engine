@@ -1,7 +1,7 @@
 package com.vm.base.utils;
 
 
-import com.vm.controller.UsersController;
+import com.vm.controller.TempleController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +13,7 @@ public class LoggerWrapper {
     private static LoggerWrapper loggerWrapper;
     public static LoggerWrapper newLoggerWrapper(Class<?> clazz) {
         loggerWrapper = new LoggerWrapper();
-        loggerWrapper.logger = LoggerFactory.getLogger(UsersController.class);
+        loggerWrapper.logger = LoggerFactory.getLogger(TempleController.class);
         return loggerWrapper;
     }
     private final static String LINE = "===============================================";
