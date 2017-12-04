@@ -26,11 +26,18 @@
     </properties>
     <dependencies>
         <!--spring boot start-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+        </dependency>-->
         <!--spring boot end-->
+
+        <!--thymeleaf start-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <!--thymeleaf end-->
 
         <!--spring-boot-starter-test start-->
         <dependency>
@@ -39,18 +46,13 @@
         </dependency>
         <!--spring-boot-starter-test end-->
 
-        <!--thymeleaf start-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-        <!--thymeleaf end-->
         <!--spring aop start-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
         <!--spring aop end-->
+
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
