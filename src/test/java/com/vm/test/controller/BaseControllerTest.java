@@ -1,9 +1,11 @@
 package com.vm.test.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.ImmutableMap;
 import com.vm.BootApp;
 import com.vm.base.utils.LoggerWrapper;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,5 +59,18 @@ public class BaseControllerTest {
         String requestJsonStr = JSON.toJSONString(map);
         HttpEntity<String> entity = new HttpEntity<String>(requestJsonStr,headers);
         return entity;
+    }
+    @Test
+    public void demo(){
+        //请求路径
+        String url = getLocalHost()+"/temple/a";
+        //生成json请求
+        HttpEntity<String> entity = getJsonRequestEntity(ImmutableMap.of(
+                "username","zhangtsan",
+                "password","i"
+        ));
+        String result = rt.postForObject(url, entity, String.class);
+        System.out.println(result);
+
     }
 }
