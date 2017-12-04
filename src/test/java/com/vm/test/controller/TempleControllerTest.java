@@ -7,7 +7,7 @@ import org.springframework.http.HttpEntity;
 /**
  * Created by ZhangKe on 2017/12/1.
  */
-public class TempleControllerTest extends  BaseControllerTest{
+public class TempleControllerTest extends BaseControllerTest{
     @Test
     public void a(){
 
