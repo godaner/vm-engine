@@ -39,6 +39,14 @@
         </dependency>
         <!--thymeleaf end-->
 
+        <!--thymeleaf不严格检查html start-->
+        <dependency>
+            <groupId>net.sourceforge.nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+            <version>1.9.22</version>
+        </dependency>
+        <!--thymeleaf不严格检查html end-->
+
         <!--spring-boot-starter-test start-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

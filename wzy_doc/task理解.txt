@@ -4,7 +4,14 @@ RedisTaskQueue:利用RedisUtils按队列的方式储存task信息；（存放tas
 
 RedisTaskSchedule：使用RedisTaskQueue储存RedisTaskBean（任务信息）
 
-RedisTaskDispather：将一个Task转化为一个RedisTaskBean，用于表寸保存到redis
+RedisTaskDispather及其子类：将一个Task转化为一个RedisTaskBean，提供put到redis的方法，提供redis的阻塞get（队列），提供开始执行的方法；
+
+ArticleTaskDispathcer：RedisTaskDispather的子类，持有TaskConsumeThread，线程大小信息，CONSUME_QUQUE_KEY等信息进行任务调度
+
+TaskConsumeThread：继承了Thread。在死循环中利用redisTaskSchedule从redis中取出RedisTaskBean，通过ArticleTaskFactory获取具体的task（task子类）=》
+设置listener，通过线程执行runnable子类task#worke
+
+QuickTaskDispatcher，SlowTaskDispatcher：调度任务，没有继承任何类，没有利用redis阻塞队列，利用内存阻塞队列
 
 ArticleTaskFactory：根据String taskType, String taskJson获取task（子类）
 
@@ -12,11 +19,14 @@ ArticleCoverImgDownloadTask：任务相关信息实体，包含了队列信息�
 
 AbstractWorker：需要做的任务，继承了Runnable，TaskDo#taskShouldDo
 
+WaitableAbstractWorker：继承了Runnable，TaskDo#taskShouldDo，包含多个CountDownAbstractWorker，CountDownLatch实现等待
+
+CountDownAbstractWorker：包含一个task，一个CountDownLatch控制等待
+
 OnTaskListener：监听器接口，task的成员，置于run方法中，taskShouldDo周边调用
 
 ListenerMapUtil：初始化listener对象们，放置于map，spring提供getBean（）
 
-ArticleTaskDispathcer：持有TaskConsumeThread，线程大小信息，CONSUME_QUQUE_KEY等信息进行任务调度
+dispatcher是一个service
 
-TaskConsumeThread：继承了Thread。在死循环中利用redisTaskSchedule从redis中取出RedisTaskBean，通过ArticleTaskFactory获取具体的task（task子类）=》
-设置listener，通过线程执行runnable子类task#worker
+com.wzt.service.assistant.impl.UserAssistantImageServiceImpl#materialDownLoad例子

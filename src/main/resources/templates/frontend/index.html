@@ -3,9 +3,16 @@
 <head>
     <title>hello</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/frontend/index.css">
 </head>
 <body>
-<div th:include="frontend/head :: #head_content"></div>
+<!--head-->
+<div th:include="frontend/fragment_head :: #head_body"></div>
+<!--index_center-->
+<div th:include="frontend/fragment_index_center :: #index_center_body"></div>
+<!--tail-->
+<div th:include="frontend/fragment_tail :: #tail_body"></div>
 
 </body>
+<script src="/js/jquery-3.2.1.min.js"></script>
 </html>

@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAEA,qBAAqB;ECDnB,KAAK,EAAE,IAAI;EAGX,MAAM,EAAC,IAAI;EDAX,gBAAgB,EAAE,SAAS",
+"sources": ["fragment_index_center.scss","frontend.scss"],
+"names": [],
+"file": "fragment_index_center.css"
+}

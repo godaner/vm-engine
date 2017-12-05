@@ -1,0 +1,6 @@
+@import "frontend.scss";
+
+#tail_content{
+  @include defaultSize;
+  background-color: aquamarine;
+}

@@ -1,0 +1,6 @@
+@import "frontend.scss";
+
+#head_content{
+  @include defaultSize;
+  background-color: red;
+}

@@ -1,0 +1,33 @@
+@mixin defaultWidth{
+  width: 100%;
+}
+@mixin defaultHeight{
+  height:100%;
+}
+
+@mixin defaultSize{
+  @include defaultWidth;
+  @include defaultHeight;
+}
+
+@mixin defaultPadding{
+  padding: 0px 0px;
+}
+
+@mixin defaultMargin{
+  margin: 0px 0px;
+}
+
+@mixin defaultPaddingAndMargin{
+  padding: 0px 0px;
+  margin: 0px 0px;
+}
+
+@mixin defaultBody{
+  @include defaultSize;
+  @include defaultPaddingAndMargin;
+  background-color: white;
+}
+
+
+

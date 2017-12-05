@@ -1,0 +1,6 @@
+@import "frontend.scss";
+
+#index_center_content{
+  @include defaultSize;
+  background-color: steelblue;
+}

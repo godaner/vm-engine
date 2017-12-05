@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAEA,aAAa;ECDX,KAAK,EAAE,IAAI;EAGX,MAAM,EAAC,IAAI;EDAX,gBAAgB,EAAE,GAAG",
+"sources": ["fragment_head.scss","frontend.scss"],
+"names": [],
+"file": "fragment_head.css"
+}

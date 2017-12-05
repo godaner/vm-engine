@@ -28,8 +28,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/temple")
 public class TempleController extends ServiceController<UsersService> {
 
-    private LoggerWrapper logger = LoggerWrapper.newLoggerWrapper(TempleController.class);
-
     @RequestMapping("/a")
     public Object a(Model model) {
 

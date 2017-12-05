@@ -1,0 +1,10 @@
+@import "frontend.scss";
+@import "fragment_head.scss";
+@import "fragment_index_center.scss";
+@import "fragment_tail.scss";
+
+body,html{
+  @include defaultBody;
+}
+
+

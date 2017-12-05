@@ -1,3 +1,23 @@
+#head_content {
+  width: 100%;
+  height: 100%;
+  background-color: red; }
 
+#index_center_content {
+  width: 100%;
+  height: 100%;
+  background-color: steelblue; }
+
+#tail_content {
+  width: 100%;
+  height: 100%;
+  background-color: aquamarine; }
+
+body, html {
+  width: 100%;
+  height: 100%;
+  padding: 0px 0px;
+  margin: 0px 0px;
+  background-color: white; }
 
 /*# sourceMappingURL=index.css.map */
