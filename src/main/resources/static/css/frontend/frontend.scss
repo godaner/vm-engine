@@ -4,6 +4,8 @@
   @include defaultPaddingAndMargin;
   @include defaultWidth;
   text-decoration: none;
+  outline: none;
+  color: unquote($defaultLightGrayColorRgb);
 }
 body,html{
   @include defaultBody;

@@ -6,7 +6,9 @@
   padding: 0px 0px;
   margin: 0px 0px;
   width: 100%;
-  text-decoration: none; }
+  text-decoration: none;
+  outline: none;
+  color: rgb(153,153,153); }
 
 body, html {
   width: 100%;

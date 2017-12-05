@@ -19,37 +19,79 @@ $nav_li_num:3;
   margin: 0px 8%;
   width: 74%;
   background-color: white;
-}
-/*li*/
-#fragment_head_nav > li {
-  width:100%/$nav_li_num;
-  float: left;
-  display: block;
-  height: $nav_height;
-  line-height: $nav_height;
+  li {
+    width:100%/$nav_li_num;
+    float: left;
+    display: block;
+    height: $nav_height;
+    line-height: $nav_height;
+  }
+
+  #fragment_head_nav_logo{
+    #logo_v{
+      color: red;
+      @include nav_logo;
+    }
+    #logo_m{
+      color:unquote($defaultBlueRgb);
+      @include nav_logo;
+    }
+  }
+
+  /*search*/
+  #fragment_head_nav_search{
+    @include defaultWidth;
+
+
+    /*text*/
+    $fragment_head_nav_search_text_icon_zoom_size:$fragment_head_nav_search_height - $fragment_head_nav_search_height*0.4;
+    #fragment_head_nav_search_text{
+      @include fragment_head_nav_search;
+      width:50%;
+      background-image: url("/image/frontend/icon_zoom.png");
+      background-size: $fragment_head_nav_search_text_icon_zoom_size $fragment_head_nav_search_text_icon_zoom_size;
+      background-repeat: no-repeat;
+      background-position: 5px ;
+      padding-left: $fragment_head_nav_search_height;
+      margin-right: 0px;
+    }
+    /*btn*/
+    #fragment_head_nav_search_btn{
+      @include fragment_head_nav_search;
+      width:20%;
+      cursor: pointer;
+      margin-left: 0px;
+      &:hover{
+        border:2px solid unquote($defaultBlueRgb);
+      }
+      &:hover{
+        background-color: unquote($defaultBlueRgb);
+        color: white;
+      }
+    }
+
+  }
+
+
 }
 /*logo*/
 @mixin nav_logo{
   font-weight: bold;
   font-size: 30px;
 }
-#fragment_head_nav_logo>#logo_v{
-  color: red;
-  @include nav_logo;
-}
 
-#fragment_head_nav_logo>#logo_m{
-  color:unquote($defaultBlueRgb);
-  @include nav_logo;
-}
+
+
 /*user*/
 #fragment_head_nav_user{
   //background-color: rgb(61,158,255);
 }
 
 #fragment_head_nav_user_link{
-
-
+  float: left;
+}
+#fragment_head_nav_user_logout{
+  float: right;
 }
 #fragment_head_nav_user_link>div{
   float: right;
@@ -71,14 +113,8 @@ $nav_li_num:3;
 #fragment_head_nav_user_name_div{
   margin-left: 0px;
   width:50px;
-  color: black;
 }
-
-
-/*search*/
-#fragment_head_nav_search{
-  @include defaultWidth;
-}
+/*user_logout*/
 
 
 $fragment_head_nav_search_height:35px;
@@ -88,30 +124,4 @@ $fragment_head_nav_search_height:35px;
   border: 1px solid unquote($defaultBlueRgb);
   background-color: white;
   @include defaultSameHightOfInputAndBtn;
-}
-/*text*/
-$fragment_head_nav_search_text_icon_zoom_size:$fragment_head_nav_search_height - $fragment_head_nav_search_height*0.4;
-#fragment_head_nav_search_text{
-  @include fragment_head_nav_search;
-  width:50%;
-  background-image: url("/image/frontend/icon_zoom.png");
-  background-size: $fragment_head_nav_search_text_icon_zoom_size $fragment_head_nav_search_text_icon_zoom_size;
-  background-repeat: no-repeat;
-  background-position: 5px ;
-  padding-left: $fragment_head_nav_search_height;
-  margin-right: 0px;
-}
-/*btn*/
-#fragment_head_nav_search_btn{
-  @include fragment_head_nav_search;
-  width:20%;
-  cursor: pointer;
-  margin-left: 0px;
-}
-#fragment_head_nav_search_btn:hover{
-  border:2px solid unquote($defaultBlueRgb);
-}
-#fragment_head_nav_search_btn:hover{
-  background-color: unquote($defaultBlueRgb);
-  color: white;
 }

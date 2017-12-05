@@ -1,16 +1,83 @@
 @import "frontend-default.scss";
 
-#fragment_index_center_content{
+#fragment_index_center_content {
   @include defaultMiddle(70%);
   background-color: unquote($defaultLightGrayRgb);
-
-  #movie_type_div{
+  &>*{
+    padding: 20px 20px;
+  }
+  #movie_type_div {
     margin-top: 20px;
     background-color: white;
+    .type_item {
+
+      margin: 12px 0px;
+      &>*{
+        display:inline;
+      }
+      label {
+        display:inline;
+        //background-color: red;
+        width:20%;
+      }
+      ul {
+        width:80%;
+        //background-color: aqua;
+        display:inline;
+        text-align: left;
+        list-style-type: none;
+        .currt{
+          background-color: unquote($defaultBlueRgb);
+          border-radius: 99px;
+          color: unquote(white);
+        }
+        li {
+          padding: 0px 5px;
+          margin: 0px 2px;
+          cursor: pointer;
+          display:inline;
+        }
+      }
+    }
+
   }
 
-  #movie_list_div{
+  #movie_list_div {
     margin-top: 20px;
     background-color: white;
+    #head{
+      width:100%;
+      #sort_div{
+        width:85%;
+        text-align: left;
+        //background-color: red;
+        #sort_ways{
+          display: inline;
+          list-style-type: none;
+          li {
+            margin: 0px 5px;
+            padding: 0px 5px;
+            display:inline;
+            cursor: pointer;
+          }
+          .currt{
+            background-color: unquote($defaultBlueRgb);
+            border-radius: 99px;
+            &>a{
+
+              color: unquote(white);
+            }
+          }
+        }
+      }
+
+      #total_div{
+        width:15%;
+        text-align: right;
+        float: right;
+        //background-color: aqua;
+      }
+    }
+
   }
 }
