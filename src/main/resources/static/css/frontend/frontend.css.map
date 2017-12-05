@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "",
-"sources": [],
+"mappings": "AAEA,CAAC;ECmBC,OAAO,EAAE,OAAO;EAChB,MAAM,EAAE,OAAO;EArBf,KAAK,EAAE,IAAI;EDIX,eAAe,EAAE,IAAI;;AAEvB,UAAS;ECNP,KAAK,EAAE,IAAI;EAGX,MAAM,EAAC,IAAI;EAiBX,OAAO,EAAE,OAAO;EAChB,MAAM,EAAE,OAAO;EAMf,gBAAgB,EAAE,gBAA6B",
+"sources": ["frontend.scss","frontend-default.scss"],
 "names": [],
 "file": "frontend.css"
 }

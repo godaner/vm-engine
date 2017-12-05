@@ -1,6 +1,117 @@
-@import "frontend.scss";
+@import "frontend-default.scss";
 
-#head_content{
-  @include defaultSize;
-  background-color: red;
+$nav_height:80px;
+$nav_li_num:3;
+
+#fragment_head_content {
+  @include defaultWidth;
+  height: $nav_height;
+  line-height: $nav_height;
+  background-color: white;
+}
+/*nav*/
+#fragment_head_nav {
+  text-align: center;
+  list-style-type: none;
+  height: $nav_height;
+  line-height: $nav_height;
+  @include defaultPadding;
+  margin: 0px 8%;
+  width: 74%;
+  background-color: white;
+}
+/*li*/
+#fragment_head_nav > li {
+  width:100%/$nav_li_num;
+  float: left;
+  display: block;
+  height: $nav_height;
+  line-height: $nav_height;
+}
+/*logo*/
+@mixin nav_logo{
+  font-weight: bold;
+  font-size: 30px;
+}
+#fragment_head_nav_logo>#logo_v{
+  color: red;
+  @include nav_logo;
+}
+
+#fragment_head_nav_logo>#logo_m{
+  color:unquote($defaultBlueRgb);
+  @include nav_logo;
+}
+/*user*/
+#fragment_head_nav_user{
+  //background-color: rgb(61,158,255);
+}
+
+#fragment_head_nav_user_link{
+
+
+}
+#fragment_head_nav_user_link>div{
+  float: right;
+}
+/*user_headimg*/
+#fragment_head_nav_user_headImg_div{
+  width:$nav_height;
+}
+
+#fragment_head_nav_user_headImg_div>img{
+
+  border-radius:100px;
+  width: $nav_height - $nav_height*0.4;
+  height: $nav_height - $nav_height*0.4;
+  margin: $nav_height*0.4/2 0px;
+}
+
+/*user_name*/
+#fragment_head_nav_user_name_div{
+  margin-left: 0px;
+  width:50px;
+  color: black;
+}
+
+
+/*search*/
+#fragment_head_nav_search{
+  @include defaultWidth;
+}
+
+
+$fragment_head_nav_search_height:35px;
+@mixin fragment_head_nav_search{
+  //height: $nav_height - $nav_height*0.4;
+  height:$fragment_head_nav_search_height;
+  border: 1px solid unquote($defaultBlueRgb);
+  background-color: white;
+  @include defaultSameHightOfInputAndBtn;
+}
+/*text*/
+$fragment_head_nav_search_text_icon_zoom_size:$fragment_head_nav_search_height - $fragment_head_nav_search_height*0.4;
+#fragment_head_nav_search_text{
+  @include fragment_head_nav_search;
+  width:50%;
+  background-image: url("/image/frontend/icon_zoom.png");
+  background-size: $fragment_head_nav_search_text_icon_zoom_size $fragment_head_nav_search_text_icon_zoom_size;
+  background-repeat: no-repeat;
+  background-position: 5px ;
+  padding-left: $fragment_head_nav_search_height;
+  margin-right: 0px;
+}
+/*btn*/
+#fragment_head_nav_search_btn{
+  @include fragment_head_nav_search;
+  width:20%;
+  cursor: pointer;
+  margin-left: 0px;
+}
+#fragment_head_nav_search_btn:hover{
+  border:2px solid unquote($defaultBlueRgb);
+}
+#fragment_head_nav_search_btn:hover{
+  background-color: unquote($defaultBlueRgb);
+  color: white;
 }

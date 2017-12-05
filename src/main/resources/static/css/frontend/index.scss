@@ -1,10 +1,12 @@
+@import "frontend-default.scss";
 @import "frontend.scss";
+
+
+/*head,center,tail =>width*/
+body>div{
+  @include defaultWidth;
+}
+
 @import "fragment_head.scss";
 @import "fragment_index_center.scss";
 @import "fragment_tail.scss";
-
-body,html{
-  @include defaultBody;
-}
-
-

@@ -1,0 +1,41 @@
+@mixin defaultWidth{
+  width: 100%;
+}
+@mixin defaultHeight{
+  height:100%;
+}
+
+@mixin defaultSize{
+  @include defaultWidth;
+  @include defaultHeight;
+}
+
+@mixin defaultPadding{
+  padding: 0px 0px;
+}
+
+@mixin defaultMargin{
+  margin: 0px 0px;
+}
+
+@mixin defaultPaddingAndMargin{
+  padding: 0px 0px;
+  margin: 0px 0px;
+}
+
+@mixin defaultBody{
+  @include defaultSize;
+  @include defaultPaddingAndMargin;
+  background-color: unquote($defaultLightGrayRgb);
+}
+
+@mixin defaultSameHightOfInputAndBtn{
+  border-radius: 0;/*省略所有浏览器前缀*/
+  box-sizing: border-box;
+}
+
+$defaultBlueRgb:"rgb(61,158,255)";
+$defaultLightGrayRgb:"rgb(241,242,243)";
+
+
+

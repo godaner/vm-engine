@@ -1,23 +1,138 @@
-#head_content {
+@charset "UTF-8";
+* {
+  padding: 0px 0px;
+  margin: 0px 0px;
   width: 100%;
-  height: 100%;
-  background-color: red; }
-
-#index_center_content {
-  width: 100%;
-  height: 100%;
-  background-color: steelblue; }
-
-#tail_content {
-  width: 100%;
-  height: 100%;
-  background-color: aquamarine; }
+  text-decoration: none; }
 
 body, html {
   width: 100%;
   height: 100%;
   padding: 0px 0px;
   margin: 0px 0px;
+  background-color: rgb(241,242,243); }
+
+/*head,center,tail =>width*/
+body > div {
+  width: 100%; }
+
+#fragment_head_content {
+  width: 100%;
+  height: 80px;
+  line-height: 80px;
   background-color: white; }
+
+/*nav*/
+#fragment_head_nav {
+  text-align: center;
+  list-style-type: none;
+  height: 80px;
+  line-height: 80px;
+  padding: 0px 0px;
+  margin: 0px 8%;
+  width: 74%;
+  background-color: white; }
+
+/*li*/
+#fragment_head_nav > li {
+  width: 33.3333333333%;
+  float: left;
+  display: block;
+  height: 80px;
+  line-height: 80px; }
+
+/*logo*/
+#fragment_head_nav_logo > #logo_v {
+  color: red;
+  font-weight: bold;
+  font-size: 30px; }
+
+#fragment_head_nav_logo > #logo_m {
+  color: rgb(61,158,255);
+  font-weight: bold;
+  font-size: 30px; }
+
+/*user*/
+#fragment_head_nav_user_link > div {
+  float: right; }
+
+/*user_headimg*/
+#fragment_head_nav_user_headImg_div {
+  width: 80px; }
+
+#fragment_head_nav_user_headImg_div > img {
+  border-radius: 100px;
+  width: 48px;
+  height: 48px;
+  margin: 16px 0px; }
+
+/*user_name*/
+#fragment_head_nav_user_name_div {
+  margin-left: 0px;
+  width: 50px;
+  color: black; }
+
+/*search*/
+#fragment_head_nav_search {
+  width: 100%; }
+
+/*text*/
+#fragment_head_nav_search_text {
+  height: 35px;
+  border: 1px solid rgb(61,158,255);
+  background-color: white;
+  border-radius: 0;
+  /*省略所有浏览器前缀*/
+  box-sizing: border-box;
+  width: 50%;
+  background-image: url("/image/frontend/icon_zoom.png");
+  background-size: 21px 21px;
+  background-repeat: no-repeat;
+  background-position: 5px;
+  padding-left: 35px;
+  margin-right: 0px; }
+
+/*btn*/
+#fragment_head_nav_search_btn {
+  height: 35px;
+  border: 1px solid rgb(61,158,255);
+  background-color: white;
+  border-radius: 0;
+  /*省略所有浏览器前缀*/
+  box-sizing: border-box;
+  width: 20%;
+  cursor: pointer;
+  margin-left: 0px; }
+
+#fragment_head_nav_search_btn:hover {
+  border: 2px solid rgb(61,158,255); }
+
+#fragment_head_nav_search_btn:hover {
+  background-color: rgb(61,158,255);
+  color: white; }
+
+#fragment_index_center_content {
+  height: 600px;
+  background-color: rgb(241,242,243);
+  margin: 0px 15%;
+  width: 70%; }
+
+#fragment_index_center_content_type {
+  margin-top: 20px;
+  background-color: white; }
+
+#fragment_index_center_content_movie_list {
+  margin-top: 20px;
+  background-color: white; }
+
+#fragment_tail_content {
+  width: 100%;
+  height: 200px;
+  background-color: "rgb(241,242,243)";
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999; }
 
 /*# sourceMappingURL=index.css.map */

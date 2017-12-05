@@ -7,11 +7,11 @@
 </head>
 <body>
 <!--head-->
-<div th:include="frontend/fragment_head :: #head_body"></div>
+<div th:replace="frontend/fragment_head :: #fragment_head_content"></div>
 <!--index_center-->
-<div th:include="frontend/fragment_index_center :: #index_center_body"></div>
+<div th:replace="frontend/fragment_index_center :: #fragment_index_center_content"></div>
 <!--tail-->
-<div th:include="frontend/fragment_tail :: #tail_body"></div>
+<div th:replace="frontend/fragment_tail :: #fragment_tail_content"></div>
 
 </body>
 <script src="/js/jquery-3.2.1.min.js"></script>

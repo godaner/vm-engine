@@ -1,6 +1,13 @@
-@import "frontend.scss";
+@import "frontend-default.scss";
 
-#tail_content{
-  @include defaultSize;
-  background-color: aquamarine;
+#fragment_tail_content {
+  @include defaultWidth;
+  height: 200px;
+  background-color: $defaultLightGrayRgb;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
 }
+

@@ -1,7 +1,6 @@
 /*
 Error: Invalid CSS after "...kground-color: ": expected expression (e.g. 1px, bold), was ";"
         on line 29 of e:/zk/vm/src/main/resources/static/css/frontend/frontend-default.scss
-        from line 1 of e:/zk/vm/src/main/resources/static/css/frontend/fragment_head.scss
 
 24: }
 25: 
@@ -17,7 +16,6 @@ Error: Invalid CSS after "...kground-color: ": expected expression (e.g. 1px, bo
 
 Backtrace:
 e:/zk/vm/src/main/resources/static/css/frontend/frontend-default.scss:29
-e:/zk/vm/src/main/resources/static/css/frontend/fragment_head.scss:1
 D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/scss/parser.rb:1278:in `expected'
 D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/script/lexer.rb:231:in `expected!'
 D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/script/parser.rb:724:in `assert_expr'
@@ -39,31 +37,6 @@ D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/scss/parser.rb:689:in
 D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/scss/parser.rb:137:in `stylesheet'
 D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/scss/parser.rb:41:in `parse'
 D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/engine.rb:414:in `_to_tree'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/engine.rb:321:in `to_tree'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/visitors/perform.rb:327:in `block in visit_import'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/stack.rb:88:in `block in with_import'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/stack.rb:135:in `with_frame'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/stack.rb:88:in `with_import'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/visitors/perform.rb:326:in `visit_import'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/visitors/base.rb:36:in `visit'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/stack.rb:79:in `block in with_base'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/stack.rb:135:in `with_frame'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/stack.rb:79:in `with_base'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/visitors/perform.rb:162:in `visit'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/visitors/base.rb:52:in `map'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/visitors/base.rb:52:in `visit_children'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/visitors/perform.rb:171:in `block in visit_children'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/visitors/perform.rb:170:in `visit_children'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/visitors/base.rb:36:in `block in visit'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/visitors/perform.rb:190:in `visit_root'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/visitors/base.rb:36:in `visit'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/visitors/perform.rb:161:in `visit'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/visitors/perform.rb:10:in `visit'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/root_node.rb:36:in `css_tree'
-D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
 D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/engine.rb:389:in `_render_with_sourcemap'
 D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/engine.rb:307:in `render_with_sourcemap'
 D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-3.5.3/lib/sass/plugin/compiler.rb:462:in `update_stylesheet'
@@ -84,4 +57,4 @@ D:/Ruby24-x64/lib/ruby/gems/2.4.0/gems/sass-listen-4.0.0/lib/sass-listen/interna
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Invalid CSS after \"...kground-color: \": expected expression (e.g. 1px, bold), was \";\"\A         on line 29 of e:/zk/vm/src/main/resources/static/css/frontend/frontend-default.scss\A         from line 1 of e:/zk/vm/src/main/resources/static/css/frontend/fragment_head.scss\A \A 24: }\A 25: \A 26: @mixin defaultBody{\A 27:   @include defaultSize;\A 28:   @include defaultPaddingAndMargin;\A 29:   background-color: ;\A 30: }\A 31: \A 32: @mixin defaultSameHightOfInputAndBtn{\A 33:   border-radius: 0;/*省略所有浏览器前缀*/\A 34:   box-sizing: border-box;"; }
+  content: "Error: Invalid CSS after \"...kground-color: \": expected expression (e.g. 1px, bold), was \";\"\A         on line 29 of e:/zk/vm/src/main/resources/static/css/frontend/frontend-default.scss\A \A 24: }\A 25: \A 26: @mixin defaultBody{\A 27:   @include defaultSize;\A 28:   @include defaultPaddingAndMargin;\A 29:   background-color: ;\A 30: }\A 31: \A 32: @mixin defaultSameHightOfInputAndBtn{\A 33:   border-radius: 0;/*省略所有浏览器前缀*/\A 34:   box-sizing: border-box;"; }
