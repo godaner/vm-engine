@@ -1,13 +1,9 @@
 @import "frontend-default.scss";
 
 #fragment_tail_content {
-  @include defaultWidth;
   height: 200px;
-  background-color: $defaultLightGrayRgb;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 9999;
+  @include defaultMiddle(70%);
+  background-color: unquote($defaultLightGrayRgb);
+  margin-top: 30px;
 }
 

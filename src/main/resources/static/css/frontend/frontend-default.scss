@@ -34,8 +34,16 @@
   box-sizing: border-box;
 }
 
+
+/* 一般用于div居中
+ * $marginPercent：距离左右的距离
+ */
+@mixin defaultMiddle($marginPercent:0%){
+  margin: 0px (100%- $marginPercent)/2;
+  width:$marginPercent;
+}
+
 $defaultBlueRgb:"rgb(61,158,255)";
 $defaultLightGrayRgb:"rgb(241,242,243)";
-
 
 

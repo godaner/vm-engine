@@ -1,4 +1,10 @@
 @charset "UTF-8";
+/* 一般用于div居中
+ * $marginPercent：距离左右的距离
+ */
+/* 一般用于div居中
+ * $marginPercent：距离左右的距离
+ */
 * {
   padding: 0px 0px;
   margin: 0px 0px;
@@ -16,6 +22,9 @@ body, html {
 body > div {
   width: 100%; }
 
+/* 一般用于div居中
+ * $marginPercent：距离左右的距离
+ */
 #fragment_head_content {
   width: 100%;
   height: 80px;
@@ -111,28 +120,28 @@ body > div {
   background-color: rgb(61,158,255);
   color: white; }
 
+/* 一般用于div居中
+ * $marginPercent：距离左右的距离
+ */
 #fragment_index_center_content {
-  height: 600px;
-  background-color: rgb(241,242,243);
   margin: 0px 15%;
-  width: 70%; }
+  width: 70%;
+  background-color: rgb(241,242,243); }
+  #fragment_index_center_content #movie_type_div {
+    margin-top: 20px;
+    background-color: white; }
+  #fragment_index_center_content #movie_list_div {
+    margin-top: 20px;
+    background-color: white; }
 
-#fragment_index_center_content_type {
-  margin-top: 20px;
-  background-color: white; }
-
-#fragment_index_center_content_movie_list {
-  margin-top: 20px;
-  background-color: white; }
-
+/* 一般用于div居中
+ * $marginPercent：距离左右的距离
+ */
 #fragment_tail_content {
-  width: 100%;
   height: 200px;
-  background-color: "rgb(241,242,243)";
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 9999; }
+  margin: 0px 15%;
+  width: 70%;
+  background-color: rgb(241,242,243);
+  margin-top: 30px; }
 
 /*# sourceMappingURL=index.css.map */

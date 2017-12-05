@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "AAEA,8BAA8B;EAC5B,MAAM,EAAE,KAAK;EACb,gBAAgB,EAAE,gBAA6B;EAC/C,MAAM,EAAE,OAAO;EACf,KAAK,EAAC,GAAG;;AAIX,mCAAmC;EACjC,UAAU,EAAE,IAAI;EAChB,gBAAgB,EAAE,KAA+C;;AAInE,yCAAyC;EACvC,UAAU,EAAE,IAAI;EAChB,gBAAgB,EAAE,KAA+C",
-"sources": ["fragment_index_center.scss"],
+"mappings": ";AAqCA;;GAEG;ACrCH,8BAA8B;EDuC5B,MAAM,EAAE,OAA4B;EACpC,KAAK,ECvCkB,GAAG;EAC1B,gBAAgB,EAAE,gBAA6B;EAE/C,8CAAe;IACb,UAAU,EAAE,IAAI;IAChB,gBAAgB,EAAE,KAAK;EAGzB,8CAAe;IACb,UAAU,EAAE,IAAI;IAChB,gBAAgB,EAAE,KAAK",
+"sources": ["frontend-default.scss","fragment_index_center.scss"],
 "names": [],
 "file": "fragment_index_center.css"
 }

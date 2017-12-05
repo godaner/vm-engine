@@ -1,20 +1,16 @@
 @import "frontend-default.scss";
 
 #fragment_index_center_content{
-  height: 600px;
+  @include defaultMiddle(70%);
   background-color: unquote($defaultLightGrayRgb);
-  margin: 0px 15%;
-  width:70%;
-}
 
-$fragment_index_center_content_item_bg:"white";
-#fragment_index_center_content_type{
-  margin-top: 20px;
-  background-color: unquote($fragment_index_center_content_item_bg);
-}
+  #movie_type_div{
+    margin-top: 20px;
+    background-color: white;
+  }
 
-
-#fragment_index_center_content_movie_list{
-  margin-top: 20px;
-  background-color: unquote($fragment_index_center_content_item_bg);
+  #movie_list_div{
+    margin-top: 20px;
+    background-color: white;
+  }
 }

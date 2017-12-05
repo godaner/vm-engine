@@ -1,15 +1,16 @@
+@charset "UTF-8";
+/* 一般用于div居中
+ * $marginPercent：距离左右的距离
+ */
 #fragment_index_center_content {
-  height: 600px;
-  background-color: rgb(241,242,243);
   margin: 0px 15%;
-  width: 70%; }
-
-#fragment_index_center_content_type {
-  margin-top: 20px;
-  background-color: white; }
-
-#fragment_index_center_content_movie_list {
-  margin-top: 20px;
-  background-color: white; }
+  width: 70%;
+  background-color: rgb(241,242,243); }
+  #fragment_index_center_content #movie_type_div {
+    margin-top: 20px;
+    background-color: white; }
+  #fragment_index_center_content #movie_list_div {
+    margin-top: 20px;
+    background-color: white; }
 
 /*# sourceMappingURL=fragment_index_center.css.map */
