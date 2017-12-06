@@ -40,7 +40,7 @@
         }
         li {
           margin: 0px 5px;
-          padding: 0px 5px;
+          padding: 2px 5px;
           cursor: pointer;
           display:inline;
           &>a{
@@ -73,7 +73,7 @@
           list-style-type: none;
           li {
             margin: 0px 5px;
-            padding: 0px 5px;
+            padding: 2px 5px;
             display:inline;
             cursor: pointer;
             &:hover{
@@ -100,6 +100,25 @@
         text-align: right;
         float: right;
         //background-color: aqua;
+      }
+    }
+    /*分割线*/
+    #line{
+      height: 1px;
+      background-color: unquote($defaultLightGrayRgb);
+      margin: 20px 0px;
+    }
+    #movies_display_div{
+      @include defaultWidth;
+      background-color: red;
+      #movies_list_ul{
+        display:inline;
+        list-style-type: none;
+        @include defaultWidth;
+        li{
+          width:20%;
+          display:inline;
+        }
       }
     }
 

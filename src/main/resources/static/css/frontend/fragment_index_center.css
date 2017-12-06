@@ -31,7 +31,7 @@
             color: white; }
         #fragment_index_center_content #movie_type_div .type_item ul li {
           margin: 0px 5px;
-          padding: 0px 5px;
+          padding: 2px 5px;
           cursor: pointer;
           display: inline; }
           #fragment_index_center_content #movie_type_div .type_item ul li > a {
@@ -44,7 +44,8 @@
   #fragment_index_center_content #movie_list_div {
     margin-top: 20px;
     border-radius: 3px;
-    background-color: white; }
+    background-color: white;
+    /*分割线*/ }
     #fragment_index_center_content #movie_list_div #head {
       width: 100%; }
       #fragment_index_center_content #movie_list_div #head #sort_div {
@@ -55,7 +56,7 @@
           list-style-type: none; }
           #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li {
             margin: 0px 5px;
-            padding: 0px 5px;
+            padding: 2px 5px;
             display: inline;
             cursor: pointer; }
             #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover {
@@ -72,5 +73,19 @@
         width: 20%;
         text-align: right;
         float: right; }
+    #fragment_index_center_content #movie_list_div #line {
+      height: 1px;
+      background-color: rgb(241,242,243);
+      margin: 20px 0px; }
+    #fragment_index_center_content #movie_list_div #movies_display_div {
+      width: 100%;
+      background-color: red; }
+      #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul {
+        display: inline;
+        list-style-type: none;
+        width: 100%; }
+        #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li {
+          width: 20%;
+          display: inline; }
 
 /*# sourceMappingURL=fragment_index_center.css.map */
