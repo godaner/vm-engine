@@ -108,19 +108,22 @@
       background-color: unquote($defaultLightGrayRgb);
       margin: 20px 0px;
     }
-    $movie_img_width_height_ratio:1.5;
+    $movie_img_width_height_ratio: 1.5;
     #movies_display_div {
       @include defaultWidth;
-      background-color: red;
+      //background-color: red;
       #movies_list_ul {
         @include defaultWidth;
         display: inline;
         list-style-type: none;
         @include defaultWidth;
         li.movie_item {
-          width: 20%;
-          display: block;
-          #movie_img_div{
+          width: 17%;
+          padding: 1.5%;
+          display: inline-block;
+          float: left;
+          //background-color: red;
+          #movie_img_div {
             a {
               display: block;
               @include defaultWidth;
@@ -130,10 +133,21 @@
               }
             }
           }
-          .movie_info_div{
+          .movie_info_div {
             @include defaultWidth;
             height: auto;
-            background-color: steelblue;
+            //background-color: steelblue;
+            div {
+              @include defaultWidth;
+
+              .movie_name_a{
+                font-size: 15px;
+              }
+              .movie_play_num_a{
+                font-size: 15px;
+              }
+            }
+
           }
 
         }

@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": ";AAqCA;;GAEG;ACrCH,sBAAuB;EACrB,MAAM,EAAE,KAAK;EDsCb,MAAM,EAAE,OAA4B;EACpC,KAAK,ECtCkB,GAAG;EAC1B,gBAAgB,EAAE,gBAA6B;EAC/C,UAAU,EAAE,IAAI",
+"mappings": ";AAqCA;;GAEG;AAqBH,MAAM;EACJ,KAAK,EAAE,IAAI;;AC3Db,sBAAuB;EACrB,MAAM,EAAE,KAAK;EDsCb,MAAM,EAAE,OAA4B;EACpC,KAAK,ECtCkB,GAAG;EAC1B,gBAAgB,EAAE,gBAA6B;EAC/C,UAAU,EAAE,IAAI",
 "sources": ["frontend-default.scss","fragment_tail.scss"],
 "names": [],
 "file": "fragment_tail.css"

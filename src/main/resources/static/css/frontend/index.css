@@ -2,9 +2,15 @@
 /* 一般用于div居中
  * $marginPercent：距离左右的距离
  */
+.clear {
+  clear: both; }
+
 /* 一般用于div居中
  * $marginPercent：距离左右的距离
  */
+.clear {
+  clear: both; }
+
 * {
   padding: 0px 0px;
   margin: 0px 0px;
@@ -28,6 +34,9 @@ body > div {
 /* 一般用于div居中
  * $marginPercent：距离左右的距离
  */
+.clear {
+  clear: both; }
+
 /*var start*/
 /*var end*/
 /*mixin start*/
@@ -127,6 +136,9 @@ body > div {
 /* 一般用于div居中
  * $marginPercent：距离左右的距离
  */
+.clear {
+  clear: both; }
+
 #fragment_index_center_content {
   margin: 0px 15%;
   width: 70%;
@@ -203,16 +215,17 @@ body > div {
       background-color: rgb(241,242,243);
       margin: 20px 0px; }
     #fragment_index_center_content #movie_list_div #movies_display_div {
-      width: 100%;
-      background-color: red; }
+      width: 100%; }
       #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul {
         width: 100%;
         display: inline;
         list-style-type: none;
         width: 100%; }
         #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item {
-          width: 20%;
-          display: block; }
+          width: 17%;
+          padding: 1.5%;
+          display: inline-block;
+          float: left; }
           #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item #movie_img_div a {
             display: block;
             width: 100%; }
@@ -220,12 +233,20 @@ body > div {
               width: 100%; }
           #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div {
             width: 100%;
-            height: auto;
-            background-color: steelblue; }
+            height: auto; }
+            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div {
+              width: 100%; }
+              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div .movie_name_a {
+                font-size: 15px; }
+              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div .movie_play_num_a {
+                font-size: 15px; }
 
 /* 一般用于div居中
  * $marginPercent：距离左右的距离
  */
+.clear {
+  clear: both; }
+
 #fragment_tail_content {
   height: 200px;
   margin: 0px 15%;

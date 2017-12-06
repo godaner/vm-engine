@@ -2,6 +2,9 @@
 /* 一般用于div居中
  * $marginPercent：距离左右的距离
  */
+.clear {
+  clear: both; }
+
 /*var start*/
 /*var end*/
 /*mixin start*/

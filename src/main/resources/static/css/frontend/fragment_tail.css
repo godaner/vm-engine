@@ -2,6 +2,9 @@
 /* 一般用于div居中
  * $marginPercent：距离左右的距离
  */
+.clear {
+  clear: both; }
+
 #fragment_tail_content {
   height: 200px;
   margin: 0px 15%;
