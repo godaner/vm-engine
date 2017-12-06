@@ -206,12 +206,22 @@ body > div {
       width: 100%;
       background-color: red; }
       #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul {
+        width: 100%;
         display: inline;
         list-style-type: none;
         width: 100%; }
-        #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li {
+        #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item {
           width: 20%;
-          display: inline; }
+          display: block; }
+          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item #movie_img_div a {
+            display: block;
+            width: 100%; }
+            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item #movie_img_div a img {
+              width: 100%; }
+          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div {
+            width: 100%;
+            height: auto;
+            background-color: steelblue; }
 
 /* 一般用于div居中
  * $marginPercent：距离左右的距离

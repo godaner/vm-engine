@@ -1,6 +1,6 @@
 @import "frontend-default.scss";
 
-@mixin index_center_panel_style{
+@mixin index_center_panel_style {
   border-radius: 3px;
   background-color: white;
 }
@@ -8,7 +8,7 @@
 #fragment_index_center_content {
   @include defaultMiddle(70%);
   background-color: unquote($defaultLightGrayRgb);
-  &>*{
+  & > * {
     padding: 20px 20px;
   }
   #movie_type_div {
@@ -17,24 +17,24 @@
     .type_item {
 
       margin: 12px 0px;
-      &>*{
-        display:inline;
+      & > * {
+        display: inline;
       }
       label {
-        display:inline;
+        display: inline;
         //background-color: red;
-        width:20%;
+        width: 20%;
       }
       ul {
-        width:80%;
+        width: 80%;
         //background-color: aqua;
-        display:inline;
+        display: inline;
         text-align: left;
         list-style-type: none;
-        .currt{
+        .currt {
           background-color: unquote($defaultBlueRgb);
           border-radius: 99px;
-          &>a{
+          & > a {
             color: unquote(white);
           }
         }
@@ -42,14 +42,14 @@
           margin: 0px 5px;
           padding: 2px 5px;
           cursor: pointer;
-          display:inline;
-          &>a{
+          display: inline;
+          & > a {
             font-size: 12px;
           }
-          &:hover{
+          &:hover {
             background-color: unquote($defaultBlueRgb);
             border-radius: 99px;
-            &>a{
+            & > a {
               color: unquote(white);
             }
           }
@@ -62,62 +62,80 @@
   #movie_list_div {
     margin-top: 20px;
     @include index_center_panel_style;
-    #head{
-      width:100%;
-      #sort_div{
-        width:80%;
+    #head {
+      width: 100%;
+      #sort_div {
+        width: 80%;
         text-align: left;
         //background-color: red;
-        #sort_ways{
+        #sort_ways {
           display: inline;
           list-style-type: none;
           li {
             margin: 0px 5px;
             padding: 2px 5px;
-            display:inline;
+            display: inline;
             cursor: pointer;
-            &:hover{
+            &:hover {
               background-color: unquote($defaultBlueRgb);
               border-radius: 99px;
-              &>a{
+              & > a {
                 color: unquote(white);
               }
             }
           }
 
-          .currt{
+          .currt {
             background-color: unquote($defaultBlueRgb);
             border-radius: 99px;
-            &>a{
+            & > a {
               color: unquote(white);
             }
           }
         }
       }
 
-      #total_div{
-        width:20%;
+      #total_div {
+        width: 20%;
         text-align: right;
         float: right;
         //background-color: aqua;
       }
     }
     /*分割线*/
-    #line{
+    #line {
       height: 1px;
       background-color: unquote($defaultLightGrayRgb);
       margin: 20px 0px;
     }
-    #movies_display_div{
+    $movie_img_width_height_ratio:1.5;
+    #movies_display_div {
       @include defaultWidth;
       background-color: red;
-      #movies_list_ul{
-        display:inline;
+      #movies_list_ul {
+        @include defaultWidth;
+        display: inline;
         list-style-type: none;
         @include defaultWidth;
-        li{
-          width:20%;
-          display:inline;
+        li.movie_item {
+          width: 20%;
+          display: block;
+          #movie_img_div{
+            a {
+              display: block;
+              @include defaultWidth;
+              img {
+                @include defaultWidth;
+
+              }
+            }
+          }
+          .movie_info_div{
+            @include defaultWidth;
+            height: auto;
+            background-color: steelblue;
+          }
+
         }
       }
     }
