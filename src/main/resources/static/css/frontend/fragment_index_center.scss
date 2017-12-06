@@ -139,6 +139,8 @@
             //background-color: steelblue;
             div {
               @include defaultWidth;
+              display: block;
+              margin:2px 0px;
 
               .movie_name_a{
                 font-size: 15px;
@@ -146,6 +148,9 @@
               .movie_play_num_a{
                 font-size: 15px;
               }
+            }
+            div.movie_actor_list_div{
+              @include defaultHUl;
             }
 
           }

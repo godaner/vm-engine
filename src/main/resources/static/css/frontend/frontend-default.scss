@@ -44,6 +44,18 @@
 }
 
 
+/*水平ul*/
+@mixin defaultHUl{
+  ul{
+    list-style: none;
+    display: inline;
+    li{
+      width:auto;
+      display: inline-block;
+    }
+  }
+}
+
 
 
 

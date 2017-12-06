@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": ";AAqCA;;GAEG;AAqBH,MAAM;EACJ,KAAK,EAAE,IAAI",
+"mappings": ";AAqCA;;GAEG;AAOH,QAAQ;AA0BR,MAAM;EACJ,KAAK,EAAE,IAAI",
 "sources": ["frontend-default.scss"],
 "names": [],
 "file": "frontend-default.css"

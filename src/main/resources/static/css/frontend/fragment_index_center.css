@@ -2,6 +2,7 @@
 /* 一般用于div居中
  * $marginPercent：距离左右的距离
  */
+/*水平ul*/
 .clear {
   clear: both; }
 
@@ -101,10 +102,18 @@
             width: 100%;
             height: auto; }
             #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div {
-              width: 100%; }
+              width: 100%;
+              display: block;
+              margin: 2px 0px; }
               #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div .movie_name_a {
                 font-size: 15px; }
               #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div .movie_play_num_a {
                 font-size: 15px; }
+            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul {
+              list-style: none;
+              display: inline; }
+              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul li {
+                width: auto;
+                display: inline-block; }
 
 /*# sourceMappingURL=fragment_index_center.css.map */
