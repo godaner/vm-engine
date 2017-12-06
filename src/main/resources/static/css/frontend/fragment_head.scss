@@ -1,7 +1,25 @@
 @import "frontend-default.scss";
-
+/*var start*/
 $nav_height:80px;
 $nav_li_num:3;
+/*var end*/
+
+
+/*mixin start*/
+@mixin nav_logo{
+  font-weight: bold;
+  font-size: 30px;
+}
+$fragment_head_nav_search_height:$nav_height/2;
+@mixin fragment_head_nav_search{
+  //height: $nav_height - $nav_height*0.4;
+  height:$fragment_head_nav_search_height;
+  border: 1px solid unquote($defaultBlueRgb);
+  background-color: white;
+  @include defaultSameHightOfInputAndBtn;
+}
+/*mixin end*/
+
 
 #fragment_head_content {
   @include defaultWidth;
@@ -9,6 +27,7 @@ $nav_li_num:3;
   line-height: $nav_height;
   background-color: white;
 }
+
 /*nav*/
 #fragment_head_nav {
   text-align: center;
@@ -38,11 +57,55 @@ $nav_li_num:3;
     }
   }
 
+  /*user*/
+  $user_div_num:2;
+  #user_li{
+    //background-color: rgb(61,158,255);
+    &>div{
+      //width:100%/$user_div_num;
+      float: left;
+    }
+    #user_div{
+      width: 80%;
+      height:$nav_height;
+      //background-color: red;
+      #link_a{
+        display: block;
+        height:$nav_height;
+        &>div{
+          float: right;
+        }
+        /*user_name*/
+        #name_div{
+          width: auto;
+        }
+        /*user_headimg*/
+        #heaImg_div{
+          width:$nav_height;
+          height: $nav_height;
+          img{
+
+            border-radius:100px;
+            width: $nav_height - $nav_height*0.4;
+            height: $nav_height - $nav_height*0.4;
+            margin: $nav_height*0.4/2 0px;
+          }
+        }
+      }
+    }
+
+    /*user_logout*/
+    #logout_div{
+      height:$nav_height;
+      width:20%;
+      //background-color: steelblue;
+
+    }
+  }
+
   /*search*/
   #fragment_head_nav_search{
-    @include defaultWidth;
-
-
+    //@include defaultWidth;
     /*text*/
     $fragment_head_nav_search_text_icon_zoom_size:$fragment_head_nav_search_height - $fragment_head_nav_search_height*0.4;
     #fragment_head_nav_search_text{
@@ -74,54 +137,8 @@ $nav_li_num:3;
 
 
 }
-/*logo*/
-@mixin nav_logo{
-  font-weight: bold;
-  font-size: 30px;
-}
 
 
 
-/*user*/
-#fragment_head_nav_user{
-  //background-color: rgb(61,158,255);
-}
-
-#fragment_head_nav_user_link{
-  float: left;
-}
-#fragment_head_nav_user_logout{
-  float: right;
-}
-#fragment_head_nav_user_link>div{
-  float: right;
-}
-/*user_headimg*/
-#fragment_head_nav_user_headImg_div{
-  width:$nav_height;
-}
-
-#fragment_head_nav_user_headImg_div>img{
-
-  border-radius:100px;
-  width: $nav_height - $nav_height*0.4;
-  height: $nav_height - $nav_height*0.4;
-  margin: $nav_height*0.4/2 0px;
-}
-
-/*user_name*/
-#fragment_head_nav_user_name_div{
-  margin-left: 0px;
-  width:50px;
-}
-/*user_logout*/
 
 
-$fragment_head_nav_search_height:35px;
-@mixin fragment_head_nav_search{
-  //height: $nav_height - $nav_height*0.4;
-  height:$fragment_head_nav_search_height;
-  border: 1px solid unquote($defaultBlueRgb);
-  background-color: white;
-  @include defaultSameHightOfInputAndBtn;
-}

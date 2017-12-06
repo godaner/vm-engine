@@ -10,6 +10,7 @@
     padding: 20px 20px; }
   #fragment_index_center_content #movie_type_div {
     margin-top: 20px;
+    border-radius: 3px;
     background-color: white; }
     #fragment_index_center_content #movie_type_div .type_item {
       margin: 12px 0px; }
@@ -25,20 +26,29 @@
         list-style-type: none; }
         #fragment_index_center_content #movie_type_div .type_item ul .currt {
           background-color: rgb(61,158,255);
-          border-radius: 99px;
-          color: white; }
+          border-radius: 99px; }
+          #fragment_index_center_content #movie_type_div .type_item ul .currt > a {
+            color: white; }
         #fragment_index_center_content #movie_type_div .type_item ul li {
+          margin: 0px 5px;
           padding: 0px 5px;
-          margin: 0px 2px;
           cursor: pointer;
           display: inline; }
+          #fragment_index_center_content #movie_type_div .type_item ul li > a {
+            font-size: 12px; }
+          #fragment_index_center_content #movie_type_div .type_item ul li:hover {
+            background-color: rgb(61,158,255);
+            border-radius: 99px; }
+            #fragment_index_center_content #movie_type_div .type_item ul li:hover > a {
+              color: white; }
   #fragment_index_center_content #movie_list_div {
     margin-top: 20px;
+    border-radius: 3px;
     background-color: white; }
     #fragment_index_center_content #movie_list_div #head {
       width: 100%; }
       #fragment_index_center_content #movie_list_div #head #sort_div {
-        width: 85%;
+        width: 80%;
         text-align: left; }
         #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways {
           display: inline;
@@ -48,13 +58,18 @@
             padding: 0px 5px;
             display: inline;
             cursor: pointer; }
+            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover {
+              background-color: rgb(61,158,255);
+              border-radius: 99px; }
+              #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover > a {
+                color: white; }
           #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt {
             background-color: rgb(61,158,255);
             border-radius: 99px; }
             #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt > a {
               color: white; }
       #fragment_index_center_content #movie_list_div #head #total_div {
-        width: 15%;
+        width: 20%;
         text-align: right;
         float: right; }
 

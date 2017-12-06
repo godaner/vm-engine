@@ -1,5 +1,10 @@
 @import "frontend-default.scss";
 
+@mixin index_center_panel_style{
+  border-radius: 3px;
+  background-color: white;
+}
+
 #fragment_index_center_content {
   @include defaultMiddle(70%);
   background-color: unquote($defaultLightGrayRgb);
@@ -8,7 +13,7 @@
   }
   #movie_type_div {
     margin-top: 20px;
-    background-color: white;
+    @include index_center_panel_style;
     .type_item {
 
       margin: 12px 0px;
@@ -29,13 +34,25 @@
         .currt{
           background-color: unquote($defaultBlueRgb);
           border-radius: 99px;
-          color: unquote(white);
+          &>a{
+            color: unquote(white);
+          }
         }
         li {
+          margin: 0px 5px;
           padding: 0px 5px;
-          margin: 0px 2px;
           cursor: pointer;
           display:inline;
+          &>a{
+            font-size: 12px;
+          }
+          &:hover{
+            background-color: unquote($defaultBlueRgb);
+            border-radius: 99px;
+            &>a{
+              color: unquote(white);
+            }
+          }
         }
       }
     }
@@ -44,11 +61,11 @@
 
   #movie_list_div {
     margin-top: 20px;
-    background-color: white;
+    @include index_center_panel_style;
     #head{
       width:100%;
       #sort_div{
-        width:85%;
+        width:80%;
         text-align: left;
         //background-color: red;
         #sort_ways{
@@ -59,12 +76,19 @@
             padding: 0px 5px;
             display:inline;
             cursor: pointer;
+            &:hover{
+              background-color: unquote($defaultBlueRgb);
+              border-radius: 99px;
+              &>a{
+                color: unquote(white);
+              }
+            }
           }
+
           .currt{
             background-color: unquote($defaultBlueRgb);
             border-radius: 99px;
             &>a{
-
               color: unquote(white);
             }
           }
@@ -72,7 +96,7 @@
       }
 
       #total_div{
-        width:15%;
+        width:20%;
         text-align: right;
         float: right;
         //background-color: aqua;
