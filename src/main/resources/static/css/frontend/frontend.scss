@@ -8,7 +8,7 @@
   color: unquote($defaultLightGrayColorRgb);
   font-size: 12px;
 }
+
 body,html{
   @include defaultBody;
 }
-

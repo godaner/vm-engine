@@ -252,6 +252,33 @@ body > div {
               #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul li {
                 width: auto;
                 display: inline-block; }
+      #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div {
+        width: 100%;
+        text-align: center; }
+        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul {
+          list-style: none;
+          display: inline; }
+          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {
+            width: auto;
+            display: inline-block; }
+        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li {
+          border: 1px solid rgb(241,242,243);
+          height: auto;
+          cursor: pointer;
+          text-align: left; }
+          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li a {
+            padding: 8px 15px;
+            display: block;
+            width: 100%;
+            height: 100%; }
+          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover {
+            background-color: rgb(61,158,255); }
+            #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover a {
+              color: white; }
+        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt {
+          background-color: rgb(61,158,255); }
+          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt a {
+            color: white; }
 
 /* 一般用于div居中
  * $marginPercent：距离左右的距离

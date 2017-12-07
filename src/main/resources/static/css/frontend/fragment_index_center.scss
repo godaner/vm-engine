@@ -157,6 +157,39 @@
 
         }
       }
+      #movie_list_pager_div{
+        //background-color: red;
+        @include defaultWidth;
+        @include defaultHUl;
+        text-align: center;//!!!
+        ul{
+          li.pager_li{
+            border: 1px solid unquote($defaultLightGrayRgb);
+            height: auto;
+            //background-color: red;
+            cursor: pointer;
+            text-align: left;//!!!
+            a{
+              //background-color: red;
+              padding:8px 15px;
+              display: block;
+              @include defaultSize;
+            }
+            &:hover{
+              background-color: unquote($defaultBlueRgb);
+              a{
+                color: white;
+              }
+            }
+          }
+          li.currt{
+            background-color: unquote($defaultBlueRgb);
+            a{
+              color: white;
+            }
+          }
+        }
+      }
     }
 
   }
