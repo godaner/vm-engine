@@ -26,5 +26,5 @@ target
 build
 
 
-.idea
+#.idea
 .sass-cache
