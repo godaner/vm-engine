@@ -39,8 +39,8 @@
  * $marginPercent：距离左右的距离
  */
 @mixin defaultMiddle($marginPercent:0%){
-  margin: 0px (100%- $marginPercent)/2;
-  width:$marginPercent;
+  margin: 0px (100%- unquote($marginPercent))/2;
+  width:unquote($marginPercent);
 }
 
 

@@ -15,91 +15,82 @@
   height: 80px;
   line-height: 80px;
   background-color: white; }
-
-/*nav*/
-#fragment_head_nav {
-  text-align: center;
-  list-style-type: none;
-  height: 80px;
-  line-height: 80px;
-  padding: 0px 0px;
-  margin: 0px 8%;
-  width: 74%;
-  background-color: white;
-  /*user*/
-  /*search*/ }
-  #fragment_head_nav li {
-    width: 33.3333333333%;
-    float: left;
-    display: block;
-    height: 80px;
-    line-height: 80px; }
-  #fragment_head_nav #fragment_head_nav_logo #logo_v {
-    color: red;
-    font-weight: bold;
-    font-size: 30px; }
-  #fragment_head_nav #fragment_head_nav_logo #logo_m {
-    color: rgb(61,158,255);
-    font-weight: bold;
-    font-size: 30px; }
-  #fragment_head_nav #user_li {
-    /*user_logout*/ }
-    #fragment_head_nav #user_li > div {
-      float: left; }
-    #fragment_head_nav #user_li #user_div {
-      width: 80%;
-      height: 80px; }
-      #fragment_head_nav #user_li #user_div #link_a {
+  #fragment_head_content #nav_div {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: white; }
+    #fragment_head_content #nav_div ul#fragment_head_nav {
+      /*nav*/
+      list-style-type: none;
+      height: 80px;
+      line-height: 80px;
+      padding: 0px 0px;
+      margin: 0px 15%;
+      width: 70%;
+      /*user*/
+      /*search*/ }
+      #fragment_head_content #nav_div ul#fragment_head_nav li {
+        width: 33.3333333333%;
+        float: left;
         display: block;
         height: 80px;
-        /*user_name*/
-        /*user_headimg*/ }
-        #fragment_head_nav #user_li #user_div #link_a > div {
-          float: right; }
-        #fragment_head_nav #user_li #user_div #link_a #name_div {
-          width: auto; }
-        #fragment_head_nav #user_li #user_div #link_a #heaImg_div {
-          width: 80px;
-          height: 80px; }
-          #fragment_head_nav #user_li #user_div #link_a #heaImg_div img {
-            border-radius: 100px;
-            width: 48px;
-            height: 48px;
-            margin: 16px 0px; }
-    #fragment_head_nav #user_li #logout_div {
-      height: 80px;
-      width: 20%; }
-  #fragment_head_nav #fragment_head_nav_search {
-    /*text*/
-    /*btn*/ }
-    #fragment_head_nav #fragment_head_nav_search #fragment_head_nav_search_text {
-      height: 40px;
-      border: 1px solid rgb(61,158,255);
-      background-color: white;
-      border-radius: 0;
-      /*省略所有浏览器前缀*/
-      box-sizing: border-box;
-      width: 50%;
-      background-image: url("/image/frontend/icon_zoom.png");
-      background-size: 24px 24px;
-      background-repeat: no-repeat;
-      background-position: 5px;
-      padding-left: 40px;
-      margin-right: 0px; }
-    #fragment_head_nav #fragment_head_nav_search #fragment_head_nav_search_btn {
-      height: 40px;
-      border: 1px solid rgb(61,158,255);
-      background-color: white;
-      border-radius: 0;
-      /*省略所有浏览器前缀*/
-      box-sizing: border-box;
-      width: 20%;
-      cursor: pointer;
-      margin-left: 0px; }
-      #fragment_head_nav #fragment_head_nav_search #fragment_head_nav_search_btn:hover {
-        border: 2px solid rgb(61,158,255); }
-      #fragment_head_nav #fragment_head_nav_search #fragment_head_nav_search_btn:hover {
-        background-color: rgb(61,158,255);
-        color: white; }
+        line-height: 80px; }
+      #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_logo #logo_v {
+        color: red;
+        font-weight: bold;
+        font-size: 30px; }
+      #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_logo #logo_m {
+        color: rgb(61,158,255);
+        font-weight: bold;
+        font-size: 30px; }
+      #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul {
+        list-style: none;
+        display: inline; }
+        #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul li {
+          width: auto;
+          display: inline-block; }
+      #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul#user_ul li {
+        margin: 0px 10px; }
+        #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul#user_ul li a#headImg_a img#headImg_img {
+          border-radius: 100px;
+          width: 48px;
+          height: 48px;
+          margin: 16px 0px; }
+      #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_search {
+        /*text*/
+        /*btn*/ }
+        #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_search #fragment_head_nav_search_text {
+          height: 40px;
+          border: 1px solid rgb(61,158,255);
+          background-color: white;
+          border-radius: 0;
+          /*省略所有浏览器前缀*/
+          box-sizing: border-box;
+          width: 50%;
+          background-image: url("/image/frontend/icon_zoom.png");
+          background-size: 24px 24px;
+          background-repeat: no-repeat;
+          background-position: 5px;
+          padding-left: 40px;
+          margin-right: 0px; }
+        #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_search #fragment_head_nav_search_btn {
+          height: 40px;
+          border: 1px solid rgb(61,158,255);
+          background-color: white;
+          border-radius: 0;
+          /*省略所有浏览器前缀*/
+          box-sizing: border-box;
+          width: 20%;
+          cursor: pointer;
+          margin-left: 0px; }
+          #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_search #fragment_head_nav_search_btn:hover {
+            border: 2px solid rgb(61,158,255); }
+          #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_search #fragment_head_nav_search_btn:hover {
+            background-color: rgb(61,158,255);
+            color: white; }
+  #fragment_head_content #blank_div {
+    height: 80px;
+    background-color: "rgb(61,158,255)"; }
 
 /*# sourceMappingURL=fragment_head.css.map */
