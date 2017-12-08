@@ -92,15 +92,38 @@
         <div id="movies_display_div">
 
             <script type="text/babel">
+                var ActorsList = React.createClass({
+                    render: function () {
+                        return (
+                                <ul >
+                                    <li>主演：</li>
+                                    {
+
+                                        this.props.actors.map(function(item,index){
+
+                                            return <li key={item.id}><a href="">{item.name}</a>&nbsp;</li>;
+                                        })
+                                    }
+
+                                </ul>
+                        );
+                    }
+                });
+
                 var MoviesDisplayer = React.createClass({
                     getInitialState: function () {
+                        var ts = [];
+                        for(var i = 0;i<10;i++){
+                            ts.push({id:i,movieName:'海绵宝宝', actors:[{id:'1',name:'刘德华1'},{id:'2',name:'刘德华2'}], playNum:666});
+                        }
                         return {
-                            items: [{movieName:'海绵宝宝', actors:'刘德华1', playNum:666}]
+                            items:ts
+
                         };
                     },
                     render: function () {
                         var movieItems = this.state.items.map(function (item) {
-                            return <li className="movie_item" key={item.movieName}>
+                            return <li className="movie_item" key={item.id}>
                                         <div className="movie_img_div">
                                             <a href="">
                                                 <img src="/image/frontend/movie_temple.png"/>
@@ -113,12 +136,8 @@
                                             </div>
                                             <div className="movie_actor_list_div">
 
-                                                <ul >
-                                                    <li>主演：</li>
-                                                    <li><a href="">{item.actors},</a></li>
-                                                    <li><a href="">{item.actors}</a></li>
 
-                                                </ul>
+                                                <ActorsList actors={item.actors}/>
 
                                             </div>
 
@@ -140,6 +159,8 @@
                         <MoviesDisplayer/>,
                     document.getElementById('movies_display_div')
                 );
+
+
             </script>
 
             <!--<ul id="movies_list_ul">-->
