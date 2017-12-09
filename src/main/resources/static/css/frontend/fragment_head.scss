@@ -10,7 +10,7 @@ $nav_li_num: 3;
   font-size: 30px;
 }
 
-$fragment_head_nav_search_height: $nav_height/2;
+$fragment_head_nav_search_height: $nav_height/2.8;
 @mixin fragment_head_nav_search {
   //height: $nav_height - $nav_height*0.4;
   height: $fragment_head_nav_search_height;
@@ -26,14 +26,15 @@ $fragment_head_nav_search_height: $nav_height/2;
   height: $nav_height;
   line-height: $nav_height;
   background-color: white;
+  //background-color: aqua;
   #nav_div {
+    background-color: gold;
     position: fixed;
     top: 0px;
     left: 0px;
     background-color: white;
     ul#fragment_head_nav {
       /*nav*/
-
       //text-align: center;
       list-style-type: none;
       height: $nav_height;
@@ -89,6 +90,7 @@ $fragment_head_nav_search_height: $nav_height/2;
       li#fragment_head_nav_search {
         //@include defaultWidth;
         /*text*/
+
         //background-color: black;
         $fragment_head_nav_search_text_icon_zoom_size: $fragment_head_nav_search_height - $fragment_head_nav_search_height*0.4;
         #fragment_head_nav_search_text {
@@ -106,7 +108,7 @@ $fragment_head_nav_search_height: $nav_height/2;
           @include fragment_head_nav_search;
           width: 20%;
           cursor: pointer;
-          margin-left: 0px;
+          //margin-left: 0px;
           &:hover {
             border: 2px solid unquote($defaultBlueRgb);
           }

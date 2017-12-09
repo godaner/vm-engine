@@ -50,6 +50,7 @@ body > div {
   line-height: 80px;
   background-color: white; }
   #fragment_head_content #nav_div {
+    background-color: gold;
     position: fixed;
     top: 0px;
     left: 0px;
@@ -95,29 +96,30 @@ body > div {
         /*text*/
         /*btn*/ }
         #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_search #fragment_head_nav_search_text {
-          height: 40px;
+          height: 28.5714285714px;
           border: 1px solid rgb(61,158,255);
           background-color: white;
-          border-radius: 0;
+          border-radius: 0px;
           /*省略所有浏览器前缀*/
+          vertical-align: middle;
           box-sizing: border-box;
           width: 50%;
           background-image: url("/image/frontend/icon_zoom.png");
-          background-size: 24px 24px;
+          background-size: 17.1428571429px 17.1428571429px;
           background-repeat: no-repeat;
           background-position: 5px;
-          padding-left: 40px;
+          padding-left: 28.5714285714px;
           margin-right: 0px; }
         #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_search #fragment_head_nav_search_btn {
-          height: 40px;
+          height: 28.5714285714px;
           border: 1px solid rgb(61,158,255);
           background-color: white;
-          border-radius: 0;
+          border-radius: 0px;
           /*省略所有浏览器前缀*/
+          vertical-align: middle;
           box-sizing: border-box;
           width: 20%;
-          cursor: pointer;
-          margin-left: 0px; }
+          cursor: pointer; }
           #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_search #fragment_head_nav_search_btn:hover {
             border: 2px solid rgb(61,158,255); }
           #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_search #fragment_head_nav_search_btn:hover {

@@ -30,7 +30,9 @@
 }
 
 @mixin defaultSameHightOfInputAndBtn{
-  border-radius: 0;/*省略所有浏览器前缀*/
+  border-radius: 0px;/*省略所有浏览器前缀*/
+  //outline: 1px;
+  vertical-align: middle;//!!!!
   box-sizing: border-box;
 }
 
