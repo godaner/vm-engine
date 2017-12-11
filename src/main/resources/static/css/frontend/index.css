@@ -246,6 +246,7 @@ body > div {
                 width: auto;
                 display: inline-block; }
       #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div {
+        margin: 80px 0px;
         width: 100%;
         text-align: center; }
         #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul {
@@ -254,6 +255,9 @@ body > div {
           #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {
             width: auto;
             display: inline-block; }
+        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {
+          overflow: hidden;
+          margin: 0px 5px; }
         #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li {
           border: 1px solid rgb(241,242,243);
           height: auto;

@@ -158,11 +158,16 @@
         }
       }
       #movie_list_pager_div{
+        margin: 80px 0px;
         //background-color: red;
         @include defaultWidth;
         @include defaultHUl;
         text-align: center;//!!!
         ul{
+          li{
+            overflow: hidden;
+            margin: 0px 5px;
+          }
           li.pager_li{
             border: 1px solid unquote($defaultLightGrayRgb);
             height: auto;

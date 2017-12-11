@@ -91,6 +91,8 @@
         <div id="line"></div>
         <div id="movies_display_div">
 
+            <div id="react_dom_actors"></div>
+
             <script type="text/babel">
                 var ActorsList = React.createClass({
                     render: function () {
@@ -157,7 +159,7 @@
                 });
                 ReactDOM.render(
                         <MoviesDisplayer/>,
-                    document.getElementById('movies_display_div')
+                    document.getElementById('react_dom_actors')
                 );
 
 
@@ -202,31 +204,69 @@
 
             <!--分页-->
             <div id="movie_list_pager_div">
-                <ul id="movie_list_pager_ul">
-                    <li class="pager_li">
-                        <a href="">上一页</a>
-                    </li>
-                    <li class="pager_li currt">
-                        <a href="">1</a>
-                    </li>
-                    <li class="pager_li">
-                        <a href="">2</a>
-                    </li>
-                    <li class="pager_li">
-                        <a href="">3</a>
-                    </li>
-                    <li>
-                        ...
-                    </li>
-                    <li class="pager_li">
-                        <a href="">88</a>
-                    </li>
-                    <li class="pager_li">
-                        <a href="">下一页</a>
-                    </li>
-                </ul>
+                <div id="react_dom_pager"></div>
+                <!--<ul id="movie_list_pager_ul">-->
+                    <!--<li class="pager_li">-->
+                        <!--<a href="">上一页</a>-->
+                    <!--</li>-->
+                    <!--<li class="pager_li currt">-->
+                        <!--<a href="">1</a>-->
+                    <!--</li>-->
+                    <!--<li class="pager_li">-->
+                        <!--<a href="">2</a>-->
+                    <!--</li>-->
+                    <!--<li class="pager_li">-->
+                        <!--<a href="">3</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--...-->
+                    <!--</li>-->
+                    <!--<li class="pager_li">-->
+                        <!--<a href="">88</a>-->
+                    <!--</li>-->
+                    <!--<li class="pager_li">-->
+                        <!--<a href="">下一页</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
 
+                <script type="text/babel">
+                    var Pager = React.createClass({
+                        render:function(){
+                            return (
+                                    <ul id="movie_list_pager_ul">
+                                        <li className="pager_li">
+                                            <a href="">上一页</a>
+                                        </li>
+                                        <li className="pager_li currt">
+                                            <a href="">1</a>
+                                        </li>
+                                        <li className="pager_li">
+                                            <a href="">2</a>
+                                        </li>
+                                        <li className="pager_li">
+                                            <a href="">3</a>
+                                        </li>
+                                        <li>
+                                            ...
+                                        </li>
+                                        <li className="pager_li">
+                                            <a href="">88</a>
+                                        </li>
+                                        <li className="pager_li">
+                                            <a href="">下一页</a>
+                                        </li>
+                                    </ul>
+                            );
+                        }
+                    });
+
+                    ReactDOM.render(
+                            <Pager/>,
+                        document.getElementById('react_dom_pager')
+                    );
+                </script>
             </div>
+
         </div>
 
 
