@@ -5,281 +5,277 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body id="fragment_index_center_body">
-<div id="fragment_index_center_content">
-    <div id="movie_type_div">
-        <div class="type_item">
 
-            <label>
-                类型:
-            </label>
-            <ul>
-                <li class="currt">
-                    <a href="#">
-                        全部
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        悬疑
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        喜剧
-                    </a>
-                </li>
-
-            </ul>
-        </div>
-        <div class="type_item">
-            <label>
-                地区:
-            </label>
-            <ul>
-                <li class="currt">
-                    <a href="#">
-                        全部
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        中国台湾
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        大陆
-                    </a>
-                </li>
-
-            </ul>
-        </div>
-
-        <script type="text/babel">
-            var MovieTypeAndChilds = React.createClass({
-                render:function(){
-                    return ;
-                }
-            });
-        </script>
-
-    </div>
-    <div id="movie_list_div">
-        <div id="head">
-            <span id="sort_div">
-                <ul id="sort_ways">
-                    <label>排序：</label>
-                    <li class="currt">
-                        <a href="#">最多播放</a>
-                    </li>
-                    <li>
-                        <a href="#">最高评分</a>
-                    </li>
-                    <li>
-                        <a href="#">最高评分</a>
-                    </li>
-                    <li>
-                        <a href="#">最高评分</a>
-                    </li>
-                    <li>
-                        <a href="#">最高评分</a>
-                    </li>
-                </ul>
-            </span>
-            <span id="total_div">
-                共
-                <span id="totalNum">
-                    1200
-                </span>
-                个结果
-            </span>
-        </div>
-        <!--分割线-->
-        <div id="line"></div>
-        <div id="movies_display_div">
-
-            <div id="react_dom_actors"></div>
-
-            <script type="text/babel">
-                var ActorsList = React.createClass({
-                    render: function () {
-                        return (
-                                <ul >
-                                    <li>主演：</li>
-                                    {
-
-                                        this.props.actors.map(function(item,index){
-
-                                            return <li key={item.id}><a href="">{item.name}</a>&nbsp;</li>;
-                                        })
-                                    }
-
-                                </ul>
-                        );
-                    }
-                });
-
-                var MoviesDisplayer = React.createClass({
-                    getInitialState: function () {
-                        var ts = [];
-                        for(var i = 0;i<10;i++){
-                            ts.push({id:i,movieName:'海绵宝宝', actors:[{id:'1',name:'刘德华1'},{id:'2',name:'刘德华2'}], playNum:666});
-                        }
-                        return {
-                            items:ts
-
-                        };
-                    },
-                    render: function () {
-                        var movieItems = this.state.items.map(function (item) {
-                            return <li className="movie_item" key={item.id}>
-                                        <div className="movie_img_div">
-                                            <a href="">
-                                                <img src="/image/frontend/movie_temple.png"/>
-                                            </a>
-                                        </div>
-                                        <div className="movie_info_div">
-                                            <div>
-                                                <a className="movie_name_a" href="">{item.movieName}</a>
-
-                                            </div>
-                                            <div className="movie_actor_list_div">
-
-
-                                                <ActorsList actors={item.actors}/>
-
-                                            </div>
-
-                                            <div>
-                                                <a className="movie_play_num_a" href="">{item.playNum}</a>次播放
-
-                                            </div>
-                                        </div>
-
-                                    </li>;
-                        });
-                        return <ul id="movies_list_ul">
-                                    {movieItems}
-                                    <li className="clear"></li>
-                                </ul>;
-                    }
-                });
-                ReactDOM.render(
-                        <MoviesDisplayer/>,
-                    document.getElementById('react_dom_actors')
-                );
-
-
-            </script>
-
-            <!--<ul id="movies_list_ul">-->
-
-            <!--<li class="movie_item">-->
-            <!--<div class="movie_img_div">-->
-            <!--<a href="">-->
-            <!--<img src="/image/frontend/movie_temple.png"/>-->
-            <!--</a>-->
-            <!--</div>-->
-            <!--<div class="movie_info_div">-->
-            <!--<div>-->
-            <!--<a  class="movie_name_a" href="">海绵宝宝</a>-->
-
-            <!--</div>-->
-            <!--<div class="movie_actor_list_div">-->
-
-            <!--<ul >-->
-            <!--&lt;!&ndash;for!!!&ndash;&gt;-->
-            <!--<li>主演：</li>-->
-            <!--<li><a href="">刘德华,</a></li>-->
-            <!--<li><a href="">张国荣</a></li>-->
-
-            <!--</ul>-->
-
-            <!--</div>-->
-
-            <!--<div>-->
-            <!--<a  class="movie_play_num_a" href="">6.5</a>次播放-->
-
-            <!--</div>-->
-            <!--</div>-->
-
-            <!--</li>-->
-
-            <!--&lt;!&ndash;清除浮动!!!!&ndash;&gt;-->
-            <!--<li class="clear"></li>-->
-            <!--</ul>-->
-
-            <!--分页-->
-            <div id="movie_list_pager_div">
-                <div id="react_dom_pager"></div>
-                <!--<ul id="movie_list_pager_ul">-->
-                    <!--<li class="pager_li">-->
-                        <!--<a href="">上一页</a>-->
-                    <!--</li>-->
-                    <!--<li class="pager_li currt">-->
-                        <!--<a href="">1</a>-->
-                    <!--</li>-->
-                    <!--<li class="pager_li">-->
-                        <!--<a href="">2</a>-->
-                    <!--</li>-->
-                    <!--<li class="pager_li">-->
-                        <!--<a href="">3</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--...-->
-                    <!--</li>-->
-                    <!--<li class="pager_li">-->
-                        <!--<a href="">88</a>-->
-                    <!--</li>-->
-                    <!--<li class="pager_li">-->
-                        <!--<a href="">下一页</a>-->
-                    <!--</li>-->
-                <!--</ul>-->
-
-                <script type="text/babel">
-                    var Pager = React.createClass({
-                        getInitialState:function(){
-                            return {total:115,pageSize:10,page:2};
-                        },
-                        handlerPagerClick:function (movePage) {
-
-                            var newPage = this.state.page + movePage;
-                            if(newPage<=0 || newPage>(this.state.total/this.state.pageSize)){
-                                return ;
-                            }
-                            this.setState({page:newPage});
-                        },
-                        render:function(){
-                            return (
-                                    <ul id="movie_list_pager_ul">
-                                        <li onClick={this.handlerPagerClick.bind(this,-1)} className="pager_li">
-                                            <a href="javascript:void(0);" onclick="void(0);">上一页</a>
-                                        </li>
-                                        <li className="pager_li currt">
-                                            <a href="javascript:void(0);" onclick="void(0);">{this.state.page}</a>
-                                        </li>
-                                        <li onClick={this.handlerPagerClick.bind(this,1)} className="pager_li">
-                                            <a href="javascript:void(0);" onclick="void(0);">下一页</a>
-                                        </li>
-                                    </ul>
-                            );
-                        }
-                    });
-
-                    ReactDOM.render(
-                            <Pager/>,
-                        document.getElementById('react_dom_pager')
-                    );
-                </script>
-            </div>
-
-        </div>
-
-
-    </div>
+<!--react挂载节点-->
+<div id="react_dom_index_center">
 
 </div>
+
+
+<script type="text/babel">
+
+
+    var Pager = React.createClass({
+
+        render: function () {
+//            console.info(999999999999999999999999);
+            return (
+
+                    <div id="movie_list_pager_div">
+                        <ul id="movie_list_pager_ul">
+                            <li className="pager_li">
+                                <a href="javascript:void(0);" onClick={this.props.prePage}>上一页</a>
+                            </li>
+                            <li className="pager_li currt">
+                                <a href="javascript:void(0);">{this.props.page}</a>
+                            </li>
+                            <li className="pager_li">
+                                <a href="javascript:void(0);"  onClick={this.props.nextPage} >下一页</a>
+                            </li>
+                        </ul>
+                    </div>
+            );
+        }
+    });
+    /*电影展示-演员展示*/
+    var ActorsList = React.createClass({
+        render: function () {
+            return (
+                    <ul >
+                        <li>主演：</li>
+                        {
+
+                            this.props.actors.map(function (item, index) {
+
+                                return <li key={item.id}><a href="">{item.name}</a>&nbsp;</li>;
+                            })
+                        }
+
+                    </ul>
+            );
+        }
+    });
+    /*电影展示*/
+    var MoviesDisplayer = React.createClass({
+
+        render: function () {
+            var movieItems = this.props.movies.map(function (item) {
+                return <li className="movie_item" key={item.id}>
+                    <div className="movie_img_div">
+                        <a href="">
+                            <img src="/image/frontend/movie_temple.png"/>
+                        </a>
+                    </div>
+                    <div className="movie_info_div">
+                        <div>
+                            <a className="movie_name_a" href="">{item.movieName}</a>
+
+                        </div>
+                        <div className="movie_actor_list_div">
+
+
+                            <ActorsList actors={item.actors}/>
+
+                        </div>
+
+                        <div>
+                            <a className="movie_play_num_a" href="">{item.playNum}</a>次播放
+
+                        </div>
+                    </div>
+
+                </li>;
+            });
+            return <ul id="movies_list_ul">
+                {movieItems}
+                <li className="clear"></li>
+            </ul>;
+        }
+    });
+    /*一组电影tag*/
+    var MovieTagGroup = React.createClass({
+        render: function () {
+//            console.info(this.props.movieTagGroupId);
+            return (
+                    <div id={this.props.movieTagGroupId} className="type_item">
+                        <label>
+                            {this.props.movieTagGroupName}:
+                        </label>
+                        <ul>
+                            <li className="currt">
+                                <a href="javascript:void(0);">
+                                    全部
+                                </a>
+                            </li>
+                            {
+                                this.props.movieTags.map(function (item) {
+                                    return (
+                                            <li>
+                                                <a key={item.id} id={item.id} href="#">
+                                                    {item.name}
+                                                </a>
+                                            </li>
+                                    );
+                                })
+                            }
+
+
+                        </ul>
+                    </div>);
+        }
+    });
+    /*电影标签列表*/
+    var MovieTagGroupList = React.createClass({
+
+        render: function () {
+            return (
+                    <div>
+                        {
+                            this.props.movieTagGroup.map(function (item) {
+                                return (
+                                        <MovieTagGroup key={item.id} movieTagGroupId={item.id} movieTagGroupName={item.name}
+                                                       movieTags={item.movieTags}/>
+                                );
+                            })
+                        }
+                    </div>
+            );
+        }
+    });
+    var IndexCenter = React.createClass({
+        getInitialState: function () {
+            var movieTagGroup = [{
+                id: 1,
+                name: '地区',
+                movieTags: [{id: 1, name: '惊悚'}, {id: 2, name: '悬疑'}, {id: 3, name: '悬疑'}, {
+                    id: 4,
+                    name: '恐怖'
+                }, {id: 5, name: '惊悚'}, {id: 6, name: '悬疑'}, {id: 7, name: '悬疑'}, {id: 8, name: '恐怖'}, {
+                    id: 9,
+                    name: '惊悚'
+                }, {id: 10, name: '悬疑'}, {id: 11, name: '悬疑'}, {id: 12, name: '恐怖'}, {id: 13, name: '惊悚'}, {
+                    id: 14,
+                    name: '悬疑'
+                }, {id: 15, name: '悬疑'}, {id: 16, name: '恐怖'}, {id: 17, name: '惊悚'}, {id: 18, name: '悬疑'}, {
+                    id: 221,
+                    name: '悬疑'
+                }, {id: 19, name: '恐怖'}, {id: 20, name: '惊悚'}]
+            }, {
+                id: 2122,
+                name: '类型',
+                movieTags: [{id: 1, name: '惊悚'}, {id: 2, name: '悬疑'}, {id: 3, name: '悬疑'}, {
+                    id: 4,
+                    name: '恐怖'
+                }, {id: 5, name: '惊悚'}, {id: 6, name: '悬疑'}, {id: 7, name: '悬疑'}, {id: 8, name: '恐怖'}, {
+                    id: 9,
+                    name: '惊悚'
+                }, {id: 10, name: '悬疑'}, {id: 11, name: '悬疑'}, {id: 12, name: '恐怖'}, {id: 13, name: '惊悚'}, {
+                    id: 14,
+                    name: '悬疑'
+                }, {id: 15, name: '悬疑'}, {id: 16, name: '恐怖'}, {id: 17, name: '惊悚'}, {id: 18, name: '悬疑'}, {
+                    id: 1234,
+                    name: '悬疑'
+                }, {id: 19, name: '恐怖'}, {id: 20, name: '惊悚'}]
+            }];
+
+            var movies = [];
+            for (var i = 0; i < 11; i++) {
+                movies.push({
+                    id: i,
+                    movieName: '海绵宝宝',
+                    actors: [{id: '1', name: '刘德华1'}, {id: '2', name: '刘德华2'}],
+                    playNum: 666
+                });
+            }
+
+
+            var state = {movieTagGroup: movieTagGroup,movies:{total:99,list:movies,page:1,size:10}};
+
+
+
+            return state;
+
+        },
+        prePage: function (event) {
+            this.handlePageChange(-1);
+
+        },
+        nextPage: function (event) {
+            this.handlePageChange(1);
+
+
+        },
+        handlePageChange(movePage){
+            var newPage = this.state.movies.page + movePage;
+            if (newPage <= 0 || newPage > (this.state.movies.total / this.state.movies.size)) {
+                return;
+            }
+            //更新page
+            var state = this.state;
+            state.movies.page = newPage;
+            this.setState(state);
+        },
+        render: function () {
+            return (
+                    <div id="fragment_index_center_content">
+                        <div id="movie_type_div">
+
+                            {/*电影标签列表*/}
+                            <MovieTagGroupList movieTagGroup={this.state.movieTagGroup}/>
+                        </div>
+                        <div id="movie_list_div">
+                            <div id="head">
+                                <span id="sort_div">
+                                    <ul id="sort_ways">
+                                        <label>排序：</label>
+                                        <li className="currt">
+                                            <a href="#">最多播放</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">最高评分</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">最高评分</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">最高评分</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">最高评分</a>
+                                        </li>
+                                    </ul>
+                                </span>
+                                <span id="total_div">
+                                    共
+                                    <span id="totalNum">
+                                        {this.state.movies.total}
+                                    </span>
+                                    个结果
+                                </span>
+                            </div>
+                            <div id="line"></div>
+                            <div id="movies_display_div">
+                                {/*电影展示*/}
+                                <MoviesDisplayer movies={this.state.movies.list}/>
+
+                                {/*电影分页*/}
+                                <Pager prePage={this.prePage} nextPage={this.nextPage}  page={this.state.movies.page}/>
+                            </div>
+                        </div>
+                    </div>
+            );
+        }
+
+    });
+
+    /**
+     *节点挂载
+     */
+    ReactDOM.render(<IndexCenter/>,
+        document.getElementById('react_dom_index_center'));
+
+</script>
+
+
 </body>
 </html>
