@@ -12,13 +12,13 @@ import java.lang.reflect.Method;
  * Created by ZhangKe on 2017/12/11.
  */
 @Controller
-@RequestMapping("/f/tags")
+@RequestMapping("/frontend/tags")
 public class VmFrontEndTagsController extends ServiceController<VmFrontEndTagsService> {
     /**
      * 获取所有的tags分组及其下面的tags
      * @return
      */
-    @RequestMapping(value = "/",method = RequestMethod.GET)
+    @RequestMapping(value = "/")
     public Object getTagsGroupsWithTags(){
         response.putData("list",service.getTagsGroupsWithTags());
         return response;
