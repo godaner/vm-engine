@@ -8,6 +8,7 @@
 <div id="fragment_index_center_content">
     <div id="movie_type_div">
         <div class="type_item">
+
             <label>
                 类型:
             </label>
@@ -55,6 +56,14 @@
 
             </ul>
         </div>
+
+        <script type="text/babel">
+            var MovieTypeAndChilds = React.createClass({
+                render:function(){
+                    return ;
+                }
+            });
+        </script>
 
     </div>
     <div id="movie_list_div">
@@ -231,29 +240,28 @@
 
                 <script type="text/babel">
                     var Pager = React.createClass({
+                        getInitialState:function(){
+                            return {total:115,pageSize:10,page:2};
+                        },
+                        handlerPagerClick:function (movePage) {
+
+                            var newPage = this.state.page + movePage;
+                            if(newPage<=0 || newPage>(this.state.total/this.state.pageSize)){
+                                return ;
+                            }
+                            this.setState({page:newPage});
+                        },
                         render:function(){
                             return (
                                     <ul id="movie_list_pager_ul">
-                                        <li className="pager_li">
-                                            <a href="">上一页</a>
+                                        <li onClick={this.handlerPagerClick.bind(this,-1)} className="pager_li">
+                                            <a href="javascript:void(0);" onclick="void(0);">上一页</a>
                                         </li>
                                         <li className="pager_li currt">
-                                            <a href="">1</a>
+                                            <a href="javascript:void(0);" onclick="void(0);">{this.state.page}</a>
                                         </li>
-                                        <li className="pager_li">
-                                            <a href="">2</a>
-                                        </li>
-                                        <li className="pager_li">
-                                            <a href="">3</a>
-                                        </li>
-                                        <li>
-                                            ...
-                                        </li>
-                                        <li className="pager_li">
-                                            <a href="">88</a>
-                                        </li>
-                                        <li className="pager_li">
-                                            <a href="">下一页</a>
+                                        <li onClick={this.handlerPagerClick.bind(this,1)} className="pager_li">
+                                            <a href="javascript:void(0);" onclick="void(0);">下一页</a>
                                         </li>
                                     </ul>
                             );
