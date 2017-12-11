@@ -1,6 +1,6 @@
 package com.vm.base.aop;
 
-import com.vm.base.bo.Response;
+import com.vm.base.utils.Response;
 import com.vm.base.utils.LoggerWrapper;
 import com.vm.service.exception.VMRuntimeException;
 import com.vm.service.exception.ValidateRuntimeException;

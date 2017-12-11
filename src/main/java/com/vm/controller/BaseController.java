@@ -1,7 +1,7 @@
 package com.vm.controller;
 
 
-import com.vm.base.bo.Response;
+import com.vm.base.utils.Response;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.ServletContext;
