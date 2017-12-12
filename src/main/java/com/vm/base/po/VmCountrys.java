@@ -1,6 +1,6 @@
 package com.vm.base.po;
 
-public class VmCountrys {
+public class VmCountrys  extends BasePo {
     private Byte id;
 
     private String code;

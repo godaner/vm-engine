@@ -1,6 +1,6 @@
 package com.vm.base.po;
 
-public class VmUsersLoginLogs {
+public class VmUsersLoginLogs  extends BasePo {
     private Long id;
 
     private Long userId;

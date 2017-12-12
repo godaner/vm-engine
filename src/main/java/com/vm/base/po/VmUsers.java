@@ -1,6 +1,6 @@
 package com.vm.base.po;
 
-public class VmUsers {
+public class VmUsers  extends BasePo {
     private Long id;
 
     private String username;

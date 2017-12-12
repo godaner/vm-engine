@@ -1,6 +1,6 @@
 package com.vm.base.po;
 
-public class VmAdminsLoginLogs {
+public class VmAdminsLoginLogs extends BasePo {
     private Long id;
 
     private Long adminId;

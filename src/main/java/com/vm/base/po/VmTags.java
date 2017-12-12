@@ -1,6 +1,6 @@
 package com.vm.base.po;
 
-public class VmTags {
+public class VmTags  extends BasePo {
     private Long id;
 
     private String name;

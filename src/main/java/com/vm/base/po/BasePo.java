@@ -5,7 +5,7 @@ import com.vm.base.utils.ByteConstantVar;
 /**
  * Created by ZhangKe on 2017/12/11.
  */
-public class Enums {
+public class BasePo {
     /**
      * 状态
      */

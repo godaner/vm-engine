@@ -1,6 +1,6 @@
 package com.vm.base.po;
 
-public class VmMoviesFilmmakersRealation {
+public class VmMoviesFilmmakersRealation  extends BasePo {
     private Long id;
 
     private Long movieId;
