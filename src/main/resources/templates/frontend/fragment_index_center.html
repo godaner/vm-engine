@@ -132,7 +132,7 @@
                     <div>
                         {
                             this.props.movieTagGroup.map(function (item) {
-                                c(item);
+
                                 return (
                                         <MovieTagGroup key={item.id} movieTagGroupId={item.id}
                                                        movieTagGroupName={item.name}
@@ -259,7 +259,7 @@
     /**
      *节点挂载
      */
-    ReactDOM.render(<IndexCenter source="/tag_group/all"/>,
+    ReactDOM.render(<IndexCenter source="/tag_group/tags_groups_with_tags"/>,
         document.getElementById('react_dom_index_center'));
 
 </script>

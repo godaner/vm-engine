@@ -2,6 +2,7 @@ package com.vm.test.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.vm.BootApp;
+import com.vm.base.utils.PageBean;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -47,15 +49,15 @@ public class BaseControllerTest {
 
 
     /**
-     * 通过对象（自定义对象或者map）生成的json字符串类型的 HttpEntity
+     * 生成的json字符串类型的 HttpEntity
      *
-     * @param obj
+     * @param objs
      * @return
      */
-    protected HttpEntity<String> getJsonRequestEntity(Object obj) {
+    protected HttpEntity<String> getJsonRequestEntity(Object ...objs) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String requestJsonStr = JSON.toJSONString(obj);
+        String requestJsonStr = JSON.toJSONString(objs);
         HttpEntity<String> entity = new HttpEntity<String>(requestJsonStr, headers);
         return entity;
     }
@@ -73,4 +75,25 @@ public class BaseControllerTest {
 //        System.out.println(result);
 
     }
+
+    protected PageBean getPageBean(Integer start, Integer size, String orderBy, String orderType){
+        if(start == null){
+            start = 0;
+        }
+        if(size == null){
+            size = 10;
+        }
+        if(orderBy == null){
+            orderBy = "id";
+        }
+        if(orderType == null){
+            orderType = "desc";
+        }
+        PageBean pageBean = new PageBean(start, size,orderBy,orderType);
+        return pageBean;
+    };
+    protected PageBean getPageBean(){
+
+        return getPageBean(null,null,null,null);
+    };
 }

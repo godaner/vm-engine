@@ -66,3 +66,15 @@ CREATE TABLE `wzy_media_account_charge_record` (
   `digest` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='账户充值记录表';
+
+
+
+
+/*为添加账户流水表添加字段*/
+alter table wzy_media_account_money_change_record add (money decimal(10),account_id BIGINT(20));
+
+
+/*修改字段精度*/
+alter table wzy_media_account_money_change_record modify column money decimal(10,3);
+alter table wzy_media_account_charge_record modify column money decimal(10,3) not null;
+alter table wzy_media_account_refund_record modify column money decimal(10,3) not null;

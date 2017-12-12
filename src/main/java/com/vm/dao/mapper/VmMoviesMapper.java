@@ -1,5 +1,8 @@
 package com.vm.dao.mapper;
 
+import com.vm.base.utils.PageBean;
+import com.vm.dao.bo.VmMoviesQueryBean;
+import com.vm.dao.po.CustomVmMovies;
 import com.vm.dao.po.VmMovies;
 import com.vm.dao.po.VmMoviesExample;
 import java.util.List;
@@ -27,4 +30,8 @@ public interface VmMoviesMapper {
     int updateByPrimaryKeySelective(VmMovies record);
 
     int updateByPrimaryKey(VmMovies record);
+
+    List<CustomVmMovies> getMovies(@Param("page") PageBean page, @Param("query") VmMoviesQueryBean query);
+
+    Long getMoviesCount(@Param("page") PageBean page,@Param("query") VmMoviesQueryBean query);
 }

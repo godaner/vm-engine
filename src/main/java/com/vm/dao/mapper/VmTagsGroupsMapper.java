@@ -1,5 +1,6 @@
 package com.vm.dao.mapper;
 
+import com.vm.dao.po.CustomVmTagsGroups;
 import com.vm.dao.po.VmTagsGroups;
 import com.vm.dao.po.VmTagsGroupsExample;
 import java.util.List;
@@ -27,4 +28,6 @@ public interface VmTagsGroupsMapper {
     int updateByPrimaryKeySelective(VmTagsGroups record);
 
     int updateByPrimaryKey(VmTagsGroups record);
+
+    List<CustomVmTagsGroups> getTagsGroupsWithTags();
 }

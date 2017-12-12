@@ -41,5 +41,14 @@ public class PageBean {
         this.orderType = orderType;
     }
 
-    
+    public PageBean() {
+    }
+
+    public PageBean(Integer start, Integer size, String orderBy, String orderType) {
+
+        this.start = start;
+        this.size = size;
+        this.orderBy = orderBy;
+        this.orderType = orderType;
+    }
 }
