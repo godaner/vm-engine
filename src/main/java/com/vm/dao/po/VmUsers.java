@@ -1,6 +1,6 @@
 package com.vm.dao.po;
 
-public class VmUsers  extends BasePo {
+public class VmUsers  extends BasePo{
     private Long id;
 
     private String username;

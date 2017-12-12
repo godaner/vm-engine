@@ -1,6 +1,6 @@
 package com.vm.dao.po;
 
-public class VmCountrys  extends BasePo {
+public class VmCountrys  extends BasePo{
     private Byte id;
 
     private String code;

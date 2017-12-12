@@ -1,6 +1,6 @@
 package com.vm.dao.po;
 
-public class VmAdminsLoginLogs extends BasePo {
+public class VmAdminsLoginLogs extends BasePo{
     private Long id;
 
     private Long adminId;

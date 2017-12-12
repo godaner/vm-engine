@@ -1,6 +1,6 @@
 package com.vm.dao.po;
 
-public class VmMoviesFilmmakersRealation  extends BasePo {
+public class VmMoviesFilmmakersRealation extends BasePo{
     private Long id;
 
     private Long movieId;

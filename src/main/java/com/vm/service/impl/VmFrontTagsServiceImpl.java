@@ -22,7 +22,6 @@ public class VmFrontTagsServiceImpl implements VmFrontEndTagsService {
     private CustomVmTagsGroupsMapper customVmTagsGroupsMapper;
     @Override
     public List<VmTagsGroupsWithTagsList> getTagsGroupsWithTags() {
-        VmTags vmTags = vmTagsMapper.selectByPrimaryKey(1l);
-        return Lists.newArrayListWithCapacity(10);
+        return customVmTagsGroupsMapper.getTagsGroupsWithTags();
     }
 }

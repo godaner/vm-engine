@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Date:2017/11/16 14:47
  */
 @SpringBootApplication
-@MapperScan(basePackages = "com.vm.dao.mapper")
+@MapperScan(basePackages = "com.vm.dao")
 public class BootApp {
     public static void main(String[] args) {
         SpringApplication.run(BootApp.class, args);

@@ -1,6 +1,6 @@
 package com.vm.dao.po;
 
-public class VmTagsGroups  extends BasePo {
+public class VmTagsGroups  extends BasePo{
     private Long id;
 
     private String name;

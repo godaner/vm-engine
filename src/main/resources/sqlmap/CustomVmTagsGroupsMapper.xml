@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vm.dao.mapper.CustomVmTagsGroupsMapper">
+    <resultMap id="VmTagsGroupsWithTagsListMap" type="com.vm.dao.bo.VmTagsGroupsWithTagsList">
+        <id column="tagGroupId" jdbcType="BIGINT" property="id"/>
+        <result column="tagGroupName" jdbcType="VARCHAR" property="name"/>
+
+        <collection property="items" ofType="com.vm.dao.po.VmTags">
+            <id column="tagId" jdbcType="BIGINT" property="id"/>
+            <result column="tagName" jdbcType="VARCHAR" property="name"/>
+        </collection>
+
+    </resultMap>
+    <select id="getTagsGroupsWithTags" resultMap="VmTagsGroupsWithTagsListMap">
+        SELECT
+            g.id AS tagGroupId,
+            g.`name` AS tagGroupName,
+            t.id AS tagId,
+            t.`name` AS tagName
+        FROM
+            vm_tags t,
+            vm_tags_groups g
+        WHERE
+            g.id = t.tag_group_id
+        AND t.`status` = 1
+        AND g.`status` = 1
+
+    </select>
+</mapper>
