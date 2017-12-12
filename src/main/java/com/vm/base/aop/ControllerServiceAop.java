@@ -49,21 +49,21 @@ public class ControllerServiceAop {
             }
         } catch (VmRuntimeException e) {
             e.printStackTrace();
-            logger.info("{} ==>ERROR: {}",sb.toString(),e.toString());
+            logger.error("{} ==>ERROR: {}",sb.toString(),e.toString());
             response.setCode(e.getErrorCode().intValue());
             response.setMsg(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info("{} ==>ERROR: {}",sb.toString(),e.toString());
+            logger.error("{} ==>ERROR: {}",sb.toString(),e.toString());
             response.setCode(VmRuntimeException.ErrorCode.UNKNOWN.getCode().intValue());
             response.setMsg(VmRuntimeException.ErrorCode.UNKNOWN.getMsg());
         } catch (Throwable throwable) {
             throwable.printStackTrace();
-            logger.info("{} ==>ERROR: {}",sb.toString(),throwable.toString());
+            logger.error("{} ==>ERROR: {}",sb.toString(),throwable.toString());
             response.setCode(VmRuntimeException.ErrorCode.UNKNOWN.getCode().intValue());
             response.setMsg(VmRuntimeException.ErrorCode.UNKNOWN.getMsg());
         }
-
+        logger.info("Response ==> {}",response.toString());
         return response;
 
     }

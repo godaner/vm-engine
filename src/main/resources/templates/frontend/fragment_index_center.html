@@ -18,7 +18,6 @@
     var Pager = React.createClass({
 
         render: function () {
-//            console.info(999999999999999999999999);
             return (
 
                     <div id="movie_list_pager_div">
@@ -30,13 +29,14 @@
                                 <a href="javascript:void(0);">{this.props.page}</a>
                             </li>
                             <li className="pager_li">
-                                <a href="javascript:void(0);"  onClick={this.props.nextPage} >下一页</a>
+                                <a href="javascript:void(0);" onClick={this.props.nextPage}>下一页</a>
                             </li>
                         </ul>
                     </div>
             );
         }
     });
+
     /*电影展示-演员展示*/
     var ActorsList = React.createClass({
         render: function () {
@@ -132,9 +132,11 @@
                     <div>
                         {
                             this.props.movieTagGroup.map(function (item) {
+                                c(item);
                                 return (
-                                        <MovieTagGroup key={item.id} movieTagGroupId={item.id} movieTagGroupName={item.name}
-                                                       movieTags={item.movieTags}/>
+                                        <MovieTagGroup key={item.id} movieTagGroupId={item.id}
+                                                       movieTagGroupName={item.name}
+                                                       movieTags={item.items}/>
                                 );
                             })
                         }
@@ -143,39 +145,27 @@
         }
     });
     var IndexCenter = React.createClass({
+
+
+        componentDidMount: function () {
+            this.serverRequest = $.get(this.props.source, function (result) {
+                var state = this.state;
+                c("asddddddddd");
+                c(state);
+                c("asddddddddd");
+                state.movieTagGroup = result.data.list;
+                this.setState(state);
+            }.bind(this));
+        },
         getInitialState: function () {
             var movieTagGroup = [{
                 id: 1,
                 name: '地区',
-                movieTags: [{id: 1, name: '惊悚'}, {id: 2, name: '悬疑'}, {id: 3, name: '悬疑'}, {
-                    id: 4,
-                    name: '恐怖'
-                }, {id: 5, name: '惊悚'}, {id: 6, name: '悬疑'}, {id: 7, name: '悬疑'}, {id: 8, name: '恐怖'}, {
-                    id: 9,
-                    name: '惊悚'
-                }, {id: 10, name: '悬疑'}, {id: 11, name: '悬疑'}, {id: 12, name: '恐怖'}, {id: 13, name: '惊悚'}, {
-                    id: 14,
-                    name: '悬疑'
-                }, {id: 15, name: '悬疑'}, {id: 16, name: '恐怖'}, {id: 17, name: '惊悚'}, {id: 18, name: '悬疑'}, {
-                    id: 221,
-                    name: '悬疑'
-                }, {id: 19, name: '恐怖'}, {id: 20, name: '惊悚'}]
+                items: [{id: 1, name: '大四川'}]
             }, {
                 id: 2122,
                 name: '类型',
-                movieTags: [{id: 1, name: '惊悚'}, {id: 2, name: '悬疑'}, {id: 3, name: '悬疑'}, {
-                    id: 4,
-                    name: '恐怖'
-                }, {id: 5, name: '惊悚'}, {id: 6, name: '悬疑'}, {id: 7, name: '悬疑'}, {id: 8, name: '恐怖'}, {
-                    id: 9,
-                    name: '惊悚'
-                }, {id: 10, name: '悬疑'}, {id: 11, name: '悬疑'}, {id: 12, name: '恐怖'}, {id: 13, name: '惊悚'}, {
-                    id: 14,
-                    name: '悬疑'
-                }, {id: 15, name: '悬疑'}, {id: 16, name: '恐怖'}, {id: 17, name: '惊悚'}, {id: 18, name: '悬疑'}, {
-                    id: 1234,
-                    name: '悬疑'
-                }, {id: 19, name: '恐怖'}, {id: 20, name: '惊悚'}]
+                items: [{id: 1, name: '小惊悚'}]
             }];
 
             var movies = [];
@@ -189,9 +179,7 @@
             }
 
 
-            var state = {movieTagGroup: movieTagGroup,movies:{total:99,list:movies,page:1,size:10}};
-
-
+            var state = {movieTagGroup: movieTagGroup, movies: {total: 99, list: movies, page: 1, size: 10}};
 
             return state;
 
@@ -259,7 +247,7 @@
                                 <MoviesDisplayer movies={this.state.movies.list}/>
 
                                 {/*电影分页*/}
-                                <Pager prePage={this.prePage} nextPage={this.nextPage}  page={this.state.movies.page}/>
+                                <Pager prePage={this.prePage} nextPage={this.nextPage} page={this.state.movies.page}/>
                             </div>
                         </div>
                     </div>
@@ -271,7 +259,7 @@
     /**
      *节点挂载
      */
-    ReactDOM.render(<IndexCenter/>,
+    ReactDOM.render(<IndexCenter source="/tag_group/all"/>,
         document.getElementById('react_dom_index_center'));
 
 </script>
