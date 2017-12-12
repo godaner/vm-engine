@@ -1,13 +1,13 @@
 package com.vm.base.aop;
 
 import com.vm.base.utils.Response;
-import com.vm.base.utils.LoggerWrapper;
-import com.vm.service.exception.VMRuntimeException;
-import com.vm.service.exception.ValidateRuntimeException;
+import com.vm.service.exception.VmRuntimeException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -22,7 +22,7 @@ public class ControllerServiceAop {
 
     }
 
-    private LoggerWrapper logger = LoggerWrapper.newLoggerWrapper(ControllerServiceAop.class);
+    private Logger logger = LoggerFactory.getLogger(ControllerServiceAop.class);
 
     @Around("declareJoinPointExpression()")
     public Object doAroundAdvice(ProceedingJoinPoint joinPoint) {
@@ -47,22 +47,21 @@ public class ControllerServiceAop {
             }else{
                 return data;
             }
-        } catch (ValidateRuntimeException e) {
-            logger.info(sb.toString()+" ==>ERROR: "+e);
+        } catch (VmRuntimeException e) {
+            e.printStackTrace();
+            logger.info("{} ==>ERROR: {}",sb.toString(),e.toString());
             response.setCode(e.getErrorCode().intValue());
             response.setMsg(e.getMessage());
-            response.setMsg(e.getMessage());
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info(sb.toString()+" ==>ERROR: "+e);
-            response.setCode(VMRuntimeException.ErrorCode.UNKNOWN.getCode().intValue());
-            response.setMsg(VMRuntimeException.ErrorCode.UNKNOWN.getMsg());
+            logger.info("{} ==>ERROR: {}",sb.toString(),e.toString());
+            response.setCode(VmRuntimeException.ErrorCode.UNKNOWN.getCode().intValue());
+            response.setMsg(VmRuntimeException.ErrorCode.UNKNOWN.getMsg());
         } catch (Throwable throwable) {
             throwable.printStackTrace();
-            logger.info(sb.toString()+" ,error:"+throwable.toString());
-            response.setCode(VMRuntimeException.ErrorCode.UNKNOWN.getCode().intValue());
-            response.setMsg(VMRuntimeException.ErrorCode.UNKNOWN.getMsg());
+            logger.info("{} ==>ERROR: {}",sb.toString(),throwable.toString());
+            response.setCode(VmRuntimeException.ErrorCode.UNKNOWN.getCode().intValue());
+            response.setMsg(VmRuntimeException.ErrorCode.UNKNOWN.getMsg());
         }
 
         return response;

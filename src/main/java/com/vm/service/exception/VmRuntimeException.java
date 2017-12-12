@@ -14,36 +14,36 @@ import java.util.Map;
  * <br/>
  * <b>Date:</b>2017/11/24 9:55
  */
-public class VMRuntimeException extends RuntimeException{
+public class VmRuntimeException extends RuntimeException{
     protected Long errorCode ;
     protected Map params ;
 
-    public VMRuntimeException(Long errorCode, String message, Map params, Throwable e){
+    public VmRuntimeException(Long errorCode, String message, Map params, Throwable e){
         super(message,e);
         this.errorCode = errorCode ;
         this.params = params ;
     }
 
-    public VMRuntimeException(Long errorCode,String message,Map data){
+    public VmRuntimeException(Long errorCode, String message, Map data){
         this(errorCode,message,data,null);
     }
 
-    public VMRuntimeException(Long errorCode,String message){
+    public VmRuntimeException(Long errorCode, String message){
         this(errorCode,message,null,null);
     }
 
-    public VMRuntimeException(String message,Throwable e){
+    public VmRuntimeException(String message, Throwable e){
         this(null,message,null,e);
     }
 
-    public VMRuntimeException(){
+    public VmRuntimeException(){
 
     }
 
-    public VMRuntimeException(Throwable e){
+    public VmRuntimeException(Throwable e){
         super(e);
     }
-    public VMRuntimeException(String message) {
+    public VmRuntimeException(String message) {
         super(message);
     }
 

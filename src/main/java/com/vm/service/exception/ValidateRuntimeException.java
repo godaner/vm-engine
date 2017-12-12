@@ -1,11 +1,9 @@
 package com.vm.service.exception;
 
-import sun.misc.VM;
-
 import java.util.Map;
 
 
-public class ValidateRuntimeException extends VMRuntimeException{
+public class ValidateRuntimeException extends VmRuntimeException {
 
     public ValidateRuntimeException(ErrorCode authErrorCode, Map object) {
         super(authErrorCode.getCode(), authErrorCode.getMsg(), object);

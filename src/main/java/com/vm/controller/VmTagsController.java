@@ -14,7 +14,7 @@ import java.util.List;
  * Created by ZhangKe on 2017/12/11.
  */
 @Controller
-@RequestMapping("/tags")
+@RequestMapping("/tag_groups")
 public class VmTagsController extends ServiceController<VmFrontEndTagsService> {
     /**
      * 获取所有的tags分组及其下面的tags

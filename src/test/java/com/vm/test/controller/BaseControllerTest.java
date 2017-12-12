@@ -1,9 +1,7 @@
 package com.vm.test.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.collect.ImmutableMap;
 import com.vm.BootApp;
-import com.vm.base.utils.LoggerWrapper;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 
 
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = BootApp.class)
 //@WebAppConfiguration // 使用@WebIntegrationTest注解需要将@WebAppConfiguration注释掉
@@ -29,7 +28,7 @@ public class BaseControllerTest {
     @Value("${local.server.port}")// 注入端口号
     protected int port;
 
-    protected static final LoggerWrapper logger = LoggerWrapper.newLoggerWrapper(BaseControllerTest.class);
+    protected static final Logger logger = LoggerFactory.getLogger(BaseControllerTest.class);
 
     @Rule
     // 这里注意，使用@Rule注解必须要用public
