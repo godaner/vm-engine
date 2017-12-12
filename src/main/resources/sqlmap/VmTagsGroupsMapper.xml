@@ -213,19 +213,25 @@
 
     <!--**************************** 自定义mapper start ****************************-->
     <resultMap id="GetTagsGroupsWithTagsMap" type="com.vm.dao.po.CustomVmTagsGroups">
-        <id column="tagGroupId" jdbcType="BIGINT" property="id"/>
-        <result column="tagGroupName" jdbcType="VARCHAR" property="name"/>
-
-        <collection property="items" column="id" select="com.vm.dao.mapper.VmTagsMapper.selectByPrimaryKey">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="create_time" jdbcType="INTEGER" property="createTime"/>
+        <result column="update_time" jdbcType="INTEGER" property="updateTime"/>
+        <collection property="items" column="tagId" select="com.vm.dao.mapper.VmTagsMapper.selectByPrimaryKey">
 
         </collection>
-
     </resultMap>
     <select id="getTagsGroupsWithTags" resultMap="GetTagsGroupsWithTagsMap">
-        select *
-        from
-            vm_tags_groups g
-        where g.`status`=1
+       SELECT
+            g.*, t.id tagId
+        FROM
+            vm_tags_groups g,
+            vm_tags t
+        WHERE
+            g.`status` = 1
+        AND t.`status` = 1
+        AND g.id = t.tag_group_id
 
   </select>
     <!--**************************** 自定义mapper end ****************************-->

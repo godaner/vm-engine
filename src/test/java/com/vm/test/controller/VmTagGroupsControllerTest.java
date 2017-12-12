@@ -7,11 +7,11 @@ import org.springframework.http.HttpEntity;
 /**
  * Created by ZhangKe on 2017/12/1.
  */
-public class VmTagsControllerTest extends BaseControllerTest{
+public class VmTagGroupsControllerTest extends BaseControllerTest{
     @Test
     public void getTagsGroupsWithTags(){
 
-        String url = getLocalHost()+"/tag_group/list";
+        String url = getLocalHost()+"/tagGroups/list";
 
 //        String result = rt.postForObject(url, entity, String.class);
         String result = rt.getForObject(url, String.class);

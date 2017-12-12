@@ -386,11 +386,11 @@
         </if>
     </select>
     <select id="getMoviesCount" resultType="long">
-    select count(m.id)
-    from vm_movies m
-    where m.`status` = 1
+        select count(m.id)
+        from vm_movies m
+        where m.`status` = 1
 
-  </select>
+      </select>
     <!--**************************** 自定义mapper end ****************************-->
 
 </mapper>
