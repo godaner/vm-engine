@@ -27,4 +27,6 @@ public interface VmTagsMapper {
     int updateByPrimaryKeySelective(VmTags record);
 
     int updateByPrimaryKey(VmTags record);
+
+    List<VmTags> selectTagsByTagGroupId(@Param("tagGroupId")Long tagGroupId);
 }

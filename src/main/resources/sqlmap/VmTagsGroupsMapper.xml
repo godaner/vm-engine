@@ -218,20 +218,18 @@
         <result column="status" jdbcType="TINYINT" property="status"/>
         <result column="create_time" jdbcType="INTEGER" property="createTime"/>
         <result column="update_time" jdbcType="INTEGER" property="updateTime"/>
-        <collection property="items" column="tagId" select="com.vm.dao.mapper.VmTagsMapper.selectByPrimaryKey">
+        <collection property="items" column="id" select="com.vm.dao.mapper.VmTagsMapper.selectTagsByTagGroupId">
 
         </collection>
     </resultMap>
     <select id="getTagsGroupsWithTags" resultMap="GetTagsGroupsWithTagsMap">
-       SELECT
-            g.*, t.id tagId
+        SELECT
+            g.*
         FROM
-            vm_tags_groups g,
-            vm_tags t
+            vm_tags_groups g
         WHERE
             g.`status` = 1
-        AND t.`status` = 1
-        AND g.id = t.tag_group_id
+
 
   </select>
     <!--**************************** 自定义mapper end ****************************-->
