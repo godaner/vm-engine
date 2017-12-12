@@ -16,7 +16,7 @@ import java.util.Map;
 @Component
 @Aspect
 public class ControllerServiceAop {
-    @Pointcut("execution(* com.vm..controller..*.*(..))")
+    @Pointcut("execution(* com.vm..controller.frontend..*.*(..))")
     public void declareJoinPointExpression() {
 
 
@@ -30,7 +30,7 @@ public class ControllerServiceAop {
 
         logger.info(sb.toString());
 
-        Response response = null;
+        Response response = new Response();
         Object data = null;
         try {
             data = joinPoint.proceed();//调用执行目标方法,先執行aop在執行了responsebody
@@ -38,7 +38,6 @@ public class ControllerServiceAop {
             if(data == null){//无参数
                 return null;
             }
-            response = new Response();
 
             //如果返回值为Map或者Response的实例，代表采用ajax方式
             if(data instanceof Map){
@@ -55,6 +54,7 @@ public class ControllerServiceAop {
             response.setMsg(e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
+            e.printStackTrace();
             logger.info(sb.toString()+" ==>ERROR: "+e);
             response.setCode(VMRuntimeException.ErrorCode.UNKNOWN.getCode().intValue());
             response.setMsg(VMRuntimeException.ErrorCode.UNKNOWN.getMsg());
