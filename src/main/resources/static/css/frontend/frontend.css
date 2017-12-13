@@ -13,7 +13,8 @@
   text-decoration: none;
   outline: none;
   color: rgb(153,153,153);
-  font-size: 12px; }
+  font-size: 12px;
+  fontFamily: "Microsoft YaHei UI"; }
 
 body, html {
   width: 100%;

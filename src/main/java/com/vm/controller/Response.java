@@ -79,6 +79,15 @@ public class Response {
         this.setMsg(ResponseCode.SUCCESS.getName());
     }
 
+    @Override
+    public String toString() {
+        return "Response{" +
+                "code=" + code +
+                ", data=" + data +
+                ", msg='" + msg + '\'' +
+                '}';
+    }
+
     /**
      * <b>Title:</b>
      * <br/>

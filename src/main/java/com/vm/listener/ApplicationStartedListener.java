@@ -37,15 +37,23 @@ public class ApplicationStartedListener implements ApplicationListener<ContextRe
      */
     private void initFileDir() {
 
-        File imgDir = new File(VmProperties.VM_IMG_PATH);
-        if (!imgDir.exists()) {
-            imgDir.mkdir();
-        }
-        File movieDir = new File(VmProperties.VM_MOVIE_PATH);
-        if (!movieDir.exists()) {
-            movieDir.mkdir();
-        }
+        checkAndCreateDir(VmProperties.VM_MOVIE_IMG_PATH);
 
+        checkAndCreateDir(VmProperties.VM_MOVIE_SRC_PATH);
+
+        checkAndCreateDir(VmProperties.VM_USER_IMG_PATH);
+    }
+
+
+    /**
+     * 监测dir，如果dir不存在，那么创建
+     * @param dirPath
+     */
+    private void checkAndCreateDir(String dirPath) {
+        File dir = new File(dirPath);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
     }
 
 

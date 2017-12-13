@@ -59,10 +59,11 @@
 
         render: function () {
             var movieItems = this.props.movies.map(function (item) {
+
                 return <li className="movie_item" key={item.id}>
                     <div className="movie_img_div">
                         <a href="">
-                            <img src="/image/frontend/movie_temple.png"/>
+                            <img src={item.imgUrl}/>
                         </a>
                     </div>
                     <div className="movie_info_div">
@@ -152,11 +153,18 @@
 
 
         componentDidMount: function () {
-            this.getMovie();
+            this.getMovie(this.adjustMovieListUI);
             this.getTagGroup();
-
         },
-        getMovie(){
+        adjustMovieListUI:function (){
+            {/*设置电影列表样式*/}
+            var width = $($(".movie_img_div a img")[0]).css("width");
+
+            var height = parseInt(width)*1.5;
+            height = height.toString()+"px";
+            $(".movie_img_div a img").css("height",height)
+        },
+        getMovie(callfun){
             {/*获取电影列表*/}
             var page = this.state.movies.page;
             var size = this.state.movies.size;
@@ -169,6 +177,7 @@
                 state.movies.list = result.data.list;
                 state.movies.total = result.data.total;
                 this.setState(state);
+                callfun();
             }.bind(this));
         },
         getTagGroup(){

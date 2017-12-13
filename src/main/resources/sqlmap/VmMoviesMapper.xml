@@ -379,7 +379,7 @@
         from vm_movies m
         where m.`status` = 1
         <if test="page.orderBy != null and page.orderType != null">
-            order by #{page.orderBy} #{page.orderType}
+            order by ${page.orderBy} ${page.orderType}
         </if>
         <if test="page.start != null and page.size != null">
             limit #{page.start},#{page.size}

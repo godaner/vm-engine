@@ -4,6 +4,7 @@ import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.dao.po.CustomVmMovies;
 import com.vm.service.inf.VmMoviesService;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/movie")
+@Scope("prototype")
 public class VmMoviesController extends ServiceController<VmMoviesService> {
     /*********************************前端*********************************/
     /**
@@ -25,7 +27,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      * @return
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public @ResponseBody Object getMovies(PageBean page , VmMoviesQueryBean query) {
+    public @ResponseBody Object getMovies(PageBean page , VmMoviesQueryBean query)  throws Exception {
         Long total = service.getMoviesCount(page,query);
         List<CustomVmMovies> list = service.getMovies(page,query);
         response.putData("list", list);
@@ -34,7 +36,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public @ResponseBody Object getMovie() {
+    public @ResponseBody Object getMovie() throws Exception  {
         return response;
     }
 
