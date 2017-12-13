@@ -101,21 +101,35 @@
     var MovieTagGroup = React.createClass({
         render: function () {
 //            console.info(this.props.movieTagGroupId);
+//            c(this.props.selectedTagGroupIds);
+//            c(this.props.selectedTagIds);
+
+            var tagGroupStyleClass = "currt";
+            if(!this.props.selectedTagGroupIds.contains(this.props.movieTagGroupId)){
+                tagGroupStyleClass = "";
+            }
             return (
                     <div id={this.props.movieTagGroupId} className="type_item">
                         <label>
                             {this.props.movieTagGroupName}:
                         </label>
                         <ul>
-                            <li onClick={()=>{this.props.handleClickTagGroup(this.props.movieTagGroupId)}} className="currt">
+                            <li onClick={()=>{this.props.handleClickTagGroup(this.props.movieTagGroupId)}} className={tagGroupStyleClass}>
                                 <a href="javascript:void(0);">
                                     全部
                                 </a>
                             </li>
                             {
                                 this.props.movieTags.map(function (item) {
+
+                                    var tagStyleClass = "currt";
+//                                    c(this.props.selectedTagIds);
+                                    if(!this.props.selectedTagIds.contains(item.id)){
+                                        tagStyleClass = "";
+                                    }
+
                                     return (
-                                            <li onClick={()=>{this.props.handleClickTag(item.id)}} className="currt">
+                                            <li onClick={()=>{this.props.handleClickTag(item.id)}} className={tagStyleClass}>
                                                 <a key={item.id} id={item.id} href="#">
                                                     {item.name}
                                                 </a>
@@ -139,6 +153,8 @@
                             this.props.movieTagGroup.map(function (item) {
                                 return (
                                         <MovieTagGroup key={item.id}
+                                                       selectedTagGroupIds={this.props.selectedTagGroupIds}
+                                                       selectedTagIds={this.props.selectedTagIds}
                                                        handleClickTag={this.props.handleClickTag}
                                                        handleClickTagGroup={this.props.handleClickTagGroup}
                                                        movieTagGroupId={item.id}
@@ -264,11 +280,13 @@
 
         },
         handleClickTagGroup:function(tagGroupId){
+            c("handleClickTagGroup");
             if(!this.state.movies.selectedTagGroupIds.contains(tagGroupId)){
                 this.state.movies.selectedTagGroupIds.push(tagGroupId);
             }
         },
         handleClickTag:function(tagId){
+            c("handleClickTag");
             if(!this.state.movies.selectedTagIds.contains(tagId)){
                 this.state.movies.selectedTagIds.push(tagId);
             }
@@ -299,7 +317,11 @@
                         <div id="movie_type_div">
 
                             {/*电影标签列表*/}
-                            <MovieTagGroupList handleClickTag={this.handleClickTag} handleClickTagGroup={this.handleClickTagGroup} movieTagGroup={this.state.movieTagGroup}/>
+                            <MovieTagGroupList selectedTagIds={this.state.movies.selectedTagIds}
+                                               selectedTagGroupIds={this.state.movies.selectedTagGroupIds}
+                                               handleClickTag={this.handleClickTag}
+                                               handleClickTagGroup={this.handleClickTagGroup}
+                                               movieTagGroup={this.state.movieTagGroup}/>
                         </div>
                         <div id="movie_list_div">
                             <div id="head">
