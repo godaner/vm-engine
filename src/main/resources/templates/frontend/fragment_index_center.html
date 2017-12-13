@@ -155,6 +155,13 @@
         componentDidMount: function () {
             this.getMovie(this.adjustMovieListUI);
             this.getTagGroup();
+            window.addEventListener('resize', this.onWindowResize)
+        },
+        componentWillUnmount:function() {
+            window.removeEventListener('resize', this.onWindowResize)
+        },
+        onWindowResize:function () {
+            this.adjustMovieListUI();
         },
         adjustMovieListUI:function (){
             {/*设置电影列表样式*/}
@@ -166,13 +173,26 @@
         },
         getMovie(){
             {/*获取电影列表*/}
-            var page = this.state.movies.page;
-            var size = this.state.movies.size;
-            var orderBy = this.state.movies.orderBy;
-            var orderType = this.state.movies.orderType;
+            var movies = this.state.movies;
+            var page = movies.page;
+            var size = movies.size;
+            var orderBy = movies.orderBy;
+            var orderType = movies.orderType;
+            var selectedTagIds = movies.selectedTagIds;
+            var selectedGroupIds = movies.selectedGroupIds;
             var start = (page-1)*size;
-            var url = this.props.movieSource + "?start="+start+"&size="+size+"&orderBy="+orderBy+"&orderType="+orderType;
-            this.serverRequest = $.get(url , function (result) {
+            var param = {
+                page: 1,
+                size: size,
+                orderBy: orderBy,
+                orderType: orderType,
+                selectedTagIds: selectedTagIds,
+                selectedGroupIds: selectedGroupIds,
+                start: start
+            };
+
+//            var url = this.props.movieSource + "?start="+start+"&size="+size+"&orderBy="+orderBy+"&orderType="+orderType;
+            this.serverRequest = $.get(this.props.movieSource ,param, function (result) {
                 var state = this.state;
                 state.movies.list = result.data.list;
                 state.movies.total = result.data.total;
@@ -212,7 +232,7 @@
 
 
             var orderByOptions = [{id:"score",name:"最高评分"},{id:"watch_num",name:"最多播放"},{id:"release_time",name:"最新上映"}];
-            var state = {movieTagGroup: [], movies: {total: 0, list: [], page: 1, size: 10,orderBy:"score",orderType:"desc"},orderByOptions:orderByOptions};
+            var state = {movieTagGroup: [], movies: {selectedGroupIds:[],selectedTagIds:[],total: 0, list: [], page: 1, size: 10,orderBy:"score",orderType:"desc"},orderByOptions:orderByOptions};
 
             return state;
 
