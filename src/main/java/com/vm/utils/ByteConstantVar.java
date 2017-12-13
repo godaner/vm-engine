@@ -1,4 +1,4 @@
-package com.vm.base.utils;
+package com.vm.utils;
 
 /**
  * Created by ZhangKe on 2017/11/30.

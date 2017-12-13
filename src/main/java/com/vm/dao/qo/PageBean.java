@@ -1,4 +1,4 @@
-package com.vm.base.utils;
+package com.vm.dao.qo;
 
 import com.alibaba.fastjson.JSONObject;
 

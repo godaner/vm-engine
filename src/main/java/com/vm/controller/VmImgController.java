@@ -1,6 +1,6 @@
 package com.vm.controller;
 
-import com.vm.base.utils.VmProperties;
+import com.vm.utils.VmProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +23,7 @@ public class VmImgController extends BaseController{
     public void getImg(@PathVariable("id") String id) {
         System.out.println(id);
         System.out.println();
-        
+
         File img = new File(VmProperties.VM_IMG_PATH + File.separator+id+".png");
 
     }

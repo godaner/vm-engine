@@ -1,4 +1,4 @@
-package com.vm.base.utils;
+package com.vm.utils;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -11,8 +11,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class VmProperties {
 
-    @Value("${vm.img.path}")
     public static String VM_IMG_PATH;
-    @Value("${vm.movie.path}")
     public static String VM_MOVIE_PATH;
+
+
+
+    @Value("${vm.img.path}")
+    public void setVmImgPath(String vmImgPath) {
+        VM_IMG_PATH = vmImgPath;
+    }
+
+
+    @Value("${vm.movie.path}")
+    public void setVmMoviePath(String vmMoviePath) {
+        VM_MOVIE_PATH = vmMoviePath;
+    }
 }

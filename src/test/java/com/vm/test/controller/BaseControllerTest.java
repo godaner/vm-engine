@@ -2,7 +2,7 @@ package com.vm.test.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.vm.BootApp;
-import com.vm.base.utils.PageBean;
+import com.vm.dao.qo.PageBean;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,8 +17,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

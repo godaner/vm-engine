@@ -1,4 +1,4 @@
-package com.vm.dao.bo;
+package com.vm.dao.qo;
 
 import com.vm.dao.po.VmMovies;
 

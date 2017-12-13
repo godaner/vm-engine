@@ -1,4 +1,4 @@
-package com.vm.base.utils;
+package com.vm.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;

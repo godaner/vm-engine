@@ -1,11 +1,9 @@
 package com.vm.service.impl;
 
-import com.vm.base.utils.PageBean;
-import com.vm.dao.bo.VmMoviesQueryBean;
+import com.vm.dao.qo.PageBean;
+import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.dao.mapper.VmMoviesMapper;
 import com.vm.dao.po.CustomVmMovies;
-import com.vm.dao.po.VmMovies;
-import com.vm.dao.po.VmMoviesExample;
 import com.vm.service.inf.VmMoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

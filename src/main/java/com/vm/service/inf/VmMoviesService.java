@@ -1,9 +1,8 @@
 package com.vm.service.inf;
 
-import com.vm.base.utils.PageBean;
-import com.vm.dao.bo.VmMoviesQueryBean;
+import com.vm.dao.qo.PageBean;
+import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.dao.po.CustomVmMovies;
-import com.vm.dao.po.VmMovies;
 
 import java.util.List;
 
