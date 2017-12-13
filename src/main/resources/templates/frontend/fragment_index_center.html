@@ -40,13 +40,12 @@
     /*电影展示-演员展示*/
     var ActorsList = React.createClass({
         render: function () {
+
             return (
                     <ul >
                         <li>主演：</li>
                         {
-
-                            this.props.actors.map(function (item, index) {
-
+                            this.props.actors.map((item,index)=>{
                                 return <li key={item.id}><a href="">{item.name}</a>&nbsp;</li>;
                             })
                         }
@@ -68,19 +67,24 @@
                     </div>
                     <div className="movie_info_div">
                         <div>
-                            <a className="movie_name_a" href="">{item.movieName}</a>
+                            <a className="movie_name_a" href="">{item.name}</a>
 
                         </div>
                         <div className="movie_actor_list_div">
 
-
                             <ActorsList actors={item.actors}/>
+                        </div>
 
+
+                        <div>
+                            导演：<a  href="">{item.director.name}</a>
+                        </div>
+                        <div>
+                            评分：{item.score}
                         </div>
 
                         <div>
-                            <a className="movie_play_num_a" href="">{item.playNum}</a>次播放
-
+                            播放：{item.watchNum}次
                         </div>
                     </div>
 
@@ -197,7 +201,8 @@
 //            }
 
 
-            var state = {movieTagGroup: [], movies: {total: 0, list: [], page: 1, size: 10,orderBy:"id",orderType:"desc"}};
+            var orderByOptions = [{id:"score",name:"最高评分"},{id:"watch_num",name:"最多播放"},{id:"release_time",name:"最新上映"}];
+            var state = {movieTagGroup: [], movies: {total: 0, list: [], page: 1, size: 10,orderBy:"score",orderType:"desc"},orderByOptions:orderByOptions};
 
             return state;
 
@@ -242,15 +247,21 @@
                                 <span id="sort_div">
                                     <ul id="sort_ways">
                                         <label>排序：</label>
-                                        <li className="currt">
-                                            <a href="javascript:void(0);" onClick={()=>{this.sortMovie("watchNum")}}>最多播放</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0);" onClick={()=>{this.sortMovie("score")}}>最高评分</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0);" onClick={()=>{this.sortMovie("releaseTime")}}>最新上映</a>
-                                        </li>
+
+                                        {
+                                            this.state.orderByOptions.map((item,index)=>{
+                                                var clsName = "";
+                                                if(item.id == this.state.movies.orderBy){
+                                                    clsName = "currt";
+                                                }
+
+                                                return <li key={item.id} className={clsName}>
+                                                    <a href="javascript:void(0);" onClick={()=>{this.sortMovie(item.id)}}>{item.name}</a>
+                                                </li>;
+                                            })
+                                        }
+
+
                                     </ul>
                                 </span>
                                 <span id="total_div">

@@ -1,13 +1,12 @@
 package com.vm.dao.qo;
 
-import com.alibaba.fastjson.JSONObject;
 
 
 public class PageBean {
-    Integer start;
-    Integer size;
-    String orderBy;
-    String orderType;
+    private Integer start;
+    private Integer size;
+    private String orderBy;
+    private String orderType;
 
     public Integer getStart() {
         return start;
