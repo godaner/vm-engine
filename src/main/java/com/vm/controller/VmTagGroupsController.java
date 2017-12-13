@@ -14,7 +14,7 @@ import java.util.List;
  * Created by ZhangKe on 2017/12/11.
  */
 @Controller
-@RequestMapping("/tagGroups")
+@RequestMapping("/tagGroup")
 public class VmTagGroupsController extends ServiceController<VmTagsService> {
     /*********************************前端*********************************/
     /**

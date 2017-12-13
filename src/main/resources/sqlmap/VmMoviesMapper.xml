@@ -368,9 +368,9 @@
         <result column="status" jdbcType="TINYINT" property="status"/>
         <result column="create_time" jdbcType="INTEGER" property="createTime"/>
         <result column="update_time" jdbcType="INTEGER" property="updateTime"/>
-        <association property="director" column="id" select="com.vm.dao.mapper.VmFilmmakersMapper.selectByPrimaryKey">
+        <association property="director" column="director_id" select="com.vm.dao.mapper.VmFilmmakersMapper.selectByPrimaryKey">
         </association>
-        <collection property="actors" column="id" select="com.vm.dao.mapper.VmFilmmakersMapper.selectByPrimaryKey">
+        <collection property="actors" column="id" select="com.vm.dao.mapper.VmFilmmakersMapper.selectActorsByMovieId">
         </collection>
 
     </resultMap>

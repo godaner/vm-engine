@@ -27,4 +27,8 @@ public interface VmFilmmakersMapper {
     int updateByPrimaryKeySelective(VmFilmmakers record);
 
     int updateByPrimaryKey(VmFilmmakers record);
+
+
+    VmFilmmakers selectActorsByMovieId(@Param("movieId") Long movieId);
+
 }

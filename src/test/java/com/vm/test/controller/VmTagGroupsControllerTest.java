@@ -11,7 +11,7 @@ public class VmTagGroupsControllerTest extends BaseControllerTest{
     @Test
     public void getTagsGroupsWithTags(){
 
-        String url = getLocalHost()+"/tagGroups/list";
+        String url = getLocalHost()+"/tagGroup/list";
 
 //        String result = rt.postForObject(url, entity, String.class);
         String result = rt.getForObject(url, String.class);

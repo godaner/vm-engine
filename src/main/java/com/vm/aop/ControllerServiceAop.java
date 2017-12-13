@@ -1,4 +1,4 @@
-package com.vm.base.aop;
+package com.vm.aop;
 
 import com.vm.base.utils.Response;
 import com.vm.service.exception.VmRuntimeException;

@@ -148,38 +148,56 @@
 
 
         componentDidMount: function () {
-            this.serverRequest = $.get(this.props.source, function (result) {
+            this.getMovie();
+            this.getTagGroup();
+
+        },
+        getMovie(){
+            {/*获取电影列表*/}
+            var page = this.state.movies.page;
+            var size = this.state.movies.size;
+            var orderBy = this.state.movies.orderBy;
+            var orderType = this.state.movies.orderType;
+            var start = (page-1)*size;
+            var url = this.props.movieSource + "?start="+start+"&size="+size+"&orderBy="+orderBy+"&orderType="+orderType;
+            this.serverRequest = $.get(url , function (result) {
                 var state = this.state;
-                c("asddddddddd");
-                c(state);
-                c("asddddddddd");
+                state.movies.list = result.data.list;
+                state.movies.total = result.data.total;
+                this.setState(state);
+            }.bind(this));
+        },
+        getTagGroup(){
+            {/*获取电影标签分组*/}
+            this.serverRequest = $.get(this.props.tagGroupSource, function (result) {
+                var state = this.state;
                 state.movieTagGroup = result.data.list;
                 this.setState(state);
             }.bind(this));
         },
         getInitialState: function () {
-            var movieTagGroup = [{
-                id: 1,
-                name: '地区',
-                items: [{id: 1, name: '大四川'}]
-            }, {
-                id: 2122,
-                name: '类型',
-                items: [{id: 1, name: '小惊悚'}]
-            }];
+//            var movieTagGroup = [{
+//                id: 1,
+//                name: '地区',
+//                items: [{id: 1, name: '大四川'}]
+//            }, {
+//                id: 2122,
+//                name: '类型',
+//                items: [{id: 1, name: '小惊悚'}]
+//            }];
+//
+//            var movies = [];
+//            for (var i = 0; i < 11; i++) {
+//                movies.push({
+//                    id: i,
+//                    movieName: '海绵宝宝',
+//                    actors: [{id: '1', name: '刘德华1'}, {id: '2', name: '刘德华2'}],
+//                    playNum: 666
+//                });
+//            }
 
-            var movies = [];
-            for (var i = 0; i < 11; i++) {
-                movies.push({
-                    id: i,
-                    movieName: '海绵宝宝',
-                    actors: [{id: '1', name: '刘德华1'}, {id: '2', name: '刘德华2'}],
-                    playNum: 666
-                });
-            }
 
-
-            var state = {movieTagGroup: movieTagGroup, movies: {total: 99, list: movies, page: 1, size: 10}};
+            var state = {movieTagGroup: [], movies: {total: 0, list: [], page: 1, size: 10,orderBy:"id",orderType:"desc"}};
 
             return state;
 
@@ -203,6 +221,14 @@
             state.movies.page = newPage;
             this.setState(state);
         },
+        sortMovie(orderBy){
+            //更新page
+            c(orderBy);
+            var state = this.state;
+            state.movies.orderBy = orderBy;
+            this.setState(state);
+            this.getMovie();
+        },
         render: function () {
             return (
                     <div id="fragment_index_center_content">
@@ -217,19 +243,13 @@
                                     <ul id="sort_ways">
                                         <label>排序：</label>
                                         <li className="currt">
-                                            <a href="#">最多播放</a>
+                                            <a href="javascript:void(0);" onClick={()=>{this.sortMovie("watchNum")}}>最多播放</a>
                                         </li>
                                         <li>
-                                            <a href="#">最高评分</a>
+                                            <a href="javascript:void(0);" onClick={()=>{this.sortMovie("score")}}>最高评分</a>
                                         </li>
                                         <li>
-                                            <a href="#">最高评分</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">最高评分</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">最高评分</a>
+                                            <a href="javascript:void(0);" onClick={()=>{this.sortMovie("releaseTime")}}>最新上映</a>
                                         </li>
                                     </ul>
                                 </span>
@@ -259,7 +279,7 @@
     /**
      *节点挂载
      */
-    ReactDOM.render(<IndexCenter source="/tagGroups/list"/>,
+    ReactDOM.render(<IndexCenter tagGroupSource="/tagGroup/list" movieSource="/movie/list"/>,
         document.getElementById('react_dom_index_center'));
 
 </script>
