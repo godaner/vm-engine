@@ -107,7 +107,7 @@
                             {this.props.movieTagGroupName}:
                         </label>
                         <ul>
-                            <li className="currt">
+                            <li onClick={()=>{this.props.handleClickTagGroup(this.props.movieTagGroupId)}} className="currt">
                                 <a href="javascript:void(0);">
                                     全部
                                 </a>
@@ -115,13 +115,13 @@
                             {
                                 this.props.movieTags.map(function (item) {
                                     return (
-                                            <li>
+                                            <li onClick={()=>{this.props.handleClickTag(item.id)}} className="currt">
                                                 <a key={item.id} id={item.id} href="#">
                                                     {item.name}
                                                 </a>
                                             </li>
                                     );
-                                })
+                                }.bind(this))
                             }
 
 
@@ -137,13 +137,15 @@
                     <div>
                         {
                             this.props.movieTagGroup.map(function (item) {
-
                                 return (
-                                        <MovieTagGroup key={item.id} movieTagGroupId={item.id}
+                                        <MovieTagGroup key={item.id}
+                                                       handleClickTag={this.props.handleClickTag}
+                                                       handleClickTagGroup={this.props.handleClickTagGroup}
+                                                       movieTagGroupId={item.id}
                                                        movieTagGroupName={item.name}
                                                        movieTags={item.items}/>
                                 );
-                            })
+                            }.bind(this))
                         }
                     </div>
             );
@@ -197,7 +199,8 @@
                 state.movies.list = result.data.list;
                 state.movies.total = result.data.total;
                 this.setState(state);
-                //调整ui
+
+                //adjust movie list ui
                 this.adjustMovieListUI();
             }.bind(this));
         },
@@ -206,7 +209,21 @@
             this.serverRequest = $.get(this.props.tagGroupSource, function (result) {
                 var state = this.state;
                 state.movieTagGroup = result.data.list;
+
+                //collect movies tags groups to collection
+                var selectedTagGroupIds = [];
+
+                for(var i = 0;i<state.movieTagGroup.length;i++){
+                    selectedTagGroupIds.push(state.movieTagGroup[i].id);
+                }
+                state.movies.selectedTagGroupIds = selectedTagGroupIds;
+
+                //selectedIds default is null
+
+                state.movies.selectedTagIds = [];
+
                 this.setState(state);
+//                c(state);
             }.bind(this));
         },
         getInitialState: function () {
@@ -232,7 +249,7 @@
 
 
             var orderByOptions = [{id:"score",name:"最高评分"},{id:"watch_num",name:"最多播放"},{id:"release_time",name:"最新上映"}];
-            var state = {movieTagGroup: [], movies: {selectedGroupIds:[],selectedTagIds:[],total: 0, list: [], page: 1, size: 10,orderBy:"score",orderType:"desc"},orderByOptions:orderByOptions};
+            var state = {movieTagGroup: [], movies: {selectedTagGroupIds:[],selectedTagIds:[],total: 0, list: [], page: 1, size: 10,orderBy:"score",orderType:"desc"},orderByOptions:orderByOptions};
 
             return state;
 
@@ -245,6 +262,16 @@
             this.handlePageChange(1);
 
 
+        },
+        handleClickTagGroup:function(tagGroupId){
+            if(!this.state.movies.selectedTagGroupIds.contains(tagGroupId)){
+                this.state.movies.selectedTagGroupIds.push(tagGroupId);
+            }
+        },
+        handleClickTag:function(tagId){
+            if(!this.state.movies.selectedTagIds.contains(tagId)){
+                this.state.movies.selectedTagIds.push(tagId);
+            }
         },
         handlePageChange(movePage){
             var newPage = this.state.movies.page + movePage;
@@ -272,7 +299,7 @@
                         <div id="movie_type_div">
 
                             {/*电影标签列表*/}
-                            <MovieTagGroupList movieTagGroup={this.state.movieTagGroup}/>
+                            <MovieTagGroupList handleClickTag={this.handleClickTag} handleClickTagGroup={this.handleClickTagGroup} movieTagGroup={this.state.movieTagGroup}/>
                         </div>
                         <div id="movie_list_div">
                             <div id="head">
