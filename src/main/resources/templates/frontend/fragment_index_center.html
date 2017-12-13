@@ -164,7 +164,7 @@
             height = height.toString()+"px";
             $(".movie_img_div a img").css("height",height)
         },
-        getMovie(callfun){
+        getMovie(){
             {/*获取电影列表*/}
             var page = this.state.movies.page;
             var size = this.state.movies.size;
@@ -177,7 +177,8 @@
                 state.movies.list = result.data.list;
                 state.movies.total = result.data.total;
                 this.setState(state);
-                callfun();
+                //调整ui
+                this.adjustMovieListUI();
             }.bind(this));
         },
         getTagGroup(){
@@ -227,17 +228,19 @@
         },
         handlePageChange(movePage){
             var newPage = this.state.movies.page + movePage;
-            if (newPage <= 0 || newPage > (this.state.movies.total / this.state.movies.size)) {
+//            c(this.state.movies.total-(this.state.movies.size*(newPage-1))<=0);
+            if (newPage <= 0 || this.state.movies.total-(this.state.movies.size*(newPage-1))<=0) {
                 return;
             }
             //更新page
             var state = this.state;
             state.movies.page = newPage;
             this.setState(state);
+            this.getMovie();
         },
         sortMovie(orderBy){
             //更新page
-            c(orderBy);
+//            c(orderBy);
             var state = this.state;
             state.movies.orderBy = orderBy;
             this.setState(state);
