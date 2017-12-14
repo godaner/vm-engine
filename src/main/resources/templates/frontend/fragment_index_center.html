@@ -263,9 +263,9 @@
         },
         handleClickTag:function(selectedTagId,selectedTagGroupId){
 
-            c("handleClickTag");
-            c(selectedTagId);
-            c(selectedTagGroupId);
+//            c("handleClickTag");
+//            c(selectedTagId);
+//            c(selectedTagGroupId);
             var groups = this.state.movieTagGroup;
             if(selectedTagId==undefined){
                 {/*单纯选择某个标签组*/}
@@ -350,8 +350,8 @@
                                                     clsName = "currt";
                                                 }
 
-                                                return <li key={item.id} className={clsName}>
-                                                    <a href="javascript:void(0);" onClick={()=>{this.sortMovie(item.id)}}>{item.name}</a>
+                                                return <li key={item.id} onClick={()=>{this.sortMovie(item.id)}} className={clsName} >
+                                                    <a href="javascript:void(0);" >{item.name}</a>
                                                 </li>;
                                             })
                                         }
