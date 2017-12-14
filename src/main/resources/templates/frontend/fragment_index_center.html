@@ -100,13 +100,9 @@
     /*一组电影tag*/
     var MovieTagGroup = React.createClass({
         render: function () {
-//            console.info(this.props.movieTagGroupId);
-//            c(this.props.selectedTagGroupIds);
-//            c(this.props.selectedTagIds);
-
             var tagGroupStyleClass = "currt";
-            if(!this.props.selectedTagGroupIds.contains(this.props.movieTagGroupId)){
-                tagGroupStyleClass = "";
+            if(this.props.selected == undefined || this.props.selected==false){
+                tagGroupStyleClass="";
             }
             return (
                     <div id={this.props.movieTagGroupId} className="type_item">
@@ -114,22 +110,19 @@
                             {this.props.movieTagGroupName}:
                         </label>
                         <ul>
-                            <li onClick={()=>{this.props.handleClickTagGroup(this.props.movieTagGroupId)}} className={tagGroupStyleClass}>
+                            <li onClick={()=>{this.props.handleClickTag(undefined,this.props.movieTagGroupId)}} className={tagGroupStyleClass}>
                                 <a href="javascript:void(0);">
                                     全部
                                 </a>
                             </li>
                             {
                                 this.props.movieTags.map(function (item) {
-
                                     var tagStyleClass = "currt";
-//                                    c(this.props.selectedTagIds);
-                                    if(!this.props.selectedTagIds.contains(item.id)){
-                                        tagStyleClass = "";
+                                    if(item.selected == undefined || item.selected==false){
+                                        tagStyleClass="";
                                     }
-
                                     return (
-                                            <li onClick={()=>{this.props.handleClickTag(item.id)}} className={tagStyleClass}>
+                                            <li onClick={()=>{this.props.handleClickTag(item.id,this.props.movieTagGroupId)}} className={tagStyleClass}>
                                                 <a key={item.id} id={item.id} href="#">
                                                     {item.name}
                                                 </a>
@@ -153,12 +146,10 @@
                             this.props.movieTagGroup.map(function (item) {
                                 return (
                                         <MovieTagGroup key={item.id}
-                                                       selectedTagGroupIds={this.props.selectedTagGroupIds}
-                                                       selectedTagIds={this.props.selectedTagIds}
                                                        handleClickTag={this.props.handleClickTag}
-                                                       handleClickTagGroup={this.props.handleClickTagGroup}
                                                        movieTagGroupId={item.id}
                                                        movieTagGroupName={item.name}
+                                                       selected={item.selected}
                                                        movieTags={item.items}/>
                                 );
                             }.bind(this))
@@ -196,16 +187,12 @@
             var size = movies.size;
             var orderBy = movies.orderBy;
             var orderType = movies.orderType;
-            var selectedTagIds = movies.selectedTagIds;
-            var selectedGroupIds = movies.selectedGroupIds;
             var start = (page-1)*size;
             var param = {
                 page: 1,
                 size: size,
                 orderBy: orderBy,
                 orderType: orderType,
-                selectedTagIds: selectedTagIds,
-                selectedGroupIds: selectedGroupIds,
                 start: start
             };
 
@@ -226,17 +213,12 @@
                 var state = this.state;
                 state.movieTagGroup = result.data.list;
 
-                //collect movies tags groups to collection
-                var selectedTagGroupIds = [];
+                //default select tag group id
 
                 for(var i = 0;i<state.movieTagGroup.length;i++){
-                    selectedTagGroupIds.push(state.movieTagGroup[i].id);
+                    var g = state.movieTagGroup[i];
+                    g.selected = true;
                 }
-                state.movies.selectedTagGroupIds = selectedTagGroupIds;
-
-                //selectedIds default is null
-
-                state.movies.selectedTagIds = [];
 
                 this.setState(state);
 //                c(state);
@@ -265,7 +247,7 @@
 
 
             var orderByOptions = [{id:"score",name:"最高评分"},{id:"watch_num",name:"最多播放"},{id:"release_time",name:"最新上映"}];
-            var state = {movieTagGroup: [], movies: {selectedTagGroupIds:[],selectedTagIds:[],total: 0, list: [], page: 1, size: 10,orderBy:"score",orderType:"desc"},orderByOptions:orderByOptions};
+            var state = {movieTagGroup: [], movies: {total: 0, list: [], page: 1, size: 10,orderBy:"score",orderType:"desc"},orderByOptions:orderByOptions};
 
             return state;
 
@@ -279,17 +261,52 @@
 
 
         },
-        handleClickTagGroup:function(tagGroupId){
-            c("handleClickTagGroup");
-            if(!this.state.movies.selectedTagGroupIds.contains(tagGroupId)){
-                this.state.movies.selectedTagGroupIds.push(tagGroupId);
-            }
-        },
-        handleClickTag:function(tagId){
+        handleClickTag:function(selectedTagId,selectedTagGroupId){
+
             c("handleClickTag");
-            if(!this.state.movies.selectedTagIds.contains(tagId)){
-                this.state.movies.selectedTagIds.push(tagId);
+            c(selectedTagId);
+            c(selectedTagGroupId);
+            var groups = this.state.movieTagGroup;
+            if(selectedTagId==undefined){
+                {/*单纯选择某个标签组*/}
+                for (var i=0;i<groups.length;i++) {
+                    var g = groups[i];
+                    if(g.id == selectedTagGroupId){
+                        g.selected = true;
+                        for(var j = 0;j<g.items.length;j++){
+                            var tag = g.items[j];
+                            tag.selected = false;
+                        }
+                    }
+                }
+            }else{
+                {/*选择某个标签组下的某个标签*/}
+                for (var i=0;i<groups.length;i++) {
+                    var g = groups[i];
+                    if (g.id == selectedTagGroupId) {
+                        g.selected = false;
+                        {/*找到指定标签组*/}
+                        for(var j = 0;j<g.items.length;j++){
+                            var tag = g.items[j];
+                            if(selectedTagId == tag.id){
+                                tag.selected = true;
+                            }else{
+                                tag.selected = false;
+                            }
+                        }
+                        break;
+                    }
+                }
+
             }
+
+            //replace state
+            var state = this.state;
+            state.movieTagGroup = groups;
+
+            this.setState(state);
+            c(this.state);
+
         },
         handlePageChange(movePage){
             var newPage = this.state.movies.page + movePage;
@@ -317,10 +334,7 @@
                         <div id="movie_type_div">
 
                             {/*电影标签列表*/}
-                            <MovieTagGroupList selectedTagIds={this.state.movies.selectedTagIds}
-                                               selectedTagGroupIds={this.state.movies.selectedTagGroupIds}
-                                               handleClickTag={this.handleClickTag}
-                                               handleClickTagGroup={this.handleClickTagGroup}
+                            <MovieTagGroupList handleClickTag={this.handleClickTag}
                                                movieTagGroup={this.state.movieTagGroup}/>
                         </div>
                         <div id="movie_list_div">
