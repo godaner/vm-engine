@@ -46,6 +46,7 @@
           & > a {
             font-size: 12px;
           }
+          transition: all 500ms;
           &:hover {
             background-color: unquote($defaultBlueRgb);
             border-radius: 99px;
@@ -84,6 +85,8 @@
             padding: 2px 5px;
             display: inline;
             cursor: pointer;
+
+            transition: all 500ms;
             &:hover {
               background-color: unquote($defaultBlueRgb);
               border-radius: 99px;
@@ -139,6 +142,8 @@
           border:1px solid unquote($defaultBlueRgb);
 
           //margin-left: 0px;
+
+          transition: all 500ms;
           &:hover {
             background-color: unquote($defaultBlueRgb);
             color: white;
@@ -203,8 +208,14 @@
             div.movie_actor_list_div {
               @include defaultHUl;
             }
-            a:hover {
-              color: red;
+            a{
+
+              transition: all 500ms;
+              &:hover {
+                font-weight: bold;
+                text-shadow:2px 2px 1px rgba(0,0,0,0.3);
+                color: red;
+              }
             }
 
           }
@@ -234,6 +245,7 @@
               display: block;
               @include defaultSize;
             }
+            transition: all 500ms;
             &:hover {
               background-color: unquote($defaultBlueRgb);
               a {

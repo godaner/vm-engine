@@ -1,0 +1,47 @@
+@charset "UTF-8";
+/* 一般用于div居中
+ * $marginPercent：距离左右的距离
+ */
+/*水平ul*/
+.clear {
+  clear: both; }
+
+#fragment_msg_dialog_content {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.8); }
+  #fragment_msg_dialog_content #dialog {
+    width: 500px;
+    height: 300px;
+    background-color: rgb(241,242,243);
+    border-radius: 5px;
+    padding: 20px; }
+    #fragment_msg_dialog_content #dialog * {
+      color: black; }
+    #fragment_msg_dialog_content #dialog > div {
+      width: 100%; }
+    #fragment_msg_dialog_content #dialog #head {
+      height: 35px;
+      line-height: 35px;
+      border-bottom: 1px solid black; }
+      #fragment_msg_dialog_content #dialog #head > div {
+        font-size: 18px;
+        float: left;
+        width: 50%; }
+      #fragment_msg_dialog_content #dialog #head div#close {
+        cursor: pointer;
+        text-align: right;
+        font-weight: bold;
+        transition: font-size 100ms; }
+        #fragment_msg_dialog_content #dialog #head div#close:hover {
+          color: red;
+          font-size: 20px; }
+    #fragment_msg_dialog_content #dialog #body {
+      padding-top: 10px; }
+
+/*# sourceMappingURL=fragment_msg_dialog.css.map */

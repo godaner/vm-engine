@@ -1,0 +1,53 @@
+@import "frontend-default.scss";
+
+#fragment_msg_dialog_content {
+  display: none;
+  @include defaultSize;
+  position: fixed;
+  top:0px;
+  left:0px;
+  z-index: 9999;
+  background-color: rgba(0,0,0,0.8);
+  //overflow: hidden;
+  #dialog{
+    width: 500px;
+    height: 300px;
+    background-color: unquote($defaultLightGrayRgb);
+    border-radius: 5px;
+    padding: 20px;
+    *{
+      color: black;
+    }
+    &>div{
+      @include defaultWidth;
+    }
+    $head_height:35px;
+    #head{
+      height:$head_height;
+      line-height:$head_height ;
+      border-bottom: 1px solid black;
+      &>div{
+        font-size: 18px;
+        float: left;
+        width: 50%;
+      }
+
+
+      div#close{
+        cursor: pointer;
+        text-align: right;
+        font-weight: bold;
+        //渐变
+        transition: font-size 100ms;
+        &:hover{
+          color: red;
+          font-size: 20px;
+        }
+      }
+    }
+    #body{
+      padding-top: 10px;
+    }
+  }
+}
+

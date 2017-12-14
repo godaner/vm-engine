@@ -37,7 +37,8 @@
           margin: 0px 5px;
           padding: 2px 5px;
           cursor: pointer;
-          display: inline; }
+          display: inline;
+          transition: all 500ms; }
           #fragment_index_center_content #movie_type_div .type_item ul li > a {
             font-size: 12px; }
           #fragment_index_center_content #movie_type_div .type_item ul li:hover {
@@ -68,7 +69,8 @@
             margin: 0px 5px;
             padding: 2px 5px;
             display: inline;
-            cursor: pointer; }
+            cursor: pointer;
+            transition: all 500ms; }
             #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover {
               background-color: rgb(61,158,255);
               border-radius: 99px; }
@@ -108,7 +110,8 @@
           /*省略所有浏览器前缀*/
           box-sizing: border-box;
           cursor: pointer;
-          border: 1px solid rgb(61,158,255); }
+          border: 1px solid rgb(61,158,255);
+          transition: all 500ms; }
           #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn:hover {
             background-color: rgb(61,158,255);
             color: white; }
@@ -151,8 +154,12 @@
               #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul li {
                 width: auto;
                 display: inline-block; }
-            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a:hover {
-              color: red; }
+            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a {
+              transition: all 500ms; }
+              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a:hover {
+                font-weight: bold;
+                text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3);
+                color: red; }
       #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div {
         margin: 80px 0px;
         width: 100%;
@@ -170,7 +177,8 @@
           border: 1px solid rgb(241,242,243);
           height: auto;
           cursor: pointer;
-          text-align: left; }
+          text-align: left;
+          transition: all 500ms; }
           #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li a {
             padding: 8px 15px;
             display: block;
