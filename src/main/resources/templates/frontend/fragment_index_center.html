@@ -187,11 +187,19 @@
             var movies = this.state.movies;
             var page = movies.page;
             var size = movies.size;
-            var orderBy = movies.orderBy;
             var orderType = movies.orderType;
             var start = (page-1)*size;
 
-            {/*collect selected tag group ids and tags id*/}
+            {/*collect param => orderBy*/}
+            var orderBy;
+            for(var i = 0;i<this.state.orderByOptions.length;i++){
+                if(this.state.orderByOptions[i].selected){
+                    orderBy = this.state.orderByOptions[i].id;
+                    break;
+                }
+            }
+
+            {/*collect param => selected tag group ids and tags id*/}
             var tagGroupIds = [];
             var tagIds = [];
             for(var i = 0;i<this.state.movieTagGroup.length;i++){
@@ -208,22 +216,10 @@
                 }
             }
 
-//            var param = {
-//                page: 1,
-//                size: size,
-//                orderBy: orderBy,
-//                orderType: orderType,
-//                start: start,
-//                tagGroupIds:tagGroupIds,
-//                tagIds:tagIds
-//            };
-
 
             var url = this.props.movieSource + "?page="+page+"&start="+start+"&size="+size+"&orderBy="+orderBy+"&orderType="+orderType;
-
             url = contactUrlWithArray(url,"tagGroupIds",tagGroupIds);
             url = contactUrlWithArray(url,"tagIds",tagIds);
-//
             this.serverRequest = $.get(url , function (result) {
                 var state = this.state;
                 state.movies.list = result.data.list;
@@ -275,8 +271,8 @@
 //            }
 
 
-            var orderByOptions = [{id:"score",name:"最高评分"},{id:"watch_num",name:"最多播放"},{id:"release_time",name:"最新上映"}];
-            var state = {movieTagGroup: [], movies: {total: 0, list: [], page: 1, size: 10,orderBy:"score",orderType:"desc"},orderByOptions:orderByOptions};
+            var orderByOptions = [{id:"score",name:"最高评分",selected:true},{id:"watch_num",name:"最多播放",selected:false},{id:"release_time",name:"最新上映",selected:false}];
+            var state = {movieTagGroup: [], movies: {total: 0, list: [], page: 1, size: 10,orderType:"desc"},orderByOptions:orderByOptions};
 
             return state;
 
@@ -289,6 +285,18 @@
             this.handlePageChange(1);
 
 
+        },
+        handlePageChange(movePage){
+            var newPage = this.state.movies.page + movePage;
+//            c(this.state.movies.total-(this.state.movies.size*(newPage-1))<=0);
+            if (newPage <= 0 || this.state.movies.total-(this.state.movies.size*(newPage-1))<=0) {
+                return;
+            }
+            //更新page
+            var state = this.state;
+            state.movies.page = newPage;
+            this.setState(state);
+            this.getMovie();
         },
         handleClickTag:function(selectedTagId,selectedTagGroupId){
             {/*点击标签事件*/}
@@ -340,23 +348,21 @@
             this.getMovie();
 
         },
-        handlePageChange(movePage){
-            var newPage = this.state.movies.page + movePage;
-//            c(this.state.movies.total-(this.state.movies.size*(newPage-1))<=0);
-            if (newPage <= 0 || this.state.movies.total-(this.state.movies.size*(newPage-1))<=0) {
-                return;
+        sortMovie(orderById){
+            {/*collect param => orderBy*/}
+            var orderByOptions = this.state.orderByOptions;
+            var orderBy;
+            for(var i = 0;i<orderByOptions.length;i++){
+                if(orderByOptions[i].id==orderById){
+                    orderByOptions[i].selected = true;
+                }else{
+                    orderByOptions[i].selected = false;
+                }
             }
+
             //更新page
             var state = this.state;
-            state.movies.page = newPage;
-            this.setState(state);
-            this.getMovie();
-        },
-        sortMovie(orderBy){
-            //更新page
-//            c(orderBy);
-            var state = this.state;
-            state.movies.orderBy = orderBy;
+            state.orderByOptions = orderByOptions;
             this.setState(state);
             this.getMovie();
         },
@@ -378,7 +384,7 @@
                                         {
                                             this.state.orderByOptions.map((item,index)=>{
                                                 var clsName = "";
-                                                if(item.id == this.state.movies.orderBy){
+                                                if(item.selected){
                                                     clsName = "currt";
                                                 }
 
