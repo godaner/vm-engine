@@ -133,68 +133,68 @@
             }
           }
           .movie_info_div {
-            a{
-              &:hover{
-                color: red;
-              }
-            }
+
             @include defaultWidth;
             height: auto;
             //background-color: steelblue;
             div {
               @include defaultWidth;
               display: block;
-              margin:2px 0px;
+              margin: 2px 0px;
 
-              .movie_name_a{
+              .movie_name_a {
                 //font-weight: bold;
                 color: black;
+
               }
               //.movie_play_num_a{
               //  font-size: 15px;
               //}
             }
-            div.movie_actor_list_div{
+            div.movie_actor_list_div {
               @include defaultHUl;
+            }
+            a:hover {
+              color: red;
             }
 
           }
 
         }
       }
-      #movie_list_pager_div{
+      #movie_list_pager_div {
         margin: 80px 0px;
         //background-color: red;
         @include defaultWidth;
         @include defaultHUl;
-        text-align: center;//!!!
-        ul{
-          li{
+        text-align: center; //!!!
+        ul {
+          li {
             overflow: hidden;
             margin: 0px 5px;
           }
-          li.pager_li{
+          li.pager_li {
             border: 1px solid unquote($defaultLightGrayRgb);
             height: auto;
             //background-color: red;
             cursor: pointer;
-            text-align: left;//!!!
-            a{
+            text-align: left; //!!!
+            a {
               //background-color: red;
-              padding:8px 15px;
+              padding: 8px 15px;
               display: block;
               @include defaultSize;
             }
-            &:hover{
+            &:hover {
               background-color: unquote($defaultBlueRgb);
-              a{
+              a {
                 color: white;
               }
             }
           }
-          li.currt{
+          li.currt {
             background-color: unquote($defaultBlueRgb);
-            a{
+            a {
               color: white;
             }
           }

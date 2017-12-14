@@ -232,8 +232,6 @@ body > div {
           #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div {
             width: 100%;
             height: auto; }
-            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a:hover {
-              color: red; }
             #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div {
               width: 100%;
               display: block;
@@ -246,6 +244,8 @@ body > div {
               #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul li {
                 width: auto;
                 display: inline-block; }
+            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a:hover {
+              color: red; }
       #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div {
         margin: 80px 0px;
         width: 100%;
