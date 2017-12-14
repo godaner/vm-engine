@@ -51,9 +51,15 @@
     background-color: white;
     /*分割线*/ }
     #fragment_index_center_content #movie_list_div #head {
-      width: 100%; }
+      width: 100%;
+      height: 30px; }
+      #fragment_index_center_content #movie_list_div #head > div {
+        display: block;
+        float: left;
+        height: 30px;
+        line-height: 30px; }
       #fragment_index_center_content #movie_list_div #head #sort_div {
-        width: 80%;
+        width: 50%;
         text-align: left; }
         #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways {
           display: inline;
@@ -73,10 +79,44 @@
             border-radius: 99px; }
             #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt > a {
               color: white; }
-      #fragment_index_center_content #movie_list_div #head #total_div {
-        width: 20%;
+      #fragment_index_center_content #movie_list_div #head #search_div {
+        width: 40%;
         text-align: right;
-        float: right; }
+        /*btn*/ }
+        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_text {
+          width: 50%;
+          height: 100%;
+          line-height: 100%;
+          background-color: white;
+          border-radius: 0px;
+          /*省略所有浏览器前缀*/
+          box-sizing: border-box;
+          background-image: url("/image/frontend/icon_zoom.png");
+          background-size: 20px 20px;
+          background-repeat: no-repeat;
+          background-position: 5px;
+          padding-left: 30px;
+          margin-right: 0px;
+          border: 1px solid rgb(61,158,255);
+          border-right: 0px; }
+        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn {
+          width: 20%;
+          height: 100%;
+          line-height: 100%;
+          background-color: white;
+          border-radius: 0px;
+          /*省略所有浏览器前缀*/
+          box-sizing: border-box;
+          cursor: pointer;
+          border: 1px solid rgb(61,158,255); }
+          #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn:hover {
+            border: 2px solid rgb(61,158,255); }
+          #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn:hover {
+            background-color: rgb(61,158,255);
+            color: white; }
+      #fragment_index_center_content #movie_list_div #head #total_div {
+        width: 10%;
+        text-align: right; }
     #fragment_index_center_content #movie_list_div #line {
       height: 1px;
       background-color: rgb(241,242,243);

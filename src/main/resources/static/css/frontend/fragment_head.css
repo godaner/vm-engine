@@ -29,10 +29,9 @@
       padding: 0px 0px;
       margin: 0px 15%;
       width: 70%;
-      /*user*/
-      /*search*/ }
+      /*user*/ }
       #fragment_head_content #nav_div ul#fragment_head_nav li {
-        width: 33.3333333333%;
+        width: 50%;
         float: left;
         display: block;
         height: 80px;
@@ -58,39 +57,8 @@
           width: 48px;
           height: 48px;
           margin: 16px 0px; }
-      #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_search {
-        /*text*/
-        /*btn*/ }
-        #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_search #fragment_head_nav_search_text {
-          height: 28.5714285714px;
-          border: 1px solid rgb(61,158,255);
-          background-color: white;
-          border-radius: 0px;
-          /*省略所有浏览器前缀*/
-          vertical-align: middle;
-          box-sizing: border-box;
-          width: 50%;
-          background-image: url("/image/frontend/icon_zoom.png");
-          background-size: 17.1428571429px 17.1428571429px;
-          background-repeat: no-repeat;
-          background-position: 5px;
-          padding-left: 28.5714285714px;
-          margin-right: 0px; }
-        #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_search #fragment_head_nav_search_btn {
-          height: 28.5714285714px;
-          border: 1px solid rgb(61,158,255);
-          background-color: white;
-          border-radius: 0px;
-          /*省略所有浏览器前缀*/
-          vertical-align: middle;
-          box-sizing: border-box;
-          width: 20%;
-          cursor: pointer; }
-          #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_search #fragment_head_nav_search_btn:hover {
-            border: 2px solid rgb(61,158,255); }
-          #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_search #fragment_head_nav_search_btn:hover {
-            background-color: rgb(61,158,255);
-            color: white; }
+        #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul#user_ul li a:hover {
+          color: red; }
   #fragment_head_content #blank_div {
     height: 80px;
     background-color: "rgb(61,158,255)"; }

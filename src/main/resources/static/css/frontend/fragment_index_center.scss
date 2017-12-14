@@ -63,9 +63,17 @@
     margin-top: 20px;
     @include index_center_panel_style;
     #head {
-      width: 100%;
+      $head_height:30px;
+      @include defaultWidth;
+      height:$head_height;
+      &>div{
+        display: block;
+        float: left;
+        height: $head_height;
+        line-height: $head_height;
+      }
       #sort_div {
-        width: 80%;
+        width: 50%;
         text-align: left;
         //background-color: red;
         #sort_ways {
@@ -94,11 +102,55 @@
           }
         }
       }
+      $search_height: $head_height;
+      @mixin searcher {
+        //height: $nav_height - $nav_height*0.4;
+        height: 100%;
+        line-height:100%;
+        background-color: white;
+        @include defaultSameHightOfInputAndBtn;
+      }
 
-      #total_div {
-        width: 20%;
+      #search_div {
+        width: 40%;
         text-align: right;
-        float: right;
+
+        #fragment_head_nav_search_text {
+          width:50%;
+          @include searcher;
+          background-image: url("/image/frontend/icon_zoom.png");
+          background-size: $search_height/1.5 $search_height/1.5;
+          background-repeat: no-repeat;
+          background-position: 5px;
+          padding-left: $search_height;
+          margin-right: 0px;
+
+          border:1px solid unquote($defaultBlueRgb);
+          border-right: 0px;
+
+        }
+        /*btn*/
+        #fragment_head_nav_search_btn {
+          width:20%;
+          @include searcher;
+          cursor: pointer;
+
+
+          border:1px solid unquote($defaultBlueRgb);
+
+          //margin-left: 0px;
+          &:hover {
+            border: 2px solid unquote($defaultBlueRgb);
+          }
+          &:hover {
+            background-color: unquote($defaultBlueRgb);
+            color: white;
+          }
+        }
+      }
+      #total_div {
+        width: 10%;
+        text-align: right;
         //background-color: aqua;
       }
     }
