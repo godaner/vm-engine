@@ -140,9 +140,6 @@
 
           //margin-left: 0px;
           &:hover {
-            border: 2px solid unquote($defaultBlueRgb);
-          }
-          &:hover {
             background-color: unquote($defaultBlueRgb);
             color: white;
           }

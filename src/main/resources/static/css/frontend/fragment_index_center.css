@@ -110,8 +110,6 @@
           cursor: pointer;
           border: 1px solid rgb(61,158,255); }
           #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn:hover {
-            border: 2px solid rgb(61,158,255); }
-          #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn:hover {
             background-color: rgb(61,158,255);
             color: white; }
       #fragment_index_center_content #movie_list_div #head #total_div {

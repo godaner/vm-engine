@@ -189,6 +189,7 @@
             var size = movies.size;
             var orderType = movies.orderType;
             var start = (page-1)*size;
+            var keyword = movies.keyword;
 
             {/*collect param => orderBy*/}
             var orderBy;
@@ -217,7 +218,7 @@
             }
 
 
-            var url = this.props.movieSource + "?page="+page+"&start="+start+"&size="+size+"&orderBy="+orderBy+"&orderType="+orderType;
+            var url = this.props.movieSource + "?page="+page+"&start="+start+"&size="+size+"&orderBy="+orderBy+"&orderType="+orderType+"&keyword="+keyword;
             url = contactUrlWithArray(url,"tagGroupIds",tagGroupIds);
             url = contactUrlWithArray(url,"tagIds",tagIds);
             this.serverRequest = $.get(url , function (result) {
@@ -272,7 +273,7 @@
 
 
             var orderByOptions = [{id:"score",name:"最高评分",selected:true},{id:"watch_num",name:"最多播放",selected:false},{id:"release_time",name:"最新上映",selected:false}];
-            var state = {movieTagGroup: [], movies: {total: 0, list: [], page: 1, size: 10,orderType:"desc"},orderByOptions:orderByOptions};
+            var state = {lastKeyword:"",movieSearchTimer:undefined,movieTagGroup: [], movies: {keyword:"",total: 0, list: [], page: 1, size: 10,orderType:"desc"},orderByOptions:orderByOptions};
 
             return state;
 
@@ -366,6 +367,31 @@
             this.setState(state);
             this.getMovie();
         },
+        handleSearch:function(sec){
+            if(sec == undefined || sec<=0){
+                this.search(this.refs.keyword.value);
+            }else{
+                if(this.state.movieSearchTimer){
+                    clearTimeout(this.state.movieSearchTimer);
+                }
+                this.state.movieSearchTimer = setTimeout(function (){
+                    var keyword = this.refs.keyword.value;
+                    if(this.state.lastKeyword == keyword){//如果关键字没有改变，那么不搜索
+                        return ;
+                    }
+                    this.search(keyword);
+                    this.state.lastKeyword = keyword;
+                }.bind(this),sec);
+            }
+
+
+        },
+        search:function(keyword){
+            var state = this.state;
+            state.movies.keyword = keyword;
+            this.setState(state);
+            this.getMovie();
+        },
         render: function () {
             return (
                     <div id="fragment_index_center_content">
@@ -398,8 +424,8 @@
                                     </ul>
                                 </div>
                                 <div id="search_div">
-                                    <input id="fragment_head_nav_search_text"  placeholder="请输入关键字"/>
-                                    <input id="fragment_head_nav_search_btn" type="button" value="搜索"/>
+                                    <input id="fragment_head_nav_search_text"  onChange={()=>{this.handleSearch(500)}} ref="keyword" placeholder="请输入关键字"/>
+                                    <input id="fragment_head_nav_search_btn" onClick={this.handleSearch} type="button" value="搜索"/>
                                 </div>
                                 <div id="total_div">
                                     共

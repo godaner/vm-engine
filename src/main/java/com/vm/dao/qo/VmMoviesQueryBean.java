@@ -8,8 +8,17 @@ import java.util.List;
  * Created by ZhangKe on 2017/12/12.
  */
 public class VmMoviesQueryBean{
+    private String keyword;
     private List<Long> tagIds;
     private List<Long> tagGroupIds;
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
 
     public List<Long> getTagIds() {
         return tagIds;

@@ -384,6 +384,9 @@
         m.`status` = 1
         AND tr.`status` = 1
         AND tr.movie_id = m.id
+        <if test="query.keyword!=null">
+            AND m.name LIKE concat('%',#{query.keyword},'%')
+        </if>
         AND (
 
             <trim  prefixOverrides="OR" suffixOverrides="OR">
@@ -427,6 +430,9 @@
         m.`status` = 1
         AND tr.`status` = 1
         AND tr.movie_id = m.id
+        <if test="query.keyword!=null">
+            AND m.name LIKE concat('%',#{query.keyword},'%')
+        </if>
         AND (
 
         <trim prefixOverrides="OR" suffixOverrides="OR">
