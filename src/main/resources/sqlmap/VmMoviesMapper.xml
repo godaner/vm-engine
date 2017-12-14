@@ -375,9 +375,41 @@
 
     </resultMap>
     <select id="getMovies" resultMap="GetMoviesMap">
-        select *
-        from vm_movies m
-        where m.`status` = 1
+        SELECT DISTINCT
+        m.*
+        FROM
+        vm_movies m,
+        vm_movies_tags_realation tr
+        WHERE
+        m.`status` = 1
+        AND tr.`status` = 1
+        AND tr.movie_id = m.id
+        AND (
+
+            <trim  prefixOverrides="OR" suffixOverrides="OR">
+                <if test="query.tagIds!=null">
+                    tr.tag_id IN
+                    <foreach collection="query.tagIds" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                OR
+                <if test="query.tagGroupIds!=null">
+                    tr.tag_id IN (
+                    SELECT
+                    t.id
+                    FROM
+                    vm_tags t
+                    WHERE
+                    t.`status` = 1
+                    AND t.tag_group_id IN<foreach collection="query.tagGroupIds" item="item" index="index" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+
+                    )
+                </if>
+            </trim>
+        )
         <if test="page.orderBy != null and page.orderType != null">
             order by ${page.orderBy} ${page.orderType}
         </if>
@@ -386,9 +418,42 @@
         </if>
     </select>
     <select id="getMoviesCount" resultType="long">
-        select count(m.id)
-        from vm_movies m
-        where m.`status` = 1
+        SELECT DISTINCT
+        count(m.id)
+        FROM
+        vm_movies m,
+        vm_movies_tags_realation tr
+        WHERE
+        m.`status` = 1
+        AND tr.`status` = 1
+        AND tr.movie_id = m.id
+        AND (
+
+        <trim prefixOverrides="OR" suffixOverrides="OR">
+            <if test="query.tagIds!=null">
+                tr.tag_id IN
+                <foreach collection="query.tagIds" item="item" index="index" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            OR
+            <if test="query.tagGroupIds!=null">
+                tr.tag_id IN (
+                SELECT
+                t.id
+                FROM
+                vm_tags t
+                WHERE
+                t.`status` = 1
+                AND t.tag_group_id IN
+                <foreach collection="query.tagGroupIds" item="item" index="index" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+
+                )
+            </if>
+        </trim>
+        )
 
       </select>
     <!--**************************** 自定义mapper end ****************************-->

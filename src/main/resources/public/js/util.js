@@ -1,4 +1,24 @@
 /**
+ * 拼接数组到url.<br/>
+ * 例如 url:www.baidu.com,arrayName:tagIds,array:[1,2] ==> url:www.baidu.com?tagIds=1&tagIds=2
+ *
+ */
+function contactUrlWithArray(url, arrayName, array) {
+    var contactSign = "?";
+    for (var i = 0; i < array.length; i++) {
+        if (i == 0 && url.indexOf("?") < 0) {
+            contactSign = "?";
+        } else {
+            contactSign = "&";
+        }
+        url = url + contactSign + arrayName + "=" + array[i];
+    }
+    return url;
+
+}
+
+
+/**
  * Array.prototype.[method name] allows you to define/overwrite an objects method
  * needle is the item you are searching for
  * this is a special variable that refers to "this" instance of an Array.
@@ -22,26 +42,26 @@ Array.prototype.contains = function (needle) {
 /**
  * 传入字符和颜色,返回label
  */
-var font= {
-    color:function(text,color){
-        return "<label style='color:"+color+";'>"+text+"</label>";
+var font = {
+    color: function (text, color) {
+        return "<label style='color:" + color + ";'>" + text + "</label>";
     }
 };
 
 /**
  * 上下文容器
  */
-function Context(){
+function Context() {
     this.ct = {};
     this.length = 0;
     /**
      * 设置参数,会覆盖原有数据
      */
-    this.setAttr = function(key,value){
-        if(typeof key != "string"){
+    this.setAttr = function (key, value) {
+        if (typeof key != "string") {
             throw "不能将非string参数作为key";
         }
-        if(!this.contain(key)){
+        if (!this.contain(key)) {
             ++length;
         }
         this.ct[key] = value;
@@ -49,13 +69,13 @@ function Context(){
         /**
          * 获取参数
          */
-        this.getAttr = function(key){
+        this.getAttr = function (key) {
             return this.ct[key];
         },
         /**
          * 移除并且返回参数
          */
-        this.removeAttr = function(key){
+        this.removeAttr = function (key) {
             var value = this.ct[key];
             delete this.ct[key];
             return value;
@@ -63,7 +83,7 @@ function Context(){
         /**
          * 移除并且返回键值对对象
          */
-        this.removeObj = function(key){
+        this.removeObj = function (key) {
             var obj = {};
             obj[key] = this.ct[key];
             delete this.ct[key];
@@ -72,7 +92,7 @@ function Context(){
         /**
          * 获取键值对对象
          */
-        this.getObj = function(key){
+        this.getObj = function (key) {
             var obj = {};
             obj[key] = this.ct[key];
             return obj;
@@ -80,32 +100,32 @@ function Context(){
     /**
      * 清空容器
      */
-    this.clear = function(){
+    this.clear = function () {
         this.ct = {};
     },
         /**
          * 是否为空
          */
-        this.empty = function(){
-            return length == 0?true:false;
+        this.empty = function () {
+            return length == 0 ? true : false;
         },
         /**
          * 容器储存数据个数
          */
-        this.length = function(){
+        this.length = function () {
             return this.length;
         }
         ,
         /**
          * 是否包含某值
          */
-        this.contain = function(key){
+        this.contain = function (key) {
             return !this.empty(this.ct[key]);
         },
         /**
          * 获取并移除所有键值对
          */
-        this.removeContent = function(){
+        this.removeContent = function () {
 
             var s = this.ct;
 
@@ -116,13 +136,13 @@ function Context(){
         /**
          * 获取所有键值对
          */
-        this.getContent = function(){
+        this.getContent = function () {
             return this.ct;
         },
         /**
          * 将js内容对象格式化为字符串
          */
-        this.toString = function(){
+        this.toString = function () {
             return JSON.stringify(this.ct);
         }
 };
@@ -136,13 +156,13 @@ var context = new Context();
  * @param e
  * @returns {Boolean}
  */
-function contain(arr,e){
-    if(isEmpty(arr)){
+function contain(arr, e) {
+    if (isEmpty(arr)) {
         return false;
     }
-    for ( var i in arr) {
+    for (var i in arr) {
         var ee = arr[i];
-        if(ee == e){
+        if (ee == e) {
             return true;
         }
     }
@@ -150,18 +170,13 @@ function contain(arr,e){
 }
 
 
-
-
-
-
-
 /**
  * 验证obj是否为空;<br/>
  * 即value == null || value==undefined || value==""
  * @param obj
  */
-function isEmpty(obj){
-    return obj == null || obj==undefined || obj=="" || obj == "null";
+function isEmpty(obj) {
+    return obj == null || obj == undefined || obj == "" || obj == "null";
 }
 
 // 对Date的扩展，将 Date 转化为指定格式的String
@@ -190,11 +205,11 @@ var timeFormatter = {
     /**
      * 将long型的date格式化为指定格式
      */
-    formatDate:function (longDate,pattern){
-        if(isEmpty(pattern)){
+    formatDate: function (longDate, pattern) {
+        if (isEmpty(pattern)) {
             pattern = "yyyy-MM-dd"
         }
-        if(isEmpty(longDate)){
+        if (isEmpty(longDate)) {
             return "";
         }
         return new Date(longDate).format(pattern);
@@ -202,11 +217,11 @@ var timeFormatter = {
     /**
      * 将long型的time格式化为指定格式
      */
-    formatTime:function (longTime,pattern){
-        if(isEmpty(pattern)){
+    formatTime: function (longTime, pattern) {
+        if (isEmpty(pattern)) {
             pattern = "yyyy-MM-dd HH:mm:ss"
         }
-        if(isEmpty(longTime)){
+        if (isEmpty(longTime)) {
             return "";
         }
         return new Date(longTime).format(pattern);
@@ -216,13 +231,13 @@ var timeFormatter = {
 /**
  * 表单转json
  */
-$.fn.serializeObject = function() {
+$.fn.serializeObject = function () {
     var o = {};
     var a = this.serializeArray();
-    $.each(a, function() {
+    $.each(a, function () {
         if (o[this.name]) {
             if (!o[this.name].push) {
-                o[this.name] = [ o[this.name] ];
+                o[this.name] = [o[this.name]];
             }
             o[this.name].push(this.value || '');
         } else {
@@ -234,19 +249,19 @@ $.fn.serializeObject = function() {
 /**
  * 获取表单参数,例如a=c&c=a
  */
-$.fn.serializeParams = function() {
+$.fn.serializeParams = function () {
 
     var params = "";
 
     var obj = this.serializeObject();
 
 
-    for(var name in obj){
+    for (var name in obj) {
         var value = obj[name];
-        if(isEmpty(params)){
-            params = params + name+"=" + value;
-        }else{
-            params = params +"&"+ name+"="+ value;
+        if (isEmpty(params)) {
+            params = params + name + "=" + value;
+        } else {
+            params = params + "&" + name + "=" + value;
         }
     }
 
@@ -267,8 +282,7 @@ function c(msg) {
  * @param msg
  */
 function a(msg) {
-    //alert(msg);
-    $.messager.alert('提示',msg);
+    alert(msg);
 
 }
 
@@ -327,14 +341,14 @@ function uuid() {
  * 得到当前项目名称,如/projectName
  */
 function getWebProjectName() {
- var webProjectName = undefined;
- // 获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
- var pathName = window.document.location.pathname;
- // 获取带"/"的项目名，如：/uimcardprj
- webProjectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+    var webProjectName = undefined;
+    // 获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+    var pathName = window.document.location.pathname;
+    // 获取带"/"的项目名，如：/uimcardprj
+    webProjectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
 
- return webProjectName;
- }
+    return webProjectName;
+}
 
 /**
  * 获取某年某月最大天数
@@ -451,6 +465,6 @@ function scrollTo(target, speed) {
     }
     var targetPosition = $(target).offset().top;
     $('html,body').animate({
-        scrollTop : targetPosition
+        scrollTop: targetPosition
     }, speed);
 }

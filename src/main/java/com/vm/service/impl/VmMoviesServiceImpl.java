@@ -19,6 +19,9 @@ public class VmMoviesServiceImpl implements VmMoviesService {
     private VmMoviesMapper vmMoviesMapper;
     @Override
     public List<CustomVmMovies> getMovies(PageBean page, VmMoviesQueryBean query) {
+        if((query.getTagIds()==null||query.getTagIds().size()==0)&&(query.getTagGroupIds()==null||query.getTagGroupIds().size()==0)){
+            throw new RuntimeException("getMovies tagIds and tagGroupIds can not be null together!");
+        }
         return vmMoviesMapper.getMovies(page,query);
     }
 

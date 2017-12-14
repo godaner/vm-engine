@@ -162,8 +162,7 @@
 
 
         componentDidMount: function () {
-            this.getMovie(this.adjustMovieListUI);
-            this.getTagGroup();
+            this.getTagGroup(this.getMovie);
             window.addEventListener('resize', this.onWindowResize)
         },
         componentWillUnmount:function() {
@@ -182,22 +181,50 @@
         },
         getMovie(){
             {/*获取电影列表*/}
+
+
+            {/*collect params*/}
             var movies = this.state.movies;
             var page = movies.page;
             var size = movies.size;
             var orderBy = movies.orderBy;
             var orderType = movies.orderType;
             var start = (page-1)*size;
-            var param = {
-                page: 1,
-                size: size,
-                orderBy: orderBy,
-                orderType: orderType,
-                start: start
-            };
 
-//            var url = this.props.movieSource + "?start="+start+"&size="+size+"&orderBy="+orderBy+"&orderType="+orderType;
-            this.serverRequest = $.get(this.props.movieSource ,param, function (result) {
+            {/*collect selected tag group ids and tags id*/}
+            var tagGroupIds = [];
+            var tagIds = [];
+            for(var i = 0;i<this.state.movieTagGroup.length;i++){
+                var g = this.state.movieTagGroup[i];
+                if(g.selected){
+                    tagGroupIds.push(g.id);
+                }else{
+                    for(var j = 0;j<g.items.length;j++){
+                        var tag = g.items[j];
+                        if(tag.selected){
+                            tagIds.push(tag.id);
+                        }
+                    }
+                }
+            }
+
+//            var param = {
+//                page: 1,
+//                size: size,
+//                orderBy: orderBy,
+//                orderType: orderType,
+//                start: start,
+//                tagGroupIds:tagGroupIds,
+//                tagIds:tagIds
+//            };
+
+
+            var url = this.props.movieSource + "?page="+page+"&start="+start+"&size="+size+"&orderBy="+orderBy+"&orderType="+orderType;
+
+            url = contactUrlWithArray(url,"tagGroupIds",tagGroupIds);
+            url = contactUrlWithArray(url,"tagIds",tagIds);
+//
+            this.serverRequest = $.get(url , function (result) {
                 var state = this.state;
                 state.movies.list = result.data.list;
                 state.movies.total = result.data.total;
@@ -207,7 +234,7 @@
                 this.adjustMovieListUI();
             }.bind(this));
         },
-        getTagGroup(){
+        getTagGroup(callfun){
             {/*获取电影标签分组*/}
             this.serverRequest = $.get(this.props.tagGroupSource, function (result) {
                 var state = this.state;
@@ -222,6 +249,8 @@
 
                 this.setState(state);
 //                c(state);
+                //callfun
+                callfun();
             }.bind(this));
         },
         getInitialState: function () {
@@ -262,7 +291,7 @@
 
         },
         handleClickTag:function(selectedTagId,selectedTagGroupId){
-
+            {/*点击标签事件*/}
 //            c("handleClickTag");
 //            c(selectedTagId);
 //            c(selectedTagGroupId);
@@ -305,7 +334,10 @@
             state.movieTagGroup = groups;
 
             this.setState(state);
-            c(this.state);
+//            c(this.state);
+
+            //refresh movies list
+            this.getMovie();
 
         },
         handlePageChange(movePage){
