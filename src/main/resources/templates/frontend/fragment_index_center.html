@@ -23,13 +23,13 @@
                     <div id="movie_list_pager_div">
                         <ul id="movie_list_pager_ul">
                             <li className="pager_li">
-                                <a href="javascript:void(0);" onClick={this.props.prePage}>上一页</a>
+                                <a href="javascript:void(0);" onClick={()=>{this.props.handlePageChange(-1)}}>上一页</a>
                             </li>
                             <li className="pager_li currt">
                                 <a href="javascript:void(0);">{this.props.page}</a>
                             </li>
                             <li className="pager_li">
-                                <a href="javascript:void(0);" onClick={this.props.nextPage}>下一页</a>
+                                <a href="javascript:void(0);" onClick={()=>{this.props.handlePageChange(1)}}>下一页</a>
                             </li>
                         </ul>
                     </div>
@@ -278,15 +278,6 @@
             return state;
 
         },
-        prePage: function (event) {
-            this.handlePageChange(-1);
-
-        },
-        nextPage: function (event) {
-            this.handlePageChange(1);
-
-
-        },
         handlePageChange(movePage){
             var newPage = this.state.movies.page + movePage;
 //            c(this.state.movies.total-(this.state.movies.size*(newPage-1))<=0);
@@ -442,7 +433,7 @@
                                 <MoviesDisplayer movies={this.state.movies.list}/>
 
                                 {/*电影分页*/}
-                                <Pager prePage={this.prePage} nextPage={this.nextPage} page={this.state.movies.page}/>
+                                <Pager handlePageChange={this.handlePageChange} page={this.state.movies.page}/>
                             </div>
                         </div>
                     </div>
