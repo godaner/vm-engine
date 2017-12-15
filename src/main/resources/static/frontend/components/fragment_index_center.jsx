@@ -352,20 +352,24 @@ var IndexCenter = React.createClass({
         this.getMovie();
     },
     handleSearch:function(sec){
+        if(this.state.lastKeyword == this.refs.keyword.value){//如果关键字没有改变，那么不搜索
+            return ;
+        }
         //等待sec后自动执行搜索
         if(sec == undefined || sec<=0){
+            if(this.state.movieSearchTimer){
+                clearTimeout(this.state.movieSearchTimer);
+            }
             this.search(this.refs.keyword.value);
+            this.state.lastKeyword = this.refs.keyword.value;
         }else{
             if(this.state.movieSearchTimer){
                 clearTimeout(this.state.movieSearchTimer);
             }
+            //稍后执行
             this.state.movieSearchTimer = setTimeout(function (){
-                var keyword = this.refs.keyword.value;
-                if(this.state.lastKeyword == keyword){//如果关键字没有改变，那么不搜索
-                    return ;
-                }
-                this.search(keyword);
-                this.state.lastKeyword = keyword;
+                this.search(this.refs.keyword.value);
+                this.state.lastKeyword = this.refs.keyword.value;
             }.bind(this),sec);
         }
 
@@ -409,7 +413,7 @@ var IndexCenter = React.createClass({
                             </ul>
                         </div>
                         <div id="search_div">
-                            <input id="fragment_head_nav_search_text"  onChange={()=>{this.handleSearch(500)}} ref="keyword" placeholder="请输入关键字"/>
+                            <input id="fragment_head_nav_search_text"  onChange={()=>{this.handleSearch(1000)}} ref="keyword" placeholder="请输入关键字"/>
                             <input id="fragment_head_nav_search_btn" onClick={()=>{this.handleSearch(0)}} type="button" value="搜索"/>
                         </div>
                         <div id="total_div">

@@ -13,3 +13,14 @@
 body,html{
   @include defaultBody;
 }
+
+//*{
+//    border:1px solid red;
+//    @include defaultPaddingAndMargin;
+//    @include defaultWidth;
+//    text-decoration: none;
+//    outline: none;
+//    color: unquote($defaultLightGrayColorRgb);
+//    font-size: 12px;
+//    fontFamily: "Microsoft YaHei UI"
+//}
