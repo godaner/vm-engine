@@ -22200,7 +22200,6 @@ var MoviesDisplayer = _react2.default.createClass({
 
     render: function render() {
         var movieItems = this.props.movies.map(function (item) {
-
             return _react2.default.createElement(
                 'li',
                 { className: 'movie_item', key: item.id },
@@ -22237,7 +22236,7 @@ var MoviesDisplayer = _react2.default.createClass({
                         _react2.default.createElement(
                             'a',
                             { href: '' },
-                            item.director.name
+                            item.director == null ? "无" : item.director.name
                         )
                     ),
                     _react2.default.createElement(

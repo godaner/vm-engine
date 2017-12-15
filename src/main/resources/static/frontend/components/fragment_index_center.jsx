@@ -44,7 +44,6 @@ var MoviesDisplayer = React.createClass({
 
     render: function () {
         var movieItems = this.props.movies.map(function (item) {
-
             return <li className="movie_item" key={item.id}>
                 <div className="movie_img_div">
                     <a href="">
@@ -63,7 +62,8 @@ var MoviesDisplayer = React.createClass({
 
 
                     <div>
-                        导演：<a  href="">{item.director.name}</a>
+
+                        导演：<a  href="">{item.director==null?"无":item.director.name}</a>
                     </div>
                     <div>
                         评分：{item.score}
