@@ -7,7 +7,11 @@ module.exports = {
         filename: 'bundle.js'
     },
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx'],
+        // 别名，可以直接使用别名来代表设定的路径以及其他
+        alias: {
+            components: path.join(__dirname, './components')
+        }
     },
     module: {
         loaders: [ {   //引入babel模块处理ES6代码
@@ -16,7 +20,7 @@ module.exports = {
             loaders: 'babel-loader' ,
 
             query: {
-                presets: ['es2015', 'react']
+                presets: ['react', 'es2015']
             }
         }]
     }

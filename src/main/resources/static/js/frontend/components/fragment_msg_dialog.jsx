@@ -45,5 +45,4 @@ var MsgDialog = React.createClass({
     }
 });
 
-
 export default MsgDialog;   //将App组件导出

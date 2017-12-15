@@ -411,7 +411,7 @@ var IndexCenter = React.createClass({
                                     </span>
                             个结果
                         </div>
-                        <div class="clear"></div>
+                        <div className="clear"></div>
                     </div>
                     <div id="line"></div>
                     <div id="movies_display_div">
