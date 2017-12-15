@@ -13422,7 +13422,7 @@ if (process.env.NODE_ENV !== 'production') {
     }
 
     warnedForNaNValue = true;
-    process.env.NODE_ENV !== 'production' ? warning(false, '`NaN` is an invalid value for the `%s` css style property.%s', name, checkRenderMessage(owner)) : void 0;
+    process.env.NODE_ENV !== 'production' ? warning(false, '`NaN` is an invalid value for the `%s` scss style property.%s', name, checkRenderMessage(owner)) : void 0;
   };
 
   var checkRenderMessage = function (owner) {
@@ -13652,7 +13652,7 @@ var isUnitlessNumber = CSSProperty.isUnitlessNumber;
 var styleWarnings = {};
 
 /**
- * Convert a value into the proper css writable value. The style name `name`
+ * Convert a value into the proper scss writable value. The style name `name`
  * should be logical (no hyphens), as specified
  * in `CSSProperty.isUnitlessNumber`.
  *

@@ -1,9 +1,0 @@
-@charset "UTF-8";
-/* 一般用于div居中
- * $marginPercent：距离左右的距离
- */
-/*水平ul*/
-.clear {
-  clear: both; }
-
-/*# sourceMappingURL=frontend-default.css.map */

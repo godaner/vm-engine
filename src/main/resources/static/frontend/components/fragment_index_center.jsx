@@ -1,6 +1,6 @@
 
 import React from 'react';  //引入react组件
-import '../css/index.scss';
+import '../scss/index.scss';
 var Pager = React.createClass({
 
     render: function () {
