@@ -1,6 +1,7 @@
 @import "frontend-default.scss";
 
 #fragment_msg_dialog_content {
+  /*默认隐藏*/
   display: none;
   @include defaultSize;
   position: fixed;
@@ -10,11 +11,12 @@
   background-color: rgba(0,0,0,0.8);
   //overflow: hidden;
   #dialog{
-    width: 500px;
-    height: 300px;
+    margin-top: 300px;
+    width: 300px;
+    height: 200px;
+    padding: 20px;
     background-color: unquote($defaultLightGrayRgb);
     border-radius: 5px;
-    padding: 20px;
     *{
       color: black;
     }
@@ -38,15 +40,19 @@
         text-align: right;
         font-weight: bold;
         //渐变
-        transition: font-size 100ms;
+        transition: all 100ms;
         &:hover{
           color: red;
-          font-size: 20px;
+          font-weight: bold;
+          font-size: 28px;
         }
       }
     }
     #body{
-      padding-top: 10px;
+      margin-top: 10px;
+      text-align: center;
+      line-height: 100%;
+      height:100%;
     }
   }
 }

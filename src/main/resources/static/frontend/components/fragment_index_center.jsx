@@ -1,5 +1,6 @@
 
 import React from 'react';  //引入react组件
+import MsgDialog from "./fragment_msg_dialog";
 import '../scss/index.scss';
 var Pager = React.createClass({
 
@@ -208,6 +209,12 @@ var IndexCenter = React.createClass({
         url = contactUrlWithArray(url,"tagGroupIds",tagGroupIds);
         url = contactUrlWithArray(url,"tagIds",tagIds);
         this.serverRequest = $.get(url , function (result) {
+            // c(result);
+            if(result.code == 10000){
+                this.refs.index_msg_dialog.showMsg(result.msg);
+                return ;
+            }
+
             var state = this.state;
             state.movies.list = result.data.list;
             state.movies.total = result.data.total;
@@ -345,6 +352,7 @@ var IndexCenter = React.createClass({
         this.getMovie();
     },
     handleSearch:function(sec){
+        //等待sec后自动执行搜索
         if(sec == undefined || sec<=0){
             this.search(this.refs.keyword.value);
         }else{
@@ -402,7 +410,7 @@ var IndexCenter = React.createClass({
                         </div>
                         <div id="search_div">
                             <input id="fragment_head_nav_search_text"  onChange={()=>{this.handleSearch(500)}} ref="keyword" placeholder="请输入关键字"/>
-                            <input id="fragment_head_nav_search_btn" onClick={this.handleSearch} type="button" value="搜索"/>
+                            <input id="fragment_head_nav_search_btn" onClick={()=>{this.handleSearch(0)}} type="button" value="搜索"/>
                         </div>
                         <div id="total_div">
                             共
@@ -424,7 +432,10 @@ var IndexCenter = React.createClass({
                         <Pager handlePageChange={this.handlePageChange} page={this.state.movies.page}/>
                     </div>
                 </div>
-                {/*<MsgDialog/>*/}
+                {
+                    /*信息框*/
+                }
+                <MsgDialog ref="index_msg_dialog"/>
             </div>
         );
     }

@@ -10,7 +10,7 @@ import java.util.List;
  * Created by ZhangKe on 2017/12/12.
  */
 public class VmMoviesQueryBean{
-    @NotBlank(message = "VmMoviesQueryBean.keyword.NotBlank")
+    @NotBlank(message = "{VmMoviesQueryBean.keyword.NotBlank}")
     private String keyword;
     private List<Long> tagIds;
     private List<Long> tagGroupIds;
