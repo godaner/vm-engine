@@ -411,6 +411,8 @@ var IndexCenter = React.createClass({
                                     </span>
                             个结果
                         </div>
+                        {/*清空float*/}
+
                         <div className="clear"></div>
                     </div>
                     <div id="line"></div>
