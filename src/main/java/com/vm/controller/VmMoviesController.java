@@ -6,6 +6,8 @@ import com.vm.dao.po.CustomVmMovies;
 import com.vm.service.inf.VmMoviesService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,7 +29,8 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      * @return
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public @ResponseBody Object getMovies(PageBean page , VmMoviesQueryBean query)  throws Exception {
+    public @ResponseBody Object getMovies(PageBean page , @Validated VmMoviesQueryBean query,BindingResult bindingResult)  throws Exception {
+        validate(bindingResult);
         Long total = service.getMoviesCount(page,query);
         List<CustomVmMovies> list = service.getMovies(page,query);
         response.putData("list", list);

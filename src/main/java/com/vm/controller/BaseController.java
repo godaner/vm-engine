@@ -1,12 +1,18 @@
 package com.vm.controller;
 
 
+import com.vm.service.exception.VmRuntimeException;
+import com.vm.utils.CommonUtil;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by ZhangKe on 2017/11/24.
  */
-public class BaseController {
+public class BaseController extends CommonUtil{
     //响应对象
     protected Response response = new Response();
     //响应键值对
@@ -29,6 +35,50 @@ public class BaseController {
     protected void initHttpAPI(HttpServletRequest req, HttpServletResponse res) {
         this.req = req;
         this.res = res;
+    }
+
+
+    /**
+     * Title:getErrors
+     * <p>
+     * Description:获取hibernate-validator的错误信息;
+     * <p>
+     * @author Kor_Zhang
+     * @date 2017年9月22日 下午8:15:21
+     * @version 1.0
+     * @param result
+     * @return
+     */
+    public static Map<String, String> getErrors(BindingResult result) {
+        Map<String, String> map = new HashMap<String, String>();
+        List<FieldError> list = result.getFieldErrors();
+        for (FieldError error : list) {
+            System.out.println("error.getField():" + error.getField());
+            System.out.println("error.getDefaultMessage():"
+                    + error.getDefaultMessage());
+
+            map.put(error.getField(), error.getDefaultMessage());
+        }
+        return map;
+    }
+
+    /**
+     * Title:validate
+     * <p>
+     * Description:如果hibernate-validator验证有错误信息,那么抛出携带错误信息的异常;
+     * <p>
+     * @author Kor_Zhang
+     * @date 2017年9月22日 下午8:15:21
+     * @version 1.0
+     * @param result
+     * @return
+     * @throws Exception
+     */
+    public static void validate(BindingResult result) throws Exception {
+        List<FieldError> list = result.getFieldErrors();
+        for (FieldError error : list) {
+            throw new VmRuntimeException(error.getDefaultMessage());
+        }
     }
 
     /**

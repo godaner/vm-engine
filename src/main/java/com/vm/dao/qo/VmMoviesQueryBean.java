@@ -1,13 +1,16 @@
 package com.vm.dao.qo;
 
 import com.vm.dao.po.VmMovies;
+import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
  * Created by ZhangKe on 2017/12/12.
  */
 public class VmMoviesQueryBean{
+    @NotBlank(message = "VmMoviesQueryBean.keyword.NotBlank")
     private String keyword;
     private List<Long> tagIds;
     private List<Long> tagGroupIds;

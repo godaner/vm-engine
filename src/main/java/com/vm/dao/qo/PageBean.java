@@ -1,11 +1,19 @@
 package com.vm.dao.qo;
 
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 public class PageBean {
+    @Min(value = 0,message="{PageBean.start.min}")
     private Integer start;
+    @Min(value = 1,message="{PageBean.size.Min}")
     private Integer size;
+    @NotBlank(message="{PageBean.orderBy.NotBlank}")
     private String orderBy;
+    @NotBlank(message="{PageBean.orderType.NotBlank}")
     private String orderType;
 
     public Integer getStart() {

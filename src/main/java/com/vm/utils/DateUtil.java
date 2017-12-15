@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 日期工具
  */
-public class DateTool {
+public class DateUtil {
     /**
      * 缺省的日期显示格式： yyyy-MM-dd
      */
@@ -476,8 +476,8 @@ public class DateTool {
 
     public static Long getTodayStartUnixTime() {
 
-        String todayBeginStr = DateTool.getDate() + " 00:00:00";
-        return DateTool.toUnixTime(todayBeginStr, DateTool.DEFAULT_DATE_FORMAT + " HH:mm:ss");
+        String todayBeginStr = DateUtil.getDate() + " 00:00:00";
+        return DateUtil.toUnixTime(todayBeginStr, DateUtil.DEFAULT_DATE_FORMAT + " HH:mm:ss");
     }
 
     /**
@@ -607,14 +607,14 @@ public class DateTool {
 //    public static void main(String[] args) throws ParseException {
 //        Random r = new Random();
 //        r.nextInt(1);
-//        System.out.println(DateTool.getDateOfNextYear(getNow()));
+//        System.out.println(DateUtil.getDateOfNextYear(getNow()));
 //        int hour = 60;
 //        int min = 60;
 //        int day = 24;
 //        int year = 365*day*hour*min;
 //        int now = unixTime().intValue();//秒
-//        System.out.println(DateTool.getUnixDateTime(now,DateTool.YYYY_MM_DD));
-//        System.out.println(DateTool.getYesterday(now,DateTool.YYYY_MM_DD));
+//        System.out.println(DateUtil.getUnixDateTime(now,DateUtil.YYYY_MM_DD));
+//        System.out.println(DateUtil.getYesterday(now,DateUtil.YYYY_MM_DD));
 //        List<String> days = getLastYearEveryDayFromNow();
 //        for (String day : days) {
 //            System.out.println(day);
@@ -636,12 +636,12 @@ public class DateTool {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date d = dateFormat.parse(date);*/
 
-//        Long t = DateTool.parseUnixTime("2017-04-07 17:03:12",YYYY_MM_DD,null);
+//        Long t = DateUtil.parseUnixTime("2017-04-07 17:03:12",YYYY_MM_DD,null);
 
-//        int now = DateTool.unixTime().intValue();
-//        String yesterDay = DateTool.getYesterday(now,DateTool.YYYY_MM_DD);
-//        long yesterDayBeginTime = DateTool.getDayBeginTime(yesterDay);
-//        long yesterDayEndTime = DateTool.getDayEndTime(yesterDay);
+//        int now = DateUtil.unixTime().intValue();
+//        String yesterDay = DateUtil.getYesterday(now,DateUtil.YYYY_MM_DD);
+//        long yesterDayBeginTime = DateUtil.getDayBeginTime(yesterDay);
+//        long yesterDayEndTime = DateUtil.getDayEndTime(yesterDay);
 //
 //        System.out.println(yesterDayBeginTime);
 //        System.out.println(yesterDayEndTime);
@@ -665,7 +665,7 @@ public class DateTool {
     public static Date getDateOfLastYear() {
         Calendar calendar = Calendar.getInstance();
         String date = getDate();
-        calendar.setTime(parse(date, DateTool.DEFAULT_DATE_FORMAT));
+        calendar.setTime(parse(date, DateUtil.DEFAULT_DATE_FORMAT));
         //将日期设置为去年今天
         calendar.add(Calendar.YEAR, -1);
         return calendar.getTime();
@@ -686,7 +686,7 @@ public class DateTool {
     public static Date getDateOfNextYear() {
         Calendar calendar = Calendar.getInstance();
         String date = getDate();
-        calendar.setTime(parse(date, DateTool.DEFAULT_DATE_FORMAT));
+        calendar.setTime(parse(date, DateUtil.DEFAULT_DATE_FORMAT));
         //将日期设置为去年今天
         calendar.add(Calendar.YEAR, 1);
         return calendar.getTime();
