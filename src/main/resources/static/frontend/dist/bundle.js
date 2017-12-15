@@ -22307,12 +22307,12 @@ var MovieTagGroup = _react2.default.createClass({
                     }
                     return _react2.default.createElement(
                         'li',
-                        { onClick: function onClick() {
+                        { key: item.id, id: item.id, onClick: function onClick() {
                                 _this3.props.handleClickTag(item.id, _this3.props.movieTagGroupId);
                             }, className: tagStyleClass },
                         _react2.default.createElement(
                             'a',
-                            { key: item.id, id: item.id, href: '#' },
+                            { href: 'javascript:void(0);' },
                             item.name
                         )
                     );

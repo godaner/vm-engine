@@ -107,8 +107,8 @@ var MovieTagGroup = React.createClass({
                                 tagStyleClass="";
                             }
                             return (
-                                <li onClick={()=>{this.props.handleClickTag(item.id,this.props.movieTagGroupId)}} className={tagStyleClass}>
-                                    <a key={item.id} id={item.id} href="#">
+                                <li key={item.id} id={item.id}  onClick={()=>{this.props.handleClickTag(item.id,this.props.movieTagGroupId)}} className={tagStyleClass}>
+                                    <a href="javascript:void(0);">
                                         {item.name}
                                     </a>
                                 </li>
