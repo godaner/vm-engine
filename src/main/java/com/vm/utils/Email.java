@@ -33,7 +33,7 @@ public class Email {
 	private String cc = null;
 	// 设置暗送
 	private String bcc = null;
-	private String propsPath = "email.properties";
+	private String propsPath = "config/email.properties";
 
 	public Email() {
 		try {
@@ -176,19 +176,19 @@ public class Email {
 		this.props = CommonUtil.loadProps(propsPath);
 	}
 
-	public static void main(String[] args) {
-		try {
-			
-			String uuid = UUID.randomUUID().toString();
-			
-			
-			String conetnt = "<a href='http://localhost/sht/users/verifyEmail.action?email=1138829222@qq.com&code="+uuid+"'>请点击这里激活</a>";
-			
-			
-			new Email().sendMessage("ergou1217@163.com", "张可大爷", conetnt);
-			
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String[] args) {
+//		try {
+//
+//			String uuid = UUID.randomUUID().toString();
+//
+//
+//			String conetnt = "<a href='http://localhost/sht/users/verifyEmail.action?email=1138829222@qq.com&code="+uuid+"'>请点击这里激活</a>";
+//
+//
+//			new Email().sendMessage("ergou1217@163.com", "张可大爷", conetnt);
+//
+//		} catch (MessagingException e) {
+//			e.printStackTrace();
+//		}
+//	}
 }

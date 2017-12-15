@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class ValidateRuntimeException extends VmRuntimeException {
 
-    public ValidateRuntimeException(ErrorCode authErrorCode, Map object) {
-        super(authErrorCode.getCode(), authErrorCode.getMsg(), object);
+    public ValidateRuntimeException(ErrorCode errorCode, Map map) {
+        super(errorCode.getCode(), errorCode.getMsg(), map);
     }
 
     public enum ErrorCode {

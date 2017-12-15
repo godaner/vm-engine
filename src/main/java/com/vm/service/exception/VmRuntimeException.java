@@ -14,39 +14,34 @@ import java.util.Map;
  * <br/>
  * <b>Date:</b>2017/11/24 9:55
  */
-public class VmRuntimeException extends RuntimeException{
-    protected Long errorCode ;
-    protected Map params ;
+public class VmRuntimeException extends RuntimeException {
+    protected Long errorCode;
+    protected Map params;
 
-    public VmRuntimeException(Long errorCode, String message, Map params, Throwable e){
-        super(message,e);
-        this.errorCode = errorCode ;
-        this.params = params ;
+    public VmRuntimeException(Long errorCode, String message, Map params, Throwable e) {
+
+        super(message, e);
+        this.errorCode = errorCode;
+        this.params = params;
     }
 
-    public VmRuntimeException(Long errorCode, String message, Map data){
-        this(errorCode,message,data,null);
+    public VmRuntimeException(Long errorCode, String message, Map data) {
+
+        this(errorCode, message, data, null);
     }
 
-    public VmRuntimeException(Long errorCode, String message){
-        this(errorCode,message,null,null);
+    public VmRuntimeException(Long errorCode, String message) {
+        this(errorCode, message, null, null);
     }
 
-    public VmRuntimeException(String message, Throwable e){
-        this(null,message,null,e);
+    public VmRuntimeException(ErrorCode errorCode) {
+        this(errorCode.getCode(), errorCode.getMsg(), null, null);
     }
 
-    public VmRuntimeException(){
-
-    }
-
-    public VmRuntimeException(Throwable e){
-        super(e);
-    }
     public VmRuntimeException(String message) {
-        super(message);
-    }
 
+        this(ErrorCode.UNKNOWN.getCode(), message, null, null);
+    }
     public Long getErrorCode() {
         return errorCode;
     }
@@ -55,15 +50,13 @@ public class VmRuntimeException extends RuntimeException{
         this.errorCode = errorCode;
     }
 
-    public String toString()
-    {
+    public String toString() {
         StringBuffer sb = new StringBuffer(super.toString());
-        if(getParams() != null)
-        {
+        if (getParams() != null) {
             Map args = getParams();
             for (Object object : args.keySet()) {
-                String name = (String) object ;
-                sb.append(" "+name+":").append(args.get(name)).append(";");
+                String name = (String) object;
+                sb.append(" " + name + ":").append(args.get(name)).append(";");
             }
         }
         return sb.toString();
@@ -77,6 +70,7 @@ public class VmRuntimeException extends RuntimeException{
     public void setParams(Map params) {
         this.params = params;
     }
+
     /**
      * <b>Title:</b>
      * <br/>
@@ -90,7 +84,7 @@ public class VmRuntimeException extends RuntimeException{
      * <b>Date:</b>2017/11/24 9:58
      */
     public enum ErrorCode {
-        UNKNOWN(10000L,"系统错误");
+        UNKNOWN(10000L, "系统错误");
         private Long code;
         private String msg;
 
