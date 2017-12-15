@@ -2,37 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>vm电影网</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-    <!--<link rel="stylesheet" href="/frontend/css/index.css">-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <script src="/js/jquery/jquery-3.2.1.min.js"></script>
     <script src="/js/util.js"></script>
-    <!--<script src="/js/reactjs/react.js"></script>-->
-    <!--<script src="/js/reactjs/react-dom.js"></script>-->
-    <!--<script src="/js/reactjs/browser.min.js"></script>-->
-
-
-
-    <!--<script type="text/babel" src="/js/frontfragment_msg_dialog.jsxg.js"></script>-->
-    <!--<script type="text/babel" src="/js/frontfragment_index_center.jsxr.js"></script>-->
-    <!--<script src="https://cdn.bootcss.com/react/15.4.2/react.min.js"></script>-->
-    <!--<script src="https://cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>-->
-    <!--<script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>-->
-
 
 </head>
 <body>
 
 <!--msg_dialog-->
-<div th:replace="frontend/fragment_msg_dialog :: #fragment_msg_dialog_body"></div>
+<div id="react_dom_index_head"></div>
 <!--head-->
-<div th:replace="frontend/fragment_head :: #fragment_head_body"></div>
 <!--index_center-->
-<div th:replace="frontend/fragment_index_center :: #fragment_index_center_body"></div>
+<div id="react_dom_index_center"></div>
 <!--tail-->
-<div th:replace="frontend/fragment_tail :: #fragment_tail_body"></div>
-
+<div id="react_dom_index_tail"></div>
 </body>
 <script src="/frontend/dist/bundle.js"></script>
 </html>

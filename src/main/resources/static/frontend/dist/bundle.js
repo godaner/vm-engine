@@ -9612,11 +9612,25 @@ var _fragment_index_center = __webpack_require__(184);
 
 var _fragment_index_center2 = _interopRequireDefault(_fragment_index_center);
 
+var _fragment_head = __webpack_require__(189);
+
+var _fragment_head2 = _interopRequireDefault(_fragment_head);
+
+var _fragment_tail = __webpack_require__(192);
+
+var _fragment_tail2 = _interopRequireDefault(_fragment_tail);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_reactDom2.default.render(_react2.default.createElement(_fragment_index_center2.default, { tagGroupSource: '/tagGroup/list', movieSource: '/movie/list' }), document.getElementById('react_dom_index_center'));
-// ReactDOM.render(<MsgDialog/>,document.getElementById("react_dom_dialog"));
+/*网站头部*/
+_reactDom2.default.render(_react2.default.createElement(_fragment_tail2.default, null), document.getElementById('react_dom_index_tail'));
+/*主页中部*/
 /*!!记得导入*/
+_reactDom2.default.render(_react2.default.createElement(_fragment_index_center2.default, { tagGroupSource: '/tagGroup/list', movieSource: '/movie/list' }), document.getElementById('react_dom_index_center'));
+/*网站尾部*/
+_reactDom2.default.render(_react2.default.createElement(_fragment_head2.default, null), document.getElementById('react_dom_index_head'));
+
+// ReactDOM.render(<MsgDialog/>,document.getElementById("react_dom_dialog"));
 
 /***/ }),
 /* 83 */
@@ -22981,6 +22995,209 @@ function updateLink(linkElement, obj) {
 	if(oldSrc)
 		URL.revokeObjectURL(oldSrc);
 }
+
+
+/***/ }),
+/* 189 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(81);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(190);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Head = _react2.default.createClass({
+    displayName: 'Head',
+
+
+    render: function render() {
+        return _react2.default.createElement(
+            'div',
+            { id: 'fragment_head_content' },
+            _react2.default.createElement(
+                'div',
+                { id: 'nav_div' },
+                _react2.default.createElement(
+                    'ul',
+                    { id: 'fragment_head_nav' },
+                    _react2.default.createElement(
+                        'li',
+                        { id: 'fragment_head_nav_logo' },
+                        _react2.default.createElement(
+                            'span',
+                            { id: 'logo_v' },
+                            'V'
+                        ),
+                        _react2.default.createElement(
+                            'span',
+                            { id: 'logo_m' },
+                            'M'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'li',
+                        { id: 'user_li' },
+                        _react2.default.createElement(
+                            'ul',
+                            { id: 'user_ul' },
+                            _react2.default.createElement(
+                                'li',
+                                null,
+                                _react2.default.createElement(
+                                    'a',
+                                    { id: 'headImg_a', href: '#' },
+                                    _react2.default.createElement('img', { id: 'headImg_img', src: '/frontend/image/head.png' })
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'li',
+                                null,
+                                _react2.default.createElement(
+                                    'a',
+                                    { id: 'username', href: '#' },
+                                    '\u5218\u4E8C\u72D7\u548C\u5F20\u72D7\u86CB'
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'li',
+                                null,
+                                _react2.default.createElement(
+                                    'a',
+                                    { href: '#' },
+                                    '\u6CE8\u9500'
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+            _react2.default.createElement('div', { id: 'blank_div' })
+        );
+    }
+}); //引入react组件
+exports.default = Head; //将App组件导出
+
+/***/ }),
+/* 190 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(191);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(188)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./fragment_head.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./fragment_head.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 191 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(187)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.clear {\n  clear: both; }\n\n/*var start*/\n/*var end*/\n/*mixin start*/\n/*mixin end*/\n#fragment_head_content {\n  width: 100%;\n  height: 70px;\n  line-height: 70px;\n  background-color: white; }\n  #fragment_head_content #nav_div {\n    background-color: gold;\n    position: fixed;\n    top: 0px;\n    left: 0px;\n    background-color: white; }\n    #fragment_head_content #nav_div ul#fragment_head_nav {\n      /*nav*/\n      list-style-type: none;\n      height: 70px;\n      line-height: 70px;\n      padding: 0px 0px;\n      margin: 0px 15%;\n      width: 70%;\n      /*user*/ }\n      #fragment_head_content #nav_div ul#fragment_head_nav li {\n        width: 50%;\n        float: left;\n        display: block;\n        height: 70px;\n        line-height: 70px; }\n      #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_logo #logo_v {\n        color: red;\n        font-weight: bold;\n        font-size: 30px; }\n      #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_logo #logo_m {\n        color: rgb(61,158,255);\n        font-weight: bold;\n        font-size: 30px; }\n      #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul {\n        list-style: none;\n        display: inline; }\n        #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul li {\n          width: auto;\n          display: inline-block; }\n      #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul#user_ul li {\n        margin: 0px 10px; }\n        #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul#user_ul li a#headImg_a img#headImg_img {\n          border-radius: 100px;\n          width: 42px;\n          height: 42px;\n          margin: 14px 0px; }\n        #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul#user_ul li a:hover {\n          color: red; }\n  #fragment_head_content #blank_div {\n    height: 70px;\n    background-color: \"rgb(61,158,255)\"; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 192 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(81);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(193);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Tail = _react2.default.createClass({
+    displayName: 'Tail',
+
+
+    render: function render() {
+        return _react2.default.createElement(
+            'div',
+            { id: 'fragment_tail_content' },
+            _react2.default.createElement('img', { src: '/frontend/image/tail.png' })
+        );
+    }
+}); //引入react组件
+exports.default = Tail; //将App组件导出
+
+/***/ }),
+/* 193 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(194);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(188)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./fragment_tail.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./fragment_tail.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 194 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(187)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.clear {\n  clear: both; }\n\n#fragment_tail_content {\n  height: 200px;\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243);\n  margin-top: 30px; }\n", ""]);
+
+// exports
 
 
 /***/ })
