@@ -1,16 +1,16 @@
 
 import React from 'react';  //引入react组件
 import '../scss/index.scss';
-import IndexCenter from "./fragment_index_center";
-import Head from "./fragment_head";
-import Tail from "./fragment_tail";
+import MovieListPage from "./movie_list_page";
+import Head from "./head";
+import Tail from "./tail";
 var Index = React.createClass({
 
     render: function () {
         return (
             <div id="index">
                 <Head/>
-                <IndexCenter tagGroupSource="/tagGroup/list" movieSource="/movie/list"/>
+                <MovieListPage tagGroupSource="/tagGroup/list" movieSource="/movie/list"/>
                 <Tail/>
             </div>
         );
