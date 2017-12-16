@@ -52,7 +52,7 @@ public class ApplicationStartedListener implements ApplicationListener<ContextRe
     private void checkAndCreateDir(String dirPath) {
         File dir = new File(dirPath);
         if (!dir.exists()) {
-            dir.mkdir();
+            dir.mkdirs();
         }
     }
 
