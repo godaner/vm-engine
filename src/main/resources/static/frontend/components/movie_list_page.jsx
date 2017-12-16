@@ -2,6 +2,7 @@
 import React from 'react';  //引入react组件
 import MsgDialog from "./msg_dialog";
 import '../scss/movie_list_page.scss';
+import 'animate.css';
 var Pager = React.createClass({
 
     render: function () {
@@ -45,7 +46,7 @@ var MoviesDisplayer = React.createClass({
 
     render: function () {
         var movieItems = this.props.movies.map(function (item) {
-            return <li className="movie_item" key={item.id}>
+            return <li className="movie_item animated flipInX" key={item.id}>
                 <div className="movie_img_div">
                     <a href="">
                         <img src={item.imgUrl}/>
@@ -358,32 +359,44 @@ var MovieListPage = React.createClass({
         this.setState(state);
         this.getMovie();
     },
-    handleSearch:function(sec){
-        //等待sec后自动执行搜索
-        if(sec == undefined || sec<=0){
-            this.clearMovieSearchTimer();
-            this.search(this.refs.keyword.value);
-        }else{
-            this.clearMovieSearchTimer();
-            //稍后执行
-            this.state.movieSearchTimer = setTimeout(function (){
-                this.search(this.refs.keyword.value);
-            }.bind(this),sec);
-        }
-
-
-    },
     clearMovieSearchTimer:function(){
         if(this.state.movieSearchTimer){
             clearTimeout(this.state.movieSearchTimer);
         }
     },
+    handleSearchInputChange:function(){
+
+
+        //clear search timer
+        this.clearMovieSearchTimer();
+        //稍后执行
+        this.state.movieSearchTimer = setTimeout(function (){
+            this.searchMovie();
+        }.bind(this),1000);
+
+
+    },
     handleSearchInputKeyUp:function(e){
         if(e.keyCode == 13 ){
-            this.handleSearch(0);
+            //clear search timer
+            this.clearMovieSearchTimer();
+
+            //search movie
+            this.searchMovie();
         }
     },
-    search:function(keyword){
+    handleClickSearchBtn:function(){
+
+        //clear search timer
+        this.clearMovieSearchTimer();
+
+        //search movie
+        this.search();
+    },
+    searchMovie:function(){
+        //get keyword
+        var keyword = this.refs.keyword.value;
+
         //if keyword same ,do not search
         if(this.state.lastKeyword == keyword){
             this.refs.index_msg_dialog.showMsg("重复搜索");
@@ -447,8 +460,8 @@ var MovieListPage = React.createClass({
                             </ul>
                         </div>
                         <div id="search_div">
-                            <input id="fragment_head_nav_search_text"  onChange={()=>{this.handleSearch(1000)}} onKeyUp={this.handleSearchInputKeyUp} ref="keyword" placeholder="请输入关键字"/>
-                            <input id="fragment_head_nav_search_btn" onClick={()=>{this.handleSearch(0)}} ref="movieSearchBtn" type="button" value={this.state.movieSearchBtnText}/>
+                            <input id="fragment_head_nav_search_text"  onChange={()=>{this.handleSearchInputChange()}} onKeyUp={this.handleSearchInputKeyUp} ref="keyword" placeholder="请输入关键字"/>
+                            <input id="fragment_head_nav_search_btn" onClick={()=>{this.handleClickSearchBtn()}} ref="movieSearchBtn" type="button" value={this.state.movieSearchBtnText}/>
                         </div>
                         <div id="total_div">
                             共

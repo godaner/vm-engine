@@ -3,7 +3,9 @@ import "../scss/msg_dialog.scss"
 
 var MsgDialog = React.createClass({
     getInitialState: function () {
-        return null;
+        var state = {dialogClassName:""
+        };
+        return state;
     },
     componentDidMount: function () {
         window.addEventListener('resize', this.onWindowResize)
@@ -22,16 +24,26 @@ var MsgDialog = React.createClass({
         //set it's message
         $(this.refs.dialog_body).html(msg);
         //show it
-        this.fadeIn(500);
+        this.fadeIn();
     },
-    fadeIn: function (ms) {
-        $(this.refs.content).fadeIn(ms);
+    fadeIn: function () {
+
+        var state = this.state;
+        $(this.refs.content).fadeIn();
+        state.dialogClassName = "block animated zoomIn";
+        this.setState(state);
+
+        c(this.state);
+
     },
-    fadeOut: function (ms) {
-        $(this.refs.content).fadeOut(ms);
+    fadeOut: function () {
+        var state = this.state;
+        state.dialogClassName = "animated bounceOut";
+        $(this.refs.content).fadeOut();
+        this.setState(state);
     },
     close:function(){
-        $(this.refs.content).fadeOut(500);
+        this.fadeOut();
     },
     adjustUI: function () {
         {
@@ -54,7 +66,7 @@ var MsgDialog = React.createClass({
     render: function () {
         return (
             <div id="fragment_msg_dialog_content" ref="content">
-                <div id="dialog" ref="dialog">
+                <div id="dialog" className={this.state.dialogClassName} ref="dialog">
                     <div id="head">
                         <div>信息</div>
                         <div id="close" onClick={this.close}>X</div>

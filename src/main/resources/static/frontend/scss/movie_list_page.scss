@@ -5,6 +5,11 @@
   background-color: white;
 }
 
+.clickSearchBtn{
+  background-color: $defaultBlueRgb;
+  color: white;
+}
+
 #fragment_index_center_content {
   @include defaultMiddle(70%);
   background-color: unquote($defaultLightGrayRgb);
