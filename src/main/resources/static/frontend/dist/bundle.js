@@ -22475,13 +22475,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Index = _react2.default.createClass({
     displayName: 'Index',
 
+    getInitialState: function getInitialState() {
+        var state = { nowPage: 1, pageMap: { 1: _react2.default.createElement(_movie_list_page2.default, { tagGroupSource: '/tagGroup/list', movieSource: '/movie/list' }) } };
 
+        return state;
+    },
     render: function render() {
+        var page = this.state.pageMap[this.state.nowPage];
         return _react2.default.createElement(
             'div',
             { id: 'index' },
             _react2.default.createElement(_head2.default, null),
-            _react2.default.createElement(_movie_list_page2.default, { tagGroupSource: '/tagGroup/list', movieSource: '/movie/list' }),
+            page,
             _react2.default.createElement(_tail2.default, null)
         );
     }
@@ -22649,7 +22654,7 @@ exports = module.exports = __webpack_require__(33)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.clear {\n  clear: both; }\n\n#fragment_msg_dialog_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 9999;\n  background-color: rgba(0, 0, 0, 0.8); }\n  #fragment_msg_dialog_content #dialog {\n    margin-top: 300px;\n    width: 300px;\n    height: 200px;\n    padding: 20px;\n    background-color: rgb(241,242,243);\n    border-radius: 5px; }\n    #fragment_msg_dialog_content #dialog * {\n      color: black; }\n    #fragment_msg_dialog_content #dialog > div {\n      width: 100%; }\n    #fragment_msg_dialog_content #dialog #head {\n      height: 35px;\n      line-height: 35px;\n      border-bottom: 1px solid black; }\n      #fragment_msg_dialog_content #dialog #head > div {\n        font-size: 18px;\n        float: left;\n        width: 50%; }\n      #fragment_msg_dialog_content #dialog #head div#close {\n        cursor: pointer;\n        text-align: right;\n        font-weight: bold;\n        transition: all 100ms; }\n        #fragment_msg_dialog_content #dialog #head div#close:hover {\n          color: red;\n          font-weight: bold;\n          font-size: 22px; }\n    #fragment_msg_dialog_content #dialog #body {\n      margin-top: 10px;\n      text-align: center;\n      line-height: 100%;\n      height: 100%; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.clear {\n  clear: both; }\n\n#fragment_msg_dialog_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 9999;\n  background-color: rgba(0, 0, 0, 0.8); }\n  #fragment_msg_dialog_content #dialog {\n    margin-top: 300px;\n    width: 300px;\n    height: 100px;\n    padding: 20px;\n    background-color: rgb(241,242,243);\n    border-radius: 5px; }\n    #fragment_msg_dialog_content #dialog * {\n      color: black; }\n    #fragment_msg_dialog_content #dialog > div {\n      width: 100%; }\n    #fragment_msg_dialog_content #dialog #head {\n      height: 35px;\n      line-height: 35px;\n      border-bottom: 1px solid black; }\n      #fragment_msg_dialog_content #dialog #head > div {\n        font-size: 18px;\n        float: left;\n        width: 50%; }\n      #fragment_msg_dialog_content #dialog #head div#close {\n        cursor: pointer;\n        text-align: right;\n        font-weight: bold;\n        transition: all 100ms; }\n        #fragment_msg_dialog_content #dialog #head div#close:hover {\n          color: red;\n          font-weight: bold;\n          font-size: 22px; }\n    #fragment_msg_dialog_content #dialog #body {\n      margin-top: 20px;\n      text-align: center;\n      line-height: 100%;\n      font-size: 15px;\n      height: 100%; }\n", ""]);
 
 // exports
 
