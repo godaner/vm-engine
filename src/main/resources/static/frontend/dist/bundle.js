@@ -22862,21 +22862,15 @@ var IndexCenter = _react2.default.createClass({
     },
 
     handleSearch: function handleSearch(sec) {
-        if (this.state.lastKeyword == this.refs.keyword.value) {
-            //如果关键字没有改变，那么不搜索
-            return;
-        }
         //等待sec后自动执行搜索
         if (sec == undefined || sec <= 0) {
             this.clearMovieSearchTimer();
             this.search(this.refs.keyword.value);
-            this.state.lastKeyword = this.refs.keyword.value;
         } else {
             this.clearMovieSearchTimer();
             //稍后执行
             this.state.movieSearchTimer = setTimeout(function () {
                 this.search(this.refs.keyword.value);
-                this.state.lastKeyword = this.refs.keyword.value;
             }.bind(this), sec);
         }
     },
@@ -22891,16 +22885,26 @@ var IndexCenter = _react2.default.createClass({
         }
     },
     search: function search(keyword) {
+        //if keyword same ,do not search
+        if (this.state.lastKeyword == keyword) {
+            return;
+        }
         var movieSearchBtnOdlText = this.refs.movieSearchBtn.value;
         var movieSearchBtn = $(this.refs.movieSearchBtn);
         // movieSearchBtn.val("搜索中...");
+
         //set the keyword in state
         var state = this.state;
         state.movies.keyword = keyword;
         this.setState(state);
         this.getMovie(function () {
             // movieSearchBtn.val(movieSearchBtnOdlText);
-        }.bind(this));
+
+            //search page 1
+            this.state.movies.page = 1;
+            //save this keyword
+            this.state.lastKeyword = keyword;
+        }.bind(this, keyword));
     },
     render: function render() {
         var _this4 = this;
