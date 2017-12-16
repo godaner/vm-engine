@@ -225,7 +225,7 @@ var IndexCenter = React.createClass({
 
 
             //callfun
-            callfun&&callfun();
+            callfun!=undefined&&callfun();
         }.bind(this));
     },
     getTagGroup(callfun){
@@ -270,7 +270,7 @@ var IndexCenter = React.createClass({
 
 
         var orderByOptions = [{id:"score",name:"最高评分",selected:true},{id:"watch_num",name:"最多播放",selected:false},{id:"release_time",name:"最新上映",selected:false}];
-        var state = {lastKeyword:"",movieSearchTimer:undefined,movieTagGroup: [], movies: {keyword:"",total: 0, list: [], page: 1, size: 10,orderType:"desc"},orderByOptions:orderByOptions};
+        var state = {movieSearchBtnText:"搜索",lastKeyword:"",movieSearchTimer:undefined,movieTagGroup: [], movies: {keyword:"",total: 0, list: [], page: 1, size: 10,orderType:"desc"},orderByOptions:orderByOptions};
 
         return state;
 
@@ -385,22 +385,31 @@ var IndexCenter = React.createClass({
         if(this.state.lastKeyword == keyword){
             return ;
         }
-        var movieSearchBtnOdlText = this.refs.movieSearchBtn.value;
-        var movieSearchBtn = $(this.refs.movieSearchBtn);
-        // movieSearchBtn.val("搜索中...");
-        
-        //set the keyword in state
+        var oldMovieSearchBtnText = this.state.movieSearchBtnText;
+
         var state = this.state;
+        //set the movieSearchBtnText in state
+        state.movieSearchBtnText = "搜索中...";
+
+        //set the keyword in state
         state.movies.keyword = keyword;
+        //search page 1
+        state.movies.page = 1;
+        //update state
         this.setState(state);
         this.getMovie(function(){
             // movieSearchBtn.val(movieSearchBtnOdlText);
 
-            //search page 1
-            this.state.movies.page = 1;
             //save this keyword
             this.state.lastKeyword = keyword;
-        }.bind(this,keyword));
+            setTimeout(function(){
+                var state = this.state;
+                //update movieSearchBtnText in state
+                state.movieSearchBtnText = oldMovieSearchBtnText;
+                this.setState(state)
+            }.bind(this,oldMovieSearchBtnText),100);
+
+        }.bind(this,keyword,oldMovieSearchBtnText));
     },
     render: function () {
         return (
@@ -435,7 +444,7 @@ var IndexCenter = React.createClass({
                         </div>
                         <div id="search_div">
                             <input id="fragment_head_nav_search_text"  onChange={()=>{this.handleSearch(1000)}} onKeyUp={this.handleSearchInputKeyUp} ref="keyword" placeholder="请输入关键字"/>
-                            <input id="fragment_head_nav_search_btn" onClick={()=>{this.handleSearch(0)}} ref="movieSearchBtn" type="button" value="搜索"/>
+                            <input id="fragment_head_nav_search_btn" onClick={()=>{this.handleSearch(0)}} ref="movieSearchBtn" type="button" value={this.state.movieSearchBtnText}/>
                         </div>
                         <div id="total_div">
                             共

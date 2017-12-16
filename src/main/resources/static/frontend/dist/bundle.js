@@ -22731,7 +22731,7 @@ var IndexCenter = _react2.default.createClass({
             this.adjustMovieListUI();
 
             //callfun
-            callfun && callfun();
+            callfun != undefined && callfun();
         }.bind(this));
     },
     getTagGroup: function getTagGroup(callfun) {
@@ -22777,7 +22777,7 @@ var IndexCenter = _react2.default.createClass({
 
 
         var orderByOptions = [{ id: "score", name: "最高评分", selected: true }, { id: "watch_num", name: "最多播放", selected: false }, { id: "release_time", name: "最新上映", selected: false }];
-        var state = { lastKeyword: "", movieSearchTimer: undefined, movieTagGroup: [], movies: { keyword: "", total: 0, list: [], page: 1, size: 10, orderType: "desc" }, orderByOptions: orderByOptions };
+        var state = { movieSearchBtnText: "搜索", lastKeyword: "", movieSearchTimer: undefined, movieTagGroup: [], movies: { keyword: "", total: 0, list: [], page: 1, size: 10, orderType: "desc" }, orderByOptions: orderByOptions };
 
         return state;
     },
@@ -22889,22 +22889,30 @@ var IndexCenter = _react2.default.createClass({
         if (this.state.lastKeyword == keyword) {
             return;
         }
-        var movieSearchBtnOdlText = this.refs.movieSearchBtn.value;
-        var movieSearchBtn = $(this.refs.movieSearchBtn);
-        // movieSearchBtn.val("搜索中...");
+        var oldMovieSearchBtnText = this.state.movieSearchBtnText;
+
+        var state = this.state;
+        //set the movieSearchBtnText in state
+        state.movieSearchBtnText = "搜索中...";
 
         //set the keyword in state
-        var state = this.state;
         state.movies.keyword = keyword;
+        //search page 1
+        state.movies.page = 1;
+        //update state
         this.setState(state);
         this.getMovie(function () {
             // movieSearchBtn.val(movieSearchBtnOdlText);
 
-            //search page 1
-            this.state.movies.page = 1;
             //save this keyword
             this.state.lastKeyword = keyword;
-        }.bind(this, keyword));
+            setTimeout(function () {
+                var state = this.state;
+                //update movieSearchBtnText in state
+                state.movieSearchBtnText = oldMovieSearchBtnText;
+                this.setState(state);
+            }.bind(this, oldMovieSearchBtnText), 100);
+        }.bind(this, keyword, oldMovieSearchBtnText));
     },
     render: function render() {
         var _this4 = this;
@@ -22963,7 +22971,7 @@ var IndexCenter = _react2.default.createClass({
                             }, onKeyUp: this.handleSearchInputKeyUp, ref: 'keyword', placeholder: '\u8BF7\u8F93\u5165\u5173\u952E\u5B57' }),
                         _react2.default.createElement('input', { id: 'fragment_head_nav_search_btn', onClick: function onClick() {
                                 _this4.handleSearch(0);
-                            }, ref: 'movieSearchBtn', type: 'button', value: '\u641C\u7D22' })
+                            }, ref: 'movieSearchBtn', type: 'button', value: this.state.movieSearchBtnText })
                     ),
                     _react2.default.createElement(
                         'div',
