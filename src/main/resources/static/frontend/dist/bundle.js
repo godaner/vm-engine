@@ -22663,10 +22663,11 @@ var MovieTagGroup = _react2.default.createClass({
     render: function render() {
         var _this2 = this;
 
-        var tagGroupStyleClass = "currt";
-        if (this.props.selected == undefined || this.props.selected == false) {
-            tagGroupStyleClass = "";
+        var tagGroupStyleClass = "animated flip";
+        if (this.props.selected != undefined && this.props.selected) {
+            tagGroupStyleClass = "currt " + tagGroupStyleClass;
         }
+        c(tagGroupStyleClass);
         return _react2.default.createElement(
             'div',
             { id: this.props.movieTagGroupId, className: 'type_item' },
@@ -22681,9 +22682,9 @@ var MovieTagGroup = _react2.default.createClass({
                 null,
                 _react2.default.createElement(
                     'li',
-                    { onClick: function onClick() {
+                    { className: tagGroupStyleClass, onClick: function onClick() {
                             _this2.props.handleClickTag(undefined, _this2.props.movieTagGroupId);
-                        }, className: tagGroupStyleClass },
+                        } },
                     _react2.default.createElement(
                         'a',
                         { href: 'javascript:void(0);' },
@@ -22693,15 +22694,15 @@ var MovieTagGroup = _react2.default.createClass({
                 this.props.movieTags.map(function (item) {
                     var _this3 = this;
 
-                    var tagStyleClass = "currt";
-                    if (item.selected == undefined || item.selected == false) {
-                        tagStyleClass = "";
+                    var tagStyleClass = "animated flip";
+                    if (item.selected != undefined && item.selected) {
+                        tagStyleClass = "currt " + tagStyleClass;
                     }
                     return _react2.default.createElement(
                         'li',
-                        { key: item.id, id: item.id, onClick: function onClick() {
+                        { key: item.id, id: item.id, className: tagStyleClass, onClick: function onClick() {
                                 _this3.props.handleClickTag(item.id, _this3.props.movieTagGroupId);
-                            }, className: tagStyleClass },
+                            } },
                         _react2.default.createElement(
                             'a',
                             { href: 'javascript:void(0);' },

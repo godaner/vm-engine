@@ -87,29 +87,30 @@ var MoviesDisplayer = React.createClass({
 /*一组电影tag*/
 var MovieTagGroup = React.createClass({
     render: function () {
-        var tagGroupStyleClass = "currt";
-        if(this.props.selected == undefined || this.props.selected==false){
-            tagGroupStyleClass="";
+        var tagGroupStyleClass = "animated flip";
+        if(this.props.selected != undefined && this.props.selected){
+            tagGroupStyleClass = "currt "+ tagGroupStyleClass;
         }
+        c(tagGroupStyleClass);
         return (
             <div id={this.props.movieTagGroupId} className="type_item">
                 <label>
                     {this.props.movieTagGroupName}:
                 </label>
                 <ul>
-                    <li onClick={()=>{this.props.handleClickTag(undefined,this.props.movieTagGroupId)}} className={tagGroupStyleClass}>
+                    <li className={tagGroupStyleClass} onClick={()=>{this.props.handleClickTag(undefined,this.props.movieTagGroupId)}} >
                         <a href="javascript:void(0);">
                             全部
                         </a>
                     </li>
                     {
                         this.props.movieTags.map(function (item) {
-                            var tagStyleClass = "currt";
-                            if(item.selected == undefined || item.selected==false){
-                                tagStyleClass="";
+                            var tagStyleClass = "animated flip";
+                            if(item.selected != undefined && item.selected){
+                                tagStyleClass = "currt " + tagStyleClass;
                             }
                             return (
-                                <li key={item.id} id={item.id}  onClick={()=>{this.props.handleClickTag(item.id,this.props.movieTagGroupId)}} className={tagStyleClass}>
+                                <li key={item.id} id={item.id} className={tagStyleClass}  onClick={()=>{this.props.handleClickTag(item.id,this.props.movieTagGroupId)}}>
                                     <a href="javascript:void(0);">
                                         {item.name}
                                     </a>
