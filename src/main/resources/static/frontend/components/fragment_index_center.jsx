@@ -1,7 +1,7 @@
 
 import React from 'react';  //引入react组件
 import MsgDialog from "./fragment_msg_dialog";
-import '../scss/index.scss';
+import '../scss/fragment_index_center.scss';
 var Pager = React.createClass({
 
     render: function () {
@@ -326,12 +326,15 @@ var IndexCenter = React.createClass({
 
         }
 
-        //replace state
+        //get react state
         var state = this.state;
+        //set movie list page
+        state.movies.page = 1;
+        //set tag group
         state.movieTagGroup = groups;
 
+        //set react state
         this.setState(state);
-//            c(this.state);
 
         //refresh movies list
         this.getMovie();

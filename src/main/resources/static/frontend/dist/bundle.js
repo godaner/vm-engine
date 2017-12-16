@@ -9916,29 +9916,14 @@ var _react = __webpack_require__(24);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _fragment_index_center = __webpack_require__(186);
+var _index = __webpack_require__(200);
 
-var _fragment_index_center2 = _interopRequireDefault(_fragment_index_center);
-
-var _fragment_head = __webpack_require__(192);
-
-var _fragment_head2 = _interopRequireDefault(_fragment_head);
-
-var _fragment_tail = __webpack_require__(195);
-
-var _fragment_tail2 = _interopRequireDefault(_fragment_tail);
+var _index2 = _interopRequireDefault(_index);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*网站头部*/
-_reactDom2.default.render(_react2.default.createElement(_fragment_tail2.default, null), document.getElementById('react_dom_index_tail'));
-/*主页中部*/
-/*!!记得导入*/
-_reactDom2.default.render(_react2.default.createElement(_fragment_index_center2.default, { tagGroupSource: '/tagGroup/list', movieSource: '/movie/list' }), document.getElementById('react_dom_index_center'));
-/*网站尾部*/
-_reactDom2.default.render(_react2.default.createElement(_fragment_head2.default, null), document.getElementById('react_dom_index_head'));
-
-// ReactDOM.render(<MsgDialog/>,document.getElementById("react_dom_dialog"));
+_reactDom2.default.render(_react2.default.createElement(_index2.default, null), document.getElementById('react_dom_index')); /*!!记得导入*/
 
 /***/ }),
 /* 85 */
@@ -22422,7 +22407,7 @@ var _fragment_msg_dialog = __webpack_require__(187);
 
 var _fragment_msg_dialog2 = _interopRequireDefault(_fragment_msg_dialog);
 
-__webpack_require__(190);
+__webpack_require__(198);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22832,12 +22817,15 @@ var IndexCenter = _react2.default.createClass({
             }
         }
 
-        //replace state
+        //get react state
         var state = this.state;
+        //set movie list page
+        state.movies.page = 1;
+        //set tag group
         state.movieTagGroup = groups;
 
+        //set react state
         this.setState(state);
-        //            c(this.state);
 
         //refresh movies list
         this.getMovie();
@@ -23179,7 +23167,7 @@ exports = module.exports = __webpack_require__(33)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.clear {\n  clear: both; }\n\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.clear {\n  clear: both; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n/*head,center,tail =>width*/\nbody > div {\n  width: 100%; }\n\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.clear {\n  clear: both; }\n\n/*var start*/\n/*var end*/\n/*mixin start*/\n/*mixin end*/\n#fragment_head_content {\n  width: 100%;\n  height: 70px;\n  line-height: 70px;\n  background-color: white; }\n  #fragment_head_content #nav_div {\n    background-color: gold;\n    position: fixed;\n    top: 0px;\n    left: 0px;\n    background-color: white; }\n    #fragment_head_content #nav_div ul#fragment_head_nav {\n      /*nav*/\n      list-style-type: none;\n      height: 70px;\n      line-height: 70px;\n      padding: 0px 0px;\n      margin: 0px 15%;\n      width: 70%;\n      /*user*/ }\n      #fragment_head_content #nav_div ul#fragment_head_nav li {\n        width: 50%;\n        float: left;\n        display: block;\n        height: 70px;\n        line-height: 70px; }\n      #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_logo #logo_v {\n        color: red;\n        font-weight: bold;\n        font-size: 30px; }\n      #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_logo #logo_m {\n        color: rgb(61,158,255);\n        font-weight: bold;\n        font-size: 30px; }\n      #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul {\n        list-style: none;\n        display: inline; }\n        #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul li {\n          width: auto;\n          display: inline-block; }\n      #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul#user_ul li {\n        margin: 0px 10px; }\n        #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul#user_ul li a#headImg_a img#headImg_img {\n          border-radius: 100px;\n          width: 42px;\n          height: 42px;\n          margin: 14px 0px; }\n        #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul#user_ul li a:hover {\n          color: red; }\n  #fragment_head_content #blank_div {\n    height: 70px;\n    background-color: \"rgb(61,158,255)\"; }\n\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.clear {\n  clear: both; }\n\n#fragment_index_center_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #fragment_index_center_content > * {\n    padding: 20px 20px; }\n  #fragment_index_center_content #movie_type_div {\n    margin-top: 20px;\n    border-radius: 3px;\n    background-color: white; }\n    #fragment_index_center_content #movie_type_div .type_item {\n      margin: 12px 0px; }\n      #fragment_index_center_content #movie_type_div .type_item > * {\n        display: inline; }\n      #fragment_index_center_content #movie_type_div .type_item label {\n        display: inline;\n        width: 20%; }\n      #fragment_index_center_content #movie_type_div .type_item ul {\n        width: 80%;\n        display: inline;\n        text-align: left;\n        list-style-type: none; }\n        #fragment_index_center_content #movie_type_div .type_item ul .currt {\n          background-color: rgb(61,158,255);\n          border-radius: 99px; }\n          #fragment_index_center_content #movie_type_div .type_item ul .currt > a {\n            color: white; }\n        #fragment_index_center_content #movie_type_div .type_item ul li {\n          margin: 0px 5px;\n          padding: 2px 5px;\n          cursor: pointer;\n          display: inline;\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_type_div .type_item ul li > a {\n            font-size: 12px; }\n          #fragment_index_center_content #movie_type_div .type_item ul li:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_type_div .type_item ul li:hover > a {\n              color: white; }\n  #fragment_index_center_content #movie_list_div {\n    margin-top: 20px;\n    border-radius: 3px;\n    background-color: white;\n    /*分割线*/ }\n    #fragment_index_center_content #movie_list_div #head {\n      width: 100%;\n      height: 30px; }\n      #fragment_index_center_content #movie_list_div #head > div {\n        display: block;\n        float: left;\n        height: 30px;\n        line-height: 30px; }\n      #fragment_index_center_content #movie_list_div #head #sort_div {\n        width: 50%;\n        text-align: left; }\n        #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways {\n          display: inline;\n          list-style-type: none; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li {\n            margin: 0px 5px;\n            padding: 2px 5px;\n            display: inline;\n            cursor: pointer;\n            transition: all 500ms; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover {\n              background-color: rgb(61,158,255);\n              border-radius: 99px; }\n              #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover > a {\n                color: white; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt > a {\n              color: white; }\n      #fragment_index_center_content #movie_list_div #head #search_div {\n        width: 40%;\n        text-align: right;\n        /*btn*/ }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_text {\n          width: 50%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          background-image: url(\"/frontend/image/icon_zoom.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          padding-left: 30px;\n          margin-right: 0px;\n          border: 1px solid rgb(61,158,255);\n          border-right: 0px; }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn {\n          width: 20%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          cursor: pointer;\n          border: 1px solid rgb(61,158,255);\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn:hover {\n            background-color: rgb(61,158,255);\n            color: white; }\n      #fragment_index_center_content #movie_list_div #head #total_div {\n        width: 10%;\n        text-align: right; }\n    #fragment_index_center_content #movie_list_div #line {\n      height: 1px;\n      background-color: rgb(241,242,243);\n      margin: 20px 0px; }\n    #fragment_index_center_content #movie_list_div #movies_display_div {\n      width: 100%; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul {\n        width: 100%;\n        display: inline;\n        list-style-type: none;\n        width: 100%; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item {\n          width: 17%;\n          padding: 1.5%;\n          display: inline-block;\n          float: left; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a {\n            display: block;\n            width: 100%; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a img {\n              width: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div {\n            width: 100%;\n            height: auto; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div {\n              width: 100%;\n              display: block;\n              margin: 2px 0px; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div .movie_name_a {\n                color: black; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul {\n              list-style: none;\n              display: inline; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul li {\n                width: auto;\n                display: inline-block; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a {\n              transition: all 500ms; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a:hover {\n                text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3);\n                color: red; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div {\n        margin: 80px 0px;\n        width: 100%;\n        text-align: center; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul {\n          list-style: none;\n          display: inline; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n            width: auto;\n            display: inline-block; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n          overflow: hidden;\n          margin: 0px 5px; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li {\n          border: 1px solid rgb(241,242,243);\n          height: auto;\n          cursor: pointer;\n          text-align: left;\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li a {\n            padding: 8px 15px;\n            display: block;\n            width: 100%;\n            height: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover {\n            background-color: rgb(61,158,255); }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover a {\n              color: white; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt {\n          background-color: rgb(61,158,255); }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt a {\n            color: white; }\n\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.clear {\n  clear: both; }\n\n#fragment_tail_content {\n  height: 200px;\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243);\n  margin-top: 30px; }\n\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.clear {\n  clear: both; }\n\n#fragment_msg_dialog_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 9999;\n  background-color: rgba(0, 0, 0, 0.8); }\n  #fragment_msg_dialog_content #dialog {\n    margin-top: 300px;\n    width: 300px;\n    height: 200px;\n    padding: 20px;\n    background-color: rgb(241,242,243);\n    border-radius: 5px; }\n    #fragment_msg_dialog_content #dialog * {\n      color: black; }\n    #fragment_msg_dialog_content #dialog > div {\n      width: 100%; }\n    #fragment_msg_dialog_content #dialog #head {\n      height: 35px;\n      line-height: 35px;\n      border-bottom: 1px solid black; }\n      #fragment_msg_dialog_content #dialog #head > div {\n        font-size: 18px;\n        float: left;\n        width: 50%; }\n      #fragment_msg_dialog_content #dialog #head div#close {\n        cursor: pointer;\n        text-align: right;\n        font-weight: bold;\n        transition: all 100ms; }\n        #fragment_msg_dialog_content #dialog #head div#close:hover {\n          color: red;\n          font-weight: bold;\n          font-size: 22px; }\n    #fragment_msg_dialog_content #dialog #body {\n      margin-top: 10px;\n      text-align: center;\n      line-height: 100%;\n      height: 100%; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.clear {\n  clear: both; }\n\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.clear {\n  clear: both; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n/*head,center,tail =>width*/\nbody > div {\n  width: 100%; }\n", ""]);
 
 // exports
 
@@ -23386,6 +23374,95 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 // exports
 
+
+/***/ }),
+/* 198 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(199);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(34)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./fragment_index_center.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./fragment_index_center.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 199 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(33)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.clear {\n  clear: both; }\n\n#fragment_index_center_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #fragment_index_center_content > * {\n    padding: 20px 20px; }\n  #fragment_index_center_content #movie_type_div {\n    margin-top: 20px;\n    border-radius: 3px;\n    background-color: white; }\n    #fragment_index_center_content #movie_type_div .type_item {\n      margin: 12px 0px; }\n      #fragment_index_center_content #movie_type_div .type_item > * {\n        display: inline; }\n      #fragment_index_center_content #movie_type_div .type_item label {\n        display: inline;\n        width: 20%; }\n      #fragment_index_center_content #movie_type_div .type_item ul {\n        width: 80%;\n        display: inline;\n        text-align: left;\n        list-style-type: none; }\n        #fragment_index_center_content #movie_type_div .type_item ul .currt {\n          background-color: rgb(61,158,255);\n          border-radius: 99px; }\n          #fragment_index_center_content #movie_type_div .type_item ul .currt > a {\n            color: white; }\n        #fragment_index_center_content #movie_type_div .type_item ul li {\n          margin: 0px 5px;\n          padding: 2px 5px;\n          cursor: pointer;\n          display: inline;\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_type_div .type_item ul li > a {\n            font-size: 12px; }\n          #fragment_index_center_content #movie_type_div .type_item ul li:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_type_div .type_item ul li:hover > a {\n              color: white; }\n  #fragment_index_center_content #movie_list_div {\n    margin-top: 20px;\n    border-radius: 3px;\n    background-color: white;\n    /*分割线*/ }\n    #fragment_index_center_content #movie_list_div #head {\n      width: 100%;\n      height: 30px; }\n      #fragment_index_center_content #movie_list_div #head > div {\n        display: block;\n        float: left;\n        height: 30px;\n        line-height: 30px; }\n      #fragment_index_center_content #movie_list_div #head #sort_div {\n        width: 50%;\n        text-align: left; }\n        #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways {\n          display: inline;\n          list-style-type: none; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li {\n            margin: 0px 5px;\n            padding: 2px 5px;\n            display: inline;\n            cursor: pointer;\n            transition: all 500ms; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover {\n              background-color: rgb(61,158,255);\n              border-radius: 99px; }\n              #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover > a {\n                color: white; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt > a {\n              color: white; }\n      #fragment_index_center_content #movie_list_div #head #search_div {\n        width: 40%;\n        text-align: right;\n        /*btn*/ }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_text {\n          width: 50%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          background-image: url(\"/frontend/image/icon_zoom.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          padding-left: 30px;\n          margin-right: 0px;\n          border: 1px solid rgb(61,158,255);\n          border-right: 0px; }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn {\n          width: 20%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          cursor: pointer;\n          border: 1px solid rgb(61,158,255);\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn:hover {\n            background-color: rgb(61,158,255);\n            color: white; }\n      #fragment_index_center_content #movie_list_div #head #total_div {\n        width: 10%;\n        text-align: right; }\n    #fragment_index_center_content #movie_list_div #line {\n      height: 1px;\n      background-color: rgb(241,242,243);\n      margin: 20px 0px; }\n    #fragment_index_center_content #movie_list_div #movies_display_div {\n      width: 100%; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul {\n        width: 100%;\n        display: inline;\n        list-style-type: none;\n        width: 100%; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item {\n          width: 17%;\n          padding: 1.5%;\n          display: inline-block;\n          float: left; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a {\n            display: block;\n            width: 100%; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a img {\n              width: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div {\n            width: 100%;\n            height: auto; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div {\n              width: 100%;\n              display: block;\n              margin: 2px 0px; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div .movie_name_a {\n                color: black; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul {\n              list-style: none;\n              display: inline; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul li {\n                width: auto;\n                display: inline-block; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a {\n              transition: all 500ms; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a:hover {\n                text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3);\n                color: red; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div {\n        margin: 80px 0px;\n        width: 100%;\n        text-align: center; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul {\n          list-style: none;\n          display: inline; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n            width: auto;\n            display: inline-block; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n          overflow: hidden;\n          margin: 0px 5px; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li {\n          border: 1px solid rgb(241,242,243);\n          height: auto;\n          cursor: pointer;\n          text-align: left;\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li a {\n            padding: 8px 15px;\n            display: block;\n            width: 100%;\n            height: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover {\n            background-color: rgb(61,158,255); }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover a {\n              color: white; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt {\n          background-color: rgb(61,158,255); }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt a {\n            color: white; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 200 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(24);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(190);
+
+var _fragment_index_center = __webpack_require__(186);
+
+var _fragment_index_center2 = _interopRequireDefault(_fragment_index_center);
+
+var _fragment_head = __webpack_require__(192);
+
+var _fragment_head2 = _interopRequireDefault(_fragment_head);
+
+var _fragment_tail = __webpack_require__(195);
+
+var _fragment_tail2 = _interopRequireDefault(_fragment_tail);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//引入react组件
+var Index = _react2.default.createClass({
+    displayName: 'Index',
+
+
+    render: function render() {
+        return _react2.default.createElement(
+            'div',
+            { id: 'index' },
+            _react2.default.createElement(_fragment_head2.default, null),
+            _react2.default.createElement(_fragment_index_center2.default, { tagGroupSource: '/tagGroup/list', movieSource: '/movie/list' }),
+            _react2.default.createElement(_fragment_tail2.default, null)
+        );
+    }
+});
+
+exports.default = Index; //将App组件导出
 
 /***/ })
 /******/ ]);
