@@ -22974,7 +22974,7 @@ var MovieListPage = _react2.default.createClass({
         this.clearMovieSearchTimer();
 
         //search movie
-        this.search();
+        this.searchMovie();
     },
     searchMovie: function searchMovie() {
         //get keyword

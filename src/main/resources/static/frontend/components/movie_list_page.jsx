@@ -391,7 +391,7 @@ var MovieListPage = React.createClass({
         this.clearMovieSearchTimer();
 
         //search movie
-        this.search();
+        this.searchMovie();
     },
     searchMovie:function(){
         //get keyword
