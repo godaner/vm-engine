@@ -1,12 +1,20 @@
 import React from 'react';  //引入react组件
 import '../scss/inner_messager.scss';
+
 var InnerMessager = React.createClass({
-    getInitialState:function(){
-      var state = {tip:this.props.tip};
-      return state;
+    getInitialState: function () {
+
+        var state = {};
+        var tip = "正在加载...";
+        if (this.props.tip != undefined && this.props.tip != "") {
+            tip = this.props.tip;
+        }
+        state = {tip: tip};
+        return state;
+
     },
-    showMsg(msg){
-        if(msg == undefined){
+    showMsg(msg) {
+        if (msg == undefined) {
             msg = "";
         }
         var state = this.state;

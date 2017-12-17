@@ -23604,7 +23604,13 @@ var InnerMessager = _react2.default.createClass({
     displayName: 'InnerMessager',
 
     getInitialState: function getInitialState() {
-        var state = { tip: this.props.tip };
+
+        var state = {};
+        var tip = "正在加载...";
+        if (this.props.tip != undefined && this.props.tip != "") {
+            tip = this.props.tip;
+        }
+        state = { tip: tip };
         return state;
     },
     showMsg: function showMsg(msg) {
