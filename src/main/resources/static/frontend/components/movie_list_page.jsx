@@ -81,7 +81,7 @@ var MoviesDisplayer = React.createClass({
             </li>;
         });
         return <ul id="movies_list_ul">
-            <div className="movieTip">{this.props.tip}</div>
+            <div id="movieTip">{this.props.tip}</div>
             {movieItems}
             <li className="clear"></li>
         </ul>;
@@ -132,6 +132,9 @@ var MovieTagGroupList = React.createClass({
     render: function () {
         return (
             <div>
+
+                <div id="tagTip">{this.props.tip}</div>
+
                 {
                     this.props.movieTagGroup.map(function (item) {
                         return (
@@ -251,11 +254,30 @@ var MovieListPage = React.createClass({
             callfun!=undefined&&callfun();
         }.bind(this));
     },
+    showTagTip(msg){
+        if(msg == undefined){
+            msg = "";
+        }
+        var state = this.state;
+        state.tagTip = msg;
+        this.setState(state);
+    },
     getTagGroup(callfun){
+        //set tip
+        this.showTagTip("正在加载...");
         {/*获取电影标签分组*/}
         this.serverRequest = $.get(this.props.tagGroupSource, function (result) {
             var state = this.state;
             state.movieTagGroup = result.data.list;
+
+
+
+            //set tip
+            if(state.movieTagGroup==undefined||state.movieTagGroup.length == 0) {
+                this.showTagTip("无相关标签...");
+            }else{
+                this.showTagTip();
+            }
 
             //default select tag group id
 
@@ -265,6 +287,8 @@ var MovieListPage = React.createClass({
             }
 
             this.setState(state);
+
+
             //callfun
             callfun();
         }.bind(this));
@@ -292,7 +316,7 @@ var MovieListPage = React.createClass({
 
 
         var orderByOptions = [{id:"score",name:"最高评分",selected:true},{id:"watch_num",name:"最多播放",selected:false},{id:"release_time",name:"最新上映",selected:false}];
-        var state = {movieTip:"正在加载...",movieSearchBtnText:"搜索",lastKeyword:"",movieSearchTimer:undefined,movieTagGroup: [], movies: {keyword:"",total: 0, list: [], page: 1, size: 10,orderType:"desc"},orderByOptions:orderByOptions};
+        var state = {tagTip:"正在加载...",movieTip:"正在加载...",movieSearchBtnText:"搜索",lastKeyword:"",movieSearchTimer:undefined,movieTagGroup: [], movies: {keyword:"",total: 0, list: [], page: 1, size: 10,orderType:"desc"},orderByOptions:orderByOptions};
 
         return state;
 
@@ -455,7 +479,8 @@ var MovieListPage = React.createClass({
                 <div id="movie_type_div">
 
                     {/*电影标签列表*/}
-                    <MovieTagGroupList handleClickTag={this.handleClickTag}
+                    <MovieTagGroupList tip={this.state.tagTip}
+                                       handleClickTag={this.handleClickTag}
                                        movieTagGroup={this.state.movieTagGroup}/>
                 </div>
                 <div id="movie_list_div">
