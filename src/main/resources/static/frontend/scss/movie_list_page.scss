@@ -20,11 +20,11 @@
   #movie_type_div {
     margin-top: 20px;
     @include index_center_panel_style;
-    #tagTip{
+    /*#tagTip{
       width:100%;
       text-align: center;
       height: 15px;
-    }
+    }*/
     .type_item {
 
       margin: 12px 0px;
@@ -181,11 +181,11 @@
         display: inline;
         list-style-type: none;
         @include defaultWidth;
-        #movieTip{
+        /*#movieTip{
           width:100%;
           text-align: center;
           height: 15px;
-        }
+        }*/
         li.movie_item {
           width: 17%;
           padding: 1.5%;

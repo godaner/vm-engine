@@ -22501,54 +22501,59 @@ var _msg_dialog = __webpack_require__(190);
 
 var _msg_dialog2 = _interopRequireDefault(_msg_dialog);
 
+var _inner_messager = __webpack_require__(203);
+
+var _inner_messager2 = _interopRequireDefault(_inner_messager);
+
 __webpack_require__(191);
 
 __webpack_require__(193);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//引入react组件
 var Pager = _react2.default.createClass({
-    displayName: 'Pager',
+    displayName: "Pager",
 
 
     render: function render() {
         var _this = this;
 
         return _react2.default.createElement(
-            'div',
-            { id: 'movie_list_pager_div' },
+            "div",
+            { id: "movie_list_pager_div" },
             _react2.default.createElement(
-                'ul',
-                { id: 'movie_list_pager_ul' },
+                "ul",
+                { id: "movie_list_pager_ul" },
                 _react2.default.createElement(
-                    'li',
-                    { className: 'pager_li' },
+                    "li",
+                    { className: "pager_li" },
                     _react2.default.createElement(
-                        'a',
-                        { href: 'javascript:void(0);', onClick: function onClick() {
+                        "a",
+                        { href: "javascript:void(0);", onClick: function onClick() {
                                 _this.props.handlePageChange(-1);
                             } },
-                        '\u4E0A\u4E00\u9875'
+                        "\u4E0A\u4E00\u9875"
                     )
                 ),
                 _react2.default.createElement(
-                    'li',
-                    { className: 'pager_li currt' },
+                    "li",
+                    { className: "pager_li currt" },
                     _react2.default.createElement(
-                        'a',
-                        { href: 'javascript:void(0);' },
+                        "a",
+                        { href: "javascript:void(0);" },
                         this.props.page
                     )
                 ),
                 _react2.default.createElement(
-                    'li',
-                    { className: 'pager_li' },
+                    "li",
+                    { className: "pager_li" },
                     _react2.default.createElement(
-                        'a',
-                        { href: 'javascript:void(0);', onClick: function onClick() {
+                        "a",
+                        { href: "javascript:void(0);", onClick: function onClick() {
                                 _this.props.handlePageChange(1);
                             } },
-                        '\u4E0B\u4E00\u9875'
+                        "\u4E0B\u4E00\u9875"
                     )
                 )
             )
@@ -22557,30 +22562,29 @@ var Pager = _react2.default.createClass({
 });
 
 /*电影展示-演员展示*/
-//引入react组件
 var ActorsList = _react2.default.createClass({
-    displayName: 'ActorsList',
+    displayName: "ActorsList",
 
     render: function render() {
 
         return _react2.default.createElement(
-            'ul',
+            "ul",
             null,
             _react2.default.createElement(
-                'li',
+                "li",
                 null,
-                '\u4E3B\u6F14\uFF1A'
+                "\u4E3B\u6F14\uFF1A"
             ),
             this.props.actors.map(function (item, index) {
                 return _react2.default.createElement(
-                    'li',
+                    "li",
                     { key: item.id },
                     _react2.default.createElement(
-                        'a',
-                        { href: '' },
+                        "a",
+                        { href: "" },
                         item.name
                     ),
-                    '\xA0'
+                    "\xA0"
                 );
             })
         );
@@ -22588,83 +22592,81 @@ var ActorsList = _react2.default.createClass({
 });
 /*电影展示*/
 var MoviesDisplayer = _react2.default.createClass({
-    displayName: 'MoviesDisplayer',
-
+    displayName: "MoviesDisplayer",
+    showMsg: function showMsg(msg) {
+        this.refs.innerMessager.showMsg(msg);
+    },
 
     render: function render() {
 
         var movieItems = this.props.movies.map(function (item) {
             return _react2.default.createElement(
-                'li',
-                { className: 'movie_item animated flipInX', key: item.id },
+                "li",
+                { className: "movie_item animated flipInX", key: item.id },
                 _react2.default.createElement(
-                    'div',
-                    { className: 'movie_img_div' },
+                    "div",
+                    { className: "movie_img_div" },
                     _react2.default.createElement(
-                        'a',
-                        { href: '' },
-                        _react2.default.createElement('img', { src: item.imgUrl })
+                        "a",
+                        { href: "" },
+                        _react2.default.createElement("img", { src: item.imgUrl })
                     )
                 ),
                 _react2.default.createElement(
-                    'div',
-                    { className: 'movie_info_div' },
+                    "div",
+                    { className: "movie_info_div" },
                     _react2.default.createElement(
-                        'div',
+                        "div",
                         null,
                         _react2.default.createElement(
-                            'a',
-                            { className: 'movie_name_a', href: '' },
+                            "a",
+                            { className: "movie_name_a", href: "" },
                             item.name
                         )
                     ),
                     _react2.default.createElement(
-                        'div',
-                        { className: 'movie_actor_list_div' },
+                        "div",
+                        { className: "movie_actor_list_div" },
                         _react2.default.createElement(ActorsList, { actors: item.actors })
                     ),
                     _react2.default.createElement(
-                        'div',
+                        "div",
                         null,
-                        '\u5BFC\u6F14\uFF1A',
+                        "\u5BFC\u6F14\uFF1A",
                         _react2.default.createElement(
-                            'a',
-                            { href: '' },
+                            "a",
+                            { href: "" },
                             item.director == null ? "无" : item.director.name
                         )
                     ),
                     _react2.default.createElement(
-                        'div',
+                        "div",
                         null,
-                        '\u8BC4\u5206\uFF1A',
+                        "\u8BC4\u5206\uFF1A",
                         item.score
                     ),
                     _react2.default.createElement(
-                        'div',
+                        "div",
                         null,
-                        '\u64AD\u653E\uFF1A',
+                        "\u64AD\u653E\uFF1A",
                         item.watchNum,
-                        '\u6B21'
+                        "\u6B21"
                     )
                 )
             );
         });
         return _react2.default.createElement(
-            'ul',
-            { id: 'movies_list_ul' },
-            _react2.default.createElement(
-                'div',
-                { id: 'movieTip' },
-                this.props.tip
-            ),
+            "ul",
+            { id: "movies_list_ul" },
+            _react2.default.createElement(_inner_messager2.default, { ref: "innerMessager" }),
             movieItems,
-            _react2.default.createElement('li', { className: 'clear' })
+            _react2.default.createElement("li", { className: "clear" })
         );
     }
 });
 /*一组电影tag*/
 var MovieTagGroup = _react2.default.createClass({
-    displayName: 'MovieTagGroup',
+    displayName: "MovieTagGroup",
 
     render: function render() {
         var _this2 = this;
@@ -22674,26 +22676,26 @@ var MovieTagGroup = _react2.default.createClass({
             tagGroupStyleClass = "currt";
         }
         return _react2.default.createElement(
-            'div',
-            { id: this.props.movieTagGroupId, className: 'type_item' },
+            "div",
+            { id: this.props.movieTagGroupId, className: "type_item" },
             _react2.default.createElement(
-                'label',
+                "label",
                 null,
                 this.props.movieTagGroupName,
-                ':'
+                ":"
             ),
             _react2.default.createElement(
-                'ul',
+                "ul",
                 null,
                 _react2.default.createElement(
-                    'li',
+                    "li",
                     { className: tagGroupStyleClass, onClick: function onClick() {
                             _this2.props.handleClickTag(undefined, _this2.props.movieTagGroupId);
                         } },
                     _react2.default.createElement(
-                        'a',
-                        { href: 'javascript:void(0);' },
-                        '\u5168\u90E8'
+                        "a",
+                        { href: "javascript:void(0);" },
+                        "\u5168\u90E8"
                     )
                 ),
                 this.props.movieTags.map(function (item) {
@@ -22704,13 +22706,13 @@ var MovieTagGroup = _react2.default.createClass({
                         tagStyleClass = "currt";
                     }
                     return _react2.default.createElement(
-                        'li',
+                        "li",
                         { key: item.id, id: item.id, className: tagStyleClass, onClick: function onClick() {
                                 _this3.props.handleClickTag(item.id, _this3.props.movieTagGroupId);
                             } },
                         _react2.default.createElement(
-                            'a',
-                            { href: 'javascript:void(0);' },
+                            "a",
+                            { href: "javascript:void(0);" },
                             item.name
                         )
                     );
@@ -22721,18 +22723,16 @@ var MovieTagGroup = _react2.default.createClass({
 });
 /*电影标签列表*/
 var MovieTagGroupList = _react2.default.createClass({
-    displayName: 'MovieTagGroupList',
-
+    displayName: "MovieTagGroupList",
+    showMsg: function showMsg(msg) {
+        this.refs.innerMessager.showMsg(msg);
+    },
 
     render: function render() {
         return _react2.default.createElement(
-            'div',
+            "div",
             null,
-            _react2.default.createElement(
-                'div',
-                { id: 'tagTip' },
-                this.props.tip
-            ),
+            _react2.default.createElement(_inner_messager2.default, { ref: "innerMessager" }),
             this.props.movieTagGroup.map(function (item) {
                 return _react2.default.createElement(MovieTagGroup, { key: item.id,
                     handleClickTag: this.props.handleClickTag,
@@ -22746,7 +22746,7 @@ var MovieTagGroupList = _react2.default.createClass({
 });
 
 var MovieListPage = _react2.default.createClass({
-    displayName: 'MovieListPage',
+    displayName: "MovieListPage",
 
 
     componentDidMount: function componentDidMount() {
@@ -22771,9 +22771,7 @@ var MovieListPage = _react2.default.createClass({
         if (msg == undefined) {
             msg = "";
         }
-        var state = this.state;
-        state.movieTip = msg;
-        this.setState(state);
+        this.refs.moviesDisplayer.showMsg(msg);
     },
     getMovie: function getMovie(callfun) {
         {} /*获取电影列表*/
@@ -22849,9 +22847,7 @@ var MovieListPage = _react2.default.createClass({
         if (msg == undefined) {
             msg = "";
         }
-        var state = this.state;
-        state.tagTip = msg;
-        this.setState(state);
+        this.refs.movieTagGroupList.showMsg(msg);
     },
     getTagGroup: function getTagGroup(callfun) {
         //set tip
@@ -22862,6 +22858,7 @@ var MovieListPage = _react2.default.createClass({
             state.movieTagGroup = result.data.list;
 
             //set tip
+
             if (state.movieTagGroup == undefined || state.movieTagGroup.length == 0) {
                 this.showTagTip("无相关标签...");
             } else {
@@ -22905,7 +22902,7 @@ var MovieListPage = _react2.default.createClass({
 
 
         var orderByOptions = [{ id: "score", name: "最高评分", selected: true }, { id: "watch_num", name: "最多播放", selected: false }, { id: "release_time", name: "最新上映", selected: false }];
-        var state = { tagTip: "正在加载...", movieTip: "正在加载...", movieSearchBtnText: "搜索", lastKeyword: "", movieSearchTimer: undefined, movieTagGroup: [], movies: { keyword: "", total: 0, list: [], page: 1, size: 10, orderType: "desc" }, orderByOptions: orderByOptions };
+        var state = { movieTip: "正在加载...", movieSearchBtnText: "搜索", lastKeyword: "", movieSearchTimer: undefined, movieTagGroup: [], movies: { keyword: "", total: 0, list: [], page: 1, size: 10, orderType: "desc" }, orderByOptions: orderByOptions };
 
         return state;
     },
@@ -23061,31 +23058,32 @@ var MovieListPage = _react2.default.createClass({
         var _this4 = this;
 
         return _react2.default.createElement(
-            'div',
-            { id: 'fragment_index_center_content' },
+            "div",
+            { id: "fragment_index_center_content" },
             _react2.default.createElement(
-                'div',
-                { id: 'movie_type_div' },
+                "div",
+                { id: "movie_type_div" },
                 _react2.default.createElement(MovieTagGroupList, { tip: this.state.tagTip,
                     handleClickTag: this.handleClickTag,
-                    movieTagGroup: this.state.movieTagGroup })
+                    movieTagGroup: this.state.movieTagGroup,
+                    ref: "movieTagGroupList" })
             ),
             _react2.default.createElement(
-                'div',
-                { id: 'movie_list_div' },
+                "div",
+                { id: "movie_list_div" },
                 _react2.default.createElement(
-                    'div',
-                    { id: 'head' },
+                    "div",
+                    { id: "head" },
                     _react2.default.createElement(
-                        'div',
-                        { id: 'sort_div' },
+                        "div",
+                        { id: "sort_div" },
                         _react2.default.createElement(
-                            'ul',
-                            { id: 'sort_ways' },
+                            "ul",
+                            { id: "sort_ways" },
                             _react2.default.createElement(
-                                'label',
+                                "label",
                                 null,
-                                '\u6392\u5E8F\uFF1A'
+                                "\u6392\u5E8F\uFF1A"
                             ),
                             this.state.orderByOptions.map(function (item, index) {
                                 var clsName = "";
@@ -23094,13 +23092,13 @@ var MovieListPage = _react2.default.createClass({
                                 }
 
                                 return _react2.default.createElement(
-                                    'li',
+                                    "li",
                                     { key: item.id, onClick: function onClick() {
                                             _this4.sortMovie(item.id);
                                         }, className: clsName },
                                     _react2.default.createElement(
-                                        'a',
-                                        { href: 'javascript:void(0);' },
+                                        "a",
+                                        { href: "javascript:void(0);" },
                                         item.name
                                     )
                                 );
@@ -23108,37 +23106,38 @@ var MovieListPage = _react2.default.createClass({
                         )
                     ),
                     _react2.default.createElement(
-                        'div',
-                        { id: 'search_div' },
-                        _react2.default.createElement('input', { id: 'fragment_head_nav_search_text', onChange: function onChange() {
+                        "div",
+                        { id: "search_div" },
+                        _react2.default.createElement("input", { id: "fragment_head_nav_search_text", onChange: function onChange() {
                                 _this4.handleSearchInputChange();
-                            }, onKeyUp: this.handleSearchInputKeyUp, ref: 'keyword', placeholder: '\u8BF7\u8F93\u5165\u5173\u952E\u5B57' }),
-                        _react2.default.createElement('input', { id: 'fragment_head_nav_search_btn', onClick: function onClick() {
+                            }, onKeyUp: this.handleSearchInputKeyUp, ref: "keyword", placeholder: "\u8BF7\u8F93\u5165\u5173\u952E\u5B57" }),
+                        _react2.default.createElement("input", { id: "fragment_head_nav_search_btn", onClick: function onClick() {
                                 _this4.handleClickSearchBtn();
-                            }, ref: 'movieSearchBtn', type: 'button', value: this.state.movieSearchBtnText })
+                            }, ref: "movieSearchBtn", type: "button", value: this.state.movieSearchBtnText })
                     ),
                     _react2.default.createElement(
-                        'div',
-                        { id: 'total_div' },
-                        '\u5171',
+                        "div",
+                        { id: "total_div" },
+                        "\u5171",
                         _react2.default.createElement(
-                            'span',
-                            { id: 'totalNum' },
+                            "span",
+                            { id: "totalNum" },
                             this.state.movies.total
                         ),
-                        '\u4E2A\u7ED3\u679C'
+                        "\u4E2A\u7ED3\u679C"
                     ),
-                    _react2.default.createElement('div', { className: 'clear' })
+                    _react2.default.createElement("div", { className: "clear" })
                 ),
-                _react2.default.createElement('div', { id: 'line' }),
+                _react2.default.createElement("div", { id: "line" }),
                 _react2.default.createElement(
-                    'div',
-                    { id: 'movies_display_div' },
-                    _react2.default.createElement(MoviesDisplayer, { tip: this.state.movieTip, movies: this.state.movies.list }),
+                    "div",
+                    { id: "movies_display_div" },
+                    _react2.default.createElement(MoviesDisplayer, { movies: this.state.movies.list,
+                        ref: "moviesDisplayer" }),
                     _react2.default.createElement(Pager, { handlePageChange: this.handlePageChange, page: this.state.movies.page })
                 )
             ),
-            _react2.default.createElement(_msg_dialog2.default, { ref: 'index_msg_dialog' })
+            _react2.default.createElement(_msg_dialog2.default, { ref: "index_msg_dialog" })
         );
     }
 
@@ -23294,7 +23293,7 @@ exports = module.exports = __webpack_require__(25)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clickSearchBtn {\n  background-color: \"rgb(61,158,255)\";\n  color: white; }\n\n#fragment_index_center_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #fragment_index_center_content > * {\n    padding: 20px 20px; }\n  #fragment_index_center_content #movie_type_div {\n    margin-top: 20px;\n    border-radius: 3px;\n    background-color: white; }\n    #fragment_index_center_content #movie_type_div #tagTip {\n      width: 100%;\n      text-align: center;\n      height: 15px; }\n    #fragment_index_center_content #movie_type_div .type_item {\n      margin: 12px 0px; }\n      #fragment_index_center_content #movie_type_div .type_item > * {\n        display: inline; }\n      #fragment_index_center_content #movie_type_div .type_item label {\n        display: inline;\n        width: 20%; }\n      #fragment_index_center_content #movie_type_div .type_item ul {\n        width: 80%;\n        display: inline;\n        text-align: left;\n        list-style-type: none; }\n        #fragment_index_center_content #movie_type_div .type_item ul .currt {\n          background-color: rgb(61,158,255);\n          border-radius: 99px; }\n          #fragment_index_center_content #movie_type_div .type_item ul .currt > a {\n            color: white; }\n        #fragment_index_center_content #movie_type_div .type_item ul li {\n          margin: 0px 5px;\n          padding: 2px 5px;\n          cursor: pointer;\n          display: inline;\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_type_div .type_item ul li > a {\n            font-size: 12px; }\n          #fragment_index_center_content #movie_type_div .type_item ul li:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_type_div .type_item ul li:hover > a {\n              color: white; }\n  #fragment_index_center_content #movie_list_div {\n    margin-top: 20px;\n    border-radius: 3px;\n    background-color: white;\n    /*分割线*/ }\n    #fragment_index_center_content #movie_list_div #head {\n      width: 100%;\n      height: 30px; }\n      #fragment_index_center_content #movie_list_div #head > div {\n        display: block;\n        float: left;\n        height: 30px;\n        line-height: 30px; }\n      #fragment_index_center_content #movie_list_div #head #sort_div {\n        width: 50%;\n        text-align: left; }\n        #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways {\n          display: inline;\n          list-style-type: none; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li {\n            margin: 0px 5px;\n            padding: 2px 5px;\n            display: inline;\n            cursor: pointer;\n            transition: all 500ms; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover {\n              background-color: rgb(61,158,255);\n              border-radius: 99px; }\n              #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover > a {\n                color: white; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt > a {\n              color: white; }\n      #fragment_index_center_content #movie_list_div #head #search_div {\n        width: 40%;\n        text-align: right;\n        /*btn*/ }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_text {\n          width: 50%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          background-image: url(\"/frontend/image/icon_zoom.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          padding-left: 30px;\n          margin-right: 0px;\n          border: 1px solid rgb(61,158,255);\n          border-right: 0px; }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn {\n          width: 20%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          cursor: pointer;\n          border: 1px solid rgb(61,158,255);\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn:hover {\n            background-color: rgb(61,158,255);\n            color: white; }\n      #fragment_index_center_content #movie_list_div #head #total_div {\n        width: 10%;\n        text-align: right; }\n    #fragment_index_center_content #movie_list_div #line {\n      height: 1px;\n      background-color: rgb(241,242,243);\n      margin: 20px 0px; }\n    #fragment_index_center_content #movie_list_div #movies_display_div {\n      width: 100%; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul {\n        width: 100%;\n        display: inline;\n        list-style-type: none;\n        width: 100%; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul #movieTip {\n          width: 100%;\n          text-align: center;\n          height: 15px; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item {\n          width: 17%;\n          padding: 1.5%;\n          display: inline-block;\n          float: left; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a {\n            display: block;\n            width: 100%; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a img {\n              width: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div {\n            width: 100%;\n            height: auto; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div {\n              width: 100%;\n              display: block;\n              margin: 2px 0px; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div .movie_name_a {\n                color: black; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul {\n              list-style: none;\n              display: inline; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul li {\n                width: auto;\n                display: inline-block; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a {\n              transition: all 500ms; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a:hover {\n                text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3);\n                color: red; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div {\n        margin: 80px 0px;\n        width: 100%;\n        text-align: center; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul {\n          list-style: none;\n          display: inline; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n            width: auto;\n            display: inline-block; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n          overflow: hidden;\n          margin: 0px 5px; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li {\n          border: 1px solid rgb(241,242,243);\n          height: auto;\n          cursor: pointer;\n          text-align: left;\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li a {\n            padding: 8px 15px;\n            display: block;\n            width: 100%;\n            height: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover {\n            background-color: rgb(61,158,255); }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover a {\n              color: white; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt {\n          background-color: rgb(61,158,255); }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt a {\n            color: white; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clickSearchBtn {\n  background-color: \"rgb(61,158,255)\";\n  color: white; }\n\n#fragment_index_center_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #fragment_index_center_content > * {\n    padding: 20px 20px; }\n  #fragment_index_center_content #movie_type_div {\n    margin-top: 20px;\n    border-radius: 3px;\n    background-color: white;\n    /*#tagTip{\r\n      width:100%;\r\n      text-align: center;\r\n      height: 15px;\r\n    }*/ }\n    #fragment_index_center_content #movie_type_div .type_item {\n      margin: 12px 0px; }\n      #fragment_index_center_content #movie_type_div .type_item > * {\n        display: inline; }\n      #fragment_index_center_content #movie_type_div .type_item label {\n        display: inline;\n        width: 20%; }\n      #fragment_index_center_content #movie_type_div .type_item ul {\n        width: 80%;\n        display: inline;\n        text-align: left;\n        list-style-type: none; }\n        #fragment_index_center_content #movie_type_div .type_item ul .currt {\n          background-color: rgb(61,158,255);\n          border-radius: 99px; }\n          #fragment_index_center_content #movie_type_div .type_item ul .currt > a {\n            color: white; }\n        #fragment_index_center_content #movie_type_div .type_item ul li {\n          margin: 0px 5px;\n          padding: 2px 5px;\n          cursor: pointer;\n          display: inline;\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_type_div .type_item ul li > a {\n            font-size: 12px; }\n          #fragment_index_center_content #movie_type_div .type_item ul li:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_type_div .type_item ul li:hover > a {\n              color: white; }\n  #fragment_index_center_content #movie_list_div {\n    margin-top: 20px;\n    border-radius: 3px;\n    background-color: white;\n    /*分割线*/ }\n    #fragment_index_center_content #movie_list_div #head {\n      width: 100%;\n      height: 30px; }\n      #fragment_index_center_content #movie_list_div #head > div {\n        display: block;\n        float: left;\n        height: 30px;\n        line-height: 30px; }\n      #fragment_index_center_content #movie_list_div #head #sort_div {\n        width: 50%;\n        text-align: left; }\n        #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways {\n          display: inline;\n          list-style-type: none; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li {\n            margin: 0px 5px;\n            padding: 2px 5px;\n            display: inline;\n            cursor: pointer;\n            transition: all 500ms; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover {\n              background-color: rgb(61,158,255);\n              border-radius: 99px; }\n              #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover > a {\n                color: white; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt > a {\n              color: white; }\n      #fragment_index_center_content #movie_list_div #head #search_div {\n        width: 40%;\n        text-align: right;\n        /*btn*/ }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_text {\n          width: 50%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          background-image: url(\"/frontend/image/icon_zoom.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          padding-left: 30px;\n          margin-right: 0px;\n          border: 1px solid rgb(61,158,255);\n          border-right: 0px; }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn {\n          width: 20%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          cursor: pointer;\n          border: 1px solid rgb(61,158,255);\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn:hover {\n            background-color: rgb(61,158,255);\n            color: white; }\n      #fragment_index_center_content #movie_list_div #head #total_div {\n        width: 10%;\n        text-align: right; }\n    #fragment_index_center_content #movie_list_div #line {\n      height: 1px;\n      background-color: rgb(241,242,243);\n      margin: 20px 0px; }\n    #fragment_index_center_content #movie_list_div #movies_display_div {\n      width: 100%; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul {\n        width: 100%;\n        display: inline;\n        list-style-type: none;\n        width: 100%;\n        /*#movieTip{\r\n          width:100%;\r\n          text-align: center;\r\n          height: 15px;\r\n        }*/ }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item {\n          width: 17%;\n          padding: 1.5%;\n          display: inline-block;\n          float: left; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a {\n            display: block;\n            width: 100%; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a img {\n              width: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div {\n            width: 100%;\n            height: auto; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div {\n              width: 100%;\n              display: block;\n              margin: 2px 0px; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div .movie_name_a {\n                color: black; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul {\n              list-style: none;\n              display: inline; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul li {\n                width: auto;\n                display: inline-block; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a {\n              transition: all 500ms; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a:hover {\n                text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3);\n                color: red; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div {\n        margin: 80px 0px;\n        width: 100%;\n        text-align: center; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul {\n          list-style: none;\n          display: inline; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n            width: auto;\n            display: inline-block; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n          overflow: hidden;\n          margin: 0px 5px; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li {\n          border: 1px solid rgb(241,242,243);\n          height: auto;\n          cursor: pointer;\n          text-align: left;\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li a {\n            padding: 8px 15px;\n            display: block;\n            width: 100%;\n            height: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover {\n            background-color: rgb(61,158,255); }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover a {\n              color: white; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt {\n          background-color: rgb(61,158,255); }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt a {\n            color: white; }\n", ""]);
 
 // exports
 
@@ -23578,6 +23577,91 @@ exports = module.exports = __webpack_require__(25)();
 
 // module
 exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n#fragment_msg_dialog_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 9999;\n  background-color: rgba(0, 0, 0, 0.8); }\n  #fragment_msg_dialog_content #dialog {\n    margin-top: 300px;\n    width: 300px;\n    height: 100px;\n    padding: 20px;\n    background-color: rgb(241,242,243);\n    border-radius: 5px; }\n    #fragment_msg_dialog_content #dialog * {\n      color: black; }\n    #fragment_msg_dialog_content #dialog > div {\n      width: 100%; }\n    #fragment_msg_dialog_content #dialog #head {\n      height: 35px;\n      line-height: 35px;\n      border-bottom: 1px solid black; }\n      #fragment_msg_dialog_content #dialog #head > div {\n        font-size: 18px;\n        float: left;\n        width: 50%; }\n      #fragment_msg_dialog_content #dialog #head div#close {\n        cursor: pointer;\n        text-align: right;\n        font-weight: bold;\n        transition: all 100ms; }\n        #fragment_msg_dialog_content #dialog #head div#close:hover {\n          color: red;\n          font-weight: bold;\n          font-size: 22px; }\n    #fragment_msg_dialog_content #dialog #body {\n      margin-top: 20px;\n      text-align: center;\n      line-height: 100%;\n      font-size: 15px;\n      height: 100%; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 203 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(24);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(204);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var InnerMessager = _react2.default.createClass({
+    displayName: 'InnerMessager',
+
+    getInitialState: function getInitialState() {
+        var state = { tip: this.props.tip };
+        return state;
+    },
+    showMsg: function showMsg(msg) {
+        if (msg == undefined) {
+            msg = "";
+        }
+        var state = this.state;
+        state.tip = msg;
+        this.setState(state);
+    },
+
+    render: function render() {
+        return _react2.default.createElement(
+            'div',
+            { id: 'tip' },
+            this.state.tip
+        );
+    }
+}); //引入react组件
+exports.default = InnerMessager; //将App组件导出
+
+/***/ }),
+/* 204 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(205);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(26)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./inner_messager.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./inner_messager.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 205 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(25)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n#tip {\n  width: 100%;\n  text-align: center;\n  height: 15px; }\n", ""]);
 
 // exports
 

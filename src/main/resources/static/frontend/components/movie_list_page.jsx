@@ -1,6 +1,7 @@
 
 import React from 'react';  //引入react组件
 import MsgDialog from "./msg_dialog";
+import InnerMessager from "./inner_messager";
 import '../scss/movie_list_page.scss';
 import 'animate.css';
 var Pager = React.createClass({
@@ -44,7 +45,9 @@ var ActorsList = React.createClass({
 /*电影展示*/
 var MoviesDisplayer = React.createClass({
 
-
+    showMsg(msg){
+        this.refs.innerMessager.showMsg(msg);
+    },
     render: function () {
 
         var movieItems = this.props.movies.map(function (item) {
@@ -81,7 +84,7 @@ var MoviesDisplayer = React.createClass({
             </li>;
         });
         return <ul id="movies_list_ul">
-            <div id="movieTip">{this.props.tip}</div>
+            <InnerMessager ref="innerMessager"/>
             {movieItems}
             <li className="clear"></li>
         </ul>;
@@ -128,12 +131,15 @@ var MovieTagGroup = React.createClass({
 });
 /*电影标签列表*/
 var MovieTagGroupList = React.createClass({
-
+    showMsg(msg){
+        this.refs.innerMessager.showMsg(msg);
+    },
     render: function () {
         return (
             <div>
 
-                <div id="tagTip">{this.props.tip}</div>
+                {/*<div id="tagTip">{this.props.tip}</div>*/}
+                <InnerMessager ref="innerMessager"/>
 
                 {
                     this.props.movieTagGroup.map(function (item) {
@@ -177,9 +183,7 @@ var MovieListPage = React.createClass({
         if(msg == undefined){
             msg = "";
         }
-        var state = this.state;
-        state.movieTip = msg;
-        this.setState(state);
+        this.refs.moviesDisplayer.showMsg(msg);
     },
     getMovie(callfun){
         {/*获取电影列表*/}
@@ -258,9 +262,7 @@ var MovieListPage = React.createClass({
         if(msg == undefined){
             msg = "";
         }
-        var state = this.state;
-        state.tagTip = msg;
-        this.setState(state);
+        this.refs.movieTagGroupList.showMsg(msg);
     },
     getTagGroup(callfun){
         //set tip
@@ -273,6 +275,7 @@ var MovieListPage = React.createClass({
 
 
             //set tip
+
             if(state.movieTagGroup==undefined||state.movieTagGroup.length == 0) {
                 this.showTagTip("无相关标签...");
             }else{
@@ -316,7 +319,7 @@ var MovieListPage = React.createClass({
 
 
         var orderByOptions = [{id:"score",name:"最高评分",selected:true},{id:"watch_num",name:"最多播放",selected:false},{id:"release_time",name:"最新上映",selected:false}];
-        var state = {tagTip:"正在加载...",movieTip:"正在加载...",movieSearchBtnText:"搜索",lastKeyword:"",movieSearchTimer:undefined,movieTagGroup: [], movies: {keyword:"",total: 0, list: [], page: 1, size: 10,orderType:"desc"},orderByOptions:orderByOptions};
+        var state = {movieTip:"正在加载...",movieSearchBtnText:"搜索",lastKeyword:"",movieSearchTimer:undefined,movieTagGroup: [], movies: {keyword:"",total: 0, list: [], page: 1, size: 10,orderType:"desc"},orderByOptions:orderByOptions};
 
         return state;
 
@@ -481,7 +484,8 @@ var MovieListPage = React.createClass({
                     {/*电影标签列表*/}
                     <MovieTagGroupList tip={this.state.tagTip}
                                        handleClickTag={this.handleClickTag}
-                                       movieTagGroup={this.state.movieTagGroup}/>
+                                       movieTagGroup={this.state.movieTagGroup}
+                                       ref="movieTagGroupList"/>
                 </div>
                 <div id="movie_list_div">
                     <div id="head">
@@ -523,7 +527,8 @@ var MovieListPage = React.createClass({
                     <div id="line"></div>
                     <div id="movies_display_div">
                         {/*电影展示*/}
-                        <MoviesDisplayer tip={this.state.movieTip} movies={this.state.movies.list}/>
+                        <MoviesDisplayer movies={this.state.movies.list}
+                                         ref="moviesDisplayer"/>
 
                         {/*电影分页*/}
                         <Pager handlePageChange={this.handlePageChange} page={this.state.movies.page}/>
