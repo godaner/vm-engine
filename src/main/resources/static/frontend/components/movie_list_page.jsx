@@ -44,7 +44,9 @@ var ActorsList = React.createClass({
 /*电影展示*/
 var MoviesDisplayer = React.createClass({
 
+
     render: function () {
+
         var movieItems = this.props.movies.map(function (item) {
             return <li className="movie_item animated flipInX" key={item.id}>
                 <div className="movie_img_div">
@@ -79,6 +81,7 @@ var MoviesDisplayer = React.createClass({
             </li>;
         });
         return <ul id="movies_list_ul">
+            <div className="middle">{this.props.tip}</div>
             {movieItems}
             <li className="clear"></li>
         </ul>;
@@ -168,8 +171,19 @@ var MovieListPage = React.createClass({
         height = height.toString()+"px";
         $(".movie_img_div a img").css("height",height)
     },
+    showMovieTip(msg){
+        if(msg == undefined){
+            msg = "";
+        }
+        var state = this.state;
+        state.movieTip = msg;
+        this.setState(state);
+    },
     getMovie(callfun){
         {/*获取电影列表*/}
+
+        //tip
+        this.showMovieTip("正在加载...");
 
 
         {/*collect params*/}
@@ -222,6 +236,14 @@ var MovieListPage = React.createClass({
             state.movies.total = result.data.total;
             this.setState(state);
 
+            //if have not movies
+            if(state.movies.list.length==undefined || state.movies.list.length == 0){
+                this.showMovieTip("无相关电影...");
+            }else{
+
+                this.showMovieTip();
+            }
+
             //adjust movie list ui
             this.adjustMovieListUI();
 
@@ -244,7 +266,6 @@ var MovieListPage = React.createClass({
             }
 
             this.setState(state);
-//                c(state);
             //callfun
             callfun();
         }.bind(this));
@@ -272,7 +293,7 @@ var MovieListPage = React.createClass({
 
 
         var orderByOptions = [{id:"score",name:"最高评分",selected:true},{id:"watch_num",name:"最多播放",selected:false},{id:"release_time",name:"最新上映",selected:false}];
-        var state = {movieSearchBtnText:"搜索",lastKeyword:"",movieSearchTimer:undefined,movieTagGroup: [], movies: {keyword:"",total: 0, list: [], page: 1, size: 10,orderType:"desc"},orderByOptions:orderByOptions};
+        var state = {movieTip:"正在加载...",movieSearchBtnText:"搜索",lastKeyword:"",movieSearchTimer:undefined,movieTagGroup: [], movies: {keyword:"",total: 0, list: [], page: 1, size: 10,orderType:"desc"},orderByOptions:orderByOptions};
 
         return state;
 
@@ -478,7 +499,7 @@ var MovieListPage = React.createClass({
                     <div id="line"></div>
                     <div id="movies_display_div">
                         {/*电影展示*/}
-                        <MoviesDisplayer movies={this.state.movies.list}/>
+                        <MoviesDisplayer tip={this.state.movieTip} movies={this.state.movies.list}/>
 
                         {/*电影分页*/}
                         <Pager handlePageChange={this.handlePageChange} page={this.state.movies.page}/>

@@ -9,6 +9,10 @@
   background-color: $defaultBlueRgb;
   color: white;
 }
+.middle{
+  width:100%;
+  text-align: center;
+}
 
 #fragment_index_center_content {
   @include defaultMiddle(70%);
