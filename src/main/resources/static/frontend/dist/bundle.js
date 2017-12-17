@@ -22409,6 +22409,10 @@ var _movie_list_page = __webpack_require__(189);
 
 var _movie_list_page2 = _interopRequireDefault(_movie_list_page);
 
+var _movie_info_page = __webpack_require__(209);
+
+var _movie_info_page2 = _interopRequireDefault(_movie_info_page);
+
 var _head = __webpack_require__(195);
 
 var _head2 = _interopRequireDefault(_head);
@@ -22419,17 +22423,40 @@ var _tail2 = _interopRequireDefault(_tail);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//引入react组件
 var Index = _react2.default.createClass({
     displayName: 'Index',
 
     getInitialState: function getInitialState() {
-        var state = { nowPage: 1, pageMap: { 1: _react2.default.createElement(_movie_list_page2.default, { tagGroupSource: '/tagGroup/list', movieSource: '/movie/list' }) } };
+        var state = {
+            pageId: 1,
+            pageData: {},
+            pageMap: {
+                1: _react2.default.createElement(_movie_list_page2.default, { pageDispatch: this.pageDispatch, tagGroupSource: '/tagGroup/list', movieSource: '/movie/list' }),
+                2: _react2.default.createElement(_movie_info_page2.default, { pageDispatch: this.pageDispatch, getNowPageProps: this.getNowPageProps })
+            }
+        };
 
         return state;
     },
+    pageDispatch: function pageDispatch(dispatchInfo) {
+
+        //change page
+        var state = this.state;
+
+        state.pageId = dispatchInfo.pageId;
+
+        //set page data
+        state.pageData = dispatchInfo.pageData;
+
+        this.setState(state);
+    },
+
+    getNowPageProps: function getNowPageProps() {
+        return this.state.pageData;
+    },
     render: function render() {
-        var page = this.state.pageMap[this.state.nowPage];
+        var page = this.state.pageMap[this.state.pageId];
+        //set now page's props
         return _react2.default.createElement(
             'div',
             { id: 'index' },
@@ -22438,8 +22465,7 @@ var Index = _react2.default.createClass({
             _react2.default.createElement(_tail2.default, null)
         );
     }
-});
-
+}); //引入react组件
 exports.default = Index; //将App组件导出
 
 /***/ }),
@@ -22600,6 +22626,8 @@ var MoviesDisplayer = _react2.default.createClass({
     render: function render() {
 
         var movieItems = this.props.movies.map(function (item) {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 "li",
                 { className: "movie_item animated flipInX", key: item.id },
@@ -22608,7 +22636,10 @@ var MoviesDisplayer = _react2.default.createClass({
                     { className: "movie_img_div" },
                     _react2.default.createElement(
                         "a",
-                        { href: "" },
+                        { href: "javascript:void(0);",
+                            onClick: function onClick() {
+                                _this2.props.pageDispatch({ pageId: 2, pageData: { movieId: item.id } });
+                            } },
                         _react2.default.createElement("img", { src: item.imgUrl })
                     )
                 ),
@@ -22620,7 +22651,11 @@ var MoviesDisplayer = _react2.default.createClass({
                         null,
                         _react2.default.createElement(
                             "a",
-                            { className: "movie_name_a", href: "" },
+                            { className: "movie_name_a",
+                                href: "javascript:void(0);",
+                                onClick: function onClick() {
+                                    _this2.props.pageDispatch({ pageId: 2, pageData: { movieId: item.id } });
+                                } },
                             item.name
                         )
                     ),
@@ -22654,7 +22689,7 @@ var MoviesDisplayer = _react2.default.createClass({
                     )
                 )
             );
-        });
+        }.bind(this));
         return _react2.default.createElement(
             "ul",
             { id: "movies_list_ul" },
@@ -22669,7 +22704,7 @@ var MovieTagGroup = _react2.default.createClass({
     displayName: "MovieTagGroup",
 
     render: function render() {
-        var _this2 = this;
+        var _this3 = this;
 
         var tagGroupStyleClass = "";
         if (this.props.selected != undefined && this.props.selected) {
@@ -22690,7 +22725,7 @@ var MovieTagGroup = _react2.default.createClass({
                 _react2.default.createElement(
                     "li",
                     { className: tagGroupStyleClass, onClick: function onClick() {
-                            _this2.props.handleClickTag(undefined, _this2.props.movieTagGroupId);
+                            _this3.props.handleClickTag(undefined, _this3.props.movieTagGroupId);
                         } },
                     _react2.default.createElement(
                         "a",
@@ -22699,7 +22734,7 @@ var MovieTagGroup = _react2.default.createClass({
                     )
                 ),
                 this.props.movieTags.map(function (item) {
-                    var _this3 = this;
+                    var _this4 = this;
 
                     var tagStyleClass = "";
                     if (item.selected != undefined && item.selected) {
@@ -22708,7 +22743,7 @@ var MovieTagGroup = _react2.default.createClass({
                     return _react2.default.createElement(
                         "li",
                         { key: item.id, id: item.id, className: tagStyleClass, onClick: function onClick() {
-                                _this3.props.handleClickTag(item.id, _this3.props.movieTagGroupId);
+                                _this4.props.handleClickTag(item.id, _this4.props.movieTagGroupId);
                             } },
                         _react2.default.createElement(
                             "a",
@@ -23055,7 +23090,7 @@ var MovieListPage = _react2.default.createClass({
         }.bind(this, keyword, oldMovieSearchBtnText));
     },
     render: function render() {
-        var _this4 = this;
+        var _this5 = this;
 
         return _react2.default.createElement(
             "div",
@@ -23094,7 +23129,7 @@ var MovieListPage = _react2.default.createClass({
                                 return _react2.default.createElement(
                                     "li",
                                     { key: item.id, onClick: function onClick() {
-                                            _this4.sortMovie(item.id);
+                                            _this5.sortMovie(item.id);
                                         }, className: clsName },
                                     _react2.default.createElement(
                                         "a",
@@ -23109,10 +23144,10 @@ var MovieListPage = _react2.default.createClass({
                         "div",
                         { id: "search_div" },
                         _react2.default.createElement("input", { id: "fragment_head_nav_search_text", onChange: function onChange() {
-                                _this4.handleSearchInputChange();
+                                _this5.handleSearchInputChange();
                             }, onKeyUp: this.handleSearchInputKeyUp, ref: "keyword", placeholder: "\u8BF7\u8F93\u5165\u5173\u952E\u5B57" }),
                         _react2.default.createElement("input", { id: "fragment_head_nav_search_btn", onClick: function onClick() {
-                                _this4.handleClickSearchBtn();
+                                _this5.handleClickSearchBtn();
                             }, ref: "movieSearchBtn", type: "button", value: this.state.movieSearchBtnText })
                     ),
                     _react2.default.createElement(
@@ -23133,6 +23168,7 @@ var MovieListPage = _react2.default.createClass({
                     "div",
                     { id: "movies_display_div" },
                     _react2.default.createElement(MoviesDisplayer, { movies: this.state.movies.list,
+                        pageDispatch: this.props.pageDispatch,
                         ref: "moviesDisplayer" }),
                     _react2.default.createElement(Pager, { handlePageChange: this.handlePageChange, page: this.state.movies.page })
                 )
@@ -23668,6 +23704,82 @@ exports = module.exports = __webpack_require__(25)();
 
 // module
 exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n#tip {\n  width: 100%;\n  text-align: center;\n  height: 15px; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(24);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(210);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MovieInfoPage = _react2.default.createClass({
+    displayName: 'MovieInfoPage',
+
+    render: function render() {
+        c(this.props.getNowPageProps());
+        return _react2.default.createElement(
+            'div',
+            { id: 'movie_info_content' },
+            '666'
+        );
+    }
+}); //引入react组件
+exports.default = MovieInfoPage;
+
+/***/ }),
+/* 210 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(211);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(26)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./movie_info_page.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./movie_info_page.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 211 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(25)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n", ""]);
 
 // exports
 
