@@ -374,6 +374,7 @@
         </collection>
 
     </resultMap>
+    <!--获取movie列表-->
     <select id="getMovies" resultMap="GetMoviesMap">
         SELECT DISTINCT
         m.*
@@ -462,6 +463,14 @@
         )
 
       </select>
+
+    <!--获取单个movie-->
+    <select id="getMovie" resultMap="GetMoviesMap">
+        SELECT *
+        FROM vm_movies m
+        where m.id = #{movieId}
+        and m.status = 1
+    </select>
     <!--**************************** 自定义mapper end ****************************-->
 
 </mapper>

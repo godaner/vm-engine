@@ -34,4 +34,6 @@ public interface VmMoviesMapper {
     List<CustomVmMovies> getMovies(@Param("page") PageBean page, @Param("query") VmMoviesQueryBean query);
 
     Long getMoviesCount(@Param("page") PageBean page,@Param("query") VmMoviesQueryBean query);
+
+    CustomVmMovies getMovie(@Param("movieId")Long movieId);
 }

@@ -22428,11 +22428,16 @@ var Index = _react2.default.createClass({
 
     getInitialState: function getInitialState() {
         var state = {
-            pageId: 1,
-            pageData: {},
+            pageId: 1, //display this page
+            pageData: { movieId: 1 }, //displayed page's data
             pageMap: {
-                1: _react2.default.createElement(_movie_list_page2.default, { pageDispatch: this.pageDispatch, tagGroupSource: '/tagGroup/list', movieSource: '/movie/list' }),
-                2: _react2.default.createElement(_movie_info_page2.default, { pageDispatch: this.pageDispatch, getNowPageProps: this.getNowPageProps })
+                2: _react2.default.createElement(_movie_list_page2.default, { pageDispatch: this.pageDispatch,
+                    getNowPageProps: this.getNowPageProps,
+                    tagGroupSource: '/tagGroup/list',
+                    movieSource: '/movie/list' }),
+                1: _react2.default.createElement(_movie_info_page2.default, { pageDispatch: this.pageDispatch,
+                    getNowPageProps: this.getNowPageProps,
+                    movieSource: '/movie' })
             }
         };
 
@@ -23713,76 +23718,10 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 /* 207 */,
 /* 208 */,
 /* 209 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(24);
-
-var _react2 = _interopRequireDefault(_react);
-
-__webpack_require__(210);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var MovieInfoPage = _react2.default.createClass({
-    displayName: 'MovieInfoPage',
-
-    render: function render() {
-        c(this.props.getNowPageProps());
-        return _react2.default.createElement(
-            'div',
-            { id: 'movie_info_content' },
-            '666'
-        );
-    }
-}); //引入react组件
-exports.default = MovieInfoPage;
-
-/***/ }),
-/* 210 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(211);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(26)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./movie_info_page.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./movie_info_page.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 211 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(25)();
-// imports
-
-
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n", ""]);
-
-// exports
-
+throw new Error("Module build failed: SyntaxError: E:/vm/src/main/resources/static/frontend/components/movie_info_page.jsx: Unexpected token (45:8)\n\n\u001b[0m \u001b[90m 43 | \u001b[39m    render\u001b[33m:\u001b[39m\u001b[36mfunction\u001b[39m(){\n \u001b[90m 44 | \u001b[39m        \u001b[36mvar\u001b[39m imgUrl \u001b[33m=\u001b[39m \u001b[32m\"/img/\"\u001b[39m\u001b[33m+\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 45 | \u001b[39m        \u001b[36mreturn\u001b[39m (\n \u001b[90m    | \u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 46 | \u001b[39m            \u001b[33m<\u001b[39m\u001b[33mdiv\u001b[39m id\u001b[33m=\u001b[39m\u001b[32m\"movie_info_content\"\u001b[39m\u001b[33m>\u001b[39m\n \u001b[90m 47 | \u001b[39m                \u001b[33m<\u001b[39m\u001b[33mdiv\u001b[39m id\u001b[33m=\u001b[39m\u001b[32m\"movie_basic_info\"\u001b[39m\u001b[33m>\u001b[39m\n \u001b[90m 48 | \u001b[39m                    \u001b[33m<\u001b[39m\u001b[33mdiv\u001b[39m id\u001b[33m=\u001b[39m\u001b[32m\"movie_img\"\u001b[39m\u001b[33m>\u001b[39m\u001b[0m\n");
 
 /***/ })
 /******/ ]);

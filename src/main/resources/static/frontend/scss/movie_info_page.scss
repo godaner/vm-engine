@@ -1,1 +1,10 @@
 @import "frontend-default.scss";
+#movie_info_content{
+  @include defaultMiddle(70%);
+  background-color: unquote($defaultLightGrayRgb);
+  //background-color: red;
+  & > * {
+    padding: 20px 20px;
+  }
+
+}

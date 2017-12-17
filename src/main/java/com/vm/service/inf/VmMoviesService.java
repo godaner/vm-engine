@@ -13,4 +13,6 @@ public interface VmMoviesService {
     List<CustomVmMovies> getMovies(PageBean page, VmMoviesQueryBean query);
 
     Long getMoviesCount(PageBean page, VmMoviesQueryBean query);
+
+    CustomVmMovies getMovie(Long movieId);
 }

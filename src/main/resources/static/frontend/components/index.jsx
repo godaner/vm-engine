@@ -8,17 +8,22 @@ import Tail from "./tail";
 var Index = React.createClass({
     getInitialState: function () {
         var state = {
-            pageId: 1,
-            pageData:{},
+            pageId: 1,//display this page
+            pageData: {movieId:1},//displayed page's data
             pageMap: {
-                1: <MovieListPage pageDispatch={this.pageDispatch} tagGroupSource="/tagGroup/list" movieSource="/movie/list"/>,
-                2: <MovieInfoPage pageDispatch={this.pageDispatch} getNowPageProps={this.getNowPageProps}/>
+                2: <MovieListPage pageDispatch={this.pageDispatch}
+                                  getNowPageProps={this.getNowPageProps}
+                                  tagGroupSource="/tagGroup/list"
+                                  movieSource="/movie/list"/>,
+                1: <MovieInfoPage pageDispatch={this.pageDispatch}
+                                  getNowPageProps={this.getNowPageProps}
+                                  movieSource="/movie"/>
             }
         };
 
         return state;
     },
-    pageDispatch(dispatchInfo){
+    pageDispatch(dispatchInfo) {
 
         //change page
         var state = this.state;
@@ -31,7 +36,7 @@ var Index = React.createClass({
         this.setState(state);
 
     },
-    getNowPageProps:function(){
+    getNowPageProps: function () {
         return this.state.pageData;
     },
     render: function () {
