@@ -9,10 +9,7 @@
   background-color: $defaultBlueRgb;
   color: white;
 }
-.middle{
-  width:100%;
-  text-align: center;
-}
+
 
 #fragment_index_center_content {
   @include defaultMiddle(70%);
@@ -179,6 +176,11 @@
         display: inline;
         list-style-type: none;
         @include defaultWidth;
+        .movieTip{
+          width:100%;
+          text-align: center;
+          height: 15px;
+        }
         li.movie_item {
           width: 17%;
           padding: 1.5%;

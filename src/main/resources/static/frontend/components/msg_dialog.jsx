@@ -30,10 +30,10 @@ var MsgDialog = React.createClass({
 
         var state = this.state;
         $(this.refs.content).fadeIn();
-        state.dialogClassName = "block animated bounceIn";
+        state.dialogClassName = "block animated headShake";
         this.setState(state);
 
-        c(this.state);
+        // c(this.state);
 
     },
     fadeOut: function () {

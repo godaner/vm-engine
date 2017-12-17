@@ -81,7 +81,7 @@ var MoviesDisplayer = React.createClass({
             </li>;
         });
         return <ul id="movies_list_ul">
-            <div className="middle">{this.props.tip}</div>
+            <div className="movieTip">{this.props.tip}</div>
             {movieItems}
             <li className="clear"></li>
         </ul>;
@@ -90,11 +90,10 @@ var MoviesDisplayer = React.createClass({
 /*一组电影tag*/
 var MovieTagGroup = React.createClass({
     render: function () {
-        var tagGroupStyleClass = "animated flip";
+        var tagGroupStyleClass = "";
         if(this.props.selected != undefined && this.props.selected){
-            tagGroupStyleClass = "currt "+ tagGroupStyleClass;
+            tagGroupStyleClass = "currt";
         }
-        c(tagGroupStyleClass);
         return (
             <div id={this.props.movieTagGroupId} className="type_item">
                 <label>
@@ -108,9 +107,9 @@ var MovieTagGroup = React.createClass({
                     </li>
                     {
                         this.props.movieTags.map(function (item) {
-                            var tagStyleClass = "animated flip";
+                            var tagStyleClass = "";
                             if(item.selected != undefined && item.selected){
-                                tagStyleClass = "currt " + tagStyleClass;
+                                tagStyleClass = "currt";
                             }
                             return (
                                 <li key={item.id} id={item.id} className={tagStyleClass}  onClick={()=>{this.props.handleClickTag(item.id,this.props.movieTagGroupId)}}>
