@@ -31,7 +31,7 @@ var MovieInfoPage = React.createClass({
             var state = this.state;
 
             //set imgUrl
-            state.imgUrl = "/img/"+result.id;
+            state.imgUrl = "/img/"+result.data.movie.id;
 
 
 
@@ -41,7 +41,6 @@ var MovieInfoPage = React.createClass({
         }.bind(this));
     },
     render:function(){
-        var imgUrl = "/img/"+
         return (
             <div id="movie_info_content">
                 <div id="movie_basic_info">
