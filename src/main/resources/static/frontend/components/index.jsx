@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import {Switch, BrowserRouter, Route,Link,} from 'react-router-dom';
+import {Switch, BrowserRouter, Route} from 'react-router-dom';
 {/*import { createHistory, useBasename } from 'history';*/
 }
 import '../scss/index.scss';
@@ -23,7 +23,7 @@ var Index = React.createClass({
 
                 <BrowserRouter>
                     <Switch>
-                        <Route path='/'
+                        <Route exact path='/'
                                render={(props) => (
                                    <MovieListPage tagGroupSource="/tagGroup/list"
                                                   movieSource="/movie/list"/>

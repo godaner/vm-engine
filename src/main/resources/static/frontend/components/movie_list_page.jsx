@@ -1,5 +1,6 @@
 
 import React from 'react';  //引入react组件
+import {Link} from 'react-router-dom';
 import MsgDialog from "./msg_dialog";
 import InnerMessager from "./inner_messager";
 import '../scss/movie_list_page.scss';
@@ -51,18 +52,23 @@ var MoviesDisplayer = React.createClass({
     render: function () {
 
         var movieItems = this.props.movies.map(function (item) {
+            var linkToUrl = "/movie/"+item.id;
             return <li className="movie_item animated flipInX" key={item.id}>
                 <div className="movie_img_div">
-                    <a href="javascript:void(0);">
+                    <Link to={linkToUrl}>
                         <img src={item.imgUrl}/>
-                    </a>
+                    </Link>
+                    {/*<a href="javascript:void(0);">
+                        <img src={item.imgUrl}/>
+                    </a>*/}
                 </div>
                 <div className="movie_info_div">
                     <div>
-                        <a className="movie_name_a"
+                        {/*<a className="movie_name_a"
                            href="javascript:void(0);">
                             {item.name}
-                        </a>
+                        </a>*/}
+                        <Link to={linkToUrl} className="movie_name_a">{item.name}</Link>
 
                     </div>
                     <div className="movie_actor_list_div">
@@ -72,6 +78,7 @@ var MoviesDisplayer = React.createClass({
 
 
                     <div>
+
 
                         导演：<a  href="">{item.director==null?"无":item.director.name}</a>
                     </div>

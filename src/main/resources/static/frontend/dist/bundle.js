@@ -23814,7 +23814,7 @@ var Index = _react2.default.createClass({
                 _react2.default.createElement(
                     _reactRouterDom.Switch,
                     null,
-                    _react2.default.createElement(_reactRouterDom.Route, { path: '/',
+                    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/',
                         render: function render(props) {
                             return _react2.default.createElement(_movie_list_page2.default, { tagGroupSource: '/tagGroup/list',
                                 movieSource: '/movie/list' });
@@ -27047,6 +27047,8 @@ var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouterDom = __webpack_require__(206);
+
 var _msg_dialog = __webpack_require__(237);
 
 var _msg_dialog2 = _interopRequireDefault(_msg_dialog);
@@ -27061,49 +27063,48 @@ __webpack_require__(245);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//引入react组件
 var Pager = _react2.default.createClass({
-    displayName: "Pager",
+    displayName: 'Pager',
 
 
     render: function render() {
         var _this = this;
 
         return _react2.default.createElement(
-            "div",
-            { id: "movie_list_pager_div" },
+            'div',
+            { id: 'movie_list_pager_div' },
             _react2.default.createElement(
-                "ul",
-                { id: "movie_list_pager_ul" },
+                'ul',
+                { id: 'movie_list_pager_ul' },
                 _react2.default.createElement(
-                    "li",
-                    { className: "pager_li" },
+                    'li',
+                    { className: 'pager_li' },
                     _react2.default.createElement(
-                        "a",
-                        { href: "javascript:void(0);", onClick: function onClick() {
+                        'a',
+                        { href: 'javascript:void(0);', onClick: function onClick() {
                                 _this.props.handlePageChange(-1);
                             } },
-                        "\u4E0A\u4E00\u9875"
+                        '\u4E0A\u4E00\u9875'
                     )
                 ),
                 _react2.default.createElement(
-                    "li",
-                    { className: "pager_li currt" },
+                    'li',
+                    { className: 'pager_li currt' },
                     _react2.default.createElement(
-                        "a",
-                        { href: "javascript:void(0);" },
+                        'a',
+                        { href: 'javascript:void(0);' },
                         this.props.page
                     )
                 ),
                 _react2.default.createElement(
-                    "li",
-                    { className: "pager_li" },
+                    'li',
+                    { className: 'pager_li' },
                     _react2.default.createElement(
-                        "a",
-                        { href: "javascript:void(0);", onClick: function onClick() {
+                        'a',
+                        { href: 'javascript:void(0);', onClick: function onClick() {
                                 _this.props.handlePageChange(1);
                             } },
-                        "\u4E0B\u4E00\u9875"
+                        '\u4E0B\u4E00\u9875'
                     )
                 )
             )
@@ -27112,29 +27113,30 @@ var Pager = _react2.default.createClass({
 });
 
 /*电影展示-演员展示*/
+//引入react组件
 var ActorsList = _react2.default.createClass({
-    displayName: "ActorsList",
+    displayName: 'ActorsList',
 
     render: function render() {
 
         return _react2.default.createElement(
-            "ul",
+            'ul',
             null,
             _react2.default.createElement(
-                "li",
+                'li',
                 null,
-                "\u4E3B\u6F14\uFF1A"
+                '\u4E3B\u6F14\uFF1A'
             ),
             this.props.actors.map(function (item, index) {
                 return _react2.default.createElement(
-                    "li",
+                    'li',
                     { key: item.id },
                     _react2.default.createElement(
-                        "a",
-                        { href: "" },
+                        'a',
+                        { href: '' },
                         item.name
                     ),
-                    "\xA0"
+                    '\xA0'
                 );
             })
         );
@@ -27142,7 +27144,7 @@ var ActorsList = _react2.default.createClass({
 });
 /*电影展示*/
 var MoviesDisplayer = _react2.default.createClass({
-    displayName: "MoviesDisplayer",
+    displayName: 'MoviesDisplayer',
     showMsg: function showMsg(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
     },
@@ -27150,74 +27152,74 @@ var MoviesDisplayer = _react2.default.createClass({
     render: function render() {
 
         var movieItems = this.props.movies.map(function (item) {
+            var linkToUrl = "/movie/" + item.id;
             return _react2.default.createElement(
-                "li",
-                { className: "movie_item animated flipInX", key: item.id },
+                'li',
+                { className: 'movie_item animated flipInX', key: item.id },
                 _react2.default.createElement(
-                    "div",
-                    { className: "movie_img_div" },
+                    'div',
+                    { className: 'movie_img_div' },
                     _react2.default.createElement(
-                        "a",
-                        { href: "javascript:void(0);" },
-                        _react2.default.createElement("img", { src: item.imgUrl })
+                        _reactRouterDom.Link,
+                        { to: linkToUrl },
+                        _react2.default.createElement('img', { src: item.imgUrl })
                     )
                 ),
                 _react2.default.createElement(
-                    "div",
-                    { className: "movie_info_div" },
+                    'div',
+                    { className: 'movie_info_div' },
                     _react2.default.createElement(
-                        "div",
+                        'div',
                         null,
                         _react2.default.createElement(
-                            "a",
-                            { className: "movie_name_a",
-                                href: "javascript:void(0);" },
+                            _reactRouterDom.Link,
+                            { to: linkToUrl, className: 'movie_name_a' },
                             item.name
                         )
                     ),
                     _react2.default.createElement(
-                        "div",
-                        { className: "movie_actor_list_div" },
+                        'div',
+                        { className: 'movie_actor_list_div' },
                         _react2.default.createElement(ActorsList, { actors: item.actors })
                     ),
                     _react2.default.createElement(
-                        "div",
+                        'div',
                         null,
-                        "\u5BFC\u6F14\uFF1A",
+                        '\u5BFC\u6F14\uFF1A',
                         _react2.default.createElement(
-                            "a",
-                            { href: "" },
+                            'a',
+                            { href: '' },
                             item.director == null ? "无" : item.director.name
                         )
                     ),
                     _react2.default.createElement(
-                        "div",
+                        'div',
                         null,
-                        "\u8BC4\u5206\uFF1A",
+                        '\u8BC4\u5206\uFF1A',
                         item.score
                     ),
                     _react2.default.createElement(
-                        "div",
+                        'div',
                         null,
-                        "\u64AD\u653E\uFF1A",
+                        '\u64AD\u653E\uFF1A',
                         item.watchNum,
-                        "\u6B21"
+                        '\u6B21'
                     )
                 )
             );
         }.bind(this));
         return _react2.default.createElement(
-            "ul",
-            { id: "movies_list_ul" },
-            _react2.default.createElement(_inner_messager2.default, { ref: "innerMessager" }),
+            'ul',
+            { id: 'movies_list_ul' },
+            _react2.default.createElement(_inner_messager2.default, { ref: 'innerMessager' }),
             movieItems,
-            _react2.default.createElement("li", { className: "clear" })
+            _react2.default.createElement('li', { className: 'clear' })
         );
     }
 });
 /*一组电影tag*/
 var MovieTagGroup = _react2.default.createClass({
-    displayName: "MovieTagGroup",
+    displayName: 'MovieTagGroup',
 
     render: function render() {
         var _this2 = this;
@@ -27227,26 +27229,26 @@ var MovieTagGroup = _react2.default.createClass({
             tagGroupStyleClass = "currt";
         }
         return _react2.default.createElement(
-            "div",
-            { id: this.props.movieTagGroupId, className: "type_item" },
+            'div',
+            { id: this.props.movieTagGroupId, className: 'type_item' },
             _react2.default.createElement(
-                "label",
+                'label',
                 null,
                 this.props.movieTagGroupName,
-                ":"
+                ':'
             ),
             _react2.default.createElement(
-                "ul",
+                'ul',
                 null,
                 _react2.default.createElement(
-                    "li",
+                    'li',
                     { className: tagGroupStyleClass, onClick: function onClick() {
                             _this2.props.handleClickTag(undefined, _this2.props.movieTagGroupId);
                         } },
                     _react2.default.createElement(
-                        "a",
-                        { href: "javascript:void(0);" },
-                        "\u5168\u90E8"
+                        'a',
+                        { href: 'javascript:void(0);' },
+                        '\u5168\u90E8'
                     )
                 ),
                 this.props.movieTags.map(function (item) {
@@ -27257,13 +27259,13 @@ var MovieTagGroup = _react2.default.createClass({
                         tagStyleClass = "currt";
                     }
                     return _react2.default.createElement(
-                        "li",
+                        'li',
                         { key: item.id, id: item.id, className: tagStyleClass, onClick: function onClick() {
                                 _this3.props.handleClickTag(item.id, _this3.props.movieTagGroupId);
                             } },
                         _react2.default.createElement(
-                            "a",
-                            { href: "javascript:void(0);" },
+                            'a',
+                            { href: 'javascript:void(0);' },
                             item.name
                         )
                     );
@@ -27274,16 +27276,16 @@ var MovieTagGroup = _react2.default.createClass({
 });
 /*电影标签列表*/
 var MovieTagGroupList = _react2.default.createClass({
-    displayName: "MovieTagGroupList",
+    displayName: 'MovieTagGroupList',
     showMsg: function showMsg(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
     },
 
     render: function render() {
         return _react2.default.createElement(
-            "div",
+            'div',
             null,
-            _react2.default.createElement(_inner_messager2.default, { ref: "innerMessager" }),
+            _react2.default.createElement(_inner_messager2.default, { ref: 'innerMessager' }),
             this.props.movieTagGroup.map(function (item) {
                 return _react2.default.createElement(MovieTagGroup, { key: item.id,
                     handleClickTag: this.props.handleClickTag,
@@ -27297,7 +27299,7 @@ var MovieTagGroupList = _react2.default.createClass({
 });
 
 var MovieListPage = _react2.default.createClass({
-    displayName: "MovieListPage",
+    displayName: 'MovieListPage',
 
 
     componentDidMount: function componentDidMount() {
@@ -27618,32 +27620,32 @@ var MovieListPage = _react2.default.createClass({
         var _this4 = this;
 
         return _react2.default.createElement(
-            "div",
-            { id: "fragment_index_center_content" },
+            'div',
+            { id: 'fragment_index_center_content' },
             _react2.default.createElement(
-                "div",
-                { id: "movie_type_div" },
+                'div',
+                { id: 'movie_type_div' },
                 _react2.default.createElement(MovieTagGroupList, { tip: this.state.tagTip,
                     handleClickTag: this.handleClickTag,
                     movieTagGroup: this.state.movieTagGroup,
-                    ref: "movieTagGroupList" })
+                    ref: 'movieTagGroupList' })
             ),
             _react2.default.createElement(
-                "div",
-                { id: "movie_list_div" },
+                'div',
+                { id: 'movie_list_div' },
                 _react2.default.createElement(
-                    "div",
-                    { id: "head" },
+                    'div',
+                    { id: 'head' },
                     _react2.default.createElement(
-                        "div",
-                        { id: "sort_div" },
+                        'div',
+                        { id: 'sort_div' },
                         _react2.default.createElement(
-                            "ul",
-                            { id: "sort_ways" },
+                            'ul',
+                            { id: 'sort_ways' },
                             _react2.default.createElement(
-                                "label",
+                                'label',
                                 null,
-                                "\u6392\u5E8F\uFF1A"
+                                '\u6392\u5E8F\uFF1A'
                             ),
                             this.state.orderByOptions.map(function (item, index) {
                                 var clsName = "";
@@ -27652,13 +27654,13 @@ var MovieListPage = _react2.default.createClass({
                                 }
 
                                 return _react2.default.createElement(
-                                    "li",
+                                    'li',
                                     { key: item.id, onClick: function onClick() {
                                             _this4.sortMovie(item.id);
                                         }, className: clsName },
                                     _react2.default.createElement(
-                                        "a",
-                                        { href: "javascript:void(0);" },
+                                        'a',
+                                        { href: 'javascript:void(0);' },
                                         item.name
                                     )
                                 );
@@ -27666,38 +27668,38 @@ var MovieListPage = _react2.default.createClass({
                         )
                     ),
                     _react2.default.createElement(
-                        "div",
-                        { id: "search_div" },
-                        _react2.default.createElement("input", { id: "fragment_head_nav_search_text", onChange: function onChange() {
+                        'div',
+                        { id: 'search_div' },
+                        _react2.default.createElement('input', { id: 'fragment_head_nav_search_text', onChange: function onChange() {
                                 _this4.handleSearchInputChange();
-                            }, onKeyUp: this.handleSearchInputKeyUp, ref: "keyword", placeholder: "\u8BF7\u8F93\u5165\u5173\u952E\u5B57" }),
-                        _react2.default.createElement("input", { id: "fragment_head_nav_search_btn", onClick: function onClick() {
+                            }, onKeyUp: this.handleSearchInputKeyUp, ref: 'keyword', placeholder: '\u8BF7\u8F93\u5165\u5173\u952E\u5B57' }),
+                        _react2.default.createElement('input', { id: 'fragment_head_nav_search_btn', onClick: function onClick() {
                                 _this4.handleClickSearchBtn();
-                            }, ref: "movieSearchBtn", type: "button", value: this.state.movieSearchBtnText })
+                            }, ref: 'movieSearchBtn', type: 'button', value: this.state.movieSearchBtnText })
                     ),
                     _react2.default.createElement(
-                        "div",
-                        { id: "total_div" },
-                        "\u5171",
+                        'div',
+                        { id: 'total_div' },
+                        '\u5171',
                         _react2.default.createElement(
-                            "span",
-                            { id: "totalNum" },
+                            'span',
+                            { id: 'totalNum' },
                             this.state.movies.total
                         ),
-                        "\u4E2A\u7ED3\u679C"
+                        '\u4E2A\u7ED3\u679C'
                     ),
-                    _react2.default.createElement("div", { className: "clear" })
+                    _react2.default.createElement('div', { className: 'clear' })
                 ),
-                _react2.default.createElement("div", { id: "line" }),
+                _react2.default.createElement('div', { id: 'line' }),
                 _react2.default.createElement(
-                    "div",
-                    { id: "movies_display_div" },
+                    'div',
+                    { id: 'movies_display_div' },
                     _react2.default.createElement(MoviesDisplayer, { movies: this.state.movies.list,
-                        ref: "moviesDisplayer" }),
+                        ref: 'moviesDisplayer' }),
                     _react2.default.createElement(Pager, { handlePageChange: this.handlePageChange, page: this.state.movies.page })
                 )
             ),
-            _react2.default.createElement(_msg_dialog2.default, { ref: "index_msg_dialog" })
+            _react2.default.createElement(_msg_dialog2.default, { ref: 'index_msg_dialog' })
         );
     }
 
@@ -28124,6 +28126,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var MovieInfoPage = _react2.default.createClass({
     displayName: 'MovieInfoPage',
 
+
     componentDidMount: function componentDidMount() {
         window.addEventListener('resize', this.onWindowResize);
 
@@ -28137,6 +28140,8 @@ var MovieInfoPage = _react2.default.createClass({
     },
     adjustUI: function adjustUI() {},
     getInitialState: function getInitialState() {
+        c(this);
+
         // var state = {pageData:this.props.getNowPageProps(),imgUrl:""};
         // return state;
         return null;

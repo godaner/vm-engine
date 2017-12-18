@@ -2,6 +2,7 @@
 import React from 'react';  //引入react组件
 import '../scss/movie_info_page.scss';
 var MovieInfoPage = React.createClass({
+
     componentDidMount: function () {
         window.addEventListener('resize', this.onWindowResize);
 
@@ -17,6 +18,8 @@ var MovieInfoPage = React.createClass({
 
     },
     getInitialState:function(){
+        c(this);
+
         // var state = {pageData:this.props.getNowPageProps(),imgUrl:""};
         // return state;
         return null;
