@@ -24,19 +24,16 @@ var Index = React.createClass({
                 <BrowserRouter>
                     <Switch>
                         <Route exact path='/'
-                               render={(props) => (
+                               render={() => (
                                    <MovieListPage tagGroupSource="/tagGroup/list"
                                                   movieSource="/movie/list"/>
                                )}/>
                         <Route exact path='/movie/list'
-                               render={(props) => (
+                               render={() => (
                                    <MovieListPage tagGroupSource="/tagGroup/list"
                                                   movieSource="/movie/list"/>
                                )}/>
-                        <Route exact path='/movie/:movieId'
-                               render={(props) => (
-                                   <MovieInfoPage movieSource="/movie"/>
-                               )}/>
+                        <Route exact path='/movie/:movieId' component={MovieInfoPage}/>
                     </Switch>
 
                 </BrowserRouter>

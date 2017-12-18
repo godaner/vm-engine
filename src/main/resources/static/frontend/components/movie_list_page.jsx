@@ -53,9 +53,19 @@ var MoviesDisplayer = React.createClass({
 
         var movieItems = this.props.movies.map(function (item) {
             var linkToUrl = "/movie/"+item.id;
+            // but you can use a location instead
+            const location = {
+                pathname: '/movie/'+item.id,
+                state: { fromDashboard: true }
+            }
+
+            // history.push(location);
+            // history.replace(location)
             return <li className="movie_item animated flipInX" key={item.id}>
                 <div className="movie_img_div">
-                    <Link to={linkToUrl}>
+
+
+                    <Link to={location}>
                         <img src={item.imgUrl}/>
                     </Link>
                 </div>

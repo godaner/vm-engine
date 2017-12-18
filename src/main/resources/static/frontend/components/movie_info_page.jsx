@@ -1,32 +1,35 @@
 
 import React from 'react';  //引入react组件
 import '../scss/movie_info_page.scss';
-var MovieInfoPage = React.createClass({
+class MovieInfoPage extends React.Component{
+    // 构造
+    constructor(props){
 
-    componentDidMount: function () {
+        super(props);
+        c("constructor");
+        c(this);
+        c(props);
+        c(this.props.params.movieId);
+
+    }
+
+    componentDidMount () {
         window.addEventListener('resize', this.onWindowResize);
 
         // this.getMovie();
-    },
-    componentWillUnmount:function() {
-        window.removeEventListener('resize', this.onWindowResize);
-    },
-    onWindowResize:function () {
+    }
+    componentWillUnmount() {
+        window.removeEventListener('resize' ,this.onWindowResize);
+    }
+    onWindowResize () {
         this.adjustUI();
-    },
-    adjustUI:function (){
+    }
+    adjustUI (){
 
-    },
-    getInitialState:function(){
-        c(this);
-
-        // var state = {pageData:this.props.getNowPageProps(),imgUrl:""};
-        // return state;
-        return null;
-    },
-    getMovie:function(callfun){
+    }
+    getMovie(callfun){
         // var url = this.props.movieSource+"/"+this.state.pageData.movieId;
-        // this.serverRequest = $.get(url , function (result) {
+        // this.serverRequest = $.get(url   (result) {
         //     // c(result);
         //     if(result.code == 10000){
         //         return ;
@@ -43,8 +46,8 @@ var MovieInfoPage = React.createClass({
         //     //callfun
         //     callfun!=undefined&&callfun();
         // }.bind(this));
-    },
-    render:function(){
+    }
+    render(){
         return (
             <div id="movie_info_content">
                 <div id="movie_basic_info">
@@ -58,5 +61,5 @@ var MovieInfoPage = React.createClass({
             </div>
         );
     }
-});
+};
 export default MovieInfoPage;
