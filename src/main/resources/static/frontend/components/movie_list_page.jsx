@@ -58,16 +58,9 @@ var MoviesDisplayer = React.createClass({
                     <Link to={linkToUrl}>
                         <img src={item.imgUrl}/>
                     </Link>
-                    {/*<a href="javascript:void(0);">
-                        <img src={item.imgUrl}/>
-                    </a>*/}
                 </div>
                 <div className="movie_info_div">
                     <div>
-                        {/*<a className="movie_name_a"
-                           href="javascript:void(0);">
-                            {item.name}
-                        </a>*/}
                         <Link to={linkToUrl} className="movie_name_a">{item.name}</Link>
 
                     </div>
