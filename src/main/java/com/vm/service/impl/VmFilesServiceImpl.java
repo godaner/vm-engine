@@ -2,7 +2,7 @@ package com.vm.service.impl;
 
 import com.vm.dao.mapper.VmFilesMapper;
 import com.vm.dao.po.VmFiles;
-import com.vm.service.BaseService;
+import com.vm.service.base.BaseService;
 import com.vm.service.inf.VmFilesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

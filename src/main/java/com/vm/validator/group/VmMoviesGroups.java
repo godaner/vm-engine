@@ -1,4 +1,4 @@
-package com.vm.validatorgroup;
+package com.vm.validator.group;
 
 public interface VmMoviesGroups {
 

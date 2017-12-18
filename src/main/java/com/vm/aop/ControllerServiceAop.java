@@ -37,12 +37,7 @@ public class ControllerServiceAop {
         Object data = null;
         try {
             //参数验证
-            BindingResult bindingResult = null;
-            for(Object arg:joinPoint.getArgs()){
-                if(arg instanceof BindingResult){
-                    bindingResult = (BindingResult) arg;
-                }
-            }
+            BindingResult bindingResult = getBindingResult(joinPoint.getArgs());
             validate(bindingResult);
 
             data = joinPoint.proceed();//调用执行目标方法,先執行aop在執行了responsebody
@@ -83,6 +78,20 @@ public class ControllerServiceAop {
         logger.info("Response ==> {}", response);
         return response;
 
+    }
+
+    /**
+     * 通过切面参数获取其中的BindingResult
+     * @param args
+     * @return
+     */
+    private BindingResult getBindingResult(Object[] args) {
+        for(Object arg:args){
+            if(arg instanceof BindingResult){
+                return (BindingResult) arg;
+            }
+        }
+        return null;
     }
 
     /**

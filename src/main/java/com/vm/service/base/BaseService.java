@@ -1,4 +1,4 @@
-package com.vm.service;
+package com.vm.service.base;
 
 import com.vm.utils.CommonUtil;
 
