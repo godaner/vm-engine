@@ -1,7 +1,8 @@
-package com.vm.controller;
+package com.vm.controller.impl;
 
 
 
+import com.vm.controller.base.ServiceController;
 import com.vm.dao.po.VmFiles;
 import com.vm.service.inf.VmFilesService;
 import com.vm.utils.VmProperties;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.ServletOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 
 /**
@@ -24,7 +24,7 @@ import java.io.FileNotFoundException;
 @Controller
 @RequestMapping("/img")
 @Scope("prototype")
-public class VmImgController extends ServiceController<VmFilesService>{
+public class VmImgController extends ServiceController<VmFilesService> {
     /**
      * path:a.jpg
      * @return

@@ -1,4 +1,4 @@
-package com.vm.controller;
+package com.vm.controller.base;
 
 
 import java.util.HashMap;

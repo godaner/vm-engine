@@ -7,7 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class PageBean {
-    @Min(value = 0,message="{PageBean.start.min}")
+    @Min(value = 5,message="{PageBean.start.Min}")
     private Integer start;
     @Min(value = 1,message="{PageBean.size.Min}")
     private Integer size;

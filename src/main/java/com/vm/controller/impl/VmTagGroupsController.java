@@ -1,5 +1,6 @@
-package com.vm.controller;
+package com.vm.controller.impl;
 
+import com.vm.controller.base.ServiceController;
 import com.vm.dao.po.CustomVmTagsGroups;
 import com.vm.service.inf.VmTagsService;
 import org.springframework.context.annotation.Scope;

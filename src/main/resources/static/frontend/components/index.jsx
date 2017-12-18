@@ -11,11 +11,11 @@ var Index = React.createClass({
             pageId: 1,//display this page
             pageData: {movieId:1},//displayed page's data
             pageMap: {
-                2: <MovieListPage pageDispatch={this.pageDispatch}
+                1: <MovieListPage pageDispatch={this.pageDispatch}
                                   getNowPageProps={this.getNowPageProps}
                                   tagGroupSource="/tagGroup/list"
                                   movieSource="/movie/list"/>,
-                1: <MovieInfoPage pageDispatch={this.pageDispatch}
+                2: <MovieInfoPage pageDispatch={this.pageDispatch}
                                   getNowPageProps={this.getNowPageProps}
                                   movieSource="/movie"/>
             }

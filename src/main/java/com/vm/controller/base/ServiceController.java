@@ -1,4 +1,4 @@
-package com.vm.controller;
+package com.vm.controller.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
