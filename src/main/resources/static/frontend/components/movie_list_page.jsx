@@ -53,16 +53,14 @@ var MoviesDisplayer = React.createClass({
         var movieItems = this.props.movies.map(function (item) {
             return <li className="movie_item animated flipInX" key={item.id}>
                 <div className="movie_img_div">
-                    <a href="javascript:void(0);"
-                       onClick={()=>{this.props.pageDispatch({pageId:2,pageData:{movieId:item.id}})}}>
+                    <a href="javascript:void(0);">
                         <img src={item.imgUrl}/>
                     </a>
                 </div>
                 <div className="movie_info_div">
                     <div>
                         <a className="movie_name_a"
-                           href="javascript:void(0);"
-                           onClick={()=>{this.props.pageDispatch({pageId:2,pageData:{movieId:item.id}})}}>
+                           href="javascript:void(0);">
                             {item.name}
                         </a>
 
@@ -542,7 +540,6 @@ var MovieListPage = React.createClass({
                     <div id="movies_display_div">
                         {/*电影展示*/}
                         <MoviesDisplayer movies={this.state.movies.list}
-                                         pageDispatch={this.props.pageDispatch}
                                          ref="moviesDisplayer"/>
 
                         {/*电影分页*/}

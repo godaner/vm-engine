@@ -9,10 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 页面转发
  */
 @Controller
-@RequestMapping("/page")
+@RequestMapping("/")
 public class PageForwardController {
 
-    @RequestMapping("/f/{name}")
+    @RequestMapping("/")
+    public Object index() {
+        return "frontend/index";
+    }
+    @RequestMapping("/{name}")
     public Object frontend(@PathVariable("name") String name) {
         return "frontend/"+name;
     }
