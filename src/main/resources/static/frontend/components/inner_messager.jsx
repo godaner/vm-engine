@@ -35,9 +35,11 @@ return state;
         clearInterval(this.state.timer);
     },
     showMsg(msg) {
-        if (msg == undefined||msg == "") {
+        if (msg == undefined) {
             msg = "";
-            state.cacheTip = "";
+
+        }
+        if(msg == ""){
             clearInterval(this.state.timer);
         }
         var state = this.state;

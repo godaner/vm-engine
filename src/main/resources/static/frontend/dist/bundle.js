@@ -23401,9 +23401,10 @@ var InnerMessager = _react2.default.createClass({
         clearInterval(this.state.timer);
     },
     showMsg: function showMsg(msg) {
-        if (msg == undefined || msg == "") {
+        if (msg == undefined) {
             msg = "";
-            state.cacheTip = "";
+        }
+        if (msg == "") {
             clearInterval(this.state.timer);
         }
         var state = this.state;
