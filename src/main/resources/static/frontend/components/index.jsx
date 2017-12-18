@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import {Switch, BrowserRouter, Route} from 'react-router-dom';
+import {Switch, BrowserRouter,HashRouter, Route} from 'react-router-dom';
 {/*import { createHistory, useBasename } from 'history';*/
 }
 import '../scss/index.scss';
@@ -21,7 +21,7 @@ var Index = React.createClass({
             <div id="index">
                 <Head/>
 
-                <BrowserRouter>
+                <HashRouter>
                     <Switch>
                         <Route exact path='/'
                                render={() => (
@@ -36,7 +36,7 @@ var Index = React.createClass({
                         <Route exact path='/movie/:movieId' component={MovieInfoPage}/>
                     </Switch>
 
-                </BrowserRouter>
+                </HashRouter>
                 <Tail/>
             </div>
         );

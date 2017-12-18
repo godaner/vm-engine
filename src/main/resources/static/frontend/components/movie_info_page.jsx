@@ -9,7 +9,7 @@ class MovieInfoPage extends React.Component{
         c("constructor");
         c(this);
         c(props);
-        c(this.props.params.movieId);
+        c(this.props);
 
     }
 

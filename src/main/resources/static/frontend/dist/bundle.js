@@ -23868,7 +23868,7 @@ var Index = _react2.default.createClass({
             { id: 'index' },
             _react2.default.createElement(_head2.default, null),
             _react2.default.createElement(
-                _reactRouterDom.BrowserRouter,
+                _reactRouterDom.HashRouter,
                 null,
                 _react2.default.createElement(
                     _reactRouterDom.Switch,
@@ -28148,7 +28148,7 @@ var MovieInfoPage = function (_React$Component) {
         c("constructor");
         c(_this);
         c(props);
-        c(_this.props.params.movieId);
+        c(_this.props);
 
         return _this;
     }
