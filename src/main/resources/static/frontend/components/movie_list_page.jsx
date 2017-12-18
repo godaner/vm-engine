@@ -238,7 +238,8 @@ var MovieListPage = React.createClass({
         this.serverRequest = $.get(url , function (result) {
             // c(result);
             if(result.code == 10000){
-                this.refs.index_msg_dialog.showMsg(result.msg);
+                this.showDialogMsg(result.msg);
+                this.showMovieTip();
                 return ;
             }
 
@@ -249,9 +250,8 @@ var MovieListPage = React.createClass({
 
             //if have not movies
             if(state.movies.list.length==undefined || state.movies.list.length == 0){
-                this.showMovieTip("无相关电影...");
+                this.showMovieTip("无相关电影");
             }else{
-
                 this.showMovieTip();
             }
 
@@ -263,6 +263,9 @@ var MovieListPage = React.createClass({
             callfun!=undefined&&callfun();
         }.bind(this));
     },
+    showDialogMsg(msg){
+        this.refs.index_msg_dialog.showMsg(msg);
+    },
     showTagTip(msg){
         if(msg == undefined){
             msg = "";
@@ -271,12 +274,18 @@ var MovieListPage = React.createClass({
     },
     getTagGroup(callfun){
         //set tip
-        this.showTagTip("正在加载...");
+        this.showTagTip("正在加载");
         {/*获取电影标签分组*/}
         this.serverRequest = $.get(this.props.tagGroupSource, function (result) {
             var state = this.state;
             state.movieTagGroup = result.data.list;
 
+
+            if(result.code == 10000){
+                this.showDialogMsg(result.msg);
+                this.showMovieTip();
+                return ;
+            }
 
 
             //set tip

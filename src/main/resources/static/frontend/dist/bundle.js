@@ -22859,7 +22859,8 @@ var MovieListPage = _react2.default.createClass({
         this.serverRequest = $.get(url, function (result) {
             // c(result);
             if (result.code == 10000) {
-                this.refs.index_msg_dialog.showMsg(result.msg);
+                this.showDialogMsg(result.msg);
+                this.showMovieTip();
                 return;
             }
 
@@ -22870,9 +22871,8 @@ var MovieListPage = _react2.default.createClass({
 
             //if have not movies
             if (state.movies.list.length == undefined || state.movies.list.length == 0) {
-                this.showMovieTip("无相关电影...");
+                this.showMovieTip("无相关电影");
             } else {
-
                 this.showMovieTip();
             }
 
@@ -22883,6 +22883,9 @@ var MovieListPage = _react2.default.createClass({
             callfun != undefined && callfun();
         }.bind(this));
     },
+    showDialogMsg: function showDialogMsg(msg) {
+        this.refs.index_msg_dialog.showMsg(msg);
+    },
     showTagTip: function showTagTip(msg) {
         if (msg == undefined) {
             msg = "";
@@ -22891,11 +22894,17 @@ var MovieListPage = _react2.default.createClass({
     },
     getTagGroup: function getTagGroup(callfun) {
         //set tip
-        this.showTagTip("正在加载...");
+        this.showTagTip("正在加载");
         {/*获取电影标签分组*/}
         this.serverRequest = $.get(this.props.tagGroupSource, function (result) {
             var state = this.state;
             state.movieTagGroup = result.data.list;
+
+            if (result.code == 10000) {
+                this.showDialogMsg(result.msg);
+                this.showMovieTip();
+                return;
+            }
 
             //set tip
 
@@ -23364,20 +23373,47 @@ var InnerMessager = _react2.default.createClass({
     getInitialState: function getInitialState() {
 
         var state = {};
-        var tip = "正在加载...";
+        var tip = "正在加载";
         if (this.props.tip != undefined && this.props.tip != "") {
             tip = this.props.tip;
         }
-        state = { tip: tip };
+        state = { tip: tip, tipPoint: ".", tipPointMaxNum: 4, tipPointNum: 0, timer: undefined };
         return state;
+    },
+    componentDidMount: function componentDidMount() {
+        this.state.timer = setInterval(function () {
+            var state = this.state;
+            var tip = state.tip;
+            if (this.state.tipPointNum >= this.state.tipPointMaxNum) {
+                tip = tip.replaceAll(this.state.tipPoint, "");
+                state.tipPointNum = 0;
+            }
+            tip = tip + this.state.tipPoint;
+
+            state.tipPointNum = state.tipPointNum + 1;
+
+            state.tip = tip;
+
+            this.setState(state);
+        }.bind(this), 500);
+    },
+    componentWillUnmount: function componentWillUnmount() {
+        clearInterval(this.state.timer);
     },
     showMsg: function showMsg(msg) {
         if (msg == undefined) {
             msg = "";
+            clearInterval(this.state.timer);
         }
         var state = this.state;
         state.tip = msg;
         this.setState(state);
+    },
+    hide: function hide() {
+        showMsg();
+    },
+    hideMsg: function hideMsg() {
+        showMsg();
     },
 
     render: function render() {

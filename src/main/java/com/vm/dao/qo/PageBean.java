@@ -3,13 +3,16 @@ package com.vm.dao.qo;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class PageBean {
-    @Min(value = 5,message="{PageBean.start.Min}")
+    @Min(value = 1,message="{PageBean.start.Min}")
+    @Max(value = Integer.MAX_VALUE,message="{PageBean.start.Max}")
     private Integer start;
     @Min(value = 1,message="{PageBean.size.Min}")
+    @Max(value = Integer.MAX_VALUE,message="{PageBean.size.Max}")
     private Integer size;
     @NotBlank(message="{PageBean.orderBy.NotBlank}")
     private String orderBy;

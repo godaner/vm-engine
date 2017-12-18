@@ -5,21 +5,50 @@ var InnerMessager = React.createClass({
     getInitialState: function () {
 
         var state = {};
-        var tip = "正在加载...";
+        var tip = "正在加载";
         if (this.props.tip != undefined && this.props.tip != "") {
             tip = this.props.tip;
         }
-        state = {tip: tip};
+        state = {tip: tip,tipPoint:".",tipPointMaxNum:4,tipPointNum:0,timer:undefined};
         return state;
 
+    },
+    componentDidMount: function () {
+        this.state.timer = setInterval(function(){
+            var state = this.state;
+            var tip = state.tip;
+            if(this.state.tipPointNum>=this.state.tipPointMaxNum){
+                tip = tip.replaceAll(this.state.tipPoint,"");
+                state.tipPointNum = 0;
+            }
+            tip = tip + this.state.tipPoint;
+
+            state.tipPointNum = state.tipPointNum+1;
+
+            state.tip = tip;
+
+            this.setState(state);
+        }.bind(this),500);
+
+    },
+    componentWillUnmount:function() {
+        clearInterval(this.state.timer);
     },
     showMsg(msg) {
         if (msg == undefined) {
             msg = "";
+            clearInterval(this.state.timer);
         }
         var state = this.state;
         state.tip = msg;
         this.setState(state);
+
+    },
+    hide(){
+        showMsg();
+    },
+    hideMsg(){
+        showMsg();
     },
     render: function () {
         return (
