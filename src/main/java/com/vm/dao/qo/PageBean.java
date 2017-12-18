@@ -8,7 +8,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class PageBean {
-    @Min(value = 1,message="{PageBean.start.Min}")
+    @Min(value = 0,message="{PageBean.start.Min}")
     @Max(value = Integer.MAX_VALUE,message="{PageBean.start.Max}")
     private Integer start;
     @Min(value = 1,message="{PageBean.size.Min}")
