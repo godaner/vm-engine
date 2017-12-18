@@ -27143,8 +27143,8 @@ var ActorsList = _react2.default.createClass({
 /*电影展示*/
 var MoviesDisplayer = _react2.default.createClass({
     displayName: "MoviesDisplayer",
-    showMsg: function showMsg(msg) {
-        this.refs.innerMessager.showMsg(msg);
+    showMsg: function showMsg(msg, loop) {
+        this.refs.innerMessager.showMsg(msg, loop);
     },
 
     render: function render() {
@@ -27275,8 +27275,8 @@ var MovieTagGroup = _react2.default.createClass({
 /*电影标签列表*/
 var MovieTagGroupList = _react2.default.createClass({
     displayName: "MovieTagGroupList",
-    showMsg: function showMsg(msg) {
-        this.refs.innerMessager.showMsg(msg);
+    showMsg: function showMsg(msg, loop) {
+        this.refs.innerMessager.showMsg(msg, loop);
     },
 
     render: function render() {
@@ -27318,11 +27318,11 @@ var MovieListPage = _react2.default.createClass({
         height = height.toString() + "px";
         $(".movie_img_div a img").css("height", height);
     },
-    showMovieTip: function showMovieTip(msg) {
+    showMovieTip: function showMovieTip(msg, loop) {
         if (msg == undefined) {
             msg = "";
         }
-        this.refs.moviesDisplayer.showMsg(msg);
+        this.refs.moviesDisplayer.showMsg(msg, loop);
     },
     getMovie: function getMovie(callfun) {
         {} /*获取电影列表*/
@@ -27382,7 +27382,7 @@ var MovieListPage = _react2.default.createClass({
 
             //if have not movies
             if (state.movies.list.length == undefined || state.movies.list.length == 0) {
-                this.showMovieTip("无相关电影");
+                this.showMovieTip("无相关电影", false);
             } else {
                 this.showMovieTip();
             }
@@ -27397,11 +27397,11 @@ var MovieListPage = _react2.default.createClass({
     showDialogMsg: function showDialogMsg(msg) {
         this.refs.index_msg_dialog.showMsg(msg);
     },
-    showTagTip: function showTagTip(msg) {
+    showTagTip: function showTagTip(msg, loop) {
         if (msg == undefined) {
             msg = "";
         }
-        this.refs.movieTagGroupList.showMsg(msg);
+        this.refs.movieTagGroupList.showMsg(msg, loop);
     },
     getTagGroup: function getTagGroup(callfun) {
         //set tip
@@ -27420,7 +27420,7 @@ var MovieListPage = _react2.default.createClass({
             //set tip
 
             if (state.movieTagGroup == undefined || state.movieTagGroup.length == 0) {
-                this.showTagTip("无相关标签");
+                this.showTagTip("无相关标签", false);
             } else {
                 this.showTagTip();
             }
@@ -27934,18 +27934,35 @@ var InnerMessager = _react2.default.createClass({
         }.bind(this), 500);
         this.setState(state);
     },
+    staticShowTip: function staticShowTip(msg) {
+        var state = this.state;
+        state.tip = msg;
+        this.setState(state);
+    },
     componentWillUnmount: function componentWillUnmount() {
         //clear interval timer
         this.stopLoopShowTipTimer();
     },
-    showMsg: function showMsg(msg) {
+    //当msg为空,将隐藏;
+    //当msg不为空,loop为false,字体不会循环展示;为true或者undefined,字体循环展示;
+    showMsg: function showMsg(msg, loop) {
+        //loop default is true
+
+        if (undefined == loop) {
+            loop = true;
+        }
 
         //stop loop show tip
         this.stopLoopShowTipTimer();
 
         //start loop show tip
         if (msg != undefined && msg != "") {
-            this.startLoopShowTipTimer(msg);
+
+            if (loop) {
+                this.startLoopShowTipTimer(msg);
+            } else {
+                this.staticShowTip(msg);
+            }
         }
     },
     hide: function hide() {

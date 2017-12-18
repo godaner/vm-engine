@@ -59,21 +59,37 @@ var InnerMessager = React.createClass({
         }.bind(this), 500);
         this.setState(state);
     },
+    staticShowTip:function(msg){
+        var state = this.state;
+        state.tip = msg;
+        this.setState(state);
+    },
     componentWillUnmount: function () {
         //clear interval timer
         this.stopLoopShowTipTimer();
     },
-    showMsg(msg) {
+    //当msg为空,将隐藏;
+    //当msg不为空,loop为false,字体不会循环展示;为true或者undefined,字体循环展示;
+    showMsg(msg,loop) {
+        //loop default is true
+
+        if(undefined == loop){
+            loop = true;
+        }
 
         //stop loop show tip
         this.stopLoopShowTipTimer();
 
-
         //start loop show tip
         if (msg != undefined && msg != "") {
-            this.startLoopShowTipTimer(msg);
-        }
 
+            if(loop){
+                this.startLoopShowTipTimer(msg);
+            }else{
+                this.staticShowTip(msg);
+
+            }
+        }
 
     },
     hide(){

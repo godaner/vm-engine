@@ -45,8 +45,8 @@ var ActorsList = React.createClass({
 /*电影展示*/
 var MoviesDisplayer = React.createClass({
 
-    showMsg(msg){
-        this.refs.innerMessager.showMsg(msg);
+    showMsg(msg,loop){
+        this.refs.innerMessager.showMsg(msg,loop);
     },
     render: function () {
 
@@ -134,8 +134,8 @@ var MovieTagGroup = React.createClass({
 });
 /*电影标签列表*/
 var MovieTagGroupList = React.createClass({
-    showMsg(msg){
-        this.refs.innerMessager.showMsg(msg);
+    showMsg(msg,loop){
+        this.refs.innerMessager.showMsg(msg,loop);
     },
     render: function () {
         return (
@@ -182,11 +182,11 @@ var MovieListPage = React.createClass({
         height = height.toString()+"px";
         $(".movie_img_div a img").css("height",height)
     },
-    showMovieTip(msg){
+    showMovieTip(msg,loop){
         if(msg == undefined){
             msg = "";
         }
-        this.refs.moviesDisplayer.showMsg(msg);
+        this.refs.moviesDisplayer.showMsg(msg,loop);
     },
     getMovie(callfun){
         {/*获取电影列表*/}
@@ -248,7 +248,7 @@ var MovieListPage = React.createClass({
 
             //if have not movies
             if(state.movies.list.length==undefined || state.movies.list.length == 0){
-                this.showMovieTip("无相关电影");
+                this.showMovieTip("无相关电影",false);
             }else{
                 this.showMovieTip();
             }
@@ -264,11 +264,11 @@ var MovieListPage = React.createClass({
     showDialogMsg(msg){
         this.refs.index_msg_dialog.showMsg(msg);
     },
-    showTagTip(msg){
+    showTagTip(msg,loop){
         if(msg == undefined){
             msg = "";
         }
-        this.refs.movieTagGroupList.showMsg(msg);
+        this.refs.movieTagGroupList.showMsg(msg,loop);
     },
     getTagGroup(callfun){
         //set tip
@@ -289,7 +289,7 @@ var MovieListPage = React.createClass({
             //set tip
 
             if(state.movieTagGroup==undefined||state.movieTagGroup.length == 0) {
-                this.showTagTip("无相关标签");
+                this.showTagTip("无相关标签",false);
             }else{
                 this.showTagTip();
             }
