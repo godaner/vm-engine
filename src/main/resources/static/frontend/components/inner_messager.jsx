@@ -9,8 +9,8 @@ var InnerMessager = React.createClass({
         if (this.props.tip != undefined && this.props.tip != "") {
             tip = this.props.tip;
         }
-        state = {tip: tip,tipPoint:".",tipPointMaxNum:4,tipPointNum:0,timer:undefined};
-        return state;
+        state = {tip: tip,cacheTip:"",tipPoint:".",tipPointMaxNum:4,tipPointNum:0,timer:undefined};
+return state;
 
     },
     componentDidMount: function () {
@@ -18,7 +18,7 @@ var InnerMessager = React.createClass({
             var state = this.state;
             var tip = state.tip;
             if(this.state.tipPointNum>=this.state.tipPointMaxNum){
-                tip = tip.replaceAll(this.state.tipPoint,"");
+                tip = this.state.cacheTip;
                 state.tipPointNum = 0;
             }
             tip = tip + this.state.tipPoint;
@@ -35,11 +35,13 @@ var InnerMessager = React.createClass({
         clearInterval(this.state.timer);
     },
     showMsg(msg) {
-        if (msg == undefined) {
+        if (msg == undefined||msg == "") {
             msg = "";
+            state.cacheTip = "";
             clearInterval(this.state.timer);
         }
         var state = this.state;
+        state.cacheTip = msg;
         state.tip = msg;
         this.setState(state);
 

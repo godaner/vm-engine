@@ -194,7 +194,7 @@ var MovieListPage = React.createClass({
         {/*获取电影列表*/}
 
         //tip
-        this.showMovieTip("正在加载...");
+        this.showMovieTip("正在加载");
 
 
         {/*collect params*/}
@@ -291,7 +291,7 @@ var MovieListPage = React.createClass({
             //set tip
 
             if(state.movieTagGroup==undefined||state.movieTagGroup.length == 0) {
-                this.showTagTip("无相关标签...");
+                this.showTagTip("无相关标签");
             }else{
                 this.showTagTip();
             }

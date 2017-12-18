@@ -22817,7 +22817,7 @@ var MovieListPage = _react2.default.createClass({
         {} /*获取电影列表*/
 
         //tip
-        this.showMovieTip("正在加载...");
+        this.showMovieTip("正在加载");
 
         {/*collect params*/}
         var movies = this.state.movies;
@@ -22909,7 +22909,7 @@ var MovieListPage = _react2.default.createClass({
             //set tip
 
             if (state.movieTagGroup == undefined || state.movieTagGroup.length == 0) {
-                this.showTagTip("无相关标签...");
+                this.showTagTip("无相关标签");
             } else {
                 this.showTagTip();
             }
@@ -23377,7 +23377,7 @@ var InnerMessager = _react2.default.createClass({
         if (this.props.tip != undefined && this.props.tip != "") {
             tip = this.props.tip;
         }
-        state = { tip: tip, tipPoint: ".", tipPointMaxNum: 4, tipPointNum: 0, timer: undefined };
+        state = { tip: tip, cacheTip: "", tipPoint: ".", tipPointMaxNum: 4, tipPointNum: 0, timer: undefined };
         return state;
     },
     componentDidMount: function componentDidMount() {
@@ -23385,7 +23385,7 @@ var InnerMessager = _react2.default.createClass({
             var state = this.state;
             var tip = state.tip;
             if (this.state.tipPointNum >= this.state.tipPointMaxNum) {
-                tip = tip.replaceAll(this.state.tipPoint, "");
+                tip = this.state.cacheTip;
                 state.tipPointNum = 0;
             }
             tip = tip + this.state.tipPoint;
@@ -23401,11 +23401,13 @@ var InnerMessager = _react2.default.createClass({
         clearInterval(this.state.timer);
     },
     showMsg: function showMsg(msg) {
-        if (msg == undefined) {
+        if (msg == undefined || msg == "") {
             msg = "";
+            state.cacheTip = "";
             clearInterval(this.state.timer);
         }
         var state = this.state;
+        state.cacheTip = msg;
         state.tip = msg;
         this.setState(state);
     },
