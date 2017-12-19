@@ -2,7 +2,7 @@ import React from 'react';  //引入react组件
 import '../scss/movie_info_page.scss';
 var MovieInfoPage = React.createClass({
     getInitialState: function () {
-        return {movieImgUrl:""};
+        return {movieImgUrl:"",movie:{}};
     }, componentDidMount: function () {
         window.addEventListener('resize', this.onWindowResize);
 
@@ -28,7 +28,8 @@ var MovieInfoPage = React.createClass({
         var movieId = this.props.match.params.movieId;
 
         //get imgUrl
-        this.state.movieImgUrl = "/img/" + movieId;
+        var state = this.state;
+        state.movieImgUrl = "/img/" + movieId;
         this.setState(state);
 
         //get movie info
@@ -41,6 +42,7 @@ var MovieInfoPage = React.createClass({
 
             var state = this.state;
 
+            state.movie = result.data.movie;
 
             this.setState(state);
             //callfun

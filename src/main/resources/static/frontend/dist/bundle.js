@@ -28164,7 +28164,7 @@ var MovieInfoPage = _react2.default.createClass({
     displayName: 'MovieInfoPage',
 
     getInitialState: function getInitialState() {
-        return { movieImgUrl: "" };
+        return { movieImgUrl: "", movie: {} };
     }, componentDidMount: function componentDidMount() {
         window.addEventListener('resize', this.onWindowResize);
 
@@ -28188,7 +28188,8 @@ var MovieInfoPage = _react2.default.createClass({
         var movieId = this.props.match.params.movieId;
 
         //get imgUrl
-        this.state.movieImgUrl = "/img/" + movieId;
+        var state = this.state;
+        state.movieImgUrl = "/img/" + movieId;
         this.setState(state);
 
         //get movie info
@@ -28200,6 +28201,8 @@ var MovieInfoPage = _react2.default.createClass({
             }
 
             var state = this.state;
+
+            state.movie = result.data.movie;
 
             this.setState(state);
             //callfun
