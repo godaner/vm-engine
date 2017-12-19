@@ -70,7 +70,7 @@ $defaultLightGrayRgb:"rgb(241,242,243)";
 
 .aLink{
   &,a{
-
+    cursor: pointer;
     color: unquote($defaultBlueRgb);
     transition: all 500ms;
 
@@ -111,7 +111,8 @@ $defaultLightGrayRgb:"rgb(241,242,243)";
   outline: none;
   color: unquote($defaultLightGrayColorRgb);
   font-size: 12px;
-  fontFamily: "Microsoft YaHei UI"
+  fontFamily: "Microsoft YaHei UI";
+  cursor: none;
 }
 
 body,html{

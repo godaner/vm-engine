@@ -71,7 +71,6 @@ var MoviesDisplayer = React.createClass({
 
                     <div>
 
-
                         导演：<a className="aLink" href="">{item.director == null ? this.props.whenThereHaveNotDirector : item.director.name}</a>
                     </div>
                     <div>

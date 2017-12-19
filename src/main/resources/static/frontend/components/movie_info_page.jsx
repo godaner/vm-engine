@@ -65,12 +65,24 @@ var MovieInfoPage = React.createClass({
             }
         }.bind(this));
     },
-    showTip(msg,loop){
-        this.refs.innerMessager.showMsg(msg,loop);
+    showTip(msg, loop){
+        this.refs.innerMessager.showMsg(msg, loop);
     },
     render: function () {
 
+        //format releaseTime
         var releaseTime = timeFormatter.formatDate(this.state.movie.releaseTime);
+
+
+        //a api to show the director.jsx
+        var showDirector = ()=>{
+            if(isEmpty(this.state.movie.director)){
+                return this.state.whenThereHaveNotDirector;
+            }else{
+                return <a class="aLink" href="javascript:void(0);">this.state.movie.director.name</a>;
+            }
+        }
+
         return (
             <div id="movie_info_content">
                 <div id="basic_info">
@@ -106,7 +118,13 @@ var MovieInfoPage = React.createClass({
                                 </li>
                                 <li>
                                     导演 :
-                                    <a href="javascript:void(0);">{this.state.movie.director == undefined ? this.state.whenThereHaveNotDirector : this.state.movie.director.name}</a>
+
+                                    {
+                                        showDirector(this.state.movie.director)
+                                    }
+
+
+
                                 </li>
                                 <li>
                                     总播放数 : <a href="javascript:void(0);">{this.state.movie.watchNum}</a>
