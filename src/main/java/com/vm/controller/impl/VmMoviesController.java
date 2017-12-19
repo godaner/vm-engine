@@ -5,6 +5,7 @@ import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.dao.po.CustomVmMovies;
 import com.vm.service.inf.VmMoviesService;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -32,18 +33,20 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      * @return
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public @ResponseBody Object getMovies(@Valid PageBean page , BindingResult result, VmMoviesQueryBean query) {
-        Long total = service.getMoviesCount(page,query);
-        List<CustomVmMovies> list = service.getMovies(page,query);
+    public @ResponseBody
+    Object getMovies(@Valid PageBean page, BindingResult result, VmMoviesQueryBean query) {
+        Long total = service.getMoviesCount(page, query);
+        List<CustomVmMovies> list = service.getMovies(page, query);
         response.putData("list", list);
         response.putData("total", total);
         return response;
     }
 
     @RequestMapping(value = "/{movieId}", method = RequestMethod.GET)
-    public @ResponseBody Object getMovie(@PathVariable Long movieId) throws Exception  {
+    public @ResponseBody
+    Object getMovie(@NotBlank(message = "{VmMoviesController.getMovie.movieId.NotBlank}") @PathVariable Long movieId, BindingResult result) throws Exception {
         CustomVmMovies movie = service.getMovie(movieId);
-        response.putData("movie",movie);
+        response.putData("movie", movie);
         return response;
     }
 

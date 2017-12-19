@@ -57,14 +57,16 @@ var MovieInfoPage = React.createClass({
     render: function () {
         return (
             <div id="movie_info_content">
-                <div id="movie_basic_info">
+                <div className="clearfix" id="basic_info">
                     <div id="movie_img">
                         <img src={this.state.movieImgUrl}/>
                     </div>
                     <div id="movie_text">
-
+                        13213
                     </div>
+
                 </div>
+                <div id="other_info"></div>
             </div>
         );
     }

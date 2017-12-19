@@ -80,3 +80,7 @@ $defaultLightGrayRgb:"rgb(241,242,243)";
 .clear{
   clear: both;
 }
+
+.clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; overflow: hidden; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }

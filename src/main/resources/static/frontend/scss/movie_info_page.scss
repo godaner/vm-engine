@@ -5,6 +5,34 @@
   //background-color: red;
   & > * {
     padding: 20px 20px;
+    @include defaultWidth;
+  }
+  #basic_info{
+
+    display:flex;
+    @include defaultWidth;
+    background-color: red;
+    &>*{
+      float: left;
+    }
+    $imgWidth:200px;
+    #movie_img{
+      width:$imgWidth;
+      flex:none;
+      background-color: steelblue;
+      &>img{
+        width:$imgWidth;
+        height:$imgWidth*1.5;
+      }
+    }
+    #movie_text{
+      flex:1;
+      height:100%;
+      background-color: black;
+    }
+  }
+  #other_info{
+    background-color: green;
   }
 
 }
