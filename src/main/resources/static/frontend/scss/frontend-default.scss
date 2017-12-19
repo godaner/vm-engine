@@ -69,10 +69,14 @@ $defaultLightGrayColorRgb:"rgb(153,153,153)";
 $defaultLightGrayRgb:"rgb(241,242,243)";
 
 .aLink{
-  color: unquote($defaultBlueRgb);
-  transition: all 500ms;
-  &:hover{
-    color:red;
+  &,a{
+
+    color: unquote($defaultBlueRgb);
+    transition: all 500ms;
+
+    &:hover{
+      color:red;
+    }
   }
 }
 

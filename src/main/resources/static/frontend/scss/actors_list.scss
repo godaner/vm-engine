@@ -5,6 +5,13 @@
     @include defaultWidth;
     list-style: none;
     display: inline;
+
+
+    //超过部分省略号代替
+    white-space:nowrap;
+    overflow: hidden;
+    text-overflow:ellipsis;
+
     li {
       width: auto;
       display: inline-block;
