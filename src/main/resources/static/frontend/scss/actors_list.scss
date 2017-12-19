@@ -2,11 +2,10 @@
 
 #actors_list {
   //超过部分省略号代替
-  display: block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  height:100%;
-  line-height: 100%;
+  height: auto;
+  display: block;
 }
 
