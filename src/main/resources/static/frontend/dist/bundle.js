@@ -28173,7 +28173,7 @@ var MovieInfoPage = _react2.default.createClass({
     displayName: 'MovieInfoPage',
 
     getInitialState: function getInitialState() {
-        return { movieImgUrl: "", movie: {} };
+        return { whenThereHaveNotDirector: "无导演", movieImgUrl: "", movie: {} };
     }, componentDidMount: function componentDidMount() {
         window.addEventListener('resize', this.onWindowResize);
 
@@ -28195,11 +28195,6 @@ var MovieInfoPage = _react2.default.createClass({
 
         var movieId = this.props.match.params.movieId;
 
-        //get imgUrl
-        var state = this.state;
-        state.movieImgUrl = "/img/" + movieId;
-        this.setState(state);
-
         //get movie info
         var url = this.props.match.url;
         // c(url);
@@ -28210,6 +28205,8 @@ var MovieInfoPage = _react2.default.createClass({
             }
 
             var state = this.state;
+
+            //set movie info to state
 
             state.movie = result.data.movie;
 
@@ -28233,7 +28230,7 @@ var MovieInfoPage = _react2.default.createClass({
                 _react2.default.createElement(
                     'div',
                     { id: 'movie_img' },
-                    _react2.default.createElement('img', { src: this.state.movieImgUrl })
+                    _react2.default.createElement('img', { src: this.state.movie.imgUrl })
                 ),
                 _react2.default.createElement(
                     'div',
@@ -28258,7 +28255,77 @@ var MovieInfoPage = _react2.default.createClass({
                             _react2.default.createElement(
                                 'a',
                                 { href: 'javascript:void(0);' },
-                                this.state.movie.name
+                                this.state.movie.alias
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'li',
+                            null,
+                            '\u4E0A\u6620\u65F6\u95F4 : ',
+                            _react2.default.createElement(
+                                'a',
+                                { href: 'javascript:void(0);' },
+                                this.state.movie.releaseTime
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'li',
+                            null,
+                            '\u65F6\u957F : ',
+                            _react2.default.createElement(
+                                'a',
+                                { href: 'javascript:void(0);' },
+                                this.state.movie.movieTime
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'li',
+                            null,
+                            '\u8BC4\u5206 : ',
+                            _react2.default.createElement(
+                                'a',
+                                { href: 'javascript:void(0);' },
+                                this.state.movie.score
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'li',
+                            null,
+                            '\u4E3B\u6F14 : ',
+                            _react2.default.createElement(
+                                'a',
+                                { href: 'javascript:void(0);' },
+                                this.state.movie.director == undefined ? this.state.whenThereHaveNotDirector : this.state.movie.director.name
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'li',
+                            null,
+                            '\u5BFC\u6F14 : ',
+                            _react2.default.createElement(
+                                'a',
+                                { href: 'javascript:void(0);' },
+                                this.state.movie.director == undefined ? this.state.whenThereHaveNotDirector : this.state.movie.director.name
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'li',
+                            null,
+                            '\u603B\u64AD\u653E\u6570 : ',
+                            _react2.default.createElement(
+                                'a',
+                                { href: 'javascript:void(0);' },
+                                this.state.movie.watchNum
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'li',
+                            { id: 'description_li' },
+                            '\u7535\u5F71\u7B80\u4ECB : ',
+                            _react2.default.createElement(
+                                'a',
+                                { href: 'javascript:void(0);' },
+                                this.state.movie.description
                             )
                         )
                     )
@@ -28508,7 +28575,7 @@ exports = module.exports = __webpack_require__(20)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n#movie_info_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #movie_info_content > * {\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    width: 100%; }\n  #movie_info_content #basic_info {\n    margin-top: 20px;\n    display: flex;\n    width: 100%; }\n    #movie_info_content #basic_info > * {\n      float: left; }\n    #movie_info_content #basic_info #movie_img {\n      width: 200px;\n      flex: none; }\n      #movie_info_content #basic_info #movie_img > img {\n        width: 200px;\n        height: 300px; }\n    #movie_info_content #basic_info #movie_text {\n      padding: 0px 10px;\n      flex: 1;\n      height: 100%; }\n      #movie_info_content #basic_info #movie_text ul {\n        list-style: none;\n        display: inline; }\n        #movie_info_content #basic_info #movie_text ul li {\n          width: auto;\n          display: inline-block; }\n      #movie_info_content #basic_info #movie_text #text_ul li {\n        margin-bottom: 10px;\n        width: 25%; }\n      #movie_info_content #basic_info #movie_text #text_ul #name_li {\n        width: 100%; }\n        #movie_info_content #basic_info #movie_text #text_ul #name_li, #movie_info_content #basic_info #movie_text #text_ul #name_li > a {\n          color: rgb(61,158,255);\n          font-size: 20px;\n          text-decoration: none; }\n  #movie_info_content #other_info {\n    margin-top: 20px; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n#movie_info_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #movie_info_content > * {\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    width: 100%; }\n  #movie_info_content #basic_info {\n    margin-top: 20px;\n    display: flex;\n    width: 100%; }\n    #movie_info_content #basic_info > * {\n      float: left; }\n    #movie_info_content #basic_info #movie_img {\n      width: 200px;\n      flex: none; }\n      #movie_info_content #basic_info #movie_img > img {\n        width: 200px;\n        height: 300px; }\n    #movie_info_content #basic_info #movie_text {\n      padding: 0px 10px;\n      flex: 1;\n      height: 100%; }\n      #movie_info_content #basic_info #movie_text ul {\n        list-style: none;\n        display: inline; }\n        #movie_info_content #basic_info #movie_text ul li {\n          width: auto;\n          display: inline-block; }\n      #movie_info_content #basic_info #movie_text #text_ul li {\n        margin-bottom: 10px;\n        width: 25%; }\n        #movie_info_content #basic_info #movie_text #text_ul li > a {\n          text-decoration: none; }\n      #movie_info_content #basic_info #movie_text #text_ul #name_li {\n        width: 100%; }\n        #movie_info_content #basic_info #movie_text #text_ul #name_li, #movie_info_content #basic_info #movie_text #text_ul #name_li > a {\n          color: rgb(61,158,255);\n          font-size: 24px; }\n      #movie_info_content #basic_info #movie_text #text_ul #description_li {\n        width: 100%;\n        margin-top: 20px; }\n  #movie_info_content #other_info {\n    margin-top: 20px; }\n", ""]);
 
 // exports
 

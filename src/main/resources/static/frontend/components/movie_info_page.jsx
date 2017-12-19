@@ -2,7 +2,7 @@ import React from 'react';  //引入react组件
 import '../scss/movie_info_page.scss';
 var MovieInfoPage = React.createClass({
     getInitialState: function () {
-        return {movieImgUrl:"",movie:{}};
+        return {whenThereHaveNotDirector:"无导演",movieImgUrl:"",movie:{}};
     }, componentDidMount: function () {
         window.addEventListener('resize', this.onWindowResize);
 
@@ -26,10 +26,7 @@ var MovieInfoPage = React.createClass({
 
         var movieId = this.props.match.params.movieId;
 
-        //get imgUrl
-        var state = this.state;
-        state.movieImgUrl = "/img/" + movieId;
-        this.setState(state);
+
 
         //get movie info
         const url = this.props.match.url;
@@ -41,6 +38,8 @@ var MovieInfoPage = React.createClass({
             }
 
             var state = this.state;
+
+            //set movie info to state
 
             state.movie = result.data.movie;
 
@@ -59,7 +58,7 @@ var MovieInfoPage = React.createClass({
             <div id="movie_info_content">
                 <div className="clearfix" id="basic_info">
                     <div id="movie_img">
-                        <img src={this.state.movieImgUrl}/>
+                        <img src={this.state.movie.imgUrl}/>
                     </div>
                     <div id="movie_text">
                         <ul id="text_ul">
@@ -67,8 +66,33 @@ var MovieInfoPage = React.createClass({
                                 电影 : <a href="javascript:void(0);">{this.state.movie.name}</a>
                             </li>
                             <li>
-                                别名 : <a href="javascript:void(0);">{this.state.movie.name}</a>
+                                别名 : <a href="javascript:void(0);">{this.state.movie.alias}</a>
                             </li>
+                            <li>
+                                上映时间 : <a href="javascript:void(0);">{this.state.movie.releaseTime}</a>
+                            </li>
+
+                            <li>
+                                时长 : <a href="javascript:void(0);">{this.state.movie.movieTime}</a>
+                            </li>
+
+                            <li>
+                                评分 : <a href="javascript:void(0);">{this.state.movie.score}</a>
+                            </li>
+                            <li>
+                                主演 : <a href="javascript:void(0);">{this.state.movie.director==undefined?this.state.whenThereHaveNotDirector:this.state.movie.director.name}</a>
+                            </li>
+                            <li>
+                                导演 : <a href="javascript:void(0);">{this.state.movie.director==undefined?this.state.whenThereHaveNotDirector:this.state.movie.director.name}</a>
+                            </li>
+                            <li>
+                                总播放数 : <a href="javascript:void(0);">{this.state.movie.watchNum}</a>
+                            </li>
+
+                            <li id="description_li">
+                                电影简介 : <a href="javascript:void(0);">{this.state.movie.description}</a>
+                            </li>
+
                         </ul>
                     </div>
 
