@@ -198,6 +198,7 @@ Date.prototype.format = function (fmt) { //author: meizz
     return fmt;
 }
 
+
 /**
  * 时间格式化
  */

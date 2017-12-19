@@ -1,8 +1,15 @@
 import React from 'react';  //引入react组件
 import '../scss/movie_info_page.scss';
+import ActorsList from './actors_list';
+import InnerMessager from './inner_messager';
 var MovieInfoPage = React.createClass({
     getInitialState: function () {
-        return {whenThereHaveNotDirector:"无导演",movieImgUrl:"",movie:{}};
+        return {
+            whenThereHaveNotActor: "无演员",
+            whenThereHaveNotDirector: "无导演",
+            whenMovieIsLoading: "正在加载电影信息",
+            movie: {}
+        };
     }, componentDidMount: function () {
         window.addEventListener('resize', this.onWindowResize);
 
@@ -23,15 +30,21 @@ var MovieInfoPage = React.createClass({
     },
 
     getMovie: function (callfun) {
+        //show tip
+        this.showTip(this.state.whenMovieIsLoading);
+
 
         var movieId = this.props.match.params.movieId;
-
 
 
         //get movie info
         const url = this.props.match.url;
         // c(url);
         this.serverRequest = $.get(url, function (result) {
+
+
+            //close tip
+            this.showTip();
 
             if (result.code == RESPONSE_CODE_FAILURE) {
                 return;
@@ -47,53 +60,64 @@ var MovieInfoPage = React.createClass({
 
             // c(this.state)
             //callfun
-            if(callfun != undefined){
+            if (callfun != undefined) {
                 callfun()
             }
         }.bind(this));
     },
-
+    showTip(msg,loop){
+        this.refs.innerMessager.showMsg(msg,loop);
+    },
     render: function () {
+
+        var releaseTime = timeFormatter.formatDate(this.state.movie.releaseTime);
         return (
             <div id="movie_info_content">
-                <div className="clearfix" id="basic_info">
-                    <div id="movie_img">
-                        <img src={this.state.movie.imgUrl}/>
-                    </div>
-                    <div id="movie_text">
-                        <ul id="text_ul">
-                            <li id="name_li">
-                                电影 : <a href="javascript:void(0);">{this.state.movie.name}</a>
-                            </li>
-                            <li>
-                                别名 : <a href="javascript:void(0);">{this.state.movie.alias}</a>
-                            </li>
-                            <li>
-                                上映时间 : <a href="javascript:void(0);">{this.state.movie.releaseTime}</a>
-                            </li>
+                <div id="basic_info">
 
-                            <li>
-                                时长 : <a href="javascript:void(0);">{this.state.movie.movieTime}</a>
-                            </li>
+                    <InnerMessager defaultTip={this.state.whenMovieIsLoading}
+                                   ref="innerMessager"/>
+                    <div className="clearfix" id="movie_info_displayer">
+                        <div id="movie_img">
+                            <img src={this.state.movie.imgUrl}/>
+                        </div>
+                        <div id="movie_text">
+                            <ul id="text_ul">
+                                <li id="name_li">
+                                    电影 : <a href="javascript:void(0);">{this.state.movie.name}</a>
+                                </li>
+                                <li>
+                                    别名 : <a href="javascript:void(0);">{this.state.movie.alias}</a>
+                                </li>
+                                <li>
+                                    上映时间 : <a href="javascript:void(0);">releaseTime</a>
+                                </li>
 
-                            <li>
-                                评分 : <a href="javascript:void(0);">{this.state.movie.score}</a>
-                            </li>
-                            <li>
-                                主演 : <a href="javascript:void(0);">{this.state.movie.director==undefined?this.state.whenThereHaveNotDirector:this.state.movie.director.name}</a>
-                            </li>
-                            <li>
-                                导演 : <a href="javascript:void(0);">{this.state.movie.director==undefined?this.state.whenThereHaveNotDirector:this.state.movie.director.name}</a>
-                            </li>
-                            <li>
-                                总播放数 : <a href="javascript:void(0);">{this.state.movie.watchNum}</a>
-                            </li>
+                                <li>
+                                    时长 : <a href="javascript:void(0);">{this.state.movie.movieTime}</a>
+                                </li>
 
-                            <li id="description_li">
-                                电影简介 : <a href="javascript:void(0);">{this.state.movie.description}</a>
-                            </li>
+                                <li>
+                                    评分 : <a href="javascript:void(0);">{this.state.movie.score}</a>
+                                </li>
+                                <li>
+                                    <ActorsList whenThereHaveNotActor={this.props.whenThereHaveNotActor}
+                                                actors={this.state.movie.actors}/>
+                                </li>
+                                <li>
+                                    导演 :
+                                    <a href="javascript:void(0);">{this.state.movie.director == undefined ? this.state.whenThereHaveNotDirector : this.state.movie.director.name}</a>
+                                </li>
+                                <li>
+                                    总播放数 : <a href="javascript:void(0);">{this.state.movie.watchNum}</a>
+                                </li>
 
-                        </ul>
+                                <li id="description_li">
+                                    电影简介 : <a href="javascript:void(0);">{this.state.movie.description}</a>
+                                </li>
+
+                            </ul>
+                        </div>
                     </div>
 
                 </div>

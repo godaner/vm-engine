@@ -2,6 +2,7 @@ import React from 'react';  //引入react组件
 import {Link} from 'react-router-dom';
 import MsgDialog from "./msg_dialog";
 import InnerMessager from "./inner_messager";
+import ActorsList from './actors_list';
 import '../scss/movie_list_page.scss';
 import 'animate.css';
 var Pager = React.createClass({
@@ -29,25 +30,7 @@ var Pager = React.createClass({
     }
 });
 
-/*电影展示-演员展示*/
-var ActorsList = React.createClass({
-    render: function () {
 
-
-        return (
-            <ul >
-                <li>主演：</li>
-                {
-
-                    this.props.actors.length == 0 ? this.props.whenThereHaveNotActor : this.props.actors.map(function (item) {
-                        return <li key={item.id}><a href="">{item.name}</a>&nbsp;</li>
-                    })
-                }
-
-            </ul>
-        );
-    }
-});
 /*电影展示*/
 var MoviesDisplayer = React.createClass({
 

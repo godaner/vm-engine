@@ -1,0 +1,15 @@
+@import "frontend-default.scss";
+
+#actors_list_ul {
+  & {
+    @include defaultWidth;
+    list-style: none;
+    display: inline;
+    li {
+      width: auto;
+      display: inline-block;
+
+    }
+  }
+}
+

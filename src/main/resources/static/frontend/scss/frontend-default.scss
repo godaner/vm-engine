@@ -1,3 +1,5 @@
+
+
 @mixin defaultWidth{
   width: 100%;
 }
@@ -66,6 +68,13 @@ $defaultBlueRgb:"rgb(61,158,255)";
 $defaultLightGrayColorRgb:"rgb(153,153,153)";
 $defaultLightGrayRgb:"rgb(241,242,243)";
 
+.aLink{
+  color: unquote($defaultBlueRgb);
+  transition: all 500ms;
+  &:hover{
+    color:red;
+  }
+}
 
 
 .block{
@@ -84,3 +93,23 @@ $defaultLightGrayRgb:"rgb(241,242,243)";
 .clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; overflow: hidden; }
 .clearfix:after { clear: both; }
 .clearfix { zoom: 1; }
+
+
+
+
+
+
+
+*{
+  @include defaultPaddingAndMargin;
+  @include defaultWidth;
+  text-decoration: none;
+  outline: none;
+  color: unquote($defaultLightGrayColorRgb);
+  font-size: 12px;
+  fontFamily: "Microsoft YaHei UI"
+}
+
+body,html{
+  @include defaultBody;
+}

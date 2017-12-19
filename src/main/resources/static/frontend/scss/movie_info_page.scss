@@ -13,51 +13,56 @@
   }
   #basic_info {
     margin-top: 20px;
-    display: flex;
     @include defaultWidth;
     //background-color: red;
-    & > * {
-      float: left;
-    }
-    $imgWidth: 200px;
-    #movie_img {
-      width: $imgWidth;
-      flex: none;
-      //background-color: steelblue;
-      & > img {
+    &>#movie_info_displayer{
+
+      display: flex;
+      @include defaultWidth;
+      & > div {
+        float: left;
+      }
+      $imgWidth: 200px;
+      #movie_img {
         width: $imgWidth;
-        height: $imgWidth*1.5;
-        //cursor: pointer;
-      }
-    }
-    #movie_text {
-      padding: 0px 10px;
-      flex: 1;
-      height: 100%;
-      //background-color: black;
-      @include defaultHUl;
-      #text_ul {
-        li {
-          margin-bottom: 10px;
-          width: 25%;
-          //background-color: red;
-          &>a{
-            text-decoration: none;
-          }
-        }
-        #name_li {
-          width: 100%;
-          &, & > a {
-            color: unquote($defaultBlueRgb);
-            font-size: 24px;
-          }
-        }
-        #description_li{
-          width: 100%;
-          margin-top: 20px;
+        flex: none;
+        //background-color: steelblue;
+        & > img {
+          width: $imgWidth;
+          height: $imgWidth*1.5;
+          //cursor: pointer;
         }
       }
+      #movie_text {
+        padding: 0px 10px;
+        flex: 1;
+        height: 100%;
+        //background-color: black;
+        @include defaultHUl;
+        #text_ul {
+          li {
+            margin-bottom: 10px;
+            width: 25%;
+            //background-color: red;
+            &>a{
+              text-decoration: none;
+            }
+          }
+          #name_li {
+            width: 100%;
+            &, & > a {
+              color: unquote($defaultBlueRgb);
+              font-size: 24px;
+            }
+          }
+          #description_li{
+            width: 100%;
+            margin-top: 20px;
+          }
+        }
+      }
     }
+
   }
   #other_info {
     margin-top: 20px;

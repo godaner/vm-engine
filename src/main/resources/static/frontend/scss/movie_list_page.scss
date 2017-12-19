@@ -221,18 +221,18 @@
               //  font-size: 15px;
               //}
             }
-            div.movie_actor_list_div {
-              @include defaultHUl;
-            }
-            a{
-
-              transition: all 500ms;
-              &:hover {
-                //font-weight: bold;
-                text-shadow:2px 2px 1px rgba(0,0,0,0.3);
-                color: red;
-              }
-            }
+            //div.movie_actor_list_div {
+            //  @include defaultHUl;
+            //}
+            //a{
+            //
+            //  transition: all 500ms;
+            //  &:hover {
+            //    font-weight: bold;
+            //    text-shadow:2px 2px 1px rgba(0,0,0,0.3);
+            //    color: red;
+            //  }
+            //}
 
           }
 

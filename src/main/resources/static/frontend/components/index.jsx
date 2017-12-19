@@ -1,7 +1,8 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 import {Switch, BrowserRouter,HashRouter, Route} from 'react-router-dom';
-{/*import { createHistory, useBasename } from 'history';*/
+{
+    /*import { createHistory, useBasename } from 'history';*/
 }
 import '../scss/index.scss';
 import MovieListPage from "./movie_list_page";
