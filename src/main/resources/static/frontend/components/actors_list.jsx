@@ -13,6 +13,7 @@ var ActorsList = React.createClass({
                 } else {
                     res.push(<a key={actor.id} className="aLink" href="">{actor.name}</a>);
                 }
+
             }
             return res
         }
@@ -31,13 +32,13 @@ var ActorsList = React.createClass({
             }
         }
         return (
-                <span title={actorsStr} id="actors_list">
+                <li title={actorsStr} id="actors_list">
                     主演：
 
                 {
                     isEmptyList(this.props.actors) ? this.props.whenThereHaveNotActor : listActors(this.props.actors)
                 }
-                </span>
+                </li>
         );
     }
 });

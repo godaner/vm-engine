@@ -54,8 +54,18 @@
     list-style: none;
     display: inline;
     li{
-      width:auto;
+
+      //display:inline
+      //width:auto;
+
+      //超过部分省略号代替,横向显示
       display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      //display: block;
+      height: auto;
+      width: auto;
     }
   }
 }

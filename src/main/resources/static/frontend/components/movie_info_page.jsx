@@ -112,10 +112,7 @@ var MovieInfoPage = React.createClass({
                                 <li>
                                     评分 : <a href="javascript:void(0);">{this.state.movie.score}</a>
                                 </li>
-                                <li id="actors_li">
-                                    <ActorsList whenThereHaveNotActor={this.state.whenThereHaveNotActor}
-                                                actors={this.state.movie.actors}/>
-                                </li>
+
                                 <li>
                                     导演 :
 
@@ -126,6 +123,8 @@ var MovieInfoPage = React.createClass({
 
 
                                 </li>
+                                <ActorsList whenThereHaveNotActor={this.state.whenThereHaveNotActor}
+                                            actors={this.state.movie.actors}/>
                                 <li>
                                     总播放数 : <a href="javascript:void(0);">{this.state.movie.watchNum}</a>
                                 </li>
