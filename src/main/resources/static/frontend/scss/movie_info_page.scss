@@ -45,9 +45,9 @@
             width: 25%;
 
             //background-color: red;
-            &>a{
-              text-decoration: none;
-            }
+            //&>a{
+            //  text-decoration: none;
+            //}
           }
           #name_li {
             width: 100%;
@@ -55,6 +55,8 @@
               color: unquote($defaultBlueRgb);
               font-size: 24px;
             }
+          }
+          #actors_li{
           }
           #description_li{
             width: 100%;

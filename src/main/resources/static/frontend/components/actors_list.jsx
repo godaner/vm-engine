@@ -9,36 +9,35 @@ var ActorsList = React.createClass({
             for (var i = 0; i < actors.length; i++) {
                 var actor = actors[i];
                 if (i != actors.length - 1) {
-                    res.push(<li key={actor.id}><a className="aLink" href="">{actor.name}</a> / </li>);
+                    res.push(<span key={actor.id}><a className="aLink" href="">{actor.name}</a> / </span>);
                 } else {
-                    res.push(<li key={actor.id}><a className="aLink" href="">{actor.name}</a></li>);
+                    res.push(<a key={actor.id} className="aLink" href="">{actor.name}</a>);
                 }
             }
             return res
         }
         // tip string
         var actorsStr = this.props.whenThereHaveNotActor;
+        // c(actorsStr);
         var actors = this.props.actors;
         if (!isEmptyList(actors)) {
             actorsStr = "";
             for (var i = 0; i < actors.length; i++) {
                 var actor = actors[i];
+                actorsStr += actor.name;
                 if (i != actors.length - 1) {
-                    actorsStr += actor.name + " / ";
-                } else {
-                    actorsStr += actor.name;
+                    actorsStr += " / ";
                 }
             }
         }
         return (
-            <ul title={actorsStr} id="actors_list_ul">
-                <li>主演：
-                    {
-                        isEmptyList(this.props.actors) ? this.props.whenThereHaveNotActor : listActors(this.props.actors)
-                    }
-                </li>
+                <span title={actorsStr} id="actors_list">
+                    主演：
 
-            </ul>
+                {
+                    isEmptyList(this.props.actors) ? this.props.whenThereHaveNotActor : listActors(this.props.actors)
+                }
+                </span>
         );
     }
 });

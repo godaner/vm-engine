@@ -1,22 +1,10 @@
 @import "frontend-default.scss";
 
-#actors_list_ul {
-  & {
-    @include defaultWidth;
-    list-style: none;
-    display: inline;
-
-
-    //超过部分省略号代替
-    white-space:nowrap;
-    overflow: hidden;
-    text-overflow:ellipsis;
-
-    li {
-      width: auto;
-      display: inline-block;
-
-    }
-  }
+#actors_list {
+  //超过部分省略号代替
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 

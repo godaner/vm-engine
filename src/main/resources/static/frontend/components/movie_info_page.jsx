@@ -100,8 +100,8 @@ var MovieInfoPage = React.createClass({
                                 <li>
                                     评分 : <a href="javascript:void(0);">{this.state.movie.score}</a>
                                 </li>
-                                <li>
-                                    <ActorsList whenThereHaveNotActor={this.props.whenThereHaveNotActor}
+                                <li id="actors_li">
+                                    <ActorsList whenThereHaveNotActor={this.state.whenThereHaveNotActor}
                                                 actors={this.state.movie.actors}/>
                                 </li>
                                 <li>

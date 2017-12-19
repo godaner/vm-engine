@@ -53,13 +53,13 @@ var MoviesDisplayer = React.createClass({
                 <div className="movie_img_div">
 
 
-                    <Link to={location}>
+                    <Link to={location} className="aLink">
                         <img src={item.imgUrl}/>
                     </Link>
                 </div>
                 <div className="movie_info_div">
                     <div>
-                        <Link to={location} className="movie_name_a">{item.name}</Link>
+                        <Link to={location} className="aLink movie_name_a">{item.name}</Link>
 
                     </div>
                     <div className="movie_actor_list_div">
@@ -72,7 +72,7 @@ var MoviesDisplayer = React.createClass({
                     <div>
 
 
-                        导演：<a href="">{item.director == null ? this.props.whenThereHaveNotDirector : item.director.name}</a>
+                        导演：<a className="aLink" href="">{item.director == null ? this.props.whenThereHaveNotDirector : item.director.name}</a>
                     </div>
                     <div>
                         评分：{item.score}
