@@ -1403,7 +1403,7 @@ var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(4);
 
 var CallbackQueue = __webpack_require__(70);
-var PooledClass = __webpack_require__(20);
+var PooledClass = __webpack_require__(18);
 var ReactFeatureFlags = __webpack_require__(71);
 var ReactReconciler = __webpack_require__(22);
 var Transaction = __webpack_require__(33);
@@ -1688,7 +1688,7 @@ module.exports = ReactCurrentOwner;
 
 var _assign = __webpack_require__(4);
 
-var PooledClass = __webpack_require__(20);
+var PooledClass = __webpack_require__(18);
 
 var emptyFunction = __webpack_require__(10);
 var warning = __webpack_require__(2);
@@ -2161,314 +2161,6 @@ module.exports = DOMProperty;
 
 /***/ }),
 /* 18 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function() {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		var result = [];
-		for(var i = 0; i < this.length; i++) {
-			var item = this[i];
-			if(item[2]) {
-				result.push("@media " + item[2] + "{" + item[1] + "}");
-			} else {
-				result.push(item[1]);
-			}
-		}
-		return result.join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-var stylesInDom = {},
-	memoize = function(fn) {
-		var memo;
-		return function () {
-			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-			return memo;
-		};
-	},
-	isOldIE = memoize(function() {
-		return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
-	}),
-	getHeadElement = memoize(function () {
-		return document.head || document.getElementsByTagName("head")[0];
-	}),
-	singletonElement = null,
-	singletonCounter = 0,
-	styleElementsInsertedAtTop = [];
-
-module.exports = function(list, options) {
-	if(typeof DEBUG !== "undefined" && DEBUG) {
-		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-	// By default, add <style> tags to the bottom of <head>.
-	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-
-	var styles = listToStyles(list);
-	addStylesToDom(styles, options);
-
-	return function update(newList) {
-		var mayRemove = [];
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-		if(newList) {
-			var newStyles = listToStyles(newList);
-			addStylesToDom(newStyles, options);
-		}
-		for(var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-			if(domStyle.refs === 0) {
-				for(var j = 0; j < domStyle.parts.length; j++)
-					domStyle.parts[j]();
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-}
-
-function addStylesToDom(styles, options) {
-	for(var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-		if(domStyle) {
-			domStyle.refs++;
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles(list) {
-	var styles = [];
-	var newStyles = {};
-	for(var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-		if(!newStyles[id])
-			styles.push(newStyles[id] = {id: id, parts: [part]});
-		else
-			newStyles[id].parts.push(part);
-	}
-	return styles;
-}
-
-function insertStyleElement(options, styleElement) {
-	var head = getHeadElement();
-	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-	if (options.insertAt === "top") {
-		if(!lastStyleElementInsertedAtTop) {
-			head.insertBefore(styleElement, head.firstChild);
-		} else if(lastStyleElementInsertedAtTop.nextSibling) {
-			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			head.appendChild(styleElement);
-		}
-		styleElementsInsertedAtTop.push(styleElement);
-	} else if (options.insertAt === "bottom") {
-		head.appendChild(styleElement);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
-}
-
-function removeStyleElement(styleElement) {
-	styleElement.parentNode.removeChild(styleElement);
-	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
-	if(idx >= 0) {
-		styleElementsInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement(options) {
-	var styleElement = document.createElement("style");
-	styleElement.type = "text/css";
-	insertStyleElement(options, styleElement);
-	return styleElement;
-}
-
-function createLinkElement(options) {
-	var linkElement = document.createElement("link");
-	linkElement.rel = "stylesheet";
-	insertStyleElement(options, linkElement);
-	return linkElement;
-}
-
-function addStyle(obj, options) {
-	var styleElement, update, remove;
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-		styleElement = singletonElement || (singletonElement = createStyleElement(options));
-		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-	} else if(obj.sourceMap &&
-		typeof URL === "function" &&
-		typeof URL.createObjectURL === "function" &&
-		typeof URL.revokeObjectURL === "function" &&
-		typeof Blob === "function" &&
-		typeof btoa === "function") {
-		styleElement = createLinkElement(options);
-		update = updateLink.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-			if(styleElement.href)
-				URL.revokeObjectURL(styleElement.href);
-		};
-	} else {
-		styleElement = createStyleElement(options);
-		update = applyToTag.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle(newObj) {
-		if(newObj) {
-			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-				return;
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag(styleElement, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = styleElement.childNodes;
-		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-		if (childNodes.length) {
-			styleElement.insertBefore(cssNode, childNodes[index]);
-		} else {
-			styleElement.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag(styleElement, obj) {
-	var css = obj.css;
-	var media = obj.media;
-
-	if(media) {
-		styleElement.setAttribute("media", media)
-	}
-
-	if(styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = css;
-	} else {
-		while(styleElement.firstChild) {
-			styleElement.removeChild(styleElement.firstChild);
-		}
-		styleElement.appendChild(document.createTextNode(css));
-	}
-}
-
-function updateLink(linkElement, obj) {
-	var css = obj.css;
-	var sourceMap = obj.sourceMap;
-
-	if(sourceMap) {
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	var blob = new Blob([css], { type: "text/css" });
-
-	var oldSrc = linkElement.href;
-
-	linkElement.href = URL.createObjectURL(blob);
-
-	if(oldSrc)
-		URL.revokeObjectURL(oldSrc);
-}
-
-
-/***/ }),
-/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2584,7 +2276,7 @@ module.exports = PooledClass;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 21 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2927,6 +2619,314 @@ ReactElement.isValidElement = function (object) {
 
 module.exports = ReactElement;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function() {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		var result = [];
+		for(var i = 0; i < this.length; i++) {
+			var item = this[i];
+			if(item[2]) {
+				result.push("@media " + item[2] + "{" + item[1] + "}");
+			} else {
+				result.push(item[1]);
+			}
+		}
+		return result.join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+var stylesInDom = {},
+	memoize = function(fn) {
+		var memo;
+		return function () {
+			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+			return memo;
+		};
+	},
+	isOldIE = memoize(function() {
+		return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
+	}),
+	getHeadElement = memoize(function () {
+		return document.head || document.getElementsByTagName("head")[0];
+	}),
+	singletonElement = null,
+	singletonCounter = 0,
+	styleElementsInsertedAtTop = [];
+
+module.exports = function(list, options) {
+	if(typeof DEBUG !== "undefined" && DEBUG) {
+		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the bottom of <head>.
+	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+
+	var styles = listToStyles(list);
+	addStylesToDom(styles, options);
+
+	return function update(newList) {
+		var mayRemove = [];
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+		if(newList) {
+			var newStyles = listToStyles(newList);
+			addStylesToDom(newStyles, options);
+		}
+		for(var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+			if(domStyle.refs === 0) {
+				for(var j = 0; j < domStyle.parts.length; j++)
+					domStyle.parts[j]();
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+}
+
+function addStylesToDom(styles, options) {
+	for(var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+		if(domStyle) {
+			domStyle.refs++;
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles(list) {
+	var styles = [];
+	var newStyles = {};
+	for(var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+		if(!newStyles[id])
+			styles.push(newStyles[id] = {id: id, parts: [part]});
+		else
+			newStyles[id].parts.push(part);
+	}
+	return styles;
+}
+
+function insertStyleElement(options, styleElement) {
+	var head = getHeadElement();
+	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+	if (options.insertAt === "top") {
+		if(!lastStyleElementInsertedAtTop) {
+			head.insertBefore(styleElement, head.firstChild);
+		} else if(lastStyleElementInsertedAtTop.nextSibling) {
+			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			head.appendChild(styleElement);
+		}
+		styleElementsInsertedAtTop.push(styleElement);
+	} else if (options.insertAt === "bottom") {
+		head.appendChild(styleElement);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement(styleElement) {
+	styleElement.parentNode.removeChild(styleElement);
+	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+	if(idx >= 0) {
+		styleElementsInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement(options) {
+	var styleElement = document.createElement("style");
+	styleElement.type = "text/css";
+	insertStyleElement(options, styleElement);
+	return styleElement;
+}
+
+function createLinkElement(options) {
+	var linkElement = document.createElement("link");
+	linkElement.rel = "stylesheet";
+	insertStyleElement(options, linkElement);
+	return linkElement;
+}
+
+function addStyle(obj, options) {
+	var styleElement, update, remove;
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+		styleElement = singletonElement || (singletonElement = createStyleElement(options));
+		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+	} else if(obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function") {
+		styleElement = createLinkElement(options);
+		update = updateLink.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+			if(styleElement.href)
+				URL.revokeObjectURL(styleElement.href);
+		};
+	} else {
+		styleElement = createStyleElement(options);
+		update = applyToTag.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle(newObj) {
+		if(newObj) {
+			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+				return;
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag(styleElement, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = styleElement.childNodes;
+		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+		if (childNodes.length) {
+			styleElement.insertBefore(cssNode, childNodes[index]);
+		} else {
+			styleElement.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag(styleElement, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		styleElement.setAttribute("media", media)
+	}
+
+	if(styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = css;
+	} else {
+		while(styleElement.firstChild) {
+			styleElement.removeChild(styleElement.firstChild);
+		}
+		styleElement.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink(linkElement, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	if(sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = linkElement.href;
+
+	linkElement.href = URL.createObjectURL(blob);
+
+	if(oldSrc)
+		URL.revokeObjectURL(oldSrc);
+}
+
 
 /***/ }),
 /* 22 */
@@ -3281,7 +3281,7 @@ var _assign = __webpack_require__(4);
 var ReactBaseClasses = __webpack_require__(82);
 var ReactChildren = __webpack_require__(145);
 var ReactDOMFactories = __webpack_require__(149);
-var ReactElement = __webpack_require__(21);
+var ReactElement = __webpack_require__(19);
 var ReactPropTypes = __webpack_require__(153);
 var ReactVersion = __webpack_require__(154);
 
@@ -7828,7 +7828,7 @@ var _prodInvariant = __webpack_require__(3);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var PooledClass = __webpack_require__(20);
+var PooledClass = __webpack_require__(18);
 
 var invariant = __webpack_require__(1);
 
@@ -9579,7 +9579,7 @@ module.exports = getIteratorFn;
 
 var ReactCurrentOwner = __webpack_require__(15);
 var ReactComponentTreeHook = __webpack_require__(9);
-var ReactElement = __webpack_require__(21);
+var ReactElement = __webpack_require__(19);
 
 var checkReactTypeSpec = __webpack_require__(150);
 
@@ -12591,7 +12591,7 @@ module.exports = BeforeInputEventPlugin;
 
 var _assign = __webpack_require__(4);
 
-var PooledClass = __webpack_require__(20);
+var PooledClass = __webpack_require__(18);
 
 var getTextContentAccessor = __webpack_require__(69);
 
@@ -16644,7 +16644,7 @@ module.exports = checkPropTypes;
 
 
 var PooledClass = __webpack_require__(146);
-var ReactElement = __webpack_require__(21);
+var ReactElement = __webpack_require__(19);
 
 var emptyFunction = __webpack_require__(10);
 var traverseAllChildren = __webpack_require__(147);
@@ -17195,7 +17195,7 @@ module.exports = KeyEscapeUtils;
 
 
 
-var ReactElement = __webpack_require__(21);
+var ReactElement = __webpack_require__(19);
 
 /**
  * Create a factory that creates HTML tag elements.
@@ -17508,7 +17508,7 @@ module.exports = ReactPropTypesSecret;
 
 
 
-var _require = __webpack_require__(21),
+var _require = __webpack_require__(19),
     isValidElement = _require.isValidElement;
 
 var factory = __webpack_require__(80);
@@ -17550,7 +17550,7 @@ module.exports = '15.6.2';
 var _require = __webpack_require__(82),
     Component = _require.Component;
 
-var _require2 = __webpack_require__(21),
+var _require2 = __webpack_require__(19),
     isValidElement = _require2.isValidElement;
 
 var ReactNoopUpdateQueue = __webpack_require__(83);
@@ -18452,7 +18452,7 @@ module.exports = factory;
 
 var _prodInvariant = __webpack_require__(23);
 
-var ReactElement = __webpack_require__(21);
+var ReactElement = __webpack_require__(19);
 
 var invariant = __webpack_require__(1);
 
@@ -20587,7 +20587,7 @@ module.exports = flattenChildren;
 
 var _assign = __webpack_require__(4);
 
-var PooledClass = __webpack_require__(20);
+var PooledClass = __webpack_require__(18);
 var Transaction = __webpack_require__(33);
 var ReactInstrumentation = __webpack_require__(11);
 var ReactServerUpdateQueue = __webpack_require__(170);
@@ -21266,7 +21266,7 @@ var _assign = __webpack_require__(4);
 
 var EventListener = __webpack_require__(93);
 var ExecutionEnvironment = __webpack_require__(7);
-var PooledClass = __webpack_require__(20);
+var PooledClass = __webpack_require__(18);
 var ReactDOMComponentTree = __webpack_require__(5);
 var ReactUpdates = __webpack_require__(14);
 
@@ -21502,7 +21502,7 @@ module.exports = ReactInjection;
 var _assign = __webpack_require__(4);
 
 var CallbackQueue = __webpack_require__(70);
-var PooledClass = __webpack_require__(20);
+var PooledClass = __webpack_require__(18);
 var ReactBrowserEventEmitter = __webpack_require__(37);
 var ReactInputSelection = __webpack_require__(94);
 var ReactInstrumentation = __webpack_require__(11);
@@ -23840,11 +23840,11 @@ var _movie_info_page = __webpack_require__(247);
 
 var _movie_info_page2 = _interopRequireDefault(_movie_info_page);
 
-var _head = __webpack_require__(250);
+var _head = __webpack_require__(248);
 
 var _head2 = _interopRequireDefault(_head);
 
-var _tail = __webpack_require__(253);
+var _tail = __webpack_require__(251);
 
 var _tail2 = _interopRequireDefault(_tail);
 
@@ -26999,7 +26999,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 var content = __webpack_require__(235);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, {});
+var update = __webpack_require__(21)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -27019,7 +27019,7 @@ if(false) {
 /* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)();
+exports = module.exports = __webpack_require__(20)();
 // imports
 
 
@@ -27149,8 +27149,8 @@ var MoviesDisplayer = _react2.default.createClass({
     render: function render() {
 
         var movieItems = this.props.movies.map(function (item) {
-            var linkToUrl = "/movie/" + item.id;
-            // but you can use a location instead
+
+            // set the location
             var location = {
                 pathname: '/movie/' + item.id,
                 state: { fromDashboard: true }
@@ -27177,7 +27177,7 @@ var MoviesDisplayer = _react2.default.createClass({
                         null,
                         _react2.default.createElement(
                             _reactRouterDom.Link,
-                            { to: linkToUrl, className: 'movie_name_a' },
+                            { to: location, className: 'movie_name_a' },
                             item.name
                         )
                     ),
@@ -27215,7 +27215,7 @@ var MoviesDisplayer = _react2.default.createClass({
         return _react2.default.createElement(
             'ul',
             { id: 'movies_list_ul' },
-            _react2.default.createElement(_inner_messager2.default, { ref: 'innerMessager' }),
+            _react2.default.createElement(_inner_messager2.default, { defaultTip: this.props.defaultMovieTip, ref: 'innerMessager' }),
             movieItems,
             _react2.default.createElement('li', { className: 'clear' })
         );
@@ -27289,7 +27289,8 @@ var MovieTagGroupList = _react2.default.createClass({
         return _react2.default.createElement(
             'div',
             null,
-            _react2.default.createElement(_inner_messager2.default, { ref: 'innerMessager' }),
+            _react2.default.createElement(_inner_messager2.default, { defaultTip: this.props.defaultTagTip,
+                ref: 'innerMessager' }),
             this.props.movieTagGroup.map(function (item) {
                 return _react2.default.createElement(MovieTagGroup, { key: item.id,
                     handleClickTag: this.props.handleClickTag,
@@ -27317,7 +27318,8 @@ var MovieListPage = _react2.default.createClass({
         this.adjustMovieListUI();
     },
     adjustMovieListUI: function adjustMovieListUI() {
-        {/*设置电影列表样式*/}
+        {/*设置电影列表样式*/
+        }
         var width = $($(".movie_img_div a img")[0]).css("width");
 
         var height = parseInt(width) * 1.5;
@@ -27333,10 +27335,12 @@ var MovieListPage = _react2.default.createClass({
     getMovie: function getMovie(callfun) {
         {} /*获取电影列表*/
 
-        //tip
-        this.showMovieTip("正在加载");
 
-        {/*collect params*/}
+        //tip
+        this.showMovieTip(this.state.whenMovieIsLoading);
+
+        {/*collect params*/
+        }
         var movies = this.state.movies;
         var page = movies.page;
         var size = movies.size;
@@ -27344,7 +27348,8 @@ var MovieListPage = _react2.default.createClass({
         var start = (page - 1) * size;
         var keyword = movies.keyword;
 
-        {/*collect param => orderBy*/}
+        {/*collect param => orderBy*/
+        }
         var orderBy;
         for (var i = 0; i < this.state.orderByOptions.length; i++) {
             if (this.state.orderByOptions[i].selected) {
@@ -27353,7 +27358,8 @@ var MovieListPage = _react2.default.createClass({
             }
         }
 
-        {/*collect param => selected tag group ids and tags id*/}
+        {/*collect param => selected tag group ids and tags id*/
+        }
         var tagGroupIds = [];
         var tagIds = [];
         for (var i = 0; i < this.state.movieTagGroup.length; i++) {
@@ -27370,7 +27376,7 @@ var MovieListPage = _react2.default.createClass({
             }
         }
 
-        var url = this.props.movieSource + "?page=" + page + "&start=" + start + "&size=" + size + "&orderBy=" + orderBy + "&orderType=" + orderType + "&keyword=" + keyword;
+        var url = this.state.movieSource + "?page=" + page + "&start=" + start + "&size=" + size + "&orderBy=" + orderBy + "&orderType=" + orderType + "&keyword=" + keyword;
         url = contactUrlWithArray(url, "tagGroupIds", tagGroupIds);
         url = contactUrlWithArray(url, "tagIds", tagIds);
         this.serverRequest = $.get(url, function (result) {
@@ -27388,7 +27394,7 @@ var MovieListPage = _react2.default.createClass({
 
             //if have not movies
             if (state.movies.list.length == undefined || state.movies.list.length == 0) {
-                this.showMovieTip("无相关电影", false);
+                this.showMovieTip(this.state.whenThereIsHaveNotMovie, false);
             } else {
                 this.showMovieTip();
             }
@@ -27411,9 +27417,10 @@ var MovieListPage = _react2.default.createClass({
     },
     getTagGroup: function getTagGroup(callfun) {
         //set tip
-        this.showTagTip("正在加载");
-        {/*获取电影标签分组*/}
-        this.serverRequest = $.get(this.props.tagGroupSource, function (result) {
+        this.showTagTip(this.state.whenTagIsLoading);
+        {/*获取电影标签分组*/
+        }
+        this.serverRequest = $.get(this.state.tagGroupSource, function (result) {
             var state = this.state;
             state.movieTagGroup = result.data.list;
 
@@ -27426,7 +27433,7 @@ var MovieListPage = _react2.default.createClass({
             //set tip
 
             if (state.movieTagGroup == undefined || state.movieTagGroup.length == 0) {
-                this.showTagTip("无相关标签", false);
+                this.showTagTip(this.state.whenThereIsHaveNotTag, false);
             } else {
                 this.showTagTip();
             }
@@ -27467,8 +27474,26 @@ var MovieListPage = _react2.default.createClass({
         //            }
 
 
-        var orderByOptions = [{ id: "score", name: "最高评分", selected: true }, { id: "watch_num", name: "最多播放", selected: false }, { id: "release_time", name: "最新上映", selected: false }];
-        var state = { movieTip: "正在加载...", movieSearchBtnText: "搜索", lastKeyword: "", movieSearchTimer: undefined, movieTagGroup: [], movies: { keyword: "", total: 0, list: [], page: 1, size: 10, orderType: "desc" }, orderByOptions: orderByOptions };
+        var orderByOptions = [{ id: "score", name: "最高评分", selected: true }, {
+            id: "watch_num",
+            name: "最多播放",
+            selected: false
+        }, { id: "release_time", name: "最新上映", selected: false }];
+
+        var state = {
+            tagGroupSource: "/tagGroup/list",
+            movieSource: "/movie/list",
+            whenMovieIsLoading: "正在加载电影",
+            whenThereIsHaveNotMovie: "对不起，暂时无相关电影",
+            whenTagIsLoading: "正在加载标签",
+            whenThereIsHaveNotTag: "对不起，暂时无相关标签",
+            movieSearchBtnText: "搜索",
+            lastKeyword: "",
+            movieSearchTimer: undefined,
+            movieTagGroup: [],
+            movies: { keyword: "", total: 0, list: [], page: 1, size: 10, orderType: "desc" },
+            orderByOptions: orderByOptions
+        };
 
         return state;
     },
@@ -27487,12 +27512,14 @@ var MovieListPage = _react2.default.createClass({
 
     handleClickTag: function handleClickTag(selectedTagId, selectedTagGroupId) {
         {} /*点击标签事件*/
+
         //            c("handleClickTag");
         //            c(selectedTagId);
         //            c(selectedTagGroupId);
         var groups = this.state.movieTagGroup;
         if (selectedTagId == undefined) {
-            {/*单纯选择某个标签组*/}
+            {/*单纯选择某个标签组*/
+            }
             for (var i = 0; i < groups.length; i++) {
                 var g = groups[i];
                 if (g.id == selectedTagGroupId) {
@@ -27504,12 +27531,14 @@ var MovieListPage = _react2.default.createClass({
                 }
             }
         } else {
-            {/*选择某个标签组下的某个标签*/}
+            {/*选择某个标签组下的某个标签*/
+            }
             for (var i = 0; i < groups.length; i++) {
                 var g = groups[i];
                 if (g.id == selectedTagGroupId) {
                     g.selected = false;
-                    {/*找到指定标签组*/}
+                    {/*找到指定标签组*/
+                    }
                     for (var j = 0; j < g.items.length; j++) {
                         var tag = g.items[j];
                         if (selectedTagId == tag.id) {
@@ -27537,7 +27566,8 @@ var MovieListPage = _react2.default.createClass({
         this.getMovie();
     },
     sortMovie: function sortMovie(orderById) {
-        {/*collect param => orderBy*/}
+        {/*collect param => orderBy*/
+        }
         var orderByOptions = this.state.orderByOptions;
         var orderBy;
         for (var i = 0; i < orderByOptions.length; i++) {
@@ -27632,6 +27662,7 @@ var MovieListPage = _react2.default.createClass({
                 _react2.default.createElement(MovieTagGroupList, { tip: this.state.tagTip,
                     handleClickTag: this.handleClickTag,
                     movieTagGroup: this.state.movieTagGroup,
+                    defaultTagTip: this.state.whenTagIsLoading,
                     ref: 'movieTagGroupList' })
             ),
             _react2.default.createElement(
@@ -27699,8 +27730,10 @@ var MovieListPage = _react2.default.createClass({
                     'div',
                     { id: 'movies_display_div' },
                     _react2.default.createElement(MoviesDisplayer, { movies: this.state.movies.list,
+                        defaultMovieTip: this.state.whenMovieIsLoading,
                         ref: 'moviesDisplayer' }),
-                    _react2.default.createElement(Pager, { handlePageChange: this.handlePageChange, page: this.state.movies.page })
+                    _react2.default.createElement(Pager, { handlePageChange: this.handlePageChange,
+                        page: this.state.movies.page })
                 )
             ),
             _react2.default.createElement(_msg_dialog2.default, { ref: 'index_msg_dialog' })
@@ -27834,7 +27867,7 @@ exports.default = MsgDialog; //将App组件导出
 var content = __webpack_require__(239);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, {});
+var update = __webpack_require__(21)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -27854,7 +27887,7 @@ if(false) {
 /* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)();
+exports = module.exports = __webpack_require__(20)();
 // imports
 
 
@@ -27998,7 +28031,7 @@ exports.default = InnerMessager; //将App组件导出
 var content = __webpack_require__(242);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, {});
+var update = __webpack_require__(21)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28018,7 +28051,7 @@ if(false) {
 /* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)();
+exports = module.exports = __webpack_require__(20)();
 // imports
 
 
@@ -28038,7 +28071,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(244);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, {});
+var update = __webpack_require__(21)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28058,12 +28091,12 @@ if(false) {
 /* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)();
+exports = module.exports = __webpack_require__(20)();
 // imports
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clickSearchBtn {\n  background-color: \"rgb(61,158,255)\";\n  color: white; }\n\n#fragment_index_center_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #fragment_index_center_content > * {\n    padding: 20px 20px; }\n  #fragment_index_center_content #movie_type_div {\n    margin-top: 20px;\n    border-radius: 3px;\n    background-color: white;\n    /*#tagTip{\r\n      width:100%;\r\n      text-align: center;\r\n      height: 15px;\r\n    }*/ }\n    #fragment_index_center_content #movie_type_div .type_item {\n      margin: 12px 0px; }\n      #fragment_index_center_content #movie_type_div .type_item > * {\n        display: inline; }\n      #fragment_index_center_content #movie_type_div .type_item label {\n        display: inline;\n        width: 20%; }\n      #fragment_index_center_content #movie_type_div .type_item ul {\n        width: 80%;\n        display: inline;\n        text-align: left;\n        list-style-type: none; }\n        #fragment_index_center_content #movie_type_div .type_item ul .currt {\n          background-color: rgb(61,158,255);\n          border-radius: 99px; }\n          #fragment_index_center_content #movie_type_div .type_item ul .currt > a {\n            color: white; }\n        #fragment_index_center_content #movie_type_div .type_item ul li {\n          margin: 0px 5px;\n          padding: 2px 5px;\n          cursor: pointer;\n          display: inline;\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_type_div .type_item ul li > a {\n            font-size: 12px; }\n          #fragment_index_center_content #movie_type_div .type_item ul li:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_type_div .type_item ul li:hover > a {\n              color: white; }\n  #fragment_index_center_content #movie_list_div {\n    margin-top: 20px;\n    border-radius: 3px;\n    background-color: white;\n    /*分割线*/ }\n    #fragment_index_center_content #movie_list_div #head {\n      width: 100%;\n      height: 30px; }\n      #fragment_index_center_content #movie_list_div #head > div {\n        display: block;\n        float: left;\n        height: 30px;\n        line-height: 30px; }\n      #fragment_index_center_content #movie_list_div #head #sort_div {\n        width: 50%;\n        text-align: left; }\n        #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways {\n          display: inline;\n          list-style-type: none; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li {\n            margin: 0px 5px;\n            padding: 2px 5px;\n            display: inline;\n            cursor: pointer;\n            transition: all 500ms; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover {\n              background-color: rgb(61,158,255);\n              border-radius: 99px; }\n              #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover > a {\n                color: white; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt > a {\n              color: white; }\n      #fragment_index_center_content #movie_list_div #head #search_div {\n        width: 40%;\n        text-align: right;\n        /*btn*/ }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_text {\n          width: 50%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          background-image: url(\"/frontend/image/icon_zoom.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          padding-left: 30px;\n          margin-right: 0px;\n          border: 1px solid rgb(61,158,255);\n          border-right: 0px; }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn {\n          width: 20%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          cursor: pointer;\n          border: 1px solid rgb(61,158,255);\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn:hover {\n            background-color: rgb(61,158,255);\n            color: white; }\n      #fragment_index_center_content #movie_list_div #head #total_div {\n        width: 10%;\n        text-align: right; }\n    #fragment_index_center_content #movie_list_div #line {\n      height: 1px;\n      background-color: rgb(241,242,243);\n      margin: 20px 0px; }\n    #fragment_index_center_content #movie_list_div #movies_display_div {\n      width: 100%; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul {\n        width: 100%;\n        display: inline;\n        list-style-type: none;\n        width: 100%;\n        /*#movieTip{\r\n          width:100%;\r\n          text-align: center;\r\n          height: 15px;\r\n        }*/ }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item {\n          width: 17%;\n          padding: 1.5%;\n          display: inline-block;\n          float: left; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a {\n            display: block;\n            width: 100%; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a img {\n              width: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div {\n            width: 100%;\n            height: auto; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div {\n              width: 100%;\n              display: block;\n              margin: 2px 0px; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div .movie_name_a {\n                color: black; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul {\n              list-style: none;\n              display: inline; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul li {\n                width: auto;\n                display: inline-block; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a {\n              transition: all 500ms; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a:hover {\n                text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3);\n                color: red; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div {\n        margin: 80px 0px;\n        width: 100%;\n        text-align: center; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul {\n          list-style: none;\n          display: inline; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n            width: auto;\n            display: inline-block; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n          overflow: hidden;\n          margin: 0px 5px; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li {\n          border: 1px solid rgb(241,242,243);\n          height: auto;\n          cursor: pointer;\n          text-align: left;\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li a {\n            padding: 8px 15px;\n            display: block;\n            width: 100%;\n            height: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover {\n            background-color: rgb(61,158,255); }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover a {\n              color: white; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt {\n          background-color: rgb(61,158,255); }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt a {\n            color: white; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clickSearchBtn {\n  background-color: \"rgb(61,158,255)\";\n  color: white; }\n\n#fragment_index_center_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #fragment_index_center_content > * {\n    padding: 20px 20px; }\n  #fragment_index_center_content #movie_type_div {\n    margin-top: 20px;\n    border-radius: 3px;\n    background-color: white;\n    /*#tagTip{\n      width:100%;\n      text-align: center;\n      height: 15px;\n    }*/ }\n    #fragment_index_center_content #movie_type_div .type_item {\n      margin: 12px 0px; }\n      #fragment_index_center_content #movie_type_div .type_item > * {\n        display: inline; }\n      #fragment_index_center_content #movie_type_div .type_item label {\n        display: inline;\n        width: 20%; }\n      #fragment_index_center_content #movie_type_div .type_item ul {\n        width: 80%;\n        display: inline;\n        text-align: left;\n        list-style-type: none; }\n        #fragment_index_center_content #movie_type_div .type_item ul .currt {\n          background-color: rgb(61,158,255);\n          border-radius: 99px; }\n          #fragment_index_center_content #movie_type_div .type_item ul .currt > a {\n            color: white; }\n        #fragment_index_center_content #movie_type_div .type_item ul li {\n          margin: 0px 5px;\n          padding: 2px 5px;\n          cursor: pointer;\n          display: inline;\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_type_div .type_item ul li > a {\n            font-size: 12px; }\n          #fragment_index_center_content #movie_type_div .type_item ul li:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_type_div .type_item ul li:hover > a {\n              color: white; }\n  #fragment_index_center_content #movie_list_div {\n    margin-top: 20px;\n    border-radius: 3px;\n    background-color: white;\n    /*分割线*/ }\n    #fragment_index_center_content #movie_list_div #head {\n      width: 100%;\n      height: 30px; }\n      #fragment_index_center_content #movie_list_div #head > div {\n        display: block;\n        float: left;\n        height: 30px;\n        line-height: 30px; }\n      #fragment_index_center_content #movie_list_div #head #sort_div {\n        width: 50%;\n        text-align: left; }\n        #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways {\n          display: inline;\n          list-style-type: none; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li {\n            margin: 0px 5px;\n            padding: 2px 5px;\n            display: inline;\n            cursor: pointer;\n            transition: all 500ms; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover {\n              background-color: rgb(61,158,255);\n              border-radius: 99px; }\n              #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover > a {\n                color: white; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt > a {\n              color: white; }\n      #fragment_index_center_content #movie_list_div #head #search_div {\n        width: 40%;\n        text-align: right;\n        /*btn*/ }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_text {\n          width: 50%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          background-image: url(\"/frontend/image/icon_zoom.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          padding-left: 30px;\n          margin-right: 0px;\n          border: 1px solid rgb(61,158,255);\n          border-right: 0px; }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn {\n          width: 20%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          cursor: pointer;\n          border: 1px solid rgb(61,158,255);\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn:hover {\n            background-color: rgb(61,158,255);\n            color: white; }\n      #fragment_index_center_content #movie_list_div #head #total_div {\n        width: 10%;\n        text-align: right; }\n    #fragment_index_center_content #movie_list_div #line {\n      height: 1px;\n      background-color: rgb(241,242,243);\n      margin: 20px 0px; }\n    #fragment_index_center_content #movie_list_div #movies_display_div {\n      width: 100%; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul {\n        width: 100%;\n        display: inline;\n        list-style-type: none;\n        width: 100%;\n        /*#movieTip{\n          width:100%;\n          text-align: center;\n          height: 15px;\n        }*/ }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item {\n          width: 17%;\n          padding: 1.5%;\n          display: inline-block;\n          float: left; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a {\n            display: block;\n            width: 100%; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a img {\n              width: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div {\n            width: 100%;\n            height: auto; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div {\n              width: 100%;\n              display: block;\n              margin: 2px 0px; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div .movie_name_a {\n                color: black; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul {\n              list-style: none;\n              display: inline; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div ul li {\n                width: auto;\n                display: inline-block; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a {\n              transition: all 500ms; }\n              #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div a:hover {\n                text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3);\n                color: red; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div {\n        margin: 80px 0px;\n        width: 100%;\n        text-align: center; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul {\n          list-style: none;\n          display: inline; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n            width: auto;\n            display: inline-block; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n          overflow: hidden;\n          margin: 0px 5px; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li {\n          border: 1px solid rgb(241,242,243);\n          height: auto;\n          cursor: pointer;\n          text-align: left;\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li a {\n            padding: 8px 15px;\n            display: block;\n            width: 100%;\n            height: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover {\n            background-color: rgb(61,158,255); }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover a {\n              color: white; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt {\n          background-color: rgb(61,158,255); }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt a {\n            color: white; }\n", ""]);
 
 // exports
 
@@ -28078,7 +28111,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(246);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, {});
+var update = __webpack_require__(21)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28098,7 +28131,7 @@ if(false) {
 /* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)();
+exports = module.exports = __webpack_require__(20)();
 // imports
 
 
@@ -28119,150 +28152,82 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(248);
+__webpack_require__(254);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var MovieInfoPage = _react2.default.createClass({
+    displayName: 'MovieInfoPage',
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+    getInitialState: function getInitialState() {
+        return { movieImgUrl: "" };
+    }, componentDidMount: function componentDidMount() {
+        window.addEventListener('resize', this.onWindowResize);
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //引入react组件
+        //get movie
+        this.getMovie();
+    },
 
+    componentWillUnmount: function componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+    },
 
-var MovieInfoPage = function (_React$Component) {
-    _inherits(MovieInfoPage, _React$Component);
+    onWindowResize: function onWindowResize() {
+        this.adjustUI();
+    },
 
-    // 构造
-    function MovieInfoPage(props) {
-        _classCallCheck(this, MovieInfoPage);
+    adjustUI: function adjustUI() {},
 
-        var _this = _possibleConstructorReturn(this, (MovieInfoPage.__proto__ || Object.getPrototypeOf(MovieInfoPage)).call(this, props));
+    getMovie: function getMovie() {
 
-        c("constructor");
-        c(_this);
-        c(props);
-        c(_this.props);
+        c(1);
+        var movieId = this.props.match.params.movieId;
 
-        return _this;
-    }
+        //get imgUrl
+        this.state.movieImgUrl = "/img/" + movieId;
+        this.setState(state);
 
-    _createClass(MovieInfoPage, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            window.addEventListener('resize', this.onWindowResize);
+        //get movie info
+        var url = this.props.match.url;
+        this.serverRequest = $.get(url, function (result) {
+            c(result);
+            if (result.code == 10000) {
+                return;
+            }
 
-            // this.getMovie();
-        }
-    }, {
-        key: 'componentWillUnmount',
-        value: function componentWillUnmount() {
-            window.removeEventListener('resize', this.onWindowResize);
-        }
-    }, {
-        key: 'onWindowResize',
-        value: function onWindowResize() {
-            this.adjustUI();
-        }
-    }, {
-        key: 'adjustUI',
-        value: function adjustUI() {}
-    }, {
-        key: 'getMovie',
-        value: function getMovie(callfun) {
-            // var url = this.props.movieSource+"/"+this.state.pageData.movieId;
-            // this.serverRequest = $.get(url   (result) {
-            //     // c(result);
-            //     if(result.code == 10000){
-            //         return ;
-            //     }
-            //
-            //     var state = this.state;
-            //
-            //     //set imgUrl
-            //     state.imgUrl = "/img/"+result.data.movie.id;
-            //
-            //
-            //
-            //     this.setState(state);
-            //     //callfun
-            //     callfun!=undefined&&callfun();
-            // }.bind(this));
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
+            var state = this.state;
+
+            this.setState(state);
+            //callfun
+            callfun != undefined && callfun();
+        }.bind(this));
+    },
+
+    render: function render() {
+        return _react2.default.createElement(
+            'div',
+            { id: 'movie_info_content' },
+            _react2.default.createElement(
                 'div',
-                { id: 'movie_info_content' },
+                { id: 'movie_basic_info' },
                 _react2.default.createElement(
                     'div',
-                    { id: 'movie_basic_info' },
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'movie_img' },
-                        _react2.default.createElement('img', { src: '' })
-                    ),
-                    _react2.default.createElement('div', { id: 'movie_text' })
-                )
-            );
-        }
-    }]);
-
-    return MovieInfoPage;
-}(_react2.default.Component);
-
-;
+                    { id: 'movie_img' },
+                    _react2.default.createElement('img', { src: this.state.movieImgUrl })
+                ),
+                _react2.default.createElement('div', { id: 'movie_text' })
+            )
+        );
+    }
+}); //引入react组件
 exports.default = MovieInfoPage;
 
 /***/ }),
 /* 248 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(249);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(19)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./movie_info_page.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./movie_info_page.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 249 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(18)();
-// imports
-
-
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n#movie_info_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #movie_info_content > * {\n    padding: 20px 20px; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28276,7 +28241,7 @@ var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(251);
+__webpack_require__(249);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28352,16 +28317,16 @@ var Head = _react2.default.createClass({
 exports.default = Head; //将App组件导出
 
 /***/ }),
-/* 251 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(252);
+var content = __webpack_require__(250);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, {});
+var update = __webpack_require__(21)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28378,10 +28343,10 @@ if(false) {
 }
 
 /***/ }),
-/* 252 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)();
+exports = module.exports = __webpack_require__(20)();
 // imports
 
 
@@ -28392,7 +28357,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 
 /***/ }),
-/* 253 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28406,7 +28371,7 @@ var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(254);
+__webpack_require__(252);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28425,16 +28390,16 @@ var Tail = _react2.default.createClass({
 exports.default = Tail; //将App组件导出
 
 /***/ }),
-/* 254 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(255);
+var content = __webpack_require__(253);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(19)(content, {});
+var update = __webpack_require__(21)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28451,15 +28416,55 @@ if(false) {
 }
 
 /***/ }),
-/* 255 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(18)();
+exports = module.exports = __webpack_require__(20)();
 // imports
 
 
 // module
 exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n#fragment_tail_content {\n  height: 200px;\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243);\n  margin-top: 30px; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 254 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(255);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(21)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./movie_info_page.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./movie_info_page.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 255 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(20)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n#movie_info_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #movie_info_content > * {\n    padding: 20px 20px; }\n", ""]);
 
 // exports
 

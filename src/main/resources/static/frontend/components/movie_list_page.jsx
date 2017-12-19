@@ -1,4 +1,3 @@
-
 import React from 'react';  //引入react组件
 import {Link} from 'react-router-dom';
 import MsgDialog from "./msg_dialog";
@@ -12,13 +11,17 @@ var Pager = React.createClass({
             <div id="movie_list_pager_div">
                 <ul id="movie_list_pager_ul">
                     <li className="pager_li">
-                        <a href="javascript:void(0);" onClick={()=>{this.props.handlePageChange(-1)}}>上一页</a>
+                        <a href="javascript:void(0);" onClick={() => {
+                            this.props.handlePageChange(-1)
+                        }}>上一页</a>
                     </li>
                     <li className="pager_li currt">
                         <a href="javascript:void(0);">{this.props.page}</a>
                     </li>
                     <li className="pager_li">
-                        <a href="javascript:void(0);" onClick={()=>{this.props.handlePageChange(1)}}>下一页</a>
+                        <a href="javascript:void(0);" onClick={() => {
+                            this.props.handlePageChange(1)
+                        }}>下一页</a>
                     </li>
                 </ul>
             </div>
@@ -34,7 +37,7 @@ var ActorsList = React.createClass({
             <ul >
                 <li>主演：</li>
                 {
-                    this.props.actors.map((item,index)=>{
+                    this.props.actors.map((item, index) => {
                         return <li key={item.id}><a href="">{item.name}</a>&nbsp;</li>;
                     })
                 }
@@ -46,17 +49,17 @@ var ActorsList = React.createClass({
 /*电影展示*/
 var MoviesDisplayer = React.createClass({
 
-    showMsg(msg,loop){
-        this.refs.innerMessager.showMsg(msg,loop);
+    showMsg(msg, loop){
+        this.refs.innerMessager.showMsg(msg, loop);
     },
     render: function () {
 
         var movieItems = this.props.movies.map(function (item) {
-            var linkToUrl = "/movie/"+item.id;
-            // but you can use a location instead
+
+            // set the location
             const location = {
-                pathname: '/movie/'+item.id,
-                state: { fromDashboard: true }
+                pathname: '/movie/' + item.id,
+                state: {fromDashboard: true}
             }
 
             // history.push(location);
@@ -71,7 +74,7 @@ var MoviesDisplayer = React.createClass({
                 </div>
                 <div className="movie_info_div">
                     <div>
-                        <Link to={linkToUrl} className="movie_name_a">{item.name}</Link>
+                        <Link to={location} className="movie_name_a">{item.name}</Link>
 
                     </div>
                     <div className="movie_actor_list_div">
@@ -83,7 +86,7 @@ var MoviesDisplayer = React.createClass({
                     <div>
 
 
-                        导演：<a  href="">{item.director==null?"无":item.director.name}</a>
+                        导演：<a href="">{item.director == null ? "无" : item.director.name}</a>
                     </div>
                     <div>
                         评分：{item.score}
@@ -97,7 +100,7 @@ var MoviesDisplayer = React.createClass({
             </li>;
         }.bind(this));
         return <ul id="movies_list_ul">
-            <InnerMessager ref="innerMessager"/>
+            <InnerMessager defaultTip={this.props.defaultMovieTip} ref="innerMessager"/>
             {movieItems}
             <li className="clear"></li>
         </ul>;
@@ -107,7 +110,7 @@ var MoviesDisplayer = React.createClass({
 var MovieTagGroup = React.createClass({
     render: function () {
         var tagGroupStyleClass = "";
-        if(this.props.selected != undefined && this.props.selected){
+        if (this.props.selected != undefined && this.props.selected) {
             tagGroupStyleClass = "currt";
         }
         return (
@@ -116,7 +119,9 @@ var MovieTagGroup = React.createClass({
                     {this.props.movieTagGroupName}:
                 </label>
                 <ul>
-                    <li className={tagGroupStyleClass} onClick={()=>{this.props.handleClickTag(undefined,this.props.movieTagGroupId)}} >
+                    <li className={tagGroupStyleClass} onClick={() => {
+                        this.props.handleClickTag(undefined, this.props.movieTagGroupId)
+                    }}>
                         <a href="javascript:void(0);">
                             全部
                         </a>
@@ -124,11 +129,13 @@ var MovieTagGroup = React.createClass({
                     {
                         this.props.movieTags.map(function (item) {
                             var tagStyleClass = "";
-                            if(item.selected != undefined && item.selected){
+                            if (item.selected != undefined && item.selected) {
                                 tagStyleClass = "currt";
                             }
                             return (
-                                <li key={item.id} id={item.id} className={tagStyleClass}  onClick={()=>{this.props.handleClickTag(item.id,this.props.movieTagGroupId)}}>
+                                <li key={item.id} id={item.id} className={tagStyleClass} onClick={() => {
+                                    this.props.handleClickTag(item.id, this.props.movieTagGroupId)
+                                }}>
                                     <a href="javascript:void(0);">
                                         {item.name}
                                     </a>
@@ -144,15 +151,16 @@ var MovieTagGroup = React.createClass({
 });
 /*电影标签列表*/
 var MovieTagGroupList = React.createClass({
-    showMsg(msg,loop){
-        this.refs.innerMessager.showMsg(msg,loop);
+    showMsg(msg, loop){
+        this.refs.innerMessager.showMsg(msg, loop);
     },
     render: function () {
         return (
             <div>
 
                 {/*<div id="tagTip">{this.props.tip}</div>*/}
-                <InnerMessager ref="innerMessager"/>
+                <InnerMessager defaultTip={this.props.defaultTagTip}
+                               ref="innerMessager"/>
 
                 {
                     this.props.movieTagGroup.map(function (item) {
@@ -178,61 +186,66 @@ var MovieListPage = React.createClass({
         this.getTagGroup(this.getMovie);
         window.addEventListener('resize', this.onWindowResize)
     },
-    componentWillUnmount:function() {
+    componentWillUnmount: function () {
         window.removeEventListener('resize', this.onWindowResize)
     },
-    onWindowResize:function () {
+    onWindowResize: function () {
         this.adjustMovieListUI();
     },
-    adjustMovieListUI:function (){
-        {/*设置电影列表样式*/}
+    adjustMovieListUI: function () {
+        {/*设置电影列表样式*/
+        }
         var width = $($(".movie_img_div a img")[0]).css("width");
 
-        var height = parseInt(width)*1.5;
-        height = height.toString()+"px";
-        $(".movie_img_div a img").css("height",height)
+        var height = parseInt(width) * 1.5;
+        height = height.toString() + "px";
+        $(".movie_img_div a img").css("height", height)
     },
-    showMovieTip(msg,loop){
-        if(msg == undefined){
+    showMovieTip(msg, loop){
+        if (msg == undefined) {
             msg = "";
         }
-        this.refs.moviesDisplayer.showMsg(msg,loop);
+        this.refs.moviesDisplayer.showMsg(msg, loop);
     },
     getMovie(callfun){
-        {/*获取电影列表*/}
+        {/*获取电影列表*/
+        }
 
         //tip
-        this.showMovieTip("正在加载");
+        this.showMovieTip(this.state.whenMovieIsLoading);
 
 
-        {/*collect params*/}
+        {/*collect params*/
+        }
         var movies = this.state.movies;
         var page = movies.page;
         var size = movies.size;
         var orderType = movies.orderType;
-        var start = (page-1)*size;
+        var start = (page - 1) * size;
         var keyword = movies.keyword;
 
-        {/*collect param => orderBy*/}
+        {/*collect param => orderBy*/
+        }
         var orderBy;
-        for(var i = 0;i<this.state.orderByOptions.length;i++){
-            if(this.state.orderByOptions[i].selected){
+        for (var i = 0; i < this.state.orderByOptions.length; i++) {
+            if (this.state.orderByOptions[i].selected) {
                 orderBy = this.state.orderByOptions[i].id;
                 break;
             }
         }
 
-        {/*collect param => selected tag group ids and tags id*/}
+        {/*collect param => selected tag group ids and tags id*/
+        }
         var tagGroupIds = [];
         var tagIds = [];
-        for(var i = 0;i<this.state.movieTagGroup.length;i++){
+        for (var i = 0; i < this.state.movieTagGroup.length; i++) {
             var g = this.state.movieTagGroup[i];
-            if(g.selected){
+            if (g.selected) {
                 tagGroupIds.push(g.id);
-            }else{
-                for(var j = 0;j<g.items.length;j++){
+            } else {
+                for (var j = 0; j < g.items.length; j++) {
                     var tag = g.items[j];
-                    if(tag.selected){
+                    if (tag.selected) {
                         tagIds.push(tag.id);
                     }
                 }
@@ -240,15 +253,15 @@ var MovieListPage = React.createClass({
         }
 
 
-        var url = this.props.movieSource + "?page="+page+"&start="+start+"&size="+size+"&orderBy="+orderBy+"&orderType="+orderType+"&keyword="+keyword;
-        url = contactUrlWithArray(url,"tagGroupIds",tagGroupIds);
-        url = contactUrlWithArray(url,"tagIds",tagIds);
-        this.serverRequest = $.get(url , function (result) {
+        var url = this.state.movieSource + "?page=" + page + "&start=" + start + "&size=" + size + "&orderBy=" + orderBy + "&orderType=" + orderType + "&keyword=" + keyword;
+        url = contactUrlWithArray(url, "tagGroupIds", tagGroupIds);
+        url = contactUrlWithArray(url, "tagIds", tagIds);
+        this.serverRequest = $.get(url, function (result) {
             // c(result);
-            if(result.code == 10000){
+            if (result.code == 10000) {
                 this.showDialogMsg(result.msg);
                 this.showMovieTip();
-                return ;
+                return;
             }
 
             var state = this.state;
@@ -257,9 +270,9 @@ var MovieListPage = React.createClass({
             this.setState(state);
 
             //if have not movies
-            if(state.movies.list.length==undefined || state.movies.list.length == 0){
-                this.showMovieTip("无相关电影",false);
-            }else{
+            if (state.movies.list.length == undefined || state.movies.list.length == 0) {
+                this.showMovieTip(this.state.whenThereIsHaveNotMovie, false);
+            } else {
                 this.showMovieTip();
             }
 
@@ -268,45 +281,46 @@ var MovieListPage = React.createClass({
 
 
             //callfun
-            callfun!=undefined&&callfun();
+            callfun != undefined && callfun();
         }.bind(this));
     },
     showDialogMsg(msg){
         this.refs.index_msg_dialog.showMsg(msg);
     },
-    showTagTip(msg,loop){
-        if(msg == undefined){
+    showTagTip(msg, loop){
+        if (msg == undefined) {
             msg = "";
         }
-        this.refs.movieTagGroupList.showMsg(msg,loop);
+        this.refs.movieTagGroupList.showMsg(msg, loop);
     },
     getTagGroup(callfun){
         //set tip
-        this.showTagTip("正在加载");
-        {/*获取电影标签分组*/}
-        this.serverRequest = $.get(this.props.tagGroupSource, function (result) {
+        this.showTagTip(this.state.whenTagIsLoading);
+        {/*获取电影标签分组*/
+        }
+        this.serverRequest = $.get(this.state.tagGroupSource, function (result) {
             var state = this.state;
             state.movieTagGroup = result.data.list;
 
 
-            if(result.code == 10000){
+            if (result.code == 10000) {
                 this.showDialogMsg(result.msg);
                 this.showMovieTip();
-                return ;
+                return;
             }
 
 
             //set tip
 
-            if(state.movieTagGroup==undefined||state.movieTagGroup.length == 0) {
-                this.showTagTip("无相关标签",false);
-            }else{
+            if (state.movieTagGroup == undefined || state.movieTagGroup.length == 0) {
+                this.showTagTip(this.state.whenThereIsHaveNotTag, false);
+            } else {
                 this.showTagTip();
             }
 
             //default select tag group id
 
-            for(var i = 0;i<state.movieTagGroup.length;i++){
+            for (var i = 0; i < state.movieTagGroup.length; i++) {
                 var g = state.movieTagGroup[i];
                 g.selected = true;
             }
@@ -340,8 +354,27 @@ var MovieListPage = React.createClass({
 //            }
 
 
-        var orderByOptions = [{id:"score",name:"最高评分",selected:true},{id:"watch_num",name:"最多播放",selected:false},{id:"release_time",name:"最新上映",selected:false}];
-        var state = {movieTip:"正在加载...",movieSearchBtnText:"搜索",lastKeyword:"",movieSearchTimer:undefined,movieTagGroup: [], movies: {keyword:"",total: 0, list: [], page: 1, size: 10,orderType:"desc"},orderByOptions:orderByOptions};
+        var orderByOptions = [{id: "score", name: "最高评分", selected: true}, {
+            id: "watch_num",
+            name: "最多播放",
+            selected: false
+        }, {id: "release_time", name: "最新上映", selected: false}];
+
+
+        var state = {
+            tagGroupSource: "/tagGroup/list",
+            movieSource: "/movie/list",
+            whenMovieIsLoading: "正在加载电影",
+            whenThereIsHaveNotMovie: "对不起，暂时无相关电影",
+            whenTagIsLoading: "正在加载标签",
+            whenThereIsHaveNotTag: "对不起，暂时无相关标签",
+            movieSearchBtnText: "搜索",
+            lastKeyword: "",
+            movieSearchTimer: undefined,
+            movieTagGroup: [],
+            movies: {keyword: "", total: 0, list: [], page: 1, size: 10, orderType: "desc"},
+            orderByOptions: orderByOptions
+        };
 
         return state;
 
@@ -349,7 +382,7 @@ var MovieListPage = React.createClass({
     handlePageChange(movePage){
         var newPage = this.state.movies.page + movePage;
 //            c(this.state.movies.total-(this.state.movies.size*(newPage-1))<=0);
-        if (newPage <= 0 || this.state.movies.total-(this.state.movies.size*(newPage-1))<=0) {
+        if (newPage <= 0 || this.state.movies.total - (this.state.movies.size * (newPage - 1)) <= 0) {
             return;
         }
         //更新page
@@ -358,36 +391,40 @@ var MovieListPage = React.createClass({
         this.setState(state);
         this.getMovie();
     },
-    handleClickTag:function(selectedTagId,selectedTagGroupId){
-        {/*点击标签事件*/}
+    handleClickTag: function (selectedTagId, selectedTagGroupId) {
+        {/*点击标签事件*/
+        }
 //            c("handleClickTag");
 //            c(selectedTagId);
 //            c(selectedTagGroupId);
         var groups = this.state.movieTagGroup;
-        if(selectedTagId==undefined){
-            {/*单纯选择某个标签组*/}
-            for (var i=0;i<groups.length;i++) {
+        if (selectedTagId == undefined) {
+            {/*单纯选择某个标签组*/
+            }
+            for (var i = 0; i < groups.length; i++) {
                 var g = groups[i];
-                if(g.id == selectedTagGroupId){
+                if (g.id == selectedTagGroupId) {
                     g.selected = true;
-                    for(var j = 0;j<g.items.length;j++){
+                    for (var j = 0; j < g.items.length; j++) {
                         var tag = g.items[j];
                         tag.selected = false;
                     }
                 }
             }
-        }else{
-            {/*选择某个标签组下的某个标签*/}
-            for (var i=0;i<groups.length;i++) {
+        } else {
+            {/*选择某个标签组下的某个标签*/
+            }
+            for (var i = 0; i < groups.length; i++) {
                 var g = groups[i];
                 if (g.id == selectedTagGroupId) {
                     g.selected = false;
-                    {/*找到指定标签组*/}
-                    for(var j = 0;j<g.items.length;j++){
+                    {/*找到指定标签组*/
+                    }
+                    for (var j = 0; j < g.items.length; j++) {
                         var tag = g.items[j];
-                        if(selectedTagId == tag.id){
+                        if (selectedTagId == tag.id) {
                             tag.selected = true;
-                        }else{
+                        } else {
                             tag.selected = false;
                         }
                     }
@@ -412,13 +449,14 @@ var MovieListPage = React.createClass({
 
     },
     sortMovie(orderById){
-        {/*collect param => orderBy*/}
+        {/*collect param => orderBy*/
+        }
         var orderByOptions = this.state.orderByOptions;
         var orderBy;
-        for(var i = 0;i<orderByOptions.length;i++){
-            if(orderByOptions[i].id==orderById){
+        for (var i = 0; i < orderByOptions.length; i++) {
+            if (orderByOptions[i].id == orderById) {
                 orderByOptions[i].selected = true;
-            }else{
+            } else {
                 orderByOptions[i].selected = false;
             }
         }
@@ -429,25 +467,25 @@ var MovieListPage = React.createClass({
         this.setState(state);
         this.getMovie();
     },
-    clearMovieSearchTimer:function(){
-        if(this.state.movieSearchTimer){
+    clearMovieSearchTimer: function () {
+        if (this.state.movieSearchTimer) {
             clearTimeout(this.state.movieSearchTimer);
         }
     },
-    handleSearchInputChange:function(){
+    handleSearchInputChange: function () {
 
 
         //clear search timer
         this.clearMovieSearchTimer();
         //稍后执行
-        this.state.movieSearchTimer = setTimeout(function (){
+        this.state.movieSearchTimer = setTimeout(function () {
             this.searchMovie();
-        }.bind(this),1000);
+        }.bind(this), 1000);
 
 
     },
-    handleSearchInputKeyUp:function(e){
-        if(e.keyCode == 13 ){
+    handleSearchInputKeyUp: function (e) {
+        if (e.keyCode == 13) {
             //clear search timer
             this.clearMovieSearchTimer();
 
@@ -455,7 +493,7 @@ var MovieListPage = React.createClass({
             this.searchMovie();
         }
     },
-    handleClickSearchBtn:function(){
+    handleClickSearchBtn: function () {
 
         //clear search timer
         this.clearMovieSearchTimer();
@@ -463,14 +501,14 @@ var MovieListPage = React.createClass({
         //search movie
         this.searchMovie();
     },
-    searchMovie:function(){
+    searchMovie: function () {
         //get keyword
         var keyword = this.refs.keyword.value;
 
         //if keyword same ,do not search
-        if(this.state.lastKeyword == keyword){
+        if (this.state.lastKeyword == keyword) {
             this.refs.index_msg_dialog.showMsg("重复搜索");
-            return ;
+            return;
         }
         var oldMovieSearchBtnText = this.state.movieSearchBtnText;
 
@@ -484,19 +522,19 @@ var MovieListPage = React.createClass({
         state.movies.page = 1;
         //update state
         this.setState(state);
-        this.getMovie(function(){
+        this.getMovie(function () {
             // movieSearchBtn.val(movieSearchBtnOdlText);
 
             //save this keyword
             this.state.lastKeyword = keyword;
-            setTimeout(function(){
+            setTimeout(function () {
                 var state = this.state;
                 //update movieSearchBtnText in state
                 state.movieSearchBtnText = oldMovieSearchBtnText;
                 this.setState(state)
-            }.bind(this,oldMovieSearchBtnText),100);
+            }.bind(this, oldMovieSearchBtnText), 100);
 
-        }.bind(this,keyword,oldMovieSearchBtnText));
+        }.bind(this, keyword, oldMovieSearchBtnText));
     },
     render: function () {
         return (
@@ -507,6 +545,7 @@ var MovieListPage = React.createClass({
                     <MovieTagGroupList tip={this.state.tagTip}
                                        handleClickTag={this.handleClickTag}
                                        movieTagGroup={this.state.movieTagGroup}
+                                       defaultTagTip={this.state.whenTagIsLoading}
                                        ref="movieTagGroupList"/>
                 </div>
                 <div id="movie_list_div">
@@ -516,14 +555,16 @@ var MovieListPage = React.createClass({
                                 <label>排序：</label>
 
                                 {
-                                    this.state.orderByOptions.map((item,index)=>{
+                                    this.state.orderByOptions.map((item, index) => {
                                         var clsName = "";
-                                        if(item.selected){
+                                        if (item.selected) {
                                             clsName = "currt";
                                         }
 
-                                        return <li key={item.id} onClick={()=>{this.sortMovie(item.id)}} className={clsName} >
-                                            <a href="javascript:void(0);" >{item.name}</a>
+                                        return <li key={item.id} onClick={() => {
+                                            this.sortMovie(item.id)
+                                        }} className={clsName}>
+                                            <a href="javascript:void(0);">{item.name}</a>
                                         </li>;
                                     })
                                 }
@@ -532,8 +573,12 @@ var MovieListPage = React.createClass({
                             </ul>
                         </div>
                         <div id="search_div">
-                            <input id="fragment_head_nav_search_text"  onChange={()=>{this.handleSearchInputChange()}} onKeyUp={this.handleSearchInputKeyUp} ref="keyword" placeholder="请输入关键字"/>
-                            <input id="fragment_head_nav_search_btn" onClick={()=>{this.handleClickSearchBtn()}} ref="movieSearchBtn" type="button" value={this.state.movieSearchBtnText}/>
+                            <input id="fragment_head_nav_search_text" onChange={() => {
+                                this.handleSearchInputChange()
+                            }} onKeyUp={this.handleSearchInputKeyUp} ref="keyword" placeholder="请输入关键字"/>
+                            <input id="fragment_head_nav_search_btn" onClick={() => {
+                                this.handleClickSearchBtn()
+                            }} ref="movieSearchBtn" type="button" value={this.state.movieSearchBtnText}/>
                         </div>
                         <div id="total_div">
                             共
@@ -550,10 +595,12 @@ var MovieListPage = React.createClass({
                     <div id="movies_display_div">
                         {/*电影展示*/}
                         <MoviesDisplayer movies={this.state.movies.list}
+                                         defaultMovieTip={this.state.whenMovieIsLoading}
                                          ref="moviesDisplayer"/>
 
                         {/*电影分页*/}
-                        <Pager handlePageChange={this.handlePageChange} page={this.state.movies.page}/>
+                        <Pager handlePageChange={this.handlePageChange}
+                               page={this.state.movies.page}/>
                     </div>
                 </div>
                 {

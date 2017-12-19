@@ -1,58 +1,59 @@
-
 import React from 'react';  //引入react组件
 import '../scss/movie_info_page.scss';
-class MovieInfoPage extends React.Component{
-    // 构造
-    constructor(props){
-
-        super(props);
-        c("constructor");
-        c(this);
-        c(props);
-        c(this.props);
-
-    }
-
-    componentDidMount () {
+var MovieInfoPage = React.createClass({
+    getInitialState: function () {
+        return {movieImgUrl:""};
+    }, componentDidMount: function () {
         window.addEventListener('resize', this.onWindowResize);
 
-        // this.getMovie();
-    }
-    componentWillUnmount() {
-        window.removeEventListener('resize' ,this.onWindowResize);
-    }
-    onWindowResize () {
-        this.adjustUI();
-    }
-    adjustUI (){
+        //get movie
+        this.getMovie();
+    },
 
-    }
-    getMovie(callfun){
-        // var url = this.props.movieSource+"/"+this.state.pageData.movieId;
-        // this.serverRequest = $.get(url   (result) {
-        //     // c(result);
-        //     if(result.code == 10000){
-        //         return ;
-        //     }
-        //
-        //     var state = this.state;
-        //
-        //     //set imgUrl
-        //     state.imgUrl = "/img/"+result.data.movie.id;
-        //
-        //
-        //
-        //     this.setState(state);
-        //     //callfun
-        //     callfun!=undefined&&callfun();
-        // }.bind(this));
-    }
-    render(){
+    componentWillUnmount: function () {
+        window.removeEventListener('resize', this.onWindowResize);
+    },
+
+    onWindowResize: function () {
+        this.adjustUI();
+    },
+
+    adjustUI: function () {
+
+    },
+
+    getMovie: function () {
+
+        c(1);
+        var movieId = this.props.match.params.movieId;
+
+        //get imgUrl
+        this.state.movieImgUrl = "/img/" + movieId;
+        this.setState(state);
+
+        //get movie info
+        const url = this.props.match.url;
+        this.serverRequest = $.get(url, function (result) {
+            c(result);
+            if (result.code == 10000) {
+                return;
+            }
+
+            var state = this.state;
+
+
+            this.setState(state);
+            //callfun
+            callfun != undefined && callfun();
+        }.bind(this));
+    },
+
+    render: function () {
         return (
             <div id="movie_info_content">
                 <div id="movie_basic_info">
                     <div id="movie_img">
-                        <img src=""/>
+                        <img src={this.state.movieImgUrl}/>
                     </div>
                     <div id="movie_text">
 
@@ -61,5 +62,7 @@ class MovieInfoPage extends React.Component{
             </div>
         );
     }
-};
+});
+
+
 export default MovieInfoPage;
