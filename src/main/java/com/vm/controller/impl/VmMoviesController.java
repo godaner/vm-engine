@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -44,7 +46,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
 
     @RequestMapping(value = "/{movieId}", method = RequestMethod.GET)
     public @ResponseBody
-    Object getMovie(@NotBlank(message = "{VmMoviesController.getMovie.movieId.NotBlank}") @PathVariable Long movieId, BindingResult result) throws Exception {
+    Object getMovie( @PathVariable("movieId") Long movieId) throws Exception {
         CustomVmMovies movie = service.getMovie(movieId);
         response.putData("movie", movie);
         return response;

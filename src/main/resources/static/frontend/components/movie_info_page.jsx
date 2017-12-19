@@ -62,7 +62,14 @@ var MovieInfoPage = React.createClass({
                         <img src={this.state.movieImgUrl}/>
                     </div>
                     <div id="movie_text">
-                        13213
+                        <ul id="text_ul">
+                            <li id="name_li">
+                                电影 : <a href="javascript:void(0);">{this.state.movie.name}</a>
+                            </li>
+                            <li>
+                                别名 : <a href="javascript:void(0);">{this.state.movie.name}</a>
+                            </li>
+                        </ul>
                     </div>
 
                 </div>

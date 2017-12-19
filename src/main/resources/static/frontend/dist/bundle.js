@@ -28238,7 +28238,30 @@ var MovieInfoPage = _react2.default.createClass({
                 _react2.default.createElement(
                     'div',
                     { id: 'movie_text' },
-                    '13213'
+                    _react2.default.createElement(
+                        'ul',
+                        { id: 'text_ul' },
+                        _react2.default.createElement(
+                            'li',
+                            { id: 'name_li' },
+                            '\u7535\u5F71 : ',
+                            _react2.default.createElement(
+                                'a',
+                                { href: 'javascript:void(0);' },
+                                this.state.movie.name
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'li',
+                            null,
+                            '\u522B\u540D : ',
+                            _react2.default.createElement(
+                                'a',
+                                { href: 'javascript:void(0);' },
+                                this.state.movie.name
+                            )
+                        )
+                    )
                 )
             ),
             _react2.default.createElement('div', { id: 'other_info' })
@@ -28485,7 +28508,7 @@ exports = module.exports = __webpack_require__(20)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n#movie_info_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #movie_info_content > * {\n    padding: 20px 20px;\n    width: 100%; }\n  #movie_info_content #basic_info {\n    display: flex;\n    width: 100%;\n    background-color: red; }\n    #movie_info_content #basic_info > * {\n      float: left; }\n    #movie_info_content #basic_info #movie_img {\n      width: 200px;\n      flex: none;\n      background-color: steelblue; }\n      #movie_info_content #basic_info #movie_img > img {\n        width: 200px;\n        height: 300px; }\n    #movie_info_content #basic_info #movie_text {\n      flex: 1;\n      height: 100%;\n      background-color: black; }\n  #movie_info_content #other_info {\n    background-color: green; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n#movie_info_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #movie_info_content > * {\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    width: 100%; }\n  #movie_info_content #basic_info {\n    margin-top: 20px;\n    display: flex;\n    width: 100%; }\n    #movie_info_content #basic_info > * {\n      float: left; }\n    #movie_info_content #basic_info #movie_img {\n      width: 200px;\n      flex: none; }\n      #movie_info_content #basic_info #movie_img > img {\n        width: 200px;\n        height: 300px; }\n    #movie_info_content #basic_info #movie_text {\n      padding: 0px 10px;\n      flex: 1;\n      height: 100%; }\n      #movie_info_content #basic_info #movie_text ul {\n        list-style: none;\n        display: inline; }\n        #movie_info_content #basic_info #movie_text ul li {\n          width: auto;\n          display: inline-block; }\n      #movie_info_content #basic_info #movie_text #text_ul li {\n        margin-bottom: 10px;\n        width: 25%; }\n      #movie_info_content #basic_info #movie_text #text_ul #name_li {\n        width: 100%; }\n        #movie_info_content #basic_info #movie_text #text_ul #name_li, #movie_info_content #basic_info #movie_text #text_ul #name_li > a {\n          color: rgb(61,158,255);\n          font-size: 20px;\n          text-decoration: none; }\n  #movie_info_content #other_info {\n    margin-top: 20px; }\n", ""]);
 
 // exports
 

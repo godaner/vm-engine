@@ -2,6 +2,10 @@ package com.vm.aop;
 
 import com.vm.controller.base.Response;
 import com.vm.service.exception.VmRuntimeException;
+import javassist.*;
+import javassist.bytecode.CodeAttribute;
+import javassist.bytecode.LocalVariableAttribute;
+import javassist.bytecode.MethodInfo;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,8 +15,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.Arrays;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,15 +34,71 @@ public class ControllerServiceAop {
     private Logger logger = LoggerFactory.getLogger(ControllerServiceAop.class);
 
 
-    @Around("declareJoinPointExpression()")
-    public Object doAroundAdvice(ProceedingJoinPoint joinPoint) {
+    /**
+     * 通过反射机制 获取被切参数名以及参数值
+     *
+     * @param cls
+     * @param clazzName
+     * @param methodName
+     * @param args
+     * @return
+     * @throws NotFoundException
+     */
+    private Map<String, Object> getFieldsName(Class cls, String clazzName, String methodName, Object[] args) throws NotFoundException {
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        ClassPool pool = ClassPool.getDefault();
+        //ClassClassPath classPath = new ClassClassPath(this.getClass());
+        ClassClassPath classPath = new ClassClassPath(cls);
+        pool.insertClassPath(classPath);
+
+        CtClass cc = pool.get(clazzName);
+        CtMethod cm = cc.getDeclaredMethod(methodName);
+        MethodInfo methodInfo = cm.getMethodInfo();
+        CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
+        LocalVariableAttribute attr = (LocalVariableAttribute) codeAttribute.getAttribute(LocalVariableAttribute.tag);
+        if (attr == null) {
+            // exception
+        }
+        // String[] paramNames = new String[cm.getParameterTypes().length];
+        int pos = Modifier.isStatic(cm.getModifiers()) ? 0 : 1;
+        for (int i = 0; i < cm.getParameterTypes().length; i++) {
+            map.put(attr.variableName(i + pos), args[i]);//paramNames即参数名
+        }
+        return map;
+    }
+    private Map<String,Object> getMethodArgsNameAndValue(ProceedingJoinPoint joinPoint) throws Exception{
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        HttpServletResponse response = attributes.getResponse();
+        String classType = joinPoint.getTarget().getClass().getName();
+        Class<?> clazz = Class.forName(classType);
+        String clazzName = clazz.getName();
+        String methodName = joinPoint.getSignature().getName(); //获取方法名称
+        Object[] args = joinPoint.getArgs();//参数
+        Map<String, Object> nameAndArgs = getFieldsName(this.getClass(), clazzName, methodName, args);//获取被切参数名称及参数值
+        //获取参数名称和值
+        return nameAndArgs;
+    }
+    private String getRequestUrl(){
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        return request.getRequestURL().toString();
+    }
+
+    private String getMethod(ProceedingJoinPoint joinPoint){
+
         StringBuffer method = new StringBuffer(joinPoint.getSignature().toString());
-
-        logger.info("VISIT ==> method ==> {} ==> params ==> {}",method.toString(),Arrays.toString(joinPoint.getArgs()));
-
+        return method.toString();
+    }
+    @Around("declareJoinPointExpression()")
+    public Object doAroundAdvice(ProceedingJoinPoint joinPoint) throws Exception {
         Response response = new Response();
         Object data = null;
+        String method = "";
+        String methodArgsNameAndValue = getMethodArgsNameAndValue(joinPoint).toString();
         try {
+            logger.info("VISIT ==> method ==> [{} # {}]",getMethod(joinPoint), methodArgsNameAndValue);
             //参数验证
             BindingResult bindingResult = getBindingResult(joinPoint.getArgs());
             validate(bindingResult);
@@ -56,22 +119,19 @@ public class ControllerServiceAop {
             }
         }catch (VmRuntimeException e) {//提供详细错误信息输出到前台
             e.printStackTrace();
-            logger.error("ERROR ==> {} ==> {}",method.toString(),e.toString());
+            logger.error("ERROR ==> [{} # {}] ==> {}",method.toString(),methodArgsNameAndValue,e.toString());
             response.setCode(e.getErrorCode().intValue());
             response.setMsg(e.getMessage());
         } catch (RuntimeException e) {//只输出failed信息，不提供详细错误信息
-            e.printStackTrace();
-            logger.error("ERROR ==> {} ==> {}",method.toString(),e.toString());
+            e.printStackTrace();logger.error("ERROR ==> [{} # {}] ==> {}",method.toString(),methodArgsNameAndValue,e.toString());
             response.setCode(Response.ResponseCode.FAILURE.getCode());
             response.setMsg(Response.ResponseCode.FAILURE.getMsg());
         } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("ERROR ==> {} ==> {}",method.toString(),e.toString());
+            e.printStackTrace();logger.error("ERROR ==> [{} # {}] ==> {}",method.toString(),methodArgsNameAndValue,e.toString());
             response.setCode(Response.ResponseCode.FAILURE.getCode());
             response.setMsg(Response.ResponseCode.FAILURE.getMsg());
         } catch (Throwable e) {
-            e.printStackTrace();
-            logger.error("ERROR ==> {} ==> {}",method.toString(),e.toString());
+            e.printStackTrace();logger.error("ERROR ==> [{} # {}] ==> {}",method.toString(),methodArgsNameAndValue,e.toString());
             response.setCode(Response.ResponseCode.FAILURE.getCode());
             response.setMsg(Response.ResponseCode.FAILURE.getMsg());
         }
