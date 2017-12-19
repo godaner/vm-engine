@@ -75,11 +75,11 @@ var MovieInfoPage = React.createClass({
 
 
         //a api to show the director.jsx
-        var showDirector = ()=>{
-            if(isEmpty(this.state.movie.director)){
+        var showDirector = (director)=>{
+            if(isEmpty(director)){
                 return this.state.whenThereHaveNotDirector;
             }else{
-                return <a class="aLink" href="javascript:void(0);">this.state.movie.director.name</a>;
+                return <a className="aLink" href="javascript:void(0);">{director.name}</a>;
             }
         }
 

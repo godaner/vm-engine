@@ -112,7 +112,7 @@ $defaultLightGrayRgb:"rgb(241,242,243)";
   color: unquote($defaultLightGrayColorRgb);
   font-size: 12px;
   fontFamily: "Microsoft YaHei UI";
-  cursor: none;
+  //cursor: default;
 }
 
 body,html{
