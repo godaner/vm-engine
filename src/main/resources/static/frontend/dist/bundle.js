@@ -27257,13 +27257,16 @@ var _actors_list = __webpack_require__(107);
 
 var _actors_list2 = _interopRequireDefault(_actors_list);
 
+var _director = __webpack_require__(259);
+
+var _director2 = _interopRequireDefault(_director);
+
 __webpack_require__(246);
 
 __webpack_require__(248);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//引入react组件
 var Pager = _react2.default.createClass({
     displayName: 'Pager',
 
@@ -27314,6 +27317,7 @@ var Pager = _react2.default.createClass({
 });
 
 /*电影展示*/
+//引入react组件
 var MoviesDisplayer = _react2.default.createClass({
     displayName: 'MoviesDisplayer',
     showMsg: function showMsg(msg, loop) {
@@ -27364,12 +27368,8 @@ var MoviesDisplayer = _react2.default.createClass({
                     _react2.default.createElement(
                         'div',
                         null,
-                        '\u5BFC\u6F14\uFF1A',
-                        _react2.default.createElement(
-                            'a',
-                            { className: 'aLink', href: '' },
-                            item.director == null ? this.props.whenThereHaveNotDirector : item.director.name
-                        )
+                        _react2.default.createElement(_director2.default, { whenThereHaveNotDirector: this.props.whenThereHaveNotDirector,
+                            director: item.director })
                     ),
                     _react2.default.createElement(
                         'div',
@@ -28265,8 +28265,13 @@ var _inner_messager = __webpack_require__(106);
 
 var _inner_messager2 = _interopRequireDefault(_inner_messager);
 
+var _director = __webpack_require__(259);
+
+var _director2 = _interopRequireDefault(_director);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//引入react组件
 var MovieInfoPage = _react2.default.createClass({
     displayName: 'MovieInfoPage',
 
@@ -28332,23 +28337,9 @@ var MovieInfoPage = _react2.default.createClass({
     },
 
     render: function render() {
-        var _this = this;
 
         //format releaseTime
         var releaseTime = timeFormatter.formatDate(this.state.movie.releaseTime);
-
-        //a api to show the director.jsx
-        var showDirector = function showDirector(director) {
-            if (isEmpty(director)) {
-                return _this.state.whenThereHaveNotDirector;
-            } else {
-                return _react2.default.createElement(
-                    'a',
-                    { className: 'aLink', href: 'javascript:void(0);' },
-                    director.name
-                );
-            }
-        };
 
         return _react2.default.createElement(
             'div',
@@ -28425,8 +28416,8 @@ var MovieInfoPage = _react2.default.createClass({
                             _react2.default.createElement(
                                 'li',
                                 null,
-                                '\u5BFC\u6F14 :',
-                                showDirector(this.state.movie.director)
+                                _react2.default.createElement(_director2.default, { whenThereHaveNotDirector: this.state.whenThereHaveNotDirector,
+                                    director: this.state.movie.director })
                             ),
                             _react2.default.createElement(
                                 'li',
@@ -28461,7 +28452,8 @@ var MovieInfoPage = _react2.default.createClass({
             _react2.default.createElement('div', { id: 'other_info' })
         );
     }
-}); //引入react组件
+});
+
 exports.default = MovieInfoPage;
 
 /***/ }),
@@ -28703,6 +28695,103 @@ exports = module.exports = __webpack_require__(17)();
 
 // module
 exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#fragment_tail_content {\n  height: 200px;\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243);\n  margin-top: 30px; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 259 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(6);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(260);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*导演展示*/
+var Director = _react2.default.createClass({
+    displayName: "Director",
+
+    getInitialState: function getInitialState() {
+        //when have not director show what?
+        var whenThereHaveNotDirector = this.props.whenThereHaveNotDirector;
+        if (isEmpty(whenThereHaveNotDirector)) {
+            whenThereHaveNotDirector = "无导演";
+        }
+        return { whenThereHaveNotDirector: whenThereHaveNotDirector };
+    },
+    render: function render() {
+        var _this = this;
+
+        //a api to show the director.jsx
+        var showDirector = function showDirector(director) {
+            if (isEmpty(director)) {
+                return _this.state.whenThereHaveNotDirector;
+            } else {
+                return _react2.default.createElement(
+                    "a",
+                    { className: "aLink", href: "javascript:void(0);" },
+                    director.name
+                );
+            }
+        };
+
+        return _react2.default.createElement(
+            "span",
+            null,
+            "\u5BFC\u6F14 : ",
+            showDirector(this.props.director)
+        );
+    }
+}); //引入react组件
+exports.default = Director;
+
+/***/ }),
+/* 260 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(261);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(18)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./director.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./director.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 261 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(17)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n", ""]);
 
 // exports
 

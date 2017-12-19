@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import MsgDialog from "./msg_dialog";
 import InnerMessager from "./inner_messager";
 import ActorsList from './actors_list';
+import Director from "./director";
 import '../scss/movie_list_page.scss';
 import 'animate.css';
 var Pager = React.createClass({
@@ -70,8 +71,8 @@ var MoviesDisplayer = React.createClass({
 
 
                     <div>
-
-                        导演：<a className="aLink" href="">{item.director == null ? this.props.whenThereHaveNotDirector : item.director.name}</a>
+                        <Director whenThereHaveNotDirector={this.props.whenThereHaveNotDirector}
+                                  director={item.director}/>
                     </div>
                     <div>
                         评分：{item.score}

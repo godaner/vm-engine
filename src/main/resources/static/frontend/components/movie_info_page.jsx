@@ -2,6 +2,8 @@ import React from 'react';  //引入react组件
 import '../scss/movie_info_page.scss';
 import ActorsList from './actors_list';
 import InnerMessager from './inner_messager';
+import Director from "./director";
+
 var MovieInfoPage = React.createClass({
     getInitialState: function () {
         return {
@@ -65,7 +67,7 @@ var MovieInfoPage = React.createClass({
             }
         }.bind(this));
     },
-    showTip(msg, loop){
+    showTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
     },
     render: function () {
@@ -73,15 +75,6 @@ var MovieInfoPage = React.createClass({
         //format releaseTime
         var releaseTime = timeFormatter.formatDate(this.state.movie.releaseTime);
 
-
-        //a api to show the director.jsx
-        var showDirector = (director)=>{
-            if(isEmpty(director)){
-                return this.state.whenThereHaveNotDirector;
-            }else{
-                return <a className="aLink" href="javascript:void(0);">{director.name}</a>;
-            }
-        }
 
         return (
             <div id="movie_info_content">
@@ -114,13 +107,9 @@ var MovieInfoPage = React.createClass({
                                 </li>
 
                                 <li>
-                                    导演 :
 
-                                    {
-                                        showDirector(this.state.movie.director)
-                                    }
-
-
+                                    <Director whenThereHaveNotDirector={this.state.whenThereHaveNotDirector}
+                                              director={this.state.movie.director}/>
 
                                 </li>
                                 <li>
