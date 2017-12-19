@@ -225,22 +225,9 @@
       update_time = #{updateTime,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <!--**************************** 自定义mapper start ****************************-->
-  <select id="selectActorsByMovieId" resultMap="BaseResultMap">
-    SELECT
-	fm.*
-    FROM
-        vm_movies_filmmakers_realation r,
-        vm_filmmakers fm,
-        vm_movies m
-    WHERE
-        m.id = r.movie_id
-    AND fm.id = r.filmmaker_id
-    AND m.id = #{movieId}
-    AND m.`status` = 1
-    AND r.`status` = 1
-    AND fm.`status` = 1
 
-  </select>
+  <!--**************************** 自定义mapper start ****************************-->
+
+
   <!--**************************** 自定义mapper end ****************************-->
 </mapper>

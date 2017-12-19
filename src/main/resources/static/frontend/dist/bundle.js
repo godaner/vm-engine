@@ -27124,7 +27124,7 @@ var ActorsList = _react2.default.createClass({
                 null,
                 '\u4E3B\u6F14\uFF1A'
             ),
-            this.props.actors.map(function (item, index) {
+            this.props.actors.length == 0 ? this.props.whenThereHaveNotActor : this.props.actors.map(function (item) {
                 return _react2.default.createElement(
                     'li',
                     { key: item.id },
@@ -27184,7 +27184,8 @@ var MoviesDisplayer = _react2.default.createClass({
                     _react2.default.createElement(
                         'div',
                         { className: 'movie_actor_list_div' },
-                        _react2.default.createElement(ActorsList, { actors: item.actors })
+                        _react2.default.createElement(ActorsList, { whenThereHaveNotActor: this.props.whenThereHaveNotActor,
+                            actors: item.actors })
                     ),
                     _react2.default.createElement(
                         'div',
@@ -27193,7 +27194,7 @@ var MoviesDisplayer = _react2.default.createClass({
                         _react2.default.createElement(
                             'a',
                             { href: '' },
-                            item.director == null ? "无" : item.director.name
+                            item.director == null ? this.props.whenThereHaveNotDirector : item.director.name
                         )
                     ),
                     _react2.default.createElement(
@@ -27381,7 +27382,7 @@ var MovieListPage = _react2.default.createClass({
         url = contactUrlWithArray(url, "tagIds", tagIds);
         this.serverRequest = $.get(url, function (result) {
             // c(result);
-            if (result.code == 10000) {
+            if (result.code == RESPONSE_CODE_FAILURE) {
                 this.showDialogMsg(result.msg);
                 this.showMovieTip();
                 return;
@@ -27403,7 +27404,9 @@ var MovieListPage = _react2.default.createClass({
             this.adjustMovieListUI();
 
             //callfun
-            callfun != undefined && callfun();
+            if (callfun != undefined) {
+                callfun();
+            }
         }.bind(this));
     },
     showDialogMsg: function showDialogMsg(msg) {
@@ -27424,7 +27427,7 @@ var MovieListPage = _react2.default.createClass({
             var state = this.state;
             state.movieTagGroup = result.data.list;
 
-            if (result.code == 10000) {
+            if (result.code == RESPONSE_CODE_FAILURE) {
                 this.showDialogMsg(result.msg);
                 this.showMovieTip();
                 return;
@@ -27448,7 +27451,9 @@ var MovieListPage = _react2.default.createClass({
             this.setState(state);
 
             //callfun
-            callfun();
+            if (callfun != undefined) {
+                callfun();
+            }
         }.bind(this));
     },
 
@@ -27487,6 +27492,8 @@ var MovieListPage = _react2.default.createClass({
             whenThereIsHaveNotMovie: "对不起，暂时无相关电影",
             whenTagIsLoading: "正在加载标签",
             whenThereIsHaveNotTag: "对不起，暂时无相关标签",
+            whenThereHaveNotActor: "无演员",
+            whenThereHaveNotDirector: "无导演",
             movieSearchBtnText: "搜索",
             lastKeyword: "",
             movieSearchTimer: undefined,
@@ -27731,6 +27738,8 @@ var MovieListPage = _react2.default.createClass({
                     { id: 'movies_display_div' },
                     _react2.default.createElement(MoviesDisplayer, { movies: this.state.movies.list,
                         defaultMovieTip: this.state.whenMovieIsLoading,
+                        whenThereHaveNotActor: this.state.whenThereHaveNotActor,
+                        whenThereHaveNotDirector: this.state.whenThereHaveNotDirector,
                         ref: 'moviesDisplayer' }),
                     _react2.default.createElement(Pager, { handlePageChange: this.handlePageChange,
                         page: this.state.movies.page })
@@ -28182,9 +28191,8 @@ var MovieInfoPage = _react2.default.createClass({
 
     adjustUI: function adjustUI() {},
 
-    getMovie: function getMovie() {
+    getMovie: function getMovie(callfun) {
 
-        c(1);
         var movieId = this.props.match.params.movieId;
 
         //get imgUrl
@@ -28194,9 +28202,10 @@ var MovieInfoPage = _react2.default.createClass({
 
         //get movie info
         var url = this.props.match.url;
+        // c(url);
         this.serverRequest = $.get(url, function (result) {
-            c(result);
-            if (result.code == 10000) {
+
+            if (result.code == RESPONSE_CODE_FAILURE) {
                 return;
             }
 
@@ -28205,8 +28214,12 @@ var MovieInfoPage = _react2.default.createClass({
             state.movie = result.data.movie;
 
             this.setState(state);
+
+            // c(this.state)
             //callfun
-            callfun != undefined && callfun();
+            if (callfun != undefined) {
+                callfun();
+            }
         }.bind(this));
     },
 

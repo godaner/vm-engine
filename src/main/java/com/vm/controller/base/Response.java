@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class Response {
     private int code;
-    private Map<Object,Object> data = new HashMap<Object,Object>();
+    private Map<Object, Object> data = new HashMap<Object, Object>();
     private String msg;
 
     public Response() {
@@ -54,7 +54,7 @@ public class Response {
         }
     }
 
-    public void setData(Map<Object,Object> data) {
+    public void setData(Map<Object, Object> data) {
         this.data = data;
     }
 
@@ -64,19 +64,19 @@ public class Response {
 
     public void setFailure() {
         this.setCode(ResponseCode.FAILURE.getCode());
-        this.setMsg(ResponseCode.FAILURE.getName());
+        this.setMsg(ResponseCode.FAILURE.getMsg());
         this.data.clear();
     }
 
     public void setFailure(ResponseCode responseCodeEnum) {
         this.setCode(responseCodeEnum.getCode());
-        this.setMsg(responseCodeEnum.getName());
+        this.setMsg(responseCodeEnum.getMsg());
         this.data.clear();
     }
 
     public void setSuccess() {
         this.setCode(ResponseCode.SUCCESS.getCode());
-        this.setMsg(ResponseCode.SUCCESS.getName());
+        this.setMsg(ResponseCode.SUCCESS.getMsg());
     }
 
     @Override
@@ -107,19 +107,11 @@ public class Response {
         FAILURE(2, "fail");
 
         int code;
-        String name;
+        String msg;
 
-        ResponseCode(int code, String name) {
+        ResponseCode(int code, String msg) {
             this.code = code;
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return "ResponseCode{" +
-                    "code=" + code +
-                    ", name='" + name + '\'' +
-                    "} " + super.toString();
+            this.msg = msg;
         }
 
         public int getCode() {
@@ -130,12 +122,12 @@ public class Response {
             this.code = code;
         }
 
-        public String getName() {
-            return name;
+        public String getMsg() {
+            return msg;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public void setMsg(String msg) {
+            this.msg = msg;
         }
 
         ResponseCode() {

@@ -370,7 +370,7 @@
         <result column="update_time" jdbcType="INTEGER" property="updateTime"/>
         <association property="director" column="director_id" select="com.vm.dao.mapper.VmFilmmakersMapper.selectByPrimaryKey">
         </association>
-        <collection property="actors" column="id" select="com.vm.dao.mapper.VmMoviesFilmmakersRealationMapper.selectActorsByMovieId">
+        <collection property="actors" column="id" select="com.vm.dao.mapper.VmFilmmakersMapper.selectActorsByMovieId">
         </collection>
 
     </resultMap>

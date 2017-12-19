@@ -22,9 +22,8 @@ var MovieInfoPage = React.createClass({
 
     },
 
-    getMovie: function () {
+    getMovie: function (callfun) {
 
-        c(1);
         var movieId = this.props.match.params.movieId;
 
         //get imgUrl
@@ -34,9 +33,10 @@ var MovieInfoPage = React.createClass({
 
         //get movie info
         const url = this.props.match.url;
+        // c(url);
         this.serverRequest = $.get(url, function (result) {
-            c(result);
-            if (result.code == 10000) {
+
+            if (result.code == RESPONSE_CODE_FAILURE) {
                 return;
             }
 
@@ -45,8 +45,12 @@ var MovieInfoPage = React.createClass({
             state.movie = result.data.movie;
 
             this.setState(state);
+
+            // c(this.state)
             //callfun
-            callfun != undefined && callfun();
+            if(callfun != undefined){
+                callfun()
+            }
         }.bind(this));
     },
 

@@ -33,12 +33,14 @@ var Pager = React.createClass({
 var ActorsList = React.createClass({
     render: function () {
 
+
         return (
             <ul >
                 <li>主演：</li>
                 {
-                    this.props.actors.map((item, index) => {
-                        return <li key={item.id}><a href="">{item.name}</a>&nbsp;</li>;
+
+                    this.props.actors.length == 0 ? this.props.whenThereHaveNotActor : this.props.actors.map(function (item) {
+                        return <li key={item.id}><a href="">{item.name}</a>&nbsp;</li>
                     })
                 }
 
@@ -79,14 +81,15 @@ var MoviesDisplayer = React.createClass({
                     </div>
                     <div className="movie_actor_list_div">
 
-                        <ActorsList actors={item.actors}/>
+                        <ActorsList whenThereHaveNotActor={this.props.whenThereHaveNotActor}
+                                    actors={item.actors}/>
                     </div>
 
 
                     <div>
 
 
-                        导演：<a href="">{item.director == null ? "无" : item.director.name}</a>
+                        导演：<a href="">{item.director == null ? this.props.whenThereHaveNotDirector : item.director.name}</a>
                     </div>
                     <div>
                         评分：{item.score}
@@ -258,7 +261,7 @@ var MovieListPage = React.createClass({
         url = contactUrlWithArray(url, "tagIds", tagIds);
         this.serverRequest = $.get(url, function (result) {
             // c(result);
-            if (result.code == 10000) {
+            if (result.code == RESPONSE_CODE_FAILURE) {
                 this.showDialogMsg(result.msg);
                 this.showMovieTip();
                 return;
@@ -281,7 +284,9 @@ var MovieListPage = React.createClass({
 
 
             //callfun
-            callfun != undefined && callfun();
+            if (callfun != undefined) {
+                callfun()
+            }
         }.bind(this));
     },
     showDialogMsg(msg){
@@ -303,7 +308,7 @@ var MovieListPage = React.createClass({
             state.movieTagGroup = result.data.list;
 
 
-            if (result.code == 10000) {
+            if (result.code == RESPONSE_CODE_FAILURE) {
                 this.showDialogMsg(result.msg);
                 this.showMovieTip();
                 return;
@@ -329,7 +334,9 @@ var MovieListPage = React.createClass({
 
 
             //callfun
-            callfun();
+            if (callfun != undefined) {
+                callfun()
+            }
         }.bind(this));
     },
     getInitialState: function () {
@@ -368,6 +375,8 @@ var MovieListPage = React.createClass({
             whenThereIsHaveNotMovie: "对不起，暂时无相关电影",
             whenTagIsLoading: "正在加载标签",
             whenThereIsHaveNotTag: "对不起，暂时无相关标签",
+            whenThereHaveNotActor: "无演员",
+            whenThereHaveNotDirector: "无导演",
             movieSearchBtnText: "搜索",
             lastKeyword: "",
             movieSearchTimer: undefined,
@@ -596,6 +605,8 @@ var MovieListPage = React.createClass({
                         {/*电影展示*/}
                         <MoviesDisplayer movies={this.state.movies.list}
                                          defaultMovieTip={this.state.whenMovieIsLoading}
+                                         whenThereHaveNotActor={this.state.whenThereHaveNotActor}
+                                         whenThereHaveNotDirector={this.state.whenThereHaveNotDirector}
                                          ref="moviesDisplayer"/>
 
                         {/*电影分页*/}

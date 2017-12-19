@@ -62,18 +62,18 @@ public class ControllerServiceAop {
         } catch (RuntimeException e) {//只输出failed信息，不提供详细错误信息
             e.printStackTrace();
             logger.error("ERROR ==> {} ==> {}",method.toString(),e.toString());
-            response.setCode(VmRuntimeException.ErrorCode.UNKNOWN.getCode().intValue());
-            response.setMsg(VmRuntimeException.ErrorCode.UNKNOWN.getMsg());
+            response.setCode(Response.ResponseCode.FAILURE.getCode());
+            response.setMsg(Response.ResponseCode.FAILURE.getMsg());
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("ERROR ==> {} ==> {}",method.toString(),e.toString());
-            response.setCode(VmRuntimeException.ErrorCode.UNKNOWN.getCode().intValue());
-            response.setMsg(VmRuntimeException.ErrorCode.UNKNOWN.getMsg());
+            response.setCode(Response.ResponseCode.FAILURE.getCode());
+            response.setMsg(Response.ResponseCode.FAILURE.getMsg());
         } catch (Throwable e) {
             e.printStackTrace();
             logger.error("ERROR ==> {} ==> {}",method.toString(),e.toString());
-            response.setCode(VmRuntimeException.ErrorCode.UNKNOWN.getCode().intValue());
-            response.setMsg(VmRuntimeException.ErrorCode.UNKNOWN.getMsg());
+            response.setCode(Response.ResponseCode.FAILURE.getCode());
+            response.setMsg(Response.ResponseCode.FAILURE.getMsg());
         }
         logger.info("Response ==> {}", response);
         return response;

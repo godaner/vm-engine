@@ -30,6 +30,4 @@ public interface VmMoviesFilmmakersRealationMapper {
     int updateByPrimaryKey(VmMoviesFilmmakersRealation record);
 
 
-
-    List<VmFilmmakers> selectActorsByMovieId(@Param("movieId") Long movieId);
 }
