@@ -221,9 +221,14 @@
               //  font-size: 15px;
               //}
             }
-            //div.movie_actor_list_div {
-            //  @include defaultHUl;
-            //}
+            div.movie_actor_list_div {
+              ////超过部分省略号代替
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: block;
+
+            }
             //a{
             //
             //  transition: all 500ms;

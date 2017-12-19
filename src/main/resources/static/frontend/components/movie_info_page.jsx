@@ -123,8 +123,11 @@ var MovieInfoPage = React.createClass({
 
 
                                 </li>
-                                <ActorsList whenThereHaveNotActor={this.state.whenThereHaveNotActor}
-                                            actors={this.state.movie.actors}/>
+                                <li>
+                                    <ActorsList whenThereHaveNotActor={this.state.whenThereHaveNotActor}
+                                                actors={this.state.movie.actors}/>
+                                </li>
+
                                 <li>
                                     总播放数 : <a href="javascript:void(0);">{this.state.movie.watchNum}</a>
                                 </li>
