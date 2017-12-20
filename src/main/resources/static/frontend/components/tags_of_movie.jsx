@@ -17,7 +17,7 @@ var TagsOfMovie = React.createClass({
             //hide tip
             this.showTagTip();
 
-            c(result);
+            // c(result);
             //failure
             if (fail(result.code)) {
                 return;
@@ -44,7 +44,7 @@ var TagsOfMovie = React.createClass({
             for (var i = 0; i < tags.length; i++) {
                 var tag = tags[i];
                 // c(tag);
-                res.push(<li key={tag.id}><a href="javascript:void(0);">{tag.name}</a></li>);
+                res.push(<li className="tag" key={tag.id}><a href="javascript:void(0);">{tag.name}</a></li>);
             }
             return res;
         }

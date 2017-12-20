@@ -9,9 +9,11 @@ var FlexText = React.createClass({
             defaultMaxTextLength = this.props.maxTextLength;
         }
         var text = "";
+        c(this.props.text);
         if(!isEmpty(this.props.text)){
             text = this.props.text;
         }
+        c(text);
         return {text: text, maxTextLength: defaultMaxTextLength};
     },
     render: function () {
@@ -21,11 +23,7 @@ var FlexText = React.createClass({
         var allText = this.state.text;
         var shortText = allText;
         if (maxTextLength < allText.length) {
-            shortText = "";
-            for (var i = 0; i < maxTextLength; i++) {
-                shortText += allText.charAt(i);
-            }
-            shortText += "...";
+            shortText = allText.substring(0,maxTextLength)+"...";
         }
         return (
             <span title={allText}>
