@@ -50,17 +50,20 @@
           }
         }
         li {
+          display: inline-block;
           margin: 0px 5px;
           padding: 2px 5px;
           cursor: pointer;
-          display: inline;
+          display: inline;;
+          background-color: unquote(white);
+          border-radius: 99px;
+          border: 1px solid unquote($defaultBlueRgb);
           & > a {
-            font-size: 12px;
+            color: unquote($defaultBlueRgb);
           }
           transition: all 500ms;
           &:hover {
             background-color: unquote($defaultBlueRgb);
-            border-radius: 99px;
             & > a {
               color: unquote(white);
             }
