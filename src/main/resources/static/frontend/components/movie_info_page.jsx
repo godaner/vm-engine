@@ -4,6 +4,7 @@ import ActorsList from './actors_list';
 import InnerMessager from './inner_messager';
 import Director from "./director";
 import TagsOfMovie from "./tags_of_movie";
+import FlexText from "./flex_text";
 var MovieInfoPage = React.createClass({
     getInitialState: function () {
         return {
@@ -98,11 +99,11 @@ var MovieInfoPage = React.createClass({
                                     别名 : <a href="javascript:void(0);">{this.state.movie.alias}</a>
                                 </li>
                                 <li>
-                                    上映时间 : <a href="javascript:void(0);">releaseTime</a>
+                                    上映时间 : <a href="javascript:void(0);">{releaseTime}</a>
                                 </li>
 
                                 <li>
-                                    时长 : <a href="javascript:void(0);">{this.state.movie.movieTime}</a>
+                                    时长 : <a href="javascript:void(0);">{this.state.movie.movieTime}</a> 分钟
                                 </li>
 
                                 <li>
@@ -121,11 +122,15 @@ var MovieInfoPage = React.createClass({
                                 </li>
 
                                 <li>
-                                    总播放数 : <a href="javascript:void(0);">{this.state.movie.watchNum}</a>
+                                    总播放数 : <a href="javascript:void(0);">{this.state.movie.watchNum}</a> 次
                                 </li>
 
                                 <li id="description_li">
-                                    电影简介 : <a href="javascript:void(0);">{this.state.movie.description}</a>
+                                    {/*电影简介 : <a href="javascript:void(0);">{this.state.movie.description}</a>*/}
+                                    <FlexText text={this.state.movie.description}
+                                              maxTextLength="10">
+
+                                    </FlexText>
                                 </li>
 
                                 <li id="tags_li">

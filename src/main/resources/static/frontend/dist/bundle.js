@@ -28371,8 +28371,13 @@ var _tags_of_movie = __webpack_require__(266);
 
 var _tags_of_movie2 = _interopRequireDefault(_tags_of_movie);
 
+var _flex_text = __webpack_require__(269);
+
+var _flex_text2 = _interopRequireDefault(_flex_text);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//引入react组件
 var MovieInfoPage = _react2.default.createClass({
     displayName: 'MovieInfoPage',
 
@@ -28494,7 +28499,7 @@ var MovieInfoPage = _react2.default.createClass({
                                 _react2.default.createElement(
                                     'a',
                                     { href: 'javascript:void(0);' },
-                                    'releaseTime'
+                                    releaseTime
                                 )
                             ),
                             _react2.default.createElement(
@@ -28505,7 +28510,8 @@ var MovieInfoPage = _react2.default.createClass({
                                     'a',
                                     { href: 'javascript:void(0);' },
                                     this.state.movie.movieTime
-                                )
+                                ),
+                                ' \u5206\u949F'
                             ),
                             _react2.default.createElement(
                                 'li',
@@ -28537,17 +28543,14 @@ var MovieInfoPage = _react2.default.createClass({
                                     'a',
                                     { href: 'javascript:void(0);' },
                                     this.state.movie.watchNum
-                                )
+                                ),
+                                ' \u6B21'
                             ),
                             _react2.default.createElement(
                                 'li',
                                 { id: 'description_li' },
-                                '\u7535\u5F71\u7B80\u4ECB : ',
-                                _react2.default.createElement(
-                                    'a',
-                                    { href: 'javascript:void(0);' },
-                                    this.state.movie.description
-                                )
+                                _react2.default.createElement(_flex_text2.default, { text: this.state.movie.description,
+                                    maxTextLength: '10' })
                             ),
                             _react2.default.createElement(
                                 'li',
@@ -28563,7 +28566,8 @@ var MovieInfoPage = _react2.default.createClass({
             _react2.default.createElement('div', { id: 'other_info' })
         );
     }
-}); //引入react组件
+});
+
 exports.default = MovieInfoPage;
 
 /***/ }),
@@ -28949,6 +28953,104 @@ exports = module.exports = __webpack_require__(16)();
 
 // module
 exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#tags_of_movie {\n  width: 100%; }\n  #tags_of_movie div#ul_div {\n    width: 100%; }\n    #tags_of_movie div#ul_div > ul li {\n      text-align: center;\n      margin: 0px 5px;\n      padding: 2px 5px;\n      cursor: pointer;\n      display: inline; }\n      #tags_of_movie div#ul_div > ul li {\n        background-color: white;\n        border-radius: 99px;\n        border: 1px solid rgb(61,158,255); }\n        #tags_of_movie div#ul_div > ul li > a {\n          color: rgb(61,158,255); }\n      #tags_of_movie div#ul_div > ul li:hover {\n        background-color: rgb(61,158,255);\n        border-radius: 99px; }\n        #tags_of_movie div#ul_div > ul li:hover > a {\n          background-color: rgb(61,158,255);\n          color: white; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 269 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(270);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*弹性文本展示*/
+var FlexText = _react2.default.createClass({
+    displayName: "FlexText",
+
+    getInitialState: function getInitialState() {
+        //set maxTextLength
+        var defaultMaxTextLength = 100;
+        if (!isEmpty(this.props.maxTextLength)) {
+            defaultMaxTextLength = this.props.maxTextLength;
+        }
+        var text = "";
+        if (!isEmpty(this.props.text)) {
+            text = this.props.text;
+        }
+        return { text: text, maxTextLength: defaultMaxTextLength };
+    },
+    render: function render() {
+        // c(1);
+        //computer allText and shortText
+        var maxTextLength = this.state.maxTextLength;
+        var allText = this.state.text;
+        var shortText = allText;
+        if (maxTextLength < allText.length) {
+            shortText = "";
+            for (var i = 0; i < maxTextLength; i++) {
+                shortText += allText.charAt(i);
+            }
+            shortText += "...";
+        }
+        return _react2.default.createElement(
+            "span",
+            { title: allText },
+            "\u7B80\u4ECB : ",
+            shortText
+        );
+    }
+}); //引入react组件
+exports.default = FlexText;
+
+/***/ }),
+/* 270 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(271);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(17)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./flex_text.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./flex_text.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 271 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(16)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n", ""]);
 
 // exports
 

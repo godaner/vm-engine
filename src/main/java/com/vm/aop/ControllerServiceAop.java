@@ -1,5 +1,6 @@
 package com.vm.aop;
 
+import com.alibaba.fastjson.JSON;
 import com.vm.controller.base.Response;
 import com.vm.service.exception.VmRuntimeException;
 import javassist.*;
@@ -135,7 +136,9 @@ public class ControllerServiceAop {
             response.setCode(Response.ResponseCode.FAILURE.getCode());
             response.setMsg(Response.ResponseCode.FAILURE.getMsg());
         }
-        logger.info("Response ==> {}", response);
+        if (data instanceof Response) {
+            logger.info("ResponseStr ==> {}", JSON.toJSONString(response));
+        }
         return response;
 
     }
