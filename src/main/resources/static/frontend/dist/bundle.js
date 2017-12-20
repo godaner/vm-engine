@@ -28383,7 +28383,8 @@ var MovieInfoPage = _react2.default.createClass({
             whenMovieIsLoading: "正在加载电影信息",
             whenThereHaveNotTag: "无标签",
             whenTagIsLoading: "正在加载标签信息",
-            movie: {}
+            movie: {},
+            targetMovieId: this.props.match.params.movieId
         };
     }, componentDidMount: function componentDidMount() {
         window.addEventListener('resize', this.onWindowResize);
@@ -28406,7 +28407,7 @@ var MovieInfoPage = _react2.default.createClass({
         //show tip
         this.showTip(this.state.whenMovieIsLoading);
 
-        var movieId = this.props.match.params.movieId;
+        var movieId = this.state.targetMovieId;
 
         //get movie info
         var url = this.props.match.url;
@@ -28444,7 +28445,6 @@ var MovieInfoPage = _react2.default.createClass({
         //format releaseTime
         var releaseTime = timeFormatter.formatDate(this.state.movie.releaseTime);
 
-        c(this.state.movie);
         return _react2.default.createElement(
             'div',
             { id: 'movie_info_content' },
@@ -28552,7 +28552,7 @@ var MovieInfoPage = _react2.default.createClass({
                             _react2.default.createElement(
                                 'li',
                                 null,
-                                _react2.default.createElement(_tags_of_movie2.default, { movieId: this.state.movie.id,
+                                _react2.default.createElement(_tags_of_movie2.default, { movieId: this.state.targetMovieId,
                                     whenThereHaveNotTag: this.state.whenThereHaveNotTag,
                                     whenTagIsLoading: this.state.whenTagIsLoading })
                             )
@@ -28848,6 +28848,7 @@ var TagsOfMovie = _react2.default.createClass({
         };
     },
     componentDidMount: function componentDidMount() {
+
         var url = "/tag/movie/" + this.state.movieId;
         $.get(url, function (result) {
             //hide tip

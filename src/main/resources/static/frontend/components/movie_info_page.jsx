@@ -12,7 +12,8 @@ var MovieInfoPage = React.createClass({
             whenMovieIsLoading: "正在加载电影信息",
             whenThereHaveNotTag: "无标签",
             whenTagIsLoading: "正在加载标签信息",
-            movie: {}
+            movie: {},
+            targetMovieId:this.props.match.params.movieId
         };
     }, componentDidMount: function () {
         window.addEventListener('resize', this.onWindowResize);
@@ -38,7 +39,7 @@ var MovieInfoPage = React.createClass({
         this.showTip(this.state.whenMovieIsLoading);
 
 
-        var movieId = this.props.match.params.movieId;
+        var movieId = this.state.targetMovieId;
 
 
         //get movie info
@@ -77,7 +78,6 @@ var MovieInfoPage = React.createClass({
         //format releaseTime
         var releaseTime = timeFormatter.formatDate(this.state.movie.releaseTime);
 
-        c(this.state.movie);
         return (
             <div id="movie_info_content">
                 <div id="basic_info">
@@ -128,7 +128,7 @@ var MovieInfoPage = React.createClass({
                                 </li>
 
                                 <li>
-                                    <TagsOfMovie movieId={this.state.movie.id}
+                                    <TagsOfMovie movieId={this.state.targetMovieId}
                                                  whenThereHaveNotTag={this.state.whenThereHaveNotTag}
                                                  whenTagIsLoading={this.state.whenTagIsLoading}></TagsOfMovie>
                                 </li>

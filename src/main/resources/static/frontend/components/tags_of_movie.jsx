@@ -10,6 +10,7 @@ var TagsOfMovie = React.createClass({
         };
     },
     componentDidMount: function () {
+        
         var url = "/tag/movie/" + this.state.movieId;
         $.get(url, function (result) {
             //hide tip
