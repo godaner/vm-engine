@@ -82,8 +82,7 @@ var MovieInfoPage = React.createClass({
             <div id="movie_info_content">
                 <div id="basic_info">
 
-                    <InnerMessager defaultTip={this.state.whenMovieIsLoading}
-                                   ref="innerMessager"/>
+
                     <div className="clearfix" id="movie_info_displayer">
                         <div id="movie_img">
                             <img src={this.state.movie.imgUrl}/>
@@ -91,6 +90,8 @@ var MovieInfoPage = React.createClass({
                         <div id="movie_text">
                             <ul id="text_ul">
                                 <li id="name_li">
+                                    <InnerMessager defaultTip={this.state.whenMovieIsLoading}
+                                                   ref="innerMessager"/>
                                     电影 : <a href="javascript:void(0);">{this.state.movie.name}</a>
                                 </li>
                                 <li>
@@ -127,7 +128,7 @@ var MovieInfoPage = React.createClass({
                                     电影简介 : <a href="javascript:void(0);">{this.state.movie.description}</a>
                                 </li>
 
-                                <li>
+                                <li id="tags_li">
                                     <TagsOfMovie movieId={this.state.targetMovieId}
                                                  whenThereHaveNotTag={this.state.whenThereHaveNotTag}
                                                  whenTagIsLoading={this.state.whenTagIsLoading}></TagsOfMovie>

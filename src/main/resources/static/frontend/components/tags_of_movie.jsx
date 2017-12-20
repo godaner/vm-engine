@@ -50,13 +50,16 @@ var TagsOfMovie = React.createClass({
         }
         return (
             <div id="tags_of_movie">
+
                 <InnerMessager ref="innerMessager"
                                defaultTip={this.state.whenTagIsLoading}/>
-                <ul>
-                    {
-                        listTags(this.state.tags)
-                    }
-                </ul>
+                <div>
+                    <ul>
+                        {
+                            listTags(this.state.tags)
+                        }
+                    </ul>
+                </div>
             </div>
         );
     }

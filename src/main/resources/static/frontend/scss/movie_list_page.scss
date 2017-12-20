@@ -50,21 +50,25 @@
           }
         }
         li {
-          display: inline-block;
+          text-align: center;
           margin: 0px 5px;
           padding: 2px 5px;
           cursor: pointer;
-          display: inline;;
-          background-color: unquote(white);
-          border-radius: 99px;
-          border: 1px solid unquote($defaultBlueRgb);
-          & > a {
-            color: unquote($defaultBlueRgb);
+          display: inline;
+          &{
+            background-color: unquote(white);
+            border-radius: 99px;
+            border: 1px solid unquote($defaultBlueRgb);
+            & > a{
+              color: unquote($defaultBlueRgb);
+            }
+
           }
-          transition: all 500ms;
           &:hover {
             background-color: unquote($defaultBlueRgb);
+            border-radius: 99px;
             & > a {
+              background-color: unquote($defaultBlueRgb);
               color: unquote(white);
             }
           }
