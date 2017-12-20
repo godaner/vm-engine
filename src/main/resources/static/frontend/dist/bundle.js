@@ -28844,7 +28844,8 @@ var TagsOfMovie = _react2.default.createClass({
     getInitialState: function getInitialState() {
         return {
             whenTagIsLoading: this.props.whenTagIsLoading,
-            movieId: this.props.movieId
+            movieId: this.props.movieId,
+            tags: []
         };
     },
     componentDidMount: function componentDidMount() {
@@ -28859,6 +28860,11 @@ var TagsOfMovie = _react2.default.createClass({
             if (fail(result.code)) {
                 return;
             }
+
+            var state = this.state;
+            state.tags = result.data.list;
+
+            this.setState(state);
         }.bind(this));
     },
     showTagTip: function showTagTip(msg, loop) {
@@ -28866,11 +28872,38 @@ var TagsOfMovie = _react2.default.createClass({
     },
 
     render: function render() {
+
+        //show tags
+        var listTags = function listTags(tags) {
+            if (isEmptyList(tags)) {
+                return;
+            }
+            var res = [];
+            for (var i = 0; i < tags.length; i++) {
+                var tag = tags[i];
+                // c(tag);
+                res.push(_react2.default.createElement(
+                    'li',
+                    { key: tag.id },
+                    _react2.default.createElement(
+                        'a',
+                        { href: 'javascript:void(0);' },
+                        tag.name
+                    )
+                ));
+            }
+            return res;
+        };
         return _react2.default.createElement(
-            'span',
-            null,
+            'div',
+            { id: 'tags_of_movie' },
             _react2.default.createElement(_inner_messager2.default, { ref: 'innerMessager',
-                defaultTip: this.state.whenTagIsLoading })
+                defaultTip: this.state.whenTagIsLoading }),
+            _react2.default.createElement(
+                'ul',
+                null,
+                listTags(this.state.tags)
+            )
         );
     }
 });
@@ -28911,7 +28944,7 @@ exports = module.exports = __webpack_require__(16)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#tags_of_movie {\n  width: 100%; }\n", ""]);
 
 // exports
 

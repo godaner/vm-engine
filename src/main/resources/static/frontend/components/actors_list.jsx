@@ -32,7 +32,7 @@ var ActorsList = React.createClass({
             }
         }
         return (
-                <span title={actorsStr}>
+            <span title={actorsStr}>
                     主演：
 
                 {

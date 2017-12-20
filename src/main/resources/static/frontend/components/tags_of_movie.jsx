@@ -6,11 +6,12 @@ var TagsOfMovie = React.createClass({
     getInitialState: function () {
         return {
             whenTagIsLoading: this.props.whenTagIsLoading,
-            movieId: this.props.movieId
+            movieId: this.props.movieId,
+            tags: []
         };
     },
     componentDidMount: function () {
-        
+
         var url = "/tag/movie/" + this.state.movieId;
         $.get(url, function (result) {
             //hide tip
@@ -22,6 +23,10 @@ var TagsOfMovie = React.createClass({
                 return;
             }
 
+            var state = this.state;
+            state.tags = result.data.list;
+
+            this.setState(state);
 
         }.bind(this));
     },
@@ -29,11 +34,30 @@ var TagsOfMovie = React.createClass({
         this.refs.innerMessager.showMsg(msg, loop);
     },
     render: function () {
+
+        //show tags
+        var listTags = (tags) => {
+            if (isEmptyList(tags)) {
+                return;
+            }
+            var res = [];
+            for (var i = 0; i < tags.length; i++) {
+                var tag = tags[i];
+                // c(tag);
+                res.push(<li key={tag.id}><a href="javascript:void(0);">{tag.name}</a></li>);
+            }
+            return res;
+        }
         return (
-            <span>
+            <div id="tags_of_movie">
                 <InnerMessager ref="innerMessager"
                                defaultTip={this.state.whenTagIsLoading}/>
-            </span>
+                <ul>
+                    {
+                        listTags(this.state.tags)
+                    }
+                </ul>
+            </div>
         );
     }
 });

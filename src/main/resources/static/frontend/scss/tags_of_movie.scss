@@ -1,2 +1,4 @@
 @import "frontend-default.scss";
-
+#tags_of_movie{
+  @include defaultWidth;
+}

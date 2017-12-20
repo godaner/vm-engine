@@ -40,7 +40,7 @@ public class VmTagsController extends ServiceController<VmTagsService> {
      *
      * @return
      */
-    @RequestMapping(value = "/tag/movie/{movieId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/movie/{movieId}", method = RequestMethod.GET)
     public @ResponseBody
     Object getTagsOfMovie(@PathVariable("movieId") Long movieId)  throws Exception {
         List<VmTags> list = service.getTagsOfMovie(movieId);
