@@ -471,6 +471,7 @@
         where m.id = #{movieId}
         and m.status = 1
     </select>
+
     <!--**************************** 自定义mapper end ****************************-->
 
 </mapper>

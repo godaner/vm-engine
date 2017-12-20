@@ -8,6 +8,15 @@ import java.util.List;
 public class CustomVmMovies extends VmMovies{
     private List<VmFilmmakers> actors;
     private VmFilmmakers director;
+    private List<VmTags> tags;
+
+    public List<VmTags> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<VmTags> tags) {
+        this.tags = tags;
+    }
 
     public List<VmFilmmakers> getActors() {
         return actors;

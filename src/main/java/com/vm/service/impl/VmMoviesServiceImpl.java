@@ -1,5 +1,6 @@
 package com.vm.service.impl;
 
+import com.vm.dao.po.VmTags;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.dao.mapper.VmMoviesMapper;
@@ -35,6 +36,9 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     @Override
     public CustomVmMovies getMovie(Long movieId) {
         eject(movieId == null, "getMovie movieId is null ! movieId is :" + movieId);
+
         return vmMoviesMapper.getMovie(movieId);
     }
+
+
 }

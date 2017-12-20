@@ -1,5 +1,6 @@
 package com.vm.dao.mapper;
 
+import com.vm.dao.po.VmTags;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.dao.po.CustomVmMovies;
@@ -36,4 +37,6 @@ public interface VmMoviesMapper {
     Long getMoviesCount(@Param("page") PageBean page,@Param("query") VmMoviesQueryBean query);
 
     CustomVmMovies getMovie(@Param("movieId")Long movieId);
+
+    List<VmTags> getTagsOfMovie(@Param("movieId")Long movieId);
 }

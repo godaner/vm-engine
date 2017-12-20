@@ -244,7 +244,7 @@ var MovieListPage = React.createClass({
         url = contactUrlWithArray(url, "tagIds", tagIds);
         this.serverRequest = $.get(url, function (result) {
             // c(result);
-            if (result.code == RESPONSE_CODE_FAILURE) {
+            if (fail(result.code)) {
                 this.showDialogMsg(result.msg);
                 this.showMovieTip();
                 return;
@@ -256,7 +256,7 @@ var MovieListPage = React.createClass({
             this.setState(state);
 
             //if have not movies
-            if (state.movies.list.length == undefined || state.movies.list.length == 0) {
+            if (isEmptyList(state.movies.list)) {
                 this.showMovieTip(this.state.whenThereIsHaveNotMovie, false);
             } else {
                 this.showMovieTip();
@@ -291,7 +291,7 @@ var MovieListPage = React.createClass({
             state.movieTagGroup = result.data.list;
 
 
-            if (result.code == RESPONSE_CODE_FAILURE) {
+            if (fail(result.code)) {
                 this.showDialogMsg(result.msg);
                 this.showMovieTip();
                 return;
@@ -300,7 +300,7 @@ var MovieListPage = React.createClass({
 
             //set tip
 
-            if (state.movieTagGroup == undefined || state.movieTagGroup.length == 0) {
+            if (isEmptyList(state.movieTagGroup)) {
                 this.showTagTip(this.state.whenThereIsHaveNotTag, false);
             } else {
                 this.showTagTip();

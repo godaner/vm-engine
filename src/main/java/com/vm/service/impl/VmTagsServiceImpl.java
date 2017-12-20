@@ -1,8 +1,11 @@
 package com.vm.service.impl;
 
+import com.vm.dao.po.BasePo;
 import com.vm.dao.po.CustomVmTagsGroups;
 import com.vm.dao.mapper.VmTagsGroupsMapper;
 import com.vm.dao.mapper.VmTagsMapper;
+import com.vm.dao.po.VmTags;
+import com.vm.dao.po.VmTagsExample;
 import com.vm.service.base.BaseService;
 import com.vm.service.inf.VmTagsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +25,18 @@ public class VmTagsServiceImpl  extends BaseService implements VmTagsService {
     @Override
     public List<CustomVmTagsGroups> getTagsGroupsWithTags() {
         return vmTagsGroupsMapper.getTagsGroupsWithTags();
+    }
+
+    @Override
+    public List<VmTags> getTags() throws Exception {
+        VmTagsExample vmTagsExample = new VmTagsExample();
+        VmTagsExample.Criteria criteria = vmTagsExample.createCriteria();
+        criteria.andStatusEqualTo(VmTags.Status.NORMAL.getCode());
+        return vmTagsMapper.selectByExample(vmTagsExample);
+    }
+
+    @Override
+    public List<VmTags> getTagsOfMovie(Long movieId) throws Exception {
+        return vmTagsMapper.getTagsOfMovie( movieId);
     }
 }

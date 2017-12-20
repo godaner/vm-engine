@@ -3,13 +3,15 @@ import '../scss/movie_info_page.scss';
 import ActorsList from './actors_list';
 import InnerMessager from './inner_messager';
 import Director from "./director";
-
+import TagsOfMovie from "./tags_of_movie";
 var MovieInfoPage = React.createClass({
     getInitialState: function () {
         return {
             whenThereHaveNotActor: "无演员",
             whenThereHaveNotDirector: "无导演",
             whenMovieIsLoading: "正在加载电影信息",
+            whenThereHaveNotTag: "无标签",
+            whenTagIsLoading: "正在加载标签信息",
             movie: {}
         };
     }, componentDidMount: function () {
@@ -48,7 +50,7 @@ var MovieInfoPage = React.createClass({
             //close tip
             this.showTip();
 
-            if (result.code == RESPONSE_CODE_FAILURE) {
+            if (fail(result.code)) {
                 return;
             }
 
@@ -75,7 +77,7 @@ var MovieInfoPage = React.createClass({
         //format releaseTime
         var releaseTime = timeFormatter.formatDate(this.state.movie.releaseTime);
 
-
+        c(this.state.movie);
         return (
             <div id="movie_info_content">
                 <div id="basic_info">
@@ -125,6 +127,11 @@ var MovieInfoPage = React.createClass({
                                     电影简介 : <a href="javascript:void(0);">{this.state.movie.description}</a>
                                 </li>
 
+                                <li>
+                                    <TagsOfMovie movieId={this.state.movie.id}
+                                                 whenThereHaveNotTag={this.state.whenThereHaveNotTag}
+                                                 whenTagIsLoading={this.state.whenTagIsLoading}></TagsOfMovie>
+                                </li>
                             </ul>
                         </div>
                     </div>

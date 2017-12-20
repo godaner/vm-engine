@@ -1,6 +1,7 @@
 package com.vm.controller.impl;
 
 import com.vm.controller.base.ServiceController;
+import com.vm.dao.po.VmTags;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.dao.po.CustomVmMovies;
@@ -36,7 +37,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public @ResponseBody
-    Object getMovies(@Valid PageBean page, BindingResult result, VmMoviesQueryBean query) {
+    Object getMovies(@Valid PageBean page, BindingResult result, VmMoviesQueryBean query) throws Exception {
         Long total = service.getMoviesCount(page, query);
         List<CustomVmMovies> list = service.getMovies(page, query);
         response.putData("list", list);
@@ -53,7 +54,6 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
     }
 
 
-    ;
     /*********************************后端*********************************/
 
 }

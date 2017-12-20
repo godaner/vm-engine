@@ -237,5 +237,19 @@
         where t.`status` =1
         and t.tag_group_id=#{tagGroupId}
     </select>
+    <select id="getTagsOfMovie" resultMap="BaseResultMap">
+        SELECT
+            t.*
+        FROM
+            vm_tags t,
+            vm_movies_tags_realation mtr
+        WHERE
+            t.`status` = 1
+        AND mtr.`status` = 1
+        AND mtr.movie_id = #{movieId}
+        AND mtr.tag_id = t.id
+    </select>
+
+
     <!--**************************** 自定义mapper end ****************************-->
 </mapper>
