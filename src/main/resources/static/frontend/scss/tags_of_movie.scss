@@ -2,11 +2,12 @@
 
 #tags_of_movie {
   @include defaultWidth;
-  div {
+  div#ul_div {
 
     @include defaultWidth;
-    @include defaultHUl;
-    ul {
+    //@include defaultHUl;
+    &>ul {
+      //background-color: red;
       li {
         text-align: center;
         margin: 0px 5px;

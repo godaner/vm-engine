@@ -40,7 +40,7 @@
         //background-color: black;
         @include defaultHUl;
         #text_ul {
-          li {
+          &>li {
             margin-bottom: 10px;
             width: 25%;
 
