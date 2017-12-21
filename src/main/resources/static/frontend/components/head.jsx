@@ -1,4 +1,5 @@
 import React from 'react';  //引入react组件
+import {Link} from 'react-router-dom';
 import '../scss/head.scss';
 var Head = React.createClass({
 
@@ -8,7 +9,9 @@ var Head = React.createClass({
                 <div id="nav_div">
                     <ul id="fragment_head_nav">
                         <li id="fragment_head_nav_logo">
-                            <span id="logo_v">V</span><span id="logo_m">M</span>
+                            <Link to="/">
+                                <span id="logo_v">V</span><span id="logo_m">M</span>
+                            </Link>
                         </li>
                         <li id="user_li">
                             <ul id="user_ul">

@@ -344,11 +344,19 @@ var MovieListPage = React.createClass({
 //            }
 
 
-        var orderByOptions = [{id: "score", name: "最高评分", selected: true}, {
-            id: "watch_num",
-            name: "最多播放",
-            selected: false
-        }, {id: "release_time", name: "最新上映", selected: false}];
+        var orderByOptions = [
+            {
+                id: "score", name: "最高评分", selected: true
+            },
+            {
+                id: "watch_num",
+                name: "最多播放",
+                selected: false
+            },
+            {
+                id: "release_time", name: "最新上映", selected: false
+            }
+        ];
 
 
         var state = {

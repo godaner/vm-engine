@@ -14,7 +14,7 @@ var MovieInfoPage = React.createClass({
             whenThereHaveNotTag: "无标签",
             whenTagIsLoading: "正在加载标签信息",
             movie: {},
-            targetMovieId:this.props.match.params.movieId
+            targetMovieId: this.props.match.params.movieId
         };
     }, componentDidMount: function () {
         window.addEventListener('resize', this.onWindowResize);

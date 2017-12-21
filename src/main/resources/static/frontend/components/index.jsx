@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import {Switch, BrowserRouter,HashRouter, Route} from 'react-router-dom';
+import {Switch, BrowserRouter, HashRouter, Route} from 'react-router-dom';
 {
     /*import { createHistory, useBasename } from 'history';*/
 }
@@ -20,25 +20,25 @@ var Index = React.createClass({
         //set now page's props
         return (
             <div id="index">
-                <Head/>
-
                 <HashRouter>
-                    <Switch>
-                        <Route exact path='/'
-                               render={() => (
-                                   <MovieListPage tagGroupSource="/tagGroup/list"
-                                                  movieSource="/movie/list"/>
-                               )}/>
-                        <Route exact path='/movie/list'
-                               render={() => (
-                                   <MovieListPage tagGroupSource="/tagGroup/list"
-                                                  movieSource="/movie/list"/>
-                               )}/>
-                        <Route exact path='/movie/:movieId' component={MovieInfoPage}/>
-                    </Switch>
-
+                    <div>
+                        <Head/>
+                        <Switch>
+                            <Route exact path='/'
+                                   render={() => (
+                                       <MovieListPage tagGroupSource="/tagGroup/list"
+                                                      movieSource="/movie/list"/>
+                                   )}/>
+                            <Route exact path='/movie/list'
+                                   render={() => (
+                                       <MovieListPage tagGroupSource="/tagGroup/list"
+                                                      movieSource="/movie/list"/>
+                                   )}/>
+                            <Route exact path='/movie/:movieId' component={MovieInfoPage}/>
+                        </Switch>
+                        <Tail/>
+                    </div>
                 </HashRouter>
-                <Tail/>
             </div>
         );
     }
