@@ -9,11 +9,11 @@ var FlexText = React.createClass({
             defaultMaxTextLength = this.props.maxTextLength;
         }
         var defaultText = "there is have not content";
-        c(this.props);
+        // c(this.props);
         if (!isEmpty(this.props.text)) {
             defaultText = this.props.text;
         }
-        c(defaultText);
+        // c(defaultText);
         var defaultTitle = "there is have not title";
         if (!isEmpty(this.props.title)) {
             defaultTitle = this.props.title;
@@ -36,7 +36,7 @@ var FlexText = React.createClass({
         }
         return (
             <div id="flex_text_content" title={allText}>
-                简介 : {shortText}
+                {this.state.title}{shortText}
             </div>
         );
 

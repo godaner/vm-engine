@@ -1,5 +1,10 @@
 @import "frontend-default.scss";
-#flex_text_content{
+
+#flex_text_content {
   width: 100%;
+  word-wrap: break-word;
+  word-break: break-all;
+  white-space: normal;
+  overflow: auto;
 }
 

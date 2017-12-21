@@ -14,7 +14,8 @@ var MovieInfoPage = React.createClass({
             whenMovieIsLoading: "正在加载电影信息",
             whenThereHaveNotTag: "无标签",
             whenTagIsLoading: "正在加载标签信息",
-            movieDescriptionTitle: "电影简介:",
+            movieDescriptionTitle: "电影简介 : ",
+            movieDescriptionTextLength:100,
             movie: {},
             targetMovieId: this.props.match.params.movieId
         };
@@ -144,7 +145,7 @@ var MovieInfoPage = React.createClass({
                                     <FlexText ref="flex_text"
                                               title={this.state.movieDescriptionTitle}
                                               des={this.state.movie.description}
-                                              maxTextLength="10"/>
+                                              maxTextLength={this.state.movieDescriptionTextLength}/>
                                 </li>
 
                                 <li id="tags_li">
