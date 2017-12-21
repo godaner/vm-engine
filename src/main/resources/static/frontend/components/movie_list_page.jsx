@@ -252,10 +252,17 @@ var MovieListPage = React.createClass({
                 return;
             }
 
+            //set movie list info
             var state = this.state;
             state.movies.list = result.data.list;
             state.movies.total = result.data.total;
             this.setState(state);
+
+            //adjust movie list ui
+            this.adjustMovieListUI();
+
+            //lazy load img
+            this.lazyLoadImg();
 
             //if have not movies
             if (isEmptyList(state.movies.list)) {
@@ -263,12 +270,6 @@ var MovieListPage = React.createClass({
             } else {
                 this.showMovieTip();
             }
-
-            //adjust movie list ui
-            this.adjustMovieListUI();
-
-            //lazy load img
-            this.lazyLoadImg();
 
             //callfun
             if (callfun != undefined) {
@@ -376,7 +377,7 @@ var MovieListPage = React.createClass({
             lastKeyword: "",
             movieSearchTimer: undefined,
             movieTagGroup: [],
-            movies: {keyword: "", total: 0, list: [], page: 1, size: 20, orderType: "desc"},
+            movies: {keyword: "", total: 0, list: [], page: 1, size: 10, orderType: "desc"},
             orderByOptions: orderByOptions
         };
 

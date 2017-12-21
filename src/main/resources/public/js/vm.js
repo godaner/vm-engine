@@ -11,7 +11,7 @@ function fail(code){
 function success(code){
     return code == RESPONSE_CODE_SUCCESS;
 }
-
+//图片等待加载时使用的图片
 const LOADING_IMG = "/frontend/image/img_loading.gif";
 //开始懒加载，依赖jquery.lazyload.js
 function lazyLoad(){
