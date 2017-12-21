@@ -17,6 +17,7 @@ var MovieInfoPage = React.createClass({
             targetMovieId: this.props.match.params.movieId
         };
     }, componentDidMount: function () {
+        //add resize event listener
         window.addEventListener('resize', this.onWindowResize);
 
         //get movie
@@ -30,7 +31,9 @@ var MovieInfoPage = React.createClass({
     onWindowResize: function () {
         this.adjustUI();
     },
-
+    lazyLoadImg: function () {
+        lazyLoad();
+    },
     adjustUI: function () {
 
     },
@@ -64,6 +67,9 @@ var MovieInfoPage = React.createClass({
 
             this.setState(state);
 
+            //lazy load img
+            this.lazyLoadImg();
+
             // c(this.state)
             //callfun
             if (callfun != undefined) {
@@ -86,7 +92,7 @@ var MovieInfoPage = React.createClass({
 
                     <div className="clearfix" id="movie_info_displayer">
                         <div id="movie_img">
-                            <img src={this.state.movie.imgUrl}/>
+                            <img src={LOADING_IMG} data-original={this.state.movie.imgUrl}/>
                         </div>
                         <div id="movie_text">
                             <ul id="text_ul">

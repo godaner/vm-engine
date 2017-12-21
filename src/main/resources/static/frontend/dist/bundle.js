@@ -27406,7 +27406,7 @@ var MoviesDisplayer = _react2.default.createClass({
                     _react2.default.createElement(
                         _reactRouterDom.Link,
                         { to: location, className: 'aLink' },
-                        _react2.default.createElement('img', { src: item.imgUrl })
+                        _react2.default.createElement('img', { src: LOADING_IMG, 'data-original': item.imgUrl })
                     )
                 ),
                 _react2.default.createElement(
@@ -27563,6 +27563,9 @@ var MovieListPage = _react2.default.createClass({
         height = height.toString() + "px";
         $(".movie_img_div a img").css("height", height);
     },
+    lazyLoadImg: function lazyLoadImg() {
+        lazyLoad();
+    },
     showMovieTip: function showMovieTip(msg, loop) {
         if (msg == undefined) {
             msg = "";
@@ -27638,6 +27641,9 @@ var MovieListPage = _react2.default.createClass({
 
             //adjust movie list ui
             this.adjustMovieListUI();
+
+            //lazy load img
+            this.lazyLoadImg();
 
             //callfun
             if (callfun != undefined) {
@@ -27738,7 +27744,7 @@ var MovieListPage = _react2.default.createClass({
             lastKeyword: "",
             movieSearchTimer: undefined,
             movieTagGroup: [],
-            movies: { keyword: "", total: 0, list: [], page: 1, size: 10, orderType: "desc" },
+            movies: { keyword: "", total: 0, list: [], page: 1, size: 20, orderType: "desc" },
             orderByOptions: orderByOptions
         };
 
@@ -28400,6 +28406,7 @@ var MovieInfoPage = _react2.default.createClass({
             targetMovieId: this.props.match.params.movieId
         };
     }, componentDidMount: function componentDidMount() {
+        //add resize event listener
         window.addEventListener('resize', this.onWindowResize);
 
         //get movie
@@ -28413,7 +28420,9 @@ var MovieInfoPage = _react2.default.createClass({
     onWindowResize: function onWindowResize() {
         this.adjustUI();
     },
-
+    lazyLoadImg: function lazyLoadImg() {
+        lazyLoad();
+    },
     adjustUI: function adjustUI() {},
 
     getMovie: function getMovie(callfun) {
@@ -28441,6 +28450,9 @@ var MovieInfoPage = _react2.default.createClass({
             state.movie = result.data.movie;
 
             this.setState(state);
+
+            //lazy load img
+            this.lazyLoadImg();
 
             // c(this.state)
             //callfun
@@ -28470,7 +28482,7 @@ var MovieInfoPage = _react2.default.createClass({
                     _react2.default.createElement(
                         'div',
                         { id: 'movie_img' },
-                        _react2.default.createElement('img', { src: this.state.movie.imgUrl })
+                        _react2.default.createElement('img', { src: LOADING_IMG, 'data-original': this.state.movie.imgUrl })
                     ),
                     _react2.default.createElement(
                         'div',
