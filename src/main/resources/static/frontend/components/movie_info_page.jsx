@@ -7,21 +7,23 @@ import TagsOfMovie from "./tags_of_movie";
 import FlexText from "./flex_text";
 var MovieInfoPage = React.createClass({
     getInitialState: function () {
+        //init state
         return {
             whenThereHaveNotActor: "无演员",
             whenThereHaveNotDirector: "无导演",
             whenMovieIsLoading: "正在加载电影信息",
             whenThereHaveNotTag: "无标签",
             whenTagIsLoading: "正在加载标签信息",
+            movieDescriptionTitle: "电影简介:",
             movie: {},
             targetMovieId: this.props.match.params.movieId
         };
     },
     componentDidMount: function () {
-        //add resize event listener
-        window.addEventListener('resize', this.onWindowResize);
         //get movie
         this.getMovie();
+        //add resize event listener
+        window.addEventListener('resize', this.onWindowResize);
     },
 
     componentWillUnmount: function () {
@@ -66,7 +68,9 @@ var MovieInfoPage = React.createClass({
             state.movie = result.data.movie;
 
             this.setState(state);
-            // c(this.state);
+
+            //update movie description
+            this.updateMovieDescription(state.movie.description);
 
             //lazy load img
             this.lazyLoadImg();
@@ -80,6 +84,9 @@ var MovieInfoPage = React.createClass({
     },
     showTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
+    },
+    updateMovieDescription(text){
+        this.refs.flex_text.updateText(text);
     },
     render: function () {
 
@@ -134,7 +141,9 @@ var MovieInfoPage = React.createClass({
 
                                 <li id="description_li">
                                     {/*电影简介 : <a href="javascript:void(0);">{this.state.movie.description}</a>*/}
-                                    <FlexText text={this.state.movie.description}
+                                    <FlexText ref="flex_text"
+                                              title={this.state.movieDescriptionTitle}
+                                              des={this.state.movie.description}
                                               maxTextLength="10"/>
                                 </li>
 

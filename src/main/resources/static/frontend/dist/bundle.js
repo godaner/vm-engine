@@ -28397,21 +28397,23 @@ var MovieInfoPage = _react2.default.createClass({
     displayName: 'MovieInfoPage',
 
     getInitialState: function getInitialState() {
+        //init state
         return {
             whenThereHaveNotActor: "无演员",
             whenThereHaveNotDirector: "无导演",
             whenMovieIsLoading: "正在加载电影信息",
             whenThereHaveNotTag: "无标签",
             whenTagIsLoading: "正在加载标签信息",
+            movieDescriptionTitle: "电影简介:",
             movie: {},
             targetMovieId: this.props.match.params.movieId
         };
     },
     componentDidMount: function componentDidMount() {
-        //add resize event listener
-        window.addEventListener('resize', this.onWindowResize);
         //get movie
         this.getMovie();
+        //add resize event listener
+        window.addEventListener('resize', this.onWindowResize);
     },
 
     componentWillUnmount: function componentWillUnmount() {
@@ -28451,7 +28453,9 @@ var MovieInfoPage = _react2.default.createClass({
             state.movie = result.data.movie;
 
             this.setState(state);
-            // c(this.state);
+
+            //update movie description
+            this.updateMovieDescription(state.movie.description);
 
             //lazy load img
             this.lazyLoadImg();
@@ -28465,6 +28469,9 @@ var MovieInfoPage = _react2.default.createClass({
     },
     showTip: function showTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
+    },
+    updateMovieDescription: function updateMovieDescription(text) {
+        this.refs.flex_text.updateText(text);
     },
 
     render: function render() {
@@ -28571,7 +28578,9 @@ var MovieInfoPage = _react2.default.createClass({
                             _react2.default.createElement(
                                 'li',
                                 { id: 'description_li' },
-                                _react2.default.createElement(_flex_text2.default, { text: this.state.movie.description,
+                                _react2.default.createElement(_flex_text2.default, { ref: 'flex_text',
+                                    title: this.state.movieDescriptionTitle,
+                                    des: this.state.movie.description,
                                     maxTextLength: '10' })
                             ),
                             _react2.default.createElement(
@@ -28801,15 +28810,22 @@ var FlexText = _react2.default.createClass({
         if (!isEmpty(this.props.maxTextLength)) {
             defaultMaxTextLength = this.props.maxTextLength;
         }
-        var text = "";
+        var defaultText = "there is have not content";
         c(this.props);
-        c(this.props.a);
-        c(this.props.text);
         if (!isEmpty(this.props.text)) {
-            text = this.props.text;
+            defaultText = this.props.text;
         }
-        c(text);
-        return { text: text, maxTextLength: defaultMaxTextLength };
+        c(defaultText);
+        var defaultTitle = "there is have not title";
+        if (!isEmpty(this.props.title)) {
+            defaultTitle = this.props.title;
+        }
+        return { text: defaultText, maxTextLength: defaultMaxTextLength, title: defaultTitle };
+    },
+    updateText: function updateText(text) {
+        var state = this.state;
+        state.text = text;
+        this.setState(state);
     },
     render: function render() {
         // c(1);
@@ -28821,8 +28837,8 @@ var FlexText = _react2.default.createClass({
             shortText = allText.substring(0, maxTextLength) + "...";
         }
         return _react2.default.createElement(
-            "span",
-            { title: allText },
+            "div",
+            { id: "flex_text_content", title: allText },
             "\u7B80\u4ECB : ",
             shortText
         );
@@ -28865,7 +28881,7 @@ exports = module.exports = __webpack_require__(13)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#flex_text_content {\n  width: 100%; }\n", ""]);
 
 // exports
 
