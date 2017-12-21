@@ -16,10 +16,10 @@ var MovieInfoPage = React.createClass({
             movie: {},
             targetMovieId: this.props.match.params.movieId
         };
-    }, componentDidMount: function () {
+    },
+    componentDidMount: function () {
         //add resize event listener
         window.addEventListener('resize', this.onWindowResize);
-
         //get movie
         this.getMovie();
     },
@@ -66,6 +66,7 @@ var MovieInfoPage = React.createClass({
             state.movie = result.data.movie;
 
             this.setState(state);
+            // c(this.state);
 
             //lazy load img
             this.lazyLoadImg();
@@ -134,9 +135,7 @@ var MovieInfoPage = React.createClass({
                                 <li id="description_li">
                                     {/*电影简介 : <a href="javascript:void(0);">{this.state.movie.description}</a>*/}
                                     <FlexText text={this.state.movie.description}
-                                              maxTextLength="10">
-
-                                    </FlexText>
+                                              maxTextLength="10"/>
                                 </li>
 
                                 <li id="tags_li">

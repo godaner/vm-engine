@@ -28406,10 +28406,10 @@ var MovieInfoPage = _react2.default.createClass({
             movie: {},
             targetMovieId: this.props.match.params.movieId
         };
-    }, componentDidMount: function componentDidMount() {
+    },
+    componentDidMount: function componentDidMount() {
         //add resize event listener
         window.addEventListener('resize', this.onWindowResize);
-
         //get movie
         this.getMovie();
     },
@@ -28451,6 +28451,7 @@ var MovieInfoPage = _react2.default.createClass({
             state.movie = result.data.movie;
 
             this.setState(state);
+            // c(this.state);
 
             //lazy load img
             this.lazyLoadImg();
@@ -28801,6 +28802,8 @@ var FlexText = _react2.default.createClass({
             defaultMaxTextLength = this.props.maxTextLength;
         }
         var text = "";
+        c(this.props);
+        c(this.props.a);
         c(this.props.text);
         if (!isEmpty(this.props.text)) {
             text = this.props.text;

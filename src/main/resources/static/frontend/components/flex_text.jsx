@@ -9,6 +9,8 @@ var FlexText = React.createClass({
             defaultMaxTextLength = this.props.maxTextLength;
         }
         var text = "";
+        c(this.props);
+        c(this.props.a);
         c(this.props.text);
         if(!isEmpty(this.props.text)){
             text = this.props.text;
