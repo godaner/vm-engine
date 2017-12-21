@@ -222,15 +222,12 @@ var MovieListPage = React.createClass({
             }
         }
 
-        {/*collect param => selected tag group ids and tags id*/
+        {/*collect param => selected tags id*/
         }
-        var tagGroupIds = [];
         var tagIds = [];
         for (var i = 0; i < this.state.movieTagGroup.length; i++) {
             var g = this.state.movieTagGroup[i];
-            if (g.selected) {
-                tagGroupIds.push(g.id);
-            } else {
+            if (!g.selected) {
                 for (var j = 0; j < g.items.length; j++) {
                     var tag = g.items[j];
                     if (tag.selected) {
@@ -242,7 +239,6 @@ var MovieListPage = React.createClass({
 
 
         var url = this.state.movieSource + "?page=" + page + "&start=" + start + "&size=" + size + "&orderBy=" + orderBy + "&orderType=" + orderType + "&keyword=" + keyword;
-        url = contactUrlWithArray(url, "tagGroupIds", tagGroupIds);
         url = contactUrlWithArray(url, "tagIds", tagIds);
         this.serverRequest = $.get(url, function (result) {
             // c(result);
@@ -328,26 +324,6 @@ var MovieListPage = React.createClass({
         }.bind(this));
     },
     getInitialState: function () {
-//            var movieTagGroup = [{
-//                id: 1,
-//                name: '地区',
-//                items: [{id: 1, name: '大四川'}]
-//            }, {
-//                id: 2122,
-//                name: '类型',
-//                items: [{id: 1, name: '小惊悚'}]
-//            }];
-//
-//            var movies = [];
-//            for (var i = 0; i < 11; i++) {
-//                movies.push({
-//                    id: i,
-//                    movieName: '海绵宝宝',
-//                    actors: [{id: '1', name: '刘德华1'}, {id: '2', name: '刘德华2'}],
-//                    playNum: 666
-//                });
-//            }
-
 
         var orderByOptions = [
             {

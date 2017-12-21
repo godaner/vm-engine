@@ -61,4 +61,14 @@ public class PageBean {
         this.orderBy = orderBy;
         this.orderType = orderType;
     }
+
+    @Override
+    public String toString() {
+        return "PageBean{" +
+                "start=" + start +
+                ", size=" + size +
+                ", orderBy='" + orderBy + '\'' +
+                ", orderType='" + orderType + '\'' +
+                '}';
+    }
 }

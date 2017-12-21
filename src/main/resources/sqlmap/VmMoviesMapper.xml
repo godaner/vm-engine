@@ -379,41 +379,24 @@
         SELECT DISTINCT
         m.*
         FROM
-        vm_movies m,
-        vm_movies_tags_realation tr
+        vm_movies m
         WHERE
         m.`status` = 1
-        AND tr.`status` = 1
-        AND tr.movie_id = m.id
         <if test="query.keyword!=null">
             AND m.name LIKE concat('%',#{query.keyword},'%')
         </if>
-        AND (
+        <if test="query.tagIds!=null">
 
-            <trim  prefixOverrides="OR" suffixOverrides="OR">
-                <if test="query.tagIds!=null">
-                    tr.tag_id IN
-                    <foreach collection="query.tagIds" item="item" index="index" open="(" close=")" separator=",">
-                        #{item}
-                    </foreach>
-                </if>
-                OR
-                <if test="query.tagGroupIds!=null">
-                    tr.tag_id IN (
-                    SELECT
-                    t.id
-                    FROM
-                    vm_tags t
-                    WHERE
-                    t.`status` = 1
-                    AND t.tag_group_id IN<foreach collection="query.tagGroupIds" item="item" index="index" open="(" close=")" separator=",">
-                        #{item}
-                    </foreach>
-
-                    )
-                </if>
-            </trim>
-        )
+            <foreach collection="query.tagIds" item="item">
+                AND EXISTS(
+                select *
+                from vm_movies_tags_realation tr
+                where tr.movie_id = m.id
+                and tr.`status` = 1
+                and tr.tag_id = #{item}
+                )
+            </foreach>
+        </if>
         <if test="page.orderBy != null and page.orderType != null">
             order by ${page.orderBy} ${page.orderType}
         </if>
@@ -422,45 +405,27 @@
         </if>
     </select>
     <select id="getMoviesCount" resultType="long">
-        SELECT DISTINCT
-        count(m.id)
+        SELECT
+        count(DISTINCT(m.id))
         FROM
-        vm_movies m,
-        vm_movies_tags_realation tr
+        vm_movies m
         WHERE
         m.`status` = 1
-        AND tr.`status` = 1
-        AND tr.movie_id = m.id
         <if test="query.keyword!=null">
             AND m.name LIKE concat('%',#{query.keyword},'%')
         </if>
-        AND (
+        <if test="query.tagIds!=null">
 
-        <trim prefixOverrides="OR" suffixOverrides="OR">
-            <if test="query.tagIds!=null">
-                tr.tag_id IN
-                <foreach collection="query.tagIds" item="item" index="index" open="(" close=")" separator=",">
-                    #{item}
-                </foreach>
-            </if>
-            OR
-            <if test="query.tagGroupIds!=null">
-                tr.tag_id IN (
-                SELECT
-                t.id
-                FROM
-                vm_tags t
-                WHERE
-                t.`status` = 1
-                AND t.tag_group_id IN
-                <foreach collection="query.tagGroupIds" item="item" index="index" open="(" close=")" separator=",">
-                    #{item}
-                </foreach>
-
+            <foreach collection="query.tagIds" item="item">
+                AND EXISTS(
+                select *
+                from vm_movies_tags_realation tr
+                where tr.movie_id = m.id
+                and tr.`status` = 1
+                and tr.tag_id = #{item}
                 )
-            </if>
-        </trim>
-        )
+            </foreach>
+        </if>
 
       </select>
 

@@ -12,7 +12,6 @@ import java.util.List;
 public class VmMoviesQueryBean{
     private String keyword;
     private List<Long> tagIds;
-    private List<Long> tagGroupIds;
 
     public String getKeyword() {
         return keyword;
@@ -30,11 +29,11 @@ public class VmMoviesQueryBean{
         this.tagIds = tagIds;
     }
 
-    public List<Long> getTagGroupIds() {
-        return tagGroupIds;
-    }
-
-    public void setTagGroupIds(List<Long> tagGroupIds) {
-        this.tagGroupIds = tagGroupIds;
+    @Override
+    public String toString() {
+        return "VmMoviesQueryBean{" +
+                "keyword='" + keyword + '\'' +
+                ", tagIds=" + tagIds +
+                '}';
     }
 }

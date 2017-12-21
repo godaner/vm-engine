@@ -22,9 +22,6 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
     @Override
     public List<CustomVmMovies> getMovies(PageBean page, VmMoviesQueryBean query) {
-        if ((query.getTagIds() == null || query.getTagIds().size() == 0) && (query.getTagGroupIds() == null || query.getTagGroupIds().size() == 0)) {
-            throw new RuntimeException("getMovies tagIds and tagGroupIds can not be null together!");
-        }
         return vmMoviesMapper.getMovies(page, query);
     }
 
@@ -35,7 +32,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
     @Override
     public CustomVmMovies getMovie(Long movieId) {
-        eject(movieId == null, "getMovie movieId is null ! movieId is :" + movieId);
+        eject(movieId == null, "VmMoviesService#getMovie movieId is null ! movieId is :" + movieId);
 
         return vmMoviesMapper.getMovie(movieId);
     }

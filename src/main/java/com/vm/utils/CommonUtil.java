@@ -50,7 +50,30 @@ public class CommonUtil {
 	 */
 	public final static ValidateCode validateCode = new ValidateCode(160, 40, 5, 150);
 
-	
+	/**
+	 * 集合是否为空
+	 * @param list
+	 * @return
+	 */
+	protected boolean isEmptyList(List<?> list){
+		return list == null||list.size() == 0;
+	}
+	/**
+	 * 集合是否为空
+	 * @param arr
+	 * @return
+	 */
+	protected boolean isEmptyList(Object[] arr){
+		return arr == null||arr.length == 0;
+	}
+	/**
+	 * 集是否空串
+	 * @param str
+	 * @return
+	 */
+	protected boolean isEmptyString(String str){
+		return str == null||str.trim().length() == 0;
+	}
 	
 	/**
 	 * 
