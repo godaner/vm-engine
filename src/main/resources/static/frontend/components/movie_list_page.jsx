@@ -55,7 +55,7 @@ var MoviesDisplayer = React.createClass({
 
 
                     <Link to={location} className="aLink">
-                        <img src={LOADING_IMG} data-original={item.imgUrl} />
+                        <img src={LOADING_IMG} data-original={item.imgUrl}/>
                     </Link>
                 </div>
                 <div className="movie_info_div">
@@ -186,7 +186,7 @@ var MovieListPage = React.createClass({
         height = height.toString() + "px";
         $(".movie_img_div a img").css("height", height)
     },
-    lazyLoadImg:function(){
+    lazyLoadImg: function () {
         lazyLoad();
     },
     showMovieTip(msg, loop){
@@ -377,7 +377,14 @@ var MovieListPage = React.createClass({
             lastKeyword: "",
             movieSearchTimer: undefined,
             movieTagGroup: [],
-            movies: {keyword: "", total: 0, list: [], page: 1, size: 10, orderType: "desc"},
+            movies: {
+                keyword: "",
+                total: 0,
+                list: [],
+                page: 1,
+                size: 20,
+                orderType: "desc"
+            },
             orderByOptions: orderByOptions
         };
 

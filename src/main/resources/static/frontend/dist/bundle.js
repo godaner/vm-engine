@@ -27745,7 +27745,14 @@ var MovieListPage = _react2.default.createClass({
             lastKeyword: "",
             movieSearchTimer: undefined,
             movieTagGroup: [],
-            movies: { keyword: "", total: 0, list: [], page: 1, size: 10, orderType: "desc" },
+            movies: {
+                keyword: "",
+                total: 0,
+                list: [],
+                page: 1,
+                size: 20,
+                orderType: "desc"
+            },
             orderByOptions: orderByOptions
         };
 
