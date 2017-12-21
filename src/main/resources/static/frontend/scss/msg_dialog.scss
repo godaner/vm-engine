@@ -1,0 +1,61 @@
+@import "frontend-default.scss";
+
+#fragment_msg_dialog_content {
+  /*默认隐藏*/
+  display: none;
+  @include defaultSize;
+  position: fixed;
+  top:0px;
+  left:0px;
+  z-index: 9999;
+  background-color: rgba(0,0,0,0.8);
+  //overflow: hidden;
+  #dialog{
+    margin-top: 300px;
+    width: 300px;
+    height: 100px;
+    padding: 20px;
+    background-color: rgba(255,255,255,0.9);
+    border: 1px solid black;
+    border-radius: 5px;
+    *{
+      color: black;
+    }
+    &>div{
+      @include defaultWidth;
+    }
+    $head_height:35px;
+    #head{
+      height:$head_height;
+      line-height:$head_height ;
+      border-bottom: 1px solid black;
+      &>div{
+        font-size: 18px;
+        float: left;
+        width: 50%;
+      }
+
+
+      div#close{
+        cursor: pointer;
+        text-align: right;
+        font-weight: bold;
+        //渐变
+        transition: all 100ms;
+        &:hover{
+          color: red;
+          font-weight: bold;
+          //font-size: 22px;
+        }
+      }
+    }
+    #body{
+      margin-top: 20px;
+      text-align: center;
+      line-height: 100%;
+      font-size: 15px;
+      height:100%;
+    }
+  }
+}
+

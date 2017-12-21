@@ -1,0 +1,9 @@
+@import "frontend-default.scss";
+
+
+/*head,center,tail =>width*/
+body>div{
+  @include defaultWidth;
+}
+
+

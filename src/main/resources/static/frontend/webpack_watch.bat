@@ -1,0 +1,3 @@
+
+webpack --watch
+pause

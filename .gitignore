@@ -22,5 +22,9 @@
 hs_err_pid*
 *.class
 target
-.idea
+
 build
+
+
+.idea
+.sass-cache

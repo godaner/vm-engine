@@ -2,8 +2,9 @@ package com.vm.test.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.vm.BootApp;
-import com.vm.base.utils.LoggerWrapper;
+import com.vm.dao.qo.PageBean;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Map;
-
-import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = BootApp.class)
@@ -30,7 +28,7 @@ public class BaseControllerTest {
     @Value("${local.server.port}")// 注入端口号
     protected int port;
 
-    protected static final LoggerWrapper logger = LoggerWrapper.newLoggerWrapper(BaseControllerTest.class);
+    protected static final Logger logger = LoggerFactory.getLogger(BaseControllerTest.class);
 
     @Rule
     // 这里注意，使用@Rule注解必须要用public
@@ -40,22 +38,60 @@ public class BaseControllerTest {
 
     /**
      * 获取当前主机测试的url前缀
+     *
      * @return
      */
-    protected String getLocalHost(){
-        return "http://localhost:"+port+"/";
+    protected String getLocalHost() {
+        return "http://localhost:" + port + "/";
     }
 
+
     /**
-     * 通过map生成的json字符串类型的 HttpEntity
-     * @param map
+     * 生成的json字符串类型的 HttpEntity
+     *
+     * @param objs
      * @return
      */
-    protected HttpEntity<String> getJsonRequestEntity(Map<Object,Object> map){
+    protected HttpEntity<String> getJsonRequestEntity(Object ...objs) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String requestJsonStr = JSON.toJSONString(map);
-        HttpEntity<String> entity = new HttpEntity<String>(requestJsonStr,headers);
+        String requestJsonStr = JSON.toJSONString(objs);
+        HttpEntity<String> entity = new HttpEntity<String>(requestJsonStr, headers);
         return entity;
     }
+
+    @Test
+    public void demo() {
+        //请求路径
+//        String url = getLocalHost()+"/temple/a";
+        //生成json请求
+//        HttpEntity<String> entity = getJsonRequestEntity(ImmutableMap.of(
+//                "username","zhangtsan",
+//                "password","i"
+//        ));
+//        String result = rt.postForObject(url, entity, String.class);
+//        System.out.println(result);
+
+    }
+
+    protected PageBean getPageBean(Integer start, Integer size, String orderBy, String orderType){
+        if(start == null){
+            start = 0;
+        }
+        if(size == null){
+            size = 10;
+        }
+        if(orderBy == null){
+            orderBy = "id";
+        }
+        if(orderType == null){
+            orderType = "desc";
+        }
+        PageBean pageBean = new PageBean(start, size,orderBy,orderType);
+        return pageBean;
+    };
+    protected PageBean getPageBean(){
+
+        return getPageBean(null,null,null,null);
+    };
 }

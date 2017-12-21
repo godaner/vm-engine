@@ -1,0 +1,97 @@
+@import "frontend-default.scss";
+/*var start*/
+$nav_height: 70px;
+$nav_li_num: 2;
+/*var end*/
+
+/*mixin start*/
+@mixin nav_logo {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+/*mixin end*/
+
+#fragment_head_content {
+  @include defaultWidth;
+  height: $nav_height;
+  line-height: $nav_height;
+  background-color: white;
+  //background-color: aqua;
+  #nav_div {
+    background-color: gold;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 9999;
+    background-color: white;
+    ul#fragment_head_nav {
+      /*nav*/
+      //text-align: center;
+      list-style-type: none;
+      height: $nav_height;
+      line-height: $nav_height;
+      @include defaultPadding;
+      @include defaultMiddle(70%);
+      //background-color: red;
+      li {
+        width: 100%/$nav_li_num;
+        float: left;
+        display: block;
+        height: $nav_height;
+        line-height: $nav_height;
+      }
+
+      li#fragment_head_nav_logo {
+        #logo_v {
+          color: red;
+          @include nav_logo;
+        }
+        #logo_m {
+          color: unquote($defaultBlueRgb);
+          @include nav_logo;
+        }
+
+        //background-color: red;
+
+      }
+
+      /*user*/
+
+      li#user_li {
+
+        @include defaultHUl;
+        ul#user_ul {
+          li {
+            //float: right;
+            margin: 0px 10px;
+            a#headImg_a {
+              $img_margin: $nav_height*0.2;
+              $img_size: $nav_height - $img_margin*2;
+              img#headImg_img {
+
+                border-radius: 100px;
+                width: $img_size;
+                height: $img_size;
+                margin: $img_margin 0px;
+              }
+            }
+            a:hover{
+              color:red;
+            }
+          }
+        }
+
+      }
+
+
+
+    }
+
+  }
+
+  #blank_div {
+    height: $nav_height;
+    background-color: $defaultBlueRgb;
+  }
+}

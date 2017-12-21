@@ -1,5 +1,6 @@
 package com.vm;
 
+import com.vm.listener.ApplicationStartedListener;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,9 +12,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Date:2017/11/16 14:47
  */
 @SpringBootApplication
-@MapperScan("com.vm.dao.mapper")
+@MapperScan(basePackages = "com.vm.dao")
 public class BootApp {
     public static void main(String[] args) {
-        SpringApplication.run(BootApp.class, args);
+
+        SpringApplication springApplication = new SpringApplication(BootApp.class);
+        springApplication.addListeners(new ApplicationStartedListener());
+        springApplication.run(args);
+
+
     }
 }

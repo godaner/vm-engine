@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vm.dao.mapper.VmFilmmakersMapper">
+  <resultMap id="BaseResultMap" type="com.vm.dao.po.VmFilmmakers">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="alias" jdbcType="VARCHAR" property="alias" />
+    <result column="profession" jdbcType="VARCHAR" property="profession" />
+    <result column="blood_type" jdbcType="TINYINT" property="bloodType" />
+    <result column="constellation" jdbcType="TINYINT" property="constellation" />
+    <result column="sex" jdbcType="TINYINT" property="sex" />
+    <result column="birthday" jdbcType="INTEGER" property="birthday" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, alias, profession, blood_type, constellation, sex, birthday, country, description, 
+    img_url, status, create_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.vm.dao.po.VmFilmmakersExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vm_filmmakers
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from vm_filmmakers
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from vm_filmmakers
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.vm.dao.po.VmFilmmakersExample">
+    delete from vm_filmmakers
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.vm.dao.po.VmFilmmakers">
+    insert into vm_filmmakers (id, name, alias, 
+      profession, blood_type, constellation, 
+      sex, birthday, country, 
+      description, img_url, status, 
+      create_time, update_time)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, 
+      #{profession,jdbcType=VARCHAR}, #{bloodType,jdbcType=TINYINT}, #{constellation,jdbcType=TINYINT}, 
+      #{sex,jdbcType=TINYINT}, #{birthday,jdbcType=INTEGER}, #{country,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vm.dao.po.VmFilmmakers">
+    insert into vm_filmmakers
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="alias != null">
+        alias,
+      </if>
+      <if test="profession != null">
+        profession,
+      </if>
+      <if test="bloodType != null">
+        blood_type,
+      </if>
+      <if test="constellation != null">
+        constellation,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="country != null">
+        country,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="imgUrl != null">
+        img_url,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null">
+        #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null">
+        #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodType != null">
+        #{bloodType,jdbcType=TINYINT},
+      </if>
+      <if test="constellation != null">
+        #{constellation,jdbcType=TINYINT},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=INTEGER},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null">
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.vm.dao.po.VmFilmmakersExample" resultType="java.lang.Long">
+    select count(*) from vm_filmmakers
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update vm_filmmakers
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.alias != null">
+        alias = #{record.alias,jdbcType=VARCHAR},
+      </if>
+      <if test="record.profession != null">
+        profession = #{record.profession,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bloodType != null">
+        blood_type = #{record.bloodType,jdbcType=TINYINT},
+      </if>
+      <if test="record.constellation != null">
+        constellation = #{record.constellation,jdbcType=TINYINT},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=TINYINT},
+      </if>
+      <if test="record.birthday != null">
+        birthday = #{record.birthday,jdbcType=INTEGER},
+      </if>
+      <if test="record.country != null">
+        country = #{record.country,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imgUrl != null">
+        img_url = #{record.imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update vm_filmmakers
+    set id = #{record.id,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      alias = #{record.alias,jdbcType=VARCHAR},
+      profession = #{record.profession,jdbcType=VARCHAR},
+      blood_type = #{record.bloodType,jdbcType=TINYINT},
+      constellation = #{record.constellation,jdbcType=TINYINT},
+      sex = #{record.sex,jdbcType=TINYINT},
+      birthday = #{record.birthday,jdbcType=INTEGER},
+      country = #{record.country,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      img_url = #{record.imgUrl,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vm.dao.po.VmFilmmakers">
+    update vm_filmmakers
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null">
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null">
+        profession = #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodType != null">
+        blood_type = #{bloodType,jdbcType=TINYINT},
+      </if>
+      <if test="constellation != null">
+        constellation = #{constellation,jdbcType=TINYINT},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=INTEGER},
+      </if>
+      <if test="country != null">
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null">
+        img_url = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vm.dao.po.VmFilmmakers">
+    update vm_filmmakers
+    set name = #{name,jdbcType=VARCHAR},
+      alias = #{alias,jdbcType=VARCHAR},
+      profession = #{profession,jdbcType=VARCHAR},
+      blood_type = #{bloodType,jdbcType=TINYINT},
+      constellation = #{constellation,jdbcType=TINYINT},
+      sex = #{sex,jdbcType=TINYINT},
+      birthday = #{birthday,jdbcType=INTEGER},
+      country = #{country,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!--**************************** 自定义mapper start ****************************-->
+  <select id="selectActorsByMovieId" resultMap="BaseResultMap">
+    SELECT
+    fm.*
+    FROM
+    vm_movies_filmmakers_realation r,
+    vm_filmmakers fm,
+    vm_movies m
+    WHERE
+    m.id = r.movie_id
+    AND fm.id = r.filmmaker_id
+    AND m.id = #{movieId}
+    AND m.`status` = 1
+    AND r.`status` = 1
+    AND fm.`status` = 1
+
+  </select>
+  <!--**************************** 自定义mapper end ****************************-->
+
+</mapper>
