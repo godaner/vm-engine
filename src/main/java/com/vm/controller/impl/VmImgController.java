@@ -32,28 +32,9 @@ public class VmImgController extends ServiceController<VmFilesService> {
      */
     @RequestMapping(value = "movie/{fileId}", method = RequestMethod.GET)
     public void getMovieImg(@PathVariable("fileId") Long fileId, VmMoviesQueryBean query) throws Exception {
-        //获取电影图片id信息
-        VmFiles file = service.getFileByFileId(fileId);
-        String movieImgPath = VmProperties.VM_MOVIE_IMG_PATH;
-        String width = query.getImgWidth();
-        String movieImgName = null;
-        if(file != null){
-            movieImgName = file.getFilename();
-        }
-        File f = new File(movieImgPath + File.separator + width + "_" + movieImgName);
-        //不存在，返回默认图片
-        if (!f.exists()) {
-            width = VmProperties.VM_MOVIE_IMG_DEFAULT_WIDTH;
-            movieImgName = VmProperties.VM_MOVIE_IMG_DEFAULT_NAME;
-            f = new File(movieImgPath + File.separator + width + "_" + movieImgName);
-        }
-        FileInputStream input = new FileInputStream(f);
-        ServletOutputStream output = getResponse().getOutputStream();
-        //设置响应的媒体类型
-        getResponse().setHeader("Content-Type", "image/jped");
-        IOUtils.copy(input, output);
-        output.close();
-        output.flush();
+
+        service.getMovieImg(fileId,query,getResponse());
+
     }
 
     /**
