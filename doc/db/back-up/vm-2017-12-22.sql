@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50633
 File Encoding         : 65001
 
-Date: 2017-12-18 13:54:57
+Date: 2017-12-22 12:31:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -263,7 +263,7 @@ CREATE TABLE `vm_filmmakers` (
 -- Records of vm_filmmakers
 -- ----------------------------
 INSERT INTO `vm_filmmakers` VALUES ('1', 'zhangke', '', '', '0', '0', '3', '13546', '成都', '厉害了', '', '1', '123', '1233');
-INSERT INTO `vm_filmmakers` VALUES ('2', 'ZHANGKE', '', '', '0', '0', '3', '213', '眉山', '大眉山', '', '1', '123', '123');
+INSERT INTO `vm_filmmakers` VALUES ('2', '张大可', '', '', '0', '0', '3', '213', '眉山', '大眉山', '', '1', '123', '123');
 INSERT INTO `vm_filmmakers` VALUES ('3', '布拉-德皮特', '', '', '0', '0', '3', '12321', 'ASDSA', 'ASDSA', '', '1', '123', '123');
 INSERT INTO `vm_filmmakers` VALUES ('4', 'ABD', '', '', '0', '0', '3', '123123', '1231', '12321', '', '1', '12312', '123');
 
@@ -275,7 +275,7 @@ CREATE TABLE `vm_movies` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '标题',
   `alias` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '别名',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '描述',
+  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '描述',
   `director_id` bigint(20) unsigned NOT NULL COMMENT '导演id（指向电影人表：vm_filmmakers）',
   `release_time` int(10) unsigned NOT NULL COMMENT '上映时间',
   `score` float(3,1) unsigned NOT NULL COMMENT '评分',
@@ -287,22 +287,32 @@ CREATE TABLE `vm_movies` (
   `create_time` int(10) unsigned NOT NULL COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='电影表';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='电影表';
 
 -- ----------------------------
 -- Records of vm_movies
 -- ----------------------------
-INSERT INTO `vm_movies` VALUES ('1', '北京爱上西雅图', '电影aaa', '厉害了', '1', '1', '1.0', '100', '12312', '123', '/img/1', '1', '1231', '123');
-INSERT INTO `vm_movies` VALUES ('2', '甲方乙方', 'bbb', '哈哈', '2', '123', '2.0', '1000', '123', '123', '/img/2', '1', '123', '123');
-INSERT INTO `vm_movies` VALUES ('3', '长龙卧虎', 'asdad', 'asdad', '3', '123', '3.0', '78', '123', '123', '/img/3', '1', '123', '123');
-INSERT INTO `vm_movies` VALUES ('4', '惊变28周', 'asdad', 'asdad', '2', '123', '3.0', '787', '123', '123', '/img/4', '1', '123', '123');
-INSERT INTO `vm_movies` VALUES ('5', '天下第一', 'asdad', 'asdad', '2', '123', '3.0', '45', '123', '123', '/img/5', '1', '123', '123');
-INSERT INTO `vm_movies` VALUES ('6', '庇护', 'asdad', 'asdad', '3', '123', '3.0', '789797', '123', '123', '/img/6', '1', '123', '123');
-INSERT INTO `vm_movies` VALUES ('7', '山村老尸', 'asdad', 'asdad', '3', '123', '3.0', '877', '123', '123', '/img/7', '1', '123', '123');
-INSERT INTO `vm_movies` VALUES ('8', '一个勺子', 'asdad', 'asdad', '3', '123', '3.0', '4566', '123', '123', '/img/8', '1', '123', '123');
-INSERT INTO `vm_movies` VALUES ('9', '甲方乙方', 'asdad', 'asdad', '3', '123', '3.0', '10', '123', '123', '/img/9', '1', '123', '123');
-INSERT INTO `vm_movies` VALUES ('10', '我的世界', 'asdad', 'asdad', '2', '123', '3.0', '10456', '123', '123', '/img/10', '1', '123', '123');
-INSERT INTO `vm_movies` VALUES ('11', '惊变28天', 'asdad', 'asdad', '9', '123', '3.0', '4567', '123', '123', '/img/11', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('1', '北京爱上西雅图', '电影aaa', '已在香港立足开馆的叶问（甄子丹 饰）与太太张永成（熊黛林 饰）平静地生活，不料小儿子叶正就读的小学发生了流氓滋扰事件，参与闹事的正是田傲山（梁家仁 饰）昔日的徒弟马鲸笙（谭耀文 饰）。于是叶问带领徒弟徐力（张继聪 饰）等人保护了黄老师（吴千语 饰）、校长（刘以达 饰）以及众小学生，并结识了同样是咏春传人的车夫张天志（张晋 饰），二人惺惺相惜。可是事件却没有止步于此，马鲸笙的老板费兰奇（迈克·泰森 饰）才是幕后黑手，探长肥波（郑则仕 饰）也卷入了其中，与此同时，张天志向叶问发起了谁是“正宗咏春”的挑战，叶问该如何应战？', '1', '1', '1.0', '100', '12312', '123', '/img/movie/1', '1', '1231', '123');
+INSERT INTO `vm_movies` VALUES ('2', '甲方乙方', 'bbb', '哈哈', '2', '123', '2.0', '1000', '123', '123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('3', '长龙卧虎', 'asdad', 'asdad', '3', '123', '3.0', '78', '123', '123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('4', '惊变28周', 'asdad', 'asdad', '2', '123', '3.0', '787', '123', '123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('5', '天下第一', 'asdad', 'asdad', '2', '123', '3.0', '45', '123', '123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('6', '庇护', 'asdad', 'asdad', '3', '123', '3.0', '789797', '123', '123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('7', '山村老尸', 'asdad', 'asdad', '3', '123', '3.0', '877', '123', '123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('8', '一个勺子', 'asdad', 'asdad', '3', '123', '3.0', '4566', '123', '123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('9', '甲方乙方', 'asdad', 'asdad', '3', '123', '3.0', '10', '123', '123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('10', '我的世界', 'asdad', 'asdad', '2', '123', '3.0', '10456', '123', '123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('11', '惊变28天', 'asdad', 'asdad', '9', '123', '3.0', '4567', '123', '123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('12', '地球停转之日', '地球停转之日/地球停转之日', '地球停转之日地球停转之日', '112', '123', '9.6', '555', '99', '1123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('13', '地球停转之日', '地球停转之日/地球停转之日', '地球停转之日地球停转之日', '112', '123', '9.6', '555', '99', '1123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('14', '地球停转之日', '地球停转之日/地球停转之日', '地球停转之日地球停转之日', '112', '123', '9.6', '555', '99', '1123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('15', '地球停转之日', '地球停转之日/地球停转之日', '地球停转之日地球停转之日', '112', '123', '9.6', '555', '99', '1123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('16', '地球停转之日', '地球停转之日/地球停转之日', '地球停转之日地球停转之日', '112', '123', '9.6', '555', '99', '1123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('17', '地球停转之日', '地球停转之日/地球停转之日', '地球停转之日地球停转之日', '112', '123', '9.6', '555', '99', '1123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('18', '地球停转之日', '地球停转之日/地球停转之日', '地球停转之日地球停转之日', '112', '123', '9.6', '555', '99', '1123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('19', '地球停转之日', '地球停转之日/地球停转之日', '地球停转之日地球停转之日', '112', '123', '9.6', '555', '99', '1123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('20', '地球停转之日', '地球停转之日/地球停转之日', '地球停转之日地球停转之日', '112', '123', '9.6', '555', '99', '1123', '/img/movie/1', '1', '123', '123');
+INSERT INTO `vm_movies` VALUES ('21', '地球停转之日', '地球停转之日/地球停转之日', '地球停转之日地球停转之日', '112', '123', '9.6', '555', '99', '1123', '/img/movie/12', '1', '123', '123');
 
 -- ----------------------------
 -- Table structure for vm_movies_filmmakers_realation
@@ -316,7 +326,7 @@ CREATE TABLE `vm_movies_filmmakers_realation` (
   `create_time` int(10) unsigned NOT NULL COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='关系表-电影及其电影人表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='关系表-电影及其电影人表';
 
 -- ----------------------------
 -- Records of vm_movies_filmmakers_realation
@@ -324,6 +334,7 @@ CREATE TABLE `vm_movies_filmmakers_realation` (
 INSERT INTO `vm_movies_filmmakers_realation` VALUES ('1', '1', '1', '1', '1', '1');
 INSERT INTO `vm_movies_filmmakers_realation` VALUES ('2', '1', '2', '1', '1', '1');
 INSERT INTO `vm_movies_filmmakers_realation` VALUES ('3', '1', '3', '1', '1', '1');
+INSERT INTO `vm_movies_filmmakers_realation` VALUES ('4', '3', '1', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for vm_movies_tags_realation
@@ -353,6 +364,13 @@ INSERT INTO `vm_movies_tags_realation` VALUES ('8', '8', '8', '1', '8', '8');
 INSERT INTO `vm_movies_tags_realation` VALUES ('9', '9', '9', '1', '9', '9');
 INSERT INTO `vm_movies_tags_realation` VALUES ('10', '10', '10', '1', '10', '10');
 INSERT INTO `vm_movies_tags_realation` VALUES ('11', '11', '11', '1', '11', '11');
+INSERT INTO `vm_movies_tags_realation` VALUES ('12', '1', '2', '1', '2', '2');
+INSERT INTO `vm_movies_tags_realation` VALUES ('13', '1', '3', '1', '1', '1');
+INSERT INTO `vm_movies_tags_realation` VALUES ('14', '1', '4', '1', '1', '1');
+INSERT INTO `vm_movies_tags_realation` VALUES ('15', '1', '5', '1', '5', '5');
+INSERT INTO `vm_movies_tags_realation` VALUES ('16', '1', '6', '1', '6', '6');
+INSERT INTO `vm_movies_tags_realation` VALUES ('17', '1', '7', '1', '7', '7');
+INSERT INTO `vm_movies_tags_realation` VALUES ('18', '1', '8', '1', '8', '8');
 
 -- ----------------------------
 -- Table structure for vm_tags
