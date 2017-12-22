@@ -26,34 +26,29 @@ var MovieInfoPage = React.createClass({
         //add resize event listener
         window.addEventListener('resize', this.onWindowResize);
 
-        this.initMoviePlayer();
+        this.adjustUI();
+
     },
-    initMoviePlayer: function () {
-        //打开自动播放
-        // var player = videojs('m-player');
-        // // c(player);
-        // videojs("m-player").ready(function () {
-        //     var player = this;
-        //     player.play();
-        // });
+    onWindowResize: function () {
+        this.adjustUI();
+    },
+    adjustUI: function () {
+        this.adjustMoviePlayerUI();
+    },
+    adjustMoviePlayerUI: function () {
         //set player's height by width
-        var player = $(this.refs.m-player);
+        var m = $(this.refs.m);
+        var player = $(this.refs.m_player);
         var w = player.width();
         var h = w/1.5;
+        m.height(h);
         player.height(h);
     },
     componentWillUnmount: function () {
         window.removeEventListener('resize', this.onWindowResize);
     },
-
-    onWindowResize: function () {
-        this.adjustUI();
-    },
     lazyLoadImg: function () {
         lazyLoad();
-    },
-    adjustUI: function () {
-
     },
 
     getMovie: function (callfun) {
@@ -176,10 +171,12 @@ var MovieInfoPage = React.createClass({
 
                 <div id="movie_player">
 
-                    <div className="m">
+                    <div id="m" ref="m">
 
-                        <video id="m-player" ref="m-player" className="video-js vjs-default-skin"
-                               controls preload="none"
+                        <video id="m-player"
+                               ref="m_player"
+                               className="video-js vjs-default-skin"
+                               controls preload="auto"
                                data-setup="{}">
                             <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
                             <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
