@@ -15,7 +15,7 @@
     margin-top: 20px;
     @include defaultWidth;
     //background-color: red;
-    &>#movie_info_displayer{
+    & > #movie_info_displayer {
 
       display: flex;
       @include defaultWidth;
@@ -40,7 +40,7 @@
         //background-color: black;
         @include defaultHUl;
         #text_ul {
-          &>li {
+          & > li {
             margin-bottom: 10px;
             width: 25%;
 
@@ -59,11 +59,11 @@
               font-size: 24px;
             }
           }
-          #description_li{
+          #description_li {
             width: 100%;
             margin-top: 20px;
           }
-          #tags_li{
+          #tags_li {
             width: 100%;
             margin-top: 20px;
 
@@ -74,8 +74,15 @@
     }
 
   }
-  #other_info {
+  #movie_player {
     margin-top: 20px;
+    .m {
+      margin-left: auto;
+      margin-right: auto;
+      width: 960px;
+      height: 400px;
+      margin-top: 100px
+    }
   }
 
 }

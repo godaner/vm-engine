@@ -328,7 +328,7 @@ module.exports = invariant;
 
 
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(12);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -1222,111 +1222,6 @@ module.exports = ReactComponentTreeHook;
 
 /***/ }),
 /* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * 
- */
-
-function makeEmptyFunction(arg) {
-  return function () {
-    return arg;
-  };
-}
-
-/**
- * This function accepts and discards inputs; it has no side effects. This is
- * primarily useful idiomatically for overridable function endpoints which
- * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
- */
-var emptyFunction = function emptyFunction() {};
-
-emptyFunction.thatReturns = makeEmptyFunction;
-emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
-emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
-emptyFunction.thatReturnsNull = makeEmptyFunction(null);
-emptyFunction.thatReturnsThis = function () {
-  return this;
-};
-emptyFunction.thatReturnsArgument = function (arg) {
-  return arg;
-};
-
-module.exports = emptyFunction;
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2016-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * 
- */
-
-
-
-// Trust the developer to only use ReactInstrumentation with a __DEV__ check
-
-var debugTool = null;
-
-if (process.env.NODE_ENV !== 'production') {
-  var ReactDebugTool = __webpack_require__(120);
-  debugTool = ReactDebugTool;
-}
-
-module.exports = { debugTool: debugTool };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (process.env.NODE_ENV !== 'production') {
-  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-    Symbol.for &&
-    Symbol.for('react.element')) ||
-    0xeac7;
-
-  var isValidElement = function(object) {
-    return typeof object === 'object' &&
-      object !== null &&
-      object.$$typeof === REACT_ELEMENT_TYPE;
-  };
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(83)(isValidElement, throwOnDirectAccess);
-} else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(211)();
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 13 */
 /***/ (function(module, exports) {
 
 /*
@@ -1382,7 +1277,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 14 */
+/* 11 */
 /***/ (function(module, exports) {
 
 /*
@@ -1632,6 +1527,111 @@ function updateLink(linkElement, obj) {
 		URL.revokeObjectURL(oldSrc);
 }
 
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+function makeEmptyFunction(arg) {
+  return function () {
+    return arg;
+  };
+}
+
+/**
+ * This function accepts and discards inputs; it has no side effects. This is
+ * primarily useful idiomatically for overridable function endpoints which
+ * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
+ */
+var emptyFunction = function emptyFunction() {};
+
+emptyFunction.thatReturns = makeEmptyFunction;
+emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
+emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
+emptyFunction.thatReturnsNull = makeEmptyFunction(null);
+emptyFunction.thatReturnsThis = function () {
+  return this;
+};
+emptyFunction.thatReturnsArgument = function (arg) {
+  return arg;
+};
+
+module.exports = emptyFunction;
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2016-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+
+
+// Trust the developer to only use ReactInstrumentation with a __DEV__ check
+
+var debugTool = null;
+
+if (process.env.NODE_ENV !== 'production') {
+  var ReactDebugTool = __webpack_require__(120);
+  debugTool = ReactDebugTool;
+}
+
+module.exports = { debugTool: debugTool };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (process.env.NODE_ENV !== 'production') {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(83)(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(211)();
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 15 */
@@ -1998,7 +1998,7 @@ var _assign = __webpack_require__(5);
 
 var PooledClass = __webpack_require__(20);
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(12);
 var warning = __webpack_require__(2);
 
 var didWarnForAddedNewProperty = false;
@@ -2944,7 +2944,7 @@ module.exports = ReactElement;
 
 
 var ReactRef = __webpack_require__(118);
-var ReactInstrumentation = __webpack_require__(11);
+var ReactInstrumentation = __webpack_require__(13);
 
 var warning = __webpack_require__(2);
 
@@ -5786,7 +5786,7 @@ module.exports = getEventModifierState;
 var DOMLazyTree = __webpack_require__(24);
 var Danger = __webpack_require__(129);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactInstrumentation = __webpack_require__(11);
+var ReactInstrumentation = __webpack_require__(13);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(48);
 var setInnerHTML = __webpack_require__(35);
@@ -6531,7 +6531,7 @@ var _prodInvariant = __webpack_require__(3);
 
 var ReactCurrentOwner = __webpack_require__(17);
 var ReactInstanceMap = __webpack_require__(29);
-var ReactInstrumentation = __webpack_require__(11);
+var ReactInstrumentation = __webpack_require__(13);
 var ReactUpdates = __webpack_require__(16);
 
 var invariant = __webpack_require__(1);
@@ -6767,7 +6767,7 @@ module.exports = ReactUpdateQueue;
 
 var _assign = __webpack_require__(5);
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(12);
 var warning = __webpack_require__(2);
 
 var validateDOMNesting = emptyFunction;
@@ -7434,7 +7434,7 @@ exports.default = createTransitionManager;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -8608,7 +8608,7 @@ module.exports = CSSProperty;
 
 var DOMProperty = __webpack_require__(19);
 var ReactDOMComponentTree = __webpack_require__(6);
-var ReactInstrumentation = __webpack_require__(11);
+var ReactInstrumentation = __webpack_require__(13);
 
 var quoteAttributeValueForBrowser = __webpack_require__(143);
 var warning = __webpack_require__(2);
@@ -8890,7 +8890,7 @@ module.exports = function(isValidElement) {
 
 
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(12);
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
 var assign = __webpack_require__(5);
@@ -10680,7 +10680,7 @@ module.exports = traverseAllChildren;
  * @typechecks
  */
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(12);
 
 /**
  * Upstream version of event listener. Does not take into account specific
@@ -10940,7 +10940,7 @@ var ReactDOMContainerInfo = __webpack_require__(199);
 var ReactDOMFeatureFlags = __webpack_require__(200);
 var ReactFeatureFlags = __webpack_require__(73);
 var ReactInstanceMap = __webpack_require__(29);
-var ReactInstrumentation = __webpack_require__(11);
+var ReactInstrumentation = __webpack_require__(13);
 var ReactMarkupChecksum = __webpack_require__(201);
 var ReactReconciler = __webpack_require__(22);
 var ReactUpdateQueue = __webpack_require__(56);
@@ -11678,7 +11678,7 @@ var isExtraneousPopstateEvent = exports.isExtraneousPopstateEvent = function isE
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_invariant__);
@@ -11803,7 +11803,7 @@ Link.contextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__matchPath__ = __webpack_require__(64);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -12264,7 +12264,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 if (process.env.NODE_ENV !== 'production') {
-  var ReactInstrumentation = __webpack_require__(11);
+  var ReactInstrumentation = __webpack_require__(13);
   var ReactDOMUnknownPropertyHook = __webpack_require__(206);
   var ReactDOMNullInputValuePropHook = __webpack_require__(207);
   var ReactDOMInvalidARIAHook = __webpack_require__(208);
@@ -14439,7 +14439,7 @@ var DOMLazyTree = __webpack_require__(24);
 var ExecutionEnvironment = __webpack_require__(7);
 
 var createNodesFromMarkup = __webpack_require__(130);
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(12);
 var invariant = __webpack_require__(1);
 
 var Danger = {
@@ -14857,11 +14857,11 @@ var ReactDOMInput = __webpack_require__(146);
 var ReactDOMOption = __webpack_require__(161);
 var ReactDOMSelect = __webpack_require__(89);
 var ReactDOMTextarea = __webpack_require__(162);
-var ReactInstrumentation = __webpack_require__(11);
+var ReactInstrumentation = __webpack_require__(13);
 var ReactMultiChild = __webpack_require__(163);
 var ReactServerRenderingTransaction = __webpack_require__(172);
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(12);
 var escapeTextContentForBrowser = __webpack_require__(36);
 var invariant = __webpack_require__(1);
 var isEventSupported = __webpack_require__(44);
@@ -15884,7 +15884,7 @@ module.exports = AutoFocusUtils;
 
 var CSSProperty = __webpack_require__(79);
 var ExecutionEnvironment = __webpack_require__(7);
-var ReactInstrumentation = __webpack_require__(11);
+var ReactInstrumentation = __webpack_require__(13);
 
 var camelizeStyleName = __webpack_require__(137);
 var dangerousStyleValue = __webpack_require__(139);
@@ -16902,7 +16902,7 @@ module.exports = checkPropTypes;
 var PooledClass = __webpack_require__(149);
 var ReactElement = __webpack_require__(21);
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(12);
 var traverseAllChildren = __webpack_require__(150);
 
 var twoArgumentPooler = PooledClass.twoArgumentPooler;
@@ -19043,13 +19043,13 @@ var _prodInvariant = __webpack_require__(3);
 
 var ReactComponentEnvironment = __webpack_require__(52);
 var ReactInstanceMap = __webpack_require__(29);
-var ReactInstrumentation = __webpack_require__(11);
+var ReactInstrumentation = __webpack_require__(13);
 
 var ReactCurrentOwner = __webpack_require__(17);
 var ReactReconciler = __webpack_require__(22);
 var ReactChildReconciler = __webpack_require__(164);
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(12);
 var flattenChildren = __webpack_require__(171);
 var invariant = __webpack_require__(1);
 
@@ -19654,7 +19654,7 @@ var ReactComponentEnvironment = __webpack_require__(52);
 var ReactCurrentOwner = __webpack_require__(17);
 var ReactErrorUtils = __webpack_require__(42);
 var ReactInstanceMap = __webpack_require__(29);
-var ReactInstrumentation = __webpack_require__(11);
+var ReactInstrumentation = __webpack_require__(13);
 var ReactNodeTypes = __webpack_require__(91);
 var ReactReconciler = __webpack_require__(22);
 
@@ -20845,7 +20845,7 @@ var _assign = __webpack_require__(5);
 
 var PooledClass = __webpack_require__(20);
 var Transaction = __webpack_require__(33);
-var ReactInstrumentation = __webpack_require__(11);
+var ReactInstrumentation = __webpack_require__(13);
 var ReactServerUpdateQueue = __webpack_require__(173);
 
 /**
@@ -21452,7 +21452,7 @@ var _assign = __webpack_require__(5);
 var ReactUpdates = __webpack_require__(16);
 var Transaction = __webpack_require__(33);
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(12);
 
 var RESET_BATCHED_UPDATES = {
   initialize: emptyFunction,
@@ -21761,7 +21761,7 @@ var CallbackQueue = __webpack_require__(72);
 var PooledClass = __webpack_require__(20);
 var ReactBrowserEventEmitter = __webpack_require__(37);
 var ReactInputSelection = __webpack_require__(96);
-var ReactInstrumentation = __webpack_require__(11);
+var ReactInstrumentation = __webpack_require__(13);
 var Transaction = __webpack_require__(33);
 var ReactUpdateQueue = __webpack_require__(56);
 
@@ -22842,7 +22842,7 @@ var SyntheticTransitionEvent = __webpack_require__(197);
 var SyntheticUIEvent = __webpack_require__(28);
 var SyntheticWheelEvent = __webpack_require__(198);
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(12);
 var getEventCharCode = __webpack_require__(58);
 var invariant = __webpack_require__(1);
 
@@ -24096,11 +24096,11 @@ var _movie_info_page = __webpack_require__(253);
 
 var _movie_info_page2 = _interopRequireDefault(_movie_info_page);
 
-var _head = __webpack_require__(262);
+var _head = __webpack_require__(264);
 
 var _head2 = _interopRequireDefault(_head);
 
-var _tail = __webpack_require__(265);
+var _tail = __webpack_require__(267);
 
 var _tail2 = _interopRequireDefault(_tail);
 
@@ -24163,7 +24163,7 @@ exports.default = Index; //将App组件导出
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_createBrowserHistory__ = __webpack_require__(212);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_createBrowserHistory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_history_createBrowserHistory__);
@@ -24235,7 +24235,7 @@ BrowserRouter.propTypes = {
 
 
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(12);
 var invariant = __webpack_require__(1);
 var ReactPropTypesSecret = __webpack_require__(50);
 
@@ -24608,7 +24608,7 @@ exports.default = createBrowserHistory;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_createHashHistory__ = __webpack_require__(214);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_createHashHistory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_history_createHashHistory__);
@@ -25015,7 +25015,7 @@ exports.default = createHashHistory;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_createMemoryHistory__ = __webpack_require__(217);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_createMemoryHistory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_history_createMemoryHistory__);
@@ -25256,7 +25256,7 @@ exports.default = createMemoryHistory;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Route__ = __webpack_require__(104);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Link__ = __webpack_require__(103);
@@ -25789,7 +25789,7 @@ module.exports = Array.isArray || function (arr) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_invariant__);
@@ -25891,7 +25891,7 @@ Prompt.contextTypes = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_warning__);
@@ -26834,7 +26834,7 @@ var createMemoryHistory = function createMemoryHistory() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_history_PathUtils__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_history_PathUtils___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_history_PathUtils__);
@@ -27024,7 +27024,7 @@ StaticRouter.childContextTypes = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_warning__);
@@ -27140,7 +27140,7 @@ Switch.propTypes = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics__ = __webpack_require__(236);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics__);
@@ -27260,7 +27260,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 var content = __webpack_require__(238);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(14)(content, {});
+var update = __webpack_require__(11)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -27280,7 +27280,7 @@ if(false) {
 /* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)();
+exports = module.exports = __webpack_require__(10)();
 // imports
 
 
@@ -28106,7 +28106,7 @@ exports.default = MsgDialog; //将App组件导出
 var content = __webpack_require__(242);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(14)(content, {});
+var update = __webpack_require__(11)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28126,7 +28126,7 @@ if(false) {
 /* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)();
+exports = module.exports = __webpack_require__(10)();
 // imports
 
 
@@ -28146,7 +28146,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(244);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(14)(content, {});
+var update = __webpack_require__(11)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28166,7 +28166,7 @@ if(false) {
 /* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)();
+exports = module.exports = __webpack_require__(10)();
 // imports
 
 
@@ -28186,7 +28186,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(246);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(14)(content, {});
+var update = __webpack_require__(11)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28206,7 +28206,7 @@ if(false) {
 /* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)();
+exports = module.exports = __webpack_require__(10)();
 // imports
 
 
@@ -28226,7 +28226,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(248);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(14)(content, {});
+var update = __webpack_require__(11)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28246,7 +28246,7 @@ if(false) {
 /* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)();
+exports = module.exports = __webpack_require__(10)();
 // imports
 
 
@@ -28266,7 +28266,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(250);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(14)(content, {});
+var update = __webpack_require__(11)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28286,12 +28286,12 @@ if(false) {
 /* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)();
+exports = module.exports = __webpack_require__(10)();
 // imports
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n.clickSearchBtn {\n  background-color: \"rgb(61,158,255)\";\n  color: white; }\n\n#fragment_index_center_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #fragment_index_center_content > * {\n    padding: 20px 20px; }\n  #fragment_index_center_content #movie_type_div {\n    margin-top: 20px;\n    border-radius: 3px;\n    background-color: white;\n    /*#tagTip{\r\n      width:100%;\r\n      text-align: center;\r\n      height: 15px;\r\n    }*/ }\n    #fragment_index_center_content #movie_type_div .type_item {\n      margin: 12px 0px; }\n      #fragment_index_center_content #movie_type_div .type_item > * {\n        display: inline; }\n      #fragment_index_center_content #movie_type_div .type_item label {\n        display: inline;\n        width: 20%; }\n      #fragment_index_center_content #movie_type_div .type_item ul {\n        width: 80%;\n        display: inline;\n        text-align: left;\n        list-style-type: none; }\n        #fragment_index_center_content #movie_type_div .type_item ul .currt {\n          background-color: rgb(61,158,255);\n          border-radius: 99px; }\n          #fragment_index_center_content #movie_type_div .type_item ul .currt > a {\n            color: white; }\n        #fragment_index_center_content #movie_type_div .type_item ul li {\n          text-align: center;\n          margin: 0px 5px;\n          padding: 2px 5px;\n          cursor: pointer;\n          display: inline; }\n          #fragment_index_center_content #movie_type_div .type_item ul li {\n            background-color: white;\n            border-radius: 99px;\n            border: 1px solid rgb(61,158,255); }\n            #fragment_index_center_content #movie_type_div .type_item ul li > a {\n              color: rgb(61,158,255); }\n          #fragment_index_center_content #movie_type_div .type_item ul li:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_type_div .type_item ul li:hover > a {\n              background-color: rgb(61,158,255);\n              color: white; }\n  #fragment_index_center_content #movie_list_div {\n    margin-top: 20px;\n    border-radius: 3px;\n    background-color: white;\n    /*分割线*/ }\n    #fragment_index_center_content #movie_list_div #head {\n      width: 100%;\n      height: 30px; }\n      #fragment_index_center_content #movie_list_div #head > div {\n        display: block;\n        float: left;\n        height: 30px;\n        line-height: 30px; }\n      #fragment_index_center_content #movie_list_div #head #sort_div {\n        width: 50%;\n        text-align: left; }\n        #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways {\n          display: inline;\n          list-style-type: none; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li {\n            margin: 0px 5px;\n            padding: 2px 5px;\n            display: inline;\n            cursor: pointer;\n            transition: all 500ms; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover {\n              background-color: rgb(61,158,255);\n              border-radius: 99px; }\n              #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover > a {\n                color: white; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt > a {\n              color: white; }\n      #fragment_index_center_content #movie_list_div #head #search_div {\n        width: 40%;\n        text-align: right;\n        /*btn*/ }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_text {\n          width: 50%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          background-image: url(\"/frontend/image/icon_zoom.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          padding-left: 30px;\n          margin-right: 0px;\n          border: 1px solid rgb(61,158,255);\n          border-right: 0px; }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn {\n          width: 20%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          cursor: pointer;\n          border: 1px solid rgb(61,158,255);\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn:hover {\n            background-color: rgb(61,158,255);\n            color: white; }\n      #fragment_index_center_content #movie_list_div #head #total_div {\n        width: 10%;\n        text-align: right; }\n    #fragment_index_center_content #movie_list_div #line {\n      height: 1px;\n      background-color: rgb(241,242,243);\n      margin: 20px 0px; }\n    #fragment_index_center_content #movie_list_div #movies_display_div {\n      width: 100%; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul {\n        width: 100%;\n        display: inline;\n        list-style-type: none;\n        width: 100%;\n        /*#movieTip{\r\n          width:100%;\r\n          text-align: center;\r\n          height: 15px;\r\n        }*/ }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item {\n          width: 17%;\n          padding: 1.5%;\n          display: inline-block;\n          float: left; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a {\n            display: block;\n            width: 100%; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a img {\n              width: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div {\n            width: 100%;\n            height: auto; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div {\n              width: 100%;\n              display: block;\n              margin: 2px 0px; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div {\n              white-space: nowrap;\n              overflow: hidden;\n              text-overflow: ellipsis;\n              display: block; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div {\n        margin: 80px 0px;\n        width: 100%;\n        text-align: center; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul {\n          list-style: none;\n          display: inline; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n            display: inline-block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            height: auto;\n            width: auto; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n          overflow: hidden;\n          margin: 0px 5px; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li {\n          border: 1px solid rgb(241,242,243);\n          height: auto;\n          cursor: pointer;\n          text-align: left;\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li a {\n            padding: 8px 15px;\n            display: block;\n            width: 100%;\n            height: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover {\n            background-color: rgb(61,158,255); }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover a {\n              color: white; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt {\n          background-color: rgb(61,158,255); }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt a {\n            color: white; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n.clickSearchBtn {\n  background-color: \"rgb(61,158,255)\";\n  color: white; }\n\n#fragment_index_center_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #fragment_index_center_content > * {\n    padding: 20px 20px; }\n  #fragment_index_center_content #movie_type_div {\n    margin-top: 20px;\n    border-radius: 3px;\n    background-color: white;\n    /*#tagTip{\n      width:100%;\n      text-align: center;\n      height: 15px;\n    }*/ }\n    #fragment_index_center_content #movie_type_div .type_item {\n      margin: 12px 0px; }\n      #fragment_index_center_content #movie_type_div .type_item > * {\n        display: inline; }\n      #fragment_index_center_content #movie_type_div .type_item label {\n        display: inline;\n        width: 20%; }\n      #fragment_index_center_content #movie_type_div .type_item ul {\n        width: 80%;\n        display: inline;\n        text-align: left;\n        list-style-type: none; }\n        #fragment_index_center_content #movie_type_div .type_item ul .currt {\n          background-color: rgb(61,158,255);\n          border-radius: 99px; }\n          #fragment_index_center_content #movie_type_div .type_item ul .currt > a {\n            color: white; }\n        #fragment_index_center_content #movie_type_div .type_item ul li {\n          text-align: center;\n          margin: 0px 5px;\n          padding: 2px 5px;\n          cursor: pointer;\n          display: inline; }\n          #fragment_index_center_content #movie_type_div .type_item ul li {\n            background-color: white;\n            border-radius: 99px;\n            border: 1px solid rgb(61,158,255); }\n            #fragment_index_center_content #movie_type_div .type_item ul li > a {\n              color: rgb(61,158,255); }\n          #fragment_index_center_content #movie_type_div .type_item ul li:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_type_div .type_item ul li:hover > a {\n              background-color: rgb(61,158,255);\n              color: white; }\n  #fragment_index_center_content #movie_list_div {\n    margin-top: 20px;\n    border-radius: 3px;\n    background-color: white;\n    /*分割线*/ }\n    #fragment_index_center_content #movie_list_div #head {\n      width: 100%;\n      height: 30px; }\n      #fragment_index_center_content #movie_list_div #head > div {\n        display: block;\n        float: left;\n        height: 30px;\n        line-height: 30px; }\n      #fragment_index_center_content #movie_list_div #head #sort_div {\n        width: 50%;\n        text-align: left; }\n        #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways {\n          display: inline;\n          list-style-type: none; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li {\n            margin: 0px 5px;\n            padding: 2px 5px;\n            display: inline;\n            cursor: pointer;\n            transition: all 500ms; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover {\n              background-color: rgb(61,158,255);\n              border-radius: 99px; }\n              #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover > a {\n                color: white; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt > a {\n              color: white; }\n      #fragment_index_center_content #movie_list_div #head #search_div {\n        width: 40%;\n        text-align: right;\n        /*btn*/ }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_text {\n          width: 50%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          background-image: url(\"/frontend/image/icon_zoom.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          padding-left: 30px;\n          margin-right: 0px;\n          border: 1px solid rgb(61,158,255);\n          border-right: 0px; }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn {\n          width: 20%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          cursor: pointer;\n          border: 1px solid rgb(61,158,255);\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn:hover {\n            background-color: rgb(61,158,255);\n            color: white; }\n      #fragment_index_center_content #movie_list_div #head #total_div {\n        width: 10%;\n        text-align: right; }\n    #fragment_index_center_content #movie_list_div #line {\n      height: 1px;\n      background-color: rgb(241,242,243);\n      margin: 20px 0px; }\n    #fragment_index_center_content #movie_list_div #movies_display_div {\n      width: 100%; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul {\n        width: 100%;\n        display: inline;\n        list-style-type: none;\n        width: 100%;\n        /*#movieTip{\n          width:100%;\n          text-align: center;\n          height: 15px;\n        }*/ }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item {\n          width: 17%;\n          padding: 1.5%;\n          display: inline-block;\n          float: left; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a {\n            display: block;\n            width: 100%; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a img {\n              width: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div {\n            width: 100%;\n            height: auto; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div {\n              width: 100%;\n              display: block;\n              margin: 2px 0px; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div {\n              white-space: nowrap;\n              overflow: hidden;\n              text-overflow: ellipsis;\n              display: block; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div {\n        margin: 80px 0px;\n        width: 100%;\n        text-align: center; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul {\n          list-style: none;\n          display: inline; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n            display: inline-block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            height: auto;\n            width: auto; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n          overflow: hidden;\n          margin: 0px 5px; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li {\n          border: 1px solid rgb(241,242,243);\n          height: auto;\n          cursor: pointer;\n          text-align: left;\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li a {\n            padding: 8px 15px;\n            display: block;\n            width: 100%;\n            height: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover {\n            background-color: rgb(61,158,255); }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover a {\n              color: white; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt {\n          background-color: rgb(61,158,255); }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt a {\n            color: white; }\n", ""]);
 
 // exports
 
@@ -28306,7 +28306,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(252);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(14)(content, {});
+var update = __webpack_require__(11)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28326,7 +28326,7 @@ if(false) {
 /* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)();
+exports = module.exports = __webpack_require__(10)();
 // imports
 
 
@@ -28353,6 +28353,8 @@ var _react2 = _interopRequireDefault(_react);
 
 __webpack_require__(254);
 
+__webpack_require__(256);
+
 var _actors_list = __webpack_require__(107);
 
 var _actors_list2 = _interopRequireDefault(_actors_list);
@@ -28365,17 +28367,16 @@ var _director = __webpack_require__(108);
 
 var _director2 = _interopRequireDefault(_director);
 
-var _tags_of_movie = __webpack_require__(256);
+var _tags_of_movie = __webpack_require__(258);
 
 var _tags_of_movie2 = _interopRequireDefault(_tags_of_movie);
 
-var _flex_text = __webpack_require__(259);
+var _flex_text = __webpack_require__(261);
 
 var _flex_text2 = _interopRequireDefault(_flex_text);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//引入react组件
 var MovieInfoPage = _react2.default.createClass({
     displayName: 'MovieInfoPage',
 
@@ -28398,8 +28399,17 @@ var MovieInfoPage = _react2.default.createClass({
         this.getMovie();
         //add resize event listener
         window.addEventListener('resize', this.onWindowResize);
-    },
 
+        this.initMoviePlayer();
+    },
+    initMoviePlayer: function initMoviePlayer() {
+        //打开自动播放
+        var myPlayer = videojs('movie-player');
+        videojs("movie-player").ready(function () {
+            var myPlayer = this;
+            myPlayer.play();
+        });
+    },
     componentWillUnmount: function componentWillUnmount() {
         window.removeEventListener('resize', this.onWindowResize);
     },
@@ -28578,11 +28588,40 @@ var MovieInfoPage = _react2.default.createClass({
                     )
                 )
             ),
-            _react2.default.createElement('div', { id: 'other_info' })
+            _react2.default.createElement(
+                'div',
+                { id: 'movie_player' },
+                _react2.default.createElement(
+                    'div',
+                    { 'class': 'm' },
+                    _react2.default.createElement(
+                        'video',
+                        {
+                            id: 'my-player',
+                            'class': 'video-js',
+                            controls: true,
+                            preload: 'auto',
+                            poster: '//vjs.zencdn.net/v/oceans.png',
+                            'data-setup': '{}' },
+                        _react2.default.createElement('source', { src: 'http://vjs.zencdn.net/v/oceans.mp4', type: 'video/mp4' }),
+                        _react2.default.createElement('source', { src: 'http://vjs.zencdn.net/v/oceans.webm', type: 'video/webm' }),
+                        _react2.default.createElement('source', { src: 'http://vjs.zencdn.net/v/oceans.ogv', type: 'video/ogg' }),
+                        _react2.default.createElement(
+                            'p',
+                            { 'class': 'vjs-no-js' },
+                            'To view this video please enable JavaScript, and consider upgrading to a web browser that',
+                            _react2.default.createElement(
+                                'a',
+                                { href: 'http://videojs.com/html5-video-support/', target: '_blank' },
+                                'supports HTML5 video'
+                            )
+                        )
+                    )
+                )
+            )
         );
     }
-});
-
+}); //引入react组件
 exports.default = MovieInfoPage;
 
 /***/ }),
@@ -28595,7 +28634,7 @@ exports.default = MovieInfoPage;
 var content = __webpack_require__(255);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(14)(content, {});
+var update = __webpack_require__(11)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28615,18 +28654,58 @@ if(false) {
 /* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)();
+exports = module.exports = __webpack_require__(10)();
 // imports
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#movie_info_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #movie_info_content > * {\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    width: 100%; }\n  #movie_info_content #basic_info {\n    margin-top: 20px;\n    width: 100%; }\n    #movie_info_content #basic_info > #movie_info_displayer {\n      display: flex;\n      width: 100%; }\n      #movie_info_content #basic_info > #movie_info_displayer > div {\n        float: left; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_img {\n        width: 200px;\n        flex: none; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_img > img {\n          width: 200px;\n          height: 300px; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_text {\n        padding: 0px 10px;\n        flex: 1;\n        height: 100%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text ul {\n          list-style: none;\n          display: inline; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text ul li {\n            display: inline-block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            height: auto;\n            width: auto; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul > li {\n          margin-bottom: 10px;\n          width: 25%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li {\n          width: 100%; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li, #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li > a {\n            color: rgb(61,158,255);\n            font-size: 24px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #description_li {\n          width: 100%;\n          margin-top: 20px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #tags_li {\n          width: 100%;\n          margin-top: 20px; }\n  #movie_info_content #other_info {\n    margin-top: 20px; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#movie_info_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #movie_info_content > * {\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    width: 100%; }\n  #movie_info_content #basic_info {\n    margin-top: 20px;\n    width: 100%; }\n    #movie_info_content #basic_info > #movie_info_displayer {\n      display: flex;\n      width: 100%; }\n      #movie_info_content #basic_info > #movie_info_displayer > div {\n        float: left; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_img {\n        width: 200px;\n        flex: none; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_img > img {\n          width: 200px;\n          height: 300px; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_text {\n        padding: 0px 10px;\n        flex: 1;\n        height: 100%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text ul {\n          list-style: none;\n          display: inline; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text ul li {\n            display: inline-block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            height: auto;\n            width: auto; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul > li {\n          margin-bottom: 10px;\n          width: 25%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li {\n          width: 100%; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li, #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li > a {\n            color: rgb(61,158,255);\n            font-size: 24px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #description_li {\n          width: 100%;\n          margin-top: 20px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #tags_li {\n          width: 100%;\n          margin-top: 20px; }\n  #movie_info_content #movie_player {\n    margin-top: 20px; }\n    #movie_info_content #movie_player .m {\n      margin-left: auto;\n      margin-right: auto;\n      width: 960px;\n      height: 400px;\n      margin-top: 100px; }\n", ""]);
 
 // exports
 
 
 /***/ }),
 /* 256 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(257);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(11)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/sass-loader/lib/loader.js!./video-js.css", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/sass-loader/lib/loader.js!./video-js.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 257 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(10)();
+// imports
+
+
+// module
+exports.push([module.i, ".video-js .vjs-audio-button, .video-js .vjs-big-play-button, .video-js .vjs-captions-button, .video-js .vjs-chapters-button, .video-js .vjs-control.vjs-close-button, .video-js .vjs-descriptions-button, .video-js .vjs-fullscreen-control, .video-js .vjs-mouse-display, .video-js .vjs-mute-control, .video-js .vjs-mute-control.vjs-vol-0, .video-js .vjs-mute-control.vjs-vol-1, .video-js .vjs-mute-control.vjs-vol-2, .video-js .vjs-play-control, .video-js .vjs-play-control.vjs-playing, .video-js .vjs-play-progress, .video-js .vjs-subtitles-button, .video-js .vjs-volume-level, .video-js .vjs-volume-menu-button, .video-js .vjs-volume-menu-button.vjs-vol-0, .video-js .vjs-volume-menu-button.vjs-vol-1, .video-js .vjs-volume-menu-button.vjs-vol-2, .video-js.vjs-fullscreen .vjs-fullscreen-control, .vjs-icon-audio, .vjs-icon-audio-description, .vjs-icon-cancel, .vjs-icon-captions, .vjs-icon-chapters, .vjs-icon-circle, .vjs-icon-circle-inner-circle, .vjs-icon-circle-outline, .vjs-icon-cog, .vjs-icon-facebook, .vjs-icon-fullscreen-enter, .vjs-icon-fullscreen-exit, .vjs-icon-gplus, .vjs-icon-hd, .vjs-icon-linkedin, .vjs-icon-pause, .vjs-icon-pinterest, .vjs-icon-play, .vjs-icon-play-circle, .vjs-icon-replay, .vjs-icon-spinner, .vjs-icon-square, .vjs-icon-subtitles, .vjs-icon-tumblr, .vjs-icon-twitter, .vjs-icon-volume-high, .vjs-icon-volume-low, .vjs-icon-volume-mid, .vjs-icon-volume-mute {\n  font-family: VideoJS;\n  font-weight: 400;\n  font-style: normal; }\n\n.video-js, .vjs-no-js {\n  color: #fff;\n  background-color: #000; }\n\n.video-js .vjs-big-play-button:before, .video-js .vjs-control, .video-js .vjs-control:before, .vjs-menu li, .vjs-no-js {\n  text-align: center; }\n\n.video-js .vjs-big-play-button:before, .video-js .vjs-control:before, .video-js .vjs-modal-dialog, .vjs-modal-dialog .vjs-modal-dialog-content {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%; }\n\n@font-face {\n  font-family: VideoJS;\n  src: url(" + __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../font/2.0.0/VideoJS.eot\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) + "?#iefix) format(\"eot\"); }\n\n@font-face {\n  font-family: VideoJS;\n  src: url(data:application/font-woff;charset=utf-8;base64,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) format(\"woff\"), url(data:application/x-font-ttf;charset=utf-8;base64,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FjY3PgE3LgEnIwYfAR4BFw4BBTM/ARUzESMGAyUVJwMchM2UWwgNq4JHrQgBAapUaAoJcWMBfiIhDiMrAQJLMB0BBAokNAIBPmMiIQ4iLAECSzAeAQUKJDQBP2MiIQ4iLAECSzAeAQUKJDQBAT75g+5B4arNLNIBJ44ByQL9BQ9mvYCKwA8FBQMDwwJVTGdzBf6VB8IHNR08lld9uT4LCRA/qGNxvUwHNR08lld9uT4LCRA/qGNxvUwHNR08lld9uT4LCRA/qGNxvVJkAWUDDEf+tYP5AQAAAAEAAAAABiAGtgAbAAABBAADER4BFzMRITU2ADcWABcVIREzPgE3EQIAA4D+4v6FBwJ/X+D+1QYBJ97eAScG/tXgX38CB/6FBrUH/oX+4v32X38CAlWV3gEnBgb+2d6V/asCf18CCgEeAXsAAAAAEADGAAEAAAAAAAEABwAAAAEAAAAAAAIABwAHAAEAAAAAAAMABwAOAAEAAAAAAAQABwAVAAEAAAAAAAUACwAcAAEAAAAAAAYABwAnAAEAAAAAAAoAKwAuAAEAAAAAAAsAEwBZAAMAAQQJAAEADgBsAAMAAQQJAAIADgB6AAMAAQQJAAMADgCIAAMAAQQJAAQADgCWAAMAAQQJAAUAFgCkAAMAAQQJAAYADgC6AAMAAQQJAAoAVgDIAAMAAQQJAAsAJgEeVmlkZW9KU1JlZ3VsYXJWaWRlb0pTVmlkZW9KU1ZlcnNpb24gMS4wVmlkZW9KU0dlbmVyYXRlZCBieSBzdmcydHRmIGZyb20gRm9udGVsbG8gcHJvamVjdC5odHRwOi8vZm9udGVsbG8uY29tAFYAaQBkAGUAbwBKAFMAUgBlAGcAdQBsAGEAcgBWAGkAZABlAG8ASgBTAFYAaQBkAGUAbwBKAFMAVgBlAHIAcwBpAG8AbgAgADEALgAwAFYAaQBkAGUAbwBKAFMARwBlAG4AZQByAGEAdABlAGQAIABiAHkAIABzAHYAZwAyAHQAdABmACAAZgByAG8AbQAgAEYAbwBuAHQAZQBsAGwAbwAgAHAAcgBvAGoAZQBjAHQALgBoAHQAdABwADoALwAvAGYAbwBuAHQAZQBsAGwAbwAuAGMAbwBtAAAAAgAAAAAAAAARAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfAAABAgEDAQQBBQEGAQcBCAEJAQoBCwEMAQ0BDgEPARABEQESARMBFAEVARYBFwEYARkBGgEbARwBHQEeAR8EcGxheQtwbGF5LWNpcmNsZQVwYXVzZQt2b2x1bWUtbXV0ZQp2b2x1bWUtbG93CnZvbHVtZS1taWQLdm9sdW1lLWhpZ2gQZnVsbHNjcmVlbi1lbnRlcg9mdWxsc2NyZWVuLWV4aXQGc3F1YXJlB3NwaW5uZXIJc3VidGl0bGVzCGNhcHRpb25zCGNoYXB0ZXJzBXNoYXJlA2NvZwZjaXJjbGUOY2lyY2xlLW91dGxpbmUTY2lyY2xlLWlubmVyLWNpcmNsZQJoZAZjYW5jZWwGcmVwbGF5CGZhY2Vib29rBWdwbHVzCGxpbmtlZGluB3R3aXR0ZXIGdHVtYmxyCXBpbnRlcmVzdBFhdWRpby1kZXNjcmlwdGlvbgVhdWRpbwAAAAAA) format(\"truetype\");\n  font-weight: 400;\n  font-style: normal; }\n\n.video-js .vjs-big-play-button:before, .video-js .vjs-play-control:before, .vjs-icon-play:before {\n  content: \"\\F101\"; }\n\n.vjs-icon-play-circle:before {\n  content: \"\\F102\"; }\n\n.video-js .vjs-play-control.vjs-playing:before, .vjs-icon-pause:before {\n  content: \"\\F103\"; }\n\n.video-js .vjs-mute-control.vjs-vol-0:before, .video-js .vjs-volume-menu-button.vjs-vol-0:before, .vjs-icon-volume-mute:before {\n  content: \"\\F104\"; }\n\n.video-js .vjs-mute-control.vjs-vol-1:before, .video-js .vjs-volume-menu-button.vjs-vol-1:before, .vjs-icon-volume-low:before {\n  content: \"\\F105\"; }\n\n.video-js .vjs-mute-control.vjs-vol-2:before, .video-js .vjs-volume-menu-button.vjs-vol-2:before, .vjs-icon-volume-mid:before {\n  content: \"\\F106\"; }\n\n.video-js .vjs-mute-control:before, .video-js .vjs-volume-menu-button:before, .vjs-icon-volume-high:before {\n  content: \"\\F107\"; }\n\n.video-js .vjs-fullscreen-control:before, .vjs-icon-fullscreen-enter:before {\n  content: \"\\F108\"; }\n\n.video-js.vjs-fullscreen .vjs-fullscreen-control:before, .vjs-icon-fullscreen-exit:before {\n  content: \"\\F109\"; }\n\n.vjs-icon-square:before {\n  content: \"\\F10A\"; }\n\n.vjs-icon-spinner:before {\n  content: \"\\F10B\"; }\n\n.video-js .vjs-subtitles-button:before, .vjs-icon-subtitles:before {\n  content: \"\\F10C\"; }\n\n.video-js .vjs-captions-button:before, .vjs-icon-captions:before {\n  content: \"\\F10D\"; }\n\n.video-js .vjs-chapters-button:before, .vjs-icon-chapters:before {\n  content: \"\\F10E\"; }\n\n.vjs-icon-share {\n  font-family: VideoJS;\n  font-weight: 400;\n  font-style: normal; }\n\n.vjs-icon-share:before {\n  content: \"\\F10F\"; }\n\n.vjs-icon-cog:before {\n  content: \"\\F110\"; }\n\n.video-js .vjs-mouse-display:before, .video-js .vjs-play-progress:before, .video-js .vjs-volume-level:before, .vjs-icon-circle:before {\n  content: \"\\F111\"; }\n\n.vjs-icon-circle-outline:before {\n  content: \"\\F112\"; }\n\n.vjs-icon-circle-inner-circle:before {\n  content: \"\\F113\"; }\n\n.vjs-icon-hd:before {\n  content: \"\\F114\"; }\n\n.video-js .vjs-control.vjs-close-button:before, .vjs-icon-cancel:before {\n  content: \"\\F115\"; }\n\n.vjs-icon-replay:before {\n  content: \"\\F116\"; }\n\n.vjs-icon-facebook:before {\n  content: \"\\F117\"; }\n\n.vjs-icon-gplus:before {\n  content: \"\\F118\"; }\n\n.vjs-icon-linkedin:before {\n  content: \"\\F119\"; }\n\n.vjs-icon-twitter:before {\n  content: \"\\F11A\"; }\n\n.vjs-icon-tumblr:before {\n  content: \"\\F11B\"; }\n\n.vjs-icon-pinterest:before {\n  content: \"\\F11C\"; }\n\n.video-js .vjs-descriptions-button:before, .vjs-icon-audio-description:before {\n  content: \"\\F11D\"; }\n\n.video-js .vjs-audio-button:before, .vjs-icon-audio:before {\n  content: \"\\F11E\"; }\n\n.video-js {\n  display: block;\n  vertical-align: top;\n  box-sizing: border-box;\n  position: relative;\n  padding: 0;\n  font-size: 10px;\n  line-height: 1;\n  font-weight: 400;\n  font-style: normal;\n  font-family: Arial,Helvetica,sans-serif;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none; }\n\n.video-js:-moz-full-screen {\n  position: absolute; }\n\n.video-js:-webkit-full-screen {\n  width: 100% !important;\n  height: 100% !important; }\n\n.video-js .vjs-tech, .video-js.vjs-fill {\n  width: 100%;\n  height: 100%; }\n\n.video-js *, .video-js :after, .video-js :before {\n  box-sizing: inherit; }\n\n.video-js ul {\n  font-family: inherit;\n  font-size: inherit;\n  line-height: inherit;\n  list-style-position: outside;\n  margin: 0; }\n\n.vjs-error .vjs-error-display:before, .vjs-menu .vjs-menu-content, .vjs-no-js {\n  font-family: Arial,Helvetica,sans-serif; }\n\n.video-js.vjs-16-9, .video-js.vjs-4-3, .video-js.vjs-fluid {\n  width: 100%;\n  max-width: 100%;\n  height: 0; }\n\n.video-js.vjs-16-9 {\n  padding-top: 56.25%; }\n\n.video-js.vjs-4-3 {\n  padding-top: 75%; }\n\n.video-js .vjs-tech {\n  position: absolute;\n  top: 0;\n  left: 0; }\n\nbody.vjs-full-window {\n  padding: 0;\n  margin: 0;\n  height: 100%;\n  overflow-y: auto; }\n\n.vjs-full-window .video-js.vjs-fullscreen {\n  position: fixed;\n  overflow: hidden;\n  z-index: 1000;\n  left: 0;\n  top: 0;\n  bottom: 0;\n  right: 0; }\n\n.video-js.vjs-fullscreen {\n  width: 100% !important;\n  height: 100% !important;\n  padding-top: 0 !important; }\n\n.video-js.vjs-fullscreen.vjs-user-inactive {\n  cursor: none; }\n\n.vjs-hidden {\n  display: none !important; }\n\n.vjs-disabled {\n  opacity: .5;\n  cursor: default; }\n\n.video-js .vjs-offscreen {\n  height: 1px;\n  left: -9999px;\n  position: absolute;\n  top: 0;\n  width: 1px; }\n\n.vjs-lock-showing {\n  display: block !important;\n  opacity: 1;\n  visibility: visible; }\n\n.vjs-no-js {\n  padding: 20px;\n  font-size: 18px;\n  width: 300px;\n  height: 150px;\n  margin: 0 auto; }\n\n.vjs-no-js a, .vjs-no-js a:visited {\n  color: #66A8CC; }\n\n.video-js .vjs-big-play-button {\n  font-size: 3em;\n  line-height: 1.5em;\n  height: 1.5em;\n  width: 3em;\n  display: block;\n  position: absolute;\n  top: 10px;\n  left: 10px;\n  padding: 0;\n  cursor: pointer;\n  opacity: 1;\n  border: .06666em solid #fff;\n  background-color: #2B333F;\n  background-color: rgba(43, 51, 63, 0.7);\n  -webkit-border-radius: .3em;\n  -moz-border-radius: .3em;\n  border-radius: .3em;\n  -webkit-transition: all .4s;\n  -moz-transition: all .4s;\n  -o-transition: all .4s;\n  transition: all .4s; }\n\n.vjs-big-play-centered .vjs-big-play-button {\n  top: 50%;\n  left: 50%;\n  margin-top: -.75em;\n  margin-left: -1.5em; }\n\n.video-js .vjs-big-play-button:focus, .video-js:hover .vjs-big-play-button {\n  outline: 0;\n  border-color: #fff;\n  background-color: #73859f;\n  background-color: rgba(115, 133, 159, 0.5);\n  -webkit-transition: all 0s;\n  -moz-transition: all 0s;\n  -o-transition: all 0s;\n  transition: all 0s; }\n\n.vjs-controls-disabled .vjs-big-play-button, .vjs-error .vjs-big-play-button, .vjs-has-started .vjs-big-play-button, .vjs-using-native-controls .vjs-big-play-button {\n  display: none; }\n\n.vjs-has-started.vjs-paused.vjs-show-big-play-button-on-pause .vjs-big-play-button {\n  display: block; }\n\n.video-js button {\n  background: 0 0;\n  border: none;\n  color: inherit;\n  display: inline-block;\n  overflow: visible;\n  font-size: inherit;\n  line-height: inherit;\n  text-transform: none;\n  text-decoration: none;\n  transition: none;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n  appearance: none; }\n\n.video-js .vjs-control.vjs-close-button {\n  cursor: pointer;\n  height: 3em;\n  position: absolute;\n  right: 0;\n  top: .5em;\n  z-index: 2; }\n\n.vjs-menu-button {\n  cursor: pointer; }\n\n.vjs-menu-button.vjs-disabled {\n  cursor: default; }\n\n.vjs-workinghover .vjs-menu-button.vjs-disabled:hover .vjs-menu {\n  display: none; }\n\n.vjs-menu .vjs-menu-content {\n  display: block;\n  padding: 0;\n  margin: 0;\n  overflow: auto; }\n\n.vjs-scrubbing .vjs-menu-button:hover .vjs-menu {\n  display: none; }\n\n.vjs-menu li {\n  list-style: none;\n  margin: 0;\n  padding: .2em 0;\n  line-height: 1.4em;\n  font-size: 1.2em;\n  text-transform: lowercase; }\n\n.vjs-menu li.vjs-menu-item:focus, .vjs-menu li.vjs-menu-item:hover {\n  outline: 0;\n  background-color: #73859f;\n  background-color: rgba(115, 133, 159, 0.5); }\n\n.vjs-menu li.vjs-selected, .vjs-menu li.vjs-selected:focus, .vjs-menu li.vjs-selected:hover {\n  background-color: #fff;\n  color: #2B333F; }\n\n.vjs-menu li.vjs-menu-title {\n  text-align: center;\n  text-transform: uppercase;\n  font-size: 1em;\n  line-height: 2em;\n  padding: 0;\n  margin: 0 0 .3em;\n  font-weight: 700;\n  cursor: default; }\n\n.vjs-menu-button-popup .vjs-menu {\n  display: none;\n  position: absolute;\n  bottom: 0;\n  width: 10em;\n  left: -3em;\n  height: 0;\n  margin-bottom: 1.5em;\n  border-top-color: rgba(43, 51, 63, 0.7); }\n\n.vjs-menu-button-popup .vjs-menu .vjs-menu-content {\n  background-color: #2B333F;\n  background-color: rgba(43, 51, 63, 0.7);\n  position: absolute;\n  width: 100%;\n  bottom: 1.5em;\n  max-height: 15em; }\n\n.vjs-menu-button-popup .vjs-menu.vjs-lock-showing, .vjs-workinghover .vjs-menu-button-popup:hover .vjs-menu {\n  display: block; }\n\n.video-js .vjs-menu-button-inline {\n  -webkit-transition: all .4s;\n  -moz-transition: all .4s;\n  -o-transition: all .4s;\n  transition: all .4s;\n  overflow: hidden; }\n\n.video-js .vjs-menu-button-inline:before {\n  width: 2.222222222em; }\n\n.video-js .vjs-menu-button-inline.vjs-slider-active, .video-js .vjs-menu-button-inline:focus, .video-js .vjs-menu-button-inline:hover, .video-js.vjs-no-flex .vjs-menu-button-inline {\n  width: 12em; }\n\n.video-js .vjs-menu-button-inline.vjs-slider-active {\n  -webkit-transition: none;\n  -moz-transition: none;\n  -o-transition: none;\n  transition: none; }\n\n.vjs-menu-button-inline .vjs-menu {\n  opacity: 0;\n  height: 100%;\n  width: auto;\n  position: absolute;\n  left: 4em;\n  top: 0;\n  padding: 0;\n  margin: 0;\n  -webkit-transition: all .4s;\n  -moz-transition: all .4s;\n  -o-transition: all .4s;\n  transition: all .4s; }\n\n.vjs-menu-button-inline.vjs-slider-active .vjs-menu, .vjs-menu-button-inline:focus .vjs-menu, .vjs-menu-button-inline:hover .vjs-menu {\n  display: block;\n  opacity: 1; }\n\n.vjs-no-flex .vjs-menu-button-inline .vjs-menu {\n  display: block;\n  opacity: 1;\n  position: relative;\n  width: auto; }\n\n.vjs-no-flex .vjs-menu-button-inline.vjs-slider-active .vjs-menu, .vjs-no-flex .vjs-menu-button-inline:focus .vjs-menu, .vjs-no-flex .vjs-menu-button-inline:hover .vjs-menu {\n  width: auto; }\n\n.vjs-menu-button-inline .vjs-menu-content {\n  width: auto;\n  height: 100%;\n  margin: 0;\n  overflow: hidden; }\n\n.video-js .vjs-control-bar {\n  display: none;\n  width: 100%;\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  height: 3em;\n  background-color: #2B333F;\n  background-color: rgba(43, 51, 63, 0.7); }\n\n.vjs-has-started .vjs-control-bar {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  visibility: visible;\n  opacity: 1;\n  -webkit-transition: visibility .1s,opacity .1s;\n  -moz-transition: visibility .1s,opacity .1s;\n  -o-transition: visibility .1s,opacity .1s;\n  transition: visibility .1s,opacity .1s; }\n\n.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {\n  visibility: visible;\n  opacity: 0;\n  -webkit-transition: visibility 1s,opacity 1s;\n  -moz-transition: visibility 1s,opacity 1s;\n  -o-transition: visibility 1s,opacity 1s;\n  transition: visibility 1s,opacity 1s; }\n\n.vjs-controls-disabled .vjs-control-bar, .vjs-error .vjs-control-bar, .vjs-using-native-controls .vjs-control-bar {\n  display: none !important; }\n\n.vjs-audio.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {\n  opacity: 1;\n  visibility: visible; }\n\n.vjs-has-started.vjs-no-flex .vjs-control-bar {\n  display: table; }\n\n.video-js .vjs-control {\n  outline: 0;\n  position: relative;\n  margin: 0;\n  padding: 0;\n  height: 100%;\n  width: 4em;\n  -webkit-box-flex: none;\n  -moz-box-flex: none;\n  -webkit-flex: none;\n  -ms-flex: none;\n  flex: none; }\n\n.video-js .vjs-control:before {\n  font-size: 1.8em;\n  line-height: 1.67; }\n\n.video-js .vjs-control:focus, .video-js .vjs-control:focus:before, .video-js .vjs-control:hover:before {\n  text-shadow: 0 0 1em #fff; }\n\n.video-js .vjs-control-text {\n  border: 0;\n  clip: rect(0 0 0 0);\n  height: 1px;\n  margin: -1px;\n  overflow: hidden;\n  padding: 0;\n  position: absolute;\n  width: 1px; }\n\n.vjs-no-flex .vjs-control {\n  display: table-cell;\n  vertical-align: middle; }\n\n.video-js .vjs-custom-control-spacer {\n  display: none; }\n\n.video-js .vjs-progress-control {\n  -webkit-box-flex: auto;\n  -moz-box-flex: auto;\n  -webkit-flex: auto;\n  -ms-flex: auto;\n  flex: auto;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n  -ms-flex-align: center;\n  align-items: center;\n  min-width: 4em; }\n\n.vjs-live .vjs-progress-control {\n  display: none; }\n\n.video-js .vjs-progress-holder {\n  -webkit-box-flex: auto;\n  -moz-box-flex: auto;\n  -webkit-flex: auto;\n  -ms-flex: auto;\n  flex: auto;\n  -webkit-transition: all .2s;\n  -moz-transition: all .2s;\n  -o-transition: all .2s;\n  transition: all .2s;\n  height: .3em; }\n\n.video-js .vjs-progress-control:hover .vjs-progress-holder {\n  font-size: 1.666666666666666666em; }\n\n.video-js .vjs-progress-control:hover .vjs-mouse-display:after, .video-js .vjs-progress-control:hover .vjs-play-progress:after, .video-js .vjs-progress-control:hover .vjs-time-tooltip {\n  font-family: Arial,Helvetica,sans-serif;\n  visibility: visible;\n  font-size: .6em; }\n\n.video-js .vjs-progress-holder .vjs-load-progress, .video-js .vjs-progress-holder .vjs-load-progress div, .video-js .vjs-progress-holder .vjs-play-progress, .video-js .vjs-progress-holder .vjs-tooltip-progress-bar {\n  position: absolute;\n  display: block;\n  height: .3em;\n  margin: 0;\n  padding: 0;\n  width: 0;\n  left: 0;\n  top: 0; }\n\n.video-js .vjs-mouse-display:before, .video-js .vjs-progress-control .vjs-keep-tooltips-inside:after {\n  display: none; }\n\n.video-js .vjs-play-progress {\n  background-color: #fff; }\n\n.video-js .vjs-play-progress:before {\n  position: absolute;\n  top: -.333333333333333em;\n  right: -.5em;\n  font-size: .9em; }\n\n.video-js .vjs-mouse-display:after, .video-js .vjs-play-progress:after, .video-js .vjs-time-tooltip {\n  visibility: hidden;\n  pointer-events: none;\n  position: absolute;\n  top: -3.4em;\n  right: -1.9em;\n  font-size: .9em;\n  color: #000;\n  content: attr(data-current-time);\n  padding: 6px 8px 8px;\n  background-color: #fff;\n  background-color: rgba(255, 255, 255, 0.8);\n  -webkit-border-radius: .3em;\n  -moz-border-radius: .3em;\n  border-radius: .3em; }\n\n.video-js .vjs-play-progress:after, .video-js .vjs-play-progress:before, .video-js .vjs-time-tooltip {\n  z-index: 1; }\n\n.video-js .vjs-load-progress {\n  background: #bfc7d3;\n  background: rgba(115, 133, 159, 0.5); }\n\n.video-js .vjs-load-progress div {\n  background: #fff;\n  background: rgba(115, 133, 159, 0.75); }\n\n.video-js.vjs-no-flex .vjs-progress-control {\n  width: auto; }\n\n.video-js .vjs-time-tooltip {\n  display: inline-block;\n  height: 2.4em;\n  position: relative;\n  float: right;\n  right: -1.9em; }\n\n.vjs-tooltip-progress-bar {\n  visibility: hidden; }\n\n.video-js .vjs-progress-control .vjs-mouse-display {\n  display: none;\n  position: absolute;\n  width: 1px;\n  height: 100%;\n  background-color: #000;\n  z-index: 1; }\n\n.vjs-no-flex .vjs-progress-control .vjs-mouse-display {\n  z-index: 0; }\n\n.video-js .vjs-progress-control:hover .vjs-mouse-display {\n  display: block; }\n\n.video-js.vjs-user-inactive .vjs-progress-control .vjs-mouse-display, .video-js.vjs-user-inactive .vjs-progress-control .vjs-mouse-display:after {\n  visibility: hidden;\n  opacity: 0;\n  -webkit-transition: visibility 1s,opacity 1s;\n  -moz-transition: visibility 1s,opacity 1s;\n  -o-transition: visibility 1s,opacity 1s;\n  transition: visibility 1s,opacity 1s; }\n\n.video-js.vjs-user-inactive.vjs-no-flex .vjs-progress-control .vjs-mouse-display, .video-js.vjs-user-inactive.vjs-no-flex .vjs-progress-control .vjs-mouse-display:after {\n  display: none; }\n\n.video-js .vjs-progress-control .vjs-mouse-display:after, .vjs-mouse-display .vjs-time-tooltip {\n  color: #fff;\n  background-color: #000;\n  background-color: rgba(0, 0, 0, 0.8); }\n\n.video-js .vjs-slider {\n  outline: 0;\n  position: relative;\n  cursor: pointer;\n  padding: 0;\n  margin: 0 .45em;\n  background-color: #73859f;\n  background-color: rgba(115, 133, 159, 0.5); }\n\n.video-js .vjs-slider:focus {\n  text-shadow: 0 0 1em #fff;\n  -webkit-box-shadow: 0 0 1em #fff;\n  -moz-box-shadow: 0 0 1em #fff;\n  box-shadow: 0 0 1em #fff; }\n\n.video-js .vjs-mute-control, .video-js .vjs-volume-menu-button {\n  cursor: pointer;\n  -webkit-box-flex: none;\n  -moz-box-flex: none;\n  -webkit-flex: none;\n  -ms-flex: none;\n  flex: none; }\n\n.video-js .vjs-volume-control {\n  width: 5em;\n  -webkit-box-flex: none;\n  -moz-box-flex: none;\n  -webkit-flex: none;\n  -ms-flex: none;\n  flex: none;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n  -ms-flex-align: center;\n  align-items: center; }\n\n.video-js .vjs-volume-bar {\n  margin: 1.35em .45em; }\n\n.vjs-volume-bar.vjs-slider-horizontal {\n  width: 5em;\n  height: .3em; }\n\n.vjs-volume-bar.vjs-slider-vertical {\n  width: .3em;\n  height: 5em;\n  margin: 1.35em auto; }\n\n.video-js .vjs-volume-level {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  background-color: #fff; }\n\n.video-js .vjs-volume-level:before {\n  position: absolute;\n  font-size: .9em; }\n\n.vjs-slider-vertical .vjs-volume-level {\n  width: .3em; }\n\n.vjs-slider-vertical .vjs-volume-level:before {\n  top: -.5em;\n  left: -.3em; }\n\n.vjs-slider-horizontal .vjs-volume-level {\n  height: .3em; }\n\n.vjs-slider-horizontal .vjs-volume-level:before {\n  top: -.3em;\n  right: -.5em; }\n\n.vjs-volume-bar.vjs-slider-vertical .vjs-volume-level {\n  height: 100%; }\n\n.vjs-volume-bar.vjs-slider-horizontal .vjs-volume-level {\n  width: 100%; }\n\n.vjs-menu-button-popup.vjs-volume-menu-button .vjs-menu {\n  display: block;\n  width: 0;\n  height: 0;\n  border-top-color: transparent; }\n\n.vjs-menu-button-popup.vjs-volume-menu-button-vertical .vjs-menu {\n  left: .5em;\n  height: 8em; }\n\n.vjs-menu-button-popup.vjs-volume-menu-button-horizontal .vjs-menu {\n  left: -2em; }\n\n.vjs-menu-button-popup.vjs-volume-menu-button .vjs-menu-content {\n  height: 0;\n  width: 0;\n  overflow-x: hidden;\n  overflow-y: hidden; }\n\n.vjs-volume-menu-button-vertical .vjs-lock-showing .vjs-menu-content, .vjs-volume-menu-button-vertical.vjs-slider-active .vjs-menu-content, .vjs-volume-menu-button-vertical:focus .vjs-menu-content, .vjs-volume-menu-button-vertical:hover .vjs-menu-content {\n  height: 8em;\n  width: 2.9em; }\n\n.vjs-volume-menu-button-horizontal .vjs-lock-showing .vjs-menu-content, .vjs-volume-menu-button-horizontal .vjs-slider-active .vjs-menu-content, .vjs-volume-menu-button-horizontal:focus .vjs-menu-content, .vjs-volume-menu-button-horizontal:hover .vjs-menu-content {\n  height: 2.9em;\n  width: 8em; }\n\n.vjs-volume-menu-button.vjs-menu-button-inline .vjs-menu-content {\n  background-color: transparent !important; }\n\n.vjs-poster {\n  display: inline-block;\n  vertical-align: middle;\n  background-repeat: no-repeat;\n  background-position: 50% 50%;\n  background-size: contain;\n  background-color: #000;\n  cursor: pointer;\n  margin: 0;\n  padding: 0;\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  height: 100%; }\n\n.vjs-poster img {\n  display: block;\n  vertical-align: middle;\n  margin: 0 auto;\n  max-height: 100%;\n  padding: 0;\n  width: 100%; }\n\n.vjs-has-started .vjs-poster {\n  display: none; }\n\n.vjs-audio.vjs-has-started .vjs-poster {\n  display: block; }\n\n.vjs-using-native-controls .vjs-poster {\n  display: none; }\n\n.video-js .vjs-live-control {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: flex-start;\n  -webkit-align-items: flex-start;\n  -ms-flex-align: flex-start;\n  align-items: flex-start;\n  -webkit-box-flex: auto;\n  -moz-box-flex: auto;\n  -webkit-flex: auto;\n  -ms-flex: auto;\n  flex: auto;\n  font-size: 1em;\n  line-height: 3em; }\n\n.vjs-no-flex .vjs-live-control {\n  display: table-cell;\n  width: auto;\n  text-align: left; }\n\n.video-js .vjs-current-time, .video-js .vjs-duration, .vjs-live .vjs-time-control, .vjs-live .vjs-time-divider, .vjs-no-flex .vjs-current-time, .vjs-no-flex .vjs-duration {\n  display: none; }\n\n.video-js .vjs-time-control {\n  -webkit-box-flex: none;\n  -moz-box-flex: none;\n  -webkit-flex: none;\n  -ms-flex: none;\n  flex: none;\n  font-size: 1em;\n  line-height: 3em;\n  min-width: 2em;\n  width: auto;\n  padding-left: 1em;\n  padding-right: 1em; }\n\n.vjs-time-divider {\n  display: none;\n  line-height: 3em; }\n\n.video-js .vjs-play-control {\n  cursor: pointer;\n  -webkit-box-flex: none;\n  -moz-box-flex: none;\n  -webkit-flex: none;\n  -ms-flex: none;\n  flex: none; }\n\n.vjs-text-track-display {\n  position: absolute;\n  bottom: 3em;\n  left: 0;\n  right: 0;\n  top: 0;\n  pointer-events: none; }\n\n.video-js.vjs-user-inactive.vjs-playing .vjs-text-track-display {\n  bottom: 1em; }\n\n.video-js .vjs-text-track {\n  font-size: 1.4em;\n  text-align: center;\n  margin-bottom: .1em;\n  background-color: #000;\n  background-color: rgba(0, 0, 0, 0.5); }\n\n.vjs-subtitles {\n  color: #fff; }\n\n.vjs-captions {\n  color: #fc6; }\n\n.vjs-tt-cue {\n  display: block; }\n\nvideo::-webkit-media-text-track-display {\n  -moz-transform: translateY(-3em);\n  -ms-transform: translateY(-3em);\n  -o-transform: translateY(-3em);\n  -webkit-transform: translateY(-3em);\n  transform: translateY(-3em); }\n\n.video-js.vjs-user-inactive.vjs-playing video::-webkit-media-text-track-display {\n  -moz-transform: translateY(-1.5em);\n  -ms-transform: translateY(-1.5em);\n  -o-transform: translateY(-1.5em);\n  -webkit-transform: translateY(-1.5em);\n  transform: translateY(-1.5em); }\n\n.video-js .vjs-fullscreen-control {\n  cursor: pointer;\n  -webkit-box-flex: none;\n  -moz-box-flex: none;\n  -webkit-flex: none;\n  -ms-flex: none;\n  flex: none; }\n\n.vjs-playback-rate .vjs-playback-rate-value {\n  font-size: 1.5em;\n  line-height: 2;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  text-align: center; }\n\n.vjs-playback-rate .vjs-menu {\n  width: 4em;\n  left: 0; }\n\n.vjs-error .vjs-error-display .vjs-modal-dialog-content {\n  font-size: 1.4em;\n  text-align: center; }\n\n.vjs-error .vjs-error-display:before {\n  color: #fff;\n  content: 'X';\n  font-size: 4em;\n  left: 0;\n  line-height: 1;\n  margin-top: -.5em;\n  position: absolute;\n  text-shadow: .05em .05em .1em #000;\n  text-align: center;\n  top: 50%;\n  vertical-align: middle;\n  width: 100%; }\n\n.vjs-loading-spinner {\n  display: none;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  margin: -25px 0 0 -25px;\n  opacity: .85;\n  text-align: left;\n  border: 6px solid rgba(43, 51, 63, 0.7);\n  box-sizing: border-box;\n  background-clip: padding-box;\n  width: 50px;\n  height: 50px;\n  border-radius: 25px; }\n\n.vjs-seeking .vjs-loading-spinner, .vjs-waiting .vjs-loading-spinner {\n  display: block; }\n\n.vjs-loading-spinner:after, .vjs-loading-spinner:before {\n  content: \"\";\n  position: absolute;\n  margin: -6px;\n  box-sizing: inherit;\n  width: inherit;\n  height: inherit;\n  border-radius: inherit;\n  opacity: 1;\n  border: inherit;\n  border-color: #fff transparent transparent; }\n\n.vjs-seeking .vjs-loading-spinner:after, .vjs-seeking .vjs-loading-spinner:before, .vjs-waiting .vjs-loading-spinner:after, .vjs-waiting .vjs-loading-spinner:before {\n  -webkit-animation: vjs-spinner-spin 1.1s cubic-bezier(0.6, 0.2, 0, 0.8) infinite, vjs-spinner-fade 1.1s linear infinite;\n  animation: vjs-spinner-spin 1.1s cubic-bezier(0.6, 0.2, 0, 0.8) infinite, vjs-spinner-fade 1.1s linear infinite; }\n\n.vjs-seeking .vjs-loading-spinner:before, .vjs-waiting .vjs-loading-spinner:before {\n  border-top-color: #fff; }\n\n.vjs-seeking .vjs-loading-spinner:after, .vjs-waiting .vjs-loading-spinner:after {\n  border-top-color: #fff;\n  -webkit-animation-delay: .44s;\n  animation-delay: .44s; }\n\n@keyframes vjs-spinner-spin {\n  100% {\n    transform: rotate(360deg); } }\n\n@-webkit-keyframes vjs-spinner-spin {\n  100% {\n    -webkit-transform: rotate(360deg); } }\n\n@keyframes vjs-spinner-fade {\n  0%, 100%, 20%, 60% {\n    border-top-color: #73859f; }\n  35% {\n    border-top-color: #fff; } }\n\n@-webkit-keyframes vjs-spinner-fade {\n  0%, 100%, 20%, 60% {\n    border-top-color: #73859f; }\n  35% {\n    border-top-color: #fff; } }\n\n.vjs-chapters-button .vjs-menu ul {\n  width: 24em; }\n\n.video-js.vjs-layout-tiny:not(.vjs-fullscreen) .vjs-custom-control-spacer {\n  -webkit-box-flex: auto;\n  -moz-box-flex: auto;\n  -webkit-flex: auto;\n  -ms-flex: auto;\n  flex: auto; }\n\n.video-js.vjs-layout-tiny:not(.vjs-fullscreen).vjs-no-flex .vjs-custom-control-spacer {\n  width: auto; }\n\n.video-js.vjs-layout-small:not(.vjs-fullscreen) .vjs-captions-button, .video-js.vjs-layout-small:not(.vjs-fullscreen) .vjs-chapters-button, .video-js.vjs-layout-small:not(.vjs-fullscreen) .vjs-current-time, .video-js.vjs-layout-small:not(.vjs-fullscreen) .vjs-descriptions-button, .video-js.vjs-layout-small:not(.vjs-fullscreen) .vjs-duration, .video-js.vjs-layout-small:not(.vjs-fullscreen) .vjs-mute-control, .video-js.vjs-layout-small:not(.vjs-fullscreen) .vjs-playback-rate, .video-js.vjs-layout-small:not(.vjs-fullscreen) .vjs-remaining-time, .video-js.vjs-layout-small:not(.vjs-fullscreen) .vjs-subtitles-button .vjs-audio-button, .video-js.vjs-layout-small:not(.vjs-fullscreen) .vjs-time-divider, .video-js.vjs-layout-small:not(.vjs-fullscreen) .vjs-volume-control, .video-js.vjs-layout-tiny:not(.vjs-fullscreen) .vjs-audio-button, .video-js.vjs-layout-tiny:not(.vjs-fullscreen) .vjs-captions-button, .video-js.vjs-layout-tiny:not(.vjs-fullscreen) .vjs-chapters-button, .video-js.vjs-layout-tiny:not(.vjs-fullscreen) .vjs-current-time, .video-js.vjs-layout-tiny:not(.vjs-fullscreen) .vjs-descriptions-button, .video-js.vjs-layout-tiny:not(.vjs-fullscreen) .vjs-duration, .video-js.vjs-layout-tiny:not(.vjs-fullscreen) .vjs-mute-control, .video-js.vjs-layout-tiny:not(.vjs-fullscreen) .vjs-playback-rate, .video-js.vjs-layout-tiny:not(.vjs-fullscreen) .vjs-progress-control, .video-js.vjs-layout-tiny:not(.vjs-fullscreen) .vjs-remaining-time, .video-js.vjs-layout-tiny:not(.vjs-fullscreen) .vjs-subtitles-button, .video-js.vjs-layout-tiny:not(.vjs-fullscreen) .vjs-time-divider, .video-js.vjs-layout-tiny:not(.vjs-fullscreen) .vjs-volume-control, .video-js.vjs-layout-tiny:not(.vjs-fullscreen) .vjs-volume-menu-button, .video-js.vjs-layout-x-small:not(.vjs-fullscreen) .vjs-audio-button, .video-js.vjs-layout-x-small:not(.vjs-fullscreen) .vjs-captions-button, .video-js.vjs-layout-x-small:not(.vjs-fullscreen) .vjs-chapters-button, .video-js.vjs-layout-x-small:not(.vjs-fullscreen) .vjs-current-time, .video-js.vjs-layout-x-small:not(.vjs-fullscreen) .vjs-descriptions-button, .video-js.vjs-layout-x-small:not(.vjs-fullscreen) .vjs-duration, .video-js.vjs-layout-x-small:not(.vjs-fullscreen) .vjs-mute-control, .video-js.vjs-layout-x-small:not(.vjs-fullscreen) .vjs-playback-rate, .video-js.vjs-layout-x-small:not(.vjs-fullscreen) .vjs-remaining-time, .video-js.vjs-layout-x-small:not(.vjs-fullscreen) .vjs-subtitles-button, .video-js.vjs-layout-x-small:not(.vjs-fullscreen) .vjs-time-divider, .video-js.vjs-layout-x-small:not(.vjs-fullscreen) .vjs-volume-control, .video-js.vjs-layout-x-small:not(.vjs-fullscreen) .vjs-volume-menu-button {\n  display: none; }\n\n.vjs-caption-settings {\n  position: relative;\n  top: 1em;\n  background-color: #2B333F;\n  background-color: rgba(43, 51, 63, 0.75);\n  color: #fff;\n  margin: 0 auto;\n  padding: .5em;\n  height: 16em;\n  font-size: 12px;\n  width: 40em; }\n\n.vjs-caption-settings .vjs-tracksettings {\n  top: 0;\n  bottom: 1em;\n  left: 0;\n  right: 0;\n  position: absolute;\n  overflow: auto; }\n\n.vjs-caption-settings .vjs-tracksettings-colors, .vjs-caption-settings .vjs-tracksettings-font {\n  float: left; }\n\n.vjs-caption-settings .vjs-tracksettings-colors:after, .vjs-caption-settings .vjs-tracksettings-controls:after, .vjs-caption-settings .vjs-tracksettings-font:after {\n  clear: both; }\n\n.vjs-caption-settings .vjs-tracksettings-controls {\n  position: absolute;\n  bottom: 1em;\n  right: 1em; }\n\n.vjs-caption-settings .vjs-tracksetting {\n  margin: 5px;\n  padding: 3px;\n  min-height: 40px;\n  border: none; }\n\n.vjs-caption-settings .vjs-tracksetting label, .vjs-caption-settings .vjs-tracksetting legend {\n  display: block;\n  width: 100px;\n  margin-bottom: 5px; }\n\n.vjs-caption-settings .vjs-tracksetting span {\n  display: inline;\n  margin-left: 5px;\n  vertical-align: top;\n  float: right; }\n\n.vjs-caption-settings .vjs-tracksetting > div {\n  margin-bottom: 5px;\n  min-height: 20px; }\n\n.vjs-caption-settings .vjs-tracksetting > div:last-child {\n  margin-bottom: 0;\n  padding-bottom: 0;\n  min-height: 0; }\n\n.vjs-caption-settings label > input {\n  margin-right: 10px; }\n\n.vjs-caption-settings fieldset {\n  margin-top: 1em;\n  margin-left: .5em; }\n\n.vjs-caption-settings fieldset .vjs-label {\n  position: absolute;\n  clip: rect(1px 1px 1px 1px);\n  clip: rect(1px, 1px, 1px, 1px);\n  padding: 0;\n  border: 0;\n  height: 1px;\n  width: 1px;\n  overflow: hidden; }\n\n.vjs-caption-settings input[type=button] {\n  width: 40px;\n  height: 40px; }\n\n.video-js .vjs-modal-dialog {\n  background: rgba(0, 0, 0, 0.8);\n  background: -webkit-linear-gradient(-90deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0));\n  background: linear-gradient(180deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0)); }\n\n.vjs-modal-dialog .vjs-modal-dialog-content {\n  font-size: 1.2em;\n  line-height: 1.5;\n  padding: 20px 24px;\n  z-index: 1; }\n\n@media print {\n  .video-js > :not(.vjs-tech):not(.vjs-poster) {\n    visibility: hidden; } }\n\n@media \\0screen {\n  .vjs-user-inactive.vjs-playing .vjs-control-bar :before {\n    content: \"\"; }\n  .vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {\n    visibility: hidden; } }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28640,7 +28719,7 @@ var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(257);
+__webpack_require__(259);
 
 var _inner_messager = __webpack_require__(66);
 
@@ -28726,16 +28805,16 @@ var TagsOfMovie = _react2.default.createClass({
 exports.default = TagsOfMovie;
 
 /***/ }),
-/* 257 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(258);
+var content = __webpack_require__(260);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(14)(content, {});
+var update = __webpack_require__(11)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28752,10 +28831,10 @@ if(false) {
 }
 
 /***/ }),
-/* 258 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)();
+exports = module.exports = __webpack_require__(10)();
 // imports
 
 
@@ -28766,7 +28845,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 
 /***/ }),
-/* 259 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28780,7 +28859,7 @@ var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(260);
+__webpack_require__(262);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28831,16 +28910,16 @@ var FlexText = _react2.default.createClass({
 exports.default = FlexText;
 
 /***/ }),
-/* 260 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(261);
+var content = __webpack_require__(263);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(14)(content, {});
+var update = __webpack_require__(11)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28857,10 +28936,10 @@ if(false) {
 }
 
 /***/ }),
-/* 261 */
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)();
+exports = module.exports = __webpack_require__(10)();
 // imports
 
 
@@ -28871,7 +28950,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 
 /***/ }),
-/* 262 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28887,7 +28966,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(59);
 
-__webpack_require__(263);
+__webpack_require__(265);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28969,16 +29048,16 @@ var Head = _react2.default.createClass({
 exports.default = Head; //将App组件导出
 
 /***/ }),
-/* 263 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(264);
+var content = __webpack_require__(266);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(14)(content, {});
+var update = __webpack_require__(11)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28995,10 +29074,10 @@ if(false) {
 }
 
 /***/ }),
-/* 264 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)();
+exports = module.exports = __webpack_require__(10)();
 // imports
 
 
@@ -29009,7 +29088,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 
 /***/ }),
-/* 265 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29023,7 +29102,7 @@ var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(266);
+__webpack_require__(268);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29042,16 +29121,16 @@ var Tail = _react2.default.createClass({
 exports.default = Tail; //将App组件导出
 
 /***/ }),
-/* 266 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(267);
+var content = __webpack_require__(269);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(14)(content, {});
+var update = __webpack_require__(11)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -29068,10 +29147,10 @@ if(false) {
 }
 
 /***/ }),
-/* 267 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(13)();
+exports = module.exports = __webpack_require__(10)();
 // imports
 
 

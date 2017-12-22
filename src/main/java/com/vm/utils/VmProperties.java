@@ -5,6 +5,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 /**
+ * setter不需要static修饰!!!
  * Created by ZhangKe on 2017/12/13.
  */
 @PropertySource(value = {"classpath:config/vm.properties"}, encoding = "utf-8")
@@ -13,6 +14,7 @@ public class VmProperties {
 
     public static String VM_MOVIE_IMG_PATH;
     public static String VM_MOVIE_IMG_DEFAULT_NAME;
+    public static String VM_MOVIE_IMG_DEFAULT_WIDTH;
     public static String VM_MOVIE_SRC_PATH;
     public static String VM_USER_IMG_PATH;
 
@@ -25,6 +27,12 @@ public class VmProperties {
     @Value("${vm.movie.img.default.name}")
     public void setVmMovieImgDefaultName(String vmMovieImgDefaultName) {
         VM_MOVIE_IMG_DEFAULT_NAME = vmMovieImgDefaultName;
+    }
+
+
+    @Value("${vm.movie.img.default.width}")
+    public void setVmMovieImgDefaultWidth(String vmMovieImgDefaultWidth) {
+        VM_MOVIE_IMG_DEFAULT_WIDTH = vmMovieImgDefaultWidth;
     }
 
 

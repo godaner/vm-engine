@@ -1,5 +1,6 @@
 import React from 'react';  //引入react组件
 import '../scss/movie_info_page.scss';
+import '../plugin/video-js/css/video-js.css';
 import ActorsList from './actors_list';
 import InnerMessager from './inner_messager';
 import Director from "./director";
@@ -15,7 +16,7 @@ var MovieInfoPage = React.createClass({
             whenThereHaveNotTag: "无标签",
             whenTagIsLoading: "正在加载标签信息",
             movieDescriptionTitle: "电影简介 : ",
-            movieDescriptionTextLength:100,
+            movieDescriptionTextLength: 100,
             movie: {},
             targetMovieId: this.props.match.params.movieId
         };
@@ -25,8 +26,17 @@ var MovieInfoPage = React.createClass({
         this.getMovie();
         //add resize event listener
         window.addEventListener('resize', this.onWindowResize);
-    },
 
+        this.initMoviePlayer();
+    },
+    initMoviePlayer:function(){
+        //打开自动播放
+        var myPlayer = videojs('movie-player');
+        videojs("movie-player").ready(function(){
+            var myPlayer = this;
+            myPlayer.play();
+        });
+    },
     componentWillUnmount: function () {
         window.removeEventListener('resize', this.onWindowResize);
     },
@@ -158,7 +168,31 @@ var MovieInfoPage = React.createClass({
                     </div>
 
                 </div>
-                <div id="other_info"></div>
+
+                <div id="movie_player">
+
+                    <div class="m">
+                        <video
+                            id="my-player"
+                            class="video-js"
+                            controls
+                            preload="auto"
+                            poster="//vjs.zencdn.net/v/oceans.png"
+                            data-setup='{}'>
+                            <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
+                            <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
+                            <source src="http://vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source>
+                            <p class="vjs-no-js">
+                                To view this video please enable JavaScript, and consider upgrading to a
+                                web browser that
+                                <a href="http://videojs.com/html5-video-support/" target="_blank">
+                                    supports HTML5 video
+                                </a>
+                            </p>
+                        </video>
+                    </div>
+
+                </div>
             </div>
         );
     }
