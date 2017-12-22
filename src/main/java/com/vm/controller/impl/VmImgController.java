@@ -36,7 +36,10 @@ public class VmImgController extends ServiceController<VmFilesService> {
         VmFiles file = service.getFileByFileId(fileId);
         String movieImgPath = VmProperties.VM_MOVIE_IMG_PATH;
         String width = query.getImgWidth();
-        String movieImgName = file.getFilename();
+        String movieImgName = null;
+        if(file != null){
+            movieImgName = file.getFilename();
+        }
         File f = new File(movieImgPath + File.separator + width + "_" + movieImgName);
         //不存在，返回默认图片
         if (!f.exists()) {
