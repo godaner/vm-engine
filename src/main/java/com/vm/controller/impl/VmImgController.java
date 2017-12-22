@@ -27,6 +27,7 @@ import java.io.FileInputStream;
 public class VmImgController extends ServiceController<VmFilesService> {
     /**
      * 获取电影图片
+     *
      * @return
      */
     @RequestMapping(value = "movie/{fileId}", method = RequestMethod.GET)
@@ -51,8 +52,10 @@ public class VmImgController extends ServiceController<VmFilesService> {
         output.close();
         output.flush();
     }
+
     /**
      * 获取用户头像
+     *
      * @return
      */
     @RequestMapping(value = "user/{fileId}", method = RequestMethod.GET)

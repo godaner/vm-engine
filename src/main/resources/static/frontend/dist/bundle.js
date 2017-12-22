@@ -28403,12 +28403,17 @@ var MovieInfoPage = _react2.default.createClass({
     },
     initMoviePlayer: function initMoviePlayer() {
         //打开自动播放
-        var myPlayer = videojs('movie-player');
-        c(myPlayer);
-        videojs("movie-player").ready(function () {
-            var myPlayer = this;
-            myPlayer.play();
-        });
+        // var player = videojs('m-player');
+        // // c(player);
+        // videojs("m-player").ready(function () {
+        //     var player = this;
+        //     player.play();
+        // });
+        //set player's height by width
+        var player = $(this.refs.m - player);
+        var w = player.width();
+        var h = w / 1.5;
+        player.height(h);
     },
     componentWillUnmount: function componentWillUnmount() {
         window.removeEventListener('resize', this.onWindowResize);
@@ -28596,33 +28601,19 @@ var MovieInfoPage = _react2.default.createClass({
                     { className: 'm' },
                     _react2.default.createElement(
                         'video',
-                        {
-                            id: 'movie-player',
-                            className: 'video-js',
-                            controls: true,
-                            preload: 'auto',
-                            poster: '//vjs.zencdn.net/v/oceans.png',
+                        { id: 'm-player', ref: 'm-player', className: 'video-js vjs-default-skin',
+                            controls: true, preload: 'none',
                             'data-setup': '{}' },
                         _react2.default.createElement('source', { src: 'http://vjs.zencdn.net/v/oceans.mp4', type: 'video/mp4' }),
                         _react2.default.createElement('source', { src: 'http://vjs.zencdn.net/v/oceans.webm', type: 'video/webm' }),
-                        _react2.default.createElement('source', { src: 'http://vjs.zencdn.net/v/oceans.ogv', type: 'video/ogg' }),
-                        _react2.default.createElement(
-                            'p',
-                            { className: 'vjs-no-js' },
-                            'To view this video please enable JavaScript, and consider upgrading to a web browser that',
-                            _react2.default.createElement(
-                                'a',
-                                { href: 'http://videojs.com/html5-video-support/', target: '_blank' },
-                                'supports HTML5 video'
-                            )
-                        )
+                        _react2.default.createElement('source', { src: 'http://vjs.zencdn.net/v/oceans.ogv', type: 'video/ogg' })
                     )
                 )
             )
         );
     }
 });
-/*import '../plugin/video-js/css/video-js.css';*/
+
 exports.default = MovieInfoPage;
 
 /***/ }),
@@ -28660,7 +28651,7 @@ exports = module.exports = __webpack_require__(10)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#movie_info_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #movie_info_content > * {\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    width: 100%; }\n  #movie_info_content #basic_info {\n    margin-top: 20px;\n    width: 100%; }\n    #movie_info_content #basic_info > #movie_info_displayer {\n      display: flex;\n      width: 100%; }\n      #movie_info_content #basic_info > #movie_info_displayer > div {\n        float: left; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_img {\n        width: 200px;\n        flex: none; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_img > img {\n          width: 200px;\n          height: 300px; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_text {\n        padding: 0px 10px;\n        flex: 1;\n        height: 100%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text ul {\n          list-style: none;\n          display: inline; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text ul li {\n            display: inline-block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            height: auto;\n            width: auto; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul > li {\n          margin-bottom: 10px;\n          width: 25%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li {\n          width: 100%; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li, #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li > a {\n            color: rgb(61,158,255);\n            font-size: 24px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #description_li {\n          width: 100%;\n          margin-top: 20px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #tags_li {\n          width: 100%;\n          margin-top: 20px; }\n  #movie_info_content #movie_player {\n    margin-top: 20px; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#movie_info_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #movie_info_content > * {\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    width: 100%; }\n  #movie_info_content #basic_info {\n    margin-top: 20px;\n    width: 100%; }\n    #movie_info_content #basic_info > #movie_info_displayer {\n      display: flex;\n      width: 100%; }\n      #movie_info_content #basic_info > #movie_info_displayer > div {\n        float: left; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_img {\n        width: 200px;\n        flex: none; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_img > img {\n          width: 200px;\n          height: 300px; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_text {\n        padding: 0px 10px;\n        flex: 1;\n        height: 100%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text ul {\n          list-style: none;\n          display: inline; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text ul li {\n            display: inline-block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            height: auto;\n            width: auto; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul > li {\n          margin-bottom: 10px;\n          width: 25%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li {\n          width: 100%; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li, #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li > a {\n            color: rgb(61,158,255);\n            font-size: 24px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #description_li {\n          width: 100%;\n          margin-top: 20px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #tags_li {\n          width: 100%;\n          margin-top: 20px; }\n  #movie_info_content #movie_player {\n    margin-top: 20px; }\n    #movie_info_content #movie_player .m {\n      width: 100%; }\n      #movie_info_content #movie_player .m #m-player {\n        width: 60%; }\n", ""]);
 
 // exports
 

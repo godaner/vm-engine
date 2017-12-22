@@ -10,6 +10,11 @@
   <!-- 播放器js -->
   <script src="video.js"></script>
 
+  <!-- 备用的Flash播放器 -->
+  <script>
+    videojs.options.flash.swf = "video-js.swf";
+  </script>
+
 </head>
 <body>
 

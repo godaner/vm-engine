@@ -4,12 +4,15 @@
     <title>vm电影网</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
+    <link rel="stylesheet" type="text/css" href="/frontend/plugin/video-js/video-js.min.css">
+
     <script src="/js/jquery/jquery-3.2.1.min.js"></script>
     <script src="/js/jquery/lazyload/jquery.lazyload.min.js"></script>
-    <script src="/frontend/plugin/video-js/js/video.min.js"></script>
+    <script src="/frontend/plugin/video-js/ie8/videojs-ie8.js"></script>
+    <script src="/frontend/plugin/video-js/video.js"></script>
     <script>
         /*在不支持html5的浏览器中使用flash*/
-        videojs.options.flash.swf = "video-js.swf";
+        videojs.options.flash.swf = "/frontend/plugin/video-js/video-js.swf";
     </script>
     <script src="/js/util.js"></script>
     <script src="/js/vm.js"></script>
