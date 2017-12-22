@@ -19,3 +19,6 @@ function lazyLoad(){
     $("img").lazyload({effect: "fadeIn"});
 }
 
+
+
+

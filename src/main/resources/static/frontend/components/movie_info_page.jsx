@@ -1,6 +1,6 @@
 import React from 'react';  //引入react组件
 import '../scss/movie_info_page.scss';
-import '../plugin/video-js/css/video-js.css';
+/*import '../plugin/video-js/css/video-js.css';*/
 import ActorsList from './actors_list';
 import InnerMessager from './inner_messager';
 import Director from "./director";
@@ -32,6 +32,7 @@ var MovieInfoPage = React.createClass({
     initMoviePlayer:function(){
         //打开自动播放
         var myPlayer = videojs('movie-player');
+        c(myPlayer);
         videojs("movie-player").ready(function(){
             var myPlayer = this;
             myPlayer.play();
@@ -171,10 +172,10 @@ var MovieInfoPage = React.createClass({
 
                 <div id="movie_player">
 
-                    <div class="m">
+                    <div className="m">
                         <video
-                            id="my-player"
-                            class="video-js"
+                            id="movie-player"
+                            className="video-js"
                             controls
                             preload="auto"
                             poster="//vjs.zencdn.net/v/oceans.png"
@@ -182,7 +183,7 @@ var MovieInfoPage = React.createClass({
                             <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
                             <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
                             <source src="http://vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source>
-                            <p class="vjs-no-js">
+                            <p className="vjs-no-js">
                                 To view this video please enable JavaScript, and consider upgrading to a
                                 web browser that
                                 <a href="http://videojs.com/html5-video-support/" target="_blank">
