@@ -28602,9 +28602,7 @@ var MovieInfoPage = _react2.default.createClass({
                             className: 'video-js vjs-default-skin',
                             controls: true, preload: 'auto',
                             'data-setup': '{}' },
-                        _react2.default.createElement('source', { src: 'http://vjs.zencdn.net/v/oceans.mp4', type: 'video/mp4' }),
-                        _react2.default.createElement('source', { src: 'http://vjs.zencdn.net/v/oceans.webm', type: 'video/webm' }),
-                        _react2.default.createElement('source', { src: 'http://vjs.zencdn.net/v/oceans.ogv', type: 'video/ogg' })
+                        this.state.movie.srcUrl != undefined ? _react2.default.createElement('source', { src: this.state.movie.srcUrl, type: 'video/ogg' }) : _react2.default.createElement('span', null)
                     )
                 )
             )

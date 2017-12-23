@@ -5,6 +5,7 @@ import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.dao.po.CustomVmMovies;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -17,4 +18,7 @@ public interface VmMoviesService {
 
     CustomVmMovies getMovie(Long movieId) throws Exception;
 
+    void sendMovieImg(Long fileId, VmMoviesQueryBean query, HttpServletResponse response) throws Exception;
+
+    void sendMovieSrc(Long fileId, HttpServletResponse response) throws Exception;
 }

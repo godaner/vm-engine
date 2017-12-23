@@ -5,6 +5,7 @@ import InnerMessager from './inner_messager';
 import Director from "./director";
 import TagsOfMovie from "./tags_of_movie";
 import FlexText from "./flex_text";
+
 var MovieInfoPage = React.createClass({
     getInitialState: function () {
         //init state
@@ -40,7 +41,7 @@ var MovieInfoPage = React.createClass({
         var m = $(this.refs.m);
         var player = $(this.refs.m_player);
         var w = player.width();
-        var h = w/1.5;
+        var h = w / 1.5;
         m.height(h);
         player.height(h);
     },
@@ -96,7 +97,7 @@ var MovieInfoPage = React.createClass({
     showTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
     },
-    updateMovieDescription(text){
+    updateMovieDescription(text) {
         this.refs.flex_text.updateText(text);
     },
     render: function () {
@@ -172,18 +173,22 @@ var MovieInfoPage = React.createClass({
                 <div id="movie_player">
 
                     <div id="m" ref="m">
-
                         <video id="m-player"
                                ref="m_player"
                                className="video-js vjs-default-skin"
                                controls preload="auto"
                                data-setup="{}">
-                            <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
+                            {this.state.movie.srcUrl != undefined ?
+                                <source src={this.state.movie.srcUrl} type="video/ogg"></source>
+
+                                : <span></span>}
+                            {/*<source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
                             <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
                             <source src="http://vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source>
-
+*/}
                             {/*<track kind="captions" srclang="en" label="English"/>*/}
                         </video>
+
 
                     </div>
 

@@ -1,24 +1,22 @@
 package com.vm.controller.impl;
 
 import com.vm.controller.base.ServiceController;
-import com.vm.dao.po.VmTags;
+import com.vm.dao.po.CustomVmMovies;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
-import com.vm.dao.po.CustomVmMovies;
 import com.vm.service.inf.VmMoviesService;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletOutputStream;
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
+import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 
@@ -47,10 +45,31 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
 
     @RequestMapping(value = "/{movieId}", method = RequestMethod.GET)
     public @ResponseBody
-    Object getMovie( @PathVariable("movieId") Long movieId) throws Exception {
+    Object getMovie(@PathVariable("movieId") Long movieId) throws Exception {
         CustomVmMovies movie = service.getMovie(movieId);
         response.putData("movie", movie);
         return response;
+    }
+    /**
+     * 获取电影图片
+     *
+     * @return
+     */
+    @RequestMapping(value = "/img/{fileId}", method = RequestMethod.GET)
+    public void getMovieImg(@PathVariable("fileId") Long fileId, VmMoviesQueryBean query) throws Exception {
+
+        service.sendMovieImg(fileId,query,getResponse());
+
+    }
+
+    /**
+     * 获取电影资源
+     *
+     * @return
+     */
+    @RequestMapping(value = "/src/{fileId}", method = RequestMethod.GET)
+    public void getMovieSrc(@PathVariable("fileId")Long fileId) throws Exception{
+        service.sendMovieSrc(fileId,getResponse());
     }
 
 

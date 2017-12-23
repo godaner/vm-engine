@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class VmProperties {
 
+    public static String VM_MOVIE_SRC_DEFAULT_NAME;
     public static String VM_MOVIE_IMG_PATH;
     public static String VM_MOVIE_IMG_DEFAULT_NAME;
     public static String VM_MOVIE_IMG_DEFAULT_WIDTH;
@@ -22,6 +23,12 @@ public class VmProperties {
     public void setVmMovieImgPath(String vmMovieImgPath) {
         VM_MOVIE_IMG_PATH = vmMovieImgPath;
     }
+
+    @Value("${vm.movie.src.default.name}")
+    public void setVmMovieSrcDefaultName(String vmMovieSrcDefaultName) {
+        VM_MOVIE_SRC_DEFAULT_NAME = vmMovieSrcDefaultName;
+    }
+
 
 
     @Value("${vm.movie.img.default.name}")
