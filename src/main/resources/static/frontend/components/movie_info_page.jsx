@@ -108,7 +108,7 @@ var MovieInfoPage = React.createClass({
             options.poster = "http://mpic.tiankong.com/8e1/58f/8e158fc2b4bb795e202a4f0196bf9cb9/640.jpg";
             options.video = [
                 ['http://img.ksbbs.com/asset/Mon_1703/d30e02a5626c066.mp4', 'video/mp4', '超清',0],
-                [this.state.movie.srcUrl, 'video/mp4', '高清',2],
+                /*[this.state.movie.srcUrl, 'video/mp4', '高清',2],*/
                 ["ftp://ygdy8:ygdy8@yg90.dydytt.net:8227/[阳光电影www.ygdy8.net].嘉年华.HD.1080p.国语中字.mp4", 'video/mp4', '标清',1]
 
             ];
