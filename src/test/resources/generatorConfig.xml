@@ -50,6 +50,7 @@
         </javaClientGenerator>
         <!-- 指定数据库表 -->
         <!--<table tableName="vm_files"></table>-->
+        <table tableName="vm_movies_files_realation"></table>
         <!--<table tableName="vm_admins"></table>-->
         <!--<table tableName="vm_admins_login_logs"></table>-->
         <!--<table tableName="vm_countrys"></table>-->

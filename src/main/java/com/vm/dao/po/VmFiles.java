@@ -1,6 +1,6 @@
 package com.vm.dao.po;
 
-public class VmFiles extends BasePo{
+public class VmFiles {
     private Long id;
 
     private String filename;
@@ -14,6 +14,8 @@ public class VmFiles extends BasePo{
     private Integer createTime;
 
     private Integer updateTime;
+
+    private String contentType;
 
     public Long getId() {
         return id;
@@ -69,5 +71,13 @@ public class VmFiles extends BasePo{
 
     public void setUpdateTime(Integer updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType == null ? null : contentType.trim();
     }
 }

@@ -1,6 +1,6 @@
 package com.vm.dao.po;
 
-public class VmMovies  extends BasePo{
+public class VmMovies {
     private Long id;
 
     private String name;
@@ -19,7 +19,7 @@ public class VmMovies  extends BasePo{
 
     private Integer movieTime;
 
-    private String srcUrl;
+    private String posterUrl;
 
     private String imgUrl;
 
@@ -101,12 +101,12 @@ public class VmMovies  extends BasePo{
         this.movieTime = movieTime;
     }
 
-    public String getSrcUrl() {
-        return srcUrl;
+    public String getPosterUrl() {
+        return posterUrl;
     }
 
-    public void setSrcUrl(String srcUrl) {
-        this.srcUrl = srcUrl == null ? null : srcUrl.trim();
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl == null ? null : posterUrl.trim();
     }
 
     public String getImgUrl() {

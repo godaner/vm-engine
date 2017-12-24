@@ -1,12 +1,11 @@
 package com.vm.service.impl;
 
+import com.vm.dao.mapper.CustomVmMoviesMapper;
 import com.vm.dao.mapper.VmFilesMapper;
+import com.vm.dao.po.CustomVmMovies;
 import com.vm.dao.po.VmFiles;
-import com.vm.dao.po.VmTags;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
-import com.vm.dao.mapper.VmMoviesMapper;
-import com.vm.dao.po.CustomVmMovies;
 import com.vm.service.base.BaseService;
 import com.vm.service.inf.VmMoviesService;
 import com.vm.utils.VmProperties;
@@ -25,25 +24,25 @@ import java.util.List;
 @Service
 public class VmMoviesServiceImpl extends BaseService implements VmMoviesService {
     @Autowired
-    private VmMoviesMapper vmMoviesMapper;
+    private CustomVmMoviesMapper customVmMoviesMapper;
     @Autowired
     private VmFilesMapper vmFilesMapper;
 
     @Override
     public List<CustomVmMovies> getMovies(PageBean page, VmMoviesQueryBean query) {
-        return vmMoviesMapper.getMovies(page, query);
+        return customVmMoviesMapper.getMovies(page, query);
     }
 
     @Override
     public Long getMoviesCount(PageBean page, VmMoviesQueryBean query) {
-        return vmMoviesMapper.getMoviesCount(page, query);
+        return customVmMoviesMapper.getMoviesCount(page, query);
     }
 
     @Override
     public CustomVmMovies getMovie(Long movieId) {
         eject(movieId == null, "VmMoviesService#getMovie movieId is null ! movieId is :" + movieId);
 
-        return vmMoviesMapper.getMovie(movieId);
+        return customVmMoviesMapper.getMovie(movieId);
     }
 
     @Override
