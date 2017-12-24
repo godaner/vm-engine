@@ -5,6 +5,7 @@ import InnerMessager from './inner_messager';
 import Director from "./director";
 import TagsOfMovie from "./tags_of_movie";
 import FlexText from "./flex_text";
+/*import '../../../public/js/ckplayer/ckplayer/ckplayer.js';*/
 
 var MovieInfoPage = React.createClass({
     getInitialState: function () {
@@ -28,6 +29,21 @@ var MovieInfoPage = React.createClass({
         window.addEventListener('resize', this.onWindowResize);
 
         this.adjustUI();
+
+
+    },
+    initPlayer(options) {
+        var videoObject = {
+            container: '#m_player',//“#”代表容器的ID，“.”或“”代表容器的class
+            variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
+            poster:options.poster,//封面图片
+            autoplay: false,//默认自动播放
+            volume:1.0,//初始化音量
+            flashplayer:true,//如果强制使用flashplayer则设置成true
+            video: options.video//视频地址http://img.ksbbs.com/asset/Mon_1703/05cacb4e02f9d9e.mp4
+
+        };
+        var player = new ckplayer(videoObject);
 
     },
     onWindowResize: function () {
@@ -86,6 +102,17 @@ var MovieInfoPage = React.createClass({
 
             //lazy load img
             this.lazyLoadImg();
+
+            //init movie player
+            var options = {};
+            options.poster = "http://mpic.tiankong.com/8e1/58f/8e158fc2b4bb795e202a4f0196bf9cb9/640.jpg";
+            options.video = [
+                ['http://img.ksbbs.com/asset/Mon_1703/d30e02a5626c066.mp4', 'video/mp4', '超清',0],
+                [this.state.movie.srcUrl, 'video/mp4', '高清',0],
+                ["ftp://ygdy8:ygdy8@yg90.dydytt.net:8227/[阳光电影www.ygdy8.net].嘉年华.HD.1080p.国语中字.mp4", 'video/mp4', '标清',0]
+
+            ];
+            this.initPlayer(options)
 
             // c(this.state)
             //callfun
@@ -173,23 +200,10 @@ var MovieInfoPage = React.createClass({
                 <div id="movie_player">
 
                     <div id="m" ref="m">
-                        <video id="m-player"
-                               ref="m_player"
-                               className="video-js vjs-default-skin"
-                               controls preload="auto"
-                               data-setup="{}">
-                            {this.state.movie.srcUrl != undefined ?
-                                <source src={this.state.movie.srcUrl} type="video/ogg"></source>
-
-                                : <span></span>}
-                            {/*<source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
-                            <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
-                            <source src="http://vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source>
-*/}
-                            {/*<track kind="captions" srclang="en" label="English"/>*/}
-                        </video>
 
 
+                        <div id="m_player"
+                             ref="m_player"></div>
                     </div>
 
                 </div>
