@@ -41,6 +41,10 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     public Long getMoviesCount(PageBean page, VmMoviesQueryBean query) {
         return customVmMoviesMapper.getMoviesCount(page, query);
     }
+    @Override
+    public List<VmTags> getTagsOfMovie(Long movieId) throws Exception {
+        return customVmTagsMapper.getTagsOfMovie(movieId);
+    }
 
     @Override
     public CustomVmMovies getMovie(Long movieId) {
@@ -113,8 +117,5 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         }
     }
 
-    @Override
-    public List<VmTags> getTagsOfMovie(Long movieId) throws Exception {
-        return customVmTagsMapper.getTagsOfMovie(movieId);
-    }
+
 }

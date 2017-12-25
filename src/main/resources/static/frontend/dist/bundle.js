@@ -28706,7 +28706,7 @@ var TagsOfMovie = _react2.default.createClass({
     },
     componentDidMount: function componentDidMount() {
 
-        var url = "/movie/tag" + this.state.movieId;
+        var url = "/movie/tag/" + this.state.movieId;
         $.get(url, function (result) {
             //hide tip
             this.showTagTip();
