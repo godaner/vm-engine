@@ -76,18 +76,20 @@
   }
   #movie_player {
     margin-top: 20px;
-
+    &>div{
+      float: left;
+    }
     #m {
-      @include defaultWidth;
-      //margin-left: auto;
-      //margin-right: auto;
-      //width: 960px;
-      //height: 400px;
-      //margin-top: 100px
-      @include defaultWidth;
+      width:60%;
+
       #m_player{
-        width:60%;
+        @include defaultWidth;
       }
+    }
+    #actors_details_div{
+
+      width:40%;
+      background-color: red;
     }
   }
 

@@ -46,13 +46,7 @@
                 r.`status` = 1
                 AND r.tag_id IN
                 <foreach collection="query.tagIds" item="item" open="(" separator="," close=")">
-                    AND EXISTS(
-                    select *
-                    from vm_movies_tags_realation tr
-                    where tr.movie_id = m.id
-                    and tr.`status` = 1
-                    and tr.tag_id = #{item}
-                    )
+                    #{item}
                 </foreach>
                 GROUP BY
                 r.movie_id
@@ -88,13 +82,7 @@
                 r.`status` = 1
                 AND r.tag_id IN
                 <foreach collection="query.tagIds" item="item" open="(" separator="," close=")">
-                    AND EXISTS(
-                    select *
-                    from vm_movies_tags_realation tr
-                    where tr.movie_id = m.id
-                    and tr.`status` = 1
-                    and tr.tag_id = #{item}
-                    )
+                  #{item}
                 </foreach>
                 GROUP BY
                 r.movie_id
