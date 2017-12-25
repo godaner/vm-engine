@@ -21,4 +21,6 @@ public interface VmMoviesService {
     void sendMovieImg(Long fileId, VmMoviesQueryBean query, HttpServletResponse response) throws Exception;
 
     void sendMovieSrc(Long fileId, HttpServletResponse response) throws Exception;
+
+    List<VmTags> getTagsOfMovie(Long movieId)throws Exception;
 }

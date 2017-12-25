@@ -1,9 +1,11 @@
 package com.vm.service.impl;
 
 import com.vm.dao.mapper.CustomVmMoviesMapper;
+import com.vm.dao.mapper.CustomVmTagsMapper;
 import com.vm.dao.mapper.VmFilesMapper;
 import com.vm.dao.po.CustomVmMovies;
 import com.vm.dao.po.VmFiles;
+import com.vm.dao.po.VmTags;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.service.base.BaseService;
@@ -27,6 +29,8 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     private CustomVmMoviesMapper customVmMoviesMapper;
     @Autowired
     private VmFilesMapper vmFilesMapper;
+    @Autowired
+    private CustomVmTagsMapper customVmTagsMapper;
 
     @Override
     public List<CustomVmMovies> getMovies(PageBean page, VmMoviesQueryBean query) {
@@ -107,5 +111,10 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         } finally {
             closeStream(input, output);
         }
+    }
+
+    @Override
+    public List<VmTags> getTagsOfMovie(Long movieId) throws Exception {
+        return customVmTagsMapper.getTagsOfMovie(movieId);
     }
 }

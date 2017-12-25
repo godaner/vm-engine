@@ -2,6 +2,7 @@ package com.vm.controller.impl;
 
 import com.vm.controller.base.ServiceController;
 import com.vm.dao.po.CustomVmMovies;
+import com.vm.dao.po.VmTags;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.service.inf.VmMoviesService;
@@ -43,6 +44,25 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
         return response;
     }
 
+    /**
+     * 获取某个电影的的tags
+     *
+     * @return
+     */
+    @RequestMapping(value = "/tag/{movieId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Object getTagsOfMovie(@PathVariable("movieId") Long movieId)  throws Exception {
+
+        List<VmTags> list = service.getTagsOfMovie(movieId);
+        response.putData("list", list);
+        return response;
+    }
+    /**
+     * 获取某个电影的信息
+     * @param movieId
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/{movieId}", method = RequestMethod.GET)
     public @ResponseBody
     Object getMovie(@PathVariable("movieId") Long movieId) throws Exception {

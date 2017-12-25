@@ -11,4 +11,6 @@ public interface CustomVmTagsMapper {
     List<VmTags> selectTagsByTagGroupId(@Param("tagGroupId") Long tagGroupId);
 
     List<VmTags> getTagsOfMovie(@Param("movieId") Long movieId);
+
+
 }

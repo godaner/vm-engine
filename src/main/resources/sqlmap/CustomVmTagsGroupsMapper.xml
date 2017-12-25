@@ -9,7 +9,7 @@
         <result column="status" jdbcType="TINYINT" property="status"/>
         <result column="create_time" jdbcType="INTEGER" property="createTime"/>
         <result column="update_time" jdbcType="INTEGER" property="updateTime"/>
-        <collection property="items" column="id" select="com.vm.dao.mapper.VmTagsMapper.selectTagsByTagGroupId">
+        <collection property="items" column="id" select="com.vm.dao.mapper.CustomVmTagsMapper.selectTagsByTagGroupId">
 
         </collection>
     </resultMap>
@@ -20,9 +20,7 @@
             vm_tags_groups g
         WHERE
             g.`status` = 1
-
-
-  </select>
+    </select>
     <!--**************************** 自定义mapper end ****************************-->
 
 </mapper>
