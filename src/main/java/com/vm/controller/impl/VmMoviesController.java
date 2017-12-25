@@ -116,7 +116,9 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
     public @ResponseBody
     Object getMovieSrcVersions(@PathVariable("movieId") Long movieId) throws Exception {
         List<VmMoviesSrcVersion> versions = service.getMovieSrcVersions(movieId);
+        String posterUrl = service.getMoviePosterUrl(movieId);
         response.putData("versions", versions);
+        response.putData("posterUrl", posterUrl);
         return response;
     }
 

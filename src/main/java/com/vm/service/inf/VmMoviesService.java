@@ -29,4 +29,6 @@ public interface VmMoviesService {
     List<VmFilmmakers> getMovieFilmmakers(Long movieId);
 
     List<VmMoviesSrcVersion> getMovieSrcVersions(Long movieId) throws Exception;
+
+    String getMoviePosterUrl(Long movieId) throws Exception;
 }

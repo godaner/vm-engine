@@ -118,6 +118,16 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     }
 
     @Override
+    public String getMoviePosterUrl(Long movieId) throws Exception {
+        VmMovies vmMovies = validateMovie(movieId);
+
+        eject(isNullObject(vmMovies),
+                "getMovieFilmmakers vmMovies is not exist ! movieId is :" + movieId);
+
+        return vmMovies.getPosterUrl();
+    }
+
+    @Override
     public CustomVmMovies getMovie(Long movieId) {
         eject(movieId == null, "VmMoviesService#getMovie movieId is null ! movieId is :" + movieId);
 
@@ -147,7 +157,8 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             input = new FileInputStream(f);
             output = response.getOutputStream();
             //设置响应的媒体类型
-            response.setHeader("Content-Type", "image/jped");
+//            response.setHeader("Content-Type", "image/jped");
+            response.setContentType(file.getContentType()); // 设置返回的文件类型
             IOUtils.copy(input, output);
         } catch (IOException e) {
             e.printStackTrace();
@@ -178,7 +189,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             input = new FileInputStream(f);
             output = response.getOutputStream();
             //设置响应的媒体类型
-            response.setContentType("video/mp4"); // 设置返回的文件类型
+            response.setContentType(file.getContentType()); // 设置返回的文件类型
 
 //            IOUtils.copy(input, output);
 

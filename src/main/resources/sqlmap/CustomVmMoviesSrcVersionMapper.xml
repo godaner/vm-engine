@@ -10,6 +10,7 @@
     and v.`status` = 1
     and v.movie_id = m.id
     and m.id = #{movieId}
+
   </select>
   <!--**************************** 自定义mapper end ****************************-->
 </mapper>
