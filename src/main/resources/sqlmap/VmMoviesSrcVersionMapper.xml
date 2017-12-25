@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.vm.dao.mapper.VmFilesMapper">
-  <resultMap id="BaseResultMap" type="com.vm.dao.po.VmFiles">
+<mapper namespace="com.vm.dao.mapper.VmMoviesSrcVersionMapper">
+  <resultMap id="BaseResultMap" type="com.vm.dao.po.VmMoviesSrcVersion">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="filename" jdbcType="VARCHAR" property="filename" />
-    <result column="original_name" jdbcType="VARCHAR" property="originalName" />
-    <result column="size" jdbcType="BIGINT" property="size" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="create_time" jdbcType="INTEGER" property="createTime" />
     <result column="update_time" jdbcType="INTEGER" property="updateTime" />
-    <result column="content_type" jdbcType="VARCHAR" property="contentType" />
+    <result column="sharpness" jdbcType="TINYINT" property="sharpness" />
+    <result column="movie_id" jdbcType="BIGINT" property="movieId" />
+    <result column="player_speed" jdbcType="INTEGER" property="playerSpeed" />
+    <result column="src_url" jdbcType="VARCHAR" property="srcUrl" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,15 +70,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, filename, original_name, size, status, create_time, update_time, content_type
+    id, status, create_time, update_time, sharpness, movie_id, player_speed, src_url
   </sql>
-  <select id="selectByExample" parameterType="com.vm.dao.po.VmFilesExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.vm.dao.po.VmMoviesSrcVersionExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from vm_files
+    from vm_movies_src_version
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,43 +87,34 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
-    from vm_files
+    from vm_movies_src_version
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from vm_files
+    delete from vm_movies_src_version
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.vm.dao.po.VmFilesExample">
-    delete from vm_files
+  <delete id="deleteByExample" parameterType="com.vm.dao.po.VmMoviesSrcVersionExample">
+    delete from vm_movies_src_version
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.vm.dao.po.VmFiles">
-    insert into vm_files (id, filename, original_name,
-    size, status, create_time,
-    update_time, content_type)
-    values (#{id,jdbcType=BIGINT}, #{filename,jdbcType=VARCHAR}, #{originalName,jdbcType=VARCHAR},
-    #{size,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER},
-    #{updateTime,jdbcType=INTEGER}, #{contentType,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.vm.dao.po.VmMoviesSrcVersion">
+    insert into vm_movies_src_version (id, status, create_time, 
+      update_time, sharpness, movie_id, 
+      player_speed, src_url)
+    values (#{id,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=INTEGER}, #{sharpness,jdbcType=TINYINT}, #{movieId,jdbcType=BIGINT}, 
+      #{playerSpeed,jdbcType=INTEGER}, #{srcUrl,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.vm.dao.po.VmFiles">
-    insert into vm_files
+  <insert id="insertSelective" parameterType="com.vm.dao.po.VmMoviesSrcVersion">
+    insert into vm_movies_src_version
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
-      </if>
-      <if test="filename != null">
-        filename,
-      </if>
-      <if test="originalName != null">
-        original_name,
-      </if>
-      <if test="size != null">
-        size,
       </if>
       <if test="status != null">
         status,
@@ -134,22 +125,22 @@
       <if test="updateTime != null">
         update_time,
       </if>
-      <if test="contentType != null">
-        content_type,
+      <if test="sharpness != null">
+        sharpness,
+      </if>
+      <if test="movieId != null">
+        movie_id,
+      </if>
+      <if test="playerSpeed != null">
+        player_speed,
+      </if>
+      <if test="srcUrl != null">
+        src_url,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=BIGINT},
-      </if>
-      <if test="filename != null">
-        #{filename,jdbcType=VARCHAR},
-      </if>
-      <if test="originalName != null">
-        #{originalName,jdbcType=VARCHAR},
-      </if>
-      <if test="size != null">
-        #{size,jdbcType=BIGINT},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -160,31 +151,31 @@
       <if test="updateTime != null">
         #{updateTime,jdbcType=INTEGER},
       </if>
-      <if test="contentType != null">
-        #{contentType,jdbcType=VARCHAR},
+      <if test="sharpness != null">
+        #{sharpness,jdbcType=TINYINT},
+      </if>
+      <if test="movieId != null">
+        #{movieId,jdbcType=BIGINT},
+      </if>
+      <if test="playerSpeed != null">
+        #{playerSpeed,jdbcType=INTEGER},
+      </if>
+      <if test="srcUrl != null">
+        #{srcUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.vm.dao.po.VmFilesExample" resultType="java.lang.Long">
-    select count(*) from vm_files
+  <select id="countByExample" parameterType="com.vm.dao.po.VmMoviesSrcVersionExample" resultType="java.lang.Long">
+    select count(*) from vm_movies_src_version
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update vm_files
+    update vm_movies_src_version
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.filename != null">
-        filename = #{record.filename,jdbcType=VARCHAR},
-      </if>
-      <if test="record.originalName != null">
-        original_name = #{record.originalName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.size != null">
-        size = #{record.size,jdbcType=BIGINT},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
@@ -195,8 +186,17 @@
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=INTEGER},
       </if>
-      <if test="record.contentType != null">
-        content_type = #{record.contentType,jdbcType=VARCHAR},
+      <if test="record.sharpness != null">
+        sharpness = #{record.sharpness,jdbcType=TINYINT},
+      </if>
+      <if test="record.movieId != null">
+        movie_id = #{record.movieId,jdbcType=BIGINT},
+      </if>
+      <if test="record.playerSpeed != null">
+        player_speed = #{record.playerSpeed,jdbcType=INTEGER},
+      </if>
+      <if test="record.srcUrl != null">
+        src_url = #{record.srcUrl,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -204,31 +204,22 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update vm_files
+    update vm_movies_src_version
     set id = #{record.id,jdbcType=BIGINT},
-    filename = #{record.filename,jdbcType=VARCHAR},
-    original_name = #{record.originalName,jdbcType=VARCHAR},
-    size = #{record.size,jdbcType=BIGINT},
-    status = #{record.status,jdbcType=TINYINT},
-    create_time = #{record.createTime,jdbcType=INTEGER},
-    update_time = #{record.updateTime,jdbcType=INTEGER},
-    content_type = #{record.contentType,jdbcType=VARCHAR}
+      status = #{record.status,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=INTEGER},
+      sharpness = #{record.sharpness,jdbcType=TINYINT},
+      movie_id = #{record.movieId,jdbcType=BIGINT},
+      player_speed = #{record.playerSpeed,jdbcType=INTEGER},
+      src_url = #{record.srcUrl,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.vm.dao.po.VmFiles">
-    update vm_files
+  <update id="updateByPrimaryKeySelective" parameterType="com.vm.dao.po.VmMoviesSrcVersion">
+    update vm_movies_src_version
     <set>
-      <if test="filename != null">
-        filename = #{filename,jdbcType=VARCHAR},
-      </if>
-      <if test="originalName != null">
-        original_name = #{originalName,jdbcType=VARCHAR},
-      </if>
-      <if test="size != null">
-        size = #{size,jdbcType=BIGINT},
-      </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
@@ -238,21 +229,30 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=INTEGER},
       </if>
-      <if test="contentType != null">
-        content_type = #{contentType,jdbcType=VARCHAR},
+      <if test="sharpness != null">
+        sharpness = #{sharpness,jdbcType=TINYINT},
+      </if>
+      <if test="movieId != null">
+        movie_id = #{movieId,jdbcType=BIGINT},
+      </if>
+      <if test="playerSpeed != null">
+        player_speed = #{playerSpeed,jdbcType=INTEGER},
+      </if>
+      <if test="srcUrl != null">
+        src_url = #{srcUrl,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.vm.dao.po.VmFiles">
-    update vm_files
-    set filename = #{filename,jdbcType=VARCHAR},
-    original_name = #{originalName,jdbcType=VARCHAR},
-    size = #{size,jdbcType=BIGINT},
-    status = #{status,jdbcType=TINYINT},
-    create_time = #{createTime,jdbcType=INTEGER},
-    update_time = #{updateTime,jdbcType=INTEGER},
-    content_type = #{contentType,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="com.vm.dao.po.VmMoviesSrcVersion">
+    update vm_movies_src_version
+    set status = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      sharpness = #{sharpness,jdbcType=TINYINT},
+      movie_id = #{movieId,jdbcType=BIGINT},
+      player_speed = #{playerSpeed,jdbcType=INTEGER},
+      src_url = #{srcUrl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

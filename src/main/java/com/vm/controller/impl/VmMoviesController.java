@@ -4,6 +4,7 @@ import com.vm.controller.base.Response;
 import com.vm.controller.base.ServiceController;
 import com.vm.dao.po.CustomVmMovies;
 import com.vm.dao.po.VmFilmmakers;
+import com.vm.dao.po.VmMoviesSrcVersion;
 import com.vm.dao.po.VmTags;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
@@ -99,6 +100,17 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
     public Response getMovieFilmmakers(@PathVariable("movieId")Long movieId) throws Exception{
         List<VmFilmmakers> filmmakers = service.getMovieFilmmakers(movieId);
         response.putData("filmmakers",filmmakers);
+        return response;
+    }
+    /**
+     * 获取电影相关电影人:包括导演,演员
+     *
+     * @return
+     */
+    @RequestMapping(value = "/version/{movieId}", method = RequestMethod.GET)
+    public Response getMovieSrcVersions(@PathVariable("movieId")Long movieId) throws Exception{
+        List<VmMoviesSrcVersion> versions = service.getMovieSrcVersions(movieId);
+        response.putData("versions",versions);
         return response;
     }
 

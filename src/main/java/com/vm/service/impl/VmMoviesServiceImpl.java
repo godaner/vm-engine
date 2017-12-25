@@ -35,6 +35,27 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     private VmFilmmakersMapper vmFilmmakersMapper;
     @Autowired
     private CustomVmFilmmakersMapper customVmFilmmakersMapper;
+    @Autowired
+    private VmMoviesSrcVersionMapper vmMoviesSrcVersionMapper;
+    @Autowired
+    private CustomVmMoviesSrcVersionMapper customVmMoviesSrcVersionMapper;
+
+    /**
+     * 验证movie是否存在
+     *
+     * @param movieId
+     * @return
+     */
+    private VmMovies validateMovie(Long movieId) {
+        //获取电影
+        VmMovies vmMovies = vmMoviesMapper.selectByPrimaryKey(movieId);
+        if (vmMovies == null || BasePo.Status.isDeleted(vmMovies.getStatus())) {
+            return null;
+        } else {
+            return vmMovies;
+        }
+
+    }
 
     @Override
     public List<CustomVmMovies> getMovies(PageBean page, VmMoviesQueryBean query) {
@@ -64,11 +85,9 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
     @Override
     public List<VmFilmmakers> getMovieFilmmakers(Long movieId) {
-        //获取电影
 
-        VmMovies vmMovies = vmMoviesMapper.selectByPrimaryKey(movieId);
-
-        eject(vmMovies == null || BasePo.Status.isDeleted(vmMovies.getStatus()),
+        VmMovies vmMovies = validateMovie(movieId);
+        eject(isNullObject(vmMovies),
                 "getMovieFilmmakers vmMovies is not exist ! movieId is :" + movieId);
         //返回集
         List<VmFilmmakers> filmmakers = Lists.newArrayList();
@@ -86,6 +105,16 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
 
         return filmmakers;
+    }
+
+    @Override
+    public List<VmMoviesSrcVersion> getMovieSrcVersions(Long movieId) throws Exception {
+
+        VmMovies vmMovies = validateMovie(movieId);
+        eject(isNullObject(vmMovies),
+                "getMovieFilmmakers vmMovies is not exist ! movieId is :" + movieId);
+
+        return customVmMoviesSrcVersionMapper.selectMovieSrcVersionsByMovieId(movieId);
     }
 
     @Override
@@ -153,7 +182,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
 //            IOUtils.copy(input, output);
 
-            limitedWriter(response,input,1024*1024l,System.currentTimeMillis(), MessageDigest.getInstance("MD5"));
+            limitedWriter(response.getOutputStream(), input, 1024 * 1024l, System.currentTimeMillis(), MessageDigest.getInstance("MD5"));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

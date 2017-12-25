@@ -5,7 +5,7 @@ public class VmFiles {
 
     private String filename;
 
-    private String originalname;
+    private String originalName;
 
     private Long size;
 
@@ -33,12 +33,12 @@ public class VmFiles {
         this.filename = filename == null ? null : filename.trim();
     }
 
-    public String getOriginalname() {
-        return originalname;
+    public String getOriginalName() {
+        return originalName;
     }
 
-    public void setOriginalname(String originalname) {
-        this.originalname = originalname == null ? null : originalname.trim();
+    public void setOriginalName(String originalName) {
+        this.originalName = originalName == null ? null : originalName.trim();
     }
 
     public Long getSize() {

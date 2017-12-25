@@ -1,6 +1,7 @@
 package com.vm.service.inf;
 
 import com.vm.dao.po.VmFilmmakers;
+import com.vm.dao.po.VmMoviesSrcVersion;
 import com.vm.dao.po.VmTags;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
@@ -26,4 +27,6 @@ public interface VmMoviesService {
     List<VmTags> getTagsOfMovie(Long movieId)throws Exception;
 
     List<VmFilmmakers> getMovieFilmmakers(Long movieId);
+
+    List<VmMoviesSrcVersion> getMovieSrcVersions(Long movieId) throws Exception;
 }

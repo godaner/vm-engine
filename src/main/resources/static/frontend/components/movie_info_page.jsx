@@ -26,11 +26,30 @@ var MovieInfoPage = React.createClass({
     componentDidMount: function () {
         //get movie
         this.getMovie();
+
+        this.getMovieSrcVersion();
         //add resize event listener
         window.addEventListener('resize', this.onWindowResize);
 
         this.adjustUI();
 
+
+    },
+    getMovieSrcVersion:function(){
+        var url = "/movie/version/"+this.state.targetMovieId;
+        this.serverRequest = $.get(url, function (result) {
+            c(result);
+            //init movie player
+            var options = {};
+            options.poster = "http://mpic.tiankong.com/8e1/58f/8e158fc2b4bb795e202a4f0196bf9cb9/640.jpg";
+            options.video = [
+                ['http://img.ksbbs.com/asset/Mon_1703/d30e02a5626c066.mp4', 'video/mp4', '超清',5]
+                /*,[this.state.movie.srcUrl, 'video/mp4', '高清',2]*/
+                ,["/movie/src/35", 'video/mp4', '标清',6]
+
+            ];
+            this.initPlayer(options)
+        }.bind(this));
 
     },
     initPlayer(options) {
@@ -104,16 +123,6 @@ var MovieInfoPage = React.createClass({
             //lazy load img
             this.lazyLoadImg();
 
-            //init movie player
-            var options = {};
-            options.poster = "http://mpic.tiankong.com/8e1/58f/8e158fc2b4bb795e202a4f0196bf9cb9/640.jpg";
-            options.video = [
-                ['http://img.ksbbs.com/asset/Mon_1703/d30e02a5626c066.mp4', 'video/mp4', '超清',5]
-                /*,[this.state.movie.srcUrl, 'video/mp4', '高清',2]*/
-                ,["/movie/src/35", 'video/mp4', '标清',6]
-
-            ];
-            this.initPlayer(options)
 
             // c(this.state)
             //callfun

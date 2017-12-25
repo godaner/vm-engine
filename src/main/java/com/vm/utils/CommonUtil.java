@@ -49,23 +49,23 @@ public class CommonUtil {
     public final static ValidateCode validateCode = new ValidateCode(160, 40, 5, 150);
 
     /**
-     * 限速写入
-     * @param response
-     * @param stream
-     * @param speed
+     * 限速写入,误差10%
+     * @param outputStream
+     * @param inputStream
+     * @param speed 单位b
      * @param startTime
      * @param md5
      * @return
      */
-    public final static Long limitedWriter(HttpServletResponse response, InputStream stream, Long speed, Long startTime, MessageDigest md5) {
+    public final static Long limitedWriter(OutputStream outputStream, InputStream inputStream, Long speed, Long startTime, MessageDigest md5) {
         byte[] b = null;
         b = new byte[1024];
         try {
             OutputStream os = null;
-            os = response.getOutputStream();
+            os = outputStream;
             long count = 0;
             int j;
-            while ((j = stream.read(b)) != -1) {
+            while ((j = inputStream.read(b)) != -1) {
 
                 if (count + j > speed) {
                     int need = (int) (speed - count);
@@ -125,7 +125,7 @@ public class CommonUtil {
         } catch (Exception e) {e.printStackTrace();
             e.printStackTrace();
         } finally {
-            closeStream(stream,null);
+            closeStream(inputStream,null);
 
         }
 
