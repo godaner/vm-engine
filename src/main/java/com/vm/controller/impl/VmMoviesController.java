@@ -1,6 +1,5 @@
 package com.vm.controller.impl;
 
-import com.vm.controller.base.Response;
 import com.vm.controller.base.ServiceController;
 import com.vm.dao.po.CustomVmMovies;
 import com.vm.dao.po.VmFilmmakers;
@@ -51,14 +50,16 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      */
     @RequestMapping(value = "/tag/{movieId}", method = RequestMethod.GET)
     public @ResponseBody
-    Object getTagsOfMovie(@PathVariable("movieId") Long movieId)  throws Exception {
+    Object getTagsOfMovie(@PathVariable("movieId") Long movieId) throws Exception {
 
         List<VmTags> list = service.getTagsOfMovie(movieId);
         response.putData("list", list);
         return response;
     }
+
     /**
      * 获取某个电影的信息
+     *
      * @param movieId
      * @return
      * @throws Exception
@@ -70,6 +71,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
         response.putData("movie", movie);
         return response;
     }
+
     /**
      * 获取电影图片
      *
@@ -78,7 +80,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
     @RequestMapping(value = "/img/{fileId}", method = RequestMethod.GET)
     public void getMovieImg(@PathVariable("fileId") Long fileId, VmMoviesQueryBean query) throws Exception {
 
-        service.sendMovieImg(fileId,query,getResponse());
+        service.sendMovieImg(fileId, query, getResponse());
 
     }
 
@@ -88,29 +90,33 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      * @return
      */
     @RequestMapping(value = "/src/{fileId}", method = RequestMethod.GET)
-    public void getMovieSrc(@PathVariable("fileId")Long fileId) throws Exception{
-        service.sendMovieSrc(fileId,getResponse());
+    public void getMovieSrc(@PathVariable("fileId") Long fileId) throws Exception {
+        service.sendMovieSrc(fileId, getResponse());
     }
+
     /**
      * 获取电影相关电影人:包括导演,演员
      *
      * @return
      */
     @RequestMapping(value = "/filmmaker/{movieId}", method = RequestMethod.GET)
-    public Response getMovieFilmmakers(@PathVariable("movieId")Long movieId) throws Exception{
+    public @ResponseBody
+    Object getMovieFilmmakers(@PathVariable("movieId") Long movieId) throws Exception {
         List<VmFilmmakers> filmmakers = service.getMovieFilmmakers(movieId);
-        response.putData("filmmakers",filmmakers);
+        response.putData("filmmakers", filmmakers);
         return response;
     }
+
     /**
-     * 获取电影相关电影人:包括导演,演员
+     * 获取电影版本:例如高清，超清
      *
      * @return
      */
     @RequestMapping(value = "/version/{movieId}", method = RequestMethod.GET)
-    public Response getMovieSrcVersions(@PathVariable("movieId")Long movieId) throws Exception{
+    public @ResponseBody
+    Object getMovieSrcVersions(@PathVariable("movieId") Long movieId) throws Exception {
         List<VmMoviesSrcVersion> versions = service.getMovieSrcVersions(movieId);
-        response.putData("versions",versions);
+        response.putData("versions", versions);
         return response;
     }
 

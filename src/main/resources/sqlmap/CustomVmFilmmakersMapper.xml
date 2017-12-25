@@ -3,7 +3,8 @@
 <mapper namespace="com.vm.dao.mapper.CustomVmFilmmakersMapper">
 
   <!--**************************** 自定义mapper start ****************************-->
-  <select id="selectActorsByMovieId" resultType="com.vm.dao.po.VmFilmmakers">
+
+  <select id="selectActorsByMovieId" resultMap="com.vm.dao.mapper.VmFilmmakersMapper.BaseResultMap">
     SELECT
     fm.*
     FROM
