@@ -55,7 +55,7 @@ public class CommonUtil {
 	 * @param list
 	 * @return
 	 */
-	protected boolean isEmptyList(List<?> list){
+	protected final static boolean isEmptyList(List<?> list){
 		return list == null||list.size() == 0;
 	}
 	/**
@@ -63,7 +63,7 @@ public class CommonUtil {
 	 * @param arr
 	 * @return
 	 */
-	protected boolean isEmptyList(Object[] arr){
+	protected final static boolean isEmptyList(Object[] arr){
 		return arr == null||arr.length == 0;
 	}
 	/**
@@ -71,7 +71,7 @@ public class CommonUtil {
 	 * @param str
 	 * @return
 	 */
-	protected boolean isEmptyString(String str){
+	protected final static boolean isEmptyString(String str){
 		return str == null||str.trim().length() == 0;
 	}
 	
