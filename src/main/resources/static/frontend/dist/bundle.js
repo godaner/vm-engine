@@ -28479,9 +28479,7 @@ var MovieInfoPage = _react2.default.createClass({
             options.poster = "http://mpic.tiankong.com/8e1/58f/8e158fc2b4bb795e202a4f0196bf9cb9/640.jpg";
             options.video = [['http://img.ksbbs.com/asset/Mon_1703/d30e02a5626c066.mp4', 'video/mp4', '超清', 0]
             /*,[this.state.movie.srcUrl, 'video/mp4', '高清',2]*/
-            // ,["/movie/src/35", 'video/mp4', '标清',1]
-
-            ];
+            , ["/movie/src/35", 'video/mp4', '标清', 1]];
             this.initPlayer(options);
 
             // c(this.state)
@@ -28620,7 +28618,7 @@ var MovieInfoPage = _react2.default.createClass({
             ),
             _react2.default.createElement(
                 'div',
-                { id: 'movie_player' },
+                { id: 'movie_player', className: 'clearfix' },
                 _react2.default.createElement(
                     'div',
                     { id: 'm', ref: 'm' },

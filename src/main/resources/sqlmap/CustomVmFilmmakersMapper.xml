@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vm.dao.mapper.CustomVmFilmmakersMapper">
+
+  <!--**************************** 自定义mapper start ****************************-->
+  <select id="selectActorsByMovieId" resultType="com.vm.dao.po.VmFilmmakers">
+    SELECT
+    fm.*
+    FROM
+    vm_movies_filmmakers_realation r,
+    vm_filmmakers fm,
+    vm_movies m
+    WHERE
+    m.id = r.movie_id
+    AND fm.id = r.filmmaker_id
+    AND m.id = #{movieId}
+    AND m.`status` = 1
+    AND r.`status` = 1
+    AND fm.`status` = 1
+
+  </select>
+  <!--**************************** 自定义mapper end ****************************-->
+
+</mapper>

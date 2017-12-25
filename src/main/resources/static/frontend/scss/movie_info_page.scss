@@ -81,13 +81,11 @@
     }
     #m {
       width:60%;
-
       #m_player{
         @include defaultWidth;
       }
     }
     #actors_details_div{
-
       width:40%;
       background-color: red;
     }

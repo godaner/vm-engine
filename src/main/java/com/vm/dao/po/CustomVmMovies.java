@@ -34,6 +34,12 @@ public class CustomVmMovies extends BasePo {
 
     private Integer updateTime;
 
+    //附加属性
+    private List<VmFilmmakers> actors;
+    private VmFilmmakers director;
+    private List<VmTags> tags;
+
+
     public Long getId() {
         return id;
     }
@@ -146,9 +152,7 @@ public class CustomVmMovies extends BasePo {
         this.updateTime = updateTime;
     }
 
-    private List<VmFilmmakers> actors;
-    private VmFilmmakers director;
-    private List<VmTags> tags;
+
 
     public List<VmTags> getTags() {
         return tags;

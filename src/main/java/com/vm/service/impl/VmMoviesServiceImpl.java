@@ -1,17 +1,14 @@
 package com.vm.service.impl;
 
-import com.vm.dao.mapper.CustomVmMoviesMapper;
-import com.vm.dao.mapper.CustomVmTagsMapper;
-import com.vm.dao.mapper.VmFilesMapper;
-import com.vm.dao.po.CustomVmMovies;
-import com.vm.dao.po.VmFiles;
-import com.vm.dao.po.VmTags;
+import com.vm.dao.mapper.*;
+import com.vm.dao.po.*;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.service.base.BaseService;
 import com.vm.service.inf.VmMoviesService;
 import com.vm.utils.VmProperties;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +25,15 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     @Autowired
     private CustomVmMoviesMapper customVmMoviesMapper;
     @Autowired
+    private VmMoviesMapper vmMoviesMapper;
+    @Autowired
     private VmFilesMapper vmFilesMapper;
     @Autowired
     private CustomVmTagsMapper customVmTagsMapper;
+    @Autowired
+    private VmFilmmakersMapper vmFilmmakersMapper;
+    @Autowired
+    private CustomVmFilmmakersMapper customVmFilmmakersMapper;
 
     @Override
     public List<CustomVmMovies> getMovies(PageBean page, VmMoviesQueryBean query) {
@@ -56,6 +59,32 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     @Override
     public List<VmTags> getTagsOfMovie(Long movieId) throws Exception {
         return customVmTagsMapper.getTagsOfMovie(movieId);
+    }
+
+    @Override
+    public List<VmFilmmakers> getMovieFilmmakers(Long movieId) {
+        //获取电影
+
+        VmMovies vmMovies = vmMoviesMapper.selectByPrimaryKey(movieId);
+
+        eject(vmMovies == null || BasePo.Status.isDeleted(vmMovies.getStatus()),
+                "getMovieFilmmakers vmMovies is not exist ! movieId is :" + movieId);
+        //返回集
+        List<VmFilmmakers> filmmakers = Lists.newArrayList();
+
+        //获取演员
+        List<VmFilmmakers> actors = customVmFilmmakersMapper.selectActorsByMovieId(movieId);
+
+        filmmakers.addAll(actors);
+        //获取导演
+        Long directorId = vmMovies.getDirectorId();
+        if (!isNullObject(directorId)) {
+            VmFilmmakers director = vmFilmmakersMapper.selectByPrimaryKey(directorId);
+            filmmakers.add(director);
+        }
+
+
+        return filmmakers;
     }
 
     @Override

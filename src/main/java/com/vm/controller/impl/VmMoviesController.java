@@ -1,7 +1,9 @@
 package com.vm.controller.impl;
 
+import com.vm.controller.base.Response;
 import com.vm.controller.base.ServiceController;
 import com.vm.dao.po.CustomVmMovies;
+import com.vm.dao.po.VmFilmmakers;
 import com.vm.dao.po.VmTags;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
@@ -14,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.ServletOutputStream;
 import javax.validation.Valid;
-import java.io.File;
-import java.io.InputStream;
 import java.util.List;
 
 
@@ -90,6 +89,17 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
     @RequestMapping(value = "/src/{fileId}", method = RequestMethod.GET)
     public void getMovieSrc(@PathVariable("fileId")Long fileId) throws Exception{
         service.sendMovieSrc(fileId,getResponse());
+    }
+    /**
+     * 获取电影相关电影人:包括导演,演员
+     *
+     * @return
+     */
+    @RequestMapping(value = "/filmmaker/{movieId}", method = RequestMethod.GET)
+    public Response getMovieFilmmakers(@PathVariable("movieId")Long movieId) throws Exception{
+        List<VmFilmmakers> filmmakers = service.getMovieFilmmakers(movieId);
+        response.putData("filmmakers",filmmakers);
+        return response;
     }
 
 

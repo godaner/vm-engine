@@ -110,7 +110,7 @@ var MovieInfoPage = React.createClass({
             options.video = [
                 ['http://img.ksbbs.com/asset/Mon_1703/d30e02a5626c066.mp4', 'video/mp4', '超清',0]
                 /*,[this.state.movie.srcUrl, 'video/mp4', '高清',2]*/
-                // ,["/movie/src/35", 'video/mp4', '标清',1]
+                ,["/movie/src/35", 'video/mp4', '标清',1]
 
             ];
             this.initPlayer(options)
@@ -198,11 +198,9 @@ var MovieInfoPage = React.createClass({
 
                 </div>
 
-                <div id="movie_player">
+                <div id="movie_player" className="clearfix">
 
                     <div id="m" ref="m">
-
-
                         <div id="m_player"
                              ref="m_player"></div>
                     </div>

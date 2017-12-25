@@ -6,6 +6,7 @@ import com.vm.utils.ByteConstantVar;
  * Created by ZhangKe on 2017/12/11.
  */
 public class BasePo {
+
     /**
      * 状态
      */
@@ -37,6 +38,37 @@ public class BasePo {
 
         public void setMsg(String msg) {
             this.msg = msg;
+        }
+
+        /**
+         * 是否删除状态
+         * @return
+         */
+        public static boolean isDeleted(Byte status){
+            if(status.equals(Status.DELETED.getCode())){
+                return true;
+            }
+            return false;
+        }
+        /**
+         * 是否冻结状态
+         * @return
+         */
+        public static boolean isFrozen(Byte status){
+            if(status.equals(Status.FROZEN.getCode())){
+                return true;
+            }
+            return false;
+        }
+        /**
+         * 是否正常状态
+         * @return
+         */
+        public static boolean isNormal(Byte status){
+            if(status.equals(Status.NORMAL.getCode())){
+                return true;
+            }
+            return false;
         }
     }
 

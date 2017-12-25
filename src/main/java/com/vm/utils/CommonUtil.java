@@ -49,7 +49,14 @@ public class CommonUtil {
 	 * 验证码生成工具
 	 */
 	public final static ValidateCode validateCode = new ValidateCode(160, 40, 5, 150);
-
+	/**
+	 * 对象是否为null
+	 * @param obj
+	 * @return
+	 */
+	protected final static boolean isNullObject(Object obj){
+		return obj == null;
+	}
 	/**
 	 * 集合是否为空
 	 * @param list
