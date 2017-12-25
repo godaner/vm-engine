@@ -28477,9 +28477,9 @@ var MovieInfoPage = _react2.default.createClass({
             //init movie player
             var options = {};
             options.poster = "http://mpic.tiankong.com/8e1/58f/8e158fc2b4bb795e202a4f0196bf9cb9/640.jpg";
-            options.video = [['http://img.ksbbs.com/asset/Mon_1703/d30e02a5626c066.mp4', 'video/mp4', '超清', 0]
+            options.video = [['http://img.ksbbs.com/asset/Mon_1703/d30e02a5626c066.mp4', 'video/mp4', '超清', 5]
             /*,[this.state.movie.srcUrl, 'video/mp4', '高清',2]*/
-            , ["/movie/src/35", 'video/mp4', '标清', 1]];
+            , ["/movie/src/35", 'video/mp4', '标清', 6]];
             this.initPlayer(options);
 
             // c(this.state)
@@ -28628,7 +28628,7 @@ var MovieInfoPage = _react2.default.createClass({
                 _react2.default.createElement(
                     'div',
                     { id: 'actors_details_div' },
-                    _react2.default.createElement(_actors_details_area2.default, null)
+                    _react2.default.createElement(_actors_details_area2.default, { movieId: this.state.targetMovieId })
                 )
             )
         );
@@ -29155,6 +29155,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ActorsDetailsArea = _react2.default.createClass({
     displayName: "ActorsDetailsArea",
 
+    componentDidMount: function componentDidMount() {
+        this.getFilmmakers();
+    },
+    getFilmmakers: function getFilmmakers() {
+        var url = "/movie/filmmaker/" + this.props.movieId;
+        $.get(url, function (result) {
+            c(result);
+        }.bind(this));
+    },
     render: function render() {
 
         return _react2.default.createElement(

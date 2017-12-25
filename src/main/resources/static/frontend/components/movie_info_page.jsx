@@ -108,9 +108,9 @@ var MovieInfoPage = React.createClass({
             var options = {};
             options.poster = "http://mpic.tiankong.com/8e1/58f/8e158fc2b4bb795e202a4f0196bf9cb9/640.jpg";
             options.video = [
-                ['http://img.ksbbs.com/asset/Mon_1703/d30e02a5626c066.mp4', 'video/mp4', '超清',0]
+                ['http://img.ksbbs.com/asset/Mon_1703/d30e02a5626c066.mp4', 'video/mp4', '超清',5]
                 /*,[this.state.movie.srcUrl, 'video/mp4', '高清',2]*/
-                ,["/movie/src/35", 'video/mp4', '标清',1]
+                ,["/movie/src/35", 'video/mp4', '标清',6]
 
             ];
             this.initPlayer(options)
@@ -205,7 +205,7 @@ var MovieInfoPage = React.createClass({
                              ref="m_player"></div>
                     </div>
                     <div id="actors_details_div">
-                        <ActorsDetailsArea/>
+                        <ActorsDetailsArea movieId={this.state.targetMovieId}/>
                     </div>
 
                 </div>

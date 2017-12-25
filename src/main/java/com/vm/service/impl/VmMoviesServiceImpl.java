@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.security.MessageDigest;
 import java.util.List;
 
 /**
@@ -150,7 +151,9 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             //设置响应的媒体类型
             response.setContentType("video/mp4"); // 设置返回的文件类型
 
-            IOUtils.copy(input, output);
+//            IOUtils.copy(input, output);
+
+            limitedWriter(response,input,1024*1024l,System.currentTimeMillis(), MessageDigest.getInstance("MD5"));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
