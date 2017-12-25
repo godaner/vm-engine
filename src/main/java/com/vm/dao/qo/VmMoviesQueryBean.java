@@ -12,7 +12,16 @@ import java.util.List;
 public class VmMoviesQueryBean{
     private String keyword;
     private List<Long> tagIds;
+    private Integer tagIdsLength;
     private String imgWidth;
+
+    public Integer getTagIdsLength() {
+        return tagIdsLength;
+    }
+
+    public void setTagIdsLength(Integer tagIdsLength) {
+        this.tagIdsLength = tagIdsLength;
+    }
 
     public String getImgWidth() {
         return imgWidth;

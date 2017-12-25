@@ -34,13 +34,25 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
     @Override
     public List<CustomVmMovies> getMovies(PageBean page, VmMoviesQueryBean query) {
+
+        if (isEmptyList(query.getTagIds())) {
+            query.setTagIdsLength(0);
+        } else {
+            query.setTagIdsLength(query.getTagIds().size());
+        }
         return customVmMoviesMapper.getMovies(page, query);
     }
 
     @Override
     public Long getMoviesCount(PageBean page, VmMoviesQueryBean query) {
+        if (isEmptyList(query.getTagIds())) {
+            query.setTagIdsLength(0);
+        } else {
+            query.setTagIdsLength(query.getTagIds().size());
+        }
         return customVmMoviesMapper.getMoviesCount(page, query);
     }
+
     @Override
     public List<VmTags> getTagsOfMovie(Long movieId) throws Exception {
         return customVmTagsMapper.getTagsOfMovie(movieId);
