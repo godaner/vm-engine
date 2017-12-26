@@ -19,7 +19,7 @@ var InnerMessager = React.createClass({
 
     },
     componentDidMount: function () {
-        //when ui loaded start show loop tip
+        //when ui loaded , start show loop tip
         this.startLoopShowTipTimer(this.state.defaultTip);
 
     },
@@ -91,6 +91,13 @@ var InnerMessager = React.createClass({
             }
         }
 
+    },
+    showDefaultMsg(loop) {
+        this.showMsg(this.getDefaultMsg(),loop);
+
+    },
+    getDefaultMsg:function(){
+        return this.state.defaultTip;
     },
     hide(){
         showMsg();

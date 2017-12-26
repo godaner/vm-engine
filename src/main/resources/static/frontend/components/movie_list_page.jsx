@@ -52,15 +52,23 @@ var MovieTagGroup = React.createClass({
 });
 /*电影标签列表*/
 var MovieTagGroupList = React.createClass({
+    getInitialState: function () {
+        return {
+            defaultTagTip: "正在加载标签列表"
+        };
+    },
     showMsg(msg, loop){
         this.refs.innerMessager.showMsg(msg, loop);
+    },
+    showDefaultMsg(loop){
+        this.refs.innerMessager.showDefaultMsg(loop);
     },
     render: function () {
         return (
             <div>
 
                 {/*<div id="tagTip">{this.props.tip}</div>*/}
-                <InnerMessager defaultTip={this.props.defaultTagTip}
+                <InnerMessager defaultTip={this.state.defaultTagTip}
                                ref="innerMessager"/>
 
                 {
@@ -101,12 +109,6 @@ var MovieListPage = React.createClass({
         var state = {
             tagGroupSource: "/tagGroup/list",
             movieSource: "/movie/list",
-            whenMovieIsLoading: "正在加载电影",
-            whenThereIsHaveNotMovie: "对不起，暂时无相关电影",
-            whenTagIsLoading: "正在加载标签",
-            whenThereIsHaveNotTag: "对不起，暂时无相关标签",
-            whenThereHaveNotActor: "无演员",
-            whenThereHaveNotDirector: "无导演",
             movieSearchBtnText: "搜索",
             lastKeyword: "",
             movieSearchTimer: undefined,
@@ -148,17 +150,17 @@ var MovieListPage = React.createClass({
         lazyLoad();
     },
     showMovieTip(msg, loop){
-        if (msg == undefined) {
-            msg = "";
-        }
         this.refs.moviesDisplayer.showMsg(msg, loop);
+    },
+    showDefaultMovieTip(msg, loop){
+        this.refs.moviesDisplayer.showDefaultMsg(loop);
     },
     getMovie(callfun){
         {/*获取电影列表*/
         }
 
-        //tip
-        this.showMovieTip(this.state.whenMovieIsLoading);
+        //tip default msg
+        this.showDefaultMovieTip(true);
 
 
         {/*collect params*/
@@ -222,9 +224,9 @@ var MovieListPage = React.createClass({
             this.lazyLoadImg();
 
             //if have not movies
-            if (isEmptyList(state.movies.list)) {
-                this.showMovieTip(this.state.whenThereIsHaveNotMovie, false);
-            }
+            // if (isEmptyList(state.movies.list)) {
+            //     this.showMovieTip(this.state.whenThereIsHaveNotMovie, false);
+            // }
 
             //callfun
             if (callfun != undefined) {
@@ -236,14 +238,14 @@ var MovieListPage = React.createClass({
         this.refs.index_msg_dialog.showMsg(msg);
     },
     showTagTip(msg, loop){
-        if (msg == undefined) {
-            msg = "";
-        }
         this.refs.movieTagGroupList.showMsg(msg, loop);
+    },
+    showDefaultTagMsg(loop){
+        this.refs.movieTagGroupList.showDefaultMsg(loop);
     },
     getTagGroup(callfun){
         //set tip
-        this.showTagTip(this.state.whenTagIsLoading);
+        this.showDefaultTagMsg(true);
         {/*获取电影标签分组*/
         }
         this.serverRequest = $.get(this.state.tagGroupSource, function (result) {
@@ -265,7 +267,7 @@ var MovieListPage = React.createClass({
             //set tip
 
             if (isEmptyList(state.movieTagGroup)) {
-                this.showTagTip(this.state.whenThereIsHaveNotTag, false);
+                this.showDefaultTagMsg(true);
             }
 
             //default select tag group id
@@ -448,10 +450,8 @@ var MovieListPage = React.createClass({
                 <div id="movie_type_div">
 
                     {/*电影标签列表*/}
-                    <MovieTagGroupList tip={this.state.tagTip}
-                                       handleClickTag={this.handleClickTag}
+                    <MovieTagGroupList handleClickTag={this.handleClickTag}
                                        movieTagGroup={this.state.movieTagGroup}
-                                       defaultTagTip={this.state.whenTagIsLoading}
                                        ref="movieTagGroupList"/>
                 </div>
                 <div id="movie_list_div">
@@ -501,9 +501,6 @@ var MovieListPage = React.createClass({
                     <div id="movies_display_div">
                         {/*电影展示*/}
                         <MoviesDisplayer movies={this.state.movies.list}
-                                         defaultMovieTip={this.state.whenMovieIsLoading}
-                                         whenThereHaveNotActor={this.state.whenThereHaveNotActor}
-                                         whenThereHaveNotDirector={this.state.whenThereHaveNotDirector}
                                          ref="moviesDisplayer"/>
 
                         {/*电影分页*/}

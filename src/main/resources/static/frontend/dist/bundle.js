@@ -7742,7 +7742,7 @@ var InnerMessager = _react2.default.createClass({
         return state;
     },
     componentDidMount: function componentDidMount() {
-        //when ui loaded start show loop tip
+        //when ui loaded , start show loop tip
         this.startLoopShowTipTimer(this.state.defaultTip);
     },
     stopLoopShowTipTimer: function stopLoopShowTipTimer() {
@@ -7811,6 +7811,13 @@ var InnerMessager = _react2.default.createClass({
                 this.staticShowTip(msg);
             }
         }
+    },
+    showDefaultMsg: function showDefaultMsg(loop) {
+        this.showMsg(this.getDefaultMsg(), loop);
+    },
+
+    getDefaultMsg: function getDefaultMsg() {
+        return this.state.defaultTip;
     },
     hide: function hide() {
         showMsg();
@@ -27387,15 +27394,24 @@ var MovieTagGroup = _react2.default.createClass({
 /*电影标签列表*/
 var MovieTagGroupList = _react2.default.createClass({
     displayName: "MovieTagGroupList",
+
+    getInitialState: function getInitialState() {
+        return {
+            defaultTagTip: "正在加载标签列表"
+        };
+    },
     showMsg: function showMsg(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
+    },
+    showDefaultMsg: function showDefaultMsg(loop) {
+        this.refs.innerMessager.showDefaultMsg(loop);
     },
 
     render: function render() {
         return _react2.default.createElement(
             "div",
             null,
-            _react2.default.createElement(_inner_messager2.default, { defaultTip: this.props.defaultTagTip,
+            _react2.default.createElement(_inner_messager2.default, { defaultTip: this.state.defaultTagTip,
                 ref: "innerMessager" }),
             this.props.movieTagGroup.map(function (item) {
                 return _react2.default.createElement(MovieTagGroup, { key: item.id,
@@ -27427,12 +27443,6 @@ var MovieListPage = _react2.default.createClass({
         var state = {
             tagGroupSource: "/tagGroup/list",
             movieSource: "/movie/list",
-            whenMovieIsLoading: "正在加载电影",
-            whenThereIsHaveNotMovie: "对不起，暂时无相关电影",
-            whenTagIsLoading: "正在加载标签",
-            whenThereIsHaveNotTag: "对不起，暂时无相关标签",
-            whenThereHaveNotActor: "无演员",
-            whenThereHaveNotDirector: "无导演",
             movieSearchBtnText: "搜索",
             lastKeyword: "",
             movieSearchTimer: undefined,
@@ -27473,17 +27483,17 @@ var MovieListPage = _react2.default.createClass({
         lazyLoad();
     },
     showMovieTip: function showMovieTip(msg, loop) {
-        if (msg == undefined) {
-            msg = "";
-        }
         this.refs.moviesDisplayer.showMsg(msg, loop);
+    },
+    showDefaultMovieTip: function showDefaultMovieTip(msg, loop) {
+        this.refs.moviesDisplayer.showDefaultMsg(loop);
     },
     getMovie: function getMovie(callfun) {
         {} /*获取电影列表*/
 
 
-        //tip
-        this.showMovieTip(this.state.whenMovieIsLoading);
+        //tip default msg
+        this.showDefaultMovieTip(true);
 
         {/*collect params*/
         }
@@ -27544,9 +27554,9 @@ var MovieListPage = _react2.default.createClass({
             this.lazyLoadImg();
 
             //if have not movies
-            if (isEmptyList(state.movies.list)) {
-                this.showMovieTip(this.state.whenThereIsHaveNotMovie, false);
-            }
+            // if (isEmptyList(state.movies.list)) {
+            //     this.showMovieTip(this.state.whenThereIsHaveNotMovie, false);
+            // }
 
             //callfun
             if (callfun != undefined) {
@@ -27558,14 +27568,14 @@ var MovieListPage = _react2.default.createClass({
         this.refs.index_msg_dialog.showMsg(msg);
     },
     showTagTip: function showTagTip(msg, loop) {
-        if (msg == undefined) {
-            msg = "";
-        }
         this.refs.movieTagGroupList.showMsg(msg, loop);
+    },
+    showDefaultTagMsg: function showDefaultTagMsg(loop) {
+        this.refs.movieTagGroupList.showDefaultMsg(loop);
     },
     getTagGroup: function getTagGroup(callfun) {
         //set tip
-        this.showTagTip(this.state.whenTagIsLoading);
+        this.showDefaultTagMsg(true);
         {/*获取电影标签分组*/
         }
         this.serverRequest = $.get(this.state.tagGroupSource, function (result) {
@@ -27584,7 +27594,7 @@ var MovieListPage = _react2.default.createClass({
             //set tip
 
             if (isEmptyList(state.movieTagGroup)) {
-                this.showTagTip(this.state.whenThereIsHaveNotTag, false);
+                this.showDefaultTagMsg(true);
             }
 
             //default select tag group id
@@ -27764,10 +27774,8 @@ var MovieListPage = _react2.default.createClass({
             _react2.default.createElement(
                 "div",
                 { id: "movie_type_div" },
-                _react2.default.createElement(MovieTagGroupList, { tip: this.state.tagTip,
-                    handleClickTag: this.handleClickTag,
+                _react2.default.createElement(MovieTagGroupList, { handleClickTag: this.handleClickTag,
                     movieTagGroup: this.state.movieTagGroup,
-                    defaultTagTip: this.state.whenTagIsLoading,
                     ref: "movieTagGroupList" })
             ),
             _react2.default.createElement(
@@ -27835,9 +27843,6 @@ var MovieListPage = _react2.default.createClass({
                     "div",
                     { id: "movies_display_div" },
                     _react2.default.createElement(_movies_displayer2.default, { movies: this.state.movies.list,
-                        defaultMovieTip: this.state.whenMovieIsLoading,
-                        whenThereHaveNotActor: this.state.whenThereHaveNotActor,
-                        whenThereHaveNotDirector: this.state.whenThereHaveNotDirector,
                         ref: "moviesDisplayer" }),
                     _react2.default.createElement(_pager2.default, { handlePageChange: this.handlePageChange,
                         page: this.state.movies.page })
@@ -29416,13 +29421,29 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /*电影展示*/
 var MoviesDisplayer = _react2.default.createClass({
     displayName: 'MoviesDisplayer',
+
+
+    getInitialState: function getInitialState() {
+        return {
+            defaultTip: "正在加载电影列表",
+            whenThereIsHaveNotMovie: "无相关电影"
+        };
+    },
     showMsg: function showMsg(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
     },
+    showDefaultMsg: function showDefaultMsg(loop) {
+        this.refs.innerMessager.showDefaultMsg(loop);
+    },
 
     render: function render() {
+        var movies = this.props.movies;
+        if (isEmptyList(movies)) {
+            showMsg(this.state.whenThereIsHaveNotMovie, false);
+            movies = [];
+        }
 
-        var movieItems = this.props.movies.map(function (item) {
+        var movieItems = movies.map(function (item) {
 
             // set the location
             var location = {
@@ -29458,14 +29479,12 @@ var MoviesDisplayer = _react2.default.createClass({
                     _react2.default.createElement(
                         'div',
                         { className: 'movie_actor_list_div' },
-                        _react2.default.createElement(_actors_list2.default, { whenThereHaveNotActor: this.props.whenThereHaveNotActor,
-                            actors: item.actors })
+                        _react2.default.createElement(_actors_list2.default, { actors: item.actors })
                     ),
                     _react2.default.createElement(
                         'div',
                         null,
-                        _react2.default.createElement(_director2.default, { whenThereHaveNotDirector: this.props.whenThereHaveNotDirector,
-                            director: item.director })
+                        _react2.default.createElement(_director2.default, { director: item.director })
                     ),
                     _react2.default.createElement(
                         'div',
@@ -29483,10 +29502,11 @@ var MoviesDisplayer = _react2.default.createClass({
                 )
             );
         }.bind(this));
+
         return _react2.default.createElement(
             'ul',
             { id: 'movies_list_ul' },
-            _react2.default.createElement(_inner_messager2.default, { defaultTip: this.props.defaultMovieTip, ref: 'innerMessager' }),
+            _react2.default.createElement(_inner_messager2.default, { defaultTip: this.state.defaultTip, ref: 'innerMessager' }),
             movieItems,
             _react2.default.createElement('li', { className: 'clear' })
         );

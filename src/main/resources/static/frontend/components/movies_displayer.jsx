@@ -7,12 +7,27 @@ import '../scss/movies_displayer.scss';
 /*电影展示*/
 var MoviesDisplayer = React.createClass({
 
+    getInitialState: function () {
+        return {
+            defaultTip: "正在加载电影列表",
+            whenThereIsHaveNotMovie:"无相关电影"
+        };
+    },
     showMsg(msg, loop){
         this.refs.innerMessager.showMsg(msg, loop);
     },
+    showDefaultMsg(loop){
+        this.refs.innerMessager.showDefaultMsg(loop);
+    },
     render: function () {
+        var movies = this.props.movies;
+        if(isEmptyList(movies)){
+            showMsg(this.state.whenThereIsHaveNotMovie,false);
+            movies = [];
+        }
 
-        var movieItems = this.props.movies.map(function (item) {
+
+        var movieItems = movies.map(function (item) {
 
             // set the location
             const location = {
@@ -37,14 +52,12 @@ var MoviesDisplayer = React.createClass({
                     </div>
                     <div className="movie_actor_list_div">
 
-                        <ActorsList whenThereHaveNotActor={this.props.whenThereHaveNotActor}
-                                    actors={item.actors}/>
+                        <ActorsList actors={item.actors}/>
                     </div>
 
 
                     <div>
-                        <Director whenThereHaveNotDirector={this.props.whenThereHaveNotDirector}
-                                  director={item.director}/>
+                        <Director director={item.director}/>
                     </div>
                     <div>
                         评分：{item.score}
@@ -57,8 +70,9 @@ var MoviesDisplayer = React.createClass({
 
             </li>;
         }.bind(this));
+
         return <ul id="movies_list_ul">
-            <InnerMessager defaultTip={this.props.defaultMovieTip} ref="innerMessager"/>
+            <InnerMessager defaultTip={this.state.defaultTip} ref="innerMessager"/>
             {movieItems}
             <li className="clear"></li>
         </ul>;
