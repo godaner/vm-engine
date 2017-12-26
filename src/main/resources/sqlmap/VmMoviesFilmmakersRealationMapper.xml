@@ -225,9 +225,4 @@
       update_time = #{updateTime,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
-  <!--**************************** 自定义mapper start ****************************-->
-
-
-  <!--**************************** 自定义mapper end ****************************-->
 </mapper>

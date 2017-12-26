@@ -28965,13 +28965,20 @@ var ActorsDetailsArea = _react2.default.createClass({
             if (fail(result.code)) {
                 return;
             }
+
+            //set state
+            var state = this.state;
+            state.filmmakers = result.data.filmmakers;
+            this.setState(state);
+
+            //adjust ui
             this.adjustUI();
         }.bind(this));
     },
     adjustUI: function adjustUI() {
         var $actors_details_area = $(this.refs.actors_details_area);
         var w = $($actors_details_area.find("img")[0]).width();
-        c(w);
+        // c(w);
         var h = w;
         $actors_details_area.find("img").height(h);
     },
@@ -28980,7 +28987,33 @@ var ActorsDetailsArea = _react2.default.createClass({
     },
 
     render: function render() {
+        var listFilmmakers = function () {
+            var filmmakers = this.state.filmmakers;
+            var res = [];
+            if (isEmptyList(filmmakers)) {
+                // res.push(<li key="1">无相关电影人</li>)
+                return res;
+            }
 
+            for (var i = 0; i < filmmakers.length; i++) {
+                var filmmaker = filmmakers[i];
+                res.push(_react2.default.createElement(
+                    "li",
+                    { key: filmmaker.id, title: filmmaker.name },
+                    _react2.default.createElement(
+                        "a",
+                        { title: filmmaker.name, href: "#" },
+                        _react2.default.createElement("img", { title: filmmaker.name, src: filmmaker.imgUrl }),
+                        _react2.default.createElement(
+                            "div",
+                            { title: filmmaker.name },
+                            filmmaker.name
+                        )
+                    )
+                ));
+            }
+            return res;
+        }.bind(this);
         return _react2.default.createElement(
             "div",
             { id: "actors_details_area", ref: "actors_details_area" },
@@ -28990,76 +29023,7 @@ var ActorsDetailsArea = _react2.default.createClass({
             _react2.default.createElement(
                 "ul",
                 null,
-                _react2.default.createElement(
-                    "li",
-                    null,
-                    _react2.default.createElement(
-                        "a",
-                        { href: "#" },
-                        _react2.default.createElement("img", { src: "/filmmaker/img/101?imgWidth=200" }),
-                        _react2.default.createElement(
-                            "div",
-                            null,
-                            "zhangke00"
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    "li",
-                    null,
-                    _react2.default.createElement(
-                        "a",
-                        { href: "#" },
-                        _react2.default.createElement("img", { src: "/filmmaker/img/1" }),
-                        _react2.default.createElement(
-                            "div",
-                            null,
-                            "zhangke"
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    "li",
-                    null,
-                    _react2.default.createElement(
-                        "a",
-                        { href: "#" },
-                        _react2.default.createElement("img", { src: "/filmmaker/img/1" }),
-                        _react2.default.createElement(
-                            "div",
-                            null,
-                            "zhangke"
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    "li",
-                    null,
-                    _react2.default.createElement(
-                        "a",
-                        { href: "#" },
-                        _react2.default.createElement("img", { src: "/filmmaker/img/1" }),
-                        _react2.default.createElement(
-                            "div",
-                            null,
-                            "zhangke"
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    "li",
-                    null,
-                    _react2.default.createElement(
-                        "a",
-                        { href: "#" },
-                        _react2.default.createElement("img", { src: "/filmmaker/img/1" }),
-                        _react2.default.createElement(
-                            "div",
-                            null,
-                            "zhangke"
-                        )
-                    )
-                )
+                listFilmmakers()
             )
         );
     }
@@ -29101,7 +29065,7 @@ exports = module.exports = __webpack_require__(10)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#actors_details_area {\n  width: 100%; }\n  #actors_details_area ul {\n    list-style: none;\n    display: inline; }\n    #actors_details_area ul li {\n      display: inline-block;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis;\n      height: auto;\n      width: auto; }\n  #actors_details_area > ul > li {\n    width: 25%; }\n    #actors_details_area > ul > li > a {\n      display: block; }\n      #actors_details_area > ul > li > a > img {\n        width: 80%;\n        margin-left: 10%; }\n      #actors_details_area > ul > li > a > div {\n        width: 80%;\n        margin-left: 10%;\n        background-color: red;\n        color: black;\n        text-align: center; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#actors_details_area {\n  width: 100%; }\n  #actors_details_area ul {\n    list-style: none;\n    display: inline; }\n    #actors_details_area ul li {\n      display: inline-block;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis;\n      height: auto;\n      width: auto; }\n  #actors_details_area > ul > li {\n    width: 25%; }\n    #actors_details_area > ul > li > a {\n      display: block; }\n      #actors_details_area > ul > li > a > img {\n        width: 80%;\n        margin-left: 10%; }\n      #actors_details_area > ul > li > a > div {\n        padding: 2px 0px;\n        box-sizing: border-box;\n        width: 80%;\n        margin-left: 10%;\n        color: rgb(153,153,153);\n        text-align: left;\n        overflow: hidden;\n        white-space: nowrap;\n        text-overflow: ellipsis; }\n", ""]);
 
 // exports
 

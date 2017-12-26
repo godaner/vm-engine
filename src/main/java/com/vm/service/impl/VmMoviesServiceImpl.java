@@ -1,5 +1,6 @@
 package com.vm.service.impl;
 
+import com.google.common.collect.Maps;
 import com.vm.dao.mapper.*;
 import com.vm.dao.po.*;
 import com.vm.dao.qo.PageBean;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.security.MessageDigest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ZhangKe on 2017/12/12.
@@ -103,8 +105,21 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             filmmakers.add(director);
         }
 
+        //去除重复的电影人
+        return takeOffSameFilmmakers(filmmakers);
+    }
 
-        return filmmakers;
+    /**
+     * 去除list的重复filmmaker
+     * @param filmmakers
+     * @return
+     */
+    private List<VmFilmmakers> takeOffSameFilmmakers(List<VmFilmmakers> filmmakers) {
+        Map<Long,VmFilmmakers> map = Maps.newHashMap();
+        for (VmFilmmakers filmmaker: filmmakers) {
+            map.put(filmmaker.getId(),filmmaker);
+        }
+        return Lists.newArrayList(map.values());
     }
 
     @Override
