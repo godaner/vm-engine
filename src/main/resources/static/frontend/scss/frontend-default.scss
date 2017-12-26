@@ -70,7 +70,12 @@
   }
 }
 
-
+@mixin defaultPanel{
+  @include defaultWidth;
+  border-radius: 3px;
+  background-color: white;
+  padding: 20px 20px;
+}
 
 
 

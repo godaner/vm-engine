@@ -101,10 +101,13 @@ var MovieInfoPage = React.createClass({
         //set player's height by width
         var m = $(this.refs.m);
         var player = $(this.refs.m_player);
-        var w = player.width();
+        var m_wrapper = $(this.refs.m_wrapper);
+
+        var w = m_wrapper.width();
         var h = w / 1.5;
         m.height(h);
         player.height(h);
+        m_wrapper.height(h);
     },
     componentWillUnmount: function () {
         window.removeEventListener('resize', this.onWindowResize);
@@ -237,14 +240,19 @@ var MovieInfoPage = React.createClass({
 
                 <div id="movie_player" className="clearfix">
 
-                    <div id="m" ref="m">
-                        <InnerMessager defaultTip={this.state.whenPlayerIsLoading}
-                                       ref="player_inner_messager"/>
-                        <div id="m_player"
-                             ref="m_player"></div>
+                    <div id="m_wrapper" ref="m_wrapper">
+                        <div id="m" ref="m">
+                            <InnerMessager defaultTip={this.state.whenPlayerIsLoading}
+                                           ref="player_inner_messager"/>
+                            <div id="m_player"
+                                 ref="m_player"></div>
+                        </div>
                     </div>
-                    <div id="actors_details_div">
-                        <ActorsDetailsArea movieId={this.state.targetMovieId}/>
+                    <div id="split"></div>
+                    <div id="actors_details_div_wrapper">
+                        <div id="actors_details_div">
+                            <ActorsDetailsArea movieId={this.state.targetMovieId}/>
+                        </div>
                     </div>
 
                 </div>

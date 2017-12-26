@@ -3,15 +3,9 @@
 #movie_info_content {
   @include defaultMiddle(70%);
   background-color: unquote($defaultLightGrayRgb);
-  //background-color: red;
-  & > * {
-
-    border-radius: 3px;
-    background-color: white;
-    padding: 20px 20px;
-    @include defaultWidth;
-  }
+  overflow: hidden;
   #basic_info {
+    @include defaultPanel;
     margin-top: 20px;
     @include defaultWidth;
     //background-color: red;
@@ -25,7 +19,6 @@
       $imgWidth: 200px;
       #movie_img {
         width: $imgWidth;
-        flex: none;
         //background-color: steelblue;
         & > img {
           width: $imgWidth;
@@ -34,8 +27,10 @@
         }
       }
       #movie_text {
-        padding: 0px 10px;
-        flex: 1;
+
+        //flex: 1;
+        width: 80%;
+        margin-left: 10%;
         height: 100%;
         //background-color: black;
         @include defaultHUl;
@@ -75,20 +70,38 @@
 
   }
   #movie_player {
+    @include defaultWidth;
     margin-top: 20px;
-    &>div{
+    background-color: unquote($defaultLightGrayRgb);
+    display: flex;
+    & > div {
       float: left;
     }
-    #m {
-      width:60%;
-      #m_player{
-        @include defaultWidth;
+    #m_wrapper {
+      @include defaultPanel;
+      flex: 11;
+      #m {
+        #m_player {
+          @include defaultWidth;
+        }
       }
     }
-    #actors_details_div{
-      width:40%;
-      //background-color: red;
+
+    #split {
+      width: 20px;
+      height: 3px;
+      //background-color: unquote($defaultLightGrayRgb);
+      background-color: red;
     }
+    #actors_details_div_wrapper {
+      @include defaultPanel;
+      flex: 5;
+      //background-color: red;
+      #actors_details_div {
+
+      }
+    }
+
   }
 
 }
