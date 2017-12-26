@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vm.dao.mapper.VmMoviesSrcVersionMapper">
+  <resultMap id="BaseResultMap" type="com.vm.dao.po.VmMoviesSrcVersion">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+    <result column="sharpness" jdbcType="TINYINT" property="sharpness" />
+    <result column="movie_id" jdbcType="BIGINT" property="movieId" />
+    <result column="player_speed" jdbcType="INTEGER" property="playerSpeed" />
+    <result column="src_url" jdbcType="VARCHAR" property="srcUrl" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, status, create_time, update_time, sharpness, movie_id, player_speed, src_url
+  </sql>
+  <select id="selectByExample" parameterType="com.vm.dao.po.VmMoviesSrcVersionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vm_movies_src_version
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from vm_movies_src_version
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from vm_movies_src_version
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.vm.dao.po.VmMoviesSrcVersionExample">
+    delete from vm_movies_src_version
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.vm.dao.po.VmMoviesSrcVersion">
+    insert into vm_movies_src_version (id, status, create_time, 
+      update_time, sharpness, movie_id, 
+      player_speed, src_url)
+    values (#{id,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=INTEGER}, #{sharpness,jdbcType=TINYINT}, #{movieId,jdbcType=BIGINT}, 
+      #{playerSpeed,jdbcType=INTEGER}, #{srcUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.vm.dao.po.VmMoviesSrcVersion">
+    insert into vm_movies_src_version
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="sharpness != null">
+        sharpness,
+      </if>
+      <if test="movieId != null">
+        movie_id,
+      </if>
+      <if test="playerSpeed != null">
+        player_speed,
+      </if>
+      <if test="srcUrl != null">
+        src_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="sharpness != null">
+        #{sharpness,jdbcType=TINYINT},
+      </if>
+      <if test="movieId != null">
+        #{movieId,jdbcType=BIGINT},
+      </if>
+      <if test="playerSpeed != null">
+        #{playerSpeed,jdbcType=INTEGER},
+      </if>
+      <if test="srcUrl != null">
+        #{srcUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.vm.dao.po.VmMoviesSrcVersionExample" resultType="java.lang.Long">
+    select count(*) from vm_movies_src_version
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update vm_movies_src_version
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.sharpness != null">
+        sharpness = #{record.sharpness,jdbcType=TINYINT},
+      </if>
+      <if test="record.movieId != null">
+        movie_id = #{record.movieId,jdbcType=BIGINT},
+      </if>
+      <if test="record.playerSpeed != null">
+        player_speed = #{record.playerSpeed,jdbcType=INTEGER},
+      </if>
+      <if test="record.srcUrl != null">
+        src_url = #{record.srcUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update vm_movies_src_version
+    set id = #{record.id,jdbcType=BIGINT},
+      status = #{record.status,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=INTEGER},
+      sharpness = #{record.sharpness,jdbcType=TINYINT},
+      movie_id = #{record.movieId,jdbcType=BIGINT},
+      player_speed = #{record.playerSpeed,jdbcType=INTEGER},
+      src_url = #{record.srcUrl,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.vm.dao.po.VmMoviesSrcVersion">
+    update vm_movies_src_version
+    <set>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="sharpness != null">
+        sharpness = #{sharpness,jdbcType=TINYINT},
+      </if>
+      <if test="movieId != null">
+        movie_id = #{movieId,jdbcType=BIGINT},
+      </if>
+      <if test="playerSpeed != null">
+        player_speed = #{playerSpeed,jdbcType=INTEGER},
+      </if>
+      <if test="srcUrl != null">
+        src_url = #{srcUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.vm.dao.po.VmMoviesSrcVersion">
+    update vm_movies_src_version
+    set status = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      sharpness = #{sharpness,jdbcType=TINYINT},
+      movie_id = #{movieId,jdbcType=BIGINT},
+      player_speed = #{playerSpeed,jdbcType=INTEGER},
+      src_url = #{srcUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

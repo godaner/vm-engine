@@ -16,13 +16,14 @@ var Director = React.createClass({
             if (isEmpty(director)) {
                 return this.state.whenThereHaveNotDirector;
             } else {
-                return <a className="aLink" href="javascript:void(0);">{director.name}</a>;
+                return <a id="director_name" className="aLink" href="javascript:void(0);">导演 : {director.name}</a>;
             }
         }
 
         return (
             <span>
-                导演 : {
+
+                {
                     showDirector(this.props.director)
                 }
             </span>

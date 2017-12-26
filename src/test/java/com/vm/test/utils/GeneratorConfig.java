@@ -25,15 +25,16 @@ public class GeneratorConfig {
 
     /**
      * 生成mybatis操作文件入口
+     *
      * @throws Exception
      */
     @Test
-    public void mybatisGenerator() throws Exception{
+    public void mybatisGenerator() throws Exception {
         List<String> warnings = new ArrayList<String>();
         boolean overwrite = true;
 //        String path = GeneratorConfig.class.getResource("").getPath() + "generatorConfig.xml";
 
-        String path = GeneratorConfig.class.getClassLoader().getResource("./").getPath()+"/generatorConfig.xml";
+        String path = GeneratorConfig.class.getClassLoader().getResource("./").getPath() + "/generatorConfig.xml";
         // 指定逆向工程配置文件
         File configFile = new File(path);
         ConfigurationParser cp = new ConfigurationParser(warnings);

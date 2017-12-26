@@ -2,8 +2,9 @@ package com.vm.dao.mapper;
 
 import com.vm.dao.po.VmFilmmakers;
 import com.vm.dao.po.VmFilmmakersExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface VmFilmmakersMapper {
     long countByExample(VmFilmmakersExample example);
@@ -28,7 +29,5 @@ public interface VmFilmmakersMapper {
 
     int updateByPrimaryKey(VmFilmmakers record);
 
-
-    List<VmFilmmakers> selectActorsByMovieId(@Param("movieId") Long movieId);
 
 }

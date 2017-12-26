@@ -165,142 +165,142 @@ public class VmFilesExample {
         }
 
         public Criteria andFilenameIsNull() {
-            addCriterion("fileName is null");
+            addCriterion("filename is null");
             return (Criteria) this;
         }
 
         public Criteria andFilenameIsNotNull() {
-            addCriterion("fileName is not null");
+            addCriterion("filename is not null");
             return (Criteria) this;
         }
 
         public Criteria andFilenameEqualTo(String value) {
-            addCriterion("fileName =", value, "filename");
+            addCriterion("filename =", value, "filename");
             return (Criteria) this;
         }
 
         public Criteria andFilenameNotEqualTo(String value) {
-            addCriterion("fileName <>", value, "filename");
+            addCriterion("filename <>", value, "filename");
             return (Criteria) this;
         }
 
         public Criteria andFilenameGreaterThan(String value) {
-            addCriterion("fileName >", value, "filename");
+            addCriterion("filename >", value, "filename");
             return (Criteria) this;
         }
 
         public Criteria andFilenameGreaterThanOrEqualTo(String value) {
-            addCriterion("fileName >=", value, "filename");
+            addCriterion("filename >=", value, "filename");
             return (Criteria) this;
         }
 
         public Criteria andFilenameLessThan(String value) {
-            addCriterion("fileName <", value, "filename");
+            addCriterion("filename <", value, "filename");
             return (Criteria) this;
         }
 
         public Criteria andFilenameLessThanOrEqualTo(String value) {
-            addCriterion("fileName <=", value, "filename");
+            addCriterion("filename <=", value, "filename");
             return (Criteria) this;
         }
 
         public Criteria andFilenameLike(String value) {
-            addCriterion("fileName like", value, "filename");
+            addCriterion("filename like", value, "filename");
             return (Criteria) this;
         }
 
         public Criteria andFilenameNotLike(String value) {
-            addCriterion("fileName not like", value, "filename");
+            addCriterion("filename not like", value, "filename");
             return (Criteria) this;
         }
 
         public Criteria andFilenameIn(List<String> values) {
-            addCriterion("fileName in", values, "filename");
+            addCriterion("filename in", values, "filename");
             return (Criteria) this;
         }
 
         public Criteria andFilenameNotIn(List<String> values) {
-            addCriterion("fileName not in", values, "filename");
+            addCriterion("filename not in", values, "filename");
             return (Criteria) this;
         }
 
         public Criteria andFilenameBetween(String value1, String value2) {
-            addCriterion("fileName between", value1, value2, "filename");
+            addCriterion("filename between", value1, value2, "filename");
             return (Criteria) this;
         }
 
         public Criteria andFilenameNotBetween(String value1, String value2) {
-            addCriterion("fileName not between", value1, value2, "filename");
+            addCriterion("filename not between", value1, value2, "filename");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalnameIsNull() {
-            addCriterion("originalName is null");
+        public Criteria andOriginalNameIsNull() {
+            addCriterion("original_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalnameIsNotNull() {
-            addCriterion("originalName is not null");
+        public Criteria andOriginalNameIsNotNull() {
+            addCriterion("original_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalnameEqualTo(String value) {
-            addCriterion("originalName =", value, "originalname");
+        public Criteria andOriginalNameEqualTo(String value) {
+            addCriterion("original_name =", value, "originalName");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalnameNotEqualTo(String value) {
-            addCriterion("originalName <>", value, "originalname");
+        public Criteria andOriginalNameNotEqualTo(String value) {
+            addCriterion("original_name <>", value, "originalName");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalnameGreaterThan(String value) {
-            addCriterion("originalName >", value, "originalname");
+        public Criteria andOriginalNameGreaterThan(String value) {
+            addCriterion("original_name >", value, "originalName");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalnameGreaterThanOrEqualTo(String value) {
-            addCriterion("originalName >=", value, "originalname");
+        public Criteria andOriginalNameGreaterThanOrEqualTo(String value) {
+            addCriterion("original_name >=", value, "originalName");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalnameLessThan(String value) {
-            addCriterion("originalName <", value, "originalname");
+        public Criteria andOriginalNameLessThan(String value) {
+            addCriterion("original_name <", value, "originalName");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalnameLessThanOrEqualTo(String value) {
-            addCriterion("originalName <=", value, "originalname");
+        public Criteria andOriginalNameLessThanOrEqualTo(String value) {
+            addCriterion("original_name <=", value, "originalName");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalnameLike(String value) {
-            addCriterion("originalName like", value, "originalname");
+        public Criteria andOriginalNameLike(String value) {
+            addCriterion("original_name like", value, "originalName");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalnameNotLike(String value) {
-            addCriterion("originalName not like", value, "originalname");
+        public Criteria andOriginalNameNotLike(String value) {
+            addCriterion("original_name not like", value, "originalName");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalnameIn(List<String> values) {
-            addCriterion("originalName in", values, "originalname");
+        public Criteria andOriginalNameIn(List<String> values) {
+            addCriterion("original_name in", values, "originalName");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalnameNotIn(List<String> values) {
-            addCriterion("originalName not in", values, "originalname");
+        public Criteria andOriginalNameNotIn(List<String> values) {
+            addCriterion("original_name not in", values, "originalName");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalnameBetween(String value1, String value2) {
-            addCriterion("originalName between", value1, value2, "originalname");
+        public Criteria andOriginalNameBetween(String value1, String value2) {
+            addCriterion("original_name between", value1, value2, "originalName");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalnameNotBetween(String value1, String value2) {
-            addCriterion("originalName not between", value1, value2, "originalname");
+        public Criteria andOriginalNameNotBetween(String value1, String value2) {
+            addCriterion("original_name not between", value1, value2, "originalName");
             return (Criteria) this;
         }
 
@@ -541,6 +541,76 @@ public class VmFilesExample {
 
         public Criteria andUpdateTimeNotBetween(Integer value1, Integer value2) {
             addCriterion("update_time not between", value1, value2, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentTypeIsNull() {
+            addCriterion("content_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentTypeIsNotNull() {
+            addCriterion("content_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentTypeEqualTo(String value) {
+            addCriterion("content_type =", value, "contentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentTypeNotEqualTo(String value) {
+            addCriterion("content_type <>", value, "contentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentTypeGreaterThan(String value) {
+            addCriterion("content_type >", value, "contentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("content_type >=", value, "contentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentTypeLessThan(String value) {
+            addCriterion("content_type <", value, "contentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentTypeLessThanOrEqualTo(String value) {
+            addCriterion("content_type <=", value, "contentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentTypeLike(String value) {
+            addCriterion("content_type like", value, "contentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentTypeNotLike(String value) {
+            addCriterion("content_type not like", value, "contentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentTypeIn(List<String> values) {
+            addCriterion("content_type in", values, "contentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentTypeNotIn(List<String> values) {
+            addCriterion("content_type not in", values, "contentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentTypeBetween(String value1, String value2) {
+            addCriterion("content_type between", value1, value2, "contentType");
+            return (Criteria) this;
+        }
+
+        public Criteria andContentTypeNotBetween(String value1, String value2) {
+            addCriterion("content_type not between", value1, value2, "contentType");
             return (Criteria) this;
         }
     }

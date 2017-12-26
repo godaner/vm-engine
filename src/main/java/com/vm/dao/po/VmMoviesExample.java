@@ -674,73 +674,73 @@ public class VmMoviesExample {
             return (Criteria) this;
         }
 
-        public Criteria andSrcUrlIsNull() {
-            addCriterion("src_url is null");
+        public Criteria andPosterUrlIsNull() {
+            addCriterion("poster_url is null");
             return (Criteria) this;
         }
 
-        public Criteria andSrcUrlIsNotNull() {
-            addCriterion("src_url is not null");
+        public Criteria andPosterUrlIsNotNull() {
+            addCriterion("poster_url is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSrcUrlEqualTo(String value) {
-            addCriterion("src_url =", value, "srcUrl");
+        public Criteria andPosterUrlEqualTo(String value) {
+            addCriterion("poster_url =", value, "posterUrl");
             return (Criteria) this;
         }
 
-        public Criteria andSrcUrlNotEqualTo(String value) {
-            addCriterion("src_url <>", value, "srcUrl");
+        public Criteria andPosterUrlNotEqualTo(String value) {
+            addCriterion("poster_url <>", value, "posterUrl");
             return (Criteria) this;
         }
 
-        public Criteria andSrcUrlGreaterThan(String value) {
-            addCriterion("src_url >", value, "srcUrl");
+        public Criteria andPosterUrlGreaterThan(String value) {
+            addCriterion("poster_url >", value, "posterUrl");
             return (Criteria) this;
         }
 
-        public Criteria andSrcUrlGreaterThanOrEqualTo(String value) {
-            addCriterion("src_url >=", value, "srcUrl");
+        public Criteria andPosterUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("poster_url >=", value, "posterUrl");
             return (Criteria) this;
         }
 
-        public Criteria andSrcUrlLessThan(String value) {
-            addCriterion("src_url <", value, "srcUrl");
+        public Criteria andPosterUrlLessThan(String value) {
+            addCriterion("poster_url <", value, "posterUrl");
             return (Criteria) this;
         }
 
-        public Criteria andSrcUrlLessThanOrEqualTo(String value) {
-            addCriterion("src_url <=", value, "srcUrl");
+        public Criteria andPosterUrlLessThanOrEqualTo(String value) {
+            addCriterion("poster_url <=", value, "posterUrl");
             return (Criteria) this;
         }
 
-        public Criteria andSrcUrlLike(String value) {
-            addCriterion("src_url like", value, "srcUrl");
+        public Criteria andPosterUrlLike(String value) {
+            addCriterion("poster_url like", value, "posterUrl");
             return (Criteria) this;
         }
 
-        public Criteria andSrcUrlNotLike(String value) {
-            addCriterion("src_url not like", value, "srcUrl");
+        public Criteria andPosterUrlNotLike(String value) {
+            addCriterion("poster_url not like", value, "posterUrl");
             return (Criteria) this;
         }
 
-        public Criteria andSrcUrlIn(List<String> values) {
-            addCriterion("src_url in", values, "srcUrl");
+        public Criteria andPosterUrlIn(List<String> values) {
+            addCriterion("poster_url in", values, "posterUrl");
             return (Criteria) this;
         }
 
-        public Criteria andSrcUrlNotIn(List<String> values) {
-            addCriterion("src_url not in", values, "srcUrl");
+        public Criteria andPosterUrlNotIn(List<String> values) {
+            addCriterion("poster_url not in", values, "posterUrl");
             return (Criteria) this;
         }
 
-        public Criteria andSrcUrlBetween(String value1, String value2) {
-            addCriterion("src_url between", value1, value2, "srcUrl");
+        public Criteria andPosterUrlBetween(String value1, String value2) {
+            addCriterion("poster_url between", value1, value2, "posterUrl");
             return (Criteria) this;
         }
 
-        public Criteria andSrcUrlNotBetween(String value1, String value2) {
-            addCriterion("src_url not between", value1, value2, "srcUrl");
+        public Criteria andPosterUrlNotBetween(String value1, String value2) {
+            addCriterion("poster_url not between", value1, value2, "posterUrl");
             return (Criteria) this;
         }
 

@@ -28,7 +28,4 @@ public interface VmTagsMapper {
 
     int updateByPrimaryKey(VmTags record);
 
-    List<VmTags> selectTagsByTagGroupId(@Param("tagGroupId")Long tagGroupId);
-
-    List<VmTags> getTagsOfMovie(@Param("movieId")Long movieId);
 }

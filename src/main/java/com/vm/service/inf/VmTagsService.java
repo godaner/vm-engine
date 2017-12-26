@@ -13,5 +13,4 @@ public interface VmTagsService {
 
     List<VmTags> getTags() throws Exception;
 
-    List<VmTags> getTagsOfMovie(Long movieId)throws Exception;
 }

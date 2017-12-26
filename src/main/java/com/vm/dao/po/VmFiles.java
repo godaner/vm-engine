@@ -1,11 +1,11 @@
 package com.vm.dao.po;
 
-public class VmFiles extends BasePo{
+public class VmFiles {
     private Long id;
 
     private String filename;
 
-    private String originalname;
+    private String originalName;
 
     private Long size;
 
@@ -14,6 +14,8 @@ public class VmFiles extends BasePo{
     private Integer createTime;
 
     private Integer updateTime;
+
+    private String contentType;
 
     public Long getId() {
         return id;
@@ -31,12 +33,12 @@ public class VmFiles extends BasePo{
         this.filename = filename == null ? null : filename.trim();
     }
 
-    public String getOriginalname() {
-        return originalname;
+    public String getOriginalName() {
+        return originalName;
     }
 
-    public void setOriginalname(String originalname) {
-        this.originalname = originalname == null ? null : originalname.trim();
+    public void setOriginalName(String originalName) {
+        this.originalName = originalName == null ? null : originalName.trim();
     }
 
     public Long getSize() {
@@ -69,5 +71,13 @@ public class VmFiles extends BasePo{
 
     public void setUpdateTime(Integer updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType == null ? null : contentType.trim();
     }
 }

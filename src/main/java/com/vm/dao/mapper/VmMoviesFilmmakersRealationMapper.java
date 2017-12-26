@@ -1,6 +1,5 @@
 package com.vm.dao.mapper;
 
-import com.vm.dao.po.VmFilmmakers;
 import com.vm.dao.po.VmMoviesFilmmakersRealation;
 import com.vm.dao.po.VmMoviesFilmmakersRealationExample;
 import java.util.List;
@@ -28,6 +27,4 @@ public interface VmMoviesFilmmakersRealationMapper {
     int updateByPrimaryKeySelective(VmMoviesFilmmakersRealation record);
 
     int updateByPrimaryKey(VmMoviesFilmmakersRealation record);
-
-
 }

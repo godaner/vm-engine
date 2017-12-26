@@ -29,5 +29,4 @@ public interface VmTagsGroupsMapper {
 
     int updateByPrimaryKey(VmTagsGroups record);
 
-    List<CustomVmTagsGroups> getTagsGroupsWithTags();
 }

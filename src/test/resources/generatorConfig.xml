@@ -49,13 +49,14 @@
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
         <!-- 指定数据库表 -->
+        <!--<table tableName="vm_movies_filmmakers_realation"></table>-->
         <!--<table tableName="vm_files"></table>-->
+        <!--<table tableName="vm_movies_src_version"></table>-->
         <!--<table tableName="vm_admins"></table>-->
         <!--<table tableName="vm_admins_login_logs"></table>-->
         <!--<table tableName="vm_countrys"></table>-->
         <!--<table tableName="vm_filmmakers"></table>-->
         <!--<table tableName="vm_movies"></table>-->
-        <!--<table tableName="vm_movies_filmmakers_realation"></table>-->
         <!--<table tableName="vm_movies_tags_realation"></table>-->
         <!--<table tableName="vm_tags"></table>-->
         <!--<table tableName="vm_tags_groups"></table>-->

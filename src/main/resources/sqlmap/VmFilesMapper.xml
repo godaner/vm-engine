@@ -3,12 +3,13 @@
 <mapper namespace="com.vm.dao.mapper.VmFilesMapper">
   <resultMap id="BaseResultMap" type="com.vm.dao.po.VmFiles">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="fileName" jdbcType="VARCHAR" property="filename" />
-    <result column="originalName" jdbcType="VARCHAR" property="originalname" />
+    <result column="filename" jdbcType="VARCHAR" property="filename" />
+    <result column="original_name" jdbcType="VARCHAR" property="originalName" />
     <result column="size" jdbcType="BIGINT" property="size" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="create_time" jdbcType="INTEGER" property="createTime" />
     <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+    <result column="content_type" jdbcType="VARCHAR" property="contentType" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, fileName, originalName, size, status, create_time, update_time
+    id, filename, original_name, size, status, create_time, update_time, content_type
   </sql>
   <select id="selectByExample" parameterType="com.vm.dao.po.VmFilesExample" resultMap="BaseResultMap">
     select
@@ -86,7 +87,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from vm_files
     where id = #{id,jdbcType=BIGINT}
@@ -102,12 +103,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.vm.dao.po.VmFiles">
-    insert into vm_files (id, fileName, originalName, 
-      size, status, create_time, 
-      update_time)
-    values (#{id,jdbcType=BIGINT}, #{filename,jdbcType=VARCHAR}, #{originalname,jdbcType=VARCHAR}, 
-      #{size,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=INTEGER})
+    insert into vm_files (id, filename, original_name,
+    size, status, create_time,
+    update_time, content_type)
+    values (#{id,jdbcType=BIGINT}, #{filename,jdbcType=VARCHAR}, #{originalName,jdbcType=VARCHAR},
+    #{size,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER},
+    #{updateTime,jdbcType=INTEGER}, #{contentType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.vm.dao.po.VmFiles">
     insert into vm_files
@@ -116,10 +117,10 @@
         id,
       </if>
       <if test="filename != null">
-        fileName,
+        filename,
       </if>
-      <if test="originalname != null">
-        originalName,
+      <if test="originalName != null">
+        original_name,
       </if>
       <if test="size != null">
         size,
@@ -133,6 +134,9 @@
       <if test="updateTime != null">
         update_time,
       </if>
+      <if test="contentType != null">
+        content_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -141,8 +145,8 @@
       <if test="filename != null">
         #{filename,jdbcType=VARCHAR},
       </if>
-      <if test="originalname != null">
-        #{originalname,jdbcType=VARCHAR},
+      <if test="originalName != null">
+        #{originalName,jdbcType=VARCHAR},
       </if>
       <if test="size != null">
         #{size,jdbcType=BIGINT},
@@ -155,6 +159,9 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="contentType != null">
+        #{contentType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -171,10 +178,10 @@
         id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.filename != null">
-        fileName = #{record.filename,jdbcType=VARCHAR},
+        filename = #{record.filename,jdbcType=VARCHAR},
       </if>
-      <if test="record.originalname != null">
-        originalName = #{record.originalname,jdbcType=VARCHAR},
+      <if test="record.originalName != null">
+        original_name = #{record.originalName,jdbcType=VARCHAR},
       </if>
       <if test="record.size != null">
         size = #{record.size,jdbcType=BIGINT},
@@ -188,6 +195,9 @@
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=INTEGER},
       </if>
+      <if test="record.contentType != null">
+        content_type = #{record.contentType,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -196,12 +206,13 @@
   <update id="updateByExample" parameterType="map">
     update vm_files
     set id = #{record.id,jdbcType=BIGINT},
-      fileName = #{record.filename,jdbcType=VARCHAR},
-      originalName = #{record.originalname,jdbcType=VARCHAR},
-      size = #{record.size,jdbcType=BIGINT},
-      status = #{record.status,jdbcType=TINYINT},
-      create_time = #{record.createTime,jdbcType=INTEGER},
-      update_time = #{record.updateTime,jdbcType=INTEGER}
+    filename = #{record.filename,jdbcType=VARCHAR},
+    original_name = #{record.originalName,jdbcType=VARCHAR},
+    size = #{record.size,jdbcType=BIGINT},
+    status = #{record.status,jdbcType=TINYINT},
+    create_time = #{record.createTime,jdbcType=INTEGER},
+    update_time = #{record.updateTime,jdbcType=INTEGER},
+    content_type = #{record.contentType,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -210,10 +221,10 @@
     update vm_files
     <set>
       <if test="filename != null">
-        fileName = #{filename,jdbcType=VARCHAR},
+        filename = #{filename,jdbcType=VARCHAR},
       </if>
-      <if test="originalname != null">
-        originalName = #{originalname,jdbcType=VARCHAR},
+      <if test="originalName != null">
+        original_name = #{originalName,jdbcType=VARCHAR},
       </if>
       <if test="size != null">
         size = #{size,jdbcType=BIGINT},
@@ -227,17 +238,21 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=INTEGER},
       </if>
+      <if test="contentType != null">
+        content_type = #{contentType,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.vm.dao.po.VmFiles">
     update vm_files
-    set fileName = #{filename,jdbcType=VARCHAR},
-      originalName = #{originalname,jdbcType=VARCHAR},
-      size = #{size,jdbcType=BIGINT},
-      status = #{status,jdbcType=TINYINT},
-      create_time = #{createTime,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=INTEGER}
+    set filename = #{filename,jdbcType=VARCHAR},
+    original_name = #{originalName,jdbcType=VARCHAR},
+    size = #{size,jdbcType=BIGINT},
+    status = #{status,jdbcType=TINYINT},
+    create_time = #{createTime,jdbcType=INTEGER},
+    update_time = #{updateTime,jdbcType=INTEGER},
+    content_type = #{contentType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

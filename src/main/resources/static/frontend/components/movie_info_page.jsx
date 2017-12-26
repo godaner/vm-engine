@@ -5,6 +5,10 @@ import InnerMessager from './inner_messager';
 import Director from "./director";
 import TagsOfMovie from "./tags_of_movie";
 import FlexText from "./flex_text";
+import ActorsDetailsArea from "./actors_details_area";
+import MoviePlayer from "./movies_player";
+import PlainPanelTitle from "./plain_panel_title";
+/*import '../../../public/js/ckplayer/ckplayer/ckplayer.js';*/
 
 var MovieInfoPage = React.createClass({
     getInitialState: function () {
@@ -16,7 +20,9 @@ var MovieInfoPage = React.createClass({
             whenThereHaveNotTag: "无标签",
             whenTagIsLoading: "正在加载标签信息",
             movieDescriptionTitle: "电影简介 : ",
+            whenPlayerIsLoading: "正在加载电影资源",
             movieDescriptionTextLength: 100,
+            moviePlayerPanelTitle: "电影播放",
             movie: {},
             targetMovieId: this.props.match.params.movieId
         };
@@ -24,29 +30,22 @@ var MovieInfoPage = React.createClass({
     componentDidMount: function () {
         //get movie
         this.getMovie();
+
         //add resize event listener
         window.addEventListener('resize', this.onWindowResize);
 
         this.adjustUI();
 
+
+    },
+    componentWillUnmount: function () {
+        window.removeEventListener('resize', this.onWindowResize);
     },
     onWindowResize: function () {
         this.adjustUI();
     },
     adjustUI: function () {
-        this.adjustMoviePlayerUI();
-    },
-    adjustMoviePlayerUI: function () {
-        //set player's height by width
-        var m = $(this.refs.m);
-        var player = $(this.refs.m_player);
-        var w = player.width();
-        var h = w / 1.5;
-        m.height(h);
-        player.height(h);
-    },
-    componentWillUnmount: function () {
-        window.removeEventListener('resize', this.onWindowResize);
+
     },
     lazyLoadImg: function () {
         lazyLoad();
@@ -54,7 +53,7 @@ var MovieInfoPage = React.createClass({
 
     getMovie: function (callfun) {
         //show tip
-        this.showTip(this.state.whenMovieIsLoading);
+        this.showMovieInfoTip(this.state.whenMovieIsLoading);
 
 
         var movieId = this.state.targetMovieId;
@@ -67,7 +66,7 @@ var MovieInfoPage = React.createClass({
 
 
             //close tip
-            this.showTip();
+            this.showMovieInfoTip();
 
             if (fail(result.code)) {
                 return;
@@ -87,6 +86,7 @@ var MovieInfoPage = React.createClass({
             //lazy load img
             this.lazyLoadImg();
 
+
             // c(this.state)
             //callfun
             if (callfun != undefined) {
@@ -94,7 +94,7 @@ var MovieInfoPage = React.createClass({
             }
         }.bind(this));
     },
-    showTip(msg, loop) {
+    showMovieInfoTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
     },
     updateMovieDescription(text) {
@@ -111,6 +111,7 @@ var MovieInfoPage = React.createClass({
 
 
                     <div className="clearfix" id="movie_info_displayer">
+
                         <div id="movie_img">
                             <img src={LOADING_IMG} data-original={this.state.movie.imgUrl}/>
                         </div>
@@ -166,30 +167,23 @@ var MovieInfoPage = React.createClass({
                                 </li>
                             </ul>
                         </div>
+
                     </div>
 
                 </div>
 
-                <div id="movie_player">
+                <div id="movie_player" className="clearfix">
 
-                    <div id="m" ref="m">
-                        <video id="m-player"
-                               ref="m_player"
-                               className="video-js vjs-default-skin"
-                               controls preload="auto"
-                               data-setup="{}">
-                            {this.state.movie.srcUrl != undefined ?
-                                <source src={this.state.movie.srcUrl} type="video/ogg"></source>
-
-                                : <span></span>}
-                            {/*<source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
-                            <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
-                            <source src="http://vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source>
-*/}
-                            {/*<track kind="captions" srclang="en" label="English"/>*/}
-                        </video>
-
-
+                    <div id="m_wrapper" ref="m_wrapper">
+                        <MoviePlayer whenPlayerIsLoading=""
+                                     moviePlayerPanelTitle=""
+                                     targetMovieId={this.state.targetMovieId}/>
+                    </div>
+                    <div id="split"></div>
+                    <div id="actors_details_div_wrapper">
+                        <div id="actors_details_div">
+                            <ActorsDetailsArea movieId={this.state.targetMovieId}/>
+                        </div>
                     </div>
 
                 </div>

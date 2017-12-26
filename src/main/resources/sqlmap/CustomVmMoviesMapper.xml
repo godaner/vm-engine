@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vm.dao.mapper.CustomVmMoviesMapper">
+
+    <!--**************************** 自定义mapper start ****************************-->
+    <resultMap id="GetMoviesMap" type="com.vm.dao.po.CustomVmMovies">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="alias" jdbcType="VARCHAR" property="alias"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="director_id" jdbcType="BIGINT" property="directorId"/>
+        <result column="release_time" jdbcType="INTEGER" property="releaseTime"/>
+        <result column="score" jdbcType="REAL" property="score"/>
+        <result column="watch_num" jdbcType="BIGINT" property="watchNum"/>
+        <result column="movie_time" jdbcType="INTEGER" property="movieTime"/>
+        <result column="src_url" jdbcType="VARCHAR" property="srcUrl"/>
+        <result column="img_url" jdbcType="VARCHAR" property="imgUrl"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="create_time" jdbcType="INTEGER" property="createTime"/>
+        <result column="update_time" jdbcType="INTEGER" property="updateTime"/>
+        <association property="director" column="director_id" select="com.vm.dao.mapper.VmFilmmakersMapper.selectByPrimaryKey">
+        </association>
+        <collection property="actors" column="id" select="com.vm.dao.mapper.CustomVmFilmmakersMapper.selectActorsByMovieId">
+        </collection>
+
+    </resultMap>
+    <!--获取movie列表-->
+    <select id="getMovies" resultMap="GetMoviesMap">
+
+        SELECT
+        m.*
+        FROM
+        vm_movies m
+        WHERE
+        m.`status` = 1
+        <if test="query.keyword!=null">
+            AND m.name LIKE concat('%',#{query.keyword},'%')
+        </if>
+        <if test="query.tagIds!=null">
+            AND m.id IN (
+                SELECT
+                r.movie_id
+                FROM
+                vm_movies_tags_realation r
+                WHERE
+                r.`status` = 1
+                AND r.tag_id IN
+                <foreach collection="query.tagIds" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+                GROUP BY
+                r.movie_id
+                HAVING
+                count(r.tag_id) >= #{query.tagIdsLength}
+            )
+        </if>
+        <if test="page.orderBy != null and page.orderType != null">
+            order by ${page.orderBy} ${page.orderType}
+        </if>
+        <if test="page.start != null and page.size != null">
+            limit #{page.start},#{page.size}
+        </if>
+
+    </select>
+    <select id="getMoviesCount" resultType="long">
+        SELECT
+        count(m.id)
+        FROM
+        vm_movies m
+        WHERE
+        m.`status` = 1
+        <if test="query.keyword!=null">
+            AND m.name LIKE concat('%',#{query.keyword},'%')
+        </if>
+        <if test="query.tagIds!=null">
+            AND m.id IN (
+                SELECT
+                r.movie_id
+                FROM
+                vm_movies_tags_realation r
+                WHERE
+                r.`status` = 1
+                AND r.tag_id IN
+                <foreach collection="query.tagIds" item="item" open="(" separator="," close=")">
+                  #{item}
+                </foreach>
+                GROUP BY
+                r.movie_id
+                HAVING
+                count(r.tag_id) >= #{query.tagIdsLength}
+            )
+        </if>
+
+      </select>
+
+    <!--获取单个movie-->
+    <select id="getMovie" resultMap="GetMoviesMap">
+        SELECT *
+        FROM vm_movies m
+        where m.id = #{movieId}
+        and m.status = 1
+    </select>
+
+    <!--**************************** 自定义mapper end ****************************-->
+
+</mapper>
