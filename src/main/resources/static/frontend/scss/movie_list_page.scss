@@ -1,9 +1,5 @@
 @import "frontend-default.scss";
 
-@mixin index_center_panel_style {
-  border-radius: 3px;
-  background-color: white;
-}
 
 .clickSearchBtn{
   background-color: $defaultBlueRgb;
@@ -15,11 +11,11 @@
   @include defaultMiddle(70%);
   background-color: unquote($defaultLightGrayRgb);
   & > * {
-    padding: 20px 20px;
+    @include defaultSetPadding(20px,20px);
   }
   #movie_type_div {
     margin-top: 20px;
-    @include index_center_panel_style;
+    @include defaultPanel;
     /*#tagTip{
       width:100%;
       text-align: center;
@@ -52,7 +48,8 @@
         li {
           text-align: center;
           margin: 0px 5px;
-          padding: 2px 5px;
+
+          @include defaultSetPadding(2px,5px);
           cursor: pointer;
           display: inline;
           &{
@@ -80,7 +77,7 @@
 
   #movie_list_div {
     margin-top: 20px;
-    @include index_center_panel_style;
+    @include defaultPanel;
     #head {
       $head_height:30px;
       @include defaultWidth;
@@ -100,7 +97,7 @@
           list-style-type: none;
           li {
             margin: 0px 5px;
-            padding: 2px 5px;
+            @include defaultSetPadding(2px,5px);
             display: inline;
             cursor: pointer;
 
@@ -143,7 +140,8 @@
           background-size: $search_height/1.5 $search_height/1.5;
           background-repeat: no-repeat;
           background-position: 5px;
-          padding-left: $search_height;
+
+          @include defaultSetPaddingLeft($search_height);
           margin-right: 0px;
 
           border:1px solid unquote($defaultBlueRgb);
@@ -194,8 +192,10 @@
           height: 15px;
         }*/
         li.movie_item {
-          width: 17%;
-          padding: 1.5%;
+          width: 20%;
+          border:none;
+          outline: none;
+          @include defaultSetPaddingAround(1.5%);
           display: inline-block;
           float: left;
           //background-color: red;
@@ -269,7 +269,7 @@
             text-align: left; //!!!
             a {
               //background-color: red;
-              padding: 8px 15px;
+              @include defaultSetPadding(8px,15px);
               display: block;
               @include defaultSize;
             }

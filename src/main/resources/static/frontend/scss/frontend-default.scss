@@ -74,6 +74,10 @@
   padding-left: $left;
   box-sizing:border-box;
 }
+@mixin defaultSetPaddingAround($pad){
+  padding: $pad;
+  box-sizing:border-box;
+}
 @mixin defaultPanel {
   @include defaultWidth;
   border-radius: 3px;
