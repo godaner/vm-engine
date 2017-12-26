@@ -15,9 +15,17 @@ var ActorsDetailsArea = React.createClass({
         var url = "/movie/filmmaker/" + this.props.movieId;
         $.get(url, function (result) {
             c(result);
+            //hide tip
+            this.showTip();
+
+            if(fail(result.code)){
+                return ;
+            }
+
+
         }.bind(this));
     },
-    showTip(){
+    showTip(msg, loop){
         this.refs.actors_details_area_inner_messager.showMsg(msg, loop);
     },
     render: function () {
@@ -26,7 +34,44 @@ var ActorsDetailsArea = React.createClass({
             <div id="actors_details_area">
                 <InnerMessager defaultTip={this.state.whenActorsDetailsIsLoading}
                                ref="actors_details_area_inner_messager"/>
-                ActorsDetailsArea
+                <ul>
+                    <li>
+                        <a href="#">
+                            <img src="/filmmaker/img/1"/>
+                            <div>zhangke</div>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="/filmmaker/img/1"/>
+                            <div>zhangke</div>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="/filmmaker/img/1"/>
+                            <div>zhangke</div>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="/filmmaker/img/1"/>
+                            <div>zhangke</div>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="/filmmaker/img/1"/>
+                            <div>zhangke</div>
+                        </a>
+
+                    </li>
+
+                </ul>
             </div>
         );
     }

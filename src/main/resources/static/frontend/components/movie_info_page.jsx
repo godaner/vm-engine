@@ -51,6 +51,15 @@ var MovieInfoPage = React.createClass({
     getMovieSrcVersion:function(){
         var url = "/movie/version/"+this.state.targetMovieId+"?orderBy=weight&orderType=desc";
         this.serverRequest = $.get(url, function (result) {
+
+            //cancel tip
+            this.showMoviePlayerTip();
+
+            if(fail(result.code)){
+                return ;
+            }
+
+
             var versionsInfo = result.data.versions;
             var videos = [];
             for(var i = 0;i<versionsInfo.length;i++){
@@ -64,8 +73,6 @@ var MovieInfoPage = React.createClass({
             //init movie player
             this.initPlayer(options);
 
-            //cancel tip
-            this.showMoviePlayerTip();
 
         }.bind(this));
 

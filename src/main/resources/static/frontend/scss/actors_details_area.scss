@@ -1,4 +1,29 @@
 @import "frontend-default.scss";
-#actors_details_area{
+
+#actors_details_area {
   @include defaultWidth;
+  @include defaultHUl;
+  & > ul {
+
+    & > li {
+      width: 25%;
+      & > a {
+        $margin:20px;
+        width: 100%;
+        display: block;
+        & > img {
+          width:80%;
+          margin-left: 10%;
+        }
+        & > div {
+          width:80%;
+          margin-left: 10%;
+          background-color: red;
+          color: black;
+          text-align: center;
+        }
+      }
+    }
+  }
+
 }
