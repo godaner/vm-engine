@@ -34,6 +34,9 @@ var TagsOfMovie = React.createClass({
 
             this.setState(state);
 
+            //callfun
+            this.props.onLoadDataSuccess(state.tags);
+
         }.bind(this));
     },
     showTagTip(msg, loop){

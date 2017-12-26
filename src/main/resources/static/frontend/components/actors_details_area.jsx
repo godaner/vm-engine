@@ -43,6 +43,8 @@ var ActorsDetailsArea = React.createClass({
             //adjust ui
             this.adjustUI();
 
+            //callfun
+            this.props.onLoadDataSuccess(state.filmmakers);
 
         }.bind(this));
     },

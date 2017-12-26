@@ -28276,6 +28276,10 @@ var _movies_player = __webpack_require__(277);
 
 var _movies_player2 = _interopRequireDefault(_movies_player);
 
+var _movies_displayer = __webpack_require__(278);
+
+var _movies_displayer2 = _interopRequireDefault(_movies_displayer);
+
 var _plain_panel_title = __webpack_require__(271);
 
 var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
@@ -28284,6 +28288,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /*import '../../../public/js/ckplayer/ckplayer/ckplayer.js';*/
 
+//引入react组件
 var MovieInfoPage = _react2.default.createClass({
     displayName: 'MovieInfoPage',
 
@@ -28294,12 +28299,17 @@ var MovieInfoPage = _react2.default.createClass({
             whenMovieIsLoading: "加载电影信息",
             movieDescriptionTextLength: 100,
             movie: {},
-            targetMovieId: this.props.match.params.movieId
+            targetMovieId: this.props.match.params.movieId,
+            //thisMovieFilmmakerIds:undefined,
+            //thisMovieTagIds:undefined,
+            aboutFilmmakersMovies: undefined,
+            aboutTagsMovies: undefined
+
         };
     },
     componentDidMount: function componentDidMount() {
         //get movie
-        this.getMovie();
+        this.getMovieBasicInfo();
 
         //add resize event listener
         window.addEventListener('resize', this.onWindowResize);
@@ -28317,7 +28327,7 @@ var MovieInfoPage = _react2.default.createClass({
         lazyLoad();
     },
 
-    getMovie: function getMovie(callfun) {
+    getMovieBasicInfo: function getMovieBasicInfo(callfun) {
         //show tip
         this.showMovieInfoTip(this.state.whenMovieIsLoading);
 
@@ -28358,6 +28368,13 @@ var MovieInfoPage = _react2.default.createClass({
     },
     showMovieInfoTip: function showMovieInfoTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
+    },
+
+    getAboutTagsMovies: function getAboutTagsMovies(movieFilmmakerIds) {
+        c("getAboutTagsMovies");
+    },
+    getAboutFilmmakerMovies: function getAboutFilmmakerMovies(movieTagIds) {
+        c("movieTagIds");
     },
 
     render: function render() {
@@ -28469,7 +28486,8 @@ var MovieInfoPage = _react2.default.createClass({
                             _react2.default.createElement(
                                 'li',
                                 { id: 'tags_li' },
-                                _react2.default.createElement(_tags_of_movie2.default, { movieId: this.state.targetMovieId })
+                                _react2.default.createElement(_tags_of_movie2.default, { movieId: this.state.targetMovieId,
+                                    onLoadDataSuccess: this.getAboutFilmmakerMovies })
                             )
                         )
                     )
@@ -28490,13 +28508,25 @@ var MovieInfoPage = _react2.default.createClass({
                     _react2.default.createElement(
                         'div',
                         { id: 'actors_details_div' },
-                        _react2.default.createElement(_actors_details_area2.default, { movieId: this.state.targetMovieId })
+                        _react2.default.createElement(_actors_details_area2.default, { movieId: this.state.targetMovieId,
+                            onLoadDataSuccess: this.getAboutTagsMovies })
                     )
                 )
+            ),
+            _react2.default.createElement(
+                'div',
+                { id: 'about_filmmakers_movies' },
+                _react2.default.createElement(_movies_displayer2.default, { movies: this.state.aboutFilmmakersMovies })
+            ),
+            _react2.default.createElement(
+                'div',
+                { id: 'about_tags_movies' },
+                _react2.default.createElement(_movies_displayer2.default, { movies: this.state.aboutTagsMovies })
             )
         );
     }
-}); //引入react组件
+});
+
 exports.default = MovieInfoPage;
 
 /***/ }),
@@ -28596,6 +28626,9 @@ var TagsOfMovie = _react2.default.createClass({
             state.tags = result.data.list;
 
             this.setState(state);
+
+            //callfun
+            this.props.onLoadDataSuccess(state.tags);
         }.bind(this));
     },
     showTagTip: function showTagTip(msg, loop) {
@@ -28846,6 +28879,9 @@ var ActorsDetailsArea = _react2.default.createClass({
 
             //adjust ui
             this.adjustUI();
+
+            //callfun
+            this.props.onLoadDataSuccess(state.filmmakers);
         }.bind(this));
     },
     adjustUI: function adjustUI() {

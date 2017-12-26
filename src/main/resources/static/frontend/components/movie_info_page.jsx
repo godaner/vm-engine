@@ -7,6 +7,7 @@ import TagsOfMovie from "./tags_of_movie";
 import FlexText from "./flex_text";
 import ActorsDetailsArea from "./actors_details_area";
 import MoviePlayer from "./movies_player";
+import MoviesDisplayer from "./movies_displayer";
 import PlainPanelTitle from "./plain_panel_title";
 /*import '../../../public/js/ckplayer/ckplayer/ckplayer.js';*/
 
@@ -18,12 +19,17 @@ var MovieInfoPage = React.createClass({
             whenMovieIsLoading:"加载电影信息",
             movieDescriptionTextLength: 100,
             movie: {},
-            targetMovieId: this.props.match.params.movieId
+            targetMovieId: this.props.match.params.movieId,
+            //thisMovieFilmmakerIds:undefined,
+            //thisMovieTagIds:undefined,
+            aboutFilmmakersMovies:undefined,
+            aboutTagsMovies:undefined
+
         };
     },
     componentDidMount: function () {
         //get movie
-        this.getMovie();
+        this.getMovieBasicInfo();
 
         //add resize event listener
         window.addEventListener('resize', this.onWindowResize);
@@ -45,7 +51,7 @@ var MovieInfoPage = React.createClass({
         lazyLoad();
     },
 
-    getMovie: function (callfun) {
+    getMovieBasicInfo: function (callfun) {
         //show tip
         this.showMovieInfoTip(this.state.whenMovieIsLoading);
 
@@ -90,6 +96,12 @@ var MovieInfoPage = React.createClass({
     },
     showMovieInfoTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
+    },
+    getAboutTagsMovies:function(movieFilmmakerIds){
+        c("getAboutTagsMovies");
+    },
+    getAboutFilmmakerMovies(movieTagIds){
+        c("movieTagIds");
     },
     render: function () {
 
@@ -149,7 +161,8 @@ var MovieInfoPage = React.createClass({
                                 </li>
 
                                 <li id="tags_li">
-                                    <TagsOfMovie movieId={this.state.targetMovieId}></TagsOfMovie>
+                                    <TagsOfMovie movieId={this.state.targetMovieId}
+                                                 onLoadDataSuccess={this.getAboutFilmmakerMovies}></TagsOfMovie>
                                 </li>
                             </ul>
                         </div>
@@ -166,10 +179,17 @@ var MovieInfoPage = React.createClass({
                     <div id="split"></div>
                     <div id="actors_details_div_wrapper">
                         <div id="actors_details_div">
-                            <ActorsDetailsArea movieId={this.state.targetMovieId}/>
+                            <ActorsDetailsArea movieId={this.state.targetMovieId}
+                                               onLoadDataSuccess={this.getAboutTagsMovies}/>
                         </div>
                     </div>
 
+                </div>
+                <div id="about_filmmakers_movies">
+                    <MoviesDisplayer movies={this.state.aboutFilmmakersMovies}/>
+                </div>
+                <div id="about_tags_movies">
+                    <MoviesDisplayer movies={this.state.aboutTagsMovies}/>
                 </div>
             </div>
         );
