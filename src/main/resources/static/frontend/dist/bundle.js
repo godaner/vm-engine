@@ -29418,7 +29418,7 @@ __webpack_require__(279);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*电影展示*/
+/*电影列表展示*/
 var MoviesDisplayer = _react2.default.createClass({
     displayName: 'MoviesDisplayer',
 
@@ -29436,10 +29436,17 @@ var MoviesDisplayer = _react2.default.createClass({
         this.refs.innerMessager.showDefaultMsg(loop);
     },
 
+    componentDidUpdate: function componentDidUpdate() {
+        //when it's father update itself
+        if (isEmptyList(this.props.movies)) {
+            this.showMsg(this.state.whenThereIsHaveNotMovie, false);
+        }
+    },
     render: function render() {
         var movies = this.props.movies;
-        if (isEmptyList(movies)) {
-            showMsg(this.state.whenThereIsHaveNotMovie, false);
+
+        //for first load
+        if (movies == undefined) {
             movies = [];
         }
 

@@ -4,7 +4,7 @@ import InnerMessager from "./inner_messager";
 import ActorsList from './actors_list';
 import Director from "./director";
 import '../scss/movies_displayer.scss';
-/*电影展示*/
+/*电影列表展示*/
 var MoviesDisplayer = React.createClass({
 
     getInitialState: function () {
@@ -19,13 +19,19 @@ var MoviesDisplayer = React.createClass({
     showDefaultMsg(loop){
         this.refs.innerMessager.showDefaultMsg(loop);
     },
+    componentDidUpdate:function(){
+        //when it's father update itself
+        if(isEmptyList(this.props.movies)){
+            this.showMsg(this.state.whenThereIsHaveNotMovie,false);
+        }
+    },
     render: function () {
         var movies = this.props.movies;
-        if(isEmptyList(movies)){
-            showMsg(this.state.whenThereIsHaveNotMovie,false);
+
+        //for first load
+        if(movies == undefined){
             movies = [];
         }
-
 
         var movieItems = movies.map(function (item) {
 
