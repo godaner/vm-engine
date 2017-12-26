@@ -28377,6 +28377,10 @@ var _actors_details_area = __webpack_require__(262);
 
 var _actors_details_area2 = _interopRequireDefault(_actors_details_area);
 
+var _movie_player = __webpack_require__(274);
+
+var _movie_player2 = _interopRequireDefault(_movie_player);
+
 var _plain_panel_title = __webpack_require__(271);
 
 var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
@@ -28385,7 +28389,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /*import '../../../public/js/ckplayer/ckplayer/ckplayer.js';*/
 
-//引入react组件
 var MovieInfoPage = _react2.default.createClass({
     displayName: 'MovieInfoPage',
 
@@ -28409,80 +28412,18 @@ var MovieInfoPage = _react2.default.createClass({
         //get movie
         this.getMovie();
 
-        this.getMovieSrcVersion();
         //add resize event listener
         window.addEventListener('resize', this.onWindowResize);
 
         this.adjustUI();
     },
-    movieSharpness: function movieSharpness(data) {
-        //1代表标清，2代表高清，3代表超清
-        if (data == 1) {
-            return "标清";
-        }
-        if (data == 2) {
-            return "高清";
-        }
-        if (data == 3) {
-            return "超清";
-        }
-    },
-    getMovieSrcVersion: function getMovieSrcVersion() {
-        var url = "/movie/version/" + this.state.targetMovieId + "?orderBy=weight&orderType=desc";
-        this.serverRequest = $.get(url, function (result) {
-
-            //cancel tip
-            this.showMoviePlayerTip();
-
-            if (fail(result.code)) {
-                return;
-            }
-
-            var versionsInfo = result.data.versions;
-            var videos = [];
-            for (var i = 0; i < versionsInfo.length; i++) {
-                var version = versionsInfo[i];
-                videos.push([version.srcUrl, 'video/mp4', this.movieSharpness(version.sharpness), version.weight]);
-            }
-            //init movie player
-            var options = {};
-            options.poster = result.data.posterUrl;
-            options.video = videos;
-            //init movie player
-            this.initPlayer(options);
-        }.bind(this));
-    },
-    initPlayer: function initPlayer(options) {
-        var videoObject = {
-            container: '#m_player', //“#”代表容器的ID，“.”或“”代表容器的class
-            variable: 'player', //该属性必需设置，值等于下面的new chplayer()的对象
-            poster: options.poster, //封面图片
-            autoplay: false, //默认自动播放
-            volume: 1.0, //初始化音量
-            flashplayer: true, //如果强制使用flashplayer则设置成true
-            video: options.video //视频地址http://img.ksbbs.com/asset/Mon_1703/05cacb4e02f9d9e.mp4
-
-        };
-        var player = new ckplayer(videoObject);
-    },
-
-    onWindowResize: function onWindowResize() {
-        this.adjustUI();
-    },
-    adjustUI: function adjustUI() {
-        this.adjustMoviePlayerUI();
-    },
-    adjustMoviePlayerUI: function adjustMoviePlayerUI() {
-        //set player's height by width
-        var m_player = $(this.refs.m_player);
-
-        var w = m_player.width();
-        var h = w / 1.5;
-        m_player.height(h);
-    },
     componentWillUnmount: function componentWillUnmount() {
         window.removeEventListener('resize', this.onWindowResize);
     },
+    onWindowResize: function onWindowResize() {
+        this.adjustUI();
+    },
+    adjustUI: function adjustUI() {},
     lazyLoadImg: function lazyLoadImg() {
         lazyLoad();
     },
@@ -28528,9 +28469,6 @@ var MovieInfoPage = _react2.default.createClass({
     },
     showMovieInfoTip: function showMovieInfoTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
-    },
-    showMoviePlayerTip: function showMoviePlayerTip(msg, loop) {
-        this.refs.player_inner_messager.showMsg(msg, loop);
     },
     updateMovieDescription: function updateMovieDescription(text) {
         this.refs.flex_text.updateText(text);
@@ -28662,15 +28600,9 @@ var MovieInfoPage = _react2.default.createClass({
                 _react2.default.createElement(
                     'div',
                     { id: 'm_wrapper', ref: 'm_wrapper' },
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'm', ref: 'm' },
-                        _react2.default.createElement(_inner_messager2.default, { defaultTip: this.state.whenPlayerIsLoading,
-                            ref: 'player_inner_messager' }),
-                        _react2.default.createElement(_plain_panel_title2.default, { title: this.state.moviePlayerPanelTitle }),
-                        _react2.default.createElement('div', { id: 'm_player',
-                            ref: 'm_player' })
-                    )
+                    _react2.default.createElement(_movie_player2.default, { whenPlayerIsLoading: '',
+                        moviePlayerPanelTitle: '',
+                        targetMovieId: this.state.targetMovieId })
                 ),
                 _react2.default.createElement('div', { id: 'split' }),
                 _react2.default.createElement(
@@ -28685,8 +28617,7 @@ var MovieInfoPage = _react2.default.createClass({
             )
         );
     }
-});
-
+}); //引入react组件
 exports.default = MovieInfoPage;
 
 /***/ }),
@@ -28724,7 +28655,7 @@ exports = module.exports = __webpack_require__(10)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#movie_info_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #movie_info_content #basic_info {\n    width: 100%;\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    box-sizing: border-box;\n    margin-top: 20px;\n    width: 100%; }\n    #movie_info_content #basic_info > #movie_info_displayer {\n      flex: 1;\n      display: flex;\n      width: 100%; }\n      #movie_info_content #basic_info > #movie_info_displayer > div {\n        float: left; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_img {\n        width: 200px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_img > img {\n          width: 200px;\n          height: 300px; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_text {\n        padding-left: 20px;\n        box-sizing: border-box;\n        height: 100%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text ul {\n          list-style: none;\n          display: inline; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text ul li {\n            display: inline-block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            height: auto;\n            width: auto; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul > li {\n          margin-bottom: 10px;\n          width: 25%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li {\n          width: 100%; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li, #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li > a {\n            color: rgb(61,158,255);\n            font-size: 24px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #description_li {\n          width: 100%;\n          margin-top: 20px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #tags_li {\n          width: 100%;\n          margin-top: 20px; }\n  #movie_info_content #movie_player {\n    width: 100%;\n    margin-top: 20px;\n    background-color: rgb(241,242,243);\n    display: flex; }\n    #movie_info_content #movie_player > div {\n      float: left; }\n    #movie_info_content #movie_player #m_wrapper {\n      width: 100%;\n      border-radius: 3px;\n      background-color: white;\n      padding: 20px 20px;\n      box-sizing: border-box;\n      flex: 11; }\n      #movie_info_content #movie_player #m_wrapper #m #m_player {\n        width: 100%; }\n    #movie_info_content #movie_player #split {\n      width: 20px;\n      height: 3px;\n      background-color: red;\n      visibility: hidden; }\n    #movie_info_content #movie_player #actors_details_div_wrapper {\n      width: 100%;\n      border-radius: 3px;\n      background-color: white;\n      padding: 20px 20px;\n      box-sizing: border-box;\n      flex: 5; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#movie_info_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #movie_info_content #basic_info {\n    width: 100%;\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    box-sizing: border-box;\n    margin-top: 20px;\n    width: 100%; }\n    #movie_info_content #basic_info > #movie_info_displayer {\n      flex: 1;\n      display: flex;\n      width: 100%; }\n      #movie_info_content #basic_info > #movie_info_displayer > div {\n        float: left; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_img {\n        width: 200px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_img > img {\n          width: 200px;\n          height: 300px; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_text {\n        padding-left: 20px;\n        box-sizing: border-box;\n        height: 100%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text ul {\n          list-style: none;\n          display: inline; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text ul li {\n            display: inline-block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            height: auto;\n            width: auto; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul > li {\n          margin-bottom: 10px;\n          width: 25%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li {\n          width: 100%; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li, #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li > a {\n            color: rgb(61,158,255);\n            font-size: 24px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #description_li {\n          width: 100%;\n          margin-top: 20px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #tags_li {\n          width: 100%;\n          margin-top: 20px; }\n  #movie_info_content #movie_player {\n    width: 100%;\n    margin-top: 20px;\n    background-color: rgb(241,242,243);\n    display: flex; }\n    #movie_info_content #movie_player > div {\n      float: left; }\n    #movie_info_content #movie_player #m_wrapper {\n      width: 100%;\n      border-radius: 3px;\n      background-color: white;\n      padding: 20px 20px;\n      box-sizing: border-box;\n      flex: 11; }\n    #movie_info_content #movie_player #split {\n      width: 20px;\n      height: 3px;\n      background-color: red;\n      visibility: hidden; }\n    #movie_info_content #movie_player #actors_details_div_wrapper {\n      width: 100%;\n      border-radius: 3px;\n      background-color: white;\n      padding: 20px 20px;\n      box-sizing: border-box;\n      flex: 5; }\n", ""]);
 
 // exports
 
@@ -29463,6 +29394,186 @@ exports = module.exports = __webpack_require__(10)();
 
 // module
 exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#plain_panel_title_content {\n  width: 100%; }\n  #plain_panel_title_content #title_div {\n    width: 100%;\n    font-size: 16px;\n    line-height: 16px;\n    color: rgb(153,153,153); }\n  #plain_panel_title_content #split_line {\n    height: 1px;\n    border: none;\n    background-color: rgb(241,242,243);\n    width: 100%;\n    margin: 10px 0px; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 274 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(275);
+
+var _inner_messager = __webpack_require__(66);
+
+var _inner_messager2 = _interopRequireDefault(_inner_messager);
+
+var _plain_panel_title = __webpack_require__(271);
+
+var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*电影播放器展示*/
+var MoviePlayer = _react2.default.createClass({
+    displayName: 'MoviePlayer',
+
+    getInitialState: function getInitialState() {
+
+        var whenPlayerIsLoading = "正在加载电影资源";
+        if (!isEmpty(this.props.whenPlayerIsLoading)) {
+            whenPlayerIsLoading = this.props.whenPlayerIsLoading;
+        }
+        var moviePlayerPanelTitle = "电影播放";
+        if (!isEmpty(this.props.moviePlayerPanelTitle)) {
+            moviePlayerPanelTitle = this.props.moviePlayerPanelTitle;
+        }
+        return {
+            whenPlayerIsLoading: whenPlayerIsLoading,
+            moviePlayerPanelTitle: moviePlayerPanelTitle,
+            targetMovieId: this.props.targetMovieId };
+    }, componentDidMount: function componentDidMount() {
+        //get movie versions
+        this.getMovieSrcVersion();
+
+        //add resize event listener
+        window.addEventListener('resize', this.onWindowResize);
+
+        this.adjustUI();
+    },
+    componentWillUnmount: function componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+    },
+    onWindowResize: function onWindowResize() {
+        this.adjustUI();
+    },
+    adjustUI: function adjustUI() {
+        this.adjustMoviePlayerUI();
+    },
+    adjustMoviePlayerUI: function adjustMoviePlayerUI() {
+        //set player's height by width
+        var m_player = $(this.refs.m_player);
+
+        var w = m_player.width();
+        var h = w / 1.5;
+        m_player.height(h);
+    },
+    movieSharpness: function movieSharpness(data) {
+        //1代表标清，2代表高清，3代表超清
+        if (data == 1) {
+            return "标清";
+        }
+        if (data == 2) {
+            return "高清";
+        }
+        if (data == 3) {
+            return "超清";
+        }
+    },
+    getMovieSrcVersion: function getMovieSrcVersion() {
+        var url = "/movie/version/" + this.state.targetMovieId + "?orderBy=weight&orderType=desc";
+        this.serverRequest = $.get(url, function (result) {
+
+            //cancel tip
+            this.showTip();
+
+            if (fail(result.code)) {
+                return;
+            }
+
+            var versionsInfo = result.data.versions;
+            var videos = [];
+            for (var i = 0; i < versionsInfo.length; i++) {
+                var version = versionsInfo[i];
+                videos.push([version.srcUrl, 'video/mp4', this.movieSharpness(version.sharpness), version.weight]);
+            }
+            //init movie player
+            var options = {};
+            options.poster = result.data.posterUrl;
+            options.video = videos;
+            //init movie player
+            this.initPlayer(options);
+        }.bind(this));
+    },
+    initPlayer: function initPlayer(options) {
+        var videoObject = {
+            container: '#m_player', //“#”代表容器的ID，“.”或“”代表容器的class
+            variable: 'player', //该属性必需设置，值等于下面的new chplayer()的对象
+            poster: options.poster, //封面图片
+            autoplay: false, //默认自动播放
+            volume: 1.0, //初始化音量
+            flashplayer: true, //如果强制使用flashplayer则设置成true
+            video: options.video //视频地址http://img.ksbbs.com/asset/Mon_1703/05cacb4e02f9d9e.mp4
+
+        };
+        var player = new ckplayer(videoObject);
+    },
+    showTip: function showTip(msg, loop) {
+        this.refs.player_inner_messager.showMsg(msg, loop);
+    },
+
+    render: function render() {
+
+        return _react2.default.createElement(
+            'div',
+            { id: 'm' },
+            _react2.default.createElement(_inner_messager2.default, { defaultTip: this.state.whenPlayerIsLoading,
+                ref: 'player_inner_messager' }),
+            _react2.default.createElement(_plain_panel_title2.default, { title: this.state.moviePlayerPanelTitle }),
+            _react2.default.createElement('div', { id: 'm_player',
+                ref: 'm_player' })
+        );
+    }
+}); //引入react组件
+exports.default = MoviePlayer;
+
+/***/ }),
+/* 275 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(276);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(11)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./movie_player.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./movie_player.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 276 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(10)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#m {\n  width: 100%; }\n  #m #m_player {\n    width: 100%; }\n", ""]);
 
 // exports
 

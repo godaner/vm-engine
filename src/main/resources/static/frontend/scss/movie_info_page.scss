@@ -78,11 +78,6 @@
     #m_wrapper {
       @include defaultPanel;
       flex: 11;
-      #m {
-        #m_player {
-          @include defaultWidth;
-        }
-      }
     }
 
     #split {
