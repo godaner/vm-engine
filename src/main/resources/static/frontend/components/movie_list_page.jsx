@@ -54,8 +54,18 @@ var MovieTagGroup = React.createClass({
 var MovieTagGroupList = React.createClass({
     getInitialState: function () {
         return {
-            defaultTagTip: "正在加载标签列表"
+            loadingTagTip: "正在加载标签列表",
+            noTagTip: "无相关标签"
         };
+    },
+    noTagsTip:function(){
+        this.showMsg(this.state.noTagTip,false);
+    },
+    loadingTagsTip:function(){
+        this.showMsg(this.state.loadingTagTip,true);
+    },
+    hideTagTip:function(){
+        this.refs.innerMessager.hide();
     },
     showMsg(msg, loop){
         this.refs.innerMessager.showMsg(msg, loop);
@@ -68,7 +78,7 @@ var MovieTagGroupList = React.createClass({
             <div>
 
                 {/*<div id="tagTip">{this.props.tip}</div>*/}
-                <InnerMessager defaultTip={this.state.defaultTagTip}
+                <InnerMessager defaultTip={this.state.loadingTagTip}
                                ref="innerMessager"/>
 
                 {
@@ -151,18 +161,21 @@ var MovieListPage = React.createClass({
     lazyLoadImg: function () {
         lazyLoad();
     },
-    showMovieTip(msg, loop){
-        this.refs.moviesDisplayer.showMsg(msg, loop);
+    loadingMoviesTip:function(){
+        this.refs.moviesDisplayer.loadingMoviesTip();
     },
-    showDefaultMovieTip(msg, loop){
-        this.refs.moviesDisplayer.showDefaultMsg(loop);
+    noMoviesTip:function(){
+        this.refs.moviesDisplayer.noMoviesTip();
+    },
+    hideMovieTip:function(){
+
+        this.refs.moviesDisplayer.hideMovieTip();
     },
     getMovie(callfun){
-        {/*获取电影列表*/
+        {/*get movies list*/
         }
 
-        //tip default msg
-        this.showDefaultMovieTip(true);
+        this.loadingMoviesTip();
 
         {
             /*collect params*/
@@ -204,7 +217,7 @@ var MovieListPage = React.createClass({
         url = contactUrlWithArray(url, "tagIds", tagIds);
         this.serverRequest = $.get(url, function (result) {
             //hide tip
-            this.showMovieTip();
+            this.hideMovieTip();
 
 
             // c(result);
@@ -227,8 +240,9 @@ var MovieListPage = React.createClass({
 
             // if have not movies
             if (isEmptyList(state.movies.list)) {
-                this.showMovieTip(this.state.whenThereIsHaveNotMovies, false);
+                this.noMoviesTip();
             }
+
 
             //callfun
             if (callfun != undefined) {
@@ -239,21 +253,26 @@ var MovieListPage = React.createClass({
     showDialogMsg(msg){
         this.refs.index_msg_dialog.showMsg(msg);
     },
-    showTagTip(msg, loop){
-        this.refs.movieTagGroupList.showMsg(msg, loop);
+
+    loadingTagsTip:function(){
+        this.refs.movieTagGroupList.loadingTagsTip();
     },
-    showDefaultTagMsg(loop){
-        this.refs.movieTagGroupList.showDefaultMsg(loop);
+    noTagsTip:function(){
+        this.refs.movieTagGroupList.noTagsTip();
     },
+    hideTagTip:function(){
+
+        this.refs.movieTagGroupList.hideTagTip();
+    },
+
     getTagGroup(callfun){
         //set tip
-        this.showDefaultTagMsg(true);
+        this.loadingTagsTip();
         {/*获取电影标签分组*/
         }
         this.serverRequest = $.get(this.state.tagGroupSource, function (result) {
             //hide tip
-            this.showTagTip();
-
+            this.hideTagTip();
 
             var state = this.state;
             state.movieTagGroup = result.data.list;
@@ -267,8 +286,10 @@ var MovieListPage = React.createClass({
 
             //set tip
             if (isEmptyList(state.movieTagGroup)) {
-                this.showTagTip(this.state.whenThereIsHaveNotTags,false);
+                // this.showTagTip(this.state.whenThereIsHaveNotTags,false);
+                this.noTagsTip();
             }
+
 
             //default select tag group id
 

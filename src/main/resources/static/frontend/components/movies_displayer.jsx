@@ -9,8 +9,18 @@ var MoviesDisplayer = React.createClass({
 
     getInitialState: function () {
         return {
-            defaultTip: "正在加载电影列表"
+            loadingMoviesTip: "正在加载电影列表",
+            noMoviesTip:"无相关电影"
         };
+    },
+    noMoviesTip:function(){
+        this.showMsg(this.state.noMoviesTip,false);
+    },
+    loadingMoviesTip:function(){
+        this.showMsg(this.state.loadingMoviesTip,true);
+    },
+    hideMovieTip:function(){
+        this.refs.innerMessager.hide();
     },
     showMsg(msg, loop){
         this.refs.innerMessager.showMsg(msg, loop);
@@ -70,7 +80,7 @@ var MoviesDisplayer = React.createClass({
         }.bind(this));
 
         return <ul id="movies_list_ul">
-            <InnerMessager defaultTip={this.state.defaultTip} ref="innerMessager"/>
+            <InnerMessager defaultTip={this.state.loadingMoviesTip} ref="innerMessager"/>
             {movieItems}
             <li className="clear"></li>
         </ul>;

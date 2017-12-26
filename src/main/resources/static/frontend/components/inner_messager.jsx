@@ -100,10 +100,10 @@ var InnerMessager = React.createClass({
         return this.state.defaultTip;
     },
     hide(){
-        showMsg();
+        this.showMsg();
     },
     hideMsg(){
-        showMsg();
+        this.showMsg();
     },
     render: function () {
         return (
