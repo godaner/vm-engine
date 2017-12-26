@@ -9,8 +9,7 @@ var MoviesDisplayer = React.createClass({
 
     getInitialState: function () {
         return {
-            defaultTip: "正在加载电影列表",
-            whenThereIsHaveNotMovie:"无相关电影"
+            defaultTip: "正在加载电影列表"
         };
     },
     showMsg(msg, loop){
@@ -19,20 +18,13 @@ var MoviesDisplayer = React.createClass({
     showDefaultMsg(loop){
         this.refs.innerMessager.showDefaultMsg(loop);
     },
-    componentDidUpdate:function(){
-        //when it's father update itself
-        if(isEmptyList(this.props.movies)){
-            this.showMsg(this.state.whenThereIsHaveNotMovie,false);
-        }
-    },
     render: function () {
         var movies = this.props.movies;
 
         //for first load
-        if(movies == undefined){
+        if(isEmptyList(movies)){
             movies = [];
         }
-
         var movieItems = movies.map(function (item) {
 
             // set the location

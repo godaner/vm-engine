@@ -110,13 +110,15 @@ var MovieListPage = React.createClass({
             tagGroupSource: "/tagGroup/list",
             movieSource: "/movie/list",
             movieSearchBtnText: "搜索",
+            whenThereIsHaveNotMovies:"无相关电影",
+            whenThereIsHaveNotTags:"无相关标签",
             lastKeyword: "",
             movieSearchTimer: undefined,
             movieTagGroup: [],
             movies: {
                 keyword: "",
                 total: 0,
-                list: [],
+                list: undefined,
                 page: 1,
                 size: 20,
                 orderType: "desc"
@@ -127,7 +129,7 @@ var MovieListPage = React.createClass({
         return state;
 
     },
-    componentWillUpdate: function () {
+    componentDidMount: function () {
         this.getTagGroup(this.getMovie);
         window.addEventListener('resize', this.onWindowResize)
     },
@@ -162,8 +164,8 @@ var MovieListPage = React.createClass({
         //tip default msg
         this.showDefaultMovieTip(true);
 
-
-        {/*collect params*/
+        {
+            /*collect params*/
         }
         var movies = this.state.movies;
         var page = movies.page;
@@ -223,10 +225,10 @@ var MovieListPage = React.createClass({
             //lazy load img
             this.lazyLoadImg();
 
-            //if have not movies
-            // if (isEmptyList(state.movies.list)) {
-            //     this.showMovieTip(this.state.whenThereIsHaveNotMovie, false);
-            // }
+            // if have not movies
+            if (isEmptyList(state.movies.list)) {
+                this.showMovieTip(this.state.whenThereIsHaveNotMovies, false);
+            }
 
             //callfun
             if (callfun != undefined) {
@@ -259,15 +261,13 @@ var MovieListPage = React.createClass({
 
             if (fail(result.code)) {
                 this.showDialogMsg(result.msg);
-
                 return;
             }
 
 
             //set tip
-
             if (isEmptyList(state.movieTagGroup)) {
-                this.showDefaultTagMsg(true);
+                this.showTagTip(this.state.whenThereIsHaveNotTags,false);
             }
 
             //default select tag group id
@@ -415,7 +415,7 @@ var MovieListPage = React.createClass({
 
         //if keyword same ,do not search
         if (this.state.lastKeyword == keyword) {
-            this.refs.index_msg_dialog.showMsg("重复搜索");
+            this.showDialogMsg("重复搜索")
             return;
         }
         var oldMovieSearchBtnText = this.state.movieSearchBtnText;

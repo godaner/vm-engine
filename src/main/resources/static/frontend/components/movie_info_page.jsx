@@ -15,6 +15,7 @@ var MovieInfoPage = React.createClass({
         //init state
         return {
             movieDescriptionTitle: "电影简介 : ",
+            whenMovieIsLoading:"加载电影信息",
             movieDescriptionTextLength: 100,
             movie: {},
             targetMovieId: this.props.match.params.movieId

@@ -27444,13 +27444,15 @@ var MovieListPage = _react2.default.createClass({
             tagGroupSource: "/tagGroup/list",
             movieSource: "/movie/list",
             movieSearchBtnText: "搜索",
+            whenThereIsHaveNotMovies: "无相关电影",
+            whenThereIsHaveNotTags: "无相关标签",
             lastKeyword: "",
             movieSearchTimer: undefined,
             movieTagGroup: [],
             movies: {
                 keyword: "",
                 total: 0,
-                list: [],
+                list: undefined,
                 page: 1,
                 size: 20,
                 orderType: "desc"
@@ -27460,7 +27462,7 @@ var MovieListPage = _react2.default.createClass({
 
         return state;
     },
-    componentWillUpdate: function componentWillUpdate() {
+    componentDidMount: function componentDidMount() {
         this.getTagGroup(this.getMovie);
         window.addEventListener('resize', this.onWindowResize);
     },
@@ -27495,7 +27497,8 @@ var MovieListPage = _react2.default.createClass({
         //tip default msg
         this.showDefaultMovieTip(true);
 
-        {/*collect params*/
+        {
+            /*collect params*/
         }
         var movies = this.state.movies;
         var page = movies.page;
@@ -27553,10 +27556,10 @@ var MovieListPage = _react2.default.createClass({
             //lazy load img
             this.lazyLoadImg();
 
-            //if have not movies
-            // if (isEmptyList(state.movies.list)) {
-            //     this.showMovieTip(this.state.whenThereIsHaveNotMovie, false);
-            // }
+            // if have not movies
+            if (isEmptyList(state.movies.list)) {
+                this.showMovieTip(this.state.whenThereIsHaveNotMovies, false);
+            }
 
             //callfun
             if (callfun != undefined) {
@@ -27587,14 +27590,12 @@ var MovieListPage = _react2.default.createClass({
 
             if (fail(result.code)) {
                 this.showDialogMsg(result.msg);
-
                 return;
             }
 
             //set tip
-
             if (isEmptyList(state.movieTagGroup)) {
-                this.showDefaultTagMsg(true);
+                this.showTagTip(this.state.whenThereIsHaveNotTags, false);
             }
 
             //default select tag group id
@@ -27737,7 +27738,7 @@ var MovieListPage = _react2.default.createClass({
 
         //if keyword same ,do not search
         if (this.state.lastKeyword == keyword) {
-            this.refs.index_msg_dialog.showMsg("重复搜索");
+            this.showDialogMsg("重复搜索");
             return;
         }
         var oldMovieSearchBtnText = this.state.movieSearchBtnText;
@@ -28269,6 +28270,7 @@ var MovieInfoPage = _react2.default.createClass({
         //init state
         return {
             movieDescriptionTitle: "电影简介 : ",
+            whenMovieIsLoading: "加载电影信息",
             movieDescriptionTextLength: 100,
             movie: {},
             targetMovieId: this.props.match.params.movieId
@@ -29425,8 +29427,7 @@ var MoviesDisplayer = _react2.default.createClass({
 
     getInitialState: function getInitialState() {
         return {
-            defaultTip: "正在加载电影列表",
-            whenThereIsHaveNotMovie: "无相关电影"
+            defaultTip: "正在加载电影列表"
         };
     },
     showMsg: function showMsg(msg, loop) {
@@ -29436,20 +29437,13 @@ var MoviesDisplayer = _react2.default.createClass({
         this.refs.innerMessager.showDefaultMsg(loop);
     },
 
-    componentDidUpdate: function componentDidUpdate() {
-        //when it's father update itself
-        if (isEmptyList(this.props.movies)) {
-            this.showMsg(this.state.whenThereIsHaveNotMovie, false);
-        }
-    },
     render: function render() {
         var movies = this.props.movies;
 
         //for first load
-        if (movies == undefined) {
+        if (isEmptyList(movies)) {
             movies = [];
         }
-
         var movieItems = movies.map(function (item) {
 
             // set the location
