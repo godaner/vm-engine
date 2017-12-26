@@ -1,10 +1,10 @@
 import React from "react"; //引入react组件
 import InnerMessager from "./inner_messager";
-import "../scss/actors_details_area.scss";
+import "../scss/filmmakers_details_area.scss";
 import PlainPanelTitle from "./plain_panel_title";
 
 /*演员详情展示*/
-var ActorsDetailsArea = React.createClass({
+var FilmmakersDetailsArea = React.createClass({
 
     getInitialState: function () {
         return {
@@ -27,7 +27,7 @@ var ActorsDetailsArea = React.createClass({
     getFilmmakers: function () {
         var url = "/movie/filmmaker/" + this.props.movieId;
         $.get(url, function (result) {
-            c(result);
+            // c(result);
             //hide tip
             this.showTip();
 
@@ -100,4 +100,4 @@ var ActorsDetailsArea = React.createClass({
         );
     }
 });
-export default ActorsDetailsArea;
+export default FilmmakersDetailsArea;

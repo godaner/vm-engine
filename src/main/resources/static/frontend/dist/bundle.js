@@ -28268,9 +28268,9 @@ var _flex_text = __webpack_require__(259);
 
 var _flex_text2 = _interopRequireDefault(_flex_text);
 
-var _actors_details_area = __webpack_require__(262);
+var _filmmakers_details_area = __webpack_require__(284);
 
-var _actors_details_area2 = _interopRequireDefault(_actors_details_area);
+var _filmmakers_details_area2 = _interopRequireDefault(_filmmakers_details_area);
 
 var _movies_player = __webpack_require__(277);
 
@@ -28371,10 +28371,10 @@ var MovieInfoPage = _react2.default.createClass({
     },
 
     getAboutTagsMovies: function getAboutTagsMovies(movieFilmmakerIds) {
-        c("getAboutTagsMovies");
+        c(movieFilmmakerIds);
     },
     getAboutFilmmakerMovies: function getAboutFilmmakerMovies(movieTagIds) {
-        c("movieTagIds");
+        c(movieTagIds);
     },
 
     render: function render() {
@@ -28508,7 +28508,7 @@ var MovieInfoPage = _react2.default.createClass({
                     _react2.default.createElement(
                         'div',
                         { id: 'actors_details_div' },
-                        _react2.default.createElement(_actors_details_area2.default, { movieId: this.state.targetMovieId,
+                        _react2.default.createElement(_filmmakers_details_area2.default, { movieId: this.state.targetMovieId,
                             onLoadDataSuccess: this.getAboutTagsMovies })
                     )
                 )
@@ -28812,174 +28812,9 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 
 /***/ }),
-/* 262 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(4);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _inner_messager = __webpack_require__(66);
-
-var _inner_messager2 = _interopRequireDefault(_inner_messager);
-
-__webpack_require__(263);
-
-var _plain_panel_title = __webpack_require__(271);
-
-var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*演员详情展示*/
-var ActorsDetailsArea = _react2.default.createClass({
-    displayName: "ActorsDetailsArea",
-
-
-    getInitialState: function getInitialState() {
-        return {
-            whenActorsDetailsIsLoading: "正在加载演员信息",
-            title: "相关演员"
-        };
-    },
-    componentDidMount: function componentDidMount() {
-        //add resize event listener
-        window.addEventListener('resize', this.onWindowResize);
-        //get filmmakers
-        this.getFilmmakers();
-    },
-    componentWillUnmount: function componentWillUnmount() {
-        window.removeEventListener('resize', this.onWindowResize);
-    },
-    onWindowResize: function onWindowResize() {
-        this.adjustUI();
-    },
-    getFilmmakers: function getFilmmakers() {
-        var url = "/movie/filmmaker/" + this.props.movieId;
-        $.get(url, function (result) {
-            c(result);
-            //hide tip
-            this.showTip();
-
-            if (fail(result.code)) {
-                return;
-            }
-
-            //set state
-            var state = this.state;
-            state.filmmakers = result.data.filmmakers;
-            this.setState(state);
-
-            //adjust ui
-            this.adjustUI();
-
-            //callfun
-            this.props.onLoadDataSuccess(state.filmmakers);
-        }.bind(this));
-    },
-    adjustUI: function adjustUI() {
-        var $actors_details_area = $(this.refs.actors_details_area);
-        var w = $($actors_details_area.find("img")[0]).width();
-        // c(w);
-        var h = w;
-        $actors_details_area.find("img").height(h);
-    },
-    showTip: function showTip(msg, loop) {
-        this.refs.actors_details_area_inner_messager.showMsg(msg, loop);
-    },
-
-    render: function render() {
-        var listFilmmakers = function () {
-            var filmmakers = this.state.filmmakers;
-            var res = [];
-            if (isEmptyList(filmmakers)) {
-                // res.push(<li key="1">无相关电影人</li>)
-                return res;
-            }
-
-            for (var i = 0; i < filmmakers.length; i++) {
-                var filmmaker = filmmakers[i];
-                res.push(_react2.default.createElement(
-                    "li",
-                    { key: filmmaker.id, title: filmmaker.name },
-                    _react2.default.createElement(
-                        "a",
-                        { title: filmmaker.name, href: "#" },
-                        _react2.default.createElement("img", { title: filmmaker.name, src: filmmaker.imgUrl }),
-                        _react2.default.createElement(
-                            "div",
-                            { title: filmmaker.name },
-                            filmmaker.name
-                        )
-                    )
-                ));
-            }
-            return res;
-        }.bind(this);
-        return _react2.default.createElement(
-            "div",
-            { id: "actors_details_area", ref: "actors_details_area" },
-            _react2.default.createElement(_inner_messager2.default, { defaultTip: this.state.whenActorsDetailsIsLoading,
-                ref: "actors_details_area_inner_messager" }),
-            _react2.default.createElement(_plain_panel_title2.default, { title: this.state.title }),
-            _react2.default.createElement(
-                "ul",
-                null,
-                listFilmmakers()
-            )
-        );
-    }
-}); //引入react组件
-exports.default = ActorsDetailsArea;
-
-/***/ }),
-/* 263 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(264);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(11)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./actors_details_area.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./actors_details_area.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 264 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(10)();
-// imports
-
-
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#actors_details_area {\n  width: 100%; }\n  #actors_details_area ul {\n    list-style: none;\n    display: inline; }\n    #actors_details_area ul li {\n      display: inline-block;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis;\n      height: auto;\n      width: auto; }\n  #actors_details_area > ul > li {\n    width: 25%; }\n    #actors_details_area > ul > li > a {\n      display: block; }\n      #actors_details_area > ul > li > a > img {\n        width: 80%;\n        margin-left: 10%; }\n      #actors_details_area > ul > li > a > div {\n        padding: 2px 0px;\n        box-sizing: border-box;\n        width: 80%;\n        margin-left: 10%;\n        color: rgb(153,153,153);\n        text-align: left;\n        overflow: hidden;\n        white-space: nowrap;\n        text-overflow: ellipsis; }\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 262 */,
+/* 263 */,
+/* 264 */,
 /* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -29727,6 +29562,174 @@ exports = module.exports = __webpack_require__(10)();
 
 // module
 exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#movie_list_pager_div {\n  margin: 80px 0px;\n  width: 100%;\n  text-align: center; }\n  #movie_list_pager_div ul {\n    list-style: none;\n    display: inline; }\n    #movie_list_pager_div ul li {\n      display: inline-block;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis;\n      height: auto;\n      width: auto; }\n  #movie_list_pager_div ul li {\n    overflow: hidden;\n    margin: 0px 5px; }\n  #movie_list_pager_div ul li.pager_li {\n    border: 1px solid rgb(241,242,243);\n    height: auto;\n    cursor: pointer;\n    text-align: left;\n    transition: all 500ms; }\n    #movie_list_pager_div ul li.pager_li a {\n      padding: 8px 15px;\n      box-sizing: border-box;\n      display: block;\n      width: 100%;\n      height: 100%; }\n    #movie_list_pager_div ul li.pager_li:hover {\n      background-color: rgb(61,158,255); }\n      #movie_list_pager_div ul li.pager_li:hover a {\n        color: white; }\n  #movie_list_pager_div ul li.currt {\n    background-color: rgb(61,158,255); }\n    #movie_list_pager_div ul li.currt a {\n      color: white; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 284 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _inner_messager = __webpack_require__(66);
+
+var _inner_messager2 = _interopRequireDefault(_inner_messager);
+
+__webpack_require__(285);
+
+var _plain_panel_title = __webpack_require__(271);
+
+var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*演员详情展示*/
+var FilmmakersDetailsArea = _react2.default.createClass({
+    displayName: "FilmmakersDetailsArea",
+
+
+    getInitialState: function getInitialState() {
+        return {
+            whenActorsDetailsIsLoading: "正在加载演员信息",
+            title: "相关演员"
+        };
+    },
+    componentDidMount: function componentDidMount() {
+        //add resize event listener
+        window.addEventListener('resize', this.onWindowResize);
+        //get filmmakers
+        this.getFilmmakers();
+    },
+    componentWillUnmount: function componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+    },
+    onWindowResize: function onWindowResize() {
+        this.adjustUI();
+    },
+    getFilmmakers: function getFilmmakers() {
+        var url = "/movie/filmmaker/" + this.props.movieId;
+        $.get(url, function (result) {
+            // c(result);
+            //hide tip
+            this.showTip();
+
+            if (fail(result.code)) {
+                return;
+            }
+
+            //set state
+            var state = this.state;
+            state.filmmakers = result.data.filmmakers;
+            this.setState(state);
+
+            //adjust ui
+            this.adjustUI();
+
+            //callfun
+            this.props.onLoadDataSuccess(state.filmmakers);
+        }.bind(this));
+    },
+    adjustUI: function adjustUI() {
+        var $actors_details_area = $(this.refs.actors_details_area);
+        var w = $($actors_details_area.find("img")[0]).width();
+        // c(w);
+        var h = w;
+        $actors_details_area.find("img").height(h);
+    },
+    showTip: function showTip(msg, loop) {
+        this.refs.actors_details_area_inner_messager.showMsg(msg, loop);
+    },
+
+    render: function render() {
+        var listFilmmakers = function () {
+            var filmmakers = this.state.filmmakers;
+            var res = [];
+            if (isEmptyList(filmmakers)) {
+                // res.push(<li key="1">无相关电影人</li>)
+                return res;
+            }
+
+            for (var i = 0; i < filmmakers.length; i++) {
+                var filmmaker = filmmakers[i];
+                res.push(_react2.default.createElement(
+                    "li",
+                    { key: filmmaker.id, title: filmmaker.name },
+                    _react2.default.createElement(
+                        "a",
+                        { title: filmmaker.name, href: "#" },
+                        _react2.default.createElement("img", { title: filmmaker.name, src: filmmaker.imgUrl }),
+                        _react2.default.createElement(
+                            "div",
+                            { title: filmmaker.name },
+                            filmmaker.name
+                        )
+                    )
+                ));
+            }
+            return res;
+        }.bind(this);
+        return _react2.default.createElement(
+            "div",
+            { id: "actors_details_area", ref: "actors_details_area" },
+            _react2.default.createElement(_inner_messager2.default, { defaultTip: this.state.whenActorsDetailsIsLoading,
+                ref: "actors_details_area_inner_messager" }),
+            _react2.default.createElement(_plain_panel_title2.default, { title: this.state.title }),
+            _react2.default.createElement(
+                "ul",
+                null,
+                listFilmmakers()
+            )
+        );
+    }
+}); //引入react组件
+exports.default = FilmmakersDetailsArea;
+
+/***/ }),
+/* 285 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(286);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(11)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./filmmakers_details_area.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./filmmakers_details_area.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 286 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(10)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#actors_details_area {\n  width: 100%; }\n  #actors_details_area ul {\n    list-style: none;\n    display: inline; }\n    #actors_details_area ul li {\n      display: inline-block;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis;\n      height: auto;\n      width: auto; }\n  #actors_details_area > ul > li {\n    width: 25%; }\n    #actors_details_area > ul > li > a {\n      display: block; }\n      #actors_details_area > ul > li > a > img {\n        width: 80%;\n        margin-left: 10%; }\n      #actors_details_area > ul > li > a > div {\n        padding: 2px 0px;\n        box-sizing: border-box;\n        width: 80%;\n        margin-left: 10%;\n        color: rgb(153,153,153);\n        text-align: left;\n        overflow: hidden;\n        white-space: nowrap;\n        text-overflow: ellipsis; }\n", ""]);
 
 // exports
 

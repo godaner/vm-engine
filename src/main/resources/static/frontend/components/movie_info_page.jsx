@@ -5,7 +5,7 @@ import InnerMessager from './inner_messager';
 import Director from "./director";
 import TagsOfMovie from "./tags_of_movie";
 import FlexText from "./flex_text";
-import ActorsDetailsArea from "./actors_details_area";
+import FilmmakersDetailsArea from "./filmmakers_details_area";
 import MoviePlayer from "./movies_player";
 import MoviesDisplayer from "./movies_displayer";
 import PlainPanelTitle from "./plain_panel_title";
@@ -98,10 +98,10 @@ var MovieInfoPage = React.createClass({
         this.refs.innerMessager.showMsg(msg, loop);
     },
     getAboutTagsMovies:function(movieFilmmakerIds){
-        c("getAboutTagsMovies");
+        c(movieFilmmakerIds);
     },
     getAboutFilmmakerMovies(movieTagIds){
-        c("movieTagIds");
+        c(movieTagIds);
     },
     render: function () {
 
@@ -179,8 +179,8 @@ var MovieInfoPage = React.createClass({
                     <div id="split"></div>
                     <div id="actors_details_div_wrapper">
                         <div id="actors_details_div">
-                            <ActorsDetailsArea movieId={this.state.targetMovieId}
-                                               onLoadDataSuccess={this.getAboutTagsMovies}/>
+                            <FilmmakersDetailsArea movieId={this.state.targetMovieId}
+                                                   onLoadDataSuccess={this.getAboutTagsMovies}/>
                         </div>
                     </div>
 
