@@ -14,15 +14,8 @@ var MovieInfoPage = React.createClass({
     getInitialState: function () {
         //init state
         return {
-            whenThereHaveNotActor: "无演员",
-            whenThereHaveNotDirector: "无导演",
-            whenMovieIsLoading: "正在加载电影信息",
-            whenThereHaveNotTag: "无标签",
-            whenTagIsLoading: "正在加载标签信息",
             movieDescriptionTitle: "电影简介 : ",
-            whenPlayerIsLoading: "正在加载电影资源",
             movieDescriptionTextLength: 100,
-            moviePlayerPanelTitle: "电影播放",
             movie: {},
             targetMovieId: this.props.match.params.movieId
         };
