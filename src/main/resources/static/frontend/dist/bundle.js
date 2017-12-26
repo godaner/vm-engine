@@ -28460,9 +28460,7 @@ var MovieInfoPage = _react2.default.createClass({
                 _react2.default.createElement(
                     'div',
                     { id: 'm_wrapper', ref: 'm_wrapper' },
-                    _react2.default.createElement(_movies_player2.default, { whenPlayerIsLoading: '',
-                        moviePlayerPanelTitle: '',
-                        targetMovieId: this.state.targetMovieId })
+                    _react2.default.createElement(_movies_player2.default, { targetMovieId: this.state.targetMovieId })
                 ),
                 _react2.default.createElement('div', { id: 'split' }),
                 _react2.default.createElement(
@@ -29290,18 +29288,10 @@ var MoviePlayer = _react2.default.createClass({
 
     getInitialState: function getInitialState() {
 
-        var whenPlayerIsLoading = "正在加载电影资源";
-        if (!isEmpty(this.props.whenPlayerIsLoading)) {
-            whenPlayerIsLoading = this.props.whenPlayerIsLoading;
-        }
-        var moviePlayerPanelTitle = "电影播放";
-        if (!isEmpty(this.props.moviePlayerPanelTitle)) {
-            moviePlayerPanelTitle = this.props.moviePlayerPanelTitle;
-        }
         return {
-            whenPlayerIsLoading: whenPlayerIsLoading,
-            moviePlayerPanelTitle: moviePlayerPanelTitle,
-            targetMovieId: this.props.targetMovieId };
+            whenPlayerIsLoading: "正在加载视频资源",
+            moviePlayerPanelTitle: "电影播放"
+        };
     }, componentDidMount: function componentDidMount() {
         //get movie versions
         this.getMovieSrcVersion();
@@ -29341,7 +29331,7 @@ var MoviePlayer = _react2.default.createClass({
         }
     },
     getMovieSrcVersion: function getMovieSrcVersion() {
-        var url = "/movie/version/" + this.state.targetMovieId + "?orderBy=weight&orderType=desc";
+        var url = "/movie/version/" + this.props.targetMovieId + "?orderBy=weight&orderType=desc";
         this.serverRequest = $.get(url, function (result) {
 
             //cancel tip

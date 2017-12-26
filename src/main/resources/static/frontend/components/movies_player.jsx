@@ -6,19 +6,12 @@ import PlainPanelTitle from "./plain_panel_title";
 var MoviePlayer = React.createClass({
     getInitialState: function () {
 
-        var whenPlayerIsLoading = "正在加载电影资源";
-        if(!isEmpty(this.props.whenPlayerIsLoading)){
-            whenPlayerIsLoading = this.props.whenPlayerIsLoading;
-        }
-        var moviePlayerPanelTitle = "电影播放";
-        if(!isEmpty(this.props.moviePlayerPanelTitle)){
-            moviePlayerPanelTitle = this.props.moviePlayerPanelTitle;
-        }
+
         return {
-            whenPlayerIsLoading:whenPlayerIsLoading ,
-            moviePlayerPanelTitle: moviePlayerPanelTitle,
-            targetMovieId:this.props.targetMovieId};
-    },componentDidMount: function () {
+            whenPlayerIsLoading: "正在加载视频资源",
+            moviePlayerPanelTitle: "电影播放"
+        };
+    }, componentDidMount: function () {
         //get movie versions
         this.getMovieSrcVersion();
 
@@ -59,7 +52,7 @@ var MoviePlayer = React.createClass({
         }
     },
     getMovieSrcVersion: function () {
-        var url = "/movie/version/" + this.state.targetMovieId + "?orderBy=weight&orderType=desc";
+        var url = "/movie/version/" + this.props.targetMovieId + "?orderBy=weight&orderType=desc";
         this.serverRequest = $.get(url, function (result) {
 
             //cancel tip

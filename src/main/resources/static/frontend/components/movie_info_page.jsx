@@ -167,9 +167,7 @@ var MovieInfoPage = React.createClass({
                 <div id="movie_player" className="clearfix">
 
                     <div id="m_wrapper" ref="m_wrapper">
-                        <MoviePlayer whenPlayerIsLoading=""
-                                     moviePlayerPanelTitle=""
-                                     targetMovieId={this.state.targetMovieId}/>
+                        <MoviePlayer targetMovieId={this.state.targetMovieId}/>
                     </div>
                     <div id="split"></div>
                     <div id="actors_details_div_wrapper">
