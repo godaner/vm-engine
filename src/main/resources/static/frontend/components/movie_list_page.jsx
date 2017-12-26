@@ -2,8 +2,6 @@ import React from 'react';  //引入react组件
 import {Link} from 'react-router-dom';
 import MsgDialog from "./msg_dialog";
 import InnerMessager from "./inner_messager";
-import ActorsList from './actors_list';
-import Director from "./director";
 import MoviesDisplayer from "./movies_displayer";
 import '../scss/movie_list_page.scss';
 import 'animate.css';

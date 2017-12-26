@@ -12122,7 +12122,8 @@ var Director = _react2.default.createClass({
             } else {
                 return _react2.default.createElement(
                     "a",
-                    { className: "aLink", href: "javascript:void(0);" },
+                    { id: "director_name", className: "aLink", href: "javascript:void(0);" },
+                    "\u5BFC\u6F14 : ",
                     director.name
                 );
             }
@@ -12131,7 +12132,6 @@ var Director = _react2.default.createClass({
         return _react2.default.createElement(
             "span",
             null,
-            "\u5BFC\u6F14 : ",
             showDirector(this.props.director)
         );
     }
@@ -27315,14 +27315,6 @@ var _inner_messager = __webpack_require__(66);
 
 var _inner_messager2 = _interopRequireDefault(_inner_messager);
 
-var _actors_list = __webpack_require__(107);
-
-var _actors_list2 = _interopRequireDefault(_actors_list);
-
-var _director = __webpack_require__(108);
-
-var _director2 = _interopRequireDefault(_director);
-
 var _movies_displayer = __webpack_require__(278);
 
 var _movies_displayer2 = _interopRequireDefault(_movies_displayer);
@@ -28176,7 +28168,7 @@ exports = module.exports = __webpack_require__(10)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#director_name {\n  width: 100%;\n  display: block;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n", ""]);
 
 // exports
 
@@ -29489,6 +29481,14 @@ var _inner_messager = __webpack_require__(66);
 
 var _inner_messager2 = _interopRequireDefault(_inner_messager);
 
+var _actors_list = __webpack_require__(107);
+
+var _actors_list2 = _interopRequireDefault(_actors_list);
+
+var _director = __webpack_require__(108);
+
+var _director2 = _interopRequireDefault(_director);
+
 __webpack_require__(279);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -29538,13 +29538,13 @@ var MoviesDisplayer = _react2.default.createClass({
                     _react2.default.createElement(
                         'div',
                         { className: 'movie_actor_list_div' },
-                        _react2.default.createElement(ActorsList, { whenThereHaveNotActor: this.props.whenThereHaveNotActor,
+                        _react2.default.createElement(_actors_list2.default, { whenThereHaveNotActor: this.props.whenThereHaveNotActor,
                             actors: item.actors })
                     ),
                     _react2.default.createElement(
                         'div',
                         null,
-                        _react2.default.createElement(Director, { whenThereHaveNotDirector: this.props.whenThereHaveNotDirector,
+                        _react2.default.createElement(_director2.default, { whenThereHaveNotDirector: this.props.whenThereHaveNotDirector,
                             director: item.director })
                     ),
                     _react2.default.createElement(
@@ -29609,7 +29609,7 @@ exports = module.exports = __webpack_require__(10)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#movies_list_ul {\n  width: 100%;\n  display: inline;\n  list-style-type: none;\n  width: 100%;\n  /*#movieTip{\n    width:100%;\n    text-align: center;\n    height: 15px;\n  }*/ }\n  #movies_list_ul li.movie_item {\n    width: 20%;\n    border: none;\n    outline: none;\n    padding: 1.5%;\n    box-sizing: border-box;\n    display: inline-block;\n    float: left; }\n    #movies_list_ul li.movie_item .movie_img_div a {\n      display: block;\n      width: 100%; }\n      #movies_list_ul li.movie_item .movie_img_div a img {\n        width: 100%; }\n    #movies_list_ul li.movie_item .movie_info_div {\n      width: 100%;\n      height: auto; }\n      #movies_list_ul li.movie_item .movie_info_div div {\n        width: 100%;\n        display: block;\n        margin: 2px 0px; }\n      #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div {\n        white-space: nowrap;\n        overflow: hidden;\n        text-overflow: ellipsis;\n        display: block; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#movies_list_ul {\n  width: 100%;\n  display: inline;\n  list-style-type: none;\n  width: 100%; }\n  #movies_list_ul li.movie_item {\n    margin: 0px;\n    padding: 1.5%;\n    box-sizing: border-box;\n    width: 20%;\n    border: none;\n    outline: none;\n    display: inline-block;\n    float: left; }\n    #movies_list_ul li.movie_item .movie_img_div a {\n      display: block;\n      width: 100%; }\n      #movies_list_ul li.movie_item .movie_img_div a img {\n        width: 100%; }\n    #movies_list_ul li.movie_item .movie_info_div {\n      width: 100%;\n      height: auto; }\n      #movies_list_ul li.movie_item .movie_info_div div {\n        width: 100%;\n        display: block;\n        margin: 2px 0px; }\n      #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div {\n        white-space: nowrap;\n        overflow: hidden;\n        text-overflow: ellipsis;\n        display: block; }\n", ""]);
 
 // exports
 

@@ -1,6 +1,8 @@
 import React from 'react';  //引入react组件
 import {Link} from 'react-router-dom';
 import InnerMessager from "./inner_messager";
+import ActorsList from './actors_list';
+import Director from "./director";
 import '../scss/movies_displayer.scss';
 /*电影展示*/
 var MoviesDisplayer = React.createClass({
