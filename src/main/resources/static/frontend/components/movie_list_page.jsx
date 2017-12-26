@@ -1,12 +1,10 @@
-import React from 'react';  //引入react组件
-import {Link} from 'react-router-dom';
+import React from "react"; //引入react组件
 import MsgDialog from "./msg_dialog";
 import InnerMessager from "./inner_messager";
 import MoviesDisplayer from "./movies_displayer";
 import Pager from "./pager";
-import '../scss/movie_list_page.scss';
-import 'animate.css';
-
+import "../scss/movie_list_page.scss";
+import "animate.css";
 
 
 /*一组电影tag*/
@@ -83,7 +81,50 @@ var MovieTagGroupList = React.createClass({
 });
 
 var MovieListPage = React.createClass({
+    getInitialState: function () {
 
+        var orderByOptions = [
+            {
+                id: "score", name: "最高评分", selected: true
+            },
+            {
+                id: "watch_num",
+                name: "最多播放",
+                selected: false
+            },
+            {
+                id: "release_time", name: "最新上映", selected: false
+            }
+        ];
+
+
+        var state = {
+            tagGroupSource: "/tagGroup/list",
+            movieSource: "/movie/list",
+            whenMovieIsLoading: "正在加载电影",
+            whenThereIsHaveNotMovie: "对不起，暂时无相关电影",
+            whenTagIsLoading: "正在加载标签",
+            whenThereIsHaveNotTag: "对不起，暂时无相关标签",
+            whenThereHaveNotActor: "无演员",
+            whenThereHaveNotDirector: "无导演",
+            movieSearchBtnText: "搜索",
+            lastKeyword: "",
+            movieSearchTimer: undefined,
+            movieTagGroup: [],
+            movies: {
+                keyword: "",
+                total: 0,
+                list: [],
+                page: 1,
+                size: 20,
+                orderType: "desc"
+            },
+            orderByOptions: orderByOptions
+        };
+
+        return state;
+
+    },
     componentDidMount: function () {
         this.getTagGroup(this.getMovie);
         window.addEventListener('resize', this.onWindowResize)
@@ -158,10 +199,13 @@ var MovieListPage = React.createClass({
         var url = this.state.movieSource + "?page=" + page + "&start=" + start + "&size=" + size + "&orderBy=" + orderBy + "&orderType=" + orderType + "&keyword=" + keyword;
         url = contactUrlWithArray(url, "tagIds", tagIds);
         this.serverRequest = $.get(url, function (result) {
+            //hide tip
+            this.showMovieTip();
+
+
             // c(result);
             if (fail(result.code)) {
                 this.showDialogMsg(result.msg);
-                this.showMovieTip();
                 return;
             }
 
@@ -180,8 +224,6 @@ var MovieListPage = React.createClass({
             //if have not movies
             if (isEmptyList(state.movies.list)) {
                 this.showMovieTip(this.state.whenThereIsHaveNotMovie, false);
-            } else {
-                this.showMovieTip();
             }
 
             //callfun
@@ -205,13 +247,17 @@ var MovieListPage = React.createClass({
         {/*获取电影标签分组*/
         }
         this.serverRequest = $.get(this.state.tagGroupSource, function (result) {
+            //hide tip
+            this.showTagTip();
+
+
             var state = this.state;
             state.movieTagGroup = result.data.list;
 
 
             if (fail(result.code)) {
                 this.showDialogMsg(result.msg);
-                this.showMovieTip();
+
                 return;
             }
 
@@ -220,8 +266,6 @@ var MovieListPage = React.createClass({
 
             if (isEmptyList(state.movieTagGroup)) {
                 this.showTagTip(this.state.whenThereIsHaveNotTag, false);
-            } else {
-                this.showTagTip();
             }
 
             //default select tag group id
@@ -240,50 +284,7 @@ var MovieListPage = React.createClass({
             }
         }.bind(this));
     },
-    getInitialState: function () {
 
-        var orderByOptions = [
-            {
-                id: "score", name: "最高评分", selected: true
-            },
-            {
-                id: "watch_num",
-                name: "最多播放",
-                selected: false
-            },
-            {
-                id: "release_time", name: "最新上映", selected: false
-            }
-        ];
-
-
-        var state = {
-            tagGroupSource: "/tagGroup/list",
-            movieSource: "/movie/list",
-            whenMovieIsLoading: "正在加载电影",
-            whenThereIsHaveNotMovie: "对不起，暂时无相关电影",
-            whenTagIsLoading: "正在加载标签",
-            whenThereIsHaveNotTag: "对不起，暂时无相关标签",
-            whenThereHaveNotActor: "无演员",
-            whenThereHaveNotDirector: "无导演",
-            movieSearchBtnText: "搜索",
-            lastKeyword: "",
-            movieSearchTimer: undefined,
-            movieTagGroup: [],
-            movies: {
-                keyword: "",
-                total: 0,
-                list: [],
-                page: 1,
-                size: 20,
-                orderType: "desc"
-            },
-            orderByOptions: orderByOptions
-        };
-
-        return state;
-
-    },
     handlePageChange(movePage){
         var newPage = this.state.movies.page + movePage;
 //            c(this.state.movies.total-(this.state.movies.size*(newPage-1))<=0);
