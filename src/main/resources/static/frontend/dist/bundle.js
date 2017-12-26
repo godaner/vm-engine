@@ -27460,7 +27460,7 @@ var MovieListPage = _react2.default.createClass({
 
         return state;
     },
-    componentDidMount: function componentDidMount() {
+    componentWillUpdate: function componentWillUpdate() {
         this.getTagGroup(this.getMovie);
         window.addEventListener('resize', this.onWindowResize);
     },

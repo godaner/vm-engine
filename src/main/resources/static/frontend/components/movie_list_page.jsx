@@ -127,7 +127,7 @@ var MovieListPage = React.createClass({
         return state;
 
     },
-    componentDidMount: function () {
+    componentWillUpdate: function () {
         this.getTagGroup(this.getMovie);
         window.addEventListener('resize', this.onWindowResize)
     },
