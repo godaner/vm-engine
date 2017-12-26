@@ -90,7 +90,8 @@
       height: 3px;
 
       //background-color: unquote($defaultLightGrayRgb);
-      background-color: rgba(0,0,0,1);
+      background-color: red;
+      visibility: hidden;
     }
     #actors_details_div_wrapper {
       @include defaultPanel;

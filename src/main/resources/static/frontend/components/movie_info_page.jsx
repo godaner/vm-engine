@@ -6,6 +6,7 @@ import Director from "./director";
 import TagsOfMovie from "./tags_of_movie";
 import FlexText from "./flex_text";
 import ActorsDetailsArea from "./actors_details_area";
+import PlainPanelTitle from "./plain_panel_title";
 /*import '../../../public/js/ckplayer/ckplayer/ckplayer.js';*/
 
 var MovieInfoPage = React.createClass({
@@ -18,8 +19,9 @@ var MovieInfoPage = React.createClass({
             whenThereHaveNotTag: "无标签",
             whenTagIsLoading: "正在加载标签信息",
             movieDescriptionTitle: "电影简介 : ",
-            whenPlayerIsLoading:"正在加载电影资源",
+            whenPlayerIsLoading: "正在加载电影资源",
             movieDescriptionTextLength: 100,
+            moviePlayerPanelTitle: "电影播放",
             movie: {},
             targetMovieId: this.props.match.params.movieId
         };
@@ -36,35 +38,35 @@ var MovieInfoPage = React.createClass({
 
 
     },
-    movieSharpness:function(data){
+    movieSharpness: function (data) {
         //1代表标清，2代表高清，3代表超清
-        if(data == 1){
+        if (data == 1) {
             return "标清";
         }
-        if(data == 2){
+        if (data == 2) {
             return "高清";
         }
-        if(data == 3){
+        if (data == 3) {
             return "超清";
         }
     },
-    getMovieSrcVersion:function(){
-        var url = "/movie/version/"+this.state.targetMovieId+"?orderBy=weight&orderType=desc";
+    getMovieSrcVersion: function () {
+        var url = "/movie/version/" + this.state.targetMovieId + "?orderBy=weight&orderType=desc";
         this.serverRequest = $.get(url, function (result) {
 
             //cancel tip
             this.showMoviePlayerTip();
 
-            if(fail(result.code)){
-                return ;
+            if (fail(result.code)) {
+                return;
             }
 
 
             var versionsInfo = result.data.versions;
             var videos = [];
-            for(var i = 0;i<versionsInfo.length;i++){
+            for (var i = 0; i < versionsInfo.length; i++) {
                 var version = versionsInfo[i];
-                videos.push([version.srcUrl,'video/mp4',this.movieSharpness(version.sharpness),version.weight]);
+                videos.push([version.srcUrl, 'video/mp4', this.movieSharpness(version.sharpness), version.weight]);
             }
             //init movie player
             var options = {};
@@ -81,10 +83,10 @@ var MovieInfoPage = React.createClass({
         var videoObject = {
             container: '#m_player',//“#”代表容器的ID，“.”或“”代表容器的class
             variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
-            poster:options.poster,//封面图片
+            poster: options.poster,//封面图片
             autoplay: false,//默认自动播放
-            volume:1.0,//初始化音量
-            flashplayer:true,//如果强制使用flashplayer则设置成true
+            volume: 1.0,//初始化音量
+            flashplayer: true,//如果强制使用flashplayer则设置成true
             video: options.video//视频地址http://img.ksbbs.com/asset/Mon_1703/05cacb4e02f9d9e.mp4
 
         };
@@ -99,15 +101,11 @@ var MovieInfoPage = React.createClass({
     },
     adjustMoviePlayerUI: function () {
         //set player's height by width
-        var m = $(this.refs.m);
-        var player = $(this.refs.m_player);
-        var m_wrapper = $(this.refs.m_wrapper);
+        var m_player = $(this.refs.m_player);
 
-        var w = m_wrapper.width();
+        var w = m_player.width();
         var h = w / 1.5;
-        m.height(h);
-        player.height(h);
-        m_wrapper.height(h);
+        m_player.height(h);
     },
     componentWillUnmount: function () {
         window.removeEventListener('resize', this.onWindowResize);
@@ -246,6 +244,7 @@ var MovieInfoPage = React.createClass({
                         <div id="m" ref="m">
                             <InnerMessager defaultTip={this.state.whenPlayerIsLoading}
                                            ref="player_inner_messager"/>
+                            <PlainPanelTitle title={this.state.moviePlayerPanelTitle}/>
                             <div id="m_player"
                                  ref="m_player"></div>
                         </div>
