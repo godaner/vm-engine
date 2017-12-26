@@ -181,75 +181,7 @@
     #movies_display_div {
       @include defaultWidth;
       //background-color: red;
-      #movies_list_ul {
-        @include defaultWidth;
-        display: inline;
-        list-style-type: none;
-        @include defaultWidth;
-        /*#movieTip{
-          width:100%;
-          text-align: center;
-          height: 15px;
-        }*/
-        li.movie_item {
-          width: 20%;
-          border:none;
-          outline: none;
-          @include defaultSetPaddingAround(1.5%);
-          display: inline-block;
-          float: left;
-          //background-color: red;
-          .movie_img_div {
-            a {
-              display: block;
-              @include defaultWidth;
-              img {
-                @include defaultWidth;
 
-              }
-            }
-          }
-          .movie_info_div {
-
-            @include defaultWidth;
-            height: auto;
-            //background-color: steelblue;
-            div {
-              @include defaultWidth;
-              display: block;
-              margin: 2px 0px;
-
-              .movie_name_a {
-                //font-weight: bold;
-                //color: black;
-
-              }
-              //.movie_play_num_a{
-              //  font-size: 15px;
-              //}
-            }
-            div.movie_actor_list_div {
-              ////超过部分省略号代替
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              display: block;
-
-            }
-            //a{
-            //
-            //  transition: all 500ms;
-            //  &:hover {
-            //    font-weight: bold;
-            //    text-shadow:2px 2px 1px rgba(0,0,0,0.3);
-            //    color: red;
-            //  }
-            //}
-
-          }
-
-        }
-      }
       #movie_list_pager_div {
         margin: 80px 0px;
         //background-color: red;

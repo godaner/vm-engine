@@ -27323,12 +27323,17 @@ var _director = __webpack_require__(108);
 
 var _director2 = _interopRequireDefault(_director);
 
+var _movies_displayer = __webpack_require__(278);
+
+var _movies_displayer2 = _interopRequireDefault(_movies_displayer);
+
 __webpack_require__(249);
 
 __webpack_require__(251);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//引入react组件
 var Pager = _react2.default.createClass({
     displayName: 'Pager',
 
@@ -27378,86 +27383,6 @@ var Pager = _react2.default.createClass({
     }
 });
 
-/*电影展示*/
-//引入react组件
-var MoviesDisplayer = _react2.default.createClass({
-    displayName: 'MoviesDisplayer',
-    showMsg: function showMsg(msg, loop) {
-        this.refs.innerMessager.showMsg(msg, loop);
-    },
-
-    render: function render() {
-
-        var movieItems = this.props.movies.map(function (item) {
-
-            // set the location
-            var location = {
-                pathname: '/movie/' + item.id,
-                state: { fromDashboard: true }
-
-                // history.push(location);
-                // history.replace(location)
-            };return _react2.default.createElement(
-                'li',
-                { className: 'movie_item animated flipInX', key: item.id },
-                _react2.default.createElement(
-                    'div',
-                    { className: 'movie_img_div' },
-                    _react2.default.createElement(
-                        _reactRouterDom.Link,
-                        { to: location, className: 'aLink' },
-                        _react2.default.createElement('img', { src: LOADING_IMG, 'data-original': item.imgUrl })
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'movie_info_div' },
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        _react2.default.createElement(
-                            _reactRouterDom.Link,
-                            { to: location, className: 'aLink movie_name_a' },
-                            item.name
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'movie_actor_list_div' },
-                        _react2.default.createElement(_actors_list2.default, { whenThereHaveNotActor: this.props.whenThereHaveNotActor,
-                            actors: item.actors })
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        _react2.default.createElement(_director2.default, { whenThereHaveNotDirector: this.props.whenThereHaveNotDirector,
-                            director: item.director })
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        '\u8BC4\u5206\uFF1A',
-                        item.score
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        '\u64AD\u653E\uFF1A',
-                        item.watchNum,
-                        '\u6B21'
-                    )
-                )
-            );
-        }.bind(this));
-        return _react2.default.createElement(
-            'ul',
-            { id: 'movies_list_ul' },
-            _react2.default.createElement(_inner_messager2.default, { defaultTip: this.props.defaultMovieTip, ref: 'innerMessager' }),
-            movieItems,
-            _react2.default.createElement('li', { className: 'clear' })
-        );
-    }
-});
 /*一组电影tag*/
 var MovieTagGroup = _react2.default.createClass({
     displayName: 'MovieTagGroup',
@@ -27966,7 +27891,7 @@ var MovieListPage = _react2.default.createClass({
                 _react2.default.createElement(
                     'div',
                     { id: 'movies_display_div' },
-                    _react2.default.createElement(MoviesDisplayer, { movies: this.state.movies.list,
+                    _react2.default.createElement(_movies_displayer2.default, { movies: this.state.movies.list,
                         defaultMovieTip: this.state.whenMovieIsLoading,
                         whenThereHaveNotActor: this.state.whenThereHaveNotActor,
                         whenThereHaveNotDirector: this.state.whenThereHaveNotDirector,
@@ -28291,7 +28216,7 @@ exports = module.exports = __webpack_require__(10)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n.clickSearchBtn {\n  background-color: \"rgb(61,158,255)\";\n  color: white; }\n\n#fragment_index_center_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #fragment_index_center_content > * {\n    padding: 20px 20px;\n    box-sizing: border-box; }\n  #fragment_index_center_content #movie_type_div {\n    margin-top: 20px;\n    width: 100%;\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    box-sizing: border-box;\n    /*#tagTip{\n      width:100%;\n      text-align: center;\n      height: 15px;\n    }*/ }\n    #fragment_index_center_content #movie_type_div .type_item {\n      margin: 12px 0px; }\n      #fragment_index_center_content #movie_type_div .type_item > * {\n        display: inline; }\n      #fragment_index_center_content #movie_type_div .type_item label {\n        display: inline;\n        width: 20%; }\n      #fragment_index_center_content #movie_type_div .type_item ul {\n        width: 80%;\n        display: inline;\n        text-align: left;\n        list-style-type: none; }\n        #fragment_index_center_content #movie_type_div .type_item ul .currt {\n          background-color: rgb(61,158,255);\n          border-radius: 99px; }\n          #fragment_index_center_content #movie_type_div .type_item ul .currt > a {\n            color: white; }\n        #fragment_index_center_content #movie_type_div .type_item ul li {\n          text-align: center;\n          margin: 0px 5px;\n          padding: 2px 5px;\n          box-sizing: border-box;\n          cursor: pointer;\n          display: inline; }\n          #fragment_index_center_content #movie_type_div .type_item ul li {\n            background-color: white;\n            border-radius: 99px;\n            border: 1px solid rgb(61,158,255); }\n            #fragment_index_center_content #movie_type_div .type_item ul li > a {\n              color: rgb(61,158,255); }\n          #fragment_index_center_content #movie_type_div .type_item ul li:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_type_div .type_item ul li:hover > a {\n              background-color: rgb(61,158,255);\n              color: white; }\n  #fragment_index_center_content #movie_list_div {\n    margin-top: 20px;\n    width: 100%;\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    box-sizing: border-box;\n    /*分割线*/ }\n    #fragment_index_center_content #movie_list_div #head {\n      width: 100%;\n      height: 30px; }\n      #fragment_index_center_content #movie_list_div #head > div {\n        display: block;\n        float: left;\n        height: 30px;\n        line-height: 30px; }\n      #fragment_index_center_content #movie_list_div #head #sort_div {\n        width: 50%;\n        text-align: left; }\n        #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways {\n          display: inline;\n          list-style-type: none; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li {\n            margin: 0px 5px;\n            padding: 2px 5px;\n            box-sizing: border-box;\n            display: inline;\n            cursor: pointer;\n            transition: all 500ms; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover {\n              background-color: rgb(61,158,255);\n              border-radius: 99px; }\n              #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover > a {\n                color: white; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt > a {\n              color: white; }\n      #fragment_index_center_content #movie_list_div #head #search_div {\n        width: 40%;\n        text-align: right;\n        /*btn*/ }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_text {\n          width: 50%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          background-image: url(\"/frontend/image/icon_zoom.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          padding-left: 30px;\n          box-sizing: border-box;\n          margin-right: 0px;\n          border: 1px solid rgb(61,158,255);\n          border-right: 0px; }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn {\n          width: 20%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          cursor: pointer;\n          border: 1px solid rgb(61,158,255);\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn:hover {\n            background-color: rgb(61,158,255);\n            color: white; }\n      #fragment_index_center_content #movie_list_div #head #total_div {\n        width: 10%;\n        text-align: right; }\n    #fragment_index_center_content #movie_list_div #line {\n      height: 1px;\n      background-color: rgb(241,242,243);\n      margin: 20px 0px; }\n    #fragment_index_center_content #movie_list_div #movies_display_div {\n      width: 100%; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul {\n        width: 100%;\n        display: inline;\n        list-style-type: none;\n        width: 100%;\n        /*#movieTip{\n          width:100%;\n          text-align: center;\n          height: 15px;\n        }*/ }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item {\n          width: 20%;\n          border: none;\n          outline: none;\n          padding: 1.5%;\n          box-sizing: border-box;\n          display: inline-block;\n          float: left; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a {\n            display: block;\n            width: 100%; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_img_div a img {\n              width: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div {\n            width: 100%;\n            height: auto; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div {\n              width: 100%;\n              display: block;\n              margin: 2px 0px; }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div {\n              white-space: nowrap;\n              overflow: hidden;\n              text-overflow: ellipsis;\n              display: block; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div {\n        margin: 80px 0px;\n        width: 100%;\n        text-align: center; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul {\n          list-style: none;\n          display: inline; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n            display: inline-block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            height: auto;\n            width: auto; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n          overflow: hidden;\n          margin: 0px 5px; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li {\n          border: 1px solid rgb(241,242,243);\n          height: auto;\n          cursor: pointer;\n          text-align: left;\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li a {\n            padding: 8px 15px;\n            box-sizing: border-box;\n            display: block;\n            width: 100%;\n            height: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover {\n            background-color: rgb(61,158,255); }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover a {\n              color: white; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt {\n          background-color: rgb(61,158,255); }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt a {\n            color: white; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n.clickSearchBtn {\n  background-color: \"rgb(61,158,255)\";\n  color: white; }\n\n#fragment_index_center_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #fragment_index_center_content > * {\n    padding: 20px 20px;\n    box-sizing: border-box; }\n  #fragment_index_center_content #movie_type_div {\n    margin-top: 20px;\n    width: 100%;\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    box-sizing: border-box;\n    /*#tagTip{\n      width:100%;\n      text-align: center;\n      height: 15px;\n    }*/ }\n    #fragment_index_center_content #movie_type_div .type_item {\n      margin: 12px 0px; }\n      #fragment_index_center_content #movie_type_div .type_item > * {\n        display: inline; }\n      #fragment_index_center_content #movie_type_div .type_item label {\n        display: inline;\n        width: 20%; }\n      #fragment_index_center_content #movie_type_div .type_item ul {\n        width: 80%;\n        display: inline;\n        text-align: left;\n        list-style-type: none; }\n        #fragment_index_center_content #movie_type_div .type_item ul .currt {\n          background-color: rgb(61,158,255);\n          border-radius: 99px; }\n          #fragment_index_center_content #movie_type_div .type_item ul .currt > a {\n            color: white; }\n        #fragment_index_center_content #movie_type_div .type_item ul li {\n          text-align: center;\n          margin: 0px 5px;\n          padding: 2px 5px;\n          box-sizing: border-box;\n          cursor: pointer;\n          display: inline; }\n          #fragment_index_center_content #movie_type_div .type_item ul li {\n            background-color: white;\n            border-radius: 99px;\n            border: 1px solid rgb(61,158,255); }\n            #fragment_index_center_content #movie_type_div .type_item ul li > a {\n              color: rgb(61,158,255); }\n          #fragment_index_center_content #movie_type_div .type_item ul li:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_type_div .type_item ul li:hover > a {\n              background-color: rgb(61,158,255);\n              color: white; }\n  #fragment_index_center_content #movie_list_div {\n    margin-top: 20px;\n    width: 100%;\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    box-sizing: border-box;\n    /*分割线*/ }\n    #fragment_index_center_content #movie_list_div #head {\n      width: 100%;\n      height: 30px; }\n      #fragment_index_center_content #movie_list_div #head > div {\n        display: block;\n        float: left;\n        height: 30px;\n        line-height: 30px; }\n      #fragment_index_center_content #movie_list_div #head #sort_div {\n        width: 50%;\n        text-align: left; }\n        #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways {\n          display: inline;\n          list-style-type: none; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li {\n            margin: 0px 5px;\n            padding: 2px 5px;\n            box-sizing: border-box;\n            display: inline;\n            cursor: pointer;\n            transition: all 500ms; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover {\n              background-color: rgb(61,158,255);\n              border-radius: 99px; }\n              #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways li:hover > a {\n                color: white; }\n          #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt {\n            background-color: rgb(61,158,255);\n            border-radius: 99px; }\n            #fragment_index_center_content #movie_list_div #head #sort_div #sort_ways .currt > a {\n              color: white; }\n      #fragment_index_center_content #movie_list_div #head #search_div {\n        width: 40%;\n        text-align: right;\n        /*btn*/ }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_text {\n          width: 50%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          background-image: url(\"/frontend/image/icon_zoom.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          padding-left: 30px;\n          box-sizing: border-box;\n          margin-right: 0px;\n          border: 1px solid rgb(61,158,255);\n          border-right: 0px; }\n        #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn {\n          width: 20%;\n          height: 100%;\n          line-height: 100%;\n          background-color: white;\n          border-radius: 0px;\n          /*省略所有浏览器前缀*/\n          box-sizing: border-box;\n          cursor: pointer;\n          border: 1px solid rgb(61,158,255);\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #head #search_div #fragment_head_nav_search_btn:hover {\n            background-color: rgb(61,158,255);\n            color: white; }\n      #fragment_index_center_content #movie_list_div #head #total_div {\n        width: 10%;\n        text-align: right; }\n    #fragment_index_center_content #movie_list_div #line {\n      height: 1px;\n      background-color: rgb(241,242,243);\n      margin: 20px 0px; }\n    #fragment_index_center_content #movie_list_div #movies_display_div {\n      width: 100%; }\n      #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div {\n        margin: 80px 0px;\n        width: 100%;\n        text-align: center; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul {\n          list-style: none;\n          display: inline; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n            display: inline-block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            height: auto;\n            width: auto; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li {\n          overflow: hidden;\n          margin: 0px 5px; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li {\n          border: 1px solid rgb(241,242,243);\n          height: auto;\n          cursor: pointer;\n          text-align: left;\n          transition: all 500ms; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li a {\n            padding: 8px 15px;\n            box-sizing: border-box;\n            display: block;\n            width: 100%;\n            height: 100%; }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover {\n            background-color: rgb(61,158,255); }\n            #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.pager_li:hover a {\n              color: white; }\n        #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt {\n          background-color: rgb(61,158,255); }\n          #fragment_index_center_content #movie_list_div #movies_display_div #movie_list_pager_div ul li.currt a {\n            color: white; }\n", ""]);
 
 // exports
 
@@ -28377,9 +28302,9 @@ var _actors_details_area = __webpack_require__(262);
 
 var _actors_details_area2 = _interopRequireDefault(_actors_details_area);
 
-var _movie_player = __webpack_require__(274);
+var _movies_player = __webpack_require__(277);
 
-var _movie_player2 = _interopRequireDefault(_movie_player);
+var _movies_player2 = _interopRequireDefault(_movies_player);
 
 var _plain_panel_title = __webpack_require__(271);
 
@@ -28600,7 +28525,7 @@ var MovieInfoPage = _react2.default.createClass({
                 _react2.default.createElement(
                     'div',
                     { id: 'm_wrapper', ref: 'm_wrapper' },
-                    _react2.default.createElement(_movie_player2.default, { whenPlayerIsLoading: '',
+                    _react2.default.createElement(_movies_player2.default, { whenPlayerIsLoading: '',
                         moviePlayerPanelTitle: '',
                         targetMovieId: this.state.targetMovieId })
                 ),
@@ -29363,7 +29288,48 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 
 /***/ }),
-/* 274 */
+/* 274 */,
+/* 275 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(276);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(11)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./movie_player.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./movie_player.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 276 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(10)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#m {\n  width: 100%; }\n  #m #m_player {\n    width: 100%; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29503,13 +29469,119 @@ var MoviePlayer = _react2.default.createClass({
 exports.default = MoviePlayer;
 
 /***/ }),
-/* 275 */
+/* 278 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(59);
+
+var _inner_messager = __webpack_require__(66);
+
+var _inner_messager2 = _interopRequireDefault(_inner_messager);
+
+__webpack_require__(279);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*电影展示*/
+var MoviesDisplayer = _react2.default.createClass({
+    displayName: 'MoviesDisplayer',
+    showMsg: function showMsg(msg, loop) {
+        this.refs.innerMessager.showMsg(msg, loop);
+    },
+
+    render: function render() {
+
+        var movieItems = this.props.movies.map(function (item) {
+
+            // set the location
+            var location = {
+                pathname: '/movie/' + item.id,
+                state: { fromDashboard: true }
+
+                // history.push(location);
+                // history.replace(location)
+            };return _react2.default.createElement(
+                'li',
+                { className: 'movie_item animated flipInX', key: item.id },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'movie_img_div' },
+                    _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        { to: location, className: 'aLink' },
+                        _react2.default.createElement('img', { src: LOADING_IMG, 'data-original': item.imgUrl })
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'movie_info_div' },
+                    _react2.default.createElement(
+                        'div',
+                        null,
+                        _react2.default.createElement(
+                            _reactRouterDom.Link,
+                            { to: location, className: 'aLink movie_name_a' },
+                            item.name
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'movie_actor_list_div' },
+                        _react2.default.createElement(ActorsList, { whenThereHaveNotActor: this.props.whenThereHaveNotActor,
+                            actors: item.actors })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        null,
+                        _react2.default.createElement(Director, { whenThereHaveNotDirector: this.props.whenThereHaveNotDirector,
+                            director: item.director })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        null,
+                        '\u8BC4\u5206\uFF1A',
+                        item.score
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        null,
+                        '\u64AD\u653E\uFF1A',
+                        item.watchNum,
+                        '\u6B21'
+                    )
+                )
+            );
+        }.bind(this));
+        return _react2.default.createElement(
+            'ul',
+            { id: 'movies_list_ul' },
+            _react2.default.createElement(_inner_messager2.default, { defaultTip: this.props.defaultMovieTip, ref: 'innerMessager' }),
+            movieItems,
+            _react2.default.createElement('li', { className: 'clear' })
+        );
+    }
+}); //引入react组件
+exports.default = MoviesDisplayer;
+
+/***/ }),
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(276);
+var content = __webpack_require__(280);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(11)(content, {});
@@ -29518,8 +29590,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./movie_player.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./movie_player.scss");
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./movies_displayer.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./movies_displayer.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -29529,7 +29601,7 @@ if(false) {
 }
 
 /***/ }),
-/* 276 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)();
@@ -29537,7 +29609,7 @@ exports = module.exports = __webpack_require__(10)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#m {\n  width: 100%; }\n  #m #m_player {\n    width: 100%; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#movies_list_ul {\n  width: 100%;\n  display: inline;\n  list-style-type: none;\n  width: 100%;\n  /*#movieTip{\n    width:100%;\n    text-align: center;\n    height: 15px;\n  }*/ }\n  #movies_list_ul li.movie_item {\n    width: 20%;\n    border: none;\n    outline: none;\n    padding: 1.5%;\n    box-sizing: border-box;\n    display: inline-block;\n    float: left; }\n    #movies_list_ul li.movie_item .movie_img_div a {\n      display: block;\n      width: 100%; }\n      #movies_list_ul li.movie_item .movie_img_div a img {\n        width: 100%; }\n    #movies_list_ul li.movie_item .movie_info_div {\n      width: 100%;\n      height: auto; }\n      #movies_list_ul li.movie_item .movie_info_div div {\n        width: 100%;\n        display: block;\n        margin: 2px 0px; }\n      #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div {\n        white-space: nowrap;\n        overflow: hidden;\n        text-overflow: ellipsis;\n        display: block; }\n", ""]);
 
 // exports
 

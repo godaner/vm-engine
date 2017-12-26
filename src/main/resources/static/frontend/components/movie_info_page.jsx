@@ -6,7 +6,7 @@ import Director from "./director";
 import TagsOfMovie from "./tags_of_movie";
 import FlexText from "./flex_text";
 import ActorsDetailsArea from "./actors_details_area";
-import MoviePlayer from "./movie_player";
+import MoviePlayer from "./movies_player";
 import PlainPanelTitle from "./plain_panel_title";
 /*import '../../../public/js/ckplayer/ckplayer/ckplayer.js';*/
 
