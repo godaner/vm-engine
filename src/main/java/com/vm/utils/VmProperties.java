@@ -18,6 +18,18 @@ public class VmProperties {
     public static String VM_MOVIE_IMG_DEFAULT_WIDTH;
     public static String VM_MOVIE_SRC_PATH;
     public static String VM_USER_IMG_PATH;
+    public static String VM_USER_IMG_DEFAULT_NAME;
+    public static String VM_USER_IMG_DEFAULT_WIDTH;
+
+    @Value("${vm.user.img.default.name}")
+    public void setVmUserImgDefaultName(String vmUserImgDefaultName) {
+        VM_USER_IMG_DEFAULT_NAME = vmUserImgDefaultName;
+    }
+
+    @Value("${vm.user.img.default.width}")
+    public void setVmUserImgDefaultWidth(String vmUserImgDefaultWidth) {
+        VM_USER_IMG_DEFAULT_WIDTH = vmUserImgDefaultWidth;
+    }
 
     @Value("${vm.movie.img.path}")
     public void setVmMovieImgPath(String vmMovieImgPath) {
@@ -28,7 +40,6 @@ public class VmProperties {
     public void setVmMovieSrcDefaultName(String vmMovieSrcDefaultName) {
         VM_MOVIE_SRC_DEFAULT_NAME = vmMovieSrcDefaultName;
     }
-
 
 
     @Value("${vm.movie.img.default.name}")

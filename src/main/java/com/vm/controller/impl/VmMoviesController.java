@@ -79,7 +79,6 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      */
     @RequestMapping(value = "/img/{fileId}", method = RequestMethod.GET)
     public void getMovieImg(@PathVariable("fileId") Long fileId, VmMoviesQueryBean query) throws Exception {
-
         service.sendMovieImg(fileId, query, getResponse());
 
     }

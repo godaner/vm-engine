@@ -18,6 +18,7 @@ var MovieInfoPage = React.createClass({
             whenThereHaveNotTag: "无标签",
             whenTagIsLoading: "正在加载标签信息",
             movieDescriptionTitle: "电影简介 : ",
+            whenPlayerIsLoading:"正在加载电影资源",
             movieDescriptionTextLength: 100,
             movie: {},
             targetMovieId: this.props.match.params.movieId
@@ -60,8 +61,12 @@ var MovieInfoPage = React.createClass({
             var options = {};
             options.poster = result.data.posterUrl;
             options.video = videos;
-            //初始化播放器
-            this.initPlayer(options)
+            //init movie player
+            this.initPlayer(options);
+
+            //cancel tip
+            this.showMoviePlayerTip();
+
         }.bind(this));
 
     },
@@ -103,7 +108,7 @@ var MovieInfoPage = React.createClass({
 
     getMovie: function (callfun) {
         //show tip
-        this.showTip(this.state.whenMovieIsLoading);
+        this.showMovieInfoTip(this.state.whenMovieIsLoading);
 
 
         var movieId = this.state.targetMovieId;
@@ -116,7 +121,7 @@ var MovieInfoPage = React.createClass({
 
 
             //close tip
-            this.showTip();
+            this.showMovieInfoTip();
 
             if (fail(result.code)) {
                 return;
@@ -144,8 +149,11 @@ var MovieInfoPage = React.createClass({
             }
         }.bind(this));
     },
-    showTip(msg, loop) {
+    showMovieInfoTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
+    },
+    showMoviePlayerTip(msg, loop) {
+        this.refs.player_inner_messager.showMsg(msg, loop);
     },
     updateMovieDescription(text) {
         this.refs.flex_text.updateText(text);
@@ -223,6 +231,8 @@ var MovieInfoPage = React.createClass({
                 <div id="movie_player" className="clearfix">
 
                     <div id="m" ref="m">
+                        <InnerMessager defaultTip={this.state.whenPlayerIsLoading}
+                                       ref="player_inner_messager"/>
                         <div id="m_player"
                              ref="m_player"></div>
                     </div>

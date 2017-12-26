@@ -157,7 +157,8 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             input = new FileInputStream(f);
             output = response.getOutputStream();
             //设置响应的媒体类型
-//            response.setHeader("Content-Type", "image/jped");
+//            response.setHeader("Content-Type", "g
+// ");
             response.setContentType(file.getContentType()); // 设置返回的文件类型
             IOUtils.copy(input, output);
         } catch (IOException e) {
