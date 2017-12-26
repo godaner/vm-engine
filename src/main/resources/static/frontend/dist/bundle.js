@@ -7733,7 +7733,7 @@ var InnerMessager = _react2.default.createClass({
 
         //default tip
         var defaultTip = "正在加载";
-        if (this.props.defaultTip != undefined && this.props.defaultTip != null) {
+        if (!isEmpty(this.props.defaultTip)) {
             defaultTip = this.props.defaultTip;
         }
 
@@ -12030,6 +12030,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ActorsList = _react2.default.createClass({
     displayName: "ActorsList",
 
+    getInitialState: function getInitialState() {
+        return { whenThereHaveNotActor: "无相关演员" };
+    },
     render: function render() {
         //map
         var listActors = function listActors(actors) {
@@ -12058,7 +12061,7 @@ var ActorsList = _react2.default.createClass({
             return res;
         };
         // tip string
-        var actorsStr = this.props.whenThereHaveNotActor;
+        var actorsStr = this.state.whenThereHaveNotActor;
         // c(actorsStr);
         var actors = this.props.actors;
         if (!isEmptyList(actors)) {
@@ -12075,7 +12078,7 @@ var ActorsList = _react2.default.createClass({
             "span",
             { title: actorsStr },
             "\u4E3B\u6F14\uFF1A",
-            isEmptyList(this.props.actors) ? this.props.whenThereHaveNotActor : listActors(this.props.actors)
+            isEmptyList(this.props.actors) ? this.state.whenThereHaveNotActor : listActors(this.props.actors)
         );
     }
 }); //引入react组件
@@ -12105,12 +12108,8 @@ var Director = _react2.default.createClass({
     displayName: "Director",
 
     getInitialState: function getInitialState() {
-        //when have not director show what?
-        var whenThereHaveNotDirector = this.props.whenThereHaveNotDirector;
-        if (isEmpty(whenThereHaveNotDirector)) {
-            whenThereHaveNotDirector = "无导演";
-        }
-        return { whenThereHaveNotDirector: whenThereHaveNotDirector };
+
+        return { whenThereHaveNotDirector: "无相关导演" };
     },
     render: function render() {
         var _this = this;
@@ -28324,7 +28323,7 @@ var MovieInfoPage = _react2.default.createClass({
             this.setState(state);
 
             //update movie description
-            this.updateMovieDescription(state.movie.description);
+            // this.updateMovieDescription(state.movie.description);
 
             //lazy load img
             this.lazyLoadImg();
@@ -28338,9 +28337,6 @@ var MovieInfoPage = _react2.default.createClass({
     },
     showMovieInfoTip: function showMovieInfoTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
-    },
-    updateMovieDescription: function updateMovieDescription(text) {
-        this.refs.flex_text.updateText(text);
     },
 
     render: function render() {
@@ -28424,14 +28420,12 @@ var MovieInfoPage = _react2.default.createClass({
                             _react2.default.createElement(
                                 'li',
                                 null,
-                                _react2.default.createElement(_director2.default, { whenThereHaveNotDirector: this.state.whenThereHaveNotDirector,
-                                    director: this.state.movie.director })
+                                _react2.default.createElement(_director2.default, { director: this.state.movie.director })
                             ),
                             _react2.default.createElement(
                                 'li',
                                 null,
-                                _react2.default.createElement(_actors_list2.default, { whenThereHaveNotActor: this.state.whenThereHaveNotActor,
-                                    actors: this.state.movie.actors })
+                                _react2.default.createElement(_actors_list2.default, { actors: this.state.movie.actors })
                             ),
                             _react2.default.createElement(
                                 'li',
@@ -28447,17 +28441,14 @@ var MovieInfoPage = _react2.default.createClass({
                             _react2.default.createElement(
                                 'li',
                                 { id: 'description_li' },
-                                _react2.default.createElement(_flex_text2.default, { ref: 'flex_text',
-                                    title: this.state.movieDescriptionTitle,
-                                    des: this.state.movie.description,
+                                _react2.default.createElement(_flex_text2.default, { title: this.state.movieDescriptionTitle,
+                                    text: this.state.movie.description,
                                     maxTextLength: this.state.movieDescriptionTextLength })
                             ),
                             _react2.default.createElement(
                                 'li',
                                 { id: 'tags_li' },
-                                _react2.default.createElement(_tags_of_movie2.default, { movieId: this.state.targetMovieId,
-                                    whenThereHaveNotTag: this.state.whenThereHaveNotTag,
-                                    whenTagIsLoading: this.state.whenTagIsLoading })
+                                _react2.default.createElement(_tags_of_movie2.default, { movieId: this.state.targetMovieId })
                             )
                         )
                     )
@@ -28559,7 +28550,8 @@ var TagsOfMovie = _react2.default.createClass({
 
     getInitialState: function getInitialState() {
         return {
-            whenTagIsLoading: this.props.whenTagIsLoading,
+            whenTagIsLoading: "正在加载标签信息",
+            whenThereHaveNotTag: "无相关标签信息",
             movieId: this.props.movieId,
             tags: []
         };
@@ -28574,6 +28566,10 @@ var TagsOfMovie = _react2.default.createClass({
             // c(result);
             //failure
             if (fail(result.code)) {
+                return;
+            }
+            if (isEmptyList(result.data.list)) {
+                this.showTagTip(this.state.whenThereHaveNotTag, false);
                 return;
             }
 
@@ -28698,28 +28694,17 @@ var FlexText = _react2.default.createClass({
         if (!isEmpty(this.props.maxTextLength)) {
             defaultMaxTextLength = this.props.maxTextLength;
         }
-        var defaultText = "there is have not content";
-        // c(this.props);
-        if (!isEmpty(this.props.text)) {
-            defaultText = this.props.text;
-        }
-        // c(defaultText);
-        var defaultTitle = "there is have not title";
-        if (!isEmpty(this.props.title)) {
-            defaultTitle = this.props.title;
-        }
-        return { text: defaultText, maxTextLength: defaultMaxTextLength, title: defaultTitle };
-    },
-    updateText: function updateText(text) {
-        var state = this.state;
-        state.text = text;
-        this.setState(state);
+
+        return { maxTextLength: defaultMaxTextLength };
     },
     render: function render() {
-        // c(1);
+
         //computer allText and shortText
         var maxTextLength = this.state.maxTextLength;
-        var allText = this.state.text;
+        var allText = this.props.text;
+        if (isEmpty(allText)) {
+            allText = "";
+        }
         var shortText = allText;
         if (maxTextLength < allText.length) {
             shortText = allText.substring(0, maxTextLength) + "...";
@@ -28727,7 +28712,7 @@ var FlexText = _react2.default.createClass({
         return _react2.default.createElement(
             "div",
             { id: "flex_text_content", title: allText },
-            this.state.title,
+            this.props.title,
             shortText
         );
     }

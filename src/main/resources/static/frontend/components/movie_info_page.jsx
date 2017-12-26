@@ -81,7 +81,7 @@ var MovieInfoPage = React.createClass({
             this.setState(state);
 
             //update movie description
-            this.updateMovieDescription(state.movie.description);
+            // this.updateMovieDescription(state.movie.description);
 
             //lazy load img
             this.lazyLoadImg();
@@ -96,9 +96,6 @@ var MovieInfoPage = React.createClass({
     },
     showMovieInfoTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
-    },
-    updateMovieDescription(text) {
-        this.refs.flex_text.updateText(text);
     },
     render: function () {
 
@@ -139,13 +136,11 @@ var MovieInfoPage = React.createClass({
 
                                 <li>
 
-                                    <Director whenThereHaveNotDirector={this.state.whenThereHaveNotDirector}
-                                              director={this.state.movie.director}/>
+                                    <Director director={this.state.movie.director}/>
 
                                 </li>
                                 <li>
-                                    <ActorsList whenThereHaveNotActor={this.state.whenThereHaveNotActor}
-                                                actors={this.state.movie.actors}/>
+                                    <ActorsList actors={this.state.movie.actors}/>
                                 </li>
 
                                 <li>
@@ -154,16 +149,13 @@ var MovieInfoPage = React.createClass({
 
                                 <li id="description_li">
                                     {/*电影简介 : <a href="javascript:void(0);">{this.state.movie.description}</a>*/}
-                                    <FlexText ref="flex_text"
-                                              title={this.state.movieDescriptionTitle}
-                                              des={this.state.movie.description}
+                                    <FlexText title={this.state.movieDescriptionTitle}
+                                              text={this.state.movie.description}
                                               maxTextLength={this.state.movieDescriptionTextLength}/>
                                 </li>
 
                                 <li id="tags_li">
-                                    <TagsOfMovie movieId={this.state.targetMovieId}
-                                                 whenThereHaveNotTag={this.state.whenThereHaveNotTag}
-                                                 whenTagIsLoading={this.state.whenTagIsLoading}></TagsOfMovie>
+                                    <TagsOfMovie movieId={this.state.targetMovieId}></TagsOfMovie>
                                 </li>
                             </ul>
                         </div>

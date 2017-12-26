@@ -5,7 +5,8 @@ import InnerMessager from './inner_messager';
 var TagsOfMovie = React.createClass({
     getInitialState: function () {
         return {
-            whenTagIsLoading: this.props.whenTagIsLoading,
+            whenTagIsLoading: "正在加载标签信息",
+            whenThereHaveNotTag:"无相关标签信息",
             movieId: this.props.movieId,
             tags: []
         };
@@ -22,6 +23,11 @@ var TagsOfMovie = React.createClass({
             if (fail(result.code)) {
                 return;
             }
+            if(isEmptyList(result.data.list)){
+                this.showTagTip(this.state.whenThereHaveNotTag,false);
+                return ;
+            }
+
 
             var state = this.state;
             state.tags = result.data.list;

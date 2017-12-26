@@ -9,7 +9,7 @@ var InnerMessager = React.createClass({
 
         //default tip
         var defaultTip = "正在加载";
-        if (this.props.defaultTip != undefined && this.props.defaultTip != null) {
+        if (!isEmpty(this.props.defaultTip)) {
             defaultTip = this.props.defaultTip;
         }
 

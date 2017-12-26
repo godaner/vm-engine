@@ -2,6 +2,9 @@ import React from 'react';  //引入react组件
 import "../scss/actors_list.scss";
 /*演员展示*/
 var ActorsList = React.createClass({
+    getInitialState: function () {
+        return {whenThereHaveNotActor: "无相关演员"};
+    },
     render: function () {
         //map
         var listActors = (actors) => {
@@ -18,7 +21,7 @@ var ActorsList = React.createClass({
             return res
         }
         // tip string
-        var actorsStr = this.props.whenThereHaveNotActor;
+        var actorsStr = this.state.whenThereHaveNotActor;
         // c(actorsStr);
         var actors = this.props.actors;
         if (!isEmptyList(actors)) {
@@ -36,7 +39,7 @@ var ActorsList = React.createClass({
                     主演：
 
                 {
-                    isEmptyList(this.props.actors) ? this.props.whenThereHaveNotActor : listActors(this.props.actors)
+                    isEmptyList(this.props.actors) ? this.state.whenThereHaveNotActor : listActors(this.props.actors)
                 }
                 </span>
         );

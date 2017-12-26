@@ -3,12 +3,8 @@ import "../scss/director.scss";
 /*导演展示*/
 var Director = React.createClass({
     getInitialState: function () {
-        //when have not director show what?
-        var whenThereHaveNotDirector = this.props.whenThereHaveNotDirector;
-        if (isEmpty(whenThereHaveNotDirector)) {
-            whenThereHaveNotDirector = "无导演";
-        }
-        return {whenThereHaveNotDirector: whenThereHaveNotDirector};
+
+        return {whenThereHaveNotDirector: "无相关导演"};
     },
     render: function () {
         //a api to show the director.jsx
