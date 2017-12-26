@@ -1,0 +1,22 @@
+@import "frontend-default.scss";
+
+#plain_panel_title_content {
+  //$height: 20px;
+  @include defaultWidth;
+  //height: $height;
+  //line-height: $height;
+  #title_div {
+    @include defaultWidth;
+    font-size: 16px;
+    line-height: 16px;
+    color: unquote($defaultLightGrayColorRgb);
+  }
+  #split_line {
+    height: 1px;
+    border: none;
+    background-color: unquote($defaultLightGrayRgb);
+    @include defaultWidth;
+    margin: 10px 0px;
+  }
+}
+

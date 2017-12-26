@@ -1,23 +1,23 @@
 @import "frontend-default.scss";
 
 #actors_details_area {
-  @include defaultWidth;
+  margin-left: 10%;
+  width:90%;
   @include defaultHUl;
+  overflow: hidden;
   & > ul {
 
     & > li {
       width: 25%;
       & > a {
-        $margin:20px;
-        width: 100%;
         display: block;
         & > img {
           width:80%;
-          margin-left: 10%;
+          margin-right: 20%;
         }
         & > div {
           width:80%;
-          margin-left: 10%;
+          margin-right: 20%;
           background-color: red;
           color: black;
           text-align: center;

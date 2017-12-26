@@ -28979,19 +28979,34 @@ var _inner_messager2 = _interopRequireDefault(_inner_messager);
 
 __webpack_require__(263);
 
+var _plain_panel_title = __webpack_require__(271);
+
+var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*演员详情展示*/
-//引入react组件
 var ActorsDetailsArea = _react2.default.createClass({
     displayName: "ActorsDetailsArea",
 
 
     getInitialState: function getInitialState() {
-        return { whenActorsDetailsIsLoading: "正在加载演员信息" };
+        return {
+            whenActorsDetailsIsLoading: "正在加载演员信息",
+            title: "相关演员"
+        };
     },
     componentDidMount: function componentDidMount() {
+        //add resize event listener
+        window.addEventListener('resize', this.onWindowResize);
+        //get filmmakers
         this.getFilmmakers();
+    },
+    componentWillUnmount: function componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+    },
+    onWindowResize: function onWindowResize() {
+        this.adjustUI();
     },
     getFilmmakers: function getFilmmakers() {
         var url = "/movie/filmmaker/" + this.props.movieId;
@@ -29003,7 +29018,15 @@ var ActorsDetailsArea = _react2.default.createClass({
             if (fail(result.code)) {
                 return;
             }
+            this.adjustUI();
         }.bind(this));
+    },
+    adjustUI: function adjustUI() {
+        var $actors_details_area = $(this.refs.actors_details_area);
+        var w = $($actors_details_area.find("img")[0]).width();
+        c(w);
+        var h = w;
+        $actors_details_area.find("img").height(h);
     },
     showTip: function showTip(msg, loop) {
         this.refs.actors_details_area_inner_messager.showMsg(msg, loop);
@@ -29013,9 +29036,10 @@ var ActorsDetailsArea = _react2.default.createClass({
 
         return _react2.default.createElement(
             "div",
-            { id: "actors_details_area" },
+            { id: "actors_details_area", ref: "actors_details_area" },
             _react2.default.createElement(_inner_messager2.default, { defaultTip: this.state.whenActorsDetailsIsLoading,
                 ref: "actors_details_area_inner_messager" }),
+            _react2.default.createElement(_plain_panel_title2.default, { title: this.state.title }),
             _react2.default.createElement(
                 "ul",
                 null,
@@ -29025,11 +29049,11 @@ var ActorsDetailsArea = _react2.default.createClass({
                     _react2.default.createElement(
                         "a",
                         { href: "#" },
-                        _react2.default.createElement("img", { src: "/filmmaker/img/1" }),
+                        _react2.default.createElement("img", { src: "/filmmaker/img/101?imgWidth=200" }),
                         _react2.default.createElement(
                             "div",
                             null,
-                            "zhangke"
+                            "zhangke00"
                         )
                     )
                 ),
@@ -29092,7 +29116,7 @@ var ActorsDetailsArea = _react2.default.createClass({
             )
         );
     }
-});
+}); //引入react组件
 exports.default = ActorsDetailsArea;
 
 /***/ }),
@@ -29130,7 +29154,7 @@ exports = module.exports = __webpack_require__(10)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#actors_details_area {\n  width: 100%; }\n  #actors_details_area ul {\n    list-style: none;\n    display: inline; }\n    #actors_details_area ul li {\n      display: inline-block;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis;\n      height: auto;\n      width: auto; }\n  #actors_details_area > ul > li {\n    width: 25%; }\n    #actors_details_area > ul > li > a {\n      width: 100%;\n      display: block; }\n      #actors_details_area > ul > li > a > img {\n        width: 80%;\n        margin-left: 10%; }\n      #actors_details_area > ul > li > a > div {\n        width: 80%;\n        margin-left: 10%;\n        background-color: red;\n        color: black;\n        text-align: center; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#actors_details_area {\n  margin-left: 10%;\n  width: 90%;\n  overflow: hidden; }\n  #actors_details_area ul {\n    list-style: none;\n    display: inline; }\n    #actors_details_area ul li {\n      display: inline-block;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis;\n      height: auto;\n      width: auto; }\n  #actors_details_area > ul > li {\n    width: 25%; }\n    #actors_details_area > ul > li > a {\n      display: block; }\n      #actors_details_area > ul > li > a > img {\n        width: 80%;\n        margin-right: 20%; }\n      #actors_details_area > ul > li > a > div {\n        width: 80%;\n        margin-right: 20%;\n        background-color: red;\n        color: black;\n        text-align: center; }\n", ""]);
 
 // exports
 
@@ -29342,6 +29366,87 @@ exports = module.exports = __webpack_require__(10)();
 
 // module
 exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#fragment_tail_content {\n  height: 200px;\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243);\n  margin-top: 30px; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 271 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(272);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PlainPanelTitle = _react2.default.createClass({
+    displayName: 'PlainPanelTitle',
+
+    getInitialState: function getInitialState() {
+        var state = { title: this.props.title };
+        return state;
+    },
+    render: function render() {
+        return _react2.default.createElement(
+            'div',
+            { id: 'plain_panel_title_content' },
+            _react2.default.createElement(
+                'div',
+                { id: 'title_div' },
+                this.state.title
+            ),
+            _react2.default.createElement('div', { id: 'split_line' })
+        );
+    }
+}); //引入react组件
+exports.default = PlainPanelTitle; //将App组件导出
+
+/***/ }),
+/* 272 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(273);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(11)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./plain_panel_title.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./plain_panel_title.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 273 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(10)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#plain_panel_title_content {\n  width: 100%; }\n  #plain_panel_title_content #title_div {\n    width: 100%;\n    font-size: 16px;\n    line-height: 16px;\n    color: rgb(153,153,153); }\n  #plain_panel_title_content #split_line {\n    height: 1px;\n    border: none;\n    background-color: rgb(241,242,243);\n    width: 100%;\n    margin: 10px 0px; }\n", ""]);
 
 // exports
 
