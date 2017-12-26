@@ -179,6 +179,7 @@ var MovieInfoPage = React.createClass({
 
 
                     <div className="clearfix" id="movie_info_displayer">
+
                         <div id="movie_img">
                             <img src={LOADING_IMG} data-original={this.state.movie.imgUrl}/>
                         </div>
@@ -234,6 +235,7 @@ var MovieInfoPage = React.createClass({
                                 </li>
                             </ul>
                         </div>
+
                     </div>
 
                 </div>
