@@ -1,19 +1,29 @@
 package com.vm.dao.qo;
 
-import com.vm.dao.po.VmMovies;
-import org.hibernate.validator.constraints.NotBlank;
+import com.vm.validator.group.VmMoviesGroups;
+import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
  * Created by ZhangKe on 2017/12/12.
  */
-public class VmMoviesQueryBean{
+public class VmMoviesQueryBean {
     private String keyword;
+    @NotEmpty(message = "{VmMoviesQueryBean.tagIds.NotEmpty}", groups = VmMoviesGroups.GetAboutTagsMoviesGroup.class)
     private List<Long> tagIds;
+    @NotEmpty(message = "{VmMoviesQueryBean.filmmakerIds.NotEmpty}", groups = VmMoviesGroups.GetAboutFilmmakersMoviesGroup.class)
+    private List<Long> filmmakerIds;
     private Integer tagIdsLength;
     private String imgWidth;
+
+    public List<Long> getFilmmakerIds() {
+        return filmmakerIds;
+    }
+
+    public void setFilmmakerIds(List<Long> filmmakerIds) {
+        this.filmmakerIds = filmmakerIds;
+    }
 
     public Integer getTagIdsLength() {
         return tagIdsLength;

@@ -25,6 +25,12 @@ var MoviesDisplayer = React.createClass({
     showMsg(msg, loop){
         this.refs.innerMessager.showMsg(msg, loop);
     },
+    hideMsg(){
+        this.refs.innerMessager.hide();
+    },
+    hideTip(){
+        this.hideMsg();
+    },
     showDefaultMsg(loop){
         this.refs.innerMessager.showDefaultMsg(loop);
     },

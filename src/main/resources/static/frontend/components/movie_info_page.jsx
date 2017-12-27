@@ -8,6 +8,7 @@ import FlexText from "./flex_text";
 import FilmmakersDetailsArea from "./filmmakers_details_area";
 import MoviePlayer from "./movies_player";
 import MoviesDisplayer from "./movies_displayer";
+import MsgDialog from "./msg_dialog";
 import PlainPanelTitle from "./plain_panel_title";
 /*import '../../../public/js/ckplayer/ckplayer/ckplayer.js';*/
 
@@ -16,14 +17,26 @@ var MovieInfoPage = React.createClass({
         //init state
         return {
             movieDescriptionTitle: "电影简介 : ",
-            whenMovieIsLoading:"加载电影信息",
+            whenMovieIsLoading: "加载电影信息",
             movieDescriptionTextLength: 100,
             movie: {},
             targetMovieId: this.props.match.params.movieId,
             //thisMovieFilmmakerIds:undefined,
             //thisMovieTagIds:undefined,
-            aboutFilmmakersMovies:undefined,
-            aboutTagsMovies:undefined
+            aboutFilmmakersMovies: undefined,
+            aboutFilmmakersMoviesPage: {
+                size: 10,
+                start: 0,
+                orderBy: "score",
+                orderType: "desc"
+            },
+            aboutTagsMovies: undefined,
+            aboutTagsMoviesPage: {
+                size: 10,
+                start: 0,
+                orderBy: "score",
+                orderType: "desc"
+            }
 
         };
     },
@@ -51,6 +64,9 @@ var MovieInfoPage = React.createClass({
         lazyLoad();
     },
 
+    showDialogMsg(msg){
+        this.refs.index_msg_dialog.showMsg(msg);
+    },
     getMovieBasicInfo: function (callfun) {
         //show tip
         this.showMovieInfoTip(this.state.whenMovieIsLoading);
@@ -97,11 +113,100 @@ var MovieInfoPage = React.createClass({
     showMovieInfoTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
     },
-    getAboutTagsMovies:function(movieFilmmakerIds){
-        c(movieFilmmakerIds);
+    loadingAboutTagsMovies: function () {
+        this.refs.aboutTagsMovies_MoviesDisplayer.loadingMoviesTip();
     },
-    getAboutFilmmakerMovies(movieTagIds){
-        c(movieTagIds);
+    hideAboutTagsMovies: function () {
+        this.refs.aboutTagsMovies_MoviesDisplayer.hideTip();
+    },
+    getAboutTagsMovies: function (movieTags) {
+        //show tip
+        this.loadingAboutTagsMovies();
+
+        //get filmmakerIds
+        var tagIds = [];
+        for (var i = 0; i < movieTags.length; i++) {
+            tagIds.push(movieTags[i].id);
+        }
+        c(tagIds);
+        //ajax
+        var orderBy = this.state.aboutTagsMoviesPage.orderBy;
+        var orderType = this.state.aboutTagsMoviesPage.orderType;
+        var size = this.state.aboutTagsMoviesPage.size;
+        var start = this.state.aboutTagsMoviesPage.start;
+
+        var url = "/movie/about/tag?orderBy="+orderBy+"&orderType="+orderType+"&size="+size+"&start="+start;
+        url = contactUrlWithArray(url, "tagIds", tagIds);
+        // c(url);
+        this.serverRequest = $.get(url, function (result) {
+
+            // c(result);
+
+            //close tip
+            this.hideAboutTagsMovies();
+
+            if (fail(result.code)) {
+                this.showDialogMsg(result.msg);
+                return;
+            }
+
+            var state = this.state;
+
+            //set movie info to state
+
+            state.aboutTagsMovies = result.data.movie;
+
+            this.setState(state);
+
+            //lazy load img
+            this.lazyLoadImg();
+        }.bind(this));
+
+    },
+    loadingAboutFilmmakerMovies: function () {
+        this.refs.aboutFilmmakersMovies_MoviesDisplayer.loadingMoviesTip();
+    },
+    hideAboutFilmmakerMovies: function () {
+        this.refs.aboutFilmmakersMovies_MoviesDisplayer.hideTip();
+    },
+    getAboutFilmmakerMovies(movieFilmmakers){
+        //show tip
+        this.loadingAboutFilmmakerMovies();
+
+        //get filmmakerIds
+        var ids = [];
+        for (var i = 0; i < movieFilmmakers.length; i++) {
+            ids.push(movieFilmmakers[i].id);
+        }
+        //ajax
+        var orderBy = this.state.aboutFilmmakersMoviesPage.orderBy;
+        var orderType = this.state.aboutFilmmakersMoviesPage.orderType;
+        var size = this.state.aboutFilmmakersMoviesPage.size;
+        var start = this.state.aboutFilmmakersMoviesPage.start;
+
+
+        var url = "/movie/about/filmmaker?orderBy="+orderBy+"&orderType="+orderType+"&size="+size+"&start="+start;
+        url = contactUrlWithArray(url, "filmmakerIds", ids);
+        this.serverRequest = $.get(url, function (result) {
+
+            //close tip
+            this.hideAboutFilmmakerMovies();
+
+            if (fail(result.code)) {
+                return;
+            }
+
+            var state = this.state;
+
+            //set movie info to state
+
+            state.aboutFilmmakersMovies = result.data.movie;
+
+            this.setState(state);
+
+            //lazy load img
+            this.lazyLoadImg();
+        }.bind(this));
     },
     render: function () {
 
@@ -186,11 +291,18 @@ var MovieInfoPage = React.createClass({
 
                 </div>
                 <div id="about_filmmakers_movies">
-                    <MoviesDisplayer movies={this.state.aboutFilmmakersMovies}/>
+                    <MoviesDisplayer movies={this.state.aboutFilmmakersMovies}
+                                     ref="aboutFilmmakersMovies_MoviesDisplayer"/>
                 </div>
                 <div id="about_tags_movies">
-                    <MoviesDisplayer movies={this.state.aboutTagsMovies}/>
+                    <MoviesDisplayer movies={this.state.aboutTagsMovies}
+                                     ref="aboutTagsMovies_MoviesDisplayer"/>
                 </div>
+
+                {
+                    /*信息框*/
+                }
+                <MsgDialog ref="index_msg_dialog"/>
             </div>
         );
     }

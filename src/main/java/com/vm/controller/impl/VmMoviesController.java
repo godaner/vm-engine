@@ -1,16 +1,15 @@
 package com.vm.controller.impl;
 
 import com.vm.controller.base.ServiceController;
-import com.vm.dao.po.CustomVmMovies;
-import com.vm.dao.po.VmFilmmakers;
-import com.vm.dao.po.VmMoviesSrcVersion;
-import com.vm.dao.po.VmTags;
+import com.vm.dao.po.*;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.service.inf.VmMoviesService;
+import com.vm.validator.group.VmMoviesGroups;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -121,6 +120,37 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
         return response;
     }
 
+    /**
+     * 获取与标签相关的电影列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/about/tag", method = RequestMethod.GET)
+    public @ResponseBody
+    Object getAboutTagsMovies(@Validated(value = VmMoviesGroups.GetAboutTagsMoviesGroup.class) VmMoviesQueryBean query,
+                              BindingResult result,
+                              @Valid PageBean page,
+                              BindingResult result0) throws Exception {
+        List<VmMovies> movies = service.getAboutTagsMovies(page, query);
+        response.putData("movies", movies);
+        return response;
+    }
+
+    /**
+     * 获取与电影人相关的电影列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/about/filmmaker", method = RequestMethod.GET)
+    public @ResponseBody
+    Object getAboutFilmmakersMovies(@Validated(value = VmMoviesGroups.GetAboutFilmmakersMoviesGroup.class) VmMoviesQueryBean query,
+                                    BindingResult result,
+                                    @Valid PageBean page,
+                                    BindingResult result0) throws Exception {
+        List<VmMovies> movies = service.getAboutFilmmakersMovies(page, query);
+        response.putData("movies", movies);
+        return response;
+    }
 
     /*********************************后端*********************************/
 

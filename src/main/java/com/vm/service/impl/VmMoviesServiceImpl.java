@@ -142,6 +142,18 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         return vmMovies.getPosterUrl();
     }
 
+
+    @Override
+    public List<VmMovies> getAboutTagsMovies(PageBean page,VmMoviesQueryBean query) throws Exception {
+        return customVmMoviesMapper.getAboutTagsMovies(page,query);
+    }
+
+    @Override
+    public List<VmMovies> getAboutFilmmakersMovies(PageBean page, VmMoviesQueryBean query) {
+        return customVmMoviesMapper.getAboutFilmmakersMovies(page,query);
+    }
+
+
     @Override
     public CustomVmMovies getMovie(Long movieId) {
         eject(movieId == null, "VmMoviesService#getMovie movieId is null ! movieId is :" + movieId);

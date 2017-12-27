@@ -19,4 +19,8 @@ public interface CustomVmMoviesMapper {
     CustomVmMovies getMovie(@Param("movieId") Long movieId);
 
     List<VmTags> getTagsOfMovie(@Param("movieId") Long movieId);
+
+    List<VmMovies> getAboutTagsMovies(@Param("page") PageBean page, @Param("query") VmMoviesQueryBean query);
+
+    List<VmMovies> getAboutFilmmakersMovies(@Param("page") PageBean page, @Param("query") VmMoviesQueryBean query);
 }

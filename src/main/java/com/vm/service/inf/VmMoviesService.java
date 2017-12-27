@@ -1,11 +1,8 @@
 package com.vm.service.inf;
 
-import com.vm.dao.po.VmFilmmakers;
-import com.vm.dao.po.VmMoviesSrcVersion;
-import com.vm.dao.po.VmTags;
+import com.vm.dao.po.*;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
-import com.vm.dao.po.CustomVmMovies;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -31,4 +28,8 @@ public interface VmMoviesService {
     List<VmMoviesSrcVersion> getMovieSrcVersions(Long movieId) throws Exception;
 
     String getMoviePosterUrl(Long movieId) throws Exception;
+
+    List<VmMovies> getAboutTagsMovies(PageBean page,VmMoviesQueryBean query) throws Exception;
+
+    List<VmMovies> getAboutFilmmakersMovies(PageBean page, VmMoviesQueryBean query);
 }
