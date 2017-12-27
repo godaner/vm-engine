@@ -131,6 +131,10 @@ $defaultLightGrayRgb: "rgb(241,242,243)";
   zoom: 1;
 }
 
+.defaultPanel{
+  @include defaultPanel;
+}
+
 * {
   @include defaultPaddingAndMargin;
   @include defaultWidth;

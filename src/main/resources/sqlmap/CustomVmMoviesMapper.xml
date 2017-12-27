@@ -104,7 +104,7 @@
     </select>
 
 
-    <select id="getAboutTagsMovies" resultMap="com.vm.dao.mapper.VmMoviesMapper.BaseResultMap">
+    <select id="getAboutTagsMovies" resultMap="GetMoviesMap">
         SELECT
             DISTINCT m.*
         FROM
@@ -126,7 +126,7 @@
             limit #{page.start},#{page.size}
         </if>
     </select>
-    <select id="getAboutFilmmakersMovies" resultMap="com.vm.dao.mapper.VmMoviesMapper.BaseResultMap">
+    <select id="getAboutFilmmakersMovies" resultMap="GetMoviesMap">
         SELECT
         DISTINCT m.*
         FROM

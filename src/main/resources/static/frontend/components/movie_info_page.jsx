@@ -119,6 +119,9 @@ var MovieInfoPage = React.createClass({
     hideAboutTagsMovies: function () {
         this.refs.aboutTagsMovies_MoviesDisplayer.hideTip();
     },
+    noAboutTagsMovies: function () {
+        this.refs.aboutTagsMovies_MoviesDisplayer.noMoviesTip();
+    },
     getAboutTagsMovies: function (movieTags) {
         //show tip
         this.loadingAboutTagsMovies();
@@ -128,7 +131,7 @@ var MovieInfoPage = React.createClass({
         for (var i = 0; i < movieTags.length; i++) {
             tagIds.push(movieTags[i].id);
         }
-        c(tagIds);
+        // c(tagIds);
         //ajax
         var orderBy = this.state.aboutTagsMoviesPage.orderBy;
         var orderType = this.state.aboutTagsMoviesPage.orderType;
@@ -153,6 +156,10 @@ var MovieInfoPage = React.createClass({
                 this.showDialogMsg(result.msg);
                 return;
             }
+            if(isEmptyList(result.data.movies)){
+                this.noAboutTagsMovies();
+                return ;
+            }
 
             var state = this.state;
 
@@ -172,6 +179,9 @@ var MovieInfoPage = React.createClass({
     },
     hideAboutFilmmakerMovies: function () {
         this.refs.aboutFilmmakersMovies_MoviesDisplayer.hideTip();
+    },
+    noAboutFilmmakerMovies: function () {
+        this.refs.aboutFilmmakersMovies_MoviesDisplayer.noMoviesTip();
     },
     getAboutFilmmakerMovies(movieFilmmakers){
         //show tip
@@ -203,8 +213,13 @@ var MovieInfoPage = React.createClass({
             if (fail(result.code)) {
                 return;
             }
-
+            if(isEmptyList(result.data.movies)){
+                this.noAboutFilmmakerMovies();
+                return ;
+            }
             var state = this.state;
+
+
 
             //set movie info to state
 
@@ -304,7 +319,7 @@ var MovieInfoPage = React.createClass({
                                      ref="aboutFilmmakersMovies_MoviesDisplayer"/>
                 </div>
                 <div id="about_tags_movies">
-                    <PlainPanelTitle title="电影人相关"/>
+                    <PlainPanelTitle title="标签相关"/>
                     <MoviesDisplayer movies={this.state.aboutTagsMovies}
                                      ref="aboutTagsMovies_MoviesDisplayer"/>
                 </div>
