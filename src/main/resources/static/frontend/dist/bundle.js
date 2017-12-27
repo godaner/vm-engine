@@ -12111,12 +12111,6 @@ var MoviesDisplayer = _react2.default.createClass({
     showMsg: function showMsg(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
     },
-    hideMsg: function hideMsg() {
-        this.refs.innerMessager.hide();
-    },
-    hideTip: function hideTip() {
-        this.hideMsg();
-    },
     showDefaultMsg: function showDefaultMsg(loop) {
         this.refs.innerMessager.showDefaultMsg(loop);
     },
@@ -28636,6 +28630,7 @@ var MovieInfoPage = _react2.default.createClass({
             whenMovieIsLoading: "加载电影信息",
             movieDescriptionTextLength: 100,
             movie: {},
+            movieUrl: this.props.match.url, //请求电影基本信息的url
             targetMovieId: this.props.match.params.movieId,
             //thisMovieFilmmakerIds:undefined,
             //thisMovieTagIds:undefined,
@@ -28657,16 +28652,31 @@ var MovieInfoPage = _react2.default.createClass({
         };
     },
     componentDidMount: function componentDidMount() {
-        //get movie
-        this.getMovieBasicInfo();
-
         //add resize event listener
         window.addEventListener('resize', this.onWindowResize);
 
+        //get movie
+        this.getMovieBasicInfo();
+
+        //adjust ui
         this.adjustUI();
     },
     componentWillUnmount: function componentWillUnmount() {
         window.removeEventListener('resize', this.onWindowResize);
+    },
+    componentDidUpdate: function componentDidUpdate() {
+        // c("componentDidUpdate");
+    },
+    componentWillReceiveProps: function componentWillReceiveProps(props) {
+        var _this = this;
+
+        //Link to!!!当点击某个Link标签时,路由会接受到一个新的props；但是如果跳转的是同一个页面,那么对不起，不会跳转，需要手动重置路由
+        if (!isEmpty(this.props.match.url)) {
+            this.props.history.push('/empty');
+            setTimeout(function () {
+                _this.props.history.replace(_this.props.match.url);
+            }, 1);
+        }
     },
     onWindowResize: function onWindowResize() {
         this.adjustUI();
@@ -28684,10 +28694,11 @@ var MovieInfoPage = _react2.default.createClass({
         //show tip
         this.showMovieInfoTip(this.state.whenMovieIsLoading);
 
-        var movieId = this.state.targetMovieId;
+        // var movieId = this.state.targetMovieId;
+
 
         //get movie info
-        var url = this.props.match.url;
+        var url = this.state.movieUrl;
         // c(url);
         this.serverRequest = $.get(url, function (result) {
 
@@ -28727,7 +28738,7 @@ var MovieInfoPage = _react2.default.createClass({
         this.refs.aboutTagsMovies_MoviesDisplayer.loadingMoviesTip();
     },
     hideAboutTagsMovies: function hideAboutTagsMovies() {
-        this.refs.aboutTagsMovies_MoviesDisplayer.hideTip();
+        this.refs.aboutTagsMovies_MoviesDisplayer.hideMovieTip();
     },
     noAboutTagsMovies: function noAboutTagsMovies() {
         this.refs.aboutTagsMovies_MoviesDisplayer.noMoviesTip();
@@ -28783,7 +28794,7 @@ var MovieInfoPage = _react2.default.createClass({
         this.refs.aboutFilmmakersMovies_MoviesDisplayer.loadingMoviesTip();
     },
     hideAboutFilmmakerMovies: function hideAboutFilmmakerMovies() {
-        this.refs.aboutFilmmakersMovies_MoviesDisplayer.hideTip();
+        this.refs.aboutFilmmakersMovies_MoviesDisplayer.hideMovieTip();
     },
     noAboutFilmmakerMovies: function noAboutFilmmakerMovies() {
         this.refs.aboutFilmmakersMovies_MoviesDisplayer.noMoviesTip();

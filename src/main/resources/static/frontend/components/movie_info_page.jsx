@@ -20,6 +20,7 @@ var MovieInfoPage = React.createClass({
             whenMovieIsLoading: "加载电影信息",
             movieDescriptionTextLength: 100,
             movie: {},
+            movieUrl:this.props.match.url,//请求电影基本信息的url
             targetMovieId: this.props.match.params.movieId,
             //thisMovieFilmmakerIds:undefined,
             //thisMovieTagIds:undefined,
@@ -41,18 +42,32 @@ var MovieInfoPage = React.createClass({
         };
     },
     componentDidMount: function () {
-        //get movie
-        this.getMovieBasicInfo();
-
         //add resize event listener
         window.addEventListener('resize', this.onWindowResize);
 
-        this.adjustUI();
+        //get movie
+        this.getMovieBasicInfo();
 
+        //adjust ui
+        this.adjustUI();
 
     },
     componentWillUnmount: function () {
         window.removeEventListener('resize', this.onWindowResize);
+
+    },
+    componentDidUpdate:function(){
+        // c("componentDidUpdate");
+    },
+    componentWillReceiveProps:function (props) {
+        //Link to!!!当点击某个Link标签时,路由会接受到一个新的props；但是如果跳转的是同一个页面,那么对不起，不会跳转，需要手动重置路由
+        if(!isEmpty(this.props.match.url)){
+            this.props.history.push('/empty');
+            setTimeout(() => {
+                this.props.history.replace(this.props.match.url);
+            },1);
+        }
+
     },
     onWindowResize: function () {
         this.adjustUI();
@@ -72,11 +87,11 @@ var MovieInfoPage = React.createClass({
         this.showMovieInfoTip(this.state.whenMovieIsLoading);
 
 
-        var movieId = this.state.targetMovieId;
+        // var movieId = this.state.targetMovieId;
 
 
         //get movie info
-        const url = this.props.match.url;
+        const url = this.state.movieUrl;
         // c(url);
         this.serverRequest = $.get(url, function (result) {
 
@@ -117,7 +132,7 @@ var MovieInfoPage = React.createClass({
         this.refs.aboutTagsMovies_MoviesDisplayer.loadingMoviesTip();
     },
     hideAboutTagsMovies: function () {
-        this.refs.aboutTagsMovies_MoviesDisplayer.hideTip();
+        this.refs.aboutTagsMovies_MoviesDisplayer.hideMovieTip();
     },
     noAboutTagsMovies: function () {
         this.refs.aboutTagsMovies_MoviesDisplayer.noMoviesTip();
@@ -178,7 +193,7 @@ var MovieInfoPage = React.createClass({
         this.refs.aboutFilmmakersMovies_MoviesDisplayer.loadingMoviesTip();
     },
     hideAboutFilmmakerMovies: function () {
-        this.refs.aboutFilmmakersMovies_MoviesDisplayer.hideTip();
+        this.refs.aboutFilmmakersMovies_MoviesDisplayer.hideMovieTip();
     },
     noAboutFilmmakerMovies: function () {
         this.refs.aboutFilmmakersMovies_MoviesDisplayer.noMoviesTip();
