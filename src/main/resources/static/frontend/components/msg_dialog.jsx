@@ -3,7 +3,13 @@ import "../scss/msg_dialog.scss"
 
 var MsgDialog = React.createClass({
     getInitialState: function () {
-        var state = {dialogClassName:""
+        var closeText = "确认";
+        if(!isEmpty(this.props.closeText)){
+            closeText = this.props.closeText;
+        }
+        var state = {
+            closeText:closeText,
+            dialogClassName:""
         };
         return state;
     },
@@ -58,27 +64,13 @@ var MsgDialog = React.createClass({
 
     },
     dialogToMiddle:function(){
-        // var dialog = $(this.refs.dialog);
-        // var body_w = document.body.clientWidth;
-        // var body_h = document.body.clientHeight;
-        // var dialog_w = dialog.width();
-        // var dialog_h = dialog.height();
-        // c(body_w);
-        // c(body_h);
-        // c(dialog_w);
-        // c(dialog_h);
-        // var left = (body_w - dialog_w) / 2;
-        // var top = (body_h - dialog_h) / 2;
-        // dialog.css("margin-left", left+"px");
-        // dialog.css("margin-top", top+"px");
+        //垂直居中
         var dialog = $(this.refs.dialog);
         var content = $(this.refs.content);
         var dialog_h = dialog.height();
         var content_h = content.height();
         var top = (content_h - dialog_h) / 2;
-        // $(this.refs.content).css("line-height",content_h);
         dialog.css("margin-top", top+"px");
-        c(content_h);
     },
     render: function () {
         return (
@@ -86,7 +78,7 @@ var MsgDialog = React.createClass({
                 <div id="dialog" className={this.state.dialogClassName} ref="dialog">
                     <div id="body">
                         <span id="msg_p" ref="msg_p">{this.props.msg}</span>
-                        <a id="close_btn" href="javascript:void(0);" onClick={this.fadeOut}>取消</a>
+                        <a id="close_btn" href="javascript:void(0);" onClick={this.fadeOut}>{this.state.closeText}</a>
                     </div>
 
                 </div>

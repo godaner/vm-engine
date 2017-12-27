@@ -27639,6 +27639,7 @@ var MovieListPage = _react2.default.createClass({
             movieSearchBtnText: "搜索",
             whenThereIsHaveNotMovies: "无相关电影",
             whenThereIsHaveNotTags: "无相关标签",
+            whenSearchRepeat: "重复搜索",
             lastKeyword: "",
             movieSearchTimer: undefined,
             movieTagGroup: [],
@@ -27942,7 +27943,7 @@ var MovieListPage = _react2.default.createClass({
 
         //if keyword same ,do not search
         if (this.state.lastKeyword == keyword) {
-            this.showDialogMsg("重复搜索重复搜索重复搜索重复搜索重复搜索重复搜索");
+            this.showDialogMsg(this.state.whenSearchRepeat);
             return;
         }
         var oldMovieSearchBtnText = this.state.movieSearchBtnText;
@@ -28083,7 +28084,13 @@ var MsgDialog = _react2.default.createClass({
     displayName: "MsgDialog",
 
     getInitialState: function getInitialState() {
-        var state = { dialogClassName: ""
+        var closeText = "确认";
+        if (!isEmpty(this.props.closeText)) {
+            closeText = this.props.closeText;
+        }
+        var state = {
+            closeText: closeText,
+            dialogClassName: ""
         };
         return state;
     },
@@ -28134,27 +28141,13 @@ var MsgDialog = _react2.default.createClass({
         this.dialogToMiddle();
     },
     dialogToMiddle: function dialogToMiddle() {
-        // var dialog = $(this.refs.dialog);
-        // var body_w = document.body.clientWidth;
-        // var body_h = document.body.clientHeight;
-        // var dialog_w = dialog.width();
-        // var dialog_h = dialog.height();
-        // c(body_w);
-        // c(body_h);
-        // c(dialog_w);
-        // c(dialog_h);
-        // var left = (body_w - dialog_w) / 2;
-        // var top = (body_h - dialog_h) / 2;
-        // dialog.css("margin-left", left+"px");
-        // dialog.css("margin-top", top+"px");
+        //垂直居中
         var dialog = $(this.refs.dialog);
         var content = $(this.refs.content);
         var dialog_h = dialog.height();
         var content_h = content.height();
         var top = (content_h - dialog_h) / 2;
-        // $(this.refs.content).css("line-height",content_h);
         dialog.css("margin-top", top + "px");
-        c(content_h);
     },
     render: function render() {
         return _react2.default.createElement(
@@ -28174,7 +28167,7 @@ var MsgDialog = _react2.default.createClass({
                     _react2.default.createElement(
                         "a",
                         { id: "close_btn", href: "javascript:void(0);", onClick: this.fadeOut },
-                        "\u53D6\u6D88"
+                        this.state.closeText
                     )
                 )
             )
@@ -28218,7 +28211,7 @@ exports = module.exports = __webpack_require__(8)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#fragment_msg_dialog_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  line-height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 9999;\n  background-color: rgba(0, 0, 0, 0.7);\n  text-align: center; }\n  #fragment_msg_dialog_content #dialog {\n    width: auto;\n    display: inline-block !important;\n    display: inline;\n    padding: 20px;\n    box-sizing: border-box;\n    background-color: #383d49;\n    border-radius: 2px; }\n    #fragment_msg_dialog_content #dialog * {\n      color: white; }\n    #fragment_msg_dialog_content #dialog #body {\n      text-align: center;\n      line-height: 100%;\n      height: 100%; }\n      #fragment_msg_dialog_content #dialog #body #close_btn {\n        margin-left: 20px; }\n        #fragment_msg_dialog_content #dialog #body #close_btn:hover {\n          color: rgb(153,153,153); }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#fragment_msg_dialog_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  line-height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 9999;\n  background-color: rgba(0, 0, 0, 0.8);\n  text-align: center; }\n  #fragment_msg_dialog_content #dialog {\n    width: auto;\n    display: inline-block !important;\n    display: inline;\n    padding: 20px;\n    box-sizing: border-box;\n    background-color: #383d49;\n    border-radius: 2px; }\n    #fragment_msg_dialog_content #dialog * {\n      color: white; }\n    #fragment_msg_dialog_content #dialog #body {\n      text-align: center;\n      line-height: 100%;\n      height: 100%; }\n      #fragment_msg_dialog_content #dialog #body #close_btn {\n        margin-left: 20px; }\n        #fragment_msg_dialog_content #dialog #body #close_btn:hover {\n          color: rgb(153,153,153); }\n", ""]);
 
 // exports
 
