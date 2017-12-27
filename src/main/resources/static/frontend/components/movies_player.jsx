@@ -101,9 +101,9 @@ var MoviePlayer = React.createClass({
 
         return (
             <div id="m">
+                <PlainPanelTitle title={this.state.moviePlayerPanelTitle}/>
                 <InnerMessager defaultTip={this.state.whenPlayerIsLoading}
                                ref="player_inner_messager"/>
-                <PlainPanelTitle title={this.state.moviePlayerPanelTitle}/>
                 <div id="m_player"
                      ref="m_player"></div>
             </div>

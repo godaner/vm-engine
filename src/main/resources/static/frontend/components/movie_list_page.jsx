@@ -436,7 +436,7 @@ var MovieListPage = React.createClass({
 
         //if keyword same ,do not search
         if (this.state.lastKeyword == keyword) {
-            this.showDialogMsg("重复搜索")
+            this.showDialogMsg("重复搜索重复搜索重复搜索重复搜索重复搜索重复搜索")
             return;
         }
         var oldMovieSearchBtnText = this.state.movieSearchBtnText;

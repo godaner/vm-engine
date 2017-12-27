@@ -9,7 +9,11 @@ var MsgDialog = React.createClass({
     },
     componentDidMount: function () {
         window.addEventListener('resize', this.onWindowResize)
+
+        //adjust ui
         this.adjustUI();
+
+
     },
     componentWillUnmount: function () {
         window.removeEventListener('resize', this.onWindowResize)
@@ -21,8 +25,11 @@ var MsgDialog = React.createClass({
         if(msg == null || msg ==undefined){
             msg = "无消息";
         }
+        //middle show
+        this.dialogToMiddle();
+
         //set it's message
-        $(this.refs.dialog_body).html(msg);
+        $(this.refs.dialog_body).find("#msg_p").html(msg);
         //show it
         this.fadeIn();
     },
@@ -49,17 +56,21 @@ var MsgDialog = React.createClass({
         {
             /*调整样式*/
         }
-        {
-            /*设置外边距*/
-        }
+        this.dialogToMiddle();
+
+    },
+    dialogToMiddle:function(){
         var dialog = $(this.refs.dialog);
-        var dialogPadding = dialog.css("padding").replace("px","");
         var body_w = document.body.clientWidth;
         var body_h = document.body.clientHeight;
         var dialog_w = dialog.width();
         var dialog_h = dialog.height();
-        var left = (body_w - dialog_w) / 2 - 2*dialogPadding;
-        var top = (body_h - dialog_h) / 2 - 2*dialogPadding;
+        c(body_w);
+        c(body_h);
+        c(dialog_w);
+        c(dialog_h);
+        var left = (body_w - dialog_w) / 2;
+        var top = (body_h - dialog_h) / 2;
         dialog.css("margin-left", left+"px");
         dialog.css("margin-top", top+"px");
     },
@@ -67,12 +78,9 @@ var MsgDialog = React.createClass({
         return (
             <div id="fragment_msg_dialog_content" ref="content">
                 <div id="dialog" className={this.state.dialogClassName} ref="dialog">
-                    <div id="head">
-                        <div>信息</div>
-                        <div id="close" onClick={this.close}>X</div>
-                    </div>
                     <div id="body" ref="dialog_body">
-                        {this.props.msg}
+                        <span id="msg_p">{this.props.msg}</span>
+                        <a id="close_btn" href="javascript:void(0);" onClick={this.fadeOut}>取消</a>
                     </div>
 
                 </div>

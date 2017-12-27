@@ -25,6 +25,9 @@ var TagsOfMovie = React.createClass({
             }
             if(isEmptyList(result.data.list)){
                 this.showTagTip(this.state.whenThereHaveNotTag,false);
+
+                this.props.onLoadDataSuccess([]);
+
                 return ;
             }
 

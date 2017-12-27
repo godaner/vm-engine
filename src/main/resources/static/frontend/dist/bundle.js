@@ -27942,7 +27942,7 @@ var MovieListPage = _react2.default.createClass({
 
         //if keyword same ,do not search
         if (this.state.lastKeyword == keyword) {
-            this.showDialogMsg("重复搜索");
+            this.showDialogMsg("重复搜索重复搜索重复搜索重复搜索重复搜索重复搜索");
             return;
         }
         var oldMovieSearchBtnText = this.state.movieSearchBtnText;
@@ -28089,6 +28089,8 @@ var MsgDialog = _react2.default.createClass({
     },
     componentDidMount: function componentDidMount() {
         window.addEventListener('resize', this.onWindowResize);
+
+        //adjust ui
         this.adjustUI();
     },
     componentWillUnmount: function componentWillUnmount() {
@@ -28101,8 +28103,11 @@ var MsgDialog = _react2.default.createClass({
         if (msg == null || msg == undefined) {
             msg = "无消息";
         }
+        //middle show
+        this.dialogToMiddle();
+
         //set it's message
-        $(this.refs.dialog_body).html(msg);
+        $(this.refs.dialog_body).find("#msg_p").html(msg);
         //show it
         this.fadeIn();
     },
@@ -28128,17 +28133,20 @@ var MsgDialog = _react2.default.createClass({
         {
             /*调整样式*/
         }
-        {
-            /*设置外边距*/
-        }
+        this.dialogToMiddle();
+    },
+    dialogToMiddle: function dialogToMiddle() {
         var dialog = $(this.refs.dialog);
-        var dialogPadding = dialog.css("padding").replace("px", "");
         var body_w = document.body.clientWidth;
         var body_h = document.body.clientHeight;
         var dialog_w = dialog.width();
         var dialog_h = dialog.height();
-        var left = (body_w - dialog_w) / 2 - 2 * dialogPadding;
-        var top = (body_h - dialog_h) / 2 - 2 * dialogPadding;
+        c(body_w);
+        c(body_h);
+        c(dialog_w);
+        c(dialog_h);
+        var left = (body_w - dialog_w) / 2;
+        var top = (body_h - dialog_h) / 2;
         dialog.css("margin-left", left + "px");
         dialog.css("margin-top", top + "px");
     },
@@ -28151,22 +28159,17 @@ var MsgDialog = _react2.default.createClass({
                 { id: "dialog", className: this.state.dialogClassName, ref: "dialog" },
                 _react2.default.createElement(
                     "div",
-                    { id: "head" },
+                    { id: "body", ref: "dialog_body" },
                     _react2.default.createElement(
-                        "div",
-                        null,
-                        "\u4FE1\u606F"
+                        "span",
+                        { id: "msg_p" },
+                        this.props.msg
                     ),
                     _react2.default.createElement(
-                        "div",
-                        { id: "close", onClick: this.close },
-                        "X"
+                        "a",
+                        { id: "close_btn", href: "javascript:void(0);", onClick: this.fadeOut },
+                        "\u53D6\u6D88"
                     )
-                ),
-                _react2.default.createElement(
-                    "div",
-                    { id: "body", ref: "dialog_body" },
-                    this.props.msg
                 )
             )
         );
@@ -28209,7 +28212,7 @@ exports = module.exports = __webpack_require__(8)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#fragment_msg_dialog_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 9999;\n  background-color: rgba(0, 0, 0, 0.8); }\n  #fragment_msg_dialog_content #dialog {\n    margin-top: 300px;\n    width: 300px;\n    height: 100px;\n    padding: 20px;\n    background-color: rgba(255, 255, 255, 0.9);\n    border: 1px solid black;\n    border-radius: 5px; }\n    #fragment_msg_dialog_content #dialog * {\n      color: black; }\n    #fragment_msg_dialog_content #dialog > div {\n      width: 100%; }\n    #fragment_msg_dialog_content #dialog #head {\n      height: 35px;\n      line-height: 35px;\n      border-bottom: 1px solid black; }\n      #fragment_msg_dialog_content #dialog #head > div {\n        font-size: 18px;\n        float: left;\n        width: 50%; }\n      #fragment_msg_dialog_content #dialog #head div#close {\n        cursor: pointer;\n        text-align: right;\n        font-weight: bold;\n        transition: all 100ms; }\n        #fragment_msg_dialog_content #dialog #head div#close:hover {\n          color: red;\n          font-weight: bold; }\n    #fragment_msg_dialog_content #dialog #body {\n      margin-top: 20px;\n      text-align: center;\n      line-height: 100%;\n      font-size: 15px;\n      height: 100%; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#fragment_msg_dialog_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 9999;\n  background-color: rgba(0, 0, 0, 0.6); }\n  #fragment_msg_dialog_content #dialog {\n    width: auto;\n    display: inline-block !important;\n    display: inline;\n    padding: 20px;\n    box-sizing: border-box;\n    background-color: #383d49;\n    border-radius: 2px; }\n    #fragment_msg_dialog_content #dialog * {\n      color: white; }\n    #fragment_msg_dialog_content #dialog #body {\n      text-align: center;\n      line-height: 100%;\n      height: 100%; }\n      #fragment_msg_dialog_content #dialog #body #close_btn {\n        margin-left: 20px; }\n", ""]);
 
 // exports
 
@@ -28748,6 +28751,13 @@ var MovieInfoPage = _react2.default.createClass({
         this.refs.aboutTagsMovies_MoviesDisplayer.noMoviesTip();
     },
     getAboutTagsMovies: function getAboutTagsMovies(movieTags) {
+        c(movieTags);
+        if (isEmptyList(movieTags)) {
+
+            this.noAboutTagsMovies();
+            return;
+        }
+
         //show tip
         this.loadingAboutTagsMovies();
 
@@ -28804,6 +28814,12 @@ var MovieInfoPage = _react2.default.createClass({
         this.refs.aboutFilmmakersMovies_MoviesDisplayer.noMoviesTip();
     },
     getAboutFilmmakerMovies: function getAboutFilmmakerMovies(movieFilmmakers) {
+        if (isEmptyList(movieFilmmakers)) {
+
+            this.noAboutFilmmakerMovies();
+            return;
+        }
+
         //show tip
         this.loadingAboutFilmmakerMovies();
 
@@ -28955,7 +28971,7 @@ var MovieInfoPage = _react2.default.createClass({
                                 'li',
                                 { id: 'tags_li' },
                                 _react2.default.createElement(_tags_of_movie2.default, { movieId: this.state.targetMovieId,
-                                    onLoadDataSuccess: this.getAboutFilmmakerMovies })
+                                    onLoadDataSuccess: this.getAboutTagsMovies })
                             )
                         )
                     )
@@ -28977,7 +28993,7 @@ var MovieInfoPage = _react2.default.createClass({
                         'div',
                         { id: 'actors_details_div' },
                         _react2.default.createElement(_filmmakers_details_area2.default, { movieId: this.state.targetMovieId,
-                            onLoadDataSuccess: this.getAboutTagsMovies })
+                            onLoadDataSuccess: this.getAboutFilmmakerMovies })
                     )
                 )
             ),
@@ -29091,6 +29107,9 @@ var TagsOfMovie = _react2.default.createClass({
             }
             if (isEmptyList(result.data.list)) {
                 this.showTagTip(this.state.whenThereHaveNotTag, false);
+
+                this.props.onLoadDataSuccess([]);
+
                 return;
             }
 
@@ -29317,7 +29336,8 @@ var FilmmakersDetailsArea = _react2.default.createClass({
 
     getInitialState: function getInitialState() {
         return {
-            whenActorsDetailsIsLoading: "正在加载演员信息",
+            whenActorsDetailsIsLoading: "正在加载电影人信息",
+            whenThereIsHaveNotFilmmakers: "无相关电影人",
             title: "相关演员"
         };
     },
@@ -29336,17 +29356,26 @@ var FilmmakersDetailsArea = _react2.default.createClass({
     getFilmmakers: function getFilmmakers() {
         var url = "/movie/filmmaker/" + this.props.movieId;
         $.get(url, function (result) {
-            // c(result);
+            c(result);
             //hide tip
             this.showTip();
 
             if (fail(result.code)) {
                 return;
             }
+            if (isEmptyList(result.data.filmmakers)) {
+                this.showTip(this.state.whenThereIsHaveNotFilmmakers, false);
+
+                //callfun
+                this.props.onLoadDataSuccess([]);
+
+                return;
+            }
 
             //set state
             var state = this.state;
             state.filmmakers = result.data.filmmakers;
+
             this.setState(state);
 
             //adjust ui
@@ -29371,9 +29400,12 @@ var FilmmakersDetailsArea = _react2.default.createClass({
         var listFilmmakers = function () {
             var filmmakers = this.state.filmmakers;
             var res = [];
+            // if(isEmptyList(filmmakers)){
+            // res.push(<li key="1">无相关电影人</li>)
+            // return res;
+            // }
             if (isEmptyList(filmmakers)) {
-                // res.push(<li key="1">无相关电影人</li>)
-                return res;
+                filmmakers = [];
             }
 
             for (var i = 0; i < filmmakers.length; i++) {
@@ -29398,9 +29430,9 @@ var FilmmakersDetailsArea = _react2.default.createClass({
         return _react2.default.createElement(
             "div",
             { id: "actors_details_area", ref: "actors_details_area" },
+            _react2.default.createElement(_plain_panel_title2.default, { title: this.state.title }),
             _react2.default.createElement(_inner_messager2.default, { defaultTip: this.state.whenActorsDetailsIsLoading,
                 ref: "actors_details_area_inner_messager" }),
-            _react2.default.createElement(_plain_panel_title2.default, { title: this.state.title }),
             _react2.default.createElement(
                 "ul",
                 null,
@@ -29613,9 +29645,9 @@ var MoviePlayer = _react2.default.createClass({
         return _react2.default.createElement(
             'div',
             { id: 'm' },
+            _react2.default.createElement(_plain_panel_title2.default, { title: this.state.moviePlayerPanelTitle }),
             _react2.default.createElement(_inner_messager2.default, { defaultTip: this.state.whenPlayerIsLoading,
                 ref: 'player_inner_messager' }),
-            _react2.default.createElement(_plain_panel_title2.default, { title: this.state.moviePlayerPanelTitle }),
             _react2.default.createElement('div', { id: 'm_player',
                 ref: 'm_player' })
         );

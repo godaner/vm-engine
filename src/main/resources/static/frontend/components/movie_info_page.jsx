@@ -138,6 +138,13 @@ var MovieInfoPage = React.createClass({
         this.refs.aboutTagsMovies_MoviesDisplayer.noMoviesTip();
     },
     getAboutTagsMovies: function (movieTags) {
+        c(movieTags);
+        if(isEmptyList(movieTags)){
+
+            this.noAboutTagsMovies();
+            return ;
+        }
+
         //show tip
         this.loadingAboutTagsMovies();
 
@@ -199,6 +206,12 @@ var MovieInfoPage = React.createClass({
         this.refs.aboutFilmmakersMovies_MoviesDisplayer.noMoviesTip();
     },
     getAboutFilmmakerMovies(movieFilmmakers){
+        if(isEmptyList(movieFilmmakers)){
+
+            this.noAboutFilmmakerMovies();
+            return ;
+        }
+
         //show tip
         this.loadingAboutFilmmakerMovies();
 
@@ -305,7 +318,7 @@ var MovieInfoPage = React.createClass({
 
                                 <li id="tags_li">
                                     <TagsOfMovie movieId={this.state.targetMovieId}
-                                                 onLoadDataSuccess={this.getAboutFilmmakerMovies}></TagsOfMovie>
+                                                 onLoadDataSuccess={this.getAboutTagsMovies}></TagsOfMovie>
                                 </li>
                             </ul>
                         </div>
@@ -323,7 +336,7 @@ var MovieInfoPage = React.createClass({
                     <div id="actors_details_div_wrapper">
                         <div id="actors_details_div">
                             <FilmmakersDetailsArea movieId={this.state.targetMovieId}
-                                                   onLoadDataSuccess={this.getAboutTagsMovies}/>
+                                                   onLoadDataSuccess={this.getAboutFilmmakerMovies}/>
                         </div>
                     </div>
 

@@ -8,7 +8,8 @@ var FilmmakersDetailsArea = React.createClass({
 
     getInitialState: function () {
         return {
-            whenActorsDetailsIsLoading: "正在加载演员信息",
+            whenActorsDetailsIsLoading: "正在加载电影人信息",
+            whenThereIsHaveNotFilmmakers: "无相关电影人",
             title: "相关演员"
         };
     },
@@ -27,17 +28,28 @@ var FilmmakersDetailsArea = React.createClass({
     getFilmmakers: function () {
         var url = "/movie/filmmaker/" + this.props.movieId;
         $.get(url, function (result) {
-            // c(result);
+            c(result);
             //hide tip
             this.showTip();
 
             if (fail(result.code)) {
                 return;
             }
+            if(isEmptyList(result.data.filmmakers)){
+                this.showTip(this.state.whenThereIsHaveNotFilmmakers,false);
+
+                //callfun
+                this.props.onLoadDataSuccess([]);
+
+                return ;
+            }
 
             //set state
             var state = this.state;
             state.filmmakers = result.data.filmmakers;
+
+
+
             this.setState(state);
 
             //adjust ui
@@ -62,9 +74,12 @@ var FilmmakersDetailsArea = React.createClass({
         var listFilmmakers = function () {
             var filmmakers = this.state.filmmakers;
             var res = [];
-            if(isEmptyList(filmmakers)){
+            // if(isEmptyList(filmmakers)){
                 // res.push(<li key="1">无相关电影人</li>)
-                return res;
+                // return res;
+            // }
+            if(isEmptyList(filmmakers)){
+                filmmakers = [];
             }
 
 
@@ -84,9 +99,9 @@ var FilmmakersDetailsArea = React.createClass({
         }.bind(this);
         return (
             <div id="actors_details_area" ref="actors_details_area">
+                <PlainPanelTitle title={this.state.title}/>
                 <InnerMessager defaultTip={this.state.whenActorsDetailsIsLoading}
                                ref="actors_details_area_inner_messager"/>
-                <PlainPanelTitle title={this.state.title}/>
                 <ul>
 
                     {

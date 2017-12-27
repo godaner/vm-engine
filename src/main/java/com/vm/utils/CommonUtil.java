@@ -50,9 +50,10 @@ public class CommonUtil {
 
     /**
      * 限速写入,误差10%
+     *
      * @param outputStream
      * @param inputStream
-     * @param speed 单位b
+     * @param speed        单位b
      * @param startTime
      * @param md5
      * @return
@@ -122,10 +123,11 @@ public class CommonUtil {
                 }
             }
 
-        } catch (Exception e) {e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
             e.printStackTrace();
         } finally {
-            closeStream(inputStream,null);
+            closeStream(inputStream, null);
 
         }
 
@@ -151,7 +153,14 @@ public class CommonUtil {
      * @return
      */
     protected final static boolean isEmptyList(List<?> list) {
-        return list == null || list.size() == 0;
+        boolean allIsNull = true;
+        for (Object obj : list) {
+            if (obj != null) {
+                allIsNull = false;
+                break;
+            }
+        }
+        return list == null || list.size() == 0 || allIsNull;
     }
 
     /**

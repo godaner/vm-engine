@@ -115,6 +115,9 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
      * @return
      */
     private List<VmFilmmakers> takeOffSameFilmmakers(List<VmFilmmakers> filmmakers) {
+        if(isEmptyList(filmmakers)){
+            return Lists.newArrayList();
+        }
         Map<Long,VmFilmmakers> map = Maps.newHashMap();
         for (VmFilmmakers filmmaker: filmmakers) {
             map.put(filmmaker.getId(),filmmaker);
