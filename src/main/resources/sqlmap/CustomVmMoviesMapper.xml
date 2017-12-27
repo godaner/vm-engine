@@ -114,6 +114,7 @@
             m.`status` = 1
         AND tr.`status` = 1
         AND tr.movie_id = m.id
+        AND m.id !=#{query.excludeMovieId}
         AND tr.tag_id IN
         <foreach collection="query.tagIds" item="item" open="(" separator="," close=")">
             #{item}
@@ -127,7 +128,7 @@
     </select>
     <select id="getAboutFilmmakersMovies" resultMap="com.vm.dao.mapper.VmMoviesMapper.BaseResultMap">
         SELECT
-        DISTINCT *
+        DISTINCT m.*
         FROM
         vm_movies m,
         vm_movies_filmmakers_realation mfr
@@ -135,9 +136,9 @@
         m.`status` = 1
         AND mfr.`status` = 1
         AND mfr.movie_id = m.id
-        AND mfr.filmmaker_id in (1,2)
-        AND tr.tag_id IN
-        <foreach collection="query.tagIds" item="item" open="(" separator="," close=")">
+        AND m.id !=#{query.excludeMovieId}
+        AND mfr.filmmaker_id in
+        <foreach collection="query.filmmakerIds" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
         <if test="page.orderBy != null and page.orderType != null">

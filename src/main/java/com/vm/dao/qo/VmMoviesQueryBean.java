@@ -3,6 +3,7 @@ package com.vm.dao.qo;
 import com.vm.validator.group.VmMoviesGroups;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -16,6 +17,16 @@ public class VmMoviesQueryBean {
     private List<Long> filmmakerIds;
     private Integer tagIdsLength;
     private String imgWidth;
+    @NotNull(message = "{VmMoviesQueryBean.excludeMovieId.NotNull}", groups = {VmMoviesGroups.GetAboutTagsMoviesGroup.class, VmMoviesGroups.GetAboutFilmmakersMoviesGroup.class})
+    private Long excludeMovieId;
+
+    public Long getExcludeMovieId() {
+        return excludeMovieId;
+    }
+
+    public void setExcludeMovieId(Long excludeMovieId) {
+        this.excludeMovieId = excludeMovieId;
+    }
 
     public List<Long> getFilmmakerIds() {
         return filmmakerIds;

@@ -135,7 +135,11 @@ var MovieInfoPage = React.createClass({
         var size = this.state.aboutTagsMoviesPage.size;
         var start = this.state.aboutTagsMoviesPage.start;
 
-        var url = "/movie/about/tag?orderBy="+orderBy+"&orderType="+orderType+"&size="+size+"&start="+start;
+        var url = "/movie/about/tag?orderBy="+orderBy
+            +"&orderType="+orderType
+            +"&size="+size
+            +"&start="+start
+            +"&excludeMovieId="+this.state.targetMovieId;
         url = contactUrlWithArray(url, "tagIds", tagIds);
         // c(url);
         this.serverRequest = $.get(url, function (result) {
@@ -154,7 +158,7 @@ var MovieInfoPage = React.createClass({
 
             //set movie info to state
 
-            state.aboutTagsMovies = result.data.movie;
+            state.aboutTagsMovies = result.data.movies;
 
             this.setState(state);
 
@@ -185,7 +189,11 @@ var MovieInfoPage = React.createClass({
         var start = this.state.aboutFilmmakersMoviesPage.start;
 
 
-        var url = "/movie/about/filmmaker?orderBy="+orderBy+"&orderType="+orderType+"&size="+size+"&start="+start;
+        var url = "/movie/about/filmmaker?orderBy="+orderBy
+            +"&orderType="+orderType
+            +"&size="+size
+            +"&start="+start
+            +"&excludeMovieId="+this.state.targetMovieId;
         url = contactUrlWithArray(url, "filmmakerIds", ids);
         this.serverRequest = $.get(url, function (result) {
 
@@ -200,7 +208,7 @@ var MovieInfoPage = React.createClass({
 
             //set movie info to state
 
-            state.aboutFilmmakersMovies = result.data.movie;
+            state.aboutFilmmakersMovies = result.data.movies;
 
             this.setState(state);
 
@@ -291,10 +299,12 @@ var MovieInfoPage = React.createClass({
 
                 </div>
                 <div id="about_filmmakers_movies">
+                    <PlainPanelTitle title="电影人相关"/>
                     <MoviesDisplayer movies={this.state.aboutFilmmakersMovies}
                                      ref="aboutFilmmakersMovies_MoviesDisplayer"/>
                 </div>
                 <div id="about_tags_movies">
+                    <PlainPanelTitle title="电影人相关"/>
                     <MoviesDisplayer movies={this.state.aboutTagsMovies}
                                      ref="aboutTagsMovies_MoviesDisplayer"/>
                 </div>

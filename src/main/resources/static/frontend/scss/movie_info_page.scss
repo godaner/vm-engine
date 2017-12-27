@@ -98,5 +98,15 @@
     }
 
   }
+  #about_filmmakers_movies{
+    @include defaultWidth;
+    @include defaultPanel;
+    margin-top: 20px;
+  }
+  #about_tags_movies{
+    @include defaultWidth;
+    @include defaultPanel;
+    margin-top: 20px;
+  }
 
 }

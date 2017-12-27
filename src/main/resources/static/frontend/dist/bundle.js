@@ -28745,7 +28745,7 @@ var MovieInfoPage = _react2.default.createClass({
         var size = this.state.aboutTagsMoviesPage.size;
         var start = this.state.aboutTagsMoviesPage.start;
 
-        var url = "/movie/about/tag?orderBy=" + orderBy + "&orderType=" + orderType + "&size=" + size + "&start=" + start;
+        var url = "/movie/about/tag?orderBy=" + orderBy + "&orderType=" + orderType + "&size=" + size + "&start=" + start + "&excludeMovieId=" + this.state.targetMovieId;
         url = contactUrlWithArray(url, "tagIds", tagIds);
         // c(url);
         this.serverRequest = $.get(url, function (result) {
@@ -28764,7 +28764,7 @@ var MovieInfoPage = _react2.default.createClass({
 
             //set movie info to state
 
-            state.aboutTagsMovies = result.data.movie;
+            state.aboutTagsMovies = result.data.movies;
 
             this.setState(state);
 
@@ -28793,7 +28793,7 @@ var MovieInfoPage = _react2.default.createClass({
         var size = this.state.aboutFilmmakersMoviesPage.size;
         var start = this.state.aboutFilmmakersMoviesPage.start;
 
-        var url = "/movie/about/filmmaker?orderBy=" + orderBy + "&orderType=" + orderType + "&size=" + size + "&start=" + start;
+        var url = "/movie/about/filmmaker?orderBy=" + orderBy + "&orderType=" + orderType + "&size=" + size + "&start=" + start + "&excludeMovieId=" + this.state.targetMovieId;
         url = contactUrlWithArray(url, "filmmakerIds", ids);
         this.serverRequest = $.get(url, function (result) {
 
@@ -28808,7 +28808,7 @@ var MovieInfoPage = _react2.default.createClass({
 
             //set movie info to state
 
-            state.aboutFilmmakersMovies = result.data.movie;
+            state.aboutFilmmakersMovies = result.data.movies;
 
             this.setState(state);
 
@@ -28956,12 +28956,14 @@ var MovieInfoPage = _react2.default.createClass({
             _react2.default.createElement(
                 'div',
                 { id: 'about_filmmakers_movies' },
+                _react2.default.createElement(_plain_panel_title2.default, { title: '\u7535\u5F71\u4EBA\u76F8\u5173' }),
                 _react2.default.createElement(_movies_displayer2.default, { movies: this.state.aboutFilmmakersMovies,
                     ref: 'aboutFilmmakersMovies_MoviesDisplayer' })
             ),
             _react2.default.createElement(
                 'div',
                 { id: 'about_tags_movies' },
+                _react2.default.createElement(_plain_panel_title2.default, { title: '\u7535\u5F71\u4EBA\u76F8\u5173' }),
                 _react2.default.createElement(_movies_displayer2.default, { movies: this.state.aboutTagsMovies,
                     ref: 'aboutTagsMovies_MoviesDisplayer' })
             ),
@@ -29006,7 +29008,7 @@ exports = module.exports = __webpack_require__(8)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#movie_info_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #movie_info_content #basic_info {\n    width: 100%;\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    box-sizing: border-box;\n    margin-top: 20px;\n    width: 100%; }\n    #movie_info_content #basic_info > #movie_info_displayer {\n      flex: 1;\n      display: flex;\n      width: 100%; }\n      #movie_info_content #basic_info > #movie_info_displayer > div {\n        float: left; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_img {\n        width: 200px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_img > img {\n          width: 200px;\n          height: 300px; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_text {\n        padding-left: 20px;\n        box-sizing: border-box;\n        height: 100%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text ul {\n          list-style: none;\n          display: inline; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text ul li {\n            display: inline-block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            height: auto;\n            width: auto; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul > li {\n          margin-bottom: 10px;\n          width: 25%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li {\n          width: 100%; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li, #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li > a {\n            color: rgb(61,158,255);\n            font-size: 24px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #description_li {\n          width: 100%;\n          margin-top: 20px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #tags_li {\n          width: 100%;\n          margin-top: 20px; }\n  #movie_info_content #movie_player {\n    width: 100%;\n    margin-top: 20px;\n    background-color: rgb(241,242,243);\n    display: flex; }\n    #movie_info_content #movie_player > div {\n      float: left; }\n    #movie_info_content #movie_player #m_wrapper {\n      width: 100%;\n      border-radius: 3px;\n      background-color: white;\n      padding: 20px 20px;\n      box-sizing: border-box;\n      flex: 11; }\n    #movie_info_content #movie_player #split {\n      width: 20px;\n      height: 3px;\n      background-color: red;\n      visibility: hidden; }\n    #movie_info_content #movie_player #actors_details_div_wrapper {\n      width: 100%;\n      border-radius: 3px;\n      background-color: white;\n      padding: 20px 20px;\n      box-sizing: border-box;\n      flex: 5; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#movie_info_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #movie_info_content #basic_info {\n    width: 100%;\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    box-sizing: border-box;\n    margin-top: 20px;\n    width: 100%; }\n    #movie_info_content #basic_info > #movie_info_displayer {\n      flex: 1;\n      display: flex;\n      width: 100%; }\n      #movie_info_content #basic_info > #movie_info_displayer > div {\n        float: left; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_img {\n        width: 200px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_img > img {\n          width: 200px;\n          height: 300px; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_text {\n        padding-left: 20px;\n        box-sizing: border-box;\n        height: 100%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text ul {\n          list-style: none;\n          display: inline; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text ul li {\n            display: inline-block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            height: auto;\n            width: auto; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul > li {\n          margin-bottom: 10px;\n          width: 25%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li {\n          width: 100%; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li, #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li > a {\n            color: rgb(61,158,255);\n            font-size: 24px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #description_li {\n          width: 100%;\n          margin-top: 20px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #tags_li {\n          width: 100%;\n          margin-top: 20px; }\n  #movie_info_content #movie_player {\n    width: 100%;\n    margin-top: 20px;\n    background-color: rgb(241,242,243);\n    display: flex; }\n    #movie_info_content #movie_player > div {\n      float: left; }\n    #movie_info_content #movie_player #m_wrapper {\n      width: 100%;\n      border-radius: 3px;\n      background-color: white;\n      padding: 20px 20px;\n      box-sizing: border-box;\n      flex: 11; }\n    #movie_info_content #movie_player #split {\n      width: 20px;\n      height: 3px;\n      background-color: red;\n      visibility: hidden; }\n    #movie_info_content #movie_player #actors_details_div_wrapper {\n      width: 100%;\n      border-radius: 3px;\n      background-color: white;\n      padding: 20px 20px;\n      box-sizing: border-box;\n      flex: 5; }\n  #movie_info_content #about_filmmakers_movies {\n    width: 100%;\n    width: 100%;\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    box-sizing: border-box;\n    margin-top: 20px; }\n  #movie_info_content #about_tags_movies {\n    width: 100%;\n    width: 100%;\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    box-sizing: border-box;\n    margin-top: 20px; }\n", ""]);
 
 // exports
 
