@@ -71,14 +71,19 @@ var MsgDialog = React.createClass({
         // var top = (body_h - dialog_h) / 2;
         // dialog.css("margin-left", left+"px");
         // dialog.css("margin-top", top+"px");
-
-        var contentHeight = $(this.refs.content).height();
-        $(this.refs.content).css("line-height",contentHeight);
+        var dialog = $(this.refs.dialog);
+        var content = $(this.refs.content);
+        var dialog_h = dialog.height();
+        var content_h = content.height();
+        var top = (content_h - dialog_h) / 2;
+        // $(this.refs.content).css("line-height",content_h);
+        dialog.css("margin-top", top+"px");
+        c(content_h);
     },
     render: function () {
         return (
             <div id="fragment_msg_dialog_content" ref="content">
-                <div id="dialog" className={this.state.dialogClassName}>
+                <div id="dialog" className={this.state.dialogClassName} ref="dialog">
                     <div id="body">
                         <span id="msg_p" ref="msg_p">{this.props.msg}</span>
                         <a id="close_btn" href="javascript:void(0);" onClick={this.fadeOut}>取消</a>

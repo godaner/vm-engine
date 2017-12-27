@@ -28147,9 +28147,14 @@ var MsgDialog = _react2.default.createClass({
         // var top = (body_h - dialog_h) / 2;
         // dialog.css("margin-left", left+"px");
         // dialog.css("margin-top", top+"px");
-
-        var contentHeight = $(this.refs.content).height();
-        $(this.refs.content).css("line-height", contentHeight);
+        var dialog = $(this.refs.dialog);
+        var content = $(this.refs.content);
+        var dialog_h = dialog.height();
+        var content_h = content.height();
+        var top = (content_h - dialog_h) / 2;
+        // $(this.refs.content).css("line-height",content_h);
+        dialog.css("margin-top", top + "px");
+        c(content_h);
     },
     render: function render() {
         return _react2.default.createElement(
@@ -28157,7 +28162,7 @@ var MsgDialog = _react2.default.createClass({
             { id: "fragment_msg_dialog_content", ref: "content" },
             _react2.default.createElement(
                 "div",
-                { id: "dialog", className: this.state.dialogClassName },
+                { id: "dialog", className: this.state.dialogClassName, ref: "dialog" },
                 _react2.default.createElement(
                     "div",
                     { id: "body" },
