@@ -153,14 +153,15 @@ public class CommonUtil {
      * @return
      */
     protected final static boolean isEmptyList(List<?> list) {
-        boolean allIsNull = true;
+        if(list == null || list.size() == 0 ){
+            return true;
+        }
         for (Object obj : list) {
             if (obj != null) {
-                allIsNull = false;
-                break;
+                return false;
             }
         }
-        return list == null || list.size() == 0 || allIsNull;
+        return true;
     }
 
     /**

@@ -25,11 +25,9 @@ var MsgDialog = React.createClass({
         if(msg == null || msg ==undefined){
             msg = "无消息";
         }
-        //middle show
-        this.dialogToMiddle();
 
         //set it's message
-        $(this.refs.dialog_body).find("#msg_p").html(msg);
+        $(this.refs.msg_p).html(msg);
         //show it
         this.fadeIn();
     },
@@ -60,26 +58,29 @@ var MsgDialog = React.createClass({
 
     },
     dialogToMiddle:function(){
-        var dialog = $(this.refs.dialog);
-        var body_w = document.body.clientWidth;
-        var body_h = document.body.clientHeight;
-        var dialog_w = dialog.width();
-        var dialog_h = dialog.height();
-        c(body_w);
-        c(body_h);
-        c(dialog_w);
-        c(dialog_h);
-        var left = (body_w - dialog_w) / 2;
-        var top = (body_h - dialog_h) / 2;
-        dialog.css("margin-left", left+"px");
-        dialog.css("margin-top", top+"px");
+        // var dialog = $(this.refs.dialog);
+        // var body_w = document.body.clientWidth;
+        // var body_h = document.body.clientHeight;
+        // var dialog_w = dialog.width();
+        // var dialog_h = dialog.height();
+        // c(body_w);
+        // c(body_h);
+        // c(dialog_w);
+        // c(dialog_h);
+        // var left = (body_w - dialog_w) / 2;
+        // var top = (body_h - dialog_h) / 2;
+        // dialog.css("margin-left", left+"px");
+        // dialog.css("margin-top", top+"px");
+
+        var contentHeight = $(this.refs.content).height();
+        $(this.refs.content).css("line-height",contentHeight);
     },
     render: function () {
         return (
             <div id="fragment_msg_dialog_content" ref="content">
-                <div id="dialog" className={this.state.dialogClassName} ref="dialog">
-                    <div id="body" ref="dialog_body">
-                        <span id="msg_p">{this.props.msg}</span>
+                <div id="dialog" className={this.state.dialogClassName}>
+                    <div id="body">
+                        <span id="msg_p" ref="msg_p">{this.props.msg}</span>
                         <a id="close_btn" href="javascript:void(0);" onClick={this.fadeOut}>取消</a>
                     </div>
 
