@@ -12,7 +12,7 @@ var Director = React.createClass({
             if (isEmpty(director)) {
                 return this.state.whenThereHaveNotDirector;
             } else {
-                return <a title={director.name} id="director_name" className="aLink" href="javascript:void(0);">导演 : {director.name}</a>;
+                return <a title={director.name} id="director_name" className="aLink" href="javascript:void(0);"><span>导演 : </span>{director.name}</a>;
             }
         }
 
