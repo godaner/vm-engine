@@ -24454,6 +24454,10 @@ var _msg_dialog = __webpack_require__(108);
 
 var _msg_dialog2 = _interopRequireDefault(_msg_dialog);
 
+var _user_info_page = __webpack_require__(290);
+
+var _user_info_page2 = _interopRequireDefault(_user_info_page);
+
 __webpack_require__(289);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -24490,7 +24494,8 @@ var Index = _react2.default.createClass({
                                     movieSource: '/movie/list' });
                             } }),
                         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/movie/:movieId', component: _movie_info_page2.default }),
-                        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/filmmaker/:filmmakerId', component: _filmmaker_info_page2.default })
+                        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/filmmaker/:filmmakerId', component: _filmmaker_info_page2.default }),
+                        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/user/:userId', component: _user_info_page2.default })
                     ),
                     _react2.default.createElement(_tail2.default, null),
                     _react2.default.createElement(_msg_dialog2.default, { ref: 'msg_dialog' })
@@ -29772,7 +29777,38 @@ var Head = _react2.default.createClass({
     displayName: 'Head',
 
 
+    getInitialState: function getInitialState() {
+        return {
+            user: {} //默认为空对象
+        };
+    },
+    componentDidMount: function componentDidMount() {
+        this.getOnlineUser();
+    },
+    getOnlineUser: function getOnlineUser() {
+        var url = "/user/online";
+        $.get(url, function (result) {
+
+            if (fail(result.code)) {
+
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
+                return;
+            }
+
+            var state = this.state;
+            if (isEmpty(result.data.user)) {
+                state.user = {};
+            } else {
+                state.user = result.data.user;
+            }
+
+            this.setState(state);
+        }.bind(this));
+    },
     render: function render() {
+        var location = {
+            pathname: "/user/" + this.state.user.id
+        };
         return _react2.default.createElement(
             'div',
             { id: 'fragment_head_content' },
@@ -29819,8 +29855,8 @@ var Head = _react2.default.createClass({
                                 'li',
                                 null,
                                 _react2.default.createElement(
-                                    'a',
-                                    { id: 'username', href: '#' },
+                                    _reactRouterDom.Link,
+                                    { id: 'username', to: location },
                                     '\u5218\u4E8C\u72D7\u548C\u5F20\u72D7\u86CB'
                                 )
                             ),
@@ -30689,6 +30725,88 @@ window.VmFrontendEventsDispatcher = {
         this.event.emit('closeMsgDialog');
     }
 };
+
+/***/ }),
+/* 290 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(60);
+
+__webpack_require__(291);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*用户信息界面展示*/
+//引入react组件
+var UserInfoPage = _react2.default.createClass({
+    displayName: 'UserInfoPage',
+
+    getInitialState: function getInitialState() {
+        return {
+            userId: this.props.match.params.userId,
+            userUrl: this.props.match.url
+        };
+    },
+    render: function render() {
+        return _react2.default.createElement(
+            'div',
+            null,
+            'UserInfoPage'
+        );
+    }
+});
+exports.default = UserInfoPage;
+
+/***/ }),
+/* 291 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(292);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(9)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_info_page.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_info_page.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 292 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(8)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);

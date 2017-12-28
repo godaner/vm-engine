@@ -174,7 +174,9 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             String movieImgPath = VmProperties.VM_MOVIE_IMG_PATH;
             String width = query.getImgWidth();
             String movieImgName = null;
+            String contentType = null;
             if (file != null) {
+                contentType = file.getContentType();
                 movieImgName = file.getFilename();
             }
             File f = new File(movieImgPath + File.separator + width + "_" + movieImgName);
@@ -189,7 +191,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             //设置响应的媒体类型
 //            response.setHeader("Content-Type", "g
 // ");
-            response.setContentType(file.getContentType()); // 设置返回的文件类型
+            response.setContentType(contentType); // 设置返回的文件类型
             IOUtils.copy(input, output);
         } catch (IOException e) {
             e.printStackTrace();
@@ -208,7 +210,9 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             String movieSrcPath = VmProperties.VM_MOVIE_SRC_PATH;
 
             String movieSrcName = null;
+            String contentType = null;
             if (file != null) {
+                contentType = file.getContentType();
                 movieSrcName = file.getFilename();
             }
             File f = new File(movieSrcPath + File.separator + movieSrcName);
@@ -220,7 +224,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             input = new FileInputStream(f);
             output = response.getOutputStream();
             //设置响应的媒体类型
-            response.setContentType(file.getContentType()); // 设置返回的文件类型
+            response.setContentType(contentType); // 设置返回的文件类型
 
 //            IOUtils.copy(input, output);
 

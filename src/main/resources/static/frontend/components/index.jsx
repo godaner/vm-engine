@@ -9,6 +9,7 @@ import MovieInfoPage from "./movie_info_page";
 import Head from "./head";
 import Tail from "./tail";
 import MsgDialog from "./msg_dialog";
+import UserInfoPage from "./user_info_page";
 import "./vm_frontend_events_dispatcher";
 
 var Index = React.createClass({
@@ -38,13 +39,14 @@ var Index = React.createClass({
                                    )}/>
                             <Route exact path='/movie/:movieId' component={MovieInfoPage}/>
                             <Route exact path='/filmmaker/:filmmakerId' component={FilmmakerInfoPage}/>
+                            <Route exact path='/user/:userId' component={UserInfoPage}/>
                         </Switch>
                         {
                             /*尾部*/
                         }
                         <Tail/>
                         {
-                            /*信息框*/
+                            /*信息弹出框*/
                         }
                         <MsgDialog ref="msg_dialog"/>
                     </div>

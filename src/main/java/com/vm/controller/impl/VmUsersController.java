@@ -3,6 +3,7 @@ package com.vm.controller.impl;
 import com.vm.controller.base.ServiceController;
 import com.vm.dao.po.CustomVmUsers;
 import com.vm.dao.po.VmUsers;
+import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.service.inf.VmUsersService;
 import com.vm.validator.group.VmUsersGroups;
 import org.springframework.context.annotation.Scope;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -25,7 +27,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
     /*********************************前端*********************************/
     @RequestMapping("/login")
-    private @ResponseBody
+    public @ResponseBody
     Object userLogin(@Validated(value = {VmUsersGroups.UserLogin.class}) CustomVmUsers user,
                      BindingResult result) throws Exception {
 
@@ -38,8 +40,22 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response;
     }
 
+    @RequestMapping("/online")
+    public @ResponseBody
+    Object getOnlineUser() throws Exception {
+        Object user = null;
+
+        if (!isNullObject(getSession())) {
+            user = getSession().getAttribute(KEY_OF_ONLINE_USER);
+        }
+        response.putData("user", user);
+
+
+        return response;
+    }
+
     @RequestMapping("/logout")
-    private @ResponseBody
+    public @ResponseBody
     Object userLogout() throws Exception {
 
         getSession().removeAttribute(KEY_OF_ONLINE_USER);
@@ -49,7 +65,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     }
 
     @RequestMapping("/{userId}")
-    private @ResponseBody
+    public @ResponseBody
     Object getUserBasicInfo(@PathVariable("userId") Long userId) throws Exception {
 
         VmUsers user = service.getUserBasicInfo(userId);
@@ -60,13 +76,24 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     }
 
     @RequestMapping("/update")
-    private @ResponseBody
+    public @ResponseBody
     Object updateUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class}) CustomVmUsers user,
                                BindingResult result) throws Exception {
 
         service.updateUserBasicInfo(user);
 
         return response;
+    }
+
+    /**
+     * 获取用户图片
+     *
+     * @return
+     */
+    @RequestMapping(value = "/img/{userId}", method = RequestMethod.GET)
+    public void getUserImg(@PathVariable("userId") Long userId, VmMoviesQueryBean query) throws Exception {
+        service.sendUserImg(userId, query, getResponse());
+
     }
 
     /*********************************后端*********************************/

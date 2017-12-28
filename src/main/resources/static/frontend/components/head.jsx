@@ -3,7 +3,39 @@ import {Link} from 'react-router-dom';
 import '../scss/head.scss';
 var Head = React.createClass({
 
+    getInitialState: function () {
+        return {
+            user: {}//默认为空对象
+        };
+    },
+    componentDidMount: function () {
+        this.getOnlineUser();
+    },
+    getOnlineUser: function () {
+        const url = "/user/online";
+        $.get(url, function (result) {
+
+            if(fail(result.code)){
+
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
+                return ;
+            }
+
+            var state = this.state;
+            if(isEmpty(result.data.user)){
+                state.user = {};
+            }else{
+                state.user = result.data.user;
+            }
+
+            this.setState(state);
+
+        }.bind(this));
+    },
     render: function () {
+        const location = {
+            pathname: "/user/" + this.state.user.id
+        };
         return (
             <div id="fragment_head_content">
                 <div id="nav_div">
@@ -22,11 +54,11 @@ var Head = React.createClass({
                                 </li>
 
                                 <li>
-                                    <a id="username" href="#">
+                                    <Link id="username" to={location}>
 
                                         刘二狗和张狗蛋
 
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
                                     <a href="#">注销</a>
