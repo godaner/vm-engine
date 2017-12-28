@@ -76,10 +76,10 @@ var LoginDialog = React.createClass({
                 <div id="body">
                     <div id="login_form">
                         <div id="username_div">
-                            <input id="username_input" type="text"/>
+                            <input id="username_input" type="text" placeholder="username"/>
                         </div>
                         <div id="password_div">
-                            <input id="password_input" type="password"/>
+                            <input id="password_input" type="password" placeholder="password"/>
                         </div>
                         <div id="login_btn_div">
                             <input id="login_btn_input" type="button" value="登录"/>
