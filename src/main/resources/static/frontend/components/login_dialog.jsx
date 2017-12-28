@@ -40,6 +40,9 @@ var LoginDialog = React.createClass({
     showLoginDialog: function () {
         //show it
         this.fadeIn();
+
+        //adjust ui
+        this.adjustUI();
     },
     closeLoginDialog: function () {
         //hide it
@@ -49,7 +52,7 @@ var LoginDialog = React.createClass({
 
         var state = this.state;
         $(this.refs.content).fadeIn();
-        state.dialogClassName = "block animated headShake";
+        state.dialogClassName = "block animated bounceIn";
         this.setState(state);
 
         // c(this.state);
@@ -64,8 +67,25 @@ var LoginDialog = React.createClass({
     render: function () {
         return <div id="login_dialog_content" ref="content">
             <div id="dialog" className={this.state.dialogClassName} ref="dialog">
+                <div id="head" className="clearfix">
+                    <div id="title_div">登录</div>
+                    <div id="close_div">
+                        <a href="javascript:void(0);" onClick={this.closeLoginDialog}>X</a>
+                    </div>
+                </div>
                 <div id="body">
-                    221213213
+                    <div id="login_form">
+                        <div id="username_div">
+                            <input id="username_input" type="text"/>
+                        </div>
+                        <div id="password_div">
+                            <input id="password_input" type="password"/>
+                        </div>
+                        <div id="login_btn_div">
+                            <input id="login_btn_input" type="button" value="登录"/>
+                        </div>
+
+                    </div>
                 </div>
 
             </div>

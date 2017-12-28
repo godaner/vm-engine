@@ -30919,6 +30919,9 @@ var LoginDialog = _react2.default.createClass({
     showLoginDialog: function showLoginDialog() {
         //show it
         this.fadeIn();
+
+        //adjust ui
+        this.adjustUI();
     },
     closeLoginDialog: function closeLoginDialog() {
         //hide it
@@ -30928,7 +30931,7 @@ var LoginDialog = _react2.default.createClass({
 
         var state = this.state;
         $(this.refs.content).fadeIn();
-        state.dialogClassName = "block animated headShake";
+        state.dialogClassName = "block animated bounceIn";
         this.setState(state);
 
         // c(this.state);
@@ -30948,8 +30951,44 @@ var LoginDialog = _react2.default.createClass({
                 { id: 'dialog', className: this.state.dialogClassName, ref: 'dialog' },
                 _react2.default.createElement(
                     'div',
+                    { id: 'head', className: 'clearfix' },
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'title_div' },
+                        '\u767B\u5F55'
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'close_div' },
+                        _react2.default.createElement(
+                            'a',
+                            { href: 'javascript:void(0);', onClick: this.closeLoginDialog },
+                            'X'
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
                     { id: 'body' },
-                    '221213213'
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'login_form' },
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'username_div' },
+                            _react2.default.createElement('input', { id: 'username_input', type: 'text' })
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'password_div' },
+                            _react2.default.createElement('input', { id: 'password_input', type: 'password' })
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'login_btn_div' },
+                            _react2.default.createElement('input', { id: 'login_btn_input', type: 'button', value: '\u767B\u5F55' })
+                        )
+                    )
                 )
             )
         );
@@ -30992,7 +31031,7 @@ exports = module.exports = __webpack_require__(8)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#login_dialog_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  line-height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 9999;\n  background-color: rgba(0, 0, 0, 0.8);\n  text-align: center; }\n  #login_dialog_content #dialog {\n    width: auto;\n    display: inline-block !important;\n    display: inline;\n    padding: 20px;\n    box-sizing: border-box;\n    background-color: #383d49;\n    border-radius: 2px; }\n    #login_dialog_content #dialog * {\n      color: white; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#login_dialog_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  line-height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 9999;\n  background-color: rgba(0, 0, 0, 0.8);\n  text-align: center; }\n  #login_dialog_content #dialog {\n    width: 300px;\n    display: inline-block !important;\n    display: inline;\n    padding: 10px 20px;\n    box-sizing: border-box;\n    background-color: #383d49;\n    border-radius: 2px; }\n    #login_dialog_content #dialog * {\n      color: white; }\n    #login_dialog_content #dialog > div {\n      width: 100%; }\n    #login_dialog_content #dialog #head {\n      border-bottom: 1px solid \"rgb(153,153,153)\"; }\n      #login_dialog_content #dialog #head > div {\n        padding: 15px 5px;\n        box-sizing: border-box;\n        width: 50%;\n        float: left; }\n      #login_dialog_content #dialog #head #title_div {\n        text-align: left; }\n      #login_dialog_content #dialog #head #close_div {\n        text-align: right; }\n        #login_dialog_content #dialog #head #close_div a {\n          cursor: pointer; }\n          #login_dialog_content #dialog #head #close_div a:hover {\n            color: rgb(153,153,153); }\n    #login_dialog_content #dialog #body {\n      width: 100%; }\n      #login_dialog_content #dialog #body #login_form {\n        width: 100%; }\n        #login_dialog_content #dialog #body #login_form > div {\n          width: 100%;\n          margin-bottom: 20px; }\n          #login_dialog_content #dialog #body #login_form > div > input {\n            width: 100%;\n            height: 30px;\n            border: 1px solid rgb(153,153,153);\n            color: black; }\n        #login_dialog_content #dialog #body #login_form #username_input {\n          background-image: url(\"/frontend/image/username.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          border: 1px solid rgb(153,153,153);\n          padding-left: 30px;\n          box-sizing: border-box; }\n        #login_dialog_content #dialog #body #login_form #password_input {\n          background-image: url(\"/frontend/image/password.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          padding-left: 30px;\n          box-sizing: border-box; }\n        #login_dialog_content #dialog #body #login_form #login_btn_div {\n          width: 100%;\n          text-align: center; }\n          #login_dialog_content #dialog #body #login_form #login_btn_div #login_btn_input {\n            width: 50%;\n            background-color: rgb(61,158,255); }\n", ""]);
 
 // exports
 

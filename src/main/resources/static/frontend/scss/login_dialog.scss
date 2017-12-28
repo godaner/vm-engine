@@ -15,18 +15,83 @@
     //margin-top: 300px;
     //width: 300px;
     //height: 100px;
-    width: auto;
+    width: 300px;
     display: inline-block !important;
     display: inline;
-    @include defaultSetPaddingAround(20px);
+    @include defaultSetPadding(10px,20px);
     background-color: rgb(56, 61, 73);
     border-radius: 2px;
     * {
       color: white;
     }
+    &>div{
+      @include defaultWidth;
+    }
 
+    #head{
+      border-bottom: 1px solid $defaultLightGrayColorRgb;
+      &>div{
+        @include defaultSetPadding(15px,5px);
+        width: 50%;
+        float: left;
+      }
+      #title_div{
+        text-align: left;
+      }
+      #close_div{
+        text-align: right;
+        a{
+          cursor: pointer;
+          &:hover{
+            color: unquote($defaultLightGrayColorRgb);
+          }
+        }
+
+      }
+
+
+    }
     #body {
+      @include defaultWidth;
+      #login_form{
+        @include defaultWidth;
 
+        $input_height:30px;
+        &>div{
+          @include defaultWidth;
+          margin-bottom: 20px;
+          &>input{
+            @include defaultWidth;
+            height: $input_height;
+            border:1px solid unquote($defaultLightGrayColorRgb);
+            color: black;
+          }
+
+        }
+        #username_input{
+          background-image: url("/frontend/image/username.png");
+          background-size: $input_height/1.5 $input_height/1.5;
+          background-repeat: no-repeat;
+          background-position: 5px;
+          border:1px solid unquote($defaultLightGrayColorRgb);
+          @include defaultSetPaddingLeft($input_height);
+        }
+        #password_input{
+          background-image: url("/frontend/image/password.png");
+          background-size: $input_height/1.5 $input_height/1.5;
+          background-repeat: no-repeat;
+          background-position: 5px;
+          @include defaultSetPaddingLeft($input_height);
+        }
+        #login_btn_div{
+          @include defaultWidth;
+          text-align: center;
+          #login_btn_input{
+            width: 50%;
+            background-color: unquote($defaultBlueRgb);
+          }
+        }
+      }
     }
 
   }
