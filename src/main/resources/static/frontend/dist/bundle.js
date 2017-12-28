@@ -29862,7 +29862,7 @@ var Head = _react2.default.createClass({
         var location = {
             pathname: "/user/" + this.state.user.id
         };
-
+        //在线
         var loginStatus = function () {
             return _react2.default.createElement(
                 'span',
@@ -29896,6 +29896,7 @@ var Head = _react2.default.createClass({
                 )
             );
         }.bind(this);
+        //离线
         var logoutStatus = function () {
             return _react2.default.createElement(
                 'span',
@@ -30844,6 +30845,20 @@ var UserInfoPage = _react2.default.createClass({
             userId: this.props.match.params.userId,
             userUrl: this.props.match.url
         };
+    },
+    componentDidMount: function componentDidMount() {
+        this.getUserBasicInfo();
+    },
+
+    getUserBasicInfo: function getUserBasicInfo() {
+        var url = this.state.userUrl;
+        $.get(url, function (result) {
+            // c(result);
+            if (fail(result.code)) {
+                window.VmFrontendEventsDispatcher.showMsgDialog("获取信息失败");
+                return;
+            }
+        }.bind(this));
     },
     render: function render() {
         return _react2.default.createElement(

@@ -83,7 +83,7 @@ var Head = React.createClass({
         const location = {
             pathname: "/user/" + this.state.user.id
         };
-
+        //在线
         var loginStatus = function () {
             return (
                 <span>
@@ -105,6 +105,7 @@ var Head = React.createClass({
                 </span>
             );
         }.bind(this);
+        //离线
         var logoutStatus = function () {
             return (
                 <span>

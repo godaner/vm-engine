@@ -9,6 +9,20 @@ var UserInfoPage = React.createClass({
             userUrl: this.props.match.url
         };
     },
+    componentDidMount(){
+        this.getUserBasicInfo();
+    },
+    getUserBasicInfo: function () {
+        const url = this.state.userUrl;
+        $.get(url, function (result) {
+            // c(result);
+            if (fail(result.code)) {
+                window.VmFrontendEventsDispatcher.showMsgDialog("获取信息失败");
+                return;
+            }
+
+        }.bind(this));
+    },
     render: function () {
         return <div>UserInfoPage</div>;
     }
