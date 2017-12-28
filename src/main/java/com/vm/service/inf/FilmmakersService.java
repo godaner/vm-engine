@@ -12,5 +12,5 @@ import javax.servlet.http.HttpServletResponse;
 public interface FilmmakersService {
     void sendFilmmakerImg(Long filmmakerId, VmFilmmakersQueryBean query, HttpServletResponse response) throws Exception;
 
-    VmFilmmakers getFilmmaker(Long filmmakerId) throws Exception;
+    VmFilmmakers getFilmmakerBasicInfo(Long filmmakerId) throws Exception;
 }

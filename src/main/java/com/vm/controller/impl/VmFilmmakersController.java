@@ -32,10 +32,16 @@ public class VmFilmmakersController extends ServiceController<FilmmakersService>
 
     }
 
+    /**
+     * 获取电影人基本信息
+     * @param filmmakerId
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/{filmmakerId}", method = RequestMethod.GET)
     public @ResponseBody
-    Object getFilmmaker(@PathVariable("filmmakerId") Long filmmakerId) throws Exception {
-        VmFilmmakers filmmaker = service.getFilmmaker(filmmakerId);
+    Object getFilmmakerBasicInfo(@PathVariable("filmmakerId") Long filmmakerId) throws Exception {
+        VmFilmmakers filmmaker = service.getFilmmakerBasicInfo(filmmakerId);
         response.putData("filmmaker", filmmaker);
         return response;
     }

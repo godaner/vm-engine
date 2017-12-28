@@ -18,7 +18,7 @@ var FilmmakerInfoPage = React.createClass({
         // c(this.props.match.params.filmmakerId);
         return {
             whenFilmmakerInfoIsLoading:"正在加载电影人信息",
-            filmmakerDescriptionTextLength:100,
+            filmmakerDescriptionTextLength:150,
             filmmakerDescriptionTitle:"电影人描述 : ",
             filmmaker:{},//初次渲染需要一个空对象,而不是一个undefined
             filmmakerUrl:this.props.match.url,

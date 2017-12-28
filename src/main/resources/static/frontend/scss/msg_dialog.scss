@@ -31,10 +31,12 @@
       line-height: 100%;
       height: 100%;
       #close_btn {
-        margin-left: 20px;
         &:hover{
           color: unquote($defaultLightGrayColorRgb);
         }
+      }
+      #split{
+        margin:0px 10px;
       }
     }
 

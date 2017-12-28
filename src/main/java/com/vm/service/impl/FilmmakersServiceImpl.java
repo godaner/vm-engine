@@ -65,10 +65,14 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
     }
 
     @Override
-    public VmFilmmakers getFilmmaker(Long filmmakerId) throws Exception {
+    public VmFilmmakers getFilmmakerBasicInfo(Long filmmakerId) throws Exception {
+
+        eject(isNullObject(filmmakerId),
+                "getFilmmakerBasicInfo filmmakerId is null! filmmakerId is:" + filmmakerId);
+
 
         VmFilmmakers filmmaker = vmFilmmakersMapper.selectByPrimaryKey(filmmakerId);
-        if(filmmaker != null && BasePo.Status.isDeleted(filmmaker.getStatus())){
+        if (filmmaker != null && BasePo.Status.isDeleted(filmmaker.getStatus())) {
             return null;
         }
 

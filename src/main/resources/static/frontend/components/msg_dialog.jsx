@@ -78,6 +78,7 @@ var MsgDialog = React.createClass({
                 <div id="dialog" className={this.state.dialogClassName} ref="dialog">
                     <div id="body">
                         <span id="msg_p" ref="msg_p">{this.props.msg}</span>
+                        <span id="split">|</span>
                         <a id="close_btn" href="javascript:void(0);" onClick={this.fadeOut}>{this.state.closeText}</a>
                     </div>
 
