@@ -28929,11 +28929,11 @@ var MovieInfoPage = _react2.default.createClass({
                         _react2.default.createElement(
                             'ul',
                             { id: 'text_ul' },
+                            _react2.default.createElement(_inner_messager2.default, { defaultTip: this.state.whenMovieIsLoading,
+                                ref: 'innerMessager' }),
                             _react2.default.createElement(
                                 'li',
                                 { id: 'name_li' },
-                                _react2.default.createElement(_inner_messager2.default, { defaultTip: this.state.whenMovieIsLoading,
-                                    ref: 'innerMessager' }),
                                 '\u7535\u5F71 : ',
                                 _react2.default.createElement(
                                     'a',

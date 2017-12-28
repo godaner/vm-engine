@@ -275,9 +275,9 @@ var MovieInfoPage = React.createClass({
                         </div>
                         <div id="movie_text">
                             <ul id="text_ul">
+                                <InnerMessager defaultTip={this.state.whenMovieIsLoading}
+                                               ref="innerMessager"/>
                                 <li id="name_li">
-                                    <InnerMessager defaultTip={this.state.whenMovieIsLoading}
-                                                   ref="innerMessager"/>
                                     电影 : <a href="javascript:void(0);">{this.state.movie.name}</a>
                                 </li>
                                 <li>
