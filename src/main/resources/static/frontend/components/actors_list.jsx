@@ -1,4 +1,5 @@
 import React from 'react';  //引入react组件
+import {Link} from 'react-router-dom';
 import "../scss/actors_list.scss";
 /*演员展示*/
 var ActorsList = React.createClass({
@@ -11,10 +12,15 @@ var ActorsList = React.createClass({
             var res = [];
             for (var i = 0; i < actors.length; i++) {
                 var actor = actors[i];
+                // set the location
+                const location = {
+                    pathname: '/filmmaker/' + actor.id,
+                    state: {fromDashboard: true}
+                }
                 if (i != actors.length - 1) {
-                    res.push(<span key={actor.id}><a className="aLink" href="">{actor.name}</a> / </span>);
+                    res.push(<span key={actor.id}><Link className="aLink" to={location}>{actor.name}</Link> / </span>);
                 } else {
-                    res.push(<a key={actor.id} className="aLink" href="">{actor.name}</a>);
+                    res.push(<Link key={actor.id} className="aLink" to={location}>{actor.name}</Link>);
                 }
 
             }

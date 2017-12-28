@@ -1,4 +1,5 @@
 import React from "react"; //引入react组件
+import {Link} from 'react-router-dom';
 import InnerMessager from "./inner_messager";
 import "../scss/filmmakers_details_area.scss";
 import PlainPanelTitle from "./plain_panel_title";
@@ -85,12 +86,17 @@ var FilmmakersDetailsArea = React.createClass({
 
             for (var i = 0; i < filmmakers.length; i++) {
                 var filmmaker = filmmakers[i];
+                // set the location
+                const location = {
+                    pathname: '/filmmaker/' + filmmaker.id,
+                    state: {fromDashboard: true}
+                }
                 res.push(
                     <li key={filmmaker.id} title={filmmaker.name}>
-                        <a title={filmmaker.name} href="#">
+                        <Link title={filmmaker.name} to={location}>
                             <img title={filmmaker.name} src={filmmaker.imgUrl}/>
                             <div title={filmmaker.name}>{filmmaker.name}</div>
-                        </a>
+                        </Link>
 
                     </li>
                 );
