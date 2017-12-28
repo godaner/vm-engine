@@ -64,6 +64,18 @@ var RegistDialog = React.createClass({
         $(this.refs.content).fadeOut();
         this.setState(state);
     },
+    regist: function () {
+        var username = $(this.refs.username).val();
+        var password = $(this.refs.password).val();
+        const url = "/user/regist?username=" + username + "&password=" + password;
+        $.ajax({
+            url: url,
+            type: 'PUT',
+            success: function (result) {
+                c(result);
+            }
+        });
+    },
     render: function () {
         return <div id="regist_dialog_content" ref="content">
             <div id="dialog" className={this.state.dialogClassName} ref="dialog">
@@ -76,13 +88,22 @@ var RegistDialog = React.createClass({
                 <div id="body">
                     <div id="regist_form">
                         <div id="username_div">
-                            <input id="username_input" type="text" placeholder="username"/>
+                            <input id="username_input"
+                                   type="text"
+                                   ref="username"
+                                   placeholder="username"/>
                         </div>
                         <div id="password_div">
-                            <input id="password_input" type="password" placeholder="password"/>
+                            <input id="password_input"
+                                   type="password"
+                                   ref="password"
+                                   placeholder="password"/>
                         </div>
                         <div id="regist_btn_div">
-                            <input id="regist_btn_input" type="button" value="注册"/>
+                            <input id="regist_btn_input"
+                                   type="button"
+                                   value="注册"
+                                   onClick={this.regist}/>
                         </div>
 
                     </div>

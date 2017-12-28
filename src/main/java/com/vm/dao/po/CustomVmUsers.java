@@ -1,5 +1,6 @@
 package com.vm.dao.po;
 
+import com.vm.utils.ByteConstantVar;
 import com.vm.validator.group.VmUsersGroups;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -8,14 +9,14 @@ import javax.validation.constraints.NotNull;
 /**
  * Created by ZhangKe on 2017/12/28.
  */
-public class CustomVmUsers extends BasePo{
-    @NotNull(message = "{CustomVmUsers.id.NotNull}",groups = {VmUsersGroups.UpdateUserBasicInfo.class})
+public class CustomVmUsers extends BasePo {
+    @NotNull(message = "{CustomVmUsers.id.NotNull}", groups = {VmUsersGroups.UpdateUserBasicInfo.class})
     private Long id;
 
-    @NotBlank(message = "{CustomVmUsers.username.NotBlank}",groups = {VmUsersGroups.UserLogin.class})
+    @NotBlank(message = "{CustomVmUsers.username.NotBlank}", groups = {VmUsersGroups.UserLogin.class, VmUsersGroups.UserRegist.class})
     private String username;
 
-    @NotBlank(message = "{CustomVmUsers.password.NotBlank}",groups = {VmUsersGroups.UserLogin.class})
+    @NotBlank(message = "{CustomVmUsers.password.NotBlank}", groups = {VmUsersGroups.UserLogin.class, VmUsersGroups.UserRegist.class})
     private String password;
 
     private Boolean sex;
@@ -29,6 +30,44 @@ public class CustomVmUsers extends BasePo{
     private Integer createTime;
 
     private Integer updateTime;
+
+
+    /**
+     * 状态
+     */
+    public enum Sex {
+        //性别，1为男，1为女，3未设置
+        MEN(ByteConstantVar.ONE,"男"),
+        WOMEN(ByteConstantVar.TWO,"女"),
+        UNKNOWN(ByteConstantVar.THREE,"未设置");
+
+        Byte code;
+
+        String msg;
+
+        Sex(Byte code, String msg){
+            this.code = code;
+            this.msg = msg;
+        }
+
+        public Byte getCode() {
+            return code;
+        }
+
+        public void setCode(Byte code) {
+            this.code = code;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+
+
+    }
 
     @Override
     public String toString() {

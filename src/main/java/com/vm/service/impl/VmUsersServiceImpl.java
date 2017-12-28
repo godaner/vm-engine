@@ -134,6 +134,29 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         }
     }
 
+    @Override
+    public VmUsers userRegist(CustomVmUsers user) throws Exception {
+
+        //是否存在username相同的账户
+        eject(!isNullObject(getUserByUsername(user.getUsername())),
+                "userRegist username is exits!user is :" + user);
+
+        VmUsers vmUser = makeRegistVmUser(user);
+        vmUsersMapper.insert(vmUser);
+        return vmUser;
+    }
+
+    private VmUsers makeRegistVmUser(CustomVmUsers user) {
+        VmUsers vmUsers = new VmUsers();
+        vmUsers.setUsername(user.getUsername());
+        vmUsers.setPassword(user.getPassword());
+        vmUsers.setUpdateTime(DateUtil.unixTime().intValue());
+        vmUsers.setCreateTime(DateUtil.unixTime().intValue());
+        vmUsers.setStatus(CustomVmUsers.Status.NORMAL.getCode());
+        vmUsers.setSex(CustomVmUsers.Sex.UNKNOWN.getCode());
+        return vmUsers;
+    }
+
     /**
      * 构建VmUsers
      *

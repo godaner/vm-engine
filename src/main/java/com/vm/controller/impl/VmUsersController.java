@@ -26,7 +26,20 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     public static final String KEY_OF_ONLINE_USER = "ONLINE_USER";
 
     /*********************************前端*********************************/
-    @RequestMapping("/login")
+    @RequestMapping(value = "/regist", method = RequestMethod.PUT)
+    public @ResponseBody
+    Object userRegist(@Validated(value = {VmUsersGroups.UserRegist.class}) CustomVmUsers user,
+                     BindingResult result) throws Exception {
+
+        VmUsers loginUser = service.userRegist(user);
+
+        getSession().setAttribute(KEY_OF_ONLINE_USER, loginUser);
+
+        response.putData("user", loginUser);
+
+        return response;
+    }
+    @RequestMapping(value = "/login", method = RequestMethod.PUT)
     public @ResponseBody
     Object userLogin(@Validated(value = {VmUsersGroups.UserLogin.class}) CustomVmUsers user,
                      BindingResult result) throws Exception {
@@ -40,7 +53,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response;
     }
 
-    @RequestMapping("/online")
+    @RequestMapping(value = "/online", method = RequestMethod.GET)
     public @ResponseBody
     Object getOnlineUser() throws Exception {
         Object user = null;
@@ -54,7 +67,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response;
     }
 
-    @RequestMapping("/logout")
+    @RequestMapping(value = "/logout", method = RequestMethod.PUT)
     public @ResponseBody
     Object userLogout() throws Exception {
 
@@ -64,7 +77,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
     }
 
-    @RequestMapping("/{userId}")
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
     public @ResponseBody
     Object getUserBasicInfo(@PathVariable("userId") Long userId) throws Exception {
 
@@ -75,7 +88,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response;
     }
 
-    @RequestMapping("/update")
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public @ResponseBody
     Object updateUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class}) CustomVmUsers user,
                                BindingResult result) throws Exception {
