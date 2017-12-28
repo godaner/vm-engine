@@ -29768,11 +29768,14 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(60);
 
+var _login_dialog = __webpack_require__(293);
+
+var _login_dialog2 = _interopRequireDefault(_login_dialog);
+
 __webpack_require__(278);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//引入react组件
 var Head = _react2.default.createClass({
     displayName: 'Head',
 
@@ -29805,10 +29808,83 @@ var Head = _react2.default.createClass({
             this.setState(state);
         }.bind(this));
     },
+    showLoginDialog: function showLoginDialog() {
+        this.refs.login_dialog.showLoginDialog();
+    },
+    closeLoginDialog: function closeLoginDialog() {
+        this.refs.login_dialog.closeLoginDialog();
+    },
+    onLoginSuccess: function onLoginSuccess(user) {
+
+        //when login success reset user
+        var state = this.state;
+
+        state.user = user;
+
+        this.setState(state);
+    },
     render: function render() {
         var location = {
             pathname: "/user/" + this.state.user.id
         };
+
+        var loginStatus = function loginStatus() {
+            return _react2.default.createElement(
+                'span',
+                null,
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        'a',
+                        { id: 'headImg_a', href: '#' },
+                        _react2.default.createElement('img', { id: 'headImg_img', src: this.state.user.imgUrl })
+                    )
+                ),
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        _reactRouterDom.Link,
+                        { id: 'username', to: location },
+                        '\u5218\u4E8C\u72D7\u548C\u5F20\u72D7\u86CB'
+                    )
+                ),
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        'a',
+                        { href: '#' },
+                        '\u6CE8\u9500'
+                    )
+                )
+            );
+        };
+        var logoutStatus = function () {
+            return _react2.default.createElement(
+                'span',
+                null,
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        'a',
+                        { href: 'javascript:void(0);', onClick: this.showLoginDialog },
+                        '\u767B\u5F55'
+                    )
+                ),
+                _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                        'a',
+                        { href: '#' },
+                        '\u6CE8\u518C'
+                    )
+                )
+            );
+        }.bind(this);
         return _react2.default.createElement(
             'div',
             { id: 'fragment_head_content' },
@@ -29842,42 +29918,16 @@ var Head = _react2.default.createClass({
                         _react2.default.createElement(
                             'ul',
                             { id: 'user_ul' },
-                            _react2.default.createElement(
-                                'li',
-                                null,
-                                _react2.default.createElement(
-                                    'a',
-                                    { id: 'headImg_a', href: '#' },
-                                    _react2.default.createElement('img', { id: 'headImg_img', src: '/frontend/image/head.png' })
-                                )
-                            ),
-                            _react2.default.createElement(
-                                'li',
-                                null,
-                                _react2.default.createElement(
-                                    _reactRouterDom.Link,
-                                    { id: 'username', to: location },
-                                    '\u5218\u4E8C\u72D7\u548C\u5F20\u72D7\u86CB'
-                                )
-                            ),
-                            _react2.default.createElement(
-                                'li',
-                                null,
-                                _react2.default.createElement(
-                                    'a',
-                                    { href: '#' },
-                                    '\u6CE8\u9500'
-                                )
-                            )
+                            isEmpty(this.state.user) ? logoutStatus() : loginStatus()
                         )
                     )
                 )
             ),
-            _react2.default.createElement('div', { id: 'blank_div' })
+            _react2.default.createElement('div', { id: 'blank_div' }),
+            _react2.default.createElement(_login_dialog2.default, { ref: 'login_dialog', onLoginSuccess: this.onLoginSuccess })
         );
     }
-});
-
+}); //引入react组件
 exports.default = Head; //将App组件导出
 
 /***/ }),
@@ -30804,6 +30854,145 @@ exports = module.exports = __webpack_require__(8)();
 
 // module
 exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 293 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(60);
+
+__webpack_require__(294);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*登录框*/
+//引入react组件
+var LoginDialog = _react2.default.createClass({
+    displayName: 'LoginDialog',
+
+    getInitialState: function getInitialState() {
+        return {
+            dialogClassName: ""
+        };
+    },
+    componentDidMount: function componentDidMount() {
+        window.addEventListener('resize', this.onWindowResize);
+
+        //adjust ui
+        this.adjustUI();
+    },
+    componentWillUnmount: function componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+    },
+    onWindowResize: function onWindowResize() {
+        this.adjustUI();
+    },
+    adjustUI: function adjustUI() {
+        {
+            /*调整样式*/
+        }
+        this.dialogToMiddle();
+    },
+    dialogToMiddle: function dialogToMiddle() {
+        //垂直居中
+        var dialog = $(this.refs.dialog);
+        var content = $(this.refs.content);
+        var dialog_h = dialog.height();
+        var content_h = content.height();
+        var top = (content_h - dialog_h) / 2;
+        dialog.css("margin-top", top + "px");
+    },
+    showLoginDialog: function showLoginDialog() {
+        //show it
+        this.fadeIn();
+    },
+    closeLoginDialog: function closeLoginDialog() {
+        //hide it
+        this.fadeOut();
+    },
+    fadeIn: function fadeIn() {
+
+        var state = this.state;
+        $(this.refs.content).fadeIn();
+        state.dialogClassName = "block animated headShake";
+        this.setState(state);
+
+        // c(this.state);
+    },
+    fadeOut: function fadeOut() {
+        var state = this.state;
+        state.dialogClassName = "animated bounceOut";
+        $(this.refs.content).fadeOut();
+        this.setState(state);
+    },
+    render: function render() {
+        return _react2.default.createElement(
+            'div',
+            { id: 'login_dialog_content', ref: 'content' },
+            _react2.default.createElement(
+                'div',
+                { id: 'dialog', className: this.state.dialogClassName, ref: 'dialog' },
+                _react2.default.createElement(
+                    'div',
+                    { id: 'body' },
+                    '221213213'
+                )
+            )
+        );
+    }
+});
+exports.default = LoginDialog;
+
+/***/ }),
+/* 294 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(295);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(9)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./login_dialog.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./login_dialog.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 295 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(8)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#login_dialog_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  line-height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 9999;\n  background-color: rgba(0, 0, 0, 0.8);\n  text-align: center; }\n  #login_dialog_content #dialog {\n    width: auto;\n    display: inline-block !important;\n    display: inline;\n    padding: 20px;\n    box-sizing: border-box;\n    background-color: #383d49;\n    border-radius: 2px; }\n    #login_dialog_content #dialog * {\n      color: white; }\n", ""]);
 
 // exports
 

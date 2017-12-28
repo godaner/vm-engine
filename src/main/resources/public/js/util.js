@@ -176,14 +176,14 @@ function contain(arr, e) {
  * @param obj
  */
 function isEmpty(obj) {
-    return obj == null || obj == undefined || obj == "" || obj == "null";
+    return obj == null || obj == undefined || JSON.stringify(obj) == "{}" || obj == "" || obj == "null";
 }
 /**
  * 验证集合是否为空;
  * @param list
  */
 function isEmptyList(list) {
-    return isEmpty(list) || list.length == 0 ;
+    return isEmpty(list) || list.length == 0;
 }
 
 // 对Date的扩展，将 Date 转化为指定格式的String
@@ -214,7 +214,7 @@ var timeFormatter = {
      */
     formatDate: function (longDate, pattern) {
 
-        if(isEmpty(longDate)){
+        if (isEmpty(longDate)) {
             return undefined;
         }
         if (isEmpty(pattern)) {
@@ -229,7 +229,7 @@ var timeFormatter = {
      * 将long型的time格式化为指定格式
      */
     formatTime: function (longTime, pattern) {
-        if(isEmpty(longTime)){
+        if (isEmpty(longTime)) {
             return undefined;
         }
         if (isEmpty(pattern)) {
