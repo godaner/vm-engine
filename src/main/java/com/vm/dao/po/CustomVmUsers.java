@@ -1,10 +1,21 @@
 package com.vm.dao.po;
 
-public class VmUsers{
+import com.vm.validator.group.VmUsersGroups;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
+
+/**
+ * Created by ZhangKe on 2017/12/28.
+ */
+public class CustomVmUsers extends BasePo{
+    @NotNull(message = "{CustomVmUsers.id.NotNull}",groups = {VmUsersGroups.UpdateUserBasicInfo.class})
     private Long id;
 
+    @NotBlank(message = "{CustomVmUsers.username.NotBlank}",groups = {VmUsersGroups.UserLogin.class})
     private String username;
 
+    @NotBlank(message = "{CustomVmUsers.password.NotBlank}",groups = {VmUsersGroups.UserLogin.class})
     private String password;
 
     private Boolean sex;
@@ -19,6 +30,21 @@ public class VmUsers{
 
     private Integer updateTime;
 
+    @Override
+    public String toString() {
+        return "CustomVmUsers{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", sex=" + sex +
+                ", birthday=" + birthday +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "} " + super.toString();
+    }
+
     public Long getId() {
         return id;
     }
@@ -32,7 +58,7 @@ public class VmUsers{
     }
 
     public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+        this.username = username;
     }
 
     public String getPassword() {
@@ -40,7 +66,7 @@ public class VmUsers{
     }
 
     public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+        this.password = password;
     }
 
     public Boolean getSex() {
@@ -64,7 +90,7 @@ public class VmUsers{
     }
 
     public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+        this.description = description;
     }
 
     public Byte getStatus() {

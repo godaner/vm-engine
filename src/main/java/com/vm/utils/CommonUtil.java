@@ -6,6 +6,7 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -171,7 +172,7 @@ public class CommonUtil {
      * @return
      */
     protected final static boolean isEmptyList(Object[] arr) {
-        return arr == null || arr.length == 0;
+        return isEmptyList(Lists.newArrayList(arr));
     }
 
     /**
