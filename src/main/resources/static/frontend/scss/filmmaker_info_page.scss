@@ -28,24 +28,23 @@
         }
       }
       #filmmaker_text {
+        overflow: hidden;
         @include defaultSetPaddingLeft(20px);
         //flex: 1;
         height: 100%;
         //background-color: black;
         @include defaultHUl;
         #text_ul {
+          overflow: hidden;
           & > li {
             margin-bottom: 10px;
             width: 25%;
           }
+
           #name_li {
-
-            width:auto;
-            display: block;
+            width:100%;
             overflow: hidden;
-            white-space: nowrap;
             text-overflow: ellipsis;
-
             &, & > a {
               color: unquote($defaultBlueRgb);
               font-size: 24px;
@@ -53,7 +52,7 @@
           }
           #description_li {
             width: 100%;
-            margin-top: 20px;
+            //margin-top: 20px;
           }
 
         }

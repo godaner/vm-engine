@@ -195,10 +195,10 @@ var FilmmakerInfoPage = React.createClass({
                         </div>
                         <div id="filmmaker_text">
                             <ul id="text_ul">
+                                <InnerMessager defaultTip={this.state.whenFilmmakerInfoIsLoading}
+                                               ref="innerMessager"/>
                                 <li id="name_li">
-                                    <InnerMessager defaultTip={this.state.whenFilmmakerInfoIsLoading}
-                                                   ref="innerMessager"/>
-                                    演员 : <a href="javascript:void(0);">{this.state.filmmaker.name}</a>
+                                    演员 : <a title={this.state.filmmaker.name} href="javascript:void(0);">{this.state.filmmaker.name}</a>
                                 </li>
                                 <li>
                                     别名 : <a href="javascript:void(0);">{this.state.filmmaker.alias}</a>
