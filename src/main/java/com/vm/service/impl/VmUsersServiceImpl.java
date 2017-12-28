@@ -11,6 +11,7 @@ import com.vm.utils.VmProperties;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -85,8 +86,14 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         return dbUser;
     }
 
-    private void coverUserSomeInfo(VmUsers dbUser) {
-        dbUser.setPassword("");
+    /**
+     * 屏蔽相关字段
+     * @param user
+     * @return
+     */
+    private VmUsers coverUserSomeInfo(VmUsers user) {
+        user.setPassword("");
+        return user;
     }
 
     @Override
@@ -100,12 +107,12 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     }
 
     @Override
-    public void sendUserImg(Long userId, VmMoviesQueryBean query, HttpServletResponse response) throws Exception {
+    public void sendUserImg(Long fileId, VmMoviesQueryBean query, HttpServletResponse response) throws Exception {
         FileInputStream input = null;
         ServletOutputStream output = null;
         try {
             //获取用户图片id信息
-            VmFiles file = vmFilesMapper.selectByPrimaryKey(userId);
+            VmFiles file = vmFilesMapper.selectByPrimaryKey(fileId);
             String userImgPath = VmProperties.VM_USER_IMG_PATH;
             String width = query.getImgWidth();
             String userImgName = null;
@@ -117,9 +124,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             File f = new File(userImgPath + File.separator + width + "_" + userImgName);
             //不存在，返回默认图片
             if (!f.exists()) {
-                width = VmProperties.VM_USER_IMG_DEFAULT_WIDTH;
-                userImgName = VmProperties.VM_USER_IMG_DEFAULT_NAME;
-                f = new File(userImgPath + File.separator + width + "_" + userImgName);
+                f = new File(userImgPath + File.separator + VmProperties.VM_USER_IMG_DEFAULT_NAME);
             }
             output = response.getOutputStream();
             input = new FileInputStream(f);
@@ -135,15 +140,15 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     }
 
     @Override
+    @Transactional
     public VmUsers userRegist(CustomVmUsers user) throws Exception {
 
         //是否存在username相同的账户
         eject(!isNullObject(getUserByUsername(user.getUsername())),
                 "userRegist username is exits!user is :" + user);
-
-        VmUsers vmUser = makeRegistVmUser(user);
-        vmUsersMapper.insert(vmUser);
-        return vmUser;
+        vmUsersMapper.insert(makeRegistVmUser(user));
+        VmUsers vmUsers = getUserByUsername(user.getUsername());
+        return coverUserSomeInfo(vmUsers);
     }
 
     private VmUsers makeRegistVmUser(CustomVmUsers user) {
@@ -154,6 +159,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         vmUsers.setCreateTime(DateUtil.unixTime().intValue());
         vmUsers.setStatus(CustomVmUsers.Status.NORMAL.getCode());
         vmUsers.setSex(CustomVmUsers.Sex.UNKNOWN.getCode());
+        vmUsers.setImgUrl(CustomVmUsers.USER_IMG_URL_PREFIX);
         return vmUsers;
     }
 

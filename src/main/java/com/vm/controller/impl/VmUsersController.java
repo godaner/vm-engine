@@ -103,9 +103,9 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @return
      */
-    @RequestMapping(value = "/img/{userId}", method = RequestMethod.GET)
-    public void getUserImg(@PathVariable("userId") Long userId, VmMoviesQueryBean query) throws Exception {
-        service.sendUserImg(userId, query, getResponse());
+    @RequestMapping(value = "/img/{fileId}", method = RequestMethod.GET)
+    public void getUserImg(@PathVariable("fileId") Long fileId, VmMoviesQueryBean query) throws Exception {
+        service.sendUserImg(fileId, query, getResponse());
 
     }
 

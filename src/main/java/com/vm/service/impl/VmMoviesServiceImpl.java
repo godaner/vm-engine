@@ -111,16 +111,17 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
     /**
      * 去除list的重复filmmaker
+     *
      * @param filmmakers
      * @return
      */
     private List<VmFilmmakers> takeOffSameFilmmakers(List<VmFilmmakers> filmmakers) {
-        if(isEmptyList(filmmakers)){
+        if (isEmptyList(filmmakers)) {
             return Lists.newArrayList();
         }
-        Map<Long,VmFilmmakers> map = Maps.newHashMap();
-        for (VmFilmmakers filmmaker: filmmakers) {
-            map.put(filmmaker.getId(),filmmaker);
+        Map<Long, VmFilmmakers> map = Maps.newHashMap();
+        for (VmFilmmakers filmmaker : filmmakers) {
+            map.put(filmmaker.getId(), filmmaker);
         }
         return Lists.newArrayList(map.values());
     }
@@ -147,13 +148,13 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
 
     @Override
-    public List<VmMovies> getAboutTagsMovies(PageBean page,VmMoviesQueryBean query) throws Exception {
-        return customVmMoviesMapper.getAboutTagsMovies(page,query);
+    public List<VmMovies> getAboutTagsMovies(PageBean page, VmMoviesQueryBean query) throws Exception {
+        return customVmMoviesMapper.getAboutTagsMovies(page, query);
     }
 
     @Override
     public List<VmMovies> getAboutFilmmakersMovies(PageBean page, VmMoviesQueryBean query) {
-        return customVmMoviesMapper.getAboutFilmmakersMovies(page,query);
+        return customVmMoviesMapper.getAboutFilmmakersMovies(page, query);
     }
 
 
@@ -182,14 +183,11 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             File f = new File(movieImgPath + File.separator + width + "_" + movieImgName);
             //不存在，返回默认图片
             if (!f.exists()) {
-                width = VmProperties.VM_MOVIE_IMG_DEFAULT_WIDTH;
-                movieImgName = VmProperties.VM_MOVIE_IMG_DEFAULT_NAME;
-                f = new File(movieImgPath + File.separator + width + "_" + movieImgName);
+                f = new File(movieImgPath + File.separator + VmProperties.VM_MOVIE_IMG_DEFAULT_NAME);
             }
             input = new FileInputStream(f);
             output = response.getOutputStream();
             //设置响应的媒体类型
-//            response.setHeader("Content-Type", "g
 // ");
             response.setContentType(contentType); // 设置返回的文件类型
             IOUtils.copy(input, output);

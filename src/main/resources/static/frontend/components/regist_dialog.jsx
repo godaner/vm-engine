@@ -73,7 +73,17 @@ var RegistDialog = React.createClass({
             type: 'PUT',
             success: function (result) {
                 c(result);
-            }
+                if(fail(result.code)){
+                    window.VmFrontendEventsDispatcher.showMsgDialog("注册失败");
+                    return ;
+                }
+
+                //hide regist dialog
+                this.closeRegistDialog();
+
+                //callfun
+                this.props.onRegistSuccess(result.data.user);
+            }.bind(this)
         });
     },
     render: function () {

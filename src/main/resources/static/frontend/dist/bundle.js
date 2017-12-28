@@ -29821,12 +29821,7 @@ var Head = _react2.default.createClass({
     },
     onLoginSuccess: function onLoginSuccess(user) {
 
-        //when login success reset user
-        var state = this.state;
-
-        state.user = user;
-
-        this.setState(state);
+        this.updateStateUser(user);
     },
     showRegistDialog: function showRegistDialog() {
         this.refs.regist_dialog.showRegistDialog();
@@ -29834,13 +29829,41 @@ var Head = _react2.default.createClass({
     closeRegistDialog: function closeRegistDialog() {
         this.refs.regist_dialog.closeRegistDialog();
     },
-    onRegistSuccess: function onRegistSuccess() {},
+    onRegistSuccess: function onRegistSuccess(user) {
+        this.updateStateUser(user);
+    },
+    updateStateUser: function updateStateUser(user) {
+        //when login success reset user
+        var state = this.state;
+
+        state.user = user;
+
+        this.setState(state);
+    },
+
+    logout: function logout() {
+        var url = "/user/logout";
+        $.ajax({
+            url: url,
+            type: 'PUT',
+            success: function (result) {
+                // c(result);
+                if (fail(result.code)) {
+                    window.VmFrontendEventsDispatcher.showMsgDialog("注销失败");
+                    return;
+                }
+                window.VmFrontendEventsDispatcher.showMsgDialog("注销成功");
+                //update user in state
+                this.updateStateUser({});
+            }.bind(this)
+        });
+    },
     render: function render() {
         var location = {
             pathname: "/user/" + this.state.user.id
         };
 
-        var loginStatus = function loginStatus() {
+        var loginStatus = function () {
             return _react2.default.createElement(
                 'span',
                 null,
@@ -29859,7 +29882,7 @@ var Head = _react2.default.createClass({
                     _react2.default.createElement(
                         _reactRouterDom.Link,
                         { id: 'username', to: location },
-                        '\u5218\u4E8C\u72D7\u548C\u5F20\u72D7\u86CB'
+                        this.state.user.username
                     )
                 ),
                 _react2.default.createElement(
@@ -29867,12 +29890,12 @@ var Head = _react2.default.createClass({
                     null,
                     _react2.default.createElement(
                         'a',
-                        { href: '#' },
+                        { href: 'javascript:void(0);', onClick: this.logout },
                         '\u6CE8\u9500'
                     )
                 )
             );
-        };
+        }.bind(this);
         var logoutStatus = function () {
             return _react2.default.createElement(
                 'span',
@@ -31141,9 +31164,19 @@ var RegistDialog = _react2.default.createClass({
         $.ajax({
             url: url,
             type: 'PUT',
-            success: function success(result) {
+            success: function (result) {
                 c(result);
-            }
+                if (fail(result.code)) {
+                    window.VmFrontendEventsDispatcher.showMsgDialog("注册失败");
+                    return;
+                }
+
+                //hide regist dialog
+                this.closeRegistDialog();
+
+                //callfun
+                this.props.onRegistSuccess(result.data.user);
+            }.bind(this)
         });
     },
     render: function render() {

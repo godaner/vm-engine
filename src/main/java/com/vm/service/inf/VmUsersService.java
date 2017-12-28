@@ -18,7 +18,7 @@ public interface VmUsersService {
 
     void updateUserBasicInfo(CustomVmUsers user) throws Exception;
 
-    void sendUserImg(Long userId, VmMoviesQueryBean query, HttpServletResponse response) throws Exception;
+    void sendUserImg(Long fileId, VmMoviesQueryBean query, HttpServletResponse response) throws Exception;
 
     VmUsers userRegist(CustomVmUsers user) throws Exception;
 }

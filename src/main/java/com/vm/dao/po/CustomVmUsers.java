@@ -1,6 +1,7 @@
 package com.vm.dao.po;
 
 import com.vm.utils.ByteConstantVar;
+import com.vm.utils.VmProperties;
 import com.vm.validator.group.VmUsersGroups;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -10,6 +11,10 @@ import javax.validation.constraints.NotNull;
  * Created by ZhangKe on 2017/12/28.
  */
 public class CustomVmUsers extends BasePo {
+
+    //注册用户时填入的默认img_url前缀
+    public static final String USER_IMG_URL_PREFIX = VmProperties.VM_USER_IMG_URL_PREFIX;
+
     @NotNull(message = "{CustomVmUsers.id.NotNull}", groups = {VmUsersGroups.UpdateUserBasicInfo.class})
     private Long id;
 
@@ -19,7 +24,7 @@ public class CustomVmUsers extends BasePo {
     @NotBlank(message = "{CustomVmUsers.password.NotBlank}", groups = {VmUsersGroups.UserLogin.class, VmUsersGroups.UserRegist.class})
     private String password;
 
-    private Boolean sex;
+    private Byte sex;
 
     private Integer birthday;
 
@@ -30,6 +35,7 @@ public class CustomVmUsers extends BasePo {
     private Integer createTime;
 
     private Integer updateTime;
+    private String imgUrl;
 
 
     /**
@@ -37,15 +43,15 @@ public class CustomVmUsers extends BasePo {
      */
     public enum Sex {
         //性别，1为男，1为女，3未设置
-        MEN(ByteConstantVar.ONE,"男"),
-        WOMEN(ByteConstantVar.TWO,"女"),
-        UNKNOWN(ByteConstantVar.THREE,"未设置");
+        MEN(ByteConstantVar.ONE, "男"),
+        WOMEN(ByteConstantVar.TWO, "女"),
+        UNKNOWN(ByteConstantVar.THREE, "未设置");
 
         Byte code;
 
         String msg;
 
-        Sex(Byte code, String msg){
+        Sex(Byte code, String msg) {
             this.code = code;
             this.msg = msg;
         }
@@ -84,6 +90,14 @@ public class CustomVmUsers extends BasePo {
                 "} " + super.toString();
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
     public Long getId() {
         return id;
     }
@@ -108,11 +122,11 @@ public class CustomVmUsers extends BasePo {
         this.password = password;
     }
 
-    public Boolean getSex() {
+    public Byte getSex() {
         return sex;
     }
 
-    public void setSex(Boolean sex) {
+    public void setSex(Byte sex) {
         this.sex = sex;
     }
 
@@ -155,4 +169,5 @@ public class CustomVmUsers extends BasePo {
     public void setUpdateTime(Integer updateTime) {
         this.updateTime = updateTime;
     }
+
 }

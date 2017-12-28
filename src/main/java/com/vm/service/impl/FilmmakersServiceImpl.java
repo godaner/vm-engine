@@ -46,15 +46,11 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
             File f = new File(USERImgPath + File.separator + width + "_" + USERImgName);
             //不存在，返回默认图片
             if (!f.exists()) {
-                width = VmProperties.VM_USER_IMG_DEFAULT_WIDTH;
-                USERImgName = VmProperties.VM_USER_IMG_DEFAULT_NAME;
-                f = new File(USERImgPath + File.separator + width + "_" + USERImgName);
+                f = new File(USERImgPath + File.separator + VmProperties.VM_USER_IMG_DEFAULT_NAME);
             }
             input = new FileInputStream(f);
             output = response.getOutputStream();
             //设置响应的媒体类型
-//            response.setHeader("Content-Type", "g
-// ");
             response.setContentType(file.getContentType()); // 设置返回的文件类型
             IOUtils.copy(input, output);
         } catch (IOException e) {

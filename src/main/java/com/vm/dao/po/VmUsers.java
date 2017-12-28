@@ -1,13 +1,13 @@
 package com.vm.dao.po;
 
-public class VmUsers{
+public class VmUsers {
     private Long id;
 
     private String username;
 
     private String password;
 
-    private Boolean sex;
+    private Byte sex;
 
     private Integer birthday;
 
@@ -18,6 +18,8 @@ public class VmUsers{
     private Integer createTime;
 
     private Integer updateTime;
+
+    private String imgUrl;
 
     public Long getId() {
         return id;
@@ -43,11 +45,11 @@ public class VmUsers{
         this.password = password == null ? null : password.trim();
     }
 
-    public Boolean getSex() {
+    public Byte getSex() {
         return sex;
     }
 
-    public void setSex(Boolean sex) {
+    public void setSex(Byte sex) {
         this.sex = sex;
     }
 
@@ -89,5 +91,13 @@ public class VmUsers{
 
     public void setUpdateTime(Integer updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl == null ? null : imgUrl.trim();
     }
 }

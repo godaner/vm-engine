@@ -42,12 +42,7 @@ var Head = React.createClass({
     },
     onLoginSuccess: function (user) {
 
-        //when login success reset user
-        var state = this.state;
-
-        state.user = user;
-
-        this.setState(state);
+        this.updateStateUser(user);
     },
     showRegistDialog: function () {
         this.refs.regist_dialog.showRegistDialog();
@@ -55,9 +50,34 @@ var Head = React.createClass({
     closeRegistDialog: function () {
         this.refs.regist_dialog.closeRegistDialog();
     },
-    onRegistSuccess: function () {
+    onRegistSuccess: function (user) {
+        this.updateStateUser(user);
+    },
+    updateStateUser(user){
+        //when login success reset user
+        var state = this.state;
 
+        state.user = user;
 
+        this.setState(state);
+    },
+    logout:function(){
+        const url = "/user/logout";
+        $.ajax({
+            url: url,
+            type: 'PUT',
+            success: function (result) {
+                // c(result);
+                if(fail(result.code)){
+                    window.VmFrontendEventsDispatcher.showMsgDialog("注销失败");
+                    return ;
+                }
+                window.VmFrontendEventsDispatcher.showMsgDialog("注销成功");
+                //update user in state
+                this.updateStateUser({});
+
+            }.bind(this)
+        });
     },
     render: function () {
         const location = {
@@ -75,16 +95,16 @@ var Head = React.createClass({
                     <li>
                         <Link id="username" to={location}>
 
-                        刘二狗和张狗蛋
+                            {this.state.user.username}
 
                         </Link>
                     </li>
                     <li>
-                    <a href="#">注销</a>
+                    <a href="javascript:void(0);" onClick={this.logout}>注销</a>
                     </li>
                 </span>
             );
-        }
+        }.bind(this);
         var logoutStatus = function () {
             return (
                 <span>

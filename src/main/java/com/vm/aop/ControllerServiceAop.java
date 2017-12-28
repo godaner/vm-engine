@@ -128,7 +128,7 @@ public class ControllerServiceAop {
         } catch (VmRuntimeException e) {//提供详细错误信息输出到前台
             e.printStackTrace();
             logger.error("ERROR ==> [{} # {}] ==> {}", method.toString(), methodArgsNameAndValue, e.toString());
-            response.setCode(e.getErrorCode().intValue());
+            response.setCode(e.getErrorCode());
             response.setMsg(e.getMessage());
         } catch (RuntimeException e) {//只输出failed信息，不提供详细错误信息
             e.printStackTrace();
