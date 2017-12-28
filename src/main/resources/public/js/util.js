@@ -213,6 +213,10 @@ var timeFormatter = {
      * 将long型的date格式化为指定格式
      */
     formatDate: function (longDate, pattern) {
+
+        if(isEmpty(longDate)){
+            return undefined;
+        }
         if (isEmpty(pattern)) {
             pattern = "yyyy-MM-dd"
         }
@@ -225,6 +229,9 @@ var timeFormatter = {
      * 将long型的time格式化为指定格式
      */
     formatTime: function (longTime, pattern) {
+        if(isEmpty(longTime)){
+            return undefined;
+        }
         if (isEmpty(pattern)) {
             pattern = "yyyy-MM-dd HH:mm:ss"
         }

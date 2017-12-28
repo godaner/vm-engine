@@ -1,6 +1,7 @@
 package com.vm.controller.impl;
 
 import com.vm.controller.base.ServiceController;
+import com.vm.dao.po.VmFilmmakers;
 import com.vm.dao.qo.VmFilmmakersQueryBean;
 import com.vm.service.inf.FilmmakersService;
 import org.springframework.context.annotation.Scope;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
@@ -28,6 +30,14 @@ public class VmFilmmakersController extends ServiceController<FilmmakersService>
 
         service.sendFilmmakerImg(filmmakerId, query, getResponse());
 
+    }
+
+    @RequestMapping(value = "/{filmmakerId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Object getFilmmaker(@PathVariable("filmmakerId") Long filmmakerId) throws Exception {
+        VmFilmmakers filmmaker = service.getFilmmaker(filmmakerId);
+        response.putData("filmmaker", filmmaker);
+        return response;
     }
 
     /*********************************后端*********************************/

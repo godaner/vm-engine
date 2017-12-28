@@ -1,7 +1,10 @@
 package com.vm.service.impl;
 
 import com.vm.dao.mapper.VmFilesMapper;
+import com.vm.dao.mapper.VmFilmmakersMapper;
+import com.vm.dao.po.BasePo;
 import com.vm.dao.po.VmFiles;
+import com.vm.dao.po.VmFilmmakers;
 import com.vm.dao.qo.VmFilmmakersQueryBean;
 import com.vm.service.base.BaseService;
 import com.vm.service.inf.FilmmakersService;
@@ -24,6 +27,8 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
 
     @Autowired
     private VmFilesMapper vmFilesMapper;
+    @Autowired
+    private VmFilmmakersMapper vmFilmmakersMapper;
 
     @Override
     public void sendFilmmakerImg(Long filmmakerId, VmFilmmakersQueryBean query, HttpServletResponse response) throws Exception {
@@ -57,5 +62,16 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
         } finally {
             closeStream(input, output);
         }
+    }
+
+    @Override
+    public VmFilmmakers getFilmmaker(Long filmmakerId) throws Exception {
+
+        VmFilmmakers filmmaker = vmFilmmakersMapper.selectByPrimaryKey(filmmakerId);
+        if(filmmaker != null && BasePo.Status.isDeleted(filmmaker.getStatus())){
+            return null;
+        }
+
+        return filmmaker;
     }
 }

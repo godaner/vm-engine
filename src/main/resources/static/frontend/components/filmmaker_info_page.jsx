@@ -11,28 +11,20 @@ import MoviesDisplayer from "./movies_displayer";
 import MsgDialog from "./msg_dialog";
 import PlainPanelTitle from "./plain_panel_title";
 /*import '../../../public/js/ckplayer/ckplayer/ckplayer.js';*/
-
+/*电影人详情展示页面*/
 var FilmmakerInfoPage = React.createClass({
     getInitialState: function () {
         //init state
+        // c(this.props.match.params.filmmakerId);
         return {
-            movieDescriptionTitle: "电影简介 : ",
-            whenMovieIsLoading: "加载电影信息",
-            movieDescriptionTextLength: 100,
-            movie: {},
-            movieUrl:this.props.match.url,//请求电影基本信息的url
-            targetMovieId: this.props.match.params.movieId,
-            //thisMovieFilmmakerIds:undefined,
-            //thisMovieTagIds:undefined,
+            whenFilmmakerInfoIsLoading:"正在加载电影人信息",
+            filmmakerDescriptionTextLength:100,
+            filmmakerDescriptionTitle:"电影人描述 : ",
+            filmmaker:{},//初次渲染需要一个空对象,而不是一个undefined
+            filmmakerUrl:this.props.match.url,
+            filmmakerId:this.props.match.params.filmmakerId,
             aboutFilmmakersMovies: undefined,
             aboutFilmmakersMoviesPage: {
-                size: 10,
-                start: 0,
-                orderBy: "score",
-                orderType: "desc"
-            },
-            aboutTagsMovies: undefined,
-            aboutTagsMoviesPage: {
                 size: 10,
                 start: 0,
                 orderBy: "score",
@@ -45,8 +37,11 @@ var FilmmakerInfoPage = React.createClass({
         //add resize event listener
         window.addEventListener('resize', this.onWindowResize);
 
-        //get movie
-        this.getMovieBasicInfo();
+        //get filmmaker
+        this.getFilmmakerBasicInfo();
+
+        //get about filmmaker movies
+        this.getAboutFilmmakerMovies([this.state.filmmakerId]);
 
         //adjust ui
         this.adjustUI();
@@ -80,24 +75,23 @@ var FilmmakerInfoPage = React.createClass({
     },
 
     showDialogMsg(msg){
-        this.refs.index_msg_dialog.showMsg(msg);
+        this.refs.msg_dialog.showMsg(msg);
     },
-    getMovieBasicInfo: function (callfun) {
+    getFilmmakerBasicInfo: function (callfun) {
         //show tip
-        this.showMovieInfoTip(this.state.whenMovieIsLoading);
-
-
-        // var movieId = this.state.targetMovieId;
+        this.showFilmmakerTip(this.state.whenFilmmakerInfoIsLoading);
 
 
         //get movie info
-        const url = this.state.movieUrl;
+        const url = this.state.filmmakerUrl;
         // c(url);
         this.serverRequest = $.get(url, function (result) {
 
+            // c("getFilmmakerBasicInfo");
+            // c(result);
 
             //close tip
-            this.showMovieInfoTip();
+            this.showFilmmakerTip();
 
             if (fail(result.code)) {
                 return;
@@ -107,95 +101,25 @@ var FilmmakerInfoPage = React.createClass({
 
             //set movie info to state
 
-            state.movie = result.data.movie;
+            state.filmmaker = result.data.filmmaker;
 
             this.setState(state);
 
-            //update movie description
-            // this.updateMovieDescription(state.movie.description);
 
             //lazy load img
             this.lazyLoadImg();
 
 
-            // c(this.state)
             //callfun
             if (callfun != undefined) {
                 callfun()
             }
         }.bind(this));
     },
-    showMovieInfoTip(msg, loop) {
+    showFilmmakerTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
     },
-    loadingAboutTagsMovies: function () {
-        this.refs.aboutTagsMovies_MoviesDisplayer.loadingMoviesTip();
-    },
-    hideAboutTagsMovies: function () {
-        this.refs.aboutTagsMovies_MoviesDisplayer.hideMovieTip();
-    },
-    noAboutTagsMovies: function () {
-        this.refs.aboutTagsMovies_MoviesDisplayer.noMoviesTip();
-    },
-    getAboutTagsMovies: function (movieTags) {
-        c(movieTags);
-        if(isEmptyList(movieTags)){
 
-            this.noAboutTagsMovies();
-            return ;
-        }
-
-        //show tip
-        this.loadingAboutTagsMovies();
-
-        //get filmmakerIds
-        var tagIds = [];
-        for (var i = 0; i < movieTags.length; i++) {
-            tagIds.push(movieTags[i].id);
-        }
-        // c(tagIds);
-        //ajax
-        var orderBy = this.state.aboutTagsMoviesPage.orderBy;
-        var orderType = this.state.aboutTagsMoviesPage.orderType;
-        var size = this.state.aboutTagsMoviesPage.size;
-        var start = this.state.aboutTagsMoviesPage.start;
-
-        var url = "/movie/about/tag?orderBy="+orderBy
-            +"&orderType="+orderType
-            +"&size="+size
-            +"&start="+start
-            +"&excludeMovieId="+this.state.targetMovieId;
-        url = contactUrlWithArray(url, "tagIds", tagIds);
-        // c(url);
-        this.serverRequest = $.get(url, function (result) {
-
-            // c(result);
-
-            //close tip
-            this.hideAboutTagsMovies();
-
-            if (fail(result.code)) {
-                this.showDialogMsg(result.msg);
-                return;
-            }
-            if(isEmptyList(result.data.movies)){
-                this.noAboutTagsMovies();
-                return ;
-            }
-
-            var state = this.state;
-
-            //set movie info to state
-
-            state.aboutTagsMovies = result.data.movies;
-
-            this.setState(state);
-
-            //lazy load img
-            this.lazyLoadImg();
-        }.bind(this));
-
-    },
     loadingAboutFilmmakerMovies: function () {
         this.refs.aboutFilmmakersMovies_MoviesDisplayer.loadingMoviesTip();
     },
@@ -205,9 +129,9 @@ var FilmmakerInfoPage = React.createClass({
     noAboutFilmmakerMovies: function () {
         this.refs.aboutFilmmakersMovies_MoviesDisplayer.noMoviesTip();
     },
-    getAboutFilmmakerMovies(movieFilmmakers){
-        if(isEmptyList(movieFilmmakers)){
+    getAboutFilmmakerMovies(movieFilmmakerIds){
 
+        if(isEmptyList(movieFilmmakerIds)){
             this.noAboutFilmmakerMovies();
             return ;
         }
@@ -215,11 +139,8 @@ var FilmmakerInfoPage = React.createClass({
         //show tip
         this.loadingAboutFilmmakerMovies();
 
-        //get filmmakerIds
-        var ids = [];
-        for (var i = 0; i < movieFilmmakers.length; i++) {
-            ids.push(movieFilmmakers[i].id);
-        }
+        //set ids
+        var ids = movieFilmmakerIds;
         //ajax
         var orderBy = this.state.aboutFilmmakersMoviesPage.orderBy;
         var orderType = this.state.aboutFilmmakersMoviesPage.orderType;
@@ -230,11 +151,12 @@ var FilmmakerInfoPage = React.createClass({
         var url = "/movie/about/filmmaker?orderBy="+orderBy
             +"&orderType="+orderType
             +"&size="+size
-            +"&start="+start
-            +"&excludeMovieId="+this.state.targetMovieId;
+            +"&start="+start;
         url = contactUrlWithArray(url, "filmmakerIds", ids);
         this.serverRequest = $.get(url, function (result) {
 
+            // c("getAboutFilmmakerMovies");
+            // c(result);
             //close tip
             this.hideAboutFilmmakerMovies();
 
@@ -260,10 +182,7 @@ var FilmmakerInfoPage = React.createClass({
         }.bind(this));
     },
     render: function () {
-
-        //format releaseTime
-        var releaseTime = timeFormatter.formatDate(this.state.movie.releaseTime);
-
+        var birthday = timeFormatter.formatDate(this.state.filmmaker.birthday);
         return (
             <div id="movie_info_content">
                 <div id="basic_info">
@@ -271,54 +190,47 @@ var FilmmakerInfoPage = React.createClass({
 
                     <div className="clearfix" id="movie_info_displayer">
 
-                        <div id="movie_img">
-                            <img src={LOADING_IMG} data-original={this.state.movie.imgUrl}/>
+                        <div id="filmmaker_img">
+                            <img src={FILMMAKER_LOADING_IMG} data-original={this.state.filmmaker.imgUrl}/>
                         </div>
-                        <div id="movie_text">
+                        <div id="filmmaker_text">
                             <ul id="text_ul">
                                 <li id="name_li">
-                                    <InnerMessager defaultTip={this.state.whenMovieIsLoading}
+                                    <InnerMessager defaultTip={this.state.whenFilmmakerInfoIsLoading}
                                                    ref="innerMessager"/>
-                                    电影 : <a href="javascript:void(0);">{this.state.movie.name}</a>
+                                    演员 : <a href="javascript:void(0);">{this.state.filmmaker.name}</a>
                                 </li>
                                 <li>
-                                    别名 : <a href="javascript:void(0);">{this.state.movie.alias}</a>
+                                    别名 : <a href="javascript:void(0);">{this.state.filmmaker.alias}</a>
                                 </li>
                                 <li>
-                                    上映时间 : <a href="javascript:void(0);">{releaseTime}</a>
+                                    血型 : <a href="javascript:void(0);">{this.state.filmmaker.bloodType}</a>
                                 </li>
 
                                 <li>
-                                    时长 : <a href="javascript:void(0);">{this.state.movie.movieTime}</a> 分钟
+                                    职业 : <a href="javascript:void(0);">{this.state.filmmaker.profession}</a>
                                 </li>
 
                                 <li>
-                                    评分 : <a href="javascript:void(0);">{this.state.movie.score}</a>
+                                    星座 : <a href="javascript:void(0);">{this.state.filmmaker.constellation}</a>
+                                </li>
+                                <li>
+                                    性别 : <a href="javascript:void(0);">{this.state.filmmaker.sex}</a>
                                 </li>
 
                                 <li>
-
-                                    <Director director={this.state.movie.director}/>
-
+                                    生日 : <a href="javascript:void(0);">{birthday}</a>
                                 </li>
                                 <li>
-                                    <ActorsList actors={this.state.movie.actors}/>
+                                    国家 : <a href="javascript:void(0);">{this.state.filmmaker.country}</a>
                                 </li>
 
-                                <li>
-                                    总播放数 : <a href="javascript:void(0);">{this.state.movie.watchNum}</a> 次
-                                </li>
 
                                 <li id="description_li">
                                     {/*电影简介 : <a href="javascript:void(0);">{this.state.movie.description}</a>*/}
-                                    <FlexText title={this.state.movieDescriptionTitle}
-                                              text={this.state.movie.description}
-                                              maxTextLength={this.state.movieDescriptionTextLength}/>
-                                </li>
-
-                                <li id="tags_li">
-                                    <TagsOfMovie movieId={this.state.targetMovieId}
-                                                 onLoadDataSuccess={this.getAboutTagsMovies}></TagsOfMovie>
+                                    <FlexText title={this.state.filmmakerDescriptionTitle}
+                                              text={this.state.filmmaker.description}
+                                              maxTextLength={this.state.filmmakerDescriptionTextLength}/>
                                 </li>
                             </ul>
                         </div>
@@ -327,35 +239,17 @@ var FilmmakerInfoPage = React.createClass({
 
                 </div>
 
-                <div id="movie_player" className="clearfix">
 
-                    <div id="m_wrapper" ref="m_wrapper">
-                        <MoviePlayer targetMovieId={this.state.targetMovieId}/>
-                    </div>
-                    <div id="split"></div>
-                    <div id="actors_details_div_wrapper">
-                        <div id="actors_details_div">
-                            <FilmmakersDetailsArea movieId={this.state.targetMovieId}
-                                                   onLoadDataSuccess={this.getAboutFilmmakerMovies}/>
-                        </div>
-                    </div>
-
-                </div>
                 <div id="about_filmmakers_movies">
                     <PlainPanelTitle title="电影人相关"/>
                     <MoviesDisplayer movies={this.state.aboutFilmmakersMovies}
                                      ref="aboutFilmmakersMovies_MoviesDisplayer"/>
                 </div>
-                <div id="about_tags_movies">
-                    <PlainPanelTitle title="标签相关"/>
-                    <MoviesDisplayer movies={this.state.aboutTagsMovies}
-                                     ref="aboutTagsMovies_MoviesDisplayer"/>
-                </div>
 
                 {
                     /*信息框*/
                 }
-                <MsgDialog ref="index_msg_dialog"/>
+                <MsgDialog ref="msg_dialog"/>
             </div>
         );
     }

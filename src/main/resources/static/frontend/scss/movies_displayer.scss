@@ -7,7 +7,7 @@
   @include defaultWidth;
   li.movie_item {
     margin:0px;
-    @include defaultSetPaddingAround(1.5%);
+    @include defaultSetPaddingAround(10px);
     width: 20%;
     border: none;
     outline: none;

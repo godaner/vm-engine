@@ -50,7 +50,7 @@ var MoviesDisplayer = React.createClass({
 
 
                     <Link to={location} className="aLink">
-                        <img src={LOADING_IMG} data-original={item.imgUrl}/>
+                        <img src={MOVIE_LOADING_IMG} data-original={item.imgUrl}/>
                     </Link>
                 </div>
                 <div className="movie_info_div">

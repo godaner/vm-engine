@@ -17,7 +17,6 @@ public class VmMoviesQueryBean {
     private List<Long> filmmakerIds;
     private Integer tagIdsLength;
     private String imgWidth;
-    @NotNull(message = "{VmMoviesQueryBean.excludeMovieId.NotNull}", groups = {VmMoviesGroups.GetAboutTagsMoviesGroup.class, VmMoviesGroups.GetAboutFilmmakersMoviesGroup.class})
     private Long excludeMovieId;
 
     public Long getExcludeMovieId() {

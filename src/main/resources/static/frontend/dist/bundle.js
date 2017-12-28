@@ -12255,7 +12255,7 @@ var MoviesDisplayer = _react2.default.createClass({
                     _react2.default.createElement(
                         _reactRouterDom.Link,
                         { to: location, className: 'aLink' },
-                        _react2.default.createElement('img', { src: LOADING_IMG, 'data-original': item.imgUrl })
+                        _react2.default.createElement('img', { src: MOVIE_LOADING_IMG, 'data-original': item.imgUrl })
                     )
                 ),
                 _react2.default.createElement(
@@ -28393,7 +28393,7 @@ exports = module.exports = __webpack_require__(8)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#movies_list_ul {\n  width: 100%;\n  display: inline;\n  list-style-type: none;\n  width: 100%; }\n  #movies_list_ul li.movie_item {\n    margin: 0px;\n    padding: 1.5%;\n    box-sizing: border-box;\n    width: 20%;\n    border: none;\n    outline: none;\n    display: inline-block;\n    float: left; }\n    #movies_list_ul li.movie_item .movie_img_div a {\n      display: block;\n      width: 100%; }\n      #movies_list_ul li.movie_item .movie_img_div a img {\n        width: 100%; }\n    #movies_list_ul li.movie_item .movie_info_div {\n      width: 100%;\n      height: auto; }\n      #movies_list_ul li.movie_item .movie_info_div div {\n        width: 100%;\n        display: block;\n        margin: 2px 0px; }\n      #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div {\n        white-space: nowrap;\n        overflow: hidden;\n        text-overflow: ellipsis;\n        display: block; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#movies_list_ul {\n  width: 100%;\n  display: inline;\n  list-style-type: none;\n  width: 100%; }\n  #movies_list_ul li.movie_item {\n    margin: 0px;\n    padding: 10px;\n    box-sizing: border-box;\n    width: 20%;\n    border: none;\n    outline: none;\n    display: inline-block;\n    float: left; }\n    #movies_list_ul li.movie_item .movie_img_div a {\n      display: block;\n      width: 100%; }\n      #movies_list_ul li.movie_item .movie_img_div a img {\n        width: 100%; }\n    #movies_list_ul li.movie_item .movie_info_div {\n      width: 100%;\n      height: auto; }\n      #movies_list_ul li.movie_item .movie_info_div div {\n        width: 100%;\n        display: block;\n        margin: 2px 0px; }\n      #movies_list_ul li.movie_item .movie_info_div div.movie_actor_list_div {\n        white-space: nowrap;\n        overflow: hidden;\n        text-overflow: ellipsis;\n        display: block; }\n", ""]);
 
 // exports
 
@@ -28899,7 +28899,7 @@ var MovieInfoPage = _react2.default.createClass({
                     _react2.default.createElement(
                         'div',
                         { id: 'movie_img' },
-                        _react2.default.createElement('img', { src: LOADING_IMG, 'data-original': this.state.movie.imgUrl })
+                        _react2.default.createElement('img', { src: MOVIE_LOADING_IMG, 'data-original': this.state.movie.imgUrl })
                     ),
                     _react2.default.createElement(
                         'div',
@@ -29995,30 +29995,22 @@ var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*import '../../../public/js/ckplayer/ckplayer/ckplayer.js';*/
-
+/*电影人详情展示页面*/
 var FilmmakerInfoPage = _react2.default.createClass({
     displayName: 'FilmmakerInfoPage',
 
     getInitialState: function getInitialState() {
         //init state
+        // c(this.props.match.params.filmmakerId);
         return {
-            movieDescriptionTitle: "电影简介 : ",
-            whenMovieIsLoading: "加载电影信息",
-            movieDescriptionTextLength: 100,
-            movie: {},
-            movieUrl: this.props.match.url, //请求电影基本信息的url
-            targetMovieId: this.props.match.params.movieId,
-            //thisMovieFilmmakerIds:undefined,
-            //thisMovieTagIds:undefined,
+            whenFilmmakerInfoIsLoading: "正在加载电影人信息",
+            filmmakerDescriptionTextLength: 100,
+            filmmakerDescriptionTitle: "电影人描述 : ",
+            filmmaker: {}, //初次渲染需要一个空对象,而不是一个undefined
+            filmmakerUrl: this.props.match.url,
+            filmmakerId: this.props.match.params.filmmakerId,
             aboutFilmmakersMovies: undefined,
             aboutFilmmakersMoviesPage: {
-                size: 10,
-                start: 0,
-                orderBy: "score",
-                orderType: "desc"
-            },
-            aboutTagsMovies: undefined,
-            aboutTagsMoviesPage: {
                 size: 10,
                 start: 0,
                 orderBy: "score",
@@ -30031,8 +30023,11 @@ var FilmmakerInfoPage = _react2.default.createClass({
         //add resize event listener
         window.addEventListener('resize', this.onWindowResize);
 
-        //get movie
-        this.getMovieBasicInfo();
+        //get filmmaker
+        this.getFilmmakerBasicInfo();
+
+        //get about filmmaker movies
+        this.getAboutFilmmakerMovies([this.state.filmmakerId]);
 
         //adjust ui
         this.adjustUI();
@@ -30063,23 +30058,23 @@ var FilmmakerInfoPage = _react2.default.createClass({
     },
 
     showDialogMsg: function showDialogMsg(msg) {
-        this.refs.index_msg_dialog.showMsg(msg);
+        this.refs.msg_dialog.showMsg(msg);
     },
 
-    getMovieBasicInfo: function getMovieBasicInfo(callfun) {
+    getFilmmakerBasicInfo: function getFilmmakerBasicInfo(callfun) {
         //show tip
-        this.showMovieInfoTip(this.state.whenMovieIsLoading);
-
-        // var movieId = this.state.targetMovieId;
-
+        this.showFilmmakerTip(this.state.whenFilmmakerInfoIsLoading);
 
         //get movie info
-        var url = this.state.movieUrl;
+        var url = this.state.filmmakerUrl;
         // c(url);
         this.serverRequest = $.get(url, function (result) {
 
+            // c("getFilmmakerBasicInfo");
+            // c(result);
+
             //close tip
-            this.showMovieInfoTip();
+            this.showFilmmakerTip();
 
             if (fail(result.code)) {
                 return;
@@ -30089,90 +30084,24 @@ var FilmmakerInfoPage = _react2.default.createClass({
 
             //set movie info to state
 
-            state.movie = result.data.movie;
+            state.filmmaker = result.data.filmmaker;
 
             this.setState(state);
-
-            //update movie description
-            // this.updateMovieDescription(state.movie.description);
 
             //lazy load img
             this.lazyLoadImg();
 
-            // c(this.state)
             //callfun
             if (callfun != undefined) {
                 callfun();
             }
         }.bind(this));
     },
-    showMovieInfoTip: function showMovieInfoTip(msg, loop) {
+    showFilmmakerTip: function showFilmmakerTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
     },
 
-    loadingAboutTagsMovies: function loadingAboutTagsMovies() {
-        this.refs.aboutTagsMovies_MoviesDisplayer.loadingMoviesTip();
-    },
-    hideAboutTagsMovies: function hideAboutTagsMovies() {
-        this.refs.aboutTagsMovies_MoviesDisplayer.hideMovieTip();
-    },
-    noAboutTagsMovies: function noAboutTagsMovies() {
-        this.refs.aboutTagsMovies_MoviesDisplayer.noMoviesTip();
-    },
-    getAboutTagsMovies: function getAboutTagsMovies(movieTags) {
-        c(movieTags);
-        if (isEmptyList(movieTags)) {
 
-            this.noAboutTagsMovies();
-            return;
-        }
-
-        //show tip
-        this.loadingAboutTagsMovies();
-
-        //get filmmakerIds
-        var tagIds = [];
-        for (var i = 0; i < movieTags.length; i++) {
-            tagIds.push(movieTags[i].id);
-        }
-        // c(tagIds);
-        //ajax
-        var orderBy = this.state.aboutTagsMoviesPage.orderBy;
-        var orderType = this.state.aboutTagsMoviesPage.orderType;
-        var size = this.state.aboutTagsMoviesPage.size;
-        var start = this.state.aboutTagsMoviesPage.start;
-
-        var url = "/movie/about/tag?orderBy=" + orderBy + "&orderType=" + orderType + "&size=" + size + "&start=" + start + "&excludeMovieId=" + this.state.targetMovieId;
-        url = contactUrlWithArray(url, "tagIds", tagIds);
-        // c(url);
-        this.serverRequest = $.get(url, function (result) {
-
-            // c(result);
-
-            //close tip
-            this.hideAboutTagsMovies();
-
-            if (fail(result.code)) {
-                this.showDialogMsg(result.msg);
-                return;
-            }
-            if (isEmptyList(result.data.movies)) {
-                this.noAboutTagsMovies();
-                return;
-            }
-
-            var state = this.state;
-
-            //set movie info to state
-
-            state.aboutTagsMovies = result.data.movies;
-
-            this.setState(state);
-
-            //lazy load img
-            this.lazyLoadImg();
-        }.bind(this));
-    },
     loadingAboutFilmmakerMovies: function loadingAboutFilmmakerMovies() {
         this.refs.aboutFilmmakersMovies_MoviesDisplayer.loadingMoviesTip();
     },
@@ -30182,9 +30111,9 @@ var FilmmakerInfoPage = _react2.default.createClass({
     noAboutFilmmakerMovies: function noAboutFilmmakerMovies() {
         this.refs.aboutFilmmakersMovies_MoviesDisplayer.noMoviesTip();
     },
-    getAboutFilmmakerMovies: function getAboutFilmmakerMovies(movieFilmmakers) {
-        if (isEmptyList(movieFilmmakers)) {
+    getAboutFilmmakerMovies: function getAboutFilmmakerMovies(movieFilmmakerIds) {
 
+        if (isEmptyList(movieFilmmakerIds)) {
             this.noAboutFilmmakerMovies();
             return;
         }
@@ -30192,21 +30121,20 @@ var FilmmakerInfoPage = _react2.default.createClass({
         //show tip
         this.loadingAboutFilmmakerMovies();
 
-        //get filmmakerIds
-        var ids = [];
-        for (var i = 0; i < movieFilmmakers.length; i++) {
-            ids.push(movieFilmmakers[i].id);
-        }
+        //set ids
+        var ids = movieFilmmakerIds;
         //ajax
         var orderBy = this.state.aboutFilmmakersMoviesPage.orderBy;
         var orderType = this.state.aboutFilmmakersMoviesPage.orderType;
         var size = this.state.aboutFilmmakersMoviesPage.size;
         var start = this.state.aboutFilmmakersMoviesPage.start;
 
-        var url = "/movie/about/filmmaker?orderBy=" + orderBy + "&orderType=" + orderType + "&size=" + size + "&start=" + start + "&excludeMovieId=" + this.state.targetMovieId;
+        var url = "/movie/about/filmmaker?orderBy=" + orderBy + "&orderType=" + orderType + "&size=" + size + "&start=" + start;
         url = contactUrlWithArray(url, "filmmakerIds", ids);
         this.serverRequest = $.get(url, function (result) {
 
+            // c("getAboutFilmmakerMovies");
+            // c(result);
             //close tip
             this.hideAboutFilmmakerMovies();
 
@@ -30231,10 +30159,7 @@ var FilmmakerInfoPage = _react2.default.createClass({
     },
 
     render: function render() {
-
-        //format releaseTime
-        var releaseTime = timeFormatter.formatDate(this.state.movie.releaseTime);
-
+        var birthday = timeFormatter.formatDate(this.state.filmmaker.birthday);
         return _react2.default.createElement(
             'div',
             { id: 'movie_info_content' },
@@ -30246,25 +30171,25 @@ var FilmmakerInfoPage = _react2.default.createClass({
                     { className: 'clearfix', id: 'movie_info_displayer' },
                     _react2.default.createElement(
                         'div',
-                        { id: 'movie_img' },
-                        _react2.default.createElement('img', { src: LOADING_IMG, 'data-original': this.state.movie.imgUrl })
+                        { id: 'filmmaker_img' },
+                        _react2.default.createElement('img', { src: FILMMAKER_LOADING_IMG, 'data-original': this.state.filmmaker.imgUrl })
                     ),
                     _react2.default.createElement(
                         'div',
-                        { id: 'movie_text' },
+                        { id: 'filmmaker_text' },
                         _react2.default.createElement(
                             'ul',
                             { id: 'text_ul' },
                             _react2.default.createElement(
                                 'li',
                                 { id: 'name_li' },
-                                _react2.default.createElement(_inner_messager2.default, { defaultTip: this.state.whenMovieIsLoading,
+                                _react2.default.createElement(_inner_messager2.default, { defaultTip: this.state.whenFilmmakerInfoIsLoading,
                                     ref: 'innerMessager' }),
-                                '\u7535\u5F71 : ',
+                                '\u6F14\u5458 : ',
                                 _react2.default.createElement(
                                     'a',
                                     { href: 'javascript:void(0);' },
-                                    this.state.movie.name
+                                    this.state.filmmaker.name
                                 )
                             ),
                             _react2.default.createElement(
@@ -30274,95 +30199,77 @@ var FilmmakerInfoPage = _react2.default.createClass({
                                 _react2.default.createElement(
                                     'a',
                                     { href: 'javascript:void(0);' },
-                                    this.state.movie.alias
+                                    this.state.filmmaker.alias
                                 )
                             ),
                             _react2.default.createElement(
                                 'li',
                                 null,
-                                '\u4E0A\u6620\u65F6\u95F4 : ',
+                                '\u8840\u578B : ',
                                 _react2.default.createElement(
                                     'a',
                                     { href: 'javascript:void(0);' },
-                                    releaseTime
+                                    this.state.filmmaker.bloodType
                                 )
                             ),
                             _react2.default.createElement(
                                 'li',
                                 null,
-                                '\u65F6\u957F : ',
+                                '\u804C\u4E1A : ',
                                 _react2.default.createElement(
                                     'a',
                                     { href: 'javascript:void(0);' },
-                                    this.state.movie.movieTime
-                                ),
-                                ' \u5206\u949F'
-                            ),
-                            _react2.default.createElement(
-                                'li',
-                                null,
-                                '\u8BC4\u5206 : ',
-                                _react2.default.createElement(
-                                    'a',
-                                    { href: 'javascript:void(0);' },
-                                    this.state.movie.score
+                                    this.state.filmmaker.profession
                                 )
                             ),
                             _react2.default.createElement(
                                 'li',
                                 null,
-                                _react2.default.createElement(_director2.default, { director: this.state.movie.director })
-                            ),
-                            _react2.default.createElement(
-                                'li',
-                                null,
-                                _react2.default.createElement(_actors_list2.default, { actors: this.state.movie.actors })
-                            ),
-                            _react2.default.createElement(
-                                'li',
-                                null,
-                                '\u603B\u64AD\u653E\u6570 : ',
+                                '\u661F\u5EA7 : ',
                                 _react2.default.createElement(
                                     'a',
                                     { href: 'javascript:void(0);' },
-                                    this.state.movie.watchNum
-                                ),
-                                ' \u6B21'
+                                    this.state.filmmaker.constellation
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'li',
+                                null,
+                                '\u6027\u522B : ',
+                                _react2.default.createElement(
+                                    'a',
+                                    { href: 'javascript:void(0);' },
+                                    this.state.filmmaker.sex
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'li',
+                                null,
+                                '\u751F\u65E5 : ',
+                                _react2.default.createElement(
+                                    'a',
+                                    { href: 'javascript:void(0);' },
+                                    birthday
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'li',
+                                null,
+                                '\u56FD\u5BB6 : ',
+                                _react2.default.createElement(
+                                    'a',
+                                    { href: 'javascript:void(0);' },
+                                    this.state.filmmaker.country
+                                )
                             ),
                             _react2.default.createElement(
                                 'li',
                                 { id: 'description_li' },
-                                _react2.default.createElement(_flex_text2.default, { title: this.state.movieDescriptionTitle,
-                                    text: this.state.movie.description,
-                                    maxTextLength: this.state.movieDescriptionTextLength })
-                            ),
-                            _react2.default.createElement(
-                                'li',
-                                { id: 'tags_li' },
-                                _react2.default.createElement(_tags_of_movie2.default, { movieId: this.state.targetMovieId,
-                                    onLoadDataSuccess: this.getAboutTagsMovies })
+                                _react2.default.createElement(_flex_text2.default, { title: this.state.filmmakerDescriptionTitle,
+                                    text: this.state.filmmaker.description,
+                                    maxTextLength: this.state.filmmakerDescriptionTextLength })
                             )
                         )
-                    )
-                )
-            ),
-            _react2.default.createElement(
-                'div',
-                { id: 'movie_player', className: 'clearfix' },
-                _react2.default.createElement(
-                    'div',
-                    { id: 'm_wrapper', ref: 'm_wrapper' },
-                    _react2.default.createElement(_movies_player2.default, { targetMovieId: this.state.targetMovieId })
-                ),
-                _react2.default.createElement('div', { id: 'split' }),
-                _react2.default.createElement(
-                    'div',
-                    { id: 'actors_details_div_wrapper' },
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'actors_details_div' },
-                        _react2.default.createElement(_filmmakers_details_area2.default, { movieId: this.state.targetMovieId,
-                            onLoadDataSuccess: this.getAboutFilmmakerMovies })
                     )
                 )
             ),
@@ -30373,14 +30280,7 @@ var FilmmakerInfoPage = _react2.default.createClass({
                 _react2.default.createElement(_movies_displayer2.default, { movies: this.state.aboutFilmmakersMovies,
                     ref: 'aboutFilmmakersMovies_MoviesDisplayer' })
             ),
-            _react2.default.createElement(
-                'div',
-                { id: 'about_tags_movies' },
-                _react2.default.createElement(_plain_panel_title2.default, { title: '\u6807\u7B7E\u76F8\u5173' }),
-                _react2.default.createElement(_movies_displayer2.default, { movies: this.state.aboutTagsMovies,
-                    ref: 'aboutTagsMovies_MoviesDisplayer' })
-            ),
-            _react2.default.createElement(_msg_dialog2.default, { ref: 'index_msg_dialog' })
+            _react2.default.createElement(_msg_dialog2.default, { ref: 'msg_dialog' })
         );
     }
 }); //引入react组件
@@ -30421,7 +30321,7 @@ exports = module.exports = __webpack_require__(8)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#movie_info_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #movie_info_content #basic_info {\n    width: 100%;\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    box-sizing: border-box;\n    margin-top: 20px;\n    width: 100%; }\n    #movie_info_content #basic_info > #movie_info_displayer {\n      flex: 1;\n      display: flex;\n      width: 100%; }\n      #movie_info_content #basic_info > #movie_info_displayer > div {\n        float: left; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_img {\n        width: 200px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_img > img {\n          width: 200px;\n          height: 300px; }\n      #movie_info_content #basic_info > #movie_info_displayer #movie_text {\n        padding-left: 20px;\n        box-sizing: border-box;\n        height: 100%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text ul {\n          list-style: none;\n          display: inline; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text ul li {\n            display: inline-block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            height: auto;\n            width: auto; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul > li {\n          margin-bottom: 10px;\n          width: 25%; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li {\n          width: 100%; }\n          #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li, #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #name_li > a {\n            color: rgb(61,158,255);\n            font-size: 24px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #description_li {\n          width: 100%;\n          margin-top: 20px; }\n        #movie_info_content #basic_info > #movie_info_displayer #movie_text #text_ul #tags_li {\n          width: 100%;\n          margin-top: 20px; }\n  #movie_info_content #movie_player {\n    width: 100%;\n    margin-top: 20px;\n    background-color: rgb(241,242,243);\n    display: flex; }\n    #movie_info_content #movie_player > div {\n      float: left; }\n    #movie_info_content #movie_player #m_wrapper {\n      width: 100%;\n      border-radius: 3px;\n      background-color: white;\n      padding: 20px 20px;\n      box-sizing: border-box;\n      flex: 11; }\n    #movie_info_content #movie_player #split {\n      width: 20px;\n      height: 3px;\n      background-color: red;\n      visibility: hidden; }\n    #movie_info_content #movie_player #actors_details_div_wrapper {\n      width: 100%;\n      border-radius: 3px;\n      background-color: white;\n      padding: 20px 20px;\n      box-sizing: border-box;\n      flex: 5; }\n  #movie_info_content #about_filmmakers_movies {\n    width: 100%;\n    width: 100%;\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    box-sizing: border-box;\n    margin-top: 20px; }\n  #movie_info_content #about_tags_movies {\n    width: 100%;\n    width: 100%;\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    box-sizing: border-box;\n    margin-top: 20px; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#movie_info_content {\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243); }\n  #movie_info_content #basic_info {\n    width: 100%;\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    box-sizing: border-box;\n    margin-top: 20px;\n    width: 100%; }\n    #movie_info_content #basic_info > #movie_info_displayer {\n      flex: 1;\n      display: flex;\n      width: 100%;\n      padding: 10px;\n      box-sizing: border-box; }\n      #movie_info_content #basic_info > #movie_info_displayer > div {\n        float: left; }\n      #movie_info_content #basic_info > #movie_info_displayer #filmmaker_img {\n        width: 150px; }\n        #movie_info_content #basic_info > #movie_info_displayer #filmmaker_img > img {\n          width: 150px;\n          height: 150px; }\n      #movie_info_content #basic_info > #movie_info_displayer #filmmaker_text {\n        padding-left: 20px;\n        box-sizing: border-box;\n        height: 100%; }\n        #movie_info_content #basic_info > #movie_info_displayer #filmmaker_text ul {\n          list-style: none;\n          display: inline; }\n          #movie_info_content #basic_info > #movie_info_displayer #filmmaker_text ul li {\n            display: inline-block;\n            white-space: nowrap;\n            overflow: hidden;\n            text-overflow: ellipsis;\n            height: auto;\n            width: auto; }\n        #movie_info_content #basic_info > #movie_info_displayer #filmmaker_text #text_ul > li {\n          margin-bottom: 10px;\n          width: 25%; }\n        #movie_info_content #basic_info > #movie_info_displayer #filmmaker_text #text_ul #name_li {\n          width: auto;\n          display: block;\n          overflow: hidden;\n          white-space: nowrap;\n          text-overflow: ellipsis; }\n          #movie_info_content #basic_info > #movie_info_displayer #filmmaker_text #text_ul #name_li, #movie_info_content #basic_info > #movie_info_displayer #filmmaker_text #text_ul #name_li > a {\n            color: rgb(61,158,255);\n            font-size: 24px; }\n        #movie_info_content #basic_info > #movie_info_displayer #filmmaker_text #text_ul #description_li {\n          width: 100%;\n          margin-top: 20px; }\n  #movie_info_content #about_filmmakers_movies {\n    width: 100%;\n    width: 100%;\n    border-radius: 3px;\n    background-color: white;\n    padding: 20px 20px;\n    box-sizing: border-box;\n    margin-top: 20px; }\n", ""]);
 
 // exports
 

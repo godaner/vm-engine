@@ -136,7 +136,9 @@
         m.`status` = 1
         AND mfr.`status` = 1
         AND mfr.movie_id = m.id
-        AND m.id !=#{query.excludeMovieId}
+        <if test="query.excludeMovieId != null">
+            AND m.id !=#{query.excludeMovieId}
+        </if>
         AND mfr.filmmaker_id in
         <foreach collection="query.filmmakerIds" item="item" open="(" separator="," close=")">
             #{item}
