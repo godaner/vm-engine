@@ -48,7 +48,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
         getSession().setAttribute(KEY_OF_ONLINE_USER, loginUser);
 
-        response.putData("loginUser", loginUser);
+        response.putData("user", loginUser);
 
         return response;
     }

@@ -72,7 +72,7 @@ var RegistDialog = React.createClass({
             url: url,
             type: 'PUT',
             success: function (result) {
-                c(result);
+                // c(result);
                 if(fail(result.code)){
                     window.VmFrontendEventsDispatcher.showMsgDialog("注册失败");
                     return ;

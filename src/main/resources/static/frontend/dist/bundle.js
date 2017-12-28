@@ -30979,6 +30979,28 @@ var LoginDialog = _react2.default.createClass({
         $(this.refs.content).fadeOut();
         this.setState(state);
     },
+    login: function login() {
+        var username = $(this.refs.username).val();
+        var password = $(this.refs.password).val();
+        var url = "/user/login?username=" + username + "&password=" + password;
+        $.ajax({
+            url: url,
+            type: 'PUT',
+            success: function (result) {
+                c(result);
+                if (fail(result.code)) {
+                    window.VmFrontendEventsDispatcher.showMsgDialog("登录失败");
+                    return;
+                }
+
+                //hide login dialog
+                this.closeLoginDialog();
+
+                //callfun
+                this.props.onLoginSuccess(result.data.user);
+            }.bind(this)
+        });
+    },
     render: function render() {
         return _react2.default.createElement(
             'div',
@@ -31013,17 +31035,26 @@ var LoginDialog = _react2.default.createClass({
                         _react2.default.createElement(
                             'div',
                             { id: 'username_div' },
-                            _react2.default.createElement('input', { id: 'username_input', type: 'text', placeholder: 'username' })
+                            _react2.default.createElement('input', { id: 'username_input',
+                                type: 'text',
+                                ref: 'username',
+                                placeholder: 'username' })
                         ),
                         _react2.default.createElement(
                             'div',
                             { id: 'password_div' },
-                            _react2.default.createElement('input', { id: 'password_input', type: 'password', placeholder: 'password' })
+                            _react2.default.createElement('input', { id: 'password_input',
+                                type: 'password',
+                                ref: 'password',
+                                placeholder: 'password' })
                         ),
                         _react2.default.createElement(
                             'div',
                             { id: 'login_btn_div' },
-                            _react2.default.createElement('input', { id: 'login_btn_input', type: 'button', value: '\u767B\u5F55' })
+                            _react2.default.createElement('input', { id: 'login_btn_input',
+                                type: 'button',
+                                value: '\u767B\u5F55',
+                                onClick: this.login })
                         )
                     )
                 )
@@ -31165,7 +31196,7 @@ var RegistDialog = _react2.default.createClass({
             url: url,
             type: 'PUT',
             success: function (result) {
-                c(result);
+                // c(result);
                 if (fail(result.code)) {
                     window.VmFrontendEventsDispatcher.showMsgDialog("注册失败");
                     return;

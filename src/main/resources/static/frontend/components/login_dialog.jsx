@@ -64,6 +64,28 @@ var LoginDialog = React.createClass({
         $(this.refs.content).fadeOut();
         this.setState(state);
     },
+    login:function(){
+        var username = $(this.refs.username).val();
+        var password = $(this.refs.password).val();
+        const url = "/user/login?username=" + username + "&password=" + password;
+        $.ajax({
+            url: url,
+            type: 'PUT',
+            success: function (result) {
+                c(result);
+                if(fail(result.code)){
+                    window.VmFrontendEventsDispatcher.showMsgDialog("登录失败");
+                    return ;
+                }
+
+                //hide login dialog
+                this.closeLoginDialog();
+
+                //callfun
+                this.props.onLoginSuccess(result.data.user);
+            }.bind(this)
+        });
+    },
     render: function () {
         return <div id="login_dialog_content" ref="content">
             <div id="dialog" className={this.state.dialogClassName} ref="dialog">
@@ -76,13 +98,22 @@ var LoginDialog = React.createClass({
                 <div id="body">
                     <div id="login_form">
                         <div id="username_div">
-                            <input id="username_input" type="text" placeholder="username"/>
+                            <input id="username_input"
+                                   type="text"
+                                   ref="username"
+                                   placeholder="username"/>
                         </div>
                         <div id="password_div">
-                            <input id="password_input" type="password" placeholder="password"/>
+                            <input id="password_input"
+                                   type="password"
+                                   ref="password"
+                                   placeholder="password"/>
                         </div>
                         <div id="login_btn_div">
-                            <input id="login_btn_input" type="button" value="登录"/>
+                            <input id="login_btn_input"
+                                   type="button"
+                                   value="登录"
+                                   onClick={this.login}/>
                         </div>
 
                     </div>
