@@ -1,6 +1,7 @@
 import React from 'react';  //引入react组件
 import {Link} from 'react-router-dom';
 import LoginDialog from "./login_dialog";
+import RegistDialog from "./regist_dialog";
 import '../scss/head.scss';
 var Head = React.createClass({
 
@@ -48,6 +49,16 @@ var Head = React.createClass({
 
         this.setState(state);
     },
+    showRegistDialog: function () {
+        this.refs.regist_dialog.showRegistDialog();
+    },
+    closeRegistDialog: function () {
+        this.refs.regist_dialog.closeRegistDialog();
+    },
+    onRegistSuccess: function () {
+
+
+    },
     render: function () {
         const location = {
             pathname: "/user/" + this.state.user.id
@@ -79,10 +90,10 @@ var Head = React.createClass({
                 <span>
 
                     <li>
-                    <a href="javascript:void(0);" onClick={this.showLoginDialog}>登录</a>
+                        <a href="javascript:void(0);" onClick={this.showLoginDialog}>登录</a>
                     </li>
                     <li>
-                    <a href="#">注册</a>
+                        <a href="javascript:void(0);" onClick={this.showRegistDialog}>注册</a>
                     </li>
                 </span>
             );
@@ -112,6 +123,8 @@ var Head = React.createClass({
                 <div id="blank_div"></div>
                 {/*登录框*/}
                 <LoginDialog ref="login_dialog" onLoginSuccess={this.onLoginSuccess}/>
+                {/*注册框*/}
+                <RegistDialog ref="regist_dialog" onRegistSuccess={this.onRegistSuccess}/>
             </div>
         );
     }
