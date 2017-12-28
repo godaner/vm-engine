@@ -27,6 +27,8 @@
         }
       }
       #movie_text {
+        overflow: hidden;
+        text-overflow: ellipsis;
         @include defaultSetPaddingLeft(20px);
         //flex: 1;
         height: 100%;
@@ -37,13 +39,7 @@
             margin-bottom: 10px;
             width: 25%;
 
-            //background-color: red;
-            //&>a{
-            //  text-decoration: none;
-            //}
-            //line-height: 15px;
-            //height:15px;
-            //background-color: red;
+            @include defaultSetPadding(0px,5px);
           }
           #name_li {
             width: 100%;

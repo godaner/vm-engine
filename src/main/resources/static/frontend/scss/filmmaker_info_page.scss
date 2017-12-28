@@ -29,22 +29,22 @@
       }
       #filmmaker_text {
         overflow: hidden;
+        text-overflow: ellipsis;
         @include defaultSetPaddingLeft(20px);
         //flex: 1;
         height: 100%;
         //background-color: black;
         @include defaultHUl;
         #text_ul {
-          overflow: hidden;
           & > li {
+
+            @include defaultSetPadding(0px,5px);
             margin-bottom: 10px;
             width: 25%;
           }
 
           #name_li {
             width:100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
             &, & > a {
               color: unquote($defaultBlueRgb);
               font-size: 24px;
