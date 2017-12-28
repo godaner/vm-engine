@@ -12072,8 +12072,11 @@ var _react2 = _interopRequireDefault(_react);
 
 __webpack_require__(243);
 
+__webpack_require__(289);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//引入react组件
 var MsgDialog = _react2.default.createClass({
     displayName: "MsgDialog",
 
@@ -12089,10 +12092,20 @@ var MsgDialog = _react2.default.createClass({
         return state;
     },
     componentDidMount: function componentDidMount() {
+        var _this = this;
+
         window.addEventListener('resize', this.onWindowResize);
 
         //adjust ui
         this.adjustUI();
+
+        //add events
+        window.event.on('showMsgDialog', function (msg) {
+            _this.showMsg(msg);
+        });
+        window.event.on('closeMsgDialog', function () {
+            _this.hide();
+        });
     },
     componentWillUnmount: function componentWillUnmount() {
         window.removeEventListener('resize', this.onWindowResize);
@@ -12172,7 +12185,8 @@ var MsgDialog = _react2.default.createClass({
             )
         );
     }
-}); //引入react组件
+});
+
 exports.default = MsgDialog; //将App组件导出
 
 /***/ }),
@@ -24416,6 +24430,8 @@ var _filmmaker_info_page = __webpack_require__(283);
 
 var _filmmaker_info_page2 = _interopRequireDefault(_filmmaker_info_page);
 
+var _events = __webpack_require__(286);
+
 __webpack_require__(240);
 
 var _movie_list_page = __webpack_require__(242);
@@ -24434,19 +24450,19 @@ var _tail = __webpack_require__(280);
 
 var _tail2 = _interopRequireDefault(_tail);
 
+var _msg_dialog = __webpack_require__(108);
+
+var _msg_dialog2 = _interopRequireDefault(_msg_dialog);
+
+__webpack_require__(289);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-{
-    /*import { createHistory, useBasename } from 'history';*/
-}
-
 
 var Index = _react2.default.createClass({
     displayName: 'Index',
 
     getInitialState: function getInitialState() {
-
-        return null;
+        return {};
     },
     render: function render() {
         //set now page's props
@@ -24476,7 +24492,8 @@ var Index = _react2.default.createClass({
                         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/movie/:movieId', component: _movie_info_page2.default }),
                         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/filmmaker/:filmmakerId', component: _filmmaker_info_page2.default })
                     ),
-                    _react2.default.createElement(_tail2.default, null)
+                    _react2.default.createElement(_tail2.default, null),
+                    _react2.default.createElement(_msg_dialog2.default, { ref: 'msg_dialog' })
                 )
             )
         );
@@ -27656,10 +27673,11 @@ __webpack_require__(256);
 
 __webpack_require__(258);
 
+__webpack_require__(289);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*一组电影tag*/
-//引入react组件
 var MovieTagGroup = _react2.default.createClass({
     displayName: "MovieTagGroup",
 
@@ -27717,6 +27735,7 @@ var MovieTagGroup = _react2.default.createClass({
     }
 });
 /*电影标签列表*/
+//引入react组件
 var MovieTagGroupList = _react2.default.createClass({
     displayName: "MovieTagGroupList",
 
@@ -27879,7 +27898,7 @@ var MovieListPage = _react2.default.createClass({
 
             // c(result);
             if (fail(result.code)) {
-                this.showDialogMsg(result.msg);
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
 
@@ -27905,9 +27924,6 @@ var MovieListPage = _react2.default.createClass({
                 callfun();
             }
         }.bind(this));
-    },
-    showDialogMsg: function showDialogMsg(msg) {
-        this.refs.index_msg_dialog.showMsg(msg);
     },
 
 
@@ -27935,7 +27951,7 @@ var MovieListPage = _react2.default.createClass({
             state.movieTagGroup = result.data.list;
 
             if (fail(result.code)) {
-                this.showDialogMsg(result.msg);
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
 
@@ -28085,7 +28101,7 @@ var MovieListPage = _react2.default.createClass({
 
         //if keyword same ,do not search
         if (this.state.lastKeyword == keyword) {
-            this.showDialogMsg(this.state.whenSearchRepeat);
+            window.VmFrontendEventsDispatcher.showMsgDialog(this.state.whenSearchRepeat);
             return;
         }
         var oldMovieSearchBtnText = this.state.movieSearchBtnText;
@@ -28195,8 +28211,7 @@ var MovieListPage = _react2.default.createClass({
                     _react2.default.createElement(_pager2.default, { handlePageChange: this.handlePageChange,
                         page: this.state.movies.page })
                 )
-            ),
-            _react2.default.createElement(_msg_dialog2.default, { ref: "index_msg_dialog" })
+            )
         );
     }
 
@@ -28649,10 +28664,15 @@ var _plain_panel_title = __webpack_require__(67);
 
 var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
 
+var _vm_frontend_events_dispatcher = __webpack_require__(289);
+
+var _vm_frontend_events_dispatcher2 = _interopRequireDefault(_vm_frontend_events_dispatcher);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*import '../../../public/js/ckplayer/ckplayer/ckplayer.js';*/
 
+//引入react组件
 var MovieInfoPage = _react2.default.createClass({
     displayName: 'MovieInfoPage',
 
@@ -28718,11 +28738,6 @@ var MovieInfoPage = _react2.default.createClass({
     lazyLoadImg: function lazyLoadImg() {
         lazyLoad();
     },
-
-    showDialogMsg: function showDialogMsg(msg) {
-        this.refs.index_msg_dialog.showMsg(msg);
-    },
-
     getMovieBasicInfo: function getMovieBasicInfo(callfun) {
         //show tip
         this.showMovieInfoTip(this.state.whenMovieIsLoading);
@@ -28739,6 +28754,7 @@ var MovieInfoPage = _react2.default.createClass({
             this.showMovieInfoTip();
 
             if (fail(result.code)) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
 
@@ -28777,7 +28793,7 @@ var MovieInfoPage = _react2.default.createClass({
         this.refs.aboutTagsMovies_MoviesDisplayer.noMoviesTip();
     },
     getAboutTagsMovies: function getAboutTagsMovies(movieTags) {
-        c(movieTags);
+        // c(movieTags);
         if (isEmptyList(movieTags)) {
 
             this.noAboutTagsMovies();
@@ -28810,7 +28826,7 @@ var MovieInfoPage = _react2.default.createClass({
             this.hideAboutTagsMovies();
 
             if (fail(result.code)) {
-                this.showDialogMsg(result.msg);
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
             if (isEmptyList(result.data.movies)) {
@@ -28868,6 +28884,7 @@ var MovieInfoPage = _react2.default.createClass({
             this.hideAboutFilmmakerMovies();
 
             if (fail(result.code)) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
             if (isEmptyList(result.data.movies)) {
@@ -29036,11 +29053,11 @@ var MovieInfoPage = _react2.default.createClass({
                 _react2.default.createElement(_plain_panel_title2.default, { title: '\u6807\u7B7E\u76F8\u5173' }),
                 _react2.default.createElement(_movies_displayer2.default, { movies: this.state.aboutTagsMovies,
                     ref: 'aboutTagsMovies_MoviesDisplayer' })
-            ),
-            _react2.default.createElement(_msg_dialog2.default, { ref: 'index_msg_dialog' })
+            )
         );
     }
-}); //引入react组件
+});
+
 exports.default = MovieInfoPage;
 
 /***/ }),
@@ -29997,10 +30014,15 @@ var _plain_panel_title = __webpack_require__(67);
 
 var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
 
+var _vm_frontend_events_dispatcher = __webpack_require__(289);
+
+var _vm_frontend_events_dispatcher2 = _interopRequireDefault(_vm_frontend_events_dispatcher);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*import '../../../public/js/ckplayer/ckplayer/ckplayer.js';*/
 /*电影人详情展示页面*/
+//引入react组件
 var FilmmakerInfoPage = _react2.default.createClass({
     displayName: 'FilmmakerInfoPage',
 
@@ -30062,10 +30084,6 @@ var FilmmakerInfoPage = _react2.default.createClass({
         lazyLoad();
     },
 
-    showDialogMsg: function showDialogMsg(msg) {
-        this.refs.msg_dialog.showMsg(msg);
-    },
-
     getFilmmakerBasicInfo: function getFilmmakerBasicInfo(callfun) {
         //show tip
         this.showFilmmakerTip(this.state.whenFilmmakerInfoIsLoading);
@@ -30082,6 +30100,7 @@ var FilmmakerInfoPage = _react2.default.createClass({
             this.showFilmmakerTip();
 
             if (fail(result.code)) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
 
@@ -30144,6 +30163,7 @@ var FilmmakerInfoPage = _react2.default.createClass({
             this.hideAboutFilmmakerMovies();
 
             if (fail(result.code)) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
             if (isEmptyList(result.data.movies)) {
@@ -30284,11 +30304,11 @@ var FilmmakerInfoPage = _react2.default.createClass({
                 _react2.default.createElement(_plain_panel_title2.default, { title: '\u7535\u5F71\u4EBA\u76F8\u5173' }),
                 _react2.default.createElement(_movies_displayer2.default, { movies: this.state.aboutFilmmakersMovies,
                     ref: 'aboutFilmmakersMovies_MoviesDisplayer' })
-            ),
-            _react2.default.createElement(_msg_dialog2.default, { ref: 'msg_dialog' })
+            )
         );
     }
-}); //引入react组件
+});
+
 exports.default = FilmmakerInfoPage;
 
 /***/ }),
@@ -30330,6 +30350,344 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 // exports
 
+
+/***/ }),
+/* 286 */
+/***/ (function(module, exports) {
+
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+function EventEmitter() {
+  this._events = this._events || {};
+  this._maxListeners = this._maxListeners || undefined;
+}
+module.exports = EventEmitter;
+
+// Backwards-compat with node 0.10.x
+EventEmitter.EventEmitter = EventEmitter;
+
+EventEmitter.prototype._events = undefined;
+EventEmitter.prototype._maxListeners = undefined;
+
+// By default EventEmitters will print a warning if more than 10 listeners are
+// added to it. This is a useful default which helps finding memory leaks.
+EventEmitter.defaultMaxListeners = 10;
+
+// Obviously not all Emitters should be limited to 10. This function allows
+// that to be increased. Set to zero for unlimited.
+EventEmitter.prototype.setMaxListeners = function(n) {
+  if (!isNumber(n) || n < 0 || isNaN(n))
+    throw TypeError('n must be a positive number');
+  this._maxListeners = n;
+  return this;
+};
+
+EventEmitter.prototype.emit = function(type) {
+  var er, handler, len, args, i, listeners;
+
+  if (!this._events)
+    this._events = {};
+
+  // If there is no 'error' event listener then throw.
+  if (type === 'error') {
+    if (!this._events.error ||
+        (isObject(this._events.error) && !this._events.error.length)) {
+      er = arguments[1];
+      if (er instanceof Error) {
+        throw er; // Unhandled 'error' event
+      } else {
+        // At least give some kind of context to the user
+        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+        err.context = er;
+        throw err;
+      }
+    }
+  }
+
+  handler = this._events[type];
+
+  if (isUndefined(handler))
+    return false;
+
+  if (isFunction(handler)) {
+    switch (arguments.length) {
+      // fast cases
+      case 1:
+        handler.call(this);
+        break;
+      case 2:
+        handler.call(this, arguments[1]);
+        break;
+      case 3:
+        handler.call(this, arguments[1], arguments[2]);
+        break;
+      // slower
+      default:
+        args = Array.prototype.slice.call(arguments, 1);
+        handler.apply(this, args);
+    }
+  } else if (isObject(handler)) {
+    args = Array.prototype.slice.call(arguments, 1);
+    listeners = handler.slice();
+    len = listeners.length;
+    for (i = 0; i < len; i++)
+      listeners[i].apply(this, args);
+  }
+
+  return true;
+};
+
+EventEmitter.prototype.addListener = function(type, listener) {
+  var m;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events)
+    this._events = {};
+
+  // To avoid recursion in the case that type === "newListener"! Before
+  // adding it to the listeners, first emit "newListener".
+  if (this._events.newListener)
+    this.emit('newListener', type,
+              isFunction(listener.listener) ?
+              listener.listener : listener);
+
+  if (!this._events[type])
+    // Optimize the case of one listener. Don't need the extra array object.
+    this._events[type] = listener;
+  else if (isObject(this._events[type]))
+    // If we've already got an array, just append.
+    this._events[type].push(listener);
+  else
+    // Adding the second element, need to change to array.
+    this._events[type] = [this._events[type], listener];
+
+  // Check for listener leak
+  if (isObject(this._events[type]) && !this._events[type].warned) {
+    if (!isUndefined(this._maxListeners)) {
+      m = this._maxListeners;
+    } else {
+      m = EventEmitter.defaultMaxListeners;
+    }
+
+    if (m && m > 0 && this._events[type].length > m) {
+      this._events[type].warned = true;
+      console.error('(node) warning: possible EventEmitter memory ' +
+                    'leak detected. %d listeners added. ' +
+                    'Use emitter.setMaxListeners() to increase limit.',
+                    this._events[type].length);
+      if (typeof console.trace === 'function') {
+        // not supported in IE 10
+        console.trace();
+      }
+    }
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+EventEmitter.prototype.once = function(type, listener) {
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  var fired = false;
+
+  function g() {
+    this.removeListener(type, g);
+
+    if (!fired) {
+      fired = true;
+      listener.apply(this, arguments);
+    }
+  }
+
+  g.listener = listener;
+  this.on(type, g);
+
+  return this;
+};
+
+// emits a 'removeListener' event iff the listener was removed
+EventEmitter.prototype.removeListener = function(type, listener) {
+  var list, position, length, i;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events || !this._events[type])
+    return this;
+
+  list = this._events[type];
+  length = list.length;
+  position = -1;
+
+  if (list === listener ||
+      (isFunction(list.listener) && list.listener === listener)) {
+    delete this._events[type];
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+
+  } else if (isObject(list)) {
+    for (i = length; i-- > 0;) {
+      if (list[i] === listener ||
+          (list[i].listener && list[i].listener === listener)) {
+        position = i;
+        break;
+      }
+    }
+
+    if (position < 0)
+      return this;
+
+    if (list.length === 1) {
+      list.length = 0;
+      delete this._events[type];
+    } else {
+      list.splice(position, 1);
+    }
+
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.removeAllListeners = function(type) {
+  var key, listeners;
+
+  if (!this._events)
+    return this;
+
+  // not listening for removeListener, no need to emit
+  if (!this._events.removeListener) {
+    if (arguments.length === 0)
+      this._events = {};
+    else if (this._events[type])
+      delete this._events[type];
+    return this;
+  }
+
+  // emit removeListener for all listeners on all events
+  if (arguments.length === 0) {
+    for (key in this._events) {
+      if (key === 'removeListener') continue;
+      this.removeAllListeners(key);
+    }
+    this.removeAllListeners('removeListener');
+    this._events = {};
+    return this;
+  }
+
+  listeners = this._events[type];
+
+  if (isFunction(listeners)) {
+    this.removeListener(type, listeners);
+  } else if (listeners) {
+    // LIFO order
+    while (listeners.length)
+      this.removeListener(type, listeners[listeners.length - 1]);
+  }
+  delete this._events[type];
+
+  return this;
+};
+
+EventEmitter.prototype.listeners = function(type) {
+  var ret;
+  if (!this._events || !this._events[type])
+    ret = [];
+  else if (isFunction(this._events[type]))
+    ret = [this._events[type]];
+  else
+    ret = this._events[type].slice();
+  return ret;
+};
+
+EventEmitter.prototype.listenerCount = function(type) {
+  if (this._events) {
+    var evlistener = this._events[type];
+
+    if (isFunction(evlistener))
+      return 1;
+    else if (evlistener)
+      return evlistener.length;
+  }
+  return 0;
+};
+
+EventEmitter.listenerCount = function(emitter, type) {
+  return emitter.listenerCount(type);
+};
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+
+
+/***/ }),
+/* 287 */,
+/* 288 */,
+/* 289 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _events = __webpack_require__(286);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+window.event = new _events.EventEmitter();
+//项目前端事件分发
+//引入react组件
+window.VmFrontendEventsDispatcher = {
+    event: window.event,
+    showMsgDialog: function showMsgDialog(msg) {
+        this.event.emit('showMsgDialog', msg);
+    },
+    closeMsgDialog: function closeMsgDialog() {
+        this.event.emit('closeMsgDialog');
+    }
+};
 
 /***/ })
 /******/ ]);

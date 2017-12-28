@@ -1,5 +1,6 @@
 import React from 'react';  //引入react组件
 import "../scss/msg_dialog.scss"
+import "./vm_frontend_events_dispatcher";
 
 var MsgDialog = React.createClass({
     getInitialState: function () {
@@ -18,6 +19,14 @@ var MsgDialog = React.createClass({
 
         //adjust ui
         this.adjustUI();
+
+        //add events
+        window.event.on('showMsgDialog',(msg)=>{
+            this.showMsg(msg);
+        })
+        window.event.on('closeMsgDialog',()=>{
+            this.hide();
+        })
 
 
     },

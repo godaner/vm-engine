@@ -10,6 +10,7 @@ import MoviePlayer from "./movies_player";
 import MoviesDisplayer from "./movies_displayer";
 import MsgDialog from "./msg_dialog";
 import PlainPanelTitle from "./plain_panel_title";
+import VmFrontendEvents from "./vm_frontend_events_dispatcher";
 /*import '../../../public/js/ckplayer/ckplayer/ckplayer.js';*/
 
 var MovieInfoPage = React.createClass({
@@ -78,10 +79,6 @@ var MovieInfoPage = React.createClass({
     lazyLoadImg: function () {
         lazyLoad();
     },
-
-    showDialogMsg(msg){
-        this.refs.index_msg_dialog.showMsg(msg);
-    },
     getMovieBasicInfo: function (callfun) {
         //show tip
         this.showMovieInfoTip(this.state.whenMovieIsLoading);
@@ -100,6 +97,7 @@ var MovieInfoPage = React.createClass({
             this.showMovieInfoTip();
 
             if (fail(result.code)) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
 
@@ -138,7 +136,7 @@ var MovieInfoPage = React.createClass({
         this.refs.aboutTagsMovies_MoviesDisplayer.noMoviesTip();
     },
     getAboutTagsMovies: function (movieTags) {
-        c(movieTags);
+        // c(movieTags);
         if(isEmptyList(movieTags)){
 
             this.noAboutTagsMovies();
@@ -175,7 +173,7 @@ var MovieInfoPage = React.createClass({
             this.hideAboutTagsMovies();
 
             if (fail(result.code)) {
-                this.showDialogMsg(result.msg);
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
             if(isEmptyList(result.data.movies)){
@@ -239,6 +237,7 @@ var MovieInfoPage = React.createClass({
             this.hideAboutFilmmakerMovies();
 
             if (fail(result.code)) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
             if(isEmptyList(result.data.movies)){
@@ -352,10 +351,6 @@ var MovieInfoPage = React.createClass({
                                      ref="aboutTagsMovies_MoviesDisplayer"/>
                 </div>
 
-                {
-                    /*信息框*/
-                }
-                <MsgDialog ref="index_msg_dialog"/>
             </div>
         );
     }

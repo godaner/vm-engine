@@ -5,6 +5,7 @@ import MoviesDisplayer from "./movies_displayer";
 import Pager from "./pager";
 import "../scss/movie_list_page.scss";
 import "animate.css";
+import "./vm_frontend_events_dispatcher";
 
 
 /*一组电影tag*/
@@ -223,7 +224,7 @@ var MovieListPage = React.createClass({
 
             // c(result);
             if (fail(result.code)) {
-                this.showDialogMsg(result.msg);
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
 
@@ -251,9 +252,6 @@ var MovieListPage = React.createClass({
             }
         }.bind(this));
     },
-    showDialogMsg(msg){
-        this.refs.index_msg_dialog.showMsg(msg);
-    },
 
     loadingTagsTip:function(){
         this.refs.movieTagGroupList.loadingTagsTip();
@@ -280,7 +278,7 @@ var MovieListPage = React.createClass({
 
 
             if (fail(result.code)) {
-                this.showDialogMsg(result.msg);
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
 
@@ -437,7 +435,7 @@ var MovieListPage = React.createClass({
 
         //if keyword same ,do not search
         if (this.state.lastKeyword == keyword) {
-            this.showDialogMsg(this.state.whenSearchRepeat)
+            window.VmFrontendEventsDispatcher.showMsgDialog(this.state.whenSearchRepeat);
             return;
         }
         var oldMovieSearchBtnText = this.state.movieSearchBtnText;
@@ -530,10 +528,6 @@ var MovieListPage = React.createClass({
                                page={this.state.movies.page}/>
                     </div>
                 </div>
-                {
-                    /*信息框*/
-                }
-                <MsgDialog ref="index_msg_dialog"/>
             </div>
         );
     }

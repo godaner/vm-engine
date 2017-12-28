@@ -2,20 +2,18 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import {Switch, BrowserRouter, HashRouter, Route} from 'react-router-dom';
 import FilmmakerInfoPage from "./filmmaker_info_page";
-{
-    /*import { createHistory, useBasename } from 'history';*/
-}
+import {EventEmitter} from 'events';
 import '../scss/index.scss';
 import MovieListPage from "./movie_list_page";
 import MovieInfoPage from "./movie_info_page";
 import Head from "./head";
 import Tail from "./tail";
+import MsgDialog from "./msg_dialog";
+import "./vm_frontend_events_dispatcher";
 
 var Index = React.createClass({
     getInitialState: function () {
-
-
-        return null;
+        return {};
     },
     render: function () {
         //set now page's props
@@ -23,6 +21,9 @@ var Index = React.createClass({
             <div id="index">
                 <HashRouter>
                     <div>
+                        {
+                            /*头部*/
+                        }
                         <Head/>
                         <Switch>
                             <Route exact path='/'
@@ -38,7 +39,14 @@ var Index = React.createClass({
                             <Route exact path='/movie/:movieId' component={MovieInfoPage}/>
                             <Route exact path='/filmmaker/:filmmakerId' component={FilmmakerInfoPage}/>
                         </Switch>
+                        {
+                            /*尾部*/
+                        }
                         <Tail/>
+                        {
+                            /*信息框*/
+                        }
+                        <MsgDialog ref="msg_dialog"/>
                     </div>
                 </HashRouter>
             </div>

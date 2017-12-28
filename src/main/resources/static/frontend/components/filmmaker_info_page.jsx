@@ -10,6 +10,7 @@ import MoviePlayer from "./movies_player";
 import MoviesDisplayer from "./movies_displayer";
 import MsgDialog from "./msg_dialog";
 import PlainPanelTitle from "./plain_panel_title";
+import VmFrontendEvents from "./vm_frontend_events_dispatcher";
 /*import '../../../public/js/ckplayer/ckplayer/ckplayer.js';*/
 /*电影人详情展示页面*/
 var FilmmakerInfoPage = React.createClass({
@@ -74,9 +75,6 @@ var FilmmakerInfoPage = React.createClass({
         lazyLoad();
     },
 
-    showDialogMsg(msg){
-        this.refs.msg_dialog.showMsg(msg);
-    },
     getFilmmakerBasicInfo: function (callfun) {
         //show tip
         this.showFilmmakerTip(this.state.whenFilmmakerInfoIsLoading);
@@ -94,6 +92,7 @@ var FilmmakerInfoPage = React.createClass({
             this.showFilmmakerTip();
 
             if (fail(result.code)) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
 
@@ -161,6 +160,7 @@ var FilmmakerInfoPage = React.createClass({
             this.hideAboutFilmmakerMovies();
 
             if (fail(result.code)) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
             if(isEmptyList(result.data.movies)){
@@ -246,10 +246,6 @@ var FilmmakerInfoPage = React.createClass({
                                      ref="aboutFilmmakersMovies_MoviesDisplayer"/>
                 </div>
 
-                {
-                    /*信息框*/
-                }
-                <MsgDialog ref="msg_dialog"/>
             </div>
         );
     }
