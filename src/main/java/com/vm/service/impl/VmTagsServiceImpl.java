@@ -3,6 +3,7 @@ package com.vm.service.impl;
 import com.vm.dao.mapper.CustomVmTagsGroupsMapper;
 import com.vm.dao.mapper.VmTagsGroupsMapper;
 import com.vm.dao.mapper.VmTagsMapper;
+import com.vm.dao.po.BasePo;
 import com.vm.dao.po.CustomVmTagsGroups;
 import com.vm.dao.po.VmTags;
 import com.vm.dao.po.VmTagsExample;
@@ -34,7 +35,7 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
     public List<VmTags> getTags() throws Exception {
         VmTagsExample vmTagsExample = new VmTagsExample();
         VmTagsExample.Criteria criteria = vmTagsExample.createCriteria();
-        criteria.andStatusEqualTo(VmTags.Status.NORMAL.getCode());
+        criteria.andStatusEqualTo(BasePo.Status.NORMAL.getCode());
         return vmTagsMapper.selectByExample(vmTagsExample);
     }
 
