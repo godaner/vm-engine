@@ -30210,10 +30210,11 @@ var FilmmakerInfoPage = _react2.default.createClass({
                             _react2.default.createElement(
                                 'li',
                                 { id: 'name_li' },
-                                '\u6F14\u5458 : ',
+                                '\u7535\u5F71\u4EBA : ',
                                 _react2.default.createElement(
                                     'a',
-                                    { title: this.state.filmmaker.name, href: 'javascript:void(0);' },
+                                    { title: this.state.filmmaker.name,
+                                        href: 'javascript:void(0);' },
                                     this.state.filmmaker.name
                                 )
                             ),

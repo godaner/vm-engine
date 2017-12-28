@@ -18,12 +18,12 @@ var FilmmakerInfoPage = React.createClass({
         //init state
         // c(this.props.match.params.filmmakerId);
         return {
-            whenFilmmakerInfoIsLoading:"正在加载电影人信息",
-            filmmakerDescriptionTextLength:150,
-            filmmakerDescriptionTitle:"电影人描述 : ",
-            filmmaker:{},//初次渲染需要一个空对象,而不是一个undefined
-            filmmakerUrl:this.props.match.url,
-            filmmakerId:this.props.match.params.filmmakerId,
+            whenFilmmakerInfoIsLoading: "正在加载电影人信息",
+            filmmakerDescriptionTextLength: 150,
+            filmmakerDescriptionTitle: "电影人描述 : ",
+            filmmaker: {},//初次渲染需要一个空对象,而不是一个undefined
+            filmmakerUrl: this.props.match.url,
+            filmmakerId: this.props.match.params.filmmakerId,
             aboutFilmmakersMovies: undefined,
             aboutFilmmakersMoviesPage: {
                 size: 10,
@@ -52,16 +52,16 @@ var FilmmakerInfoPage = React.createClass({
         window.removeEventListener('resize', this.onWindowResize);
 
     },
-    componentDidUpdate:function(){
+    componentDidUpdate: function () {
         // c("componentDidUpdate");
     },
-    componentWillReceiveProps:function (props) {
+    componentWillReceiveProps: function (props) {
         //Link to!!!当点击某个Link标签时,路由会接受到一个新的props；但是如果跳转的是同一个页面,那么对不起，不会跳转，需要手动重置路由
-        if(!isEmpty(this.props.match.url)){
+        if (!isEmpty(this.props.match.url)) {
             this.props.history.push('/empty');
             setTimeout(() => {
                 this.props.history.replace(this.props.match.url);
-            },1);
+            }, 1);
         }
 
     },
@@ -130,9 +130,9 @@ var FilmmakerInfoPage = React.createClass({
     },
     getAboutFilmmakerMovies(movieFilmmakerIds){
 
-        if(isEmptyList(movieFilmmakerIds)){
+        if (isEmptyList(movieFilmmakerIds)) {
             this.noAboutFilmmakerMovies();
-            return ;
+            return;
         }
 
         //show tip
@@ -147,10 +147,10 @@ var FilmmakerInfoPage = React.createClass({
         var start = this.state.aboutFilmmakersMoviesPage.start;
 
 
-        var url = "/movie/about/filmmaker?orderBy="+orderBy
-            +"&orderType="+orderType
-            +"&size="+size
-            +"&start="+start;
+        var url = "/movie/about/filmmaker?orderBy=" + orderBy
+            + "&orderType=" + orderType
+            + "&size=" + size
+            + "&start=" + start;
         url = contactUrlWithArray(url, "filmmakerIds", ids);
         this.serverRequest = $.get(url, function (result) {
 
@@ -163,12 +163,11 @@ var FilmmakerInfoPage = React.createClass({
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
-            if(isEmptyList(result.data.movies)){
+            if (isEmptyList(result.data.movies)) {
                 this.noAboutFilmmakerMovies();
-                return ;
+                return;
             }
             var state = this.state;
-
 
 
             //set movie info to state
@@ -198,7 +197,8 @@ var FilmmakerInfoPage = React.createClass({
                                 <InnerMessager defaultTip={this.state.whenFilmmakerInfoIsLoading}
                                                ref="innerMessager"/>
                                 <li id="name_li">
-                                    演员 : <a title={this.state.filmmaker.name} href="javascript:void(0);">{this.state.filmmaker.name}</a>
+                                    电影人 : <a title={this.state.filmmaker.name}
+                                            href="javascript:void(0);">{this.state.filmmaker.name}</a>
                                 </li>
                                 <li>
                                     别名 : <a href="javascript:void(0);">{this.state.filmmaker.alias}</a>
