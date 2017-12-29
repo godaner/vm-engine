@@ -31445,17 +31445,17 @@ var Loading = _react2.default.createClass({
         var top = (content_h - dialog_h) / 2;
         dialog.css("margin-top", top + "px");
     },
-    updateStateMsg: function updateStateMsg(msg) {
+    updateStateNowMsg: function updateStateNowMsg(msg) {
         var state = this.state;
-        state.msg = msg;
-        this.setState(msg);
+        state.nowMsg = msg;
+        this.setState(state);
     },
     showLoading: function showLoading(msg) {
         //choice msg
         if (isEmpty(msg)) {
-            this.updateStateMsg(this.state.defaultMsg);
+            this.updateStateNowMsg(this.state.defaultMsg);
         } else {
-            this.updateStateMsg(msg);
+            this.updateStateNowMsg(msg);
         }
 
         //show it

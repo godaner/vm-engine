@@ -52,17 +52,17 @@ var Loading = React.createClass({
         var top = (content_h - dialog_h) / 2;
         dialog.css("margin-top", top + "px");
     },
-    updateStateMsg:function (msg) {
+    updateStateNowMsg:function (msg) {
       var state = this.state;
-      state.msg = msg;
-      this.setState(msg);
+      state.nowMsg = msg;
+      this.setState(state);
     },
     showLoading(msg){
         //choice msg
         if(isEmpty(msg)){
-            this.updateStateMsg(this.state.defaultMsg);
+            this.updateStateNowMsg(this.state.defaultMsg);
         }else{
-            this.updateStateMsg(msg);
+            this.updateStateNowMsg(msg);
         }
 
         //show it
