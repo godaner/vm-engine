@@ -27,6 +27,7 @@
     "react-dom": "^15.0.1",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-websocket": "^2.0.0",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.13.1",
     "webpack": "^3.10.0"

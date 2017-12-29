@@ -1,6 +1,6 @@
 import React from 'react';  //引入react组件
 import {Switch, BrowserRouter, HashRouter, Route, Link, withRouter} from 'react-router-dom';
-
+import Websocket from 'react-websocket';
 import LoginDialog from "./login_dialog";
 import RegistDialog from "./regist_dialog";
 import '../scss/head.scss';
@@ -12,6 +12,7 @@ var Head = React.createClass({
             logoutSuccess: "注销成功",
             logoutFailure: "注销失败",
             user: {},//默认为空对象
+            wsUrl:""
         };
     },
     componentDidMount: function () {
@@ -38,9 +39,12 @@ var Head = React.createClass({
     updateStateUser(user){
         //when login success reset user
         var state = this.state;
-        state.user = user;
         if (isEmpty(user)) {
             state.user = {};
+            state.wsUrl = "";
+        }else{
+            state.user = user;
+            state.wsUrl = WS_URL_PREFIX + "/ws/user/login/"+user.id;
         }
         this.setState(state);
     },
@@ -73,6 +77,10 @@ var Head = React.createClass({
         });
 
 
+    },
+    handleWsOnMessage:function (msg) {
+        const result = JSON.parse(msg);
+        c(result);
     },
     render: function () {
         const location = {
@@ -141,6 +149,9 @@ var Head = React.createClass({
                 <LoginDialog ref="login_dialog" onLoginSuccess={this.onLoginSuccess}/>
                 {/*注册框*/}
                 <RegistDialog ref="regist_dialog" onRegistSuccess={this.onRegistSuccess}/>
+                {/*Websocket*/}
+                {isEmpty(this.state.user)?<span></span>:<Websocket url={this.state.wsUrl}
+                    onMessage={this.handleWsOnMessage.bind(this)}/>}
             </div>
         );
     }
