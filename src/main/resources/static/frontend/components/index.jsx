@@ -9,6 +9,7 @@ import MovieInfoPage from "./movie_info_page";
 import Head from "./head";
 import Tail from "./tail";
 import MsgDialog from "./msg_dialog";
+import Loading from "./loading";
 import UserInfoPage from "./user_info_page";
 import "./vm_frontend_events_dispatcher";
 
@@ -48,7 +49,11 @@ var Index = React.createClass({
                         {
                             /*信息弹出框*/
                         }
-                        <MsgDialog ref="msg_dialog"/>
+                        <MsgDialog/>
+                        {
+                            /*信息弹出框*/
+                        }
+                        <Loading/>
                     </div>
                 </HashRouter>
             </div>

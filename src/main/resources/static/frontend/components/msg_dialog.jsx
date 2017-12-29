@@ -5,12 +5,13 @@ import "./vm_frontend_events_dispatcher";
 var MsgDialog = React.createClass({
     getInitialState: function () {
         var closeText = "确认";
-        if(!isEmpty(this.props.closeText)){
+        if (!isEmpty(this.props.closeText)) {
             closeText = this.props.closeText;
         }
         var state = {
-            closeText:closeText,
-            dialogClassName:""
+            closeText: closeText,
+            dialogClassName: "",
+            onCloseCallfun: undefined
         };
         return state;
     },
@@ -21,14 +22,23 @@ var MsgDialog = React.createClass({
         this.adjustUI();
 
         //add events
-        window.event.on('showMsgDialog',(msg)=>{
+        this.registEvents();
+
+
+    },
+    registEvents: function () {
+        window.event.on('showMsgDialog', (msg, onCloseCallfun) => {
+            //set onCloseCallfun to state
+            var state = this.state;
+            state.onCloseCallfun = onCloseCallfun;
+            this.setState(state);
+
+
             this.showMsg(msg);
         })
-        window.event.on('closeMsgDialog',()=>{
-            this.hide();
+        window.event.on('closeMsgDialog', () => {
+            this.close();
         })
-
-
     },
     componentWillUnmount: function () {
         window.removeEventListener('resize', this.onWindowResize)
@@ -37,7 +47,7 @@ var MsgDialog = React.createClass({
         this.adjustUI();
     },
     showMsg: function (msg) {
-        if(msg == null || msg ==undefined){
+        if (msg == null || msg == undefined) {
             msg = "无消息";
         }
 
@@ -45,9 +55,23 @@ var MsgDialog = React.createClass({
         $(this.refs.msg_p).html(msg);
         //show it
         this.fadeIn();
+
+    },
+    close: function () {
+
+        this.fadeOut();
+
+
+        var onCloseCallfun = this.state.onCloseCallfun;
+        // c(onCloseCallfun);
+        if (!isEmpty(onCloseCallfun)) {
+            onCloseCallfun();
+        }
+
+
     },
     fadeIn: function () {
-
+        //不直接使用
         var state = this.state;
         $(this.refs.content).fadeIn();
         state.dialogClassName = "block animated headShake";
@@ -57,13 +81,11 @@ var MsgDialog = React.createClass({
 
     },
     fadeOut: function () {
+        //不直接使用
         var state = this.state;
         state.dialogClassName = "animated bounceOut";
         $(this.refs.content).fadeOut();
         this.setState(state);
-    },
-    close:function(){
-        this.fadeOut();
     },
     adjustUI: function () {
         {
@@ -72,14 +94,14 @@ var MsgDialog = React.createClass({
         this.dialogToMiddle();
 
     },
-    dialogToMiddle:function(){
+    dialogToMiddle: function () {
         //垂直居中
         var dialog = $(this.refs.dialog);
         var content = $(this.refs.content);
         var dialog_h = dialog.height();
         var content_h = content.height();
         var top = (content_h - dialog_h) / 2;
-        dialog.css("margin-top", top+"px");
+        dialog.css("margin-top", top + "px");
     },
     render: function () {
         return (
@@ -88,7 +110,7 @@ var MsgDialog = React.createClass({
                     <div id="body">
                         <span id="msg_p" ref="msg_p">{this.props.msg}</span>
                         <span id="split">|</span>
-                        <a id="close_btn" href="javascript:void(0);" onClick={this.fadeOut}>{this.state.closeText}</a>
+                        <a id="close_btn" href="javascript:void(0);" onClick={this.close}>{this.state.closeText}</a>
                     </div>
 
                 </div>

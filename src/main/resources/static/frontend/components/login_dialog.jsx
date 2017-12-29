@@ -5,7 +5,9 @@ import "../scss/login_dialog.scss";
 var LoginDialog = React.createClass({
     getInitialState: function () {
         return {
-            dialogClassName: ""
+            dialogClassName: "",
+            loginFailure:"登录失败",
+            loginSuccess:"登录成功"
         };
     },
     componentDidMount: function () {
@@ -65,6 +67,12 @@ var LoginDialog = React.createClass({
         this.setState(state);
     },
     login:function(){
+        //close login dialog
+        this.closeLoginDialog();
+
+        //show loading dialog
+        window.VmFrontendEventsDispatcher.showLoading("正在登陆,请稍等...");
+
         var username = $(this.refs.username).val();
         var password = $(this.refs.password).val();
         const url = "/user/login?username=" + username + "&password=" + password;
@@ -73,13 +81,22 @@ var LoginDialog = React.createClass({
             type: 'PUT',
             success: function (result) {
                 c(result);
+                //close loading
+                window.VmFrontendEventsDispatcher.closeLoading();
+
                 if(fail(result.code)){
-                    window.VmFrontendEventsDispatcher.showMsgDialog("登录失败");
+                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure,function(){
+                        this.showLoginDialog();
+                    }.bind(this));
+
                     return ;
                 }
 
-                //hide login dialog
+                //login success,hide login dialog
                 this.closeLoginDialog();
+
+                //show msg dialog
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginSuccess);
 
                 //callfun
                 this.props.onLoginSuccess(result.data.user);
