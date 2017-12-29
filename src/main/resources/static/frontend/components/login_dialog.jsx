@@ -6,9 +6,9 @@ var LoginDialog = React.createClass({
     getInitialState: function () {
         return {
             dialogClassName: "",
-            loginFailure:"登录失败",
-            loginSuccess:"登录成功",
-            logining:"正在登陆,请稍等..."
+            loginFailure: "登录失败",
+            loginSuccess: "登录成功",
+            logining: "正在登陆,请稍等..."
         };
     },
     componentDidMount: function () {
@@ -70,7 +70,7 @@ var LoginDialog = React.createClass({
         $(this.refs.content).fadeOut();
         this.setState(state);
     },
-    login:function(){
+    login: function () {
         //close login dialog
         this.closeLoginDialog();
 
@@ -80,34 +80,58 @@ var LoginDialog = React.createClass({
         var username = $(this.refs.username).val();
         var password = $(this.refs.password).val();
         const url = "/user/login?username=" + username + "&password=" + password;
-        $.ajax({
-            url: url,
-            type: 'PUT',
-            success: function (result) {
-                //close loading
-                window.VmFrontendEventsDispatcher.closeLoading();
+        ajax.put(
+            {
+                url: url,
+                common: function () {
+                    //close loading
+                    window.VmFrontendEventsDispatcher.closeLoading();
+                },
+                success: function (result) {
+                    //login success,hide login dialog
+                    this.closeLoginDialog();
 
-                if(fail(result.code)){
-                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure,function(){
+                    //show msg dialog
+                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginSuccess);
+
+                    //callfun
+                    this.props.onLoginSuccess(result.data.user);
+                }.bind(this),
+                failure: function () {
+                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure, function () {
                         this.showLoginDialog();
                     }.bind(this));
+                }.bind(this)
+            }
+        );
+        /*$.ajax({
+         url: url,
+         type: 'PUT',
+         success: function (result) {
+         //close loading
+         window.VmFrontendEventsDispatcher.closeLoading();
 
-                    return ;
-                }
+         if(fail(result.code)){
+         window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure,function(){
+         this.showLoginDialog();
+         }.bind(this));
 
-                //login success,hide login dialog
-                this.closeLoginDialog();
+         return ;
+         }
 
-                //show msg dialog
-                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginSuccess);
+         //login success,hide login dialog
+         this.closeLoginDialog();
 
-                //callfun
-                this.props.onLoginSuccess(result.data.user);
-            }.bind(this)
-        });
+         //show msg dialog
+         window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginSuccess);
+
+         //callfun
+         this.props.onLoginSuccess(result.data.user);
+         }.bind(this)
+         });*/
     },
-    handlePasswordKeyUp:function (e) {
-        if(e.keyCode === 13){
+    handlePasswordKeyUp: function (e) {
+        if (e.keyCode === 13) {
             this.login();
         }
     },

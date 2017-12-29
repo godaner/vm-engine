@@ -1,10 +1,11 @@
 import React from 'react';  //引入react组件
-import {Link} from 'react-router-dom';
+import {Switch, BrowserRouter, HashRouter, Route,Link} from 'react-router-dom';
 import PlainPanelTitle from "./plain_panel_title";
 import "../scss/user_basic_info_page.scss";
 /*用户基本信息页面*/
 var UserBasicInfoPage = React.createClass({
-    getInitialState: function () {
+    getInitialState: function (props) {
+        c(props);
         return {
             userId: this.props.match.params.userId,
             getInfoFailure: "获取信息失败",
@@ -25,7 +26,7 @@ var UserBasicInfoPage = React.createClass({
     },
     getUserBasicInfo: function () {
         // c(this.props);
-        const url = "/user/" + this.state.userId;
+        const url = "/user/online";
         $.get(url, function (result) {
             // c(result);
             if (fail(result.code)) {
@@ -35,7 +36,6 @@ var UserBasicInfoPage = React.createClass({
 
             //update user in state
             this.updateStateUser(result.data.user);
-
 
         }.bind(this));
     },

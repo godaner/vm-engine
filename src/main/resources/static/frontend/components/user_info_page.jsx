@@ -1,5 +1,5 @@
 import React from 'react';  //引入react组件
-import {Switch, BrowserRouter, HashRouter, Route, Link} from 'react-router-dom';
+import {Switch, BrowserRouter, HashRouter, Route, Link, withRouter} from 'react-router-dom';
 import PlainPanelTitle from "./plain_panel_title";
 import UserBasicInfoPage from "./user_basic_info_page";
 import "../scss/user_info_page.scss";
@@ -11,6 +11,7 @@ var UserInfoPage = React.createClass({
         };
     },
     componentDidMount(){
+        checkUserOnlineStatus();
     },
     render: function () {
         return (
@@ -33,4 +34,4 @@ var UserInfoPage = React.createClass({
         );
     }
 });
-export default UserInfoPage;
+export default withRouter(UserInfoPage);

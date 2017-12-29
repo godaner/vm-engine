@@ -88,6 +88,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     /**
      * 屏蔽相关字段
+     *
      * @param user
      * @return
      */
@@ -97,13 +98,16 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     }
 
     @Override
-    public void updateUserBasicInfo(CustomVmUsers user) throws Exception {
+    @Transactional
+    public VmUsers updateUserBasicInfo(CustomVmUsers user) throws Exception {
         //user是否存在
         VmUsers dbUser = getUserByUsername(user.getUsername());
         eject(isNullObject(dbUser),
                 "updateUserBasicInfo dbUser is not exits ! user is :" + dbUser);
 
         vmUsersMapper.updateByPrimaryKeySelective(makeVmUsers(user));
+
+        return coverUserSomeInfo(vmUsersMapper.selectByPrimaryKey(user.getId()));
     }
 
     @Override

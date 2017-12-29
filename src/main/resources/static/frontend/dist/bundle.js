@@ -30562,34 +30562,33 @@ var Head = _react2.default.createClass({
 
     getInitialState: function getInitialState() {
         return {
-
             logouting: "正在注销...",
             logoutSuccess: "注销成功",
             logoutFailure: "注销失败",
             user: {} //默认为空对象
         };
     },
-    componentDidMount: function componentDidMount() {
-        this.getOnlineUser();
+    componentDidMount: function componentDidMount() {},
+
+    offLine: function offLine() {
+        // this.props.history.replace("/");
     },
-    getOnlineUser: function getOnlineUser() {
+    getOnlineUser: function getOnlineUser(callfun) {
         var url = "/user/online";
         $.get(url, function (result) {
-
+            c(result);
             if (fail(result.code)) {
-
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
 
-            var state = this.state;
-            if (isEmpty(result.data.user)) {
-                state.user = {};
-            } else {
-                state.user = result.data.user;
-            }
+            //update user in state
+            this.updateStateUser(result.data.user);
 
-            this.setState(state);
+            //callfun
+            if (!isEmpty(callfun)) {
+                callfun(result.data.user);
+            }
         }.bind(this));
     },
     showLoginDialog: function showLoginDialog() {
@@ -30614,9 +30613,10 @@ var Head = _react2.default.createClass({
     updateStateUser: function updateStateUser(user) {
         //when login success reset user
         var state = this.state;
-
         state.user = user;
-
+        if (isEmpty(user)) {
+            state.user = {};
+        }
         this.setState(state);
     },
 
@@ -30750,7 +30750,7 @@ var Head = _react2.default.createClass({
     }
 });
 
-exports.default = Head; //将App组件导出
+exports.default = (0, _reactRouterDom.withRouter)(Head); //将App组件导出
 
 /***/ }),
 /* 283 */
@@ -30852,21 +30852,13 @@ var LoginDialog = _react2.default.createClass({
         var username = $(this.refs.username).val();
         var password = $(this.refs.password).val();
         var url = "/user/login?username=" + username + "&password=" + password;
-        $.ajax({
+        ajax.put({
             url: url,
-            type: 'PUT',
-            success: function (result) {
+            common: function common() {
                 //close loading
                 window.VmFrontendEventsDispatcher.closeLoading();
-
-                if (fail(result.code)) {
-                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure, function () {
-                        this.showLoginDialog();
-                    }.bind(this));
-
-                    return;
-                }
-
+            },
+            success: function (result) {
                 //login success,hide login dialog
                 this.closeLoginDialog();
 
@@ -30875,8 +30867,33 @@ var LoginDialog = _react2.default.createClass({
 
                 //callfun
                 this.props.onLoginSuccess(result.data.user);
+            }.bind(this),
+            failure: function () {
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure, function () {
+                    this.showLoginDialog();
+                }.bind(this));
             }.bind(this)
         });
+        /*$.ajax({
+         url: url,
+         type: 'PUT',
+         success: function (result) {
+         //close loading
+         window.VmFrontendEventsDispatcher.closeLoading();
+           if(fail(result.code)){
+         window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure,function(){
+         this.showLoginDialog();
+         }.bind(this));
+           return ;
+         }
+           //login success,hide login dialog
+         this.closeLoginDialog();
+           //show msg dialog
+         window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginSuccess);
+           //callfun
+         this.props.onLoginSuccess(result.data.user);
+         }.bind(this)
+         });*/
     },
     handlePasswordKeyUp: function handlePasswordKeyUp(e) {
         if (e.keyCode === 13) {
@@ -31374,7 +31391,9 @@ var UserInfoPage = _react2.default.createClass({
             userId: this.props.match.params.userId
         };
     },
-    componentDidMount: function componentDidMount() {},
+    componentDidMount: function componentDidMount() {
+        checkUserOnlineStatus();
+    },
 
     render: function render() {
         return _react2.default.createElement(
@@ -31407,7 +31426,7 @@ var UserInfoPage = _react2.default.createClass({
         );
     }
 });
-exports.default = UserInfoPage;
+exports.default = (0, _reactRouterDom.withRouter)(UserInfoPage);
 
 /***/ }),
 /* 295 */
@@ -31655,7 +31674,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var UserBasicInfoPage = _react2.default.createClass({
     displayName: 'UserBasicInfoPage',
 
-    getInitialState: function getInitialState() {
+    getInitialState: function getInitialState(props) {
+        c(props);
         return {
             userId: this.props.match.params.userId,
             getInfoFailure: "获取信息失败",
@@ -31677,7 +31697,7 @@ var UserBasicInfoPage = _react2.default.createClass({
     },
     getUserBasicInfo: function getUserBasicInfo() {
         // c(this.props);
-        var url = "/user/" + this.state.userId;
+        var url = "/user/online";
         $.get(url, function (result) {
             // c(result);
             if (fail(result.code)) {

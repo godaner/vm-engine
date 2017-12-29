@@ -11,7 +11,7 @@ window.VmFrontendEventsDispatcher = {
         this.event.emit('closeMsgDialog');
     },
     showLoading: function (msg) {
-        this.event.emit('showLoading',msg);
+        this.event.emit('showLoading', msg);
     },
     closeLoading: function () {
         this.event.emit('closeLoading');

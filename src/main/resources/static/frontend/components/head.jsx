@@ -1,5 +1,6 @@
 import React from 'react';  //引入react组件
-import {Link} from 'react-router-dom';
+import {Switch, BrowserRouter, HashRouter, Route, Link,withRouter} from 'react-router-dom';
+
 import LoginDialog from "./login_dialog";
 import RegistDialog from "./regist_dialog";
 import '../scss/head.scss';
@@ -7,34 +8,34 @@ var Head = React.createClass({
 
     getInitialState: function () {
         return {
-
             logouting: "正在注销...",
             logoutSuccess: "注销成功",
             logoutFailure: "注销失败",
-            user: {}//默认为空对象
+            user: {},//默认为空对象
         };
     },
     componentDidMount: function () {
-        this.getOnlineUser();
     },
-    getOnlineUser: function () {
+
+    offLine: function () {
+        // this.props.history.replace("/");
+    },
+    getOnlineUser: function (callfun) {
         const url = "/user/online";
         $.get(url, function (result) {
-
+            c(result);
             if (fail(result.code)) {
-
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
                 return;
             }
 
-            var state = this.state;
-            if (isEmpty(result.data.user)) {
-                state.user = {};
-            } else {
-                state.user = result.data.user;
-            }
+            //update user in state
+            this.updateStateUser(result.data.user);
 
-            this.setState(state);
+            //callfun
+            if (!isEmpty(callfun)) {
+                callfun(result.data.user);
+            }
 
         }.bind(this));
     },
@@ -60,9 +61,10 @@ var Head = React.createClass({
     updateStateUser(user){
         //when login success reset user
         var state = this.state;
-
         state.user = user;
-
+        if (isEmpty(user)) {
+            state.user = {};
+        }
         this.setState(state);
     },
     logout: function () {
@@ -160,4 +162,4 @@ var Head = React.createClass({
     }
 });
 
-export default Head;   //将App组件导出
+export default withRouter(Head);   //将App组件导出

@@ -88,12 +88,15 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response;
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+
+    @RequestMapping(value = "/update/online", method = RequestMethod.PUT)
     public @ResponseBody
-    Object updateUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class}) CustomVmUsers user,
+    Object updateOnlineUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class}) CustomVmUsers user,
                                BindingResult result) throws Exception {
 
-        service.updateUserBasicInfo(user);
+        Object vmUsers = service.updateUserBasicInfo(user);
+
+        setSessionAttr(KEY_OF_ONLINE_USER,vmUsers);
 
         return response;
     }
@@ -110,6 +113,16 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     }
 
     /*********************************后端*********************************/
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    public @ResponseBody
+    Object updateUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class}) CustomVmUsers user,
+                               BindingResult result) throws Exception {
 
+        VmUsers vmUsers = service.updateUserBasicInfo(user);
+
+        response.putData("user",vmUsers);
+
+        return response;
+    }
 }
 
