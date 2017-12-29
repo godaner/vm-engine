@@ -11,7 +11,7 @@ var UserInfoPage = React.createClass({
         };
     },
     componentDidMount(){
-        checkUserOnlineStatus();
+        // checkUserOnlineStatus();
     },
     render: function () {
         return (

@@ -80,8 +80,6 @@ var MovieInfoPage = React.createClass({
         lazyLoad();
     },
     getMovieBasicInfo: function (callfun) {
-        //show tip
-        this.showMovieInfoTip(this.state.whenMovieIsLoading);
 
 
         // var movieId = this.state.targetMovieId;
@@ -89,39 +87,48 @@ var MovieInfoPage = React.createClass({
 
         //get movie info
         const url = this.state.movieUrl;
-        // c(url);
-        this.serverRequest = $.get(url, function (result) {
 
 
-            //close tip
-            this.showMovieInfoTip();
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {
+                //show tip
+                this.showMovieInfoTip(this.state.whenMovieIsLoading);
+            }.bind(this),
+            onResponseStart: function () {
+                //close tip
+                this.showMovieInfoTip();
+            }.bind(this),
+            onResponseSuccess: function (result) {
 
-            if (fail(result.code)) {
+                var state = this.state;
+
+                //set movie info to state
+
+                state.movie = result.data.movie;
+
+                this.setState(state);
+
+                //update movie description
+                // this.updateMovieDescription(state.movie.description);
+
+                //lazy load img
+                this.lazyLoadImg();
+
+            }.bind(this),
+            onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-                return;
-            }
-
-            var state = this.state;
-
-            //set movie info to state
-
-            state.movie = result.data.movie;
-
-            this.setState(state);
-
-            //update movie description
-            // this.updateMovieDescription(state.movie.description);
-
-            //lazy load img
-            this.lazyLoadImg();
+            }.bind(this),
+            onResponseEnd:function(){
+                // c(this.state)
+                //callfun
+                if (callfun != undefined) {
+                    callfun()
+                }
+            }.bind(this)
+        });
 
 
-            // c(this.state)
-            //callfun
-            if (callfun != undefined) {
-                callfun()
-            }
-        }.bind(this));
     },
     showMovieInfoTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
@@ -143,8 +150,6 @@ var MovieInfoPage = React.createClass({
             return ;
         }
 
-        //show tip
-        this.loadingAboutTagsMovies();
 
         //get filmmakerIds
         var tagIds = [];
@@ -164,34 +169,39 @@ var MovieInfoPage = React.createClass({
             +"&start="+start
             +"&excludeMovieId="+this.state.targetMovieId;
         url = contactUrlWithArray(url, "tagIds", tagIds);
-        // c(url);
-        this.serverRequest = $.get(url, function (result) {
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {
+                //show tip
+                this.loadingAboutTagsMovies();
+            }.bind(this),
+            onResponseStart: function () {
+                //close tip
+                this.hideAboutTagsMovies();
+            }.bind(this),
+            onResponseSuccess: function (result) {
 
-            // c(result);
+                if(isEmptyList(result.data.movies)){
+                    this.noAboutTagsMovies();
+                    return ;
+                }
 
-            //close tip
-            this.hideAboutTagsMovies();
+                var state = this.state;
 
-            if (fail(result.code)) {
+                //set movie info to state
+
+                state.aboutTagsMovies = result.data.movies;
+
+                this.setState(state);
+
+                //lazy load img
+                this.lazyLoadImg();
+
+            }.bind(this),
+            onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-                return;
-            }
-            if(isEmptyList(result.data.movies)){
-                this.noAboutTagsMovies();
-                return ;
-            }
-
-            var state = this.state;
-
-            //set movie info to state
-
-            state.aboutTagsMovies = result.data.movies;
-
-            this.setState(state);
-
-            //lazy load img
-            this.lazyLoadImg();
-        }.bind(this));
+            }.bind(this)
+        });
 
     },
     loadingAboutFilmmakerMovies: function () {
@@ -210,8 +220,6 @@ var MovieInfoPage = React.createClass({
             return ;
         }
 
-        //show tip
-        this.loadingAboutFilmmakerMovies();
 
         //get filmmakerIds
         var ids = [];
@@ -231,32 +239,36 @@ var MovieInfoPage = React.createClass({
             +"&start="+start
             +"&excludeMovieId="+this.state.targetMovieId;
         url = contactUrlWithArray(url, "filmmakerIds", ids);
-        this.serverRequest = $.get(url, function (result) {
 
-            //close tip
-            this.hideAboutFilmmakerMovies();
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {
+                //show tip
+                this.loadingAboutFilmmakerMovies();
+            }.bind(this),
+            onResponseStart: function () {
+                //close tip
+                this.hideAboutFilmmakerMovies();
+            }.bind(this),
+            onResponseSuccess: function (result) {
 
-            if (fail(result.code)) {
+                var state = this.state;
+
+                //set movie info to state
+
+                state.aboutFilmmakersMovies = result.data.movies;
+
+                this.setState(state);
+
+                //lazy load img
+                this.lazyLoadImg();
+
+            }.bind(this),
+            onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-                return;
-            }
-            if(isEmptyList(result.data.movies)){
-                this.noAboutFilmmakerMovies();
-                return ;
-            }
-            var state = this.state;
+            }.bind(this)
+        });
 
-
-
-            //set movie info to state
-
-            state.aboutFilmmakersMovies = result.data.movies;
-
-            this.setState(state);
-
-            //lazy load img
-            this.lazyLoadImg();
-        }.bind(this));
     },
     render: function () {
 

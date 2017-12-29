@@ -53,31 +53,40 @@ var MoviePlayer = React.createClass({
     },
     getMovieSrcVersion: function () {
         var url = "/movie/version/" + this.props.targetMovieId + "?orderBy=weight&orderType=desc";
-        this.serverRequest = $.get(url, function (result) {
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {
 
-            //cancel tip
-            this.showTip();
+            }.bind(this),
+            onResponseStart: function () {
+                //cancel tip
+                this.showTip();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+                var versionsInfo = result.data.versions;
+                var videos = [];
+                for (var i = 0; i < versionsInfo.length; i++) {
+                    var version = versionsInfo[i];
+                    videos.push([version.srcUrl, 'video/mp4', this.movieSharpness(version.sharpness), version.weight]);
+                }
+                //init movie player
+                var options = {};
+                options.poster = result.data.posterUrl;
+                options.video = videos;
+                //init movie player
+                this.initPlayer(options);
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
+            }.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun()
+                }
+            }.bind(this)
+        });
 
-            if (fail(result.code)) {
-                return;
-            }
-
-
-            var versionsInfo = result.data.versions;
-            var videos = [];
-            for (var i = 0; i < versionsInfo.length; i++) {
-                var version = versionsInfo[i];
-                videos.push([version.srcUrl, 'video/mp4', this.movieSharpness(version.sharpness), version.weight]);
-            }
-            //init movie player
-            var options = {};
-            options.poster = result.data.posterUrl;
-            options.video = videos;
-            //init movie player
-            this.initPlayer(options);
-
-
-        }.bind(this));
 
     },
     initPlayer(options) {

@@ -28,38 +28,48 @@ var FilmmakersDetailsArea = React.createClass({
     },
     getFilmmakers: function () {
         var url = "/movie/filmmaker/" + this.props.movieId;
-        $.get(url, function (result) {
-            c(result);
-            //hide tip
-            this.showTip();
 
-            if (fail(result.code)) {
-                return;
-            }
-            if(isEmptyList(result.data.filmmakers)){
-                this.showTip(this.state.whenThereIsHaveNotFilmmakers,false);
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {
+
+
+            }.bind(this),
+            onResponseStart: function () {
+
+                //hide tip
+                this.showTip();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+                if (isEmptyList(result.data.filmmakers)) {
+                    this.showTip(this.state.whenThereIsHaveNotFilmmakers, false);
+
+                    //callfun
+                    this.props.onLoadDataSuccess([]);
+
+                    return;
+                }
+
+                //set state
+                var state = this.state;
+                state.filmmakers = result.data.filmmakers;
+
+
+                this.setState(state);
+
+                //adjust ui
+                this.adjustUI();
 
                 //callfun
-                this.props.onLoadDataSuccess([]);
+                this.props.onLoadDataSuccess(state.filmmakers);
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
+            }.bind(this),
+            onResponseEnd: function () {
+            }.bind(this)
+        });
 
-                return ;
-            }
-
-            //set state
-            var state = this.state;
-            state.filmmakers = result.data.filmmakers;
-
-
-
-            this.setState(state);
-
-            //adjust ui
-            this.adjustUI();
-
-            //callfun
-            this.props.onLoadDataSuccess(state.filmmakers);
-
-        }.bind(this));
     },
     adjustUI: function () {
         var $actors_details_area = $(this.refs.actors_details_area);
@@ -76,10 +86,10 @@ var FilmmakersDetailsArea = React.createClass({
             var filmmakers = this.state.filmmakers;
             var res = [];
             // if(isEmptyList(filmmakers)){
-                // res.push(<li key="1">无相关电影人</li>)
-                // return res;
+            // res.push(<li key="1">无相关电影人</li>)
+            // return res;
             // }
-            if(isEmptyList(filmmakers)){
+            if (isEmptyList(filmmakers)) {
                 filmmakers = [];
             }
 

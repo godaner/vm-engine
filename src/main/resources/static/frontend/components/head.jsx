@@ -1,5 +1,5 @@
 import React from 'react';  //引入react组件
-import {Switch, BrowserRouter, HashRouter, Route, Link,withRouter} from 'react-router-dom';
+import {Switch, BrowserRouter, HashRouter, Route, Link, withRouter} from 'react-router-dom';
 
 import LoginDialog from "./login_dialog";
 import RegistDialog from "./regist_dialog";
@@ -22,22 +22,32 @@ var Head = React.createClass({
     },
     getOnlineUser: function (callfun) {
         const url = "/user/online";
-        $.get(url, function (result) {
-            c(result);
-            if (fail(result.code)) {
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {
+
+            }.bind(this),
+            onResponseStart: function () {
+
+            }.bind(this),
+            onResponseSuccess: function (result) {
+
+                //update user in state
+                this.updateStateUser(result.data.user);
+
+                //callfun
+                if (!isEmpty(callfun)) {
+                    callfun(result.data.user);
+                }
+            }.bind(this),
+            onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-                return;
-            }
+            }.bind(this),
+            onResponseEnd: function () {
+            }.bind(this)
+        });
 
-            //update user in state
-            this.updateStateUser(result.data.user);
 
-            //callfun
-            if (!isEmpty(callfun)) {
-                callfun(result.data.user);
-            }
-
-        }.bind(this));
     },
     showLoginDialog: function () {
         this.refs.login_dialog.showLoginDialog();
@@ -72,23 +82,30 @@ var Head = React.createClass({
         window.VmFrontendEventsDispatcher.showLoading(this.state.logouting);
 
         const url = "/user/logout";
-        $.ajax({
+
+        ajax.put({
             url: url,
-            type: 'PUT',
-            success: function (result) {
+            onBeforeRequest: function () {
+
+            }.bind(this),
+            onResponseStart: function () {
                 //close loading dialog
                 window.VmFrontendEventsDispatcher.closeLoading();
-                // c(result);
-                if (fail(result.code)) {
-                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.logoutFailure);
-                    return;
-                }
+            }.bind(this),
+            onResponseSuccess: function (result) {
+
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.logoutSuccess);
                 //update user in state
                 this.updateStateUser({});
-
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.logoutFailure);
+            }.bind(this),
+            onResponseEnd: function () {
             }.bind(this)
         });
+
+
     },
     render: function () {
         const location = {

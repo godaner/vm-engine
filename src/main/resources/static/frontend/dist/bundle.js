@@ -12584,31 +12584,41 @@ var TagsOfMovie = _react2.default.createClass({
     componentDidMount: function componentDidMount() {
 
         var url = "/movie/tag/" + this.state.movieId;
-        $.get(url, function (result) {
-            //hide tip
-            this.showTagTip();
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {}.bind(this),
+            onResponseStart: function () {
 
-            // c(result);
-            //failure
-            if (fail(result.code)) {
-                return;
-            }
-            if (isEmptyList(result.data.list)) {
-                this.showTagTip(this.state.whenThereHaveNotTag, false);
+                //hide tip
+                this.showTagTip();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+                if (isEmptyList(result.data.list)) {
+                    this.showTagTip(this.state.whenThereHaveNotTag, false);
 
-                this.props.onLoadDataSuccess([]);
+                    this.props.onLoadDataSuccess([]);
 
-                return;
-            }
+                    return;
+                }
 
-            var state = this.state;
-            state.tags = result.data.list;
+                var state = this.state;
+                state.tags = result.data.list;
 
-            this.setState(state);
+                this.setState(state);
 
-            //callfun
-            this.props.onLoadDataSuccess(state.tags);
-        }.bind(this));
+                //callfun
+                this.props.onLoadDataSuccess(state.tags);
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
+            }.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun();
+                }
+            }.bind(this)
+        });
     },
     showTagTip: function showTagTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
@@ -12766,35 +12776,42 @@ var FilmmakersDetailsArea = _react2.default.createClass({
     },
     getFilmmakers: function getFilmmakers() {
         var url = "/movie/filmmaker/" + this.props.movieId;
-        $.get(url, function (result) {
-            c(result);
-            //hide tip
-            this.showTip();
 
-            if (fail(result.code)) {
-                return;
-            }
-            if (isEmptyList(result.data.filmmakers)) {
-                this.showTip(this.state.whenThereIsHaveNotFilmmakers, false);
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {}.bind(this),
+            onResponseStart: function () {
+
+                //hide tip
+                this.showTip();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+                if (isEmptyList(result.data.filmmakers)) {
+                    this.showTip(this.state.whenThereIsHaveNotFilmmakers, false);
+
+                    //callfun
+                    this.props.onLoadDataSuccess([]);
+
+                    return;
+                }
+
+                //set state
+                var state = this.state;
+                state.filmmakers = result.data.filmmakers;
+
+                this.setState(state);
+
+                //adjust ui
+                this.adjustUI();
 
                 //callfun
-                this.props.onLoadDataSuccess([]);
-
-                return;
-            }
-
-            //set state
-            var state = this.state;
-            state.filmmakers = result.data.filmmakers;
-
-            this.setState(state);
-
-            //adjust ui
-            this.adjustUI();
-
-            //callfun
-            this.props.onLoadDataSuccess(state.filmmakers);
-        }.bind(this));
+                this.props.onLoadDataSuccess(state.filmmakers);
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
+            }.bind(this),
+            onResponseEnd: function () {}.bind(this)
+        });
     },
     adjustUI: function adjustUI() {
         var $actors_details_area = $(this.refs.actors_details_area);
@@ -12936,28 +12953,37 @@ var MoviePlayer = _react2.default.createClass({
     },
     getMovieSrcVersion: function getMovieSrcVersion() {
         var url = "/movie/version/" + this.props.targetMovieId + "?orderBy=weight&orderType=desc";
-        this.serverRequest = $.get(url, function (result) {
-
-            //cancel tip
-            this.showTip();
-
-            if (fail(result.code)) {
-                return;
-            }
-
-            var versionsInfo = result.data.versions;
-            var videos = [];
-            for (var i = 0; i < versionsInfo.length; i++) {
-                var version = versionsInfo[i];
-                videos.push([version.srcUrl, 'video/mp4', this.movieSharpness(version.sharpness), version.weight]);
-            }
-            //init movie player
-            var options = {};
-            options.poster = result.data.posterUrl;
-            options.video = videos;
-            //init movie player
-            this.initPlayer(options);
-        }.bind(this));
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {}.bind(this),
+            onResponseStart: function () {
+                //cancel tip
+                this.showTip();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+                var versionsInfo = result.data.versions;
+                var videos = [];
+                for (var i = 0; i < versionsInfo.length; i++) {
+                    var version = versionsInfo[i];
+                    videos.push([version.srcUrl, 'video/mp4', this.movieSharpness(version.sharpness), version.weight]);
+                }
+                //init movie player
+                var options = {};
+                options.poster = result.data.posterUrl;
+                options.video = videos;
+                //init movie player
+                this.initPlayer(options);
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
+            }.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun();
+                }
+            }.bind(this)
+        });
     },
     initPlayer: function initPlayer(options) {
         var videoObject = {
@@ -28557,41 +28583,42 @@ var FilmmakerInfoPage = _react2.default.createClass({
     },
 
     getFilmmakerBasicInfo: function getFilmmakerBasicInfo(callfun) {
-        //show tip
-        this.showFilmmakerTip(this.state.whenFilmmakerInfoIsLoading);
 
         //get movie info
         var url = this.state.filmmakerUrl;
-        // c(url);
-        this.serverRequest = $.get(url, function (result) {
 
-            // c("getFilmmakerBasicInfo");
-            // c(result);
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {
+                //show tip
+                this.showFilmmakerTip(this.state.whenFilmmakerInfoIsLoading);
+            }.bind(this),
+            onResponseStart: function () {
+                //close tip
+                this.showFilmmakerTip();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+                var state = this.state;
 
-            //close tip
-            this.showFilmmakerTip();
+                //set movie info to state
 
-            if (fail(result.code)) {
+                state.filmmaker = result.data.filmmaker;
+
+                this.setState(state);
+
+                //lazy load img
+                this.lazyLoadImg();
+            }.bind(this),
+            onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-                return;
-            }
-
-            var state = this.state;
-
-            //set movie info to state
-
-            state.filmmaker = result.data.filmmaker;
-
-            this.setState(state);
-
-            //lazy load img
-            this.lazyLoadImg();
-
-            //callfun
-            if (callfun != undefined) {
-                callfun();
-            }
-        }.bind(this));
+            }.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun();
+                }
+            }.bind(this)
+        });
     },
     showFilmmakerTip: function showFilmmakerTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
@@ -28614,9 +28641,6 @@ var FilmmakerInfoPage = _react2.default.createClass({
             return;
         }
 
-        //show tip
-        this.loadingAboutFilmmakerMovies();
-
         //set ids
         var ids = movieFilmmakerIds;
         //ajax
@@ -28627,32 +28651,39 @@ var FilmmakerInfoPage = _react2.default.createClass({
 
         var url = "/movie/about/filmmaker?orderBy=" + orderBy + "&orderType=" + orderType + "&size=" + size + "&start=" + start;
         url = contactUrlWithArray(url, "filmmakerIds", ids);
-        this.serverRequest = $.get(url, function (result) {
 
-            // c("getAboutFilmmakerMovies");
-            // c(result);
-            //close tip
-            this.hideAboutFilmmakerMovies();
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {
 
-            if (fail(result.code)) {
+                //show tip
+                this.loadingAboutFilmmakerMovies();
+            }.bind(this),
+            onResponseStart: function () {
+                //close tip
+                this.hideAboutFilmmakerMovies();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+                if (isEmptyList(result.data.movies)) {
+                    this.noAboutFilmmakerMovies();
+                    return;
+                }
+                var state = this.state;
+
+                //set movie info to state
+
+                state.aboutFilmmakersMovies = result.data.movies;
+
+                this.setState(state);
+
+                //lazy load img
+                this.lazyLoadImg();
+            }.bind(this),
+            onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-                return;
-            }
-            if (isEmptyList(result.data.movies)) {
-                this.noAboutFilmmakerMovies();
-                return;
-            }
-            var state = this.state;
-
-            //set movie info to state
-
-            state.aboutFilmmakersMovies = result.data.movies;
-
-            this.setState(state);
-
-            //lazy load img
-            this.lazyLoadImg();
-        }.bind(this));
+            }.bind(this),
+            onResponseEnd: function () {}.bind(this)
+        });
     },
 
     render: function render() {
@@ -29545,14 +29576,15 @@ var MovieListPage = _react2.default.createClass({
                 if (isEmptyList(state.movies.list)) {
                     this.noMoviesTip();
                 }
-
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
+            }.bind(this),
+            onResponseEnd: function () {
                 //callfun
                 if (callfun != undefined) {
                     callfun();
                 }
-            }.bind(this),
-            onResponseFailure: function (result) {
-                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
             }.bind(this)
         });
     },
@@ -30183,45 +30215,50 @@ var MovieInfoPage = _react2.default.createClass({
         lazyLoad();
     },
     getMovieBasicInfo: function getMovieBasicInfo(callfun) {
-        //show tip
-        this.showMovieInfoTip(this.state.whenMovieIsLoading);
 
         // var movieId = this.state.targetMovieId;
 
 
         //get movie info
         var url = this.state.movieUrl;
-        // c(url);
-        this.serverRequest = $.get(url, function (result) {
 
-            //close tip
-            this.showMovieInfoTip();
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {
+                //show tip
+                this.showMovieInfoTip(this.state.whenMovieIsLoading);
+            }.bind(this),
+            onResponseStart: function () {
+                //close tip
+                this.showMovieInfoTip();
+            }.bind(this),
+            onResponseSuccess: function (result) {
 
-            if (fail(result.code)) {
+                var state = this.state;
+
+                //set movie info to state
+
+                state.movie = result.data.movie;
+
+                this.setState(state);
+
+                //update movie description
+                // this.updateMovieDescription(state.movie.description);
+
+                //lazy load img
+                this.lazyLoadImg();
+            }.bind(this),
+            onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-                return;
-            }
-
-            var state = this.state;
-
-            //set movie info to state
-
-            state.movie = result.data.movie;
-
-            this.setState(state);
-
-            //update movie description
-            // this.updateMovieDescription(state.movie.description);
-
-            //lazy load img
-            this.lazyLoadImg();
-
-            // c(this.state)
-            //callfun
-            if (callfun != undefined) {
-                callfun();
-            }
-        }.bind(this));
+            }.bind(this),
+            onResponseEnd: function () {
+                // c(this.state)
+                //callfun
+                if (callfun != undefined) {
+                    callfun();
+                }
+            }.bind(this)
+        });
     },
     showMovieInfoTip: function showMovieInfoTip(msg, loop) {
         this.refs.innerMessager.showMsg(msg, loop);
@@ -30244,9 +30281,6 @@ var MovieInfoPage = _react2.default.createClass({
             return;
         }
 
-        //show tip
-        this.loadingAboutTagsMovies();
-
         //get filmmakerIds
         var tagIds = [];
         for (var i = 0; i < movieTags.length; i++) {
@@ -30261,34 +30295,38 @@ var MovieInfoPage = _react2.default.createClass({
 
         var url = "/movie/about/tag?orderBy=" + orderBy + "&orderType=" + orderType + "&size=" + size + "&start=" + start + "&excludeMovieId=" + this.state.targetMovieId;
         url = contactUrlWithArray(url, "tagIds", tagIds);
-        // c(url);
-        this.serverRequest = $.get(url, function (result) {
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {
+                //show tip
+                this.loadingAboutTagsMovies();
+            }.bind(this),
+            onResponseStart: function () {
+                //close tip
+                this.hideAboutTagsMovies();
+            }.bind(this),
+            onResponseSuccess: function (result) {
 
-            // c(result);
+                if (isEmptyList(result.data.movies)) {
+                    this.noAboutTagsMovies();
+                    return;
+                }
 
-            //close tip
-            this.hideAboutTagsMovies();
+                var state = this.state;
 
-            if (fail(result.code)) {
+                //set movie info to state
+
+                state.aboutTagsMovies = result.data.movies;
+
+                this.setState(state);
+
+                //lazy load img
+                this.lazyLoadImg();
+            }.bind(this),
+            onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-                return;
-            }
-            if (isEmptyList(result.data.movies)) {
-                this.noAboutTagsMovies();
-                return;
-            }
-
-            var state = this.state;
-
-            //set movie info to state
-
-            state.aboutTagsMovies = result.data.movies;
-
-            this.setState(state);
-
-            //lazy load img
-            this.lazyLoadImg();
-        }.bind(this));
+            }.bind(this)
+        });
     },
     loadingAboutFilmmakerMovies: function loadingAboutFilmmakerMovies() {
         this.refs.aboutFilmmakersMovies_MoviesDisplayer.loadingMoviesTip();
@@ -30306,9 +30344,6 @@ var MovieInfoPage = _react2.default.createClass({
             return;
         }
 
-        //show tip
-        this.loadingAboutFilmmakerMovies();
-
         //get filmmakerIds
         var ids = [];
         for (var i = 0; i < movieFilmmakers.length; i++) {
@@ -30322,30 +30357,34 @@ var MovieInfoPage = _react2.default.createClass({
 
         var url = "/movie/about/filmmaker?orderBy=" + orderBy + "&orderType=" + orderType + "&size=" + size + "&start=" + start + "&excludeMovieId=" + this.state.targetMovieId;
         url = contactUrlWithArray(url, "filmmakerIds", ids);
-        this.serverRequest = $.get(url, function (result) {
 
-            //close tip
-            this.hideAboutFilmmakerMovies();
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {
+                //show tip
+                this.loadingAboutFilmmakerMovies();
+            }.bind(this),
+            onResponseStart: function () {
+                //close tip
+                this.hideAboutFilmmakerMovies();
+            }.bind(this),
+            onResponseSuccess: function (result) {
 
-            if (fail(result.code)) {
+                var state = this.state;
+
+                //set movie info to state
+
+                state.aboutFilmmakersMovies = result.data.movies;
+
+                this.setState(state);
+
+                //lazy load img
+                this.lazyLoadImg();
+            }.bind(this),
+            onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-                return;
-            }
-            if (isEmptyList(result.data.movies)) {
-                this.noAboutFilmmakerMovies();
-                return;
-            }
-            var state = this.state;
-
-            //set movie info to state
-
-            state.aboutFilmmakersMovies = result.data.movies;
-
-            this.setState(state);
-
-            //lazy load img
-            this.lazyLoadImg();
-        }.bind(this));
+            }.bind(this)
+        });
     },
 
     render: function render() {
@@ -30593,21 +30632,25 @@ var Head = _react2.default.createClass({
     },
     getOnlineUser: function getOnlineUser(callfun) {
         var url = "/user/online";
-        $.get(url, function (result) {
-            c(result);
-            if (fail(result.code)) {
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {}.bind(this),
+            onResponseStart: function () {}.bind(this),
+            onResponseSuccess: function (result) {
+
+                //update user in state
+                this.updateStateUser(result.data.user);
+
+                //callfun
+                if (!isEmpty(callfun)) {
+                    callfun(result.data.user);
+                }
+            }.bind(this),
+            onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-                return;
-            }
-
-            //update user in state
-            this.updateStateUser(result.data.user);
-
-            //callfun
-            if (!isEmpty(callfun)) {
-                callfun(result.data.user);
-            }
-        }.bind(this));
+            }.bind(this),
+            onResponseEnd: function () {}.bind(this)
+        });
     },
     showLoginDialog: function showLoginDialog() {
         this.refs.login_dialog.showLoginDialog();
@@ -30643,21 +30686,24 @@ var Head = _react2.default.createClass({
         window.VmFrontendEventsDispatcher.showLoading(this.state.logouting);
 
         var url = "/user/logout";
-        $.ajax({
+
+        ajax.put({
             url: url,
-            type: 'PUT',
-            success: function (result) {
+            onBeforeRequest: function () {}.bind(this),
+            onResponseStart: function () {
                 //close loading dialog
                 window.VmFrontendEventsDispatcher.closeLoading();
-                // c(result);
-                if (fail(result.code)) {
-                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.logoutFailure);
-                    return;
-                }
+            }.bind(this),
+            onResponseSuccess: function (result) {
+
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.logoutSuccess);
                 //update user in state
                 this.updateStateUser({});
-            }.bind(this)
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.logoutFailure);
+            }.bind(this),
+            onResponseEnd: function () {}.bind(this)
         });
     },
     render: function render() {
@@ -31392,7 +31438,7 @@ var UserInfoPage = _react2.default.createClass({
         };
     },
     componentDidMount: function componentDidMount() {
-        checkUserOnlineStatus();
+        // checkUserOnlineStatus();
     },
 
     render: function render() {
@@ -31674,8 +31720,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var UserBasicInfoPage = _react2.default.createClass({
     displayName: 'UserBasicInfoPage',
 
-    getInitialState: function getInitialState(props) {
-        c(props);
+    getInitialState: function getInitialState() {
+        // c(props);
         return {
             userId: this.props.match.params.userId,
             getInfoFailure: "获取信息失败",
@@ -31698,16 +31744,29 @@ var UserBasicInfoPage = _react2.default.createClass({
     getUserBasicInfo: function getUserBasicInfo() {
         // c(this.props);
         var url = "/user/online";
-        $.get(url, function (result) {
-            // c(result);
-            if (fail(result.code)) {
-                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
-                return;
-            }
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {}.bind(this),
+            onResponseStart: function () {
 
-            //update user in state
-            this.updateStateUser(result.data.user);
-        }.bind(this));
+                //hide tip
+                this.showTagTip();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+
+                //update user in state
+                this.updateStateUser(result.data.user);
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
+            }.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun();
+                }
+            }.bind(this)
+        });
     },
     render: function render() {
         return _react2.default.createElement(

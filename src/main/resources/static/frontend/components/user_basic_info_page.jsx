@@ -1,11 +1,11 @@
 import React from 'react';  //引入react组件
-import {Switch, BrowserRouter, HashRouter, Route,Link} from 'react-router-dom';
+import {Switch, BrowserRouter, HashRouter, Route, Link} from 'react-router-dom';
 import PlainPanelTitle from "./plain_panel_title";
 import "../scss/user_basic_info_page.scss";
 /*用户基本信息页面*/
 var UserBasicInfoPage = React.createClass({
-    getInitialState: function (props) {
-        c(props);
+    getInitialState: function () {
+        // c(props);
         return {
             userId: this.props.match.params.userId,
             getInfoFailure: "获取信息失败",
@@ -27,17 +27,34 @@ var UserBasicInfoPage = React.createClass({
     getUserBasicInfo: function () {
         // c(this.props);
         const url = "/user/online";
-        $.get(url, function (result) {
-            // c(result);
-            if (fail(result.code)) {
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {
+
+            }.bind(this),
+            onResponseStart: function () {
+
+                //hide tip
+                this.showTagTip();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+
+
+                //update user in state
+                this.updateStateUser(result.data.user);
+            }.bind(this),
+            onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
-                return;
-            }
+            }.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun()
+                }
+            }.bind(this)
+        });
 
-            //update user in state
-            this.updateStateUser(result.data.user);
 
-        }.bind(this));
     },
     render: function () {
         return (

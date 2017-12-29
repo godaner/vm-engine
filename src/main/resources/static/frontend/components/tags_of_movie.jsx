@@ -6,7 +6,7 @@ var TagsOfMovie = React.createClass({
     getInitialState: function () {
         return {
             whenTagIsLoading: "正在加载标签信息",
-            whenThereHaveNotTag:"无相关标签信息",
+            whenThereHaveNotTag: "无相关标签信息",
             movieId: this.props.movieId,
             tags: []
         };
@@ -14,33 +14,45 @@ var TagsOfMovie = React.createClass({
     componentDidMount: function () {
 
         var url = "/movie/tag/" + this.state.movieId;
-        $.get(url, function (result) {
-            //hide tip
-            this.showTagTip();
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {
 
-            // c(result);
-            //failure
-            if (fail(result.code)) {
-                return;
-            }
-            if(isEmptyList(result.data.list)){
-                this.showTagTip(this.state.whenThereHaveNotTag,false);
+            }.bind(this),
+            onResponseStart: function () {
 
-                this.props.onLoadDataSuccess([]);
+                //hide tip
+                this.showTagTip();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+                if (isEmptyList(result.data.list)) {
+                    this.showTagTip(this.state.whenThereHaveNotTag, false);
 
-                return ;
-            }
+                    this.props.onLoadDataSuccess([]);
+
+                    return;
+                }
 
 
-            var state = this.state;
-            state.tags = result.data.list;
+                var state = this.state;
+                state.tags = result.data.list;
 
-            this.setState(state);
+                this.setState(state);
 
-            //callfun
-            this.props.onLoadDataSuccess(state.tags);
+                //callfun
+                this.props.onLoadDataSuccess(state.tags);
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
+            }.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun()
+                }
+            }.bind(this)
+        });
 
-        }.bind(this));
     },
     showTagTip(msg, loop){
         this.refs.innerMessager.showMsg(msg, loop);

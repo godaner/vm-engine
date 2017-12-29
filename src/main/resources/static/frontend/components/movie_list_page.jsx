@@ -247,14 +247,17 @@ var MovieListPage = React.createClass({
                     this.noMoviesTip();
                 }
 
-                //callfun
-                if (callfun != undefined) {
-                    callfun()
-                }
+
 
             }.bind(this),
             onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
+            }.bind(this),
+            onResponseEnd:function(){
+                //callfun
+                if (callfun != undefined) {
+                    callfun()
+                }
             }.bind(this)
         });
 
