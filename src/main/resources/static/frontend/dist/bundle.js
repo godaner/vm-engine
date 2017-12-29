@@ -29565,42 +29565,47 @@ var MovieListPage = _react2.default.createClass({
     },
 
     getTagGroup: function getTagGroup(callfun) {
-        //set tip
-        this.loadingTagsTip();
+
         {/*获取电影标签分组*/
         }
-        this.serverRequest = $.get(this.state.tagGroupSource, function (result) {
-            //hide tip
-            this.hideTagTip();
+        ajax.get({
+            url: this.state.tagGroupSource,
+            before: function () {
+                //set tip
+                this.loadingTagsTip();
+            }.bind(this),
+            common: function () {
+                //hide tip
+                this.hideTagTip();
+            }.bind(this),
+            success: function (result) {
+                var state = this.state;
+                state.movieTagGroup = result.data.list;
 
-            var state = this.state;
-            state.movieTagGroup = result.data.list;
+                //set tip
+                if (isEmptyList(state.movieTagGroup)) {
+                    // this.showTagTip(this.state.whenThereIsHaveNotTags,false);
+                    this.noTagsTip();
+                }
 
-            if (fail(result.code)) {
+                //default select tag group id
+
+                for (var i = 0; i < state.movieTagGroup.length; i++) {
+                    var g = state.movieTagGroup[i];
+                    g.selected = true;
+                }
+
+                this.setState(state);
+
+                //callfun
+                if (callfun != undefined) {
+                    callfun();
+                }
+            }.bind(this),
+            failure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-                return;
-            }
-
-            //set tip
-            if (isEmptyList(state.movieTagGroup)) {
-                // this.showTagTip(this.state.whenThereIsHaveNotTags,false);
-                this.noTagsTip();
-            }
-
-            //default select tag group id
-
-            for (var i = 0; i < state.movieTagGroup.length; i++) {
-                var g = state.movieTagGroup[i];
-                g.selected = true;
-            }
-
-            this.setState(state);
-
-            //callfun
-            if (callfun != undefined) {
-                callfun();
-            }
-        }.bind(this));
+            }.bind(this)
+        });
     },
     handlePageChange: function handlePageChange(movePage) {
         var newPage = this.state.movies.page + movePage;
@@ -30843,17 +30848,18 @@ var LoginDialog = _react2.default.createClass({
         this.setState(state);
     },
     login: function login() {
-        //close login dialog
-        this.closeLoginDialog();
-
-        //show loading dialog
-        window.VmFrontendEventsDispatcher.showLoading(this.state.logining);
 
         var username = $(this.refs.username).val();
         var password = $(this.refs.password).val();
         var url = "/user/login?username=" + username + "&password=" + password;
         ajax.put({
             url: url,
+            before: function () {
+                //close login dialog
+                this.closeLoginDialog();
+                //show loading dialog
+                window.VmFrontendEventsDispatcher.showLoading(this.state.logining);
+            }.bind(this),
             common: function common() {
                 //close loading
                 window.VmFrontendEventsDispatcher.closeLoading();
@@ -30868,32 +30874,12 @@ var LoginDialog = _react2.default.createClass({
                 //callfun
                 this.props.onLoginSuccess(result.data.user);
             }.bind(this),
-            failure: function () {
+            failure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure, function () {
                     this.showLoginDialog();
                 }.bind(this));
             }.bind(this)
         });
-        /*$.ajax({
-         url: url,
-         type: 'PUT',
-         success: function (result) {
-         //close loading
-         window.VmFrontendEventsDispatcher.closeLoading();
-           if(fail(result.code)){
-         window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure,function(){
-         this.showLoginDialog();
-         }.bind(this));
-           return ;
-         }
-           //login success,hide login dialog
-         this.closeLoginDialog();
-           //show msg dialog
-         window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginSuccess);
-           //callfun
-         this.props.onLoginSuccess(result.data.user);
-         }.bind(this)
-         });*/
     },
     handlePasswordKeyUp: function handlePasswordKeyUp(e) {
         if (e.keyCode === 13) {
@@ -31096,29 +31082,25 @@ var RegistDialog = _react2.default.createClass({
     },
     regist: function regist() {
 
-        //close login dialog
-        this.closeRegistDialog();
-
-        //show loading dialog
-        window.VmFrontendEventsDispatcher.showLoading(this.state.registing);
-
         var username = $(this.refs.username).val();
         var password = $(this.refs.password).val();
         var url = "/user/regist?username=" + username + "&password=" + password;
-        $.ajax({
+
+        ajax.put({
             url: url,
-            type: 'PUT',
-            success: function (result) {
+            before: function () {
+
+                //close login dialog
+                this.closeRegistDialog();
+
+                //show loading dialog
+                window.VmFrontendEventsDispatcher.showLoading(this.state.registing);
+            }.bind(this),
+            common: function common() {
                 //close loading
                 window.VmFrontendEventsDispatcher.closeLoading();
-
-                if (fail(result.code)) {
-                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.registFailure, function () {
-                        this.showRegistDialog();
-                    }.bind(this));
-                    return;
-                }
-
+            },
+            success: function (result) {
                 //hide regist dialog
                 this.closeRegistDialog();
 
@@ -31127,6 +31109,11 @@ var RegistDialog = _react2.default.createClass({
 
                 //callfun
                 this.props.onRegistSuccess(result.data.user);
+            }.bind(this),
+            failure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.registFailure, function () {
+                    this.showRegistDialog();
+                }.bind(this));
             }.bind(this)
         });
     },

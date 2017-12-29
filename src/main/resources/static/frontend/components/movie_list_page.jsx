@@ -59,13 +59,13 @@ var MovieTagGroupList = React.createClass({
             noTagTip: "无相关标签"
         };
     },
-    noTagsTip:function(){
-        this.showMsg(this.state.noTagTip,false);
+    noTagsTip: function () {
+        this.showMsg(this.state.noTagTip, false);
     },
-    loadingTagsTip:function(){
-        this.showMsg(this.state.loadingTagTip,true);
+    loadingTagsTip: function () {
+        this.showMsg(this.state.loadingTagTip, true);
     },
-    hideTagTip:function(){
+    hideTagTip: function () {
         this.refs.innerMessager.hide();
     },
     showMsg(msg, loop){
@@ -121,9 +121,9 @@ var MovieListPage = React.createClass({
             tagGroupSource: "/tagGroup/list",
             movieSource: "/movie/list",
             movieSearchBtnText: "搜索",
-            whenThereIsHaveNotMovies:"无相关电影",
-            whenThereIsHaveNotTags:"无相关标签",
-            whenSearchRepeat:"重复搜索",
+            whenThereIsHaveNotMovies: "无相关电影",
+            whenThereIsHaveNotTags: "无相关标签",
+            whenSearchRepeat: "重复搜索",
             lastKeyword: "",
             movieSearchTimer: undefined,
             movieTagGroup: [],
@@ -163,13 +163,13 @@ var MovieListPage = React.createClass({
     lazyLoadImg: function () {
         lazyLoad();
     },
-    loadingMoviesTip:function(){
+    loadingMoviesTip: function () {
         this.refs.moviesDisplayer.loadingMoviesTip();
     },
-    noMoviesTip:function(){
+    noMoviesTip: function () {
         this.refs.moviesDisplayer.noMoviesTip();
     },
-    hideMovieTip:function(){
+    hideMovieTip: function () {
 
         this.refs.moviesDisplayer.hideMovieTip();
     },
@@ -253,58 +253,64 @@ var MovieListPage = React.createClass({
         }.bind(this));
     },
 
-    loadingTagsTip:function(){
+    loadingTagsTip: function () {
         this.refs.movieTagGroupList.loadingTagsTip();
     },
-    noTagsTip:function(){
+    noTagsTip: function () {
         this.refs.movieTagGroupList.noTagsTip();
     },
-    hideTagTip:function(){
+    hideTagTip: function () {
 
         this.refs.movieTagGroupList.hideTagTip();
     },
 
     getTagGroup(callfun){
-        //set tip
-        this.loadingTagsTip();
+
         {/*获取电影标签分组*/
         }
-        this.serverRequest = $.get(this.state.tagGroupSource, function (result) {
-            //hide tip
-            this.hideTagTip();
+        ajax.get({
+            url: this.state.tagGroupSource,
+            before: function () {
+                //set tip
+                this.loadingTagsTip();
+            }.bind(this),
+            common: function () {
+                //hide tip
+                this.hideTagTip();
+            }.bind(this),
+            success: function (result) {
+                var state = this.state;
+                state.movieTagGroup = result.data.list;
 
-            var state = this.state;
-            state.movieTagGroup = result.data.list;
+
+                //set tip
+                if (isEmptyList(state.movieTagGroup)) {
+                    // this.showTagTip(this.state.whenThereIsHaveNotTags,false);
+                    this.noTagsTip();
+                }
 
 
-            if (fail(result.code)) {
+                //default select tag group id
+
+                for (var i = 0; i < state.movieTagGroup.length; i++) {
+                    var g = state.movieTagGroup[i];
+                    g.selected = true;
+                }
+
+                this.setState(state);
+
+
+                //callfun
+                if (callfun != undefined) {
+                    callfun()
+                }
+
+            }.bind(this),
+            failure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-                return;
-            }
+            }.bind(this)
+        });
 
-
-            //set tip
-            if (isEmptyList(state.movieTagGroup)) {
-                // this.showTagTip(this.state.whenThereIsHaveNotTags,false);
-                this.noTagsTip();
-            }
-
-
-            //default select tag group id
-
-            for (var i = 0; i < state.movieTagGroup.length; i++) {
-                var g = state.movieTagGroup[i];
-                g.selected = true;
-            }
-
-            this.setState(state);
-
-
-            //callfun
-            if (callfun != undefined) {
-                callfun()
-            }
-        }.bind(this));
     },
 
     handlePageChange(movePage){

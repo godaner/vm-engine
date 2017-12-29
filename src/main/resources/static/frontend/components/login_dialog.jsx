@@ -71,11 +71,7 @@ var LoginDialog = React.createClass({
         this.setState(state);
     },
     login: function () {
-        //close login dialog
-        this.closeLoginDialog();
 
-        //show loading dialog
-        window.VmFrontendEventsDispatcher.showLoading(this.state.logining);
 
         var username = $(this.refs.username).val();
         var password = $(this.refs.password).val();
@@ -83,6 +79,12 @@ var LoginDialog = React.createClass({
         ajax.put(
             {
                 url: url,
+                before:function(){
+                    //close login dialog
+                    this.closeLoginDialog();
+                    //show loading dialog
+                    window.VmFrontendEventsDispatcher.showLoading(this.state.logining);
+                }.bind(this),
                 common: function () {
                     //close loading
                     window.VmFrontendEventsDispatcher.closeLoading();
@@ -97,38 +99,14 @@ var LoginDialog = React.createClass({
                     //callfun
                     this.props.onLoginSuccess(result.data.user);
                 }.bind(this),
-                failure: function () {
+                failure: function (result) {
                     window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure, function () {
                         this.showLoginDialog();
                     }.bind(this));
                 }.bind(this)
             }
         );
-        /*$.ajax({
-         url: url,
-         type: 'PUT',
-         success: function (result) {
-         //close loading
-         window.VmFrontendEventsDispatcher.closeLoading();
 
-         if(fail(result.code)){
-         window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure,function(){
-         this.showLoginDialog();
-         }.bind(this));
-
-         return ;
-         }
-
-         //login success,hide login dialog
-         this.closeLoginDialog();
-
-         //show msg dialog
-         window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginSuccess);
-
-         //callfun
-         this.props.onLoginSuccess(result.data.user);
-         }.bind(this)
-         });*/
     },
     handlePasswordKeyUp: function (e) {
         if (e.keyCode === 13) {

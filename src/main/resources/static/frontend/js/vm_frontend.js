@@ -23,12 +23,13 @@ function lazyLoad() {
     $("img").lazyload({effect: "fadeIn"});
 }
 //ajax封装
+//common是所有的返回结果都会执行的方法
 var ajax = {
     ajaxError: "访问服务器失败,请稍后重试",
     requestServerSuccess: function (args, result) {
         c(result);
 
-        if(!isEmpty(args.common)){
+        if (!isEmpty(args.common)) {
             args.common();
         }
         if (fail(result.code) && !isEmpty(args.failure)) {
@@ -39,7 +40,7 @@ var ajax = {
         }
     },
     requestServerError: function (args) {
-        if(!isEmpty(args.common)){
+        if (!isEmpty(args.common)) {
             args.common();
         }
         window.VmFrontendEventsDispatcher.showMsgDialog(this.ajaxError);
@@ -47,23 +48,13 @@ var ajax = {
             args.error();
         }
     },
-    get: function (args) {
-        $.get
-        (
-            args.url,
-            args.params,
-            function (result) {
-                this.requestServerSuccess(args, result);
-            }.bind(this),
-            function () {
-                this.requestServerError(args);
-            }.bind(this)
-        );
-    },
-    put: function (args) {
+    ajax: function (args) {
+        if (!isEmpty(args.before) && args.before() == false) {
+            return;
+        }
         $.ajax({
             url: args.url,
-            type: 'PUT',
+            type: args.type,
             success: function (result) {
                 this.requestServerSuccess(args, result);
             }.bind(this),
@@ -71,17 +62,17 @@ var ajax = {
                 this.requestServerError(args);
             }.bind(this)
         });
+    },
+    get: function (args) {
+        args.type = "GET";
+        this.ajax(args);
+    },
+    put: function (args) {
+        args.type = "PUT";
+        this.ajax(args);
     }
 };
-function checkUserOnlineStatus(_react_this, callfun) {
-    const url = "/user/online";
-    ajax.get({
-        url: url,
-        function(result){
-            c(result);
-        }
-    });
-}
+
 
 
 

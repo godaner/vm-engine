@@ -72,30 +72,28 @@ var RegistDialog = React.createClass({
     },
     regist: function () {
 
-        //close login dialog
-        this.closeRegistDialog();
-
-        //show loading dialog
-        window.VmFrontendEventsDispatcher.showLoading(this.state.registing);
 
 
         var username = $(this.refs.username).val();
         var password = $(this.refs.password).val();
         const url = "/user/regist?username=" + username + "&password=" + password;
-        $.ajax({
+
+        ajax.put({
             url: url,
-            type: 'PUT',
-            success: function (result) {
+            before:function(){
+
+                //close login dialog
+                this.closeRegistDialog();
+
+                //show loading dialog
+                window.VmFrontendEventsDispatcher.showLoading(this.state.registing);
+
+            }.bind(this),
+            common: function () {
                 //close loading
                 window.VmFrontendEventsDispatcher.closeLoading();
-
-                if (fail(result.code)) {
-                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.registFailure,function(){
-                        this.showRegistDialog();
-                    }.bind(this));
-                    return;
-                }
-
+            },
+            success: function (result) {
                 //hide regist dialog
                 this.closeRegistDialog();
 
@@ -104,8 +102,14 @@ var RegistDialog = React.createClass({
 
                 //callfun
                 this.props.onRegistSuccess(result.data.user);
+            }.bind(this),
+            failure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.registFailure,function(){
+                    this.showRegistDialog();
+                }.bind(this));
             }.bind(this)
         });
+
     },
     handlePasswordKeyUp: function (e) {
         if (e.keyCode === 13) {
