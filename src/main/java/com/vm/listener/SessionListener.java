@@ -1,7 +1,5 @@
 package com.vm.listener;
 
-import com.vm.ws.OnlineUsersWs;
-
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;

@@ -151,7 +151,7 @@ var Head = React.createClass({
                 <RegistDialog ref="regist_dialog" onRegistSuccess={this.onRegistSuccess}/>
                 {/*Websocket*/}
                 {isEmpty(this.state.user)?<span></span>:<Websocket url={this.state.wsUrl}
-                    onMessage={this.handleWsOnMessage.bind(this)}/>}
+                    onMessage={this.handleWsOnMessage}/>}
             </div>
         );
     }

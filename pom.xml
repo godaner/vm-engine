@@ -39,6 +39,15 @@
         </dependency>
         <!--thymeleaf end-->
 
+
+        <!--websocket end-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <!--websocket end-->
+
+
         <!--thymeleaf不严格检查html start-->
         <dependency>
             <groupId>net.sourceforge.nekohtml</groupId>

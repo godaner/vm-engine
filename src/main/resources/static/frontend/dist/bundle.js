@@ -30799,7 +30799,7 @@ var Head = _react2.default.createClass({
             _react2.default.createElement(_login_dialog2.default, { ref: 'login_dialog', onLoginSuccess: this.onLoginSuccess }),
             _react2.default.createElement(_regist_dialog2.default, { ref: 'regist_dialog', onRegistSuccess: this.onRegistSuccess }),
             isEmpty(this.state.user) ? _react2.default.createElement('span', null) : _react2.default.createElement(_reactWebsocket2.default, { url: this.state.wsUrl,
-                onMessage: this.handleWsOnMessage.bind(this) })
+                onMessage: this.handleWsOnMessage })
         );
     }
 }); //引入react组件
