@@ -46,6 +46,9 @@ var LoginDialog = React.createClass({
 
         //adjust ui
         this.adjustUI();
+
+        //get focus
+        $(this.refs.username).focus();
     },
     closeLoginDialog: function () {
         //hide it

@@ -65,7 +65,6 @@ var MsgDialog = React.createClass({
         this.fadeOut();
 
 
-
         //callfun
         var onCloseCallfun = this.state.onCloseCallfun;
         if (!isEmpty(onCloseCallfun)) {
@@ -107,18 +106,26 @@ var MsgDialog = React.createClass({
         var top = (content_h - dialog_h) / 2;
         dialog.css("margin-top", top + "px");
     },
-    handleCloseBtnKeyUp:function (e) {
-        if(e.keyCode === 13){
+    handleCloseBtnKeyUp: function (e) {
+        if (e.keyCode === 13) {
             this.close();
         }
     },
     render: function () {
         return (
-            <div id="fragment_msg_dialog_content" ref="content">
-                <div id="dialog" className={this.state.dialogClassName} ref="dialog">
+            <div id="fragment_msg_dialog_content"
+                 ref="content">
+                <div id="dialog"
+                     className={this.state.dialogClassName}
+                     ref="dialog">
                     <div id="body">
-                        <span id="msg_p" ref="msg_p">{this.props.msg}</span>
-                        <span id="split">|</span>
+                        <span id="msg_p"
+                              ref="msg_p">
+                            {this.props.msg}
+                        </span>
+                        <span id="split">
+                            |
+                        </span>
                         <a id="close_btn"
                            ref="close_btn"
                            href="javascript:void(0);"

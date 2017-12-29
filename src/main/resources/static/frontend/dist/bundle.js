@@ -5704,16 +5704,20 @@ var MsgDialog = _react2.default.createClass({
     render: function render() {
         return _react2.default.createElement(
             "div",
-            { id: "fragment_msg_dialog_content", ref: "content" },
+            { id: "fragment_msg_dialog_content",
+                ref: "content" },
             _react2.default.createElement(
                 "div",
-                { id: "dialog", className: this.state.dialogClassName, ref: "dialog" },
+                { id: "dialog",
+                    className: this.state.dialogClassName,
+                    ref: "dialog" },
                 _react2.default.createElement(
                     "div",
                     { id: "body" },
                     _react2.default.createElement(
                         "span",
-                        { id: "msg_p", ref: "msg_p" },
+                        { id: "msg_p",
+                            ref: "msg_p" },
                         this.props.msg
                     ),
                     _react2.default.createElement(
@@ -30815,6 +30819,9 @@ var LoginDialog = _react2.default.createClass({
 
         //adjust ui
         this.adjustUI();
+
+        //get focus
+        $(this.refs.username).focus();
     },
     closeLoginDialog: function closeLoginDialog() {
         //hide it
@@ -31047,6 +31054,9 @@ var RegistDialog = _react2.default.createClass({
 
         //adjust ui
         this.adjustUI();
+
+        //get focus
+        $(this.refs.username).focus();
     },
     closeRegistDialog: function closeRegistDialog() {
         //hide it

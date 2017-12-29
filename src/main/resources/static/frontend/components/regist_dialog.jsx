@@ -46,6 +46,9 @@ var RegistDialog = React.createClass({
 
         //adjust ui
         this.adjustUI();
+
+        //get focus
+        $(this.refs.username).focus();
     },
     closeRegistDialog: function () {
         //hide it
