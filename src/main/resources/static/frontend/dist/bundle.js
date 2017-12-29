@@ -29476,10 +29476,9 @@ var MovieListPage = _react2.default.createClass({
         this.refs.moviesDisplayer.hideMovieTip();
     },
     getMovie: function getMovie(callfun) {
+
         {/*get movies list*/
         }
-
-        this.loadingMoviesTip();
 
         {
             /*collect params*/
@@ -29518,38 +29517,44 @@ var MovieListPage = _react2.default.createClass({
 
         var url = this.state.movieSource + "?page=" + page + "&start=" + start + "&size=" + size + "&orderBy=" + orderBy + "&orderType=" + orderType + "&keyword=" + keyword;
         url = contactUrlWithArray(url, "tagIds", tagIds);
-        this.serverRequest = $.get(url, function (result) {
-            //hide tip
-            this.hideMovieTip();
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {
+                //set tip
+                this.loadingMoviesTip();
+            }.bind(this),
+            onResponseStart: function () {
+                //hide tip
+                this.hideMovieTip();
+            }.bind(this),
+            onResponseSuccess: function (result) {
 
-            // c(result);
-            if (fail(result.code)) {
+                //set movie list info
+                var state = this.state;
+                state.movies.list = result.data.list;
+                state.movies.total = result.data.total;
+                this.setState(state);
+
+                //adjust movie list ui
+                this.adjustMovieListUI();
+
+                //lazy load img
+                this.lazyLoadImg();
+
+                // if have not movies
+                if (isEmptyList(state.movies.list)) {
+                    this.noMoviesTip();
+                }
+
+                //callfun
+                if (callfun != undefined) {
+                    callfun();
+                }
+            }.bind(this),
+            onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-                return;
-            }
-
-            //set movie list info
-            var state = this.state;
-            state.movies.list = result.data.list;
-            state.movies.total = result.data.total;
-            this.setState(state);
-
-            //adjust movie list ui
-            this.adjustMovieListUI();
-
-            //lazy load img
-            this.lazyLoadImg();
-
-            // if have not movies
-            if (isEmptyList(state.movies.list)) {
-                this.noMoviesTip();
-            }
-
-            //callfun
-            if (callfun != undefined) {
-                callfun();
-            }
-        }.bind(this));
+            }.bind(this)
+        });
     },
 
 
@@ -29560,7 +29565,6 @@ var MovieListPage = _react2.default.createClass({
         this.refs.movieTagGroupList.noTagsTip();
     },
     hideTagTip: function hideTagTip() {
-
         this.refs.movieTagGroupList.hideTagTip();
     },
 
@@ -29570,15 +29574,16 @@ var MovieListPage = _react2.default.createClass({
         }
         ajax.get({
             url: this.state.tagGroupSource,
-            before: function () {
+            onBeforeRequest: function () {
                 //set tip
                 this.loadingTagsTip();
             }.bind(this),
-            common: function () {
+            onResponseStart: function () {
                 //hide tip
                 this.hideTagTip();
             }.bind(this),
-            success: function (result) {
+            onResponseSuccess: function (result) {
+
                 var state = this.state;
                 state.movieTagGroup = result.data.list;
 
@@ -29596,15 +29601,23 @@ var MovieListPage = _react2.default.createClass({
                 }
 
                 this.setState(state);
-
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg, function () {
+                    //callfun
+                    if (callfun != undefined) {
+                        callfun();
+                    }
+                });
+            }.bind(this),
+            onResponseEnd: function () {
                 //callfun
                 if (callfun != undefined) {
                     callfun();
                 }
             }.bind(this),
-            failure: function (result) {
-                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-            }.bind(this)
+            onRequestError: function () {}.bind(this)
+
         });
     },
     handlePageChange: function handlePageChange(movePage) {
@@ -30854,17 +30867,17 @@ var LoginDialog = _react2.default.createClass({
         var url = "/user/login?username=" + username + "&password=" + password;
         ajax.put({
             url: url,
-            before: function () {
+            onBeforeRequest: function () {
                 //close login dialog
                 this.closeLoginDialog();
                 //show loading dialog
                 window.VmFrontendEventsDispatcher.showLoading(this.state.logining);
             }.bind(this),
-            common: function common() {
+            onResponseStart: function () {
                 //close loading
                 window.VmFrontendEventsDispatcher.closeLoading();
-            },
-            success: function (result) {
+            }.bind(this),
+            onResponseSuccess: function (result) {
                 //login success,hide login dialog
                 this.closeLoginDialog();
 
@@ -30874,7 +30887,7 @@ var LoginDialog = _react2.default.createClass({
                 //callfun
                 this.props.onLoginSuccess(result.data.user);
             }.bind(this),
-            failure: function (result) {
+            onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure, function () {
                     this.showLoginDialog();
                 }.bind(this));
@@ -31088,7 +31101,7 @@ var RegistDialog = _react2.default.createClass({
 
         ajax.put({
             url: url,
-            before: function () {
+            onBeforeRequest: function () {
 
                 //close login dialog
                 this.closeRegistDialog();
@@ -31096,11 +31109,11 @@ var RegistDialog = _react2.default.createClass({
                 //show loading dialog
                 window.VmFrontendEventsDispatcher.showLoading(this.state.registing);
             }.bind(this),
-            common: function common() {
+            onResponseStart: function () {
                 //close loading
                 window.VmFrontendEventsDispatcher.closeLoading();
-            },
-            success: function (result) {
+            }.bind(this),
+            onResponseSuccess: function (result) {
                 //hide regist dialog
                 this.closeRegistDialog();
 
@@ -31110,7 +31123,7 @@ var RegistDialog = _react2.default.createClass({
                 //callfun
                 this.props.onRegistSuccess(result.data.user);
             }.bind(this),
-            failure: function (result) {
+            onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.registFailure, function () {
                     this.showRegistDialog();
                 }.bind(this));

@@ -174,10 +174,11 @@ var MovieListPage = React.createClass({
         this.refs.moviesDisplayer.hideMovieTip();
     },
     getMovie(callfun){
+
+
         {/*get movies list*/
         }
 
-        this.loadingMoviesTip();
 
         {
             /*collect params*/
@@ -217,40 +218,47 @@ var MovieListPage = React.createClass({
 
         var url = this.state.movieSource + "?page=" + page + "&start=" + start + "&size=" + size + "&orderBy=" + orderBy + "&orderType=" + orderType + "&keyword=" + keyword;
         url = contactUrlWithArray(url, "tagIds", tagIds);
-        this.serverRequest = $.get(url, function (result) {
-            //hide tip
-            this.hideMovieTip();
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {
+                //set tip
+                this.loadingMoviesTip();
+            }.bind(this),
+            onResponseStart: function () {
+                //hide tip
+                this.hideMovieTip();
+            }.bind(this),
+            onResponseSuccess: function (result) {
 
+                //set movie list info
+                var state = this.state;
+                state.movies.list = result.data.list;
+                state.movies.total = result.data.total;
+                this.setState(state);
 
-            // c(result);
-            if (fail(result.code)) {
+                //adjust movie list ui
+                this.adjustMovieListUI();
+
+                //lazy load img
+                this.lazyLoadImg();
+
+                // if have not movies
+                if (isEmptyList(state.movies.list)) {
+                    this.noMoviesTip();
+                }
+
+                //callfun
+                if (callfun != undefined) {
+                    callfun()
+                }
+
+            }.bind(this),
+            onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-                return;
-            }
-
-            //set movie list info
-            var state = this.state;
-            state.movies.list = result.data.list;
-            state.movies.total = result.data.total;
-            this.setState(state);
-
-            //adjust movie list ui
-            this.adjustMovieListUI();
-
-            //lazy load img
-            this.lazyLoadImg();
-
-            // if have not movies
-            if (isEmptyList(state.movies.list)) {
-                this.noMoviesTip();
-            }
+            }.bind(this)
+        });
 
 
-            //callfun
-            if (callfun != undefined) {
-                callfun()
-            }
-        }.bind(this));
     },
 
     loadingTagsTip: function () {
@@ -260,7 +268,6 @@ var MovieListPage = React.createClass({
         this.refs.movieTagGroupList.noTagsTip();
     },
     hideTagTip: function () {
-
         this.refs.movieTagGroupList.hideTagTip();
     },
 
@@ -270,18 +277,18 @@ var MovieListPage = React.createClass({
         }
         ajax.get({
             url: this.state.tagGroupSource,
-            before: function () {
+            onBeforeRequest: function () {
                 //set tip
                 this.loadingTagsTip();
             }.bind(this),
-            common: function () {
+            onResponseStart: function () {
                 //hide tip
                 this.hideTagTip();
             }.bind(this),
-            success: function (result) {
+            onResponseSuccess: function (result) {
+
                 var state = this.state;
                 state.movieTagGroup = result.data.list;
-
 
                 //set tip
                 if (isEmptyList(state.movieTagGroup)) {
@@ -300,15 +307,27 @@ var MovieListPage = React.createClass({
                 this.setState(state);
 
 
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg, function () {
+                    //callfun
+                    if (callfun != undefined) {
+                        callfun()
+                    }
+                });
+
+            }.bind(this),
+            onResponseEnd: function () {
                 //callfun
                 if (callfun != undefined) {
                     callfun()
                 }
 
             }.bind(this),
-            failure: function (result) {
-                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
+            onRequestError: function () {
+
             }.bind(this)
+
         });
 
     },

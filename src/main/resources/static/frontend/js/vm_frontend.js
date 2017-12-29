@@ -28,28 +28,39 @@ var ajax = {
     ajaxError: "访问服务器失败,请稍后重试",
     requestServerSuccess: function (args, result) {
         c(result);
+        if (!isEmpty(args.onResponseStart)) {
+            args.onResponseStart();
+        }
+        if (fail(result.code) && !isEmpty(args.onResponseFailure)) {
+            args.onResponseFailure(result);
+        }
+        if (success(result.code) && !isEmpty(args.onResponseSuccess)) {
+            args.onResponseSuccess(result);
+        }
+        if (!isEmpty(args.onResponseEnd)) {
+            args.onResponseEnd();
+        }
 
-        if (!isEmpty(args.common)) {
-            args.common();
-        }
-        if (fail(result.code) && !isEmpty(args.failure)) {
-            args.failure(result);
-        }
-        if (success(result.code) && !isEmpty(args.success)) {
-            args.success(result);
-        }
     },
     requestServerError: function (args) {
-        if (!isEmpty(args.common)) {
-            args.common();
+        if (!isEmpty(args.onResponseStart)) {
+            args.onResponseStart();
         }
-        window.VmFrontendEventsDispatcher.showMsgDialog(this.ajaxError);
-        if (!isEmpty(args.error)) {
-            args.error();
-        }
+
+        window.VmFrontendEventsDispatcher.showMsgDialog(this.ajaxError, function () {
+            if (!isEmpty(args.onRequestError)) {
+                args.onRequestError();
+            }
+            if (!isEmpty(args.onResponseEnd)) {
+                args.onResponseEnd();
+            }
+
+        });
+
+
     },
     ajax: function (args) {
-        if (!isEmpty(args.before) && args.before() == false) {
+        if (!isEmpty(args.onBeforeRequest) && args.onBeforeRequest() == false) {
             return;
         }
         $.ajax({

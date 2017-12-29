@@ -79,17 +79,17 @@ var LoginDialog = React.createClass({
         ajax.put(
             {
                 url: url,
-                before:function(){
+                onBeforeRequest:function(){
                     //close login dialog
                     this.closeLoginDialog();
                     //show loading dialog
                     window.VmFrontendEventsDispatcher.showLoading(this.state.logining);
                 }.bind(this),
-                common: function () {
+                onResponseStart: function () {
                     //close loading
                     window.VmFrontendEventsDispatcher.closeLoading();
-                },
-                success: function (result) {
+                }.bind(this),
+                onResponseSuccess: function (result) {
                     //login success,hide login dialog
                     this.closeLoginDialog();
 
@@ -99,7 +99,7 @@ var LoginDialog = React.createClass({
                     //callfun
                     this.props.onLoginSuccess(result.data.user);
                 }.bind(this),
-                failure: function (result) {
+                onResponseFailure: function (result) {
                     window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure, function () {
                         this.showLoginDialog();
                     }.bind(this));

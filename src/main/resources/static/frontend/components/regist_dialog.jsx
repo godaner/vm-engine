@@ -80,7 +80,7 @@ var RegistDialog = React.createClass({
 
         ajax.put({
             url: url,
-            before:function(){
+            onBeforeRequest:function(){
 
                 //close login dialog
                 this.closeRegistDialog();
@@ -89,11 +89,11 @@ var RegistDialog = React.createClass({
                 window.VmFrontendEventsDispatcher.showLoading(this.state.registing);
 
             }.bind(this),
-            common: function () {
+            onResponseStart: function () {
                 //close loading
                 window.VmFrontendEventsDispatcher.closeLoading();
-            },
-            success: function (result) {
+            }.bind(this),
+            onResponseSuccess: function (result) {
                 //hide regist dialog
                 this.closeRegistDialog();
 
@@ -103,7 +103,7 @@ var RegistDialog = React.createClass({
                 //callfun
                 this.props.onRegistSuccess(result.data.user);
             }.bind(this),
-            failure: function (result) {
+            onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.registFailure,function(){
                     this.showRegistDialog();
                 }.bind(this));
