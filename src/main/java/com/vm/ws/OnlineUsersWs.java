@@ -30,23 +30,47 @@ public class OnlineUsersWs extends CommonUtil {
      * @param session 可选的参数。session为与某个客户端的连接会话，需要通过它来给客户端发送数据
      */
     @OnOpen
-    public void onOpen(@PathParam("userId") Long userId, Session session) {
+    public void onOpen(@PathParam("userId") Long userId, Session session) throws Exception {
 
         this.session = session;
 
         this.userId = userId;
 
-        clients.put(userId, this);
+        userLogout(userId);
+
+        userLogin(userId);
     }
 
     /**
      * 连接关闭调用的方法
      */
     @OnClose
-    public void onClose() {
-        /**
-         * 不做任何事情
-         */
+    public void onClose() throws Exception {
+        userLogout(userId);
+    }
+
+    private void userLogout(Long userId) throws IOException {
+        //注销原有client
+        OnlineUsersWs onlineUsersWs = clients.get(userId);
+
+        //移除客户端信息
+        clients.remove(userId);
+        //通知客户端注销成功
+        Message message = new Message();
+        message.setFromUserId(userId);
+        message.setOperation(Operation.LOGOUT.getCode());
+        sendMessage(onlineUsersWs, JSON.toJSONString(message));
+    }
+
+    private void userLogin(Long userId) throws IOException {
+
+        clients.put(userId, this);
+
+        //通知客户端登陆成功
+        Message message = new Message();
+        message.setFromUserId(userId);
+        message.setOperation(Operation.LOGIN.getCode());
+        sendMessage(this, JSON.toJSONString(message));
     }
 
     /**
@@ -66,26 +90,6 @@ public class OnlineUsersWs extends CommonUtil {
      */
     @OnMessage
     public void onMessage(String msg) throws Exception {
-        Message message = JSON.parseObject(msg, Message.class);
-        Long userId = message.getFromUserId();
-        if (!isNullObject(userId)) {
-            //登录
-            if (Operation.isLogin(message.getOperation())) {
-                OnlineUsersWs onlineUsersWs = clients.get(userId);
-
-                //覆盖原有客户端信息
-                clients.put(userId, this);
-
-                //通知原有客户端离线
-                message.setOperation(Operation.LOGOUT.getCode());
-                sendMessage(JSON.toJSONString(message));
-            }
-            //注销
-            if (Operation.isLogout(message.getOperation())) {
-                //移除客户端信息
-                clients.remove(userId);
-            }
-        }
 
 
     }
@@ -103,7 +107,26 @@ public class OnlineUsersWs extends CommonUtil {
      * @version 1.0
      */
     public void sendMessage(String message) throws IOException {
-        this.session.getAsyncRemote().sendText(message);
+        sendMessage(this, message);
+    }
+
+    /**
+     * Title:
+     * <p>
+     * Description:发送信息
+     * <p>
+     *
+     * @param message
+     * @throws IOException
+     * @author Kor_Zhang
+     * @date 2017年10月7日 下午2:20:58
+     * @version 1.0
+     */
+    public void sendMessage(OnlineUsersWs onlineUserWs, String message) throws IOException {
+        if (isNullObject(onlineUserWs)) {
+            return;
+        }
+        onlineUserWs.session.getAsyncRemote().sendText(message);
     }
 
 
