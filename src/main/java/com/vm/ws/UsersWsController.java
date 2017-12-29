@@ -1,19 +1,11 @@
 package com.vm.ws;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.vm.utils.ByteConstantVar;
 import com.vm.utils.CommonUtil;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-
-import javax.websocket.*;
-import javax.websocket.server.PathParam;
-import javax.websocket.server.ServerEndpoint;
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
 public class UsersWsController extends CommonUtil {
@@ -23,7 +15,6 @@ public class UsersWsController extends CommonUtil {
         Message message = JSONObject.parseObject(msg, Message.class);
         return msg;
     }
-
 
 
     /**
