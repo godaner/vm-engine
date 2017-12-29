@@ -5651,13 +5651,16 @@ var MsgDialog = _react2.default.createClass({
         $(this.refs.msg_p).html(msg);
         //show it
         this.fadeIn();
+
+        //close btn get focus ，for enter 13 to close dialog
+        $(this.refs.close_btn).focus();
     },
     close: function close() {
 
         this.fadeOut();
 
+        //callfun
         var onCloseCallfun = this.state.onCloseCallfun;
-        // c(onCloseCallfun);
         if (!isEmpty(onCloseCallfun)) {
             onCloseCallfun();
         }
@@ -5693,6 +5696,11 @@ var MsgDialog = _react2.default.createClass({
         var top = (content_h - dialog_h) / 2;
         dialog.css("margin-top", top + "px");
     },
+    handleCloseBtnKeyUp: function handleCloseBtnKeyUp(e) {
+        if (e.keyCode === 13) {
+            this.close();
+        }
+    },
     render: function render() {
         return _react2.default.createElement(
             "div",
@@ -5715,7 +5723,11 @@ var MsgDialog = _react2.default.createClass({
                     ),
                     _react2.default.createElement(
                         "a",
-                        { id: "close_btn", href: "javascript:void(0);", onClick: this.close },
+                        { id: "close_btn",
+                            ref: "close_btn",
+                            href: "javascript:void(0);",
+                            onClick: this.close,
+                            onKeyUp: this.handleCloseBtnKeyUp },
                         this.state.closeText
                     )
                 )

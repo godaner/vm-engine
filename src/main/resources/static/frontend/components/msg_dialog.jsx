@@ -56,14 +56,18 @@ var MsgDialog = React.createClass({
         //show it
         this.fadeIn();
 
+        //close btn get focus ，for enter 13 to close dialog
+        $(this.refs.close_btn).focus();
+
     },
     close: function () {
 
         this.fadeOut();
 
 
+
+        //callfun
         var onCloseCallfun = this.state.onCloseCallfun;
-        // c(onCloseCallfun);
         if (!isEmpty(onCloseCallfun)) {
             onCloseCallfun();
         }
@@ -103,6 +107,11 @@ var MsgDialog = React.createClass({
         var top = (content_h - dialog_h) / 2;
         dialog.css("margin-top", top + "px");
     },
+    handleCloseBtnKeyUp:function (e) {
+        if(e.keyCode === 13){
+            this.close();
+        }
+    },
     render: function () {
         return (
             <div id="fragment_msg_dialog_content" ref="content">
@@ -110,7 +119,13 @@ var MsgDialog = React.createClass({
                     <div id="body">
                         <span id="msg_p" ref="msg_p">{this.props.msg}</span>
                         <span id="split">|</span>
-                        <a id="close_btn" href="javascript:void(0);" onClick={this.close}>{this.state.closeText}</a>
+                        <a id="close_btn"
+                           ref="close_btn"
+                           href="javascript:void(0);"
+                           onClick={this.close}
+                           onKeyUp={this.handleCloseBtnKeyUp}>
+                            {this.state.closeText}
+                        </a>
                     </div>
 
                 </div>
