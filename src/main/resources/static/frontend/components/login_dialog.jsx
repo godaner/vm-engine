@@ -80,7 +80,7 @@ var LoginDialog = React.createClass({
             url: url,
             type: 'PUT',
             success: function (result) {
-                c(result);
+                // c(result);
                 //close loading
                 window.VmFrontendEventsDispatcher.closeLoading();
 

@@ -7,6 +7,10 @@ var Head = React.createClass({
 
     getInitialState: function () {
         return {
+
+            logouting: "正在注销...",
+            logoutSuccess: "注销成功",
+            logoutFailure: "注销失败",
             user: {}//默认为空对象
         };
     },
@@ -61,18 +65,23 @@ var Head = React.createClass({
 
         this.setState(state);
     },
-    logout:function(){
+    logout: function () {
+        //show loading dialog
+        window.VmFrontendEventsDispatcher.showLoading(this.state.logouting);
+
         const url = "/user/logout";
         $.ajax({
             url: url,
             type: 'PUT',
             success: function (result) {
+                //close loading dialog
+                window.VmFrontendEventsDispatcher.closeLoading();
                 // c(result);
-                if(fail(result.code)){
-                    window.VmFrontendEventsDispatcher.showMsgDialog("注销失败");
-                    return ;
+                if (fail(result.code)) {
+                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.logoutFailure);
+                    return;
                 }
-                window.VmFrontendEventsDispatcher.showMsgDialog("注销成功");
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.logoutSuccess);
                 //update user in state
                 this.updateStateUser({});
 

@@ -30546,6 +30546,10 @@ var Head = _react2.default.createClass({
 
     getInitialState: function getInitialState() {
         return {
+
+            logouting: "正在注销...",
+            logoutSuccess: "注销成功",
+            logoutFailure: "注销失败",
             user: {} //默认为空对象
         };
     },
@@ -30601,17 +30605,22 @@ var Head = _react2.default.createClass({
     },
 
     logout: function logout() {
+        //show loading dialog
+        window.VmFrontendEventsDispatcher.showLoading(this.state.logouting);
+
         var url = "/user/logout";
         $.ajax({
             url: url,
             type: 'PUT',
             success: function (result) {
+                //close loading dialog
+                window.VmFrontendEventsDispatcher.closeLoading();
                 // c(result);
                 if (fail(result.code)) {
-                    window.VmFrontendEventsDispatcher.showMsgDialog("注销失败");
+                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.logoutFailure);
                     return;
                 }
-                window.VmFrontendEventsDispatcher.showMsgDialog("注销成功");
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.logoutSuccess);
                 //update user in state
                 this.updateStateUser({});
             }.bind(this)
@@ -30827,7 +30836,7 @@ var LoginDialog = _react2.default.createClass({
             url: url,
             type: 'PUT',
             success: function (result) {
-                c(result);
+                // c(result);
                 //close loading
                 window.VmFrontendEventsDispatcher.closeLoading();
 
