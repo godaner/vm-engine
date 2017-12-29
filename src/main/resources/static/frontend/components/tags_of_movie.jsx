@@ -13,6 +13,10 @@ var TagsOfMovie = React.createClass({
     },
     componentDidMount: function () {
 
+        this.getTagsOfMovie();
+
+    },
+    getTagsOfMovie: function (callfun) {
         var url = "/movie/tag/" + this.state.movieId;
         ajax.get({
             url: url,
@@ -52,7 +56,6 @@ var TagsOfMovie = React.createClass({
                 }
             }.bind(this)
         });
-
     },
     showTagTip(msg, loop){
         this.refs.innerMessager.showMsg(msg, loop);

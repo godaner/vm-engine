@@ -12583,6 +12583,9 @@ var TagsOfMovie = _react2.default.createClass({
     },
     componentDidMount: function componentDidMount() {
 
+        this.getTagsOfMovie();
+    },
+    getTagsOfMovie: function getTagsOfMovie(callfun) {
         var url = "/movie/tag/" + this.state.movieId;
         ajax.get({
             url: url,
@@ -12951,7 +12954,7 @@ var MoviePlayer = _react2.default.createClass({
             return "超清";
         }
     },
-    getMovieSrcVersion: function getMovieSrcVersion() {
+    getMovieSrcVersion: function getMovieSrcVersion(callfun) {
         var url = "/movie/version/" + this.props.targetMovieId + "?orderBy=weight&orderType=desc";
         ajax.get({
             url: url,

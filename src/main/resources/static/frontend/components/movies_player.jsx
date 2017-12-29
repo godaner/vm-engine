@@ -51,7 +51,7 @@ var MoviePlayer = React.createClass({
             return "超清";
         }
     },
-    getMovieSrcVersion: function () {
+    getMovieSrcVersion: function (callfun) {
         var url = "/movie/version/" + this.props.targetMovieId + "?orderBy=weight&orderType=desc";
         ajax.get({
             url: url,
