@@ -30766,7 +30766,8 @@ var LoginDialog = _react2.default.createClass({
         return {
             dialogClassName: "",
             loginFailure: "登录失败",
-            loginSuccess: "登录成功"
+            loginSuccess: "登录成功",
+            logining: "正在登陆,请稍等..."
         };
     },
     componentDidMount: function componentDidMount() {
@@ -30827,7 +30828,7 @@ var LoginDialog = _react2.default.createClass({
         this.closeLoginDialog();
 
         //show loading dialog
-        window.VmFrontendEventsDispatcher.showLoading("正在登陆,请稍等...");
+        window.VmFrontendEventsDispatcher.showLoading(this.state.logining);
 
         var username = $(this.refs.username).val();
         var password = $(this.refs.password).val();
@@ -30836,7 +30837,6 @@ var LoginDialog = _react2.default.createClass({
             url: url,
             type: 'PUT',
             success: function (result) {
-                // c(result);
                 //close loading
                 window.VmFrontendEventsDispatcher.closeLoading();
 
@@ -30858,6 +30858,11 @@ var LoginDialog = _react2.default.createClass({
                 this.props.onLoginSuccess(result.data.user);
             }.bind(this)
         });
+    },
+    handlePasswordKeyUp: function handlePasswordKeyUp(e) {
+        if (e.keyCode === 13) {
+            this.login();
+        }
     },
     render: function render() {
         return _react2.default.createElement(
@@ -30904,6 +30909,7 @@ var LoginDialog = _react2.default.createClass({
                             _react2.default.createElement('input', { id: 'password_input',
                                 type: 'password',
                                 ref: 'password',
+                                onKeyUp: this.handlePasswordKeyUp,
                                 placeholder: 'password' })
                         ),
                         _react2.default.createElement(
@@ -30990,7 +30996,10 @@ var RegistDialog = _react2.default.createClass({
 
     getInitialState: function getInitialState() {
         return {
-            dialogClassName: ""
+            dialogClassName: "",
+            registFailure: "注册失败",
+            registSuccess: "注册成功",
+            registing: "正在注册,请稍等..."
         };
     },
     componentDidMount: function componentDidMount() {
@@ -31047,6 +31056,13 @@ var RegistDialog = _react2.default.createClass({
         this.setState(state);
     },
     regist: function regist() {
+
+        //close login dialog
+        this.closeRegistDialog();
+
+        //show loading dialog
+        window.VmFrontendEventsDispatcher.showLoading(this.state.registing);
+
         var username = $(this.refs.username).val();
         var password = $(this.refs.password).val();
         var url = "/user/regist?username=" + username + "&password=" + password;
@@ -31054,19 +31070,31 @@ var RegistDialog = _react2.default.createClass({
             url: url,
             type: 'PUT',
             success: function (result) {
-                // c(result);
+                //close loading
+                window.VmFrontendEventsDispatcher.closeLoading();
+
                 if (fail(result.code)) {
-                    window.VmFrontendEventsDispatcher.showMsgDialog("注册失败");
+                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.registFailure, function () {
+                        this.showRegistDialog();
+                    }.bind(this));
                     return;
                 }
 
                 //hide regist dialog
                 this.closeRegistDialog();
 
+                //show msg dialog
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.registSuccess);
+
                 //callfun
                 this.props.onRegistSuccess(result.data.user);
             }.bind(this)
         });
+    },
+    handlePasswordKeyUp: function handlePasswordKeyUp(e) {
+        if (e.keyCode === 13) {
+            this.regist();
+        }
     },
     render: function render() {
         return _react2.default.createElement(
@@ -31113,6 +31141,7 @@ var RegistDialog = _react2.default.createClass({
                             _react2.default.createElement('input', { id: 'password_input',
                                 type: 'password',
                                 ref: 'password',
+                                onKeyUp: this.handlePasswordKeyUp,
                                 placeholder: 'password' })
                         ),
                         _react2.default.createElement(

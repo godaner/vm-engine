@@ -7,7 +7,8 @@ var LoginDialog = React.createClass({
         return {
             dialogClassName: "",
             loginFailure:"登录失败",
-            loginSuccess:"登录成功"
+            loginSuccess:"登录成功",
+            logining:"正在登陆,请稍等..."
         };
     },
     componentDidMount: function () {
@@ -71,7 +72,7 @@ var LoginDialog = React.createClass({
         this.closeLoginDialog();
 
         //show loading dialog
-        window.VmFrontendEventsDispatcher.showLoading("正在登陆,请稍等...");
+        window.VmFrontendEventsDispatcher.showLoading(this.state.logining);
 
         var username = $(this.refs.username).val();
         var password = $(this.refs.password).val();
@@ -80,7 +81,6 @@ var LoginDialog = React.createClass({
             url: url,
             type: 'PUT',
             success: function (result) {
-                // c(result);
                 //close loading
                 window.VmFrontendEventsDispatcher.closeLoading();
 
@@ -103,6 +103,11 @@ var LoginDialog = React.createClass({
             }.bind(this)
         });
     },
+    handlePasswordKeyUp:function (e) {
+        if(e.keyCode === 13){
+            this.login();
+        }
+    },
     render: function () {
         return <div id="login_dialog_content" ref="content">
             <div id="dialog" className={this.state.dialogClassName} ref="dialog">
@@ -124,6 +129,7 @@ var LoginDialog = React.createClass({
                             <input id="password_input"
                                    type="password"
                                    ref="password"
+                                   onKeyUp={this.handlePasswordKeyUp}
                                    placeholder="password"/>
                         </div>
                         <div id="login_btn_div">

@@ -5,7 +5,10 @@ import "../scss/regist_dialog.scss";
 var RegistDialog = React.createClass({
     getInitialState: function () {
         return {
-            dialogClassName: ""
+            dialogClassName: "",
+            registFailure:"注册失败",
+            registSuccess:"注册成功",
+            registing:"正在注册,请稍等..."
         };
     },
     componentDidMount: function () {
@@ -65,6 +68,14 @@ var RegistDialog = React.createClass({
         this.setState(state);
     },
     regist: function () {
+
+        //close login dialog
+        this.closeRegistDialog();
+
+        //show loading dialog
+        window.VmFrontendEventsDispatcher.showLoading(this.state.registing);
+
+
         var username = $(this.refs.username).val();
         var password = $(this.refs.password).val();
         const url = "/user/regist?username=" + username + "&password=" + password;
@@ -72,19 +83,31 @@ var RegistDialog = React.createClass({
             url: url,
             type: 'PUT',
             success: function (result) {
-                // c(result);
-                if(fail(result.code)){
-                    window.VmFrontendEventsDispatcher.showMsgDialog("注册失败");
-                    return ;
+                //close loading
+                window.VmFrontendEventsDispatcher.closeLoading();
+
+                if (fail(result.code)) {
+                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.registFailure,function(){
+                        this.showRegistDialog();
+                    }.bind(this));
+                    return;
                 }
 
                 //hide regist dialog
                 this.closeRegistDialog();
 
+                //show msg dialog
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.registSuccess);
+
                 //callfun
                 this.props.onRegistSuccess(result.data.user);
             }.bind(this)
         });
+    },
+    handlePasswordKeyUp: function (e) {
+        if (e.keyCode === 13) {
+            this.regist();
+        }
     },
     render: function () {
         return <div id="regist_dialog_content" ref="content">
@@ -107,6 +130,7 @@ var RegistDialog = React.createClass({
                             <input id="password_input"
                                    type="password"
                                    ref="password"
+                                   onKeyUp={this.handlePasswordKeyUp}
                                    placeholder="password"/>
                         </div>
                         <div id="regist_btn_div">
