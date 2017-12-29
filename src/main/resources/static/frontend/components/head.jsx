@@ -16,39 +16,6 @@ var Head = React.createClass({
     },
     componentDidMount: function () {
     },
-
-    offLine: function () {
-        // this.props.history.replace("/");
-    },
-    getOnlineUser: function (callfun) {
-        const url = "/user/online";
-        ajax.get({
-            url: url,
-            onBeforeRequest: function () {
-
-            }.bind(this),
-            onResponseStart: function () {
-
-            }.bind(this),
-            onResponseSuccess: function (result) {
-
-                //update user in state
-                this.updateStateUser(result.data.user);
-
-                //callfun
-                if (!isEmpty(callfun)) {
-                    callfun(result.data.user);
-                }
-            }.bind(this),
-            onResponseFailure: function (result) {
-                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-            }.bind(this),
-            onResponseEnd: function () {
-            }.bind(this)
-        });
-
-
-    },
     showLoginDialog: function () {
         this.refs.login_dialog.showLoginDialog();
     },

@@ -30629,32 +30629,6 @@ var Head = _react2.default.createClass({
         };
     },
     componentDidMount: function componentDidMount() {},
-
-    offLine: function offLine() {
-        // this.props.history.replace("/");
-    },
-    getOnlineUser: function getOnlineUser(callfun) {
-        var url = "/user/online";
-        ajax.get({
-            url: url,
-            onBeforeRequest: function () {}.bind(this),
-            onResponseStart: function () {}.bind(this),
-            onResponseSuccess: function (result) {
-
-                //update user in state
-                this.updateStateUser(result.data.user);
-
-                //callfun
-                if (!isEmpty(callfun)) {
-                    callfun(result.data.user);
-                }
-            }.bind(this),
-            onResponseFailure: function (result) {
-                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
-            }.bind(this),
-            onResponseEnd: function () {}.bind(this)
-        });
-    },
     showLoginDialog: function showLoginDialog() {
         this.refs.login_dialog.showLoginDialog();
     },
