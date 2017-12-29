@@ -49,7 +49,7 @@ var Index = React.createClass({
                         {
                             /*信息弹出框*/
                         }
-                        <MsgDialog/>
+                        <MsgDialog ref="msg_dialog"/>
                         {
                             /*信息弹出框*/
                         }

@@ -25323,7 +25323,7 @@ var Index = _react2.default.createClass({
                         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/user/:userId', component: _user_info_page2.default })
                     ),
                     _react2.default.createElement(_tail2.default, null),
-                    _react2.default.createElement(_msg_dialog2.default, null),
+                    _react2.default.createElement(_msg_dialog2.default, { ref: 'msg_dialog' }),
                     _react2.default.createElement(_loading2.default, null)
                 )
             )
@@ -31352,40 +31352,58 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(19);
 
+var _plain_panel_title = __webpack_require__(44);
+
+var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
+
+var _user_basic_info_page = __webpack_require__(300);
+
+var _user_basic_info_page2 = _interopRequireDefault(_user_basic_info_page);
+
 __webpack_require__(295);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*用户信息界面展示*/
+/*用户个人中心*/
 //引入react组件
 var UserInfoPage = _react2.default.createClass({
     displayName: 'UserInfoPage',
 
     getInitialState: function getInitialState() {
         return {
-            userId: this.props.match.params.userId,
-            userUrl: this.props.match.url
+            userId: this.props.match.params.userId
         };
     },
-    componentDidMount: function componentDidMount() {
-        this.getUserBasicInfo();
-    },
+    componentDidMount: function componentDidMount() {},
 
-    getUserBasicInfo: function getUserBasicInfo() {
-        var url = this.state.userUrl;
-        $.get(url, function (result) {
-            // c(result);
-            if (fail(result.code)) {
-                window.VmFrontendEventsDispatcher.showMsgDialog("获取信息失败");
-                return;
-            }
-        }.bind(this));
-    },
     render: function render() {
         return _react2.default.createElement(
             'div',
-            null,
-            'UserInfoPage'
+            { id: 'user_info', className: 'defaultPanel' },
+            _react2.default.createElement(_plain_panel_title2.default, { title: this.state.title }),
+            _react2.default.createElement(
+                _reactRouterDom.HashRouter,
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { id: 'content',
+                        className: 'clearfix' },
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'nav' },
+                        'nav'
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'displayer' },
+                        _react2.default.createElement(
+                            _reactRouterDom.Switch,
+                            null,
+                            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/user/:userId', component: _user_basic_info_page2.default })
+                        )
+                    )
+                )
+            )
         );
     }
 });
@@ -31426,7 +31444,7 @@ exports = module.exports = __webpack_require__(7)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_info {\n  margin: 0px 15%;\n  width: 70%;\n  margin-top: 20px; }\n  #user_info #content {\n    width: 100%; }\n    #user_info #content > div {\n      float: left;\n      width: 50%; }\n    #user_info #content #nav {\n      background-color: red; }\n    #user_info #content #displayer {\n      background-color: black; }\n", ""]);
 
 // exports
 
@@ -31604,6 +31622,155 @@ exports = module.exports = __webpack_require__(7)();
 
 // module
 exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#loading_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  line-height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 10000;\n  background-color: rgba(0, 0, 0, 0.8);\n  text-align: center; }\n  #loading_content #dialog {\n    height: 100px;\n    width: 300px;\n    display: inline-block !important;\n    display: inline;\n    padding: 10px 20px;\n    box-sizing: border-box;\n    background-color: rgba(56, 61, 73, 0);\n    border-radius: 2px; }\n    #loading_content #dialog * {\n      color: white; }\n    #loading_content #dialog img {\n      width: 20px;\n      height: 20px; }\n    #loading_content #dialog div {\n      height: 40px;\n      line-height: 40px;\n      width: 100%; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 300 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(19);
+
+var _plain_panel_title = __webpack_require__(44);
+
+var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
+
+__webpack_require__(301);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*用户基本信息页面*/
+var UserBasicInfoPage = _react2.default.createClass({
+    displayName: 'UserBasicInfoPage',
+
+    getInitialState: function getInitialState() {
+        return {
+            userId: this.props.match.params.userId,
+            getInfoFailure: "获取信息失败",
+            title: "用户个人信息",
+            user: {}
+        };
+    },
+    componentDidMount: function componentDidMount() {
+        this.getUserBasicInfo();
+    },
+
+    updateStateUser: function updateStateUser(user) {
+        if (isEmpty(user)) {
+            user = {};
+        }
+        var state = this.state;
+        state.user = user;
+        this.setState(state);
+    },
+    getUserBasicInfo: function getUserBasicInfo() {
+        // c(this.props);
+        var url = "/user/" + this.state.userId;
+        $.get(url, function (result) {
+            // c(result);
+            if (fail(result.code)) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
+                return;
+            }
+
+            //update user in state
+            this.updateStateUser(result.data.user);
+        }.bind(this));
+    },
+    render: function render() {
+        return _react2.default.createElement(
+            'div',
+            { id: 'user_basic_info' },
+            'UserBasicPage',
+            _react2.default.createElement(
+                'form',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { id: 'displayer' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'info_item' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            '\u6635\u79F0 : '
+                        ),
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            _react2.default.createElement('input', { value: this.state.user.username })
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'info_item' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            '\u6027\u522B : '
+                        ),
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            _react2.default.createElement('input', { value: this.state.user.sex })
+                        )
+                    )
+                )
+            )
+        );
+    }
+}); //引入react组件
+exports.default = UserBasicInfoPage;
+
+/***/ }),
+/* 301 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(302);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(8)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_basic_info_page.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_basic_info_page.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 302 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(7)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n", ""]);
 
 // exports
 

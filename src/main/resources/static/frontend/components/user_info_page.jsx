@@ -1,30 +1,36 @@
 import React from 'react';  //引入react组件
-import {Link} from 'react-router-dom';
+import {Switch, BrowserRouter, HashRouter, Route, Link} from 'react-router-dom';
+import PlainPanelTitle from "./plain_panel_title";
+import UserBasicInfoPage from "./user_basic_info_page";
 import "../scss/user_info_page.scss";
-/*用户信息界面展示*/
+/*用户个人中心*/
 var UserInfoPage = React.createClass({
     getInitialState: function () {
         return {
-            userId: this.props.match.params.userId,
-            userUrl: this.props.match.url
+            userId: this.props.match.params.userId
         };
     },
     componentDidMount(){
-        this.getUserBasicInfo();
-    },
-    getUserBasicInfo: function () {
-        const url = this.state.userUrl;
-        $.get(url, function (result) {
-            // c(result);
-            if (fail(result.code)) {
-                window.VmFrontendEventsDispatcher.showMsgDialog("获取信息失败");
-                return;
-            }
-
-        }.bind(this));
     },
     render: function () {
-        return <div>UserInfoPage</div>;
+        return (
+            <div id="user_info" className="defaultPanel">
+                <PlainPanelTitle title={this.state.title}/>
+                <HashRouter>
+                    <div id="content"
+                         className="clearfix">
+                        <div id="nav">
+                            nav
+                        </div>
+                        <div id="displayer">
+                            <Switch>
+                                <Route exact path='/user/:userId' component={UserBasicInfoPage}/>
+                            </Switch>
+                        </div>
+                    </div>
+                </HashRouter>
+            </div>
+        );
     }
 });
 export default UserInfoPage;

@@ -1,4 +1,19 @@
 @import "frontend-default.scss";
 
-
-
+#user_info {
+  @include defaultMiddle(70%);
+  margin-top: 20px;
+  #content {
+    @include defaultWidth;
+    & > div {
+      float: left;
+      width: 50%;
+    }
+    #nav {
+      background-color: red;
+    }
+    #displayer {
+      background-color: black;
+    }
+  }
+}
