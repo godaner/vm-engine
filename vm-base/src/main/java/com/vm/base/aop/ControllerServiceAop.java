@@ -44,8 +44,7 @@ public class ControllerServiceAop {
         String methodArgsNameAndValue = getMethodArgsNameAndValue(joinPoint).toString();
         String requestUrl = getRequestUrl();
         try {
-            logger.info("VISIT ==> requestUrl ==> {}", requestUrl);
-            logger.info("VISIT ==> method ==> [{} # {}]", getMethod(joinPoint), methodArgsNameAndValue);
+            logger.info("Request ==> requestUrl is : {} , requestMethod is :[{} # {}]", requestUrl, getMethod(joinPoint), methodArgsNameAndValue);
 
             //获取验证结果
             List<BindingResult> bindingResults = getBindingResult(joinPoint.getArgs());
@@ -89,7 +88,7 @@ public class ControllerServiceAop {
             response.setMsg(Response.ResponseCode.FAILURE.getMsg());
         }
         if (data instanceof Response) {
-            logger.info("ResponseStr ==> {}", JSON.toJSONString(response));
+            logger.info("Response String ==> {}", JSON.toJSONString(response));
         }
         return response;
 
