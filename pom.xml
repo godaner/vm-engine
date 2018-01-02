@@ -1,10 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.vm</groupId>
-    <artifactId>vm</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>core</artifactId>
+    <packaging>pom</packaging>
     <version>${project.version}</version>
+    <modules>
+        <module>vm-dao</module>
+        <module>vm-base</module>
+        <module>vm-frontend</module>
+        <module>vm-backend</module>
+    </modules>
     <name>vm</name>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -166,37 +173,6 @@
         <!--fileupload start-->
     </dependencies>
 
-    <build>
-        <finalName>vm</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
 
-    </build>
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <profileActive>dev</profileActive>
-            </properties>
-        </profile>
-        <profile>
-            <id>prod</id>
-            <properties>
-                <profileActive>prod</profileActive>
-            </properties>
-        </profile>
-        <profile>
-            <id>bugfix</id>
-            <properties>
-                <profileActive>bugfix</profileActive>
-            </properties>
-        </profile>
-    </profiles>
+
 </project>
