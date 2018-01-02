@@ -29,11 +29,72 @@ import java.util.Map;
 @Component
 @Aspect
 public class ControllerServiceAop {
+
+    private final Logger logger = LoggerFactory.getLogger(ControllerServiceAop.class);
+
     @Pointcut("execution(* com.vm.*.controller..*.*(..))")
     public void declareJoinPointExpression() {
     }
 
-    private Logger logger = LoggerFactory.getLogger(ControllerServiceAop.class);
+    @Around("declareJoinPointExpression()")
+    public Object doAroundAdvice(ProceedingJoinPoint joinPoint) throws Exception {
+        Response response = new Response();
+        Object data = null;
+        String method = "";
+        String methodArgsNameAndValue = getMethodArgsNameAndValue(joinPoint).toString();
+        String requestUrl = getRequestUrl();
+        try {
+            logger.info("VISIT ==> requestUrl ==> {}", requestUrl);
+            logger.info("VISIT ==> method ==> [{} # {}]", getMethod(joinPoint), methodArgsNameAndValue);
+
+            //获取验证结果
+            List<BindingResult> bindingResults = getBindingResult(joinPoint.getArgs());
+            //抛出验证结果
+            validate(bindingResults);
+
+            //执行方法
+            data = joinPoint.proceed();//调用执行目标方法,先執行aop在執行了responsebody
+
+            if (data == null) {//无参数
+                return null;
+            }
+
+            //如果返回值为Map或者Response的实例，代表采用ajax方式
+            if (data instanceof Map) {
+                response.setData((Map<Object, Object>) data);
+            } else if (data instanceof Response) {
+                response = (Response) data;
+            } else {//页面转发
+                return data;
+            }
+        } catch (VmRuntimeException e) {//提供详细错误信息输出到前台
+            e.printStackTrace();
+            logger.error("ERROR ==> [{} # {}] ==> {}", method.toString(), methodArgsNameAndValue, e.toString());
+            response.setCode(e.getErrorCode());
+            response.setMsg(e.getMessage());
+        } catch (RuntimeException e) {//只输出failed信息，不提供详细错误信息
+            e.printStackTrace();
+            logger.error("ERROR ==> [{} # {}] ==> {}", method.toString(), methodArgsNameAndValue, e.toString());
+            response.setCode(Response.ResponseCode.FAILURE.getCode());
+            response.setMsg(Response.ResponseCode.FAILURE.getMsg());
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("ERROR ==> [{} # {}] ==> {}", method.toString(), methodArgsNameAndValue, e.toString());
+            response.setCode(Response.ResponseCode.FAILURE.getCode());
+            response.setMsg(Response.ResponseCode.FAILURE.getMsg());
+        } catch (Throwable e) {
+            e.printStackTrace();
+            logger.error("ERROR ==> [{} # {}] ==> {}", method.toString(), methodArgsNameAndValue, e.toString());
+            response.setCode(Response.ResponseCode.FAILURE.getCode());
+            response.setMsg(Response.ResponseCode.FAILURE.getMsg());
+        }
+        if (data instanceof Response) {
+            logger.info("ResponseStr ==> {}", JSON.toJSONString(response));
+        }
+        return response;
+
+    }
+    /**********************************辅助方法*****************************************/
 
 
     /**
@@ -96,62 +157,6 @@ public class ControllerServiceAop {
         return method.toString();
     }
 
-    @Around("declareJoinPointExpression()")
-    public Object doAroundAdvice(ProceedingJoinPoint joinPoint) throws Exception {
-        Response response = new Response();
-        Object data = null;
-        String method = "";
-        String methodArgsNameAndValue = getMethodArgsNameAndValue(joinPoint).toString();
-        try {
-            logger.info("VISIT ==> method ==> [{} # {}]", getMethod(joinPoint), methodArgsNameAndValue);
-
-            //获取验证结果
-            List<BindingResult> bindingResults = getBindingResult(joinPoint.getArgs());
-            //抛出验证结果
-            validate(bindingResults);
-
-            //执行方法
-            data = joinPoint.proceed();//调用执行目标方法,先執行aop在執行了responsebody
-
-            if (data == null) {//无参数
-                return null;
-            }
-
-            //如果返回值为Map或者Response的实例，代表采用ajax方式
-            if (data instanceof Map) {
-                response.setData((Map<Object, Object>) data);
-            } else if (data instanceof Response) {
-                response = (Response) data;
-            } else {//页面转发
-                return data;
-            }
-        } catch (VmRuntimeException e) {//提供详细错误信息输出到前台
-            e.printStackTrace();
-            logger.error("ERROR ==> [{} # {}] ==> {}", method.toString(), methodArgsNameAndValue, e.toString());
-            response.setCode(e.getErrorCode());
-            response.setMsg(e.getMessage());
-        } catch (RuntimeException e) {//只输出failed信息，不提供详细错误信息
-            e.printStackTrace();
-            logger.error("ERROR ==> [{} # {}] ==> {}", method.toString(), methodArgsNameAndValue, e.toString());
-            response.setCode(Response.ResponseCode.FAILURE.getCode());
-            response.setMsg(Response.ResponseCode.FAILURE.getMsg());
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("ERROR ==> [{} # {}] ==> {}", method.toString(), methodArgsNameAndValue, e.toString());
-            response.setCode(Response.ResponseCode.FAILURE.getCode());
-            response.setMsg(Response.ResponseCode.FAILURE.getMsg());
-        } catch (Throwable e) {
-            e.printStackTrace();
-            logger.error("ERROR ==> [{} # {}] ==> {}", method.toString(), methodArgsNameAndValue, e.toString());
-            response.setCode(Response.ResponseCode.FAILURE.getCode());
-            response.setMsg(Response.ResponseCode.FAILURE.getMsg());
-        }
-        if (data instanceof Response) {
-            logger.info("ResponseStr ==> {}", JSON.toJSONString(response));
-        }
-        return response;
-
-    }
 
     /**
      * 通过切面参数获取其中的BindingResult
