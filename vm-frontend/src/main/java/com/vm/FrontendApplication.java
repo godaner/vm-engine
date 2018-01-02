@@ -12,7 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Date:2017/11/16 14:47
  */
 @SpringBootApplication
-//@MapperScan(basePackages = "com.vm.dao")
 public class FrontendApplication {
     public static void main(String[] args) {
 
