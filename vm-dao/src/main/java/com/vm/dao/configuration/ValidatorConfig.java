@@ -10,7 +10,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 /**
- * 开启快速验证模式
+ * 开启validator的快速验证模式
  */
 @Configuration
 public class ValidatorConfig {
