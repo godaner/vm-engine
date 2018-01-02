@@ -1,6 +1,6 @@
 import React from 'react';  //引入react组件
 import "../scss/msg_dialog.scss"
-import "./vm_frontend_events_dispatcher";
+import "./events_dispatcher";
 
 var MsgDialog = React.createClass({
     getInitialState: function () {

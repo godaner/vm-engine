@@ -10,7 +10,7 @@ import MoviePlayer from "./movies_player";
 import MoviesDisplayer from "./movies_displayer";
 import MsgDialog from "./msg_dialog";
 import PlainPanelTitle from "./plain_panel_title";
-import VmFrontendEvents from "./vm_frontend_events_dispatcher";
+import "./events_dispatcher";
 /*import '../../../public/js/ckplayer/ckplayer/ckplayer.js';*/
 /*电影人详情展示页面*/
 var FilmmakerInfoPage = React.createClass({

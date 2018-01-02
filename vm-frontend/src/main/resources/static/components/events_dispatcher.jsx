@@ -17,5 +17,6 @@ window.VmFrontendEventsDispatcher = {
         this.event.emit('closeLoading');
     }
 };
+window.EventsDispatcher = window.VmFrontendEventsDispatcher;
 
 

@@ -11,7 +11,7 @@ import Tail from "./tail";
 import MsgDialog from "./msg_dialog";
 import Loading from "./loading";
 import UserInfoPage from "./user_info_page";
-import "./vm_frontend_events_dispatcher";
+import "./events_dispatcher";
 
 var Index = React.createClass({
     getInitialState: function () {

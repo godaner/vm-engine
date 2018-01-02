@@ -5,7 +5,7 @@ import MoviesDisplayer from "./movies_displayer";
 import Pager from "./pager";
 import "../scss/movie_list_page.scss";
 import "animate.css";
-import "./vm_frontend_events_dispatcher";
+import "./events_dispatcher";
 
 
 /*一组电影tag*/
