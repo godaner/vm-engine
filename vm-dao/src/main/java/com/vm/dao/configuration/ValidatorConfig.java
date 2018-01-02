@@ -1,4 +1,4 @@
-package com.vm.dao.validator.base;
+package com.vm.dao.configuration;
 
 
 import org.hibernate.validator.HibernateValidator;
@@ -13,7 +13,7 @@ import javax.validation.ValidatorFactory;
  * 开启快速验证模式
  */
 @Configuration
-public class ValidatorConfiguration {
+public class ValidatorConfig {
     @Bean
     public Validator validator(){
         ValidatorFactory validatorFactory = Validation.byProvider( HibernateValidator.class )
