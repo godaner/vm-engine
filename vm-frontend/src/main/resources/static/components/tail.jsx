@@ -5,7 +5,7 @@ var Tail = React.createClass({
     render: function () {
         return (
             <div id="fragment_tail_content">
-                <img src="/frontend/image/tail.png"/>
+                <img src="/image/tail.png"/>
             </div>
         );
     }

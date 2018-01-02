@@ -136,7 +136,7 @@
         #fragment_head_nav_search_text {
           width:50%;
           @include searcher;
-          background-image: url("/frontend/image/icon_zoom.png");
+          background-image: url("/image/icon_zoom.png");
           background-size: $search_height/1.5 $search_height/1.5;
           background-repeat: no-repeat;
           background-position: 5px;

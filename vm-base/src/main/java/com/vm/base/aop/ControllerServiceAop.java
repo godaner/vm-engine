@@ -29,7 +29,7 @@ import java.util.Map;
 @Component
 @Aspect
 public class ControllerServiceAop {
-    @Pointcut("execution(* com.vm.controller.impl.*.*(..))")
+    @Pointcut("execution(* com.vm.*.controller..*.*(..))")
     public void declareJoinPointExpression() {
     }
 

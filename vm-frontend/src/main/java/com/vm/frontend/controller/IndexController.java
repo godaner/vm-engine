@@ -1,5 +1,6 @@
 package com.vm.frontend.controller;
 
+import com.vm.base.utils.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,20 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/")
-public class PageForwardController {
-
+public class IndexController extends BaseController{
     @RequestMapping("/")
     public Object index() {
-        return "frontend/index";
+        return "index";
     }
-    @RequestMapping("/{name}")
-    public Object frontend(@PathVariable("name") String name) {
-        return "frontend/"+name;
+    @RequestMapping("/{page}")
+    public Object forward(@PathVariable("page") String page) {
+        return page;
     }
-    @RequestMapping("/b/{name}")
-    public Object backend(@PathVariable("name") String name) {
-        return "backend/"+name;
-    }
-
 
 }

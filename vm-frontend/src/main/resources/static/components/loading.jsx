@@ -101,7 +101,7 @@ var Loading = React.createClass({
                 <div id="dialog"
                      ref="dialog"
                      className={this.state.dialogClassName}>
-                    <img src="/frontend/image/loading.gif"/>
+                    <img src="/image/loading.gif"/>
                     <div>
                         {this.state.nowMsg}
                     </div>

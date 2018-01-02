@@ -67,7 +67,7 @@
           @include defaultWidth;
           border: 1px solid unquote($defaultLightGrayColorRgb);
           color: black;
-          background-image: url("/frontend/image/username.png");
+          background-image: url("/image/username.png");
           background-size: $input_height/1.5 $input_height/1.5;
           background-repeat: no-repeat;
           background-position: 5px;
@@ -79,7 +79,7 @@
           @include defaultWidth;
           border: 1px solid unquote($defaultLightGrayColorRgb);
           color: black;
-          background-image: url("/frontend/image/password.png");
+          background-image: url("/image/password.png");
           background-size: $input_height/1.5 $input_height/1.5;
           background-repeat: no-repeat;
           background-position: 5px;
