@@ -533,205 +533,6 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 /***/ }),
 /* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-
-
-var _prodInvariant = __webpack_require__(4);
-
-var DOMProperty = __webpack_require__(20);
-var ReactDOMComponentFlags = __webpack_require__(74);
-
-var invariant = __webpack_require__(1);
-
-var ATTR_NAME = DOMProperty.ID_ATTRIBUTE_NAME;
-var Flags = ReactDOMComponentFlags;
-
-var internalInstanceKey = '__reactInternalInstance$' + Math.random().toString(36).slice(2);
-
-/**
- * Check if a given node should be cached.
- */
-function shouldPrecacheNode(node, nodeID) {
-  return node.nodeType === 1 && node.getAttribute(ATTR_NAME) === String(nodeID) || node.nodeType === 8 && node.nodeValue === ' react-text: ' + nodeID + ' ' || node.nodeType === 8 && node.nodeValue === ' react-empty: ' + nodeID + ' ';
-}
-
-/**
- * Drill down (through composites and empty components) until we get a host or
- * host text component.
- *
- * This is pretty polymorphic but unavoidable with the current structure we have
- * for `_renderedChildren`.
- */
-function getRenderedHostOrTextFromComponent(component) {
-  var rendered;
-  while (rendered = component._renderedComponent) {
-    component = rendered;
-  }
-  return component;
-}
-
-/**
- * Populate `_hostNode` on the rendered host/text component with the given
- * DOM node. The passed `inst` can be a composite.
- */
-function precacheNode(inst, node) {
-  var hostInst = getRenderedHostOrTextFromComponent(inst);
-  hostInst._hostNode = node;
-  node[internalInstanceKey] = hostInst;
-}
-
-function uncacheNode(inst) {
-  var node = inst._hostNode;
-  if (node) {
-    delete node[internalInstanceKey];
-    inst._hostNode = null;
-  }
-}
-
-/**
- * Populate `_hostNode` on each child of `inst`, assuming that the children
- * match up with the DOM (element) children of `node`.
- *
- * We cache entire levels at once to avoid an n^2 problem where we access the
- * children of a node sequentially and have to walk from the start to our target
- * node every time.
- *
- * Since we update `_renderedChildren` and the actual DOM at (slightly)
- * different times, we could race here and see a newer `_renderedChildren` than
- * the DOM nodes we see. To avoid this, ReactMultiChild calls
- * `prepareToManageChildren` before we change `_renderedChildren`, at which
- * time the container's child nodes are always cached (until it unmounts).
- */
-function precacheChildNodes(inst, node) {
-  if (inst._flags & Flags.hasCachedChildNodes) {
-    return;
-  }
-  var children = inst._renderedChildren;
-  var childNode = node.firstChild;
-  outer: for (var name in children) {
-    if (!children.hasOwnProperty(name)) {
-      continue;
-    }
-    var childInst = children[name];
-    var childID = getRenderedHostOrTextFromComponent(childInst)._domID;
-    if (childID === 0) {
-      // We're currently unmounting this child in ReactMultiChild; skip it.
-      continue;
-    }
-    // We assume the child nodes are in the same order as the child instances.
-    for (; childNode !== null; childNode = childNode.nextSibling) {
-      if (shouldPrecacheNode(childNode, childID)) {
-        precacheNode(childInst, childNode);
-        continue outer;
-      }
-    }
-    // We reached the end of the DOM children without finding an ID match.
-     true ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Unable to find element with ID %s.', childID) : _prodInvariant('32', childID) : void 0;
-  }
-  inst._flags |= Flags.hasCachedChildNodes;
-}
-
-/**
- * Given a DOM node, return the closest ReactDOMComponent or
- * ReactDOMTextComponent instance ancestor.
- */
-function getClosestInstanceFromNode(node) {
-  if (node[internalInstanceKey]) {
-    return node[internalInstanceKey];
-  }
-
-  // Walk up the tree until we find an ancestor whose instance we have cached.
-  var parents = [];
-  while (!node[internalInstanceKey]) {
-    parents.push(node);
-    if (node.parentNode) {
-      node = node.parentNode;
-    } else {
-      // Top of the tree. This node must not be part of a React tree (or is
-      // unmounted, potentially).
-      return null;
-    }
-  }
-
-  var closest;
-  var inst;
-  for (; node && (inst = node[internalInstanceKey]); node = parents.pop()) {
-    closest = inst;
-    if (parents.length) {
-      precacheChildNodes(inst, node);
-    }
-  }
-
-  return closest;
-}
-
-/**
- * Given a DOM node, return the ReactDOMComponent or ReactDOMTextComponent
- * instance, or null if the node was not rendered by this React.
- */
-function getInstanceFromNode(node) {
-  var inst = getClosestInstanceFromNode(node);
-  if (inst != null && inst._hostNode === node) {
-    return inst;
-  } else {
-    return null;
-  }
-}
-
-/**
- * Given a ReactDOMComponent or ReactDOMTextComponent, return the corresponding
- * DOM node.
- */
-function getNodeFromInstance(inst) {
-  // Without this first invariant, passing a non-DOM-component triggers the next
-  // invariant for a missing parent, which is super confusing.
-  !(inst._hostNode !== undefined) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'getNodeFromInstance: Invalid argument.') : _prodInvariant('33') : void 0;
-
-  if (inst._hostNode) {
-    return inst._hostNode;
-  }
-
-  // Walk up the tree until we find an ancestor whose DOM node we have cached.
-  var parents = [];
-  while (!inst._hostNode) {
-    parents.push(inst);
-    !inst._hostParent ? process.env.NODE_ENV !== 'production' ? invariant(false, 'React DOM tree root should always have a node reference.') : _prodInvariant('34') : void 0;
-    inst = inst._hostParent;
-  }
-
-  // Now parents contains each ancestor that does *not* have a cached native
-  // node, and `inst` is the deepest ancestor that does.
-  for (; parents.length; inst = parents.pop()) {
-    precacheChildNodes(inst, inst._hostNode);
-  }
-
-  return inst._hostNode;
-}
-
-var ReactDOMComponentTree = {
-  getClosestInstanceFromNode: getClosestInstanceFromNode,
-  getInstanceFromNode: getInstanceFromNode,
-  getNodeFromInstance: getNodeFromInstance,
-  precacheChildNodes: precacheChildNodes,
-  precacheNode: precacheNode,
-  uncacheNode: uncacheNode
-};
-
-module.exports = ReactDOMComponentTree;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 7 */
 /***/ (function(module, exports) {
 
 /*
@@ -787,7 +588,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports) {
 
 /*
@@ -1039,6 +840,205 @@ function updateLink(linkElement, obj) {
 
 
 /***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+var _prodInvariant = __webpack_require__(4);
+
+var DOMProperty = __webpack_require__(20);
+var ReactDOMComponentFlags = __webpack_require__(74);
+
+var invariant = __webpack_require__(1);
+
+var ATTR_NAME = DOMProperty.ID_ATTRIBUTE_NAME;
+var Flags = ReactDOMComponentFlags;
+
+var internalInstanceKey = '__reactInternalInstance$' + Math.random().toString(36).slice(2);
+
+/**
+ * Check if a given node should be cached.
+ */
+function shouldPrecacheNode(node, nodeID) {
+  return node.nodeType === 1 && node.getAttribute(ATTR_NAME) === String(nodeID) || node.nodeType === 8 && node.nodeValue === ' react-text: ' + nodeID + ' ' || node.nodeType === 8 && node.nodeValue === ' react-empty: ' + nodeID + ' ';
+}
+
+/**
+ * Drill down (through composites and empty components) until we get a host or
+ * host text component.
+ *
+ * This is pretty polymorphic but unavoidable with the current structure we have
+ * for `_renderedChildren`.
+ */
+function getRenderedHostOrTextFromComponent(component) {
+  var rendered;
+  while (rendered = component._renderedComponent) {
+    component = rendered;
+  }
+  return component;
+}
+
+/**
+ * Populate `_hostNode` on the rendered host/text component with the given
+ * DOM node. The passed `inst` can be a composite.
+ */
+function precacheNode(inst, node) {
+  var hostInst = getRenderedHostOrTextFromComponent(inst);
+  hostInst._hostNode = node;
+  node[internalInstanceKey] = hostInst;
+}
+
+function uncacheNode(inst) {
+  var node = inst._hostNode;
+  if (node) {
+    delete node[internalInstanceKey];
+    inst._hostNode = null;
+  }
+}
+
+/**
+ * Populate `_hostNode` on each child of `inst`, assuming that the children
+ * match up with the DOM (element) children of `node`.
+ *
+ * We cache entire levels at once to avoid an n^2 problem where we access the
+ * children of a node sequentially and have to walk from the start to our target
+ * node every time.
+ *
+ * Since we update `_renderedChildren` and the actual DOM at (slightly)
+ * different times, we could race here and see a newer `_renderedChildren` than
+ * the DOM nodes we see. To avoid this, ReactMultiChild calls
+ * `prepareToManageChildren` before we change `_renderedChildren`, at which
+ * time the container's child nodes are always cached (until it unmounts).
+ */
+function precacheChildNodes(inst, node) {
+  if (inst._flags & Flags.hasCachedChildNodes) {
+    return;
+  }
+  var children = inst._renderedChildren;
+  var childNode = node.firstChild;
+  outer: for (var name in children) {
+    if (!children.hasOwnProperty(name)) {
+      continue;
+    }
+    var childInst = children[name];
+    var childID = getRenderedHostOrTextFromComponent(childInst)._domID;
+    if (childID === 0) {
+      // We're currently unmounting this child in ReactMultiChild; skip it.
+      continue;
+    }
+    // We assume the child nodes are in the same order as the child instances.
+    for (; childNode !== null; childNode = childNode.nextSibling) {
+      if (shouldPrecacheNode(childNode, childID)) {
+        precacheNode(childInst, childNode);
+        continue outer;
+      }
+    }
+    // We reached the end of the DOM children without finding an ID match.
+     true ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Unable to find element with ID %s.', childID) : _prodInvariant('32', childID) : void 0;
+  }
+  inst._flags |= Flags.hasCachedChildNodes;
+}
+
+/**
+ * Given a DOM node, return the closest ReactDOMComponent or
+ * ReactDOMTextComponent instance ancestor.
+ */
+function getClosestInstanceFromNode(node) {
+  if (node[internalInstanceKey]) {
+    return node[internalInstanceKey];
+  }
+
+  // Walk up the tree until we find an ancestor whose instance we have cached.
+  var parents = [];
+  while (!node[internalInstanceKey]) {
+    parents.push(node);
+    if (node.parentNode) {
+      node = node.parentNode;
+    } else {
+      // Top of the tree. This node must not be part of a React tree (or is
+      // unmounted, potentially).
+      return null;
+    }
+  }
+
+  var closest;
+  var inst;
+  for (; node && (inst = node[internalInstanceKey]); node = parents.pop()) {
+    closest = inst;
+    if (parents.length) {
+      precacheChildNodes(inst, node);
+    }
+  }
+
+  return closest;
+}
+
+/**
+ * Given a DOM node, return the ReactDOMComponent or ReactDOMTextComponent
+ * instance, or null if the node was not rendered by this React.
+ */
+function getInstanceFromNode(node) {
+  var inst = getClosestInstanceFromNode(node);
+  if (inst != null && inst._hostNode === node) {
+    return inst;
+  } else {
+    return null;
+  }
+}
+
+/**
+ * Given a ReactDOMComponent or ReactDOMTextComponent, return the corresponding
+ * DOM node.
+ */
+function getNodeFromInstance(inst) {
+  // Without this first invariant, passing a non-DOM-component triggers the next
+  // invariant for a missing parent, which is super confusing.
+  !(inst._hostNode !== undefined) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'getNodeFromInstance: Invalid argument.') : _prodInvariant('33') : void 0;
+
+  if (inst._hostNode) {
+    return inst._hostNode;
+  }
+
+  // Walk up the tree until we find an ancestor whose DOM node we have cached.
+  var parents = [];
+  while (!inst._hostNode) {
+    parents.push(inst);
+    !inst._hostParent ? process.env.NODE_ENV !== 'production' ? invariant(false, 'React DOM tree root should always have a node reference.') : _prodInvariant('34') : void 0;
+    inst = inst._hostParent;
+  }
+
+  // Now parents contains each ancestor that does *not* have a cached native
+  // node, and `inst` is the deepest ancestor that does.
+  for (; parents.length; inst = parents.pop()) {
+    precacheChildNodes(inst, inst._hostNode);
+  }
+
+  return inst._hostNode;
+}
+
+var ReactDOMComponentTree = {
+  getClosestInstanceFromNode: getClosestInstanceFromNode,
+  getInstanceFromNode: getInstanceFromNode,
+  getNodeFromInstance: getNodeFromInstance,
+  precacheChildNodes: precacheChildNodes,
+  precacheNode: precacheNode,
+  uncacheNode: uncacheNode
+};
+
+module.exports = ReactDOMComponentTree;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1163,7 +1163,7 @@ module.exports = warning;
 
 var _prodInvariant = __webpack_require__(25);
 
-var ReactCurrentOwner = __webpack_require__(17);
+var ReactCurrentOwner = __webpack_require__(18);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -1635,6 +1635,65 @@ if (process.env.NODE_ENV !== 'production') {
 
 /***/ }),
 /* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__ = __webpack_require__(219);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "BrowserRouter", function() { return __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HashRouter__ = __webpack_require__(222);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "HashRouter", function() { return __WEBPACK_IMPORTED_MODULE_1__HashRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Link__ = __webpack_require__(109);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Link", function() { return __WEBPACK_IMPORTED_MODULE_2__Link__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(224);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MemoryRouter", function() { return __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NavLink__ = __webpack_require__(227);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "NavLink", function() { return __WEBPACK_IMPORTED_MODULE_4__NavLink__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Prompt__ = __webpack_require__(230);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Prompt", function() { return __WEBPACK_IMPORTED_MODULE_5__Prompt__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redirect__ = __webpack_require__(232);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Redirect", function() { return __WEBPACK_IMPORTED_MODULE_6__Redirect__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(110);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Route", function() { return __WEBPACK_IMPORTED_MODULE_7__Route__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Router__ = __webpack_require__(66);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Router", function() { return __WEBPACK_IMPORTED_MODULE_8__Router__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__StaticRouter__ = __webpack_require__(238);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StaticRouter", function() { return __WEBPACK_IMPORTED_MODULE_9__StaticRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Switch__ = __webpack_require__(240);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Switch", function() { return __WEBPACK_IMPORTED_MODULE_10__Switch__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__matchPath__ = __webpack_require__(242);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "matchPath", function() { return __WEBPACK_IMPORTED_MODULE_11__matchPath__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__withRouter__ = __webpack_require__(243);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "withRouter", function() { return __WEBPACK_IMPORTED_MODULE_12__withRouter__["a"]; });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1693,7 +1752,7 @@ module.exports = invariant;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1714,7 +1773,7 @@ var CallbackQueue = __webpack_require__(78);
 var PooledClass = __webpack_require__(21);
 var ReactFeatureFlags = __webpack_require__(79);
 var ReactReconciler = __webpack_require__(24);
-var Transaction = __webpack_require__(36);
+var Transaction = __webpack_require__(37);
 
 var invariant = __webpack_require__(1);
 
@@ -1948,7 +2007,7 @@ module.exports = ReactUpdates;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1980,7 +2039,7 @@ var ReactCurrentOwner = {
 module.exports = ReactCurrentOwner;
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2253,65 +2312,6 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
   }
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 19 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__ = __webpack_require__(219);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "BrowserRouter", function() { return __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HashRouter__ = __webpack_require__(222);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "HashRouter", function() { return __WEBPACK_IMPORTED_MODULE_1__HashRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Link__ = __webpack_require__(109);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Link", function() { return __WEBPACK_IMPORTED_MODULE_2__Link__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(224);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MemoryRouter", function() { return __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NavLink__ = __webpack_require__(227);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "NavLink", function() { return __WEBPACK_IMPORTED_MODULE_4__NavLink__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Prompt__ = __webpack_require__(230);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Prompt", function() { return __WEBPACK_IMPORTED_MODULE_5__Prompt__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redirect__ = __webpack_require__(232);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Redirect", function() { return __WEBPACK_IMPORTED_MODULE_6__Redirect__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(110);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Route", function() { return __WEBPACK_IMPORTED_MODULE_7__Route__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Router__ = __webpack_require__(66);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Router", function() { return __WEBPACK_IMPORTED_MODULE_8__Router__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__StaticRouter__ = __webpack_require__(238);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StaticRouter", function() { return __WEBPACK_IMPORTED_MODULE_9__StaticRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Switch__ = __webpack_require__(240);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Switch", function() { return __WEBPACK_IMPORTED_MODULE_10__Switch__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__matchPath__ = __webpack_require__(242);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "matchPath", function() { return __WEBPACK_IMPORTED_MODULE_11__matchPath__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__withRouter__ = __webpack_require__(243);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "withRouter", function() { return __WEBPACK_IMPORTED_MODULE_12__withRouter__["a"]; });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /***/ }),
 /* 20 */
@@ -2659,10 +2659,10 @@ module.exports = PooledClass;
 
 var _assign = __webpack_require__(5);
 
-var ReactCurrentOwner = __webpack_require__(17);
+var ReactCurrentOwner = __webpack_require__(18);
 
 var warning = __webpack_require__(2);
-var canDefineProperty = __webpack_require__(41);
+var canDefineProperty = __webpack_require__(42);
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 var REACT_ELEMENT_TYPE = __webpack_require__(92);
@@ -3347,7 +3347,7 @@ module.exports = reactProdInvariant;
 
 
 var DOMNamespaces = __webpack_require__(52);
-var setInnerHTML = __webpack_require__(38);
+var setInnerHTML = __webpack_require__(39);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(53);
 var setTextContent = __webpack_require__(83);
@@ -3485,7 +3485,7 @@ var cloneElement = ReactElement.cloneElement;
 
 if (process.env.NODE_ENV !== 'production') {
   var lowPriorityWarning = __webpack_require__(56);
-  var canDefineProperty = __webpack_require__(41);
+  var canDefineProperty = __webpack_require__(42);
   var ReactElementValidator = __webpack_require__(94);
   var didWarnPropTypesDeprecated = false;
   createElement = ReactElementValidator.createElement;
@@ -3593,6 +3593,47 @@ module.exports = React;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(261);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PlainPanelTitle = _react2.default.createClass({
+    displayName: 'PlainPanelTitle',
+
+    getInitialState: function getInitialState() {
+        var state = { title: this.props.title };
+        return state;
+    },
+    render: function render() {
+        return _react2.default.createElement(
+            'div',
+            { id: 'plain_panel_title_content' },
+            _react2.default.createElement(
+                'div',
+                { id: 'title_div' },
+                this.state.title
+            ),
+            _react2.default.createElement('div', { id: 'split_line' })
+        );
+    }
+}); //引入react组件
+exports.default = PlainPanelTitle; //将App组件导出
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -3603,7 +3644,7 @@ module.exports = React;
 
 
 
-var EventPluginHub = __webpack_require__(29);
+var EventPluginHub = __webpack_require__(30);
 var EventPluginUtils = __webpack_require__(46);
 
 var accumulateInto = __webpack_require__(75);
@@ -3727,7 +3768,7 @@ module.exports = EventPropagators;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3743,7 +3784,7 @@ module.exports = EventPropagators;
 
 var _prodInvariant = __webpack_require__(4);
 
-var EventPluginRegistry = __webpack_require__(35);
+var EventPluginRegistry = __webpack_require__(36);
 var EventPluginUtils = __webpack_require__(46);
 var ReactErrorUtils = __webpack_require__(47);
 
@@ -4005,7 +4046,7 @@ module.exports = EventPluginHub;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4019,7 +4060,7 @@ module.exports = EventPluginHub;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 var getEventTarget = __webpack_require__(48);
 
@@ -4067,7 +4108,7 @@ SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 module.exports = SyntheticUIEvent;
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4116,7 +4157,7 @@ var ReactInstanceMap = {
 module.exports = ReactInstanceMap;
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4183,7 +4224,7 @@ var createPath = exports.createPath = function createPath(location) {
 };
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4254,7 +4295,7 @@ var createPath = function createPath(location) {
 };
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4288,7 +4329,7 @@ window.VmFrontendEventsDispatcher = {
 };
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4545,7 +4586,7 @@ module.exports = EventPluginRegistry;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4777,7 +4818,7 @@ module.exports = TransactionImpl;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4791,7 +4832,7 @@ module.exports = TransactionImpl;
 
 
 
-var SyntheticUIEvent = __webpack_require__(30);
+var SyntheticUIEvent = __webpack_require__(31);
 var ViewportMetrics = __webpack_require__(82);
 
 var getEventModifierState = __webpack_require__(50);
@@ -4852,7 +4893,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 module.exports = SyntheticMouseEvent;
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4953,7 +4994,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setInnerHTML;
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5078,7 +5119,7 @@ function escapeTextContentForBrowser(text) {
 module.exports = escapeTextContentForBrowser;
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5094,7 +5135,7 @@ module.exports = escapeTextContentForBrowser;
 
 var _assign = __webpack_require__(5);
 
-var EventPluginRegistry = __webpack_require__(35);
+var EventPluginRegistry = __webpack_require__(36);
 var ReactEventEmitterMixin = __webpack_require__(153);
 var ViewportMetrics = __webpack_require__(82);
 
@@ -5405,7 +5446,7 @@ var ReactBrowserEventEmitter = _assign({}, ReactEventEmitterMixin, {
 module.exports = ReactBrowserEventEmitter;
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5435,7 +5476,7 @@ module.exports = canDefineProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5459,7 +5500,7 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5467,7 +5508,7 @@ module.exports = emptyObject;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return locationsAreEqual; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_resolve_pathname__ = __webpack_require__(106);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_value_equal__ = __webpack_require__(107);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PathUtils__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PathUtils__ = __webpack_require__(34);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -5535,47 +5576,6 @@ var locationsAreEqual = function locationsAreEqual(a, b) {
 };
 
 /***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-__webpack_require__(261);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var PlainPanelTitle = _react2.default.createClass({
-    displayName: 'PlainPanelTitle',
-
-    getInitialState: function getInitialState() {
-        var state = { title: this.props.title };
-        return state;
-    },
-    render: function render() {
-        return _react2.default.createElement(
-            'div',
-            { id: 'plain_panel_title_content' },
-            _react2.default.createElement(
-                'div',
-                { id: 'title_div' },
-                this.state.title
-            ),
-            _react2.default.createElement('div', { id: 'split_line' })
-        );
-    }
-}); //引入react组件
-exports.default = PlainPanelTitle; //将App组件导出
-
-/***/ }),
 /* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5592,7 +5592,7 @@ var _react2 = _interopRequireDefault(_react);
 
 __webpack_require__(267);
 
-__webpack_require__(34);
+__webpack_require__(35);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6218,11 +6218,11 @@ module.exports = getEventModifierState;
 
 var DOMLazyTree = __webpack_require__(26);
 var Danger = __webpack_require__(138);
-var ReactDOMComponentTree = __webpack_require__(6);
+var ReactDOMComponentTree = __webpack_require__(8);
 var ReactInstrumentation = __webpack_require__(13);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(53);
-var setInnerHTML = __webpack_require__(38);
+var setInnerHTML = __webpack_require__(39);
 var setTextContent = __webpack_require__(83);
 
 function getNodeAfter(parentNode, node) {
@@ -6962,10 +6962,10 @@ module.exports = KeyEscapeUtils;
 
 var _prodInvariant = __webpack_require__(4);
 
-var ReactCurrentOwner = __webpack_require__(17);
-var ReactInstanceMap = __webpack_require__(31);
+var ReactCurrentOwner = __webpack_require__(18);
+var ReactInstanceMap = __webpack_require__(32);
 var ReactInstrumentation = __webpack_require__(13);
-var ReactUpdates = __webpack_require__(16);
+var ReactUpdates = __webpack_require__(17);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -7631,7 +7631,7 @@ var _valueEqual = __webpack_require__(107);
 
 var _valueEqual2 = _interopRequireDefault(_valueEqual);
 
-var _PathUtils = __webpack_require__(32);
+var _PathUtils = __webpack_require__(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7804,7 +7804,7 @@ exports.default = createTransitionManager;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
@@ -8093,7 +8093,7 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(19);
+var _reactRouterDom = __webpack_require__(15);
 
 __webpack_require__(249);
 
@@ -8178,7 +8178,7 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(19);
+var _reactRouterDom = __webpack_require__(15);
 
 __webpack_require__(253);
 
@@ -8244,7 +8244,7 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(19);
+var _reactRouterDom = __webpack_require__(15);
 
 var _inner_messager = __webpack_require__(23);
 
@@ -8693,7 +8693,7 @@ module.exports = ReactFeatureFlags;
 
 
 
-var ReactDOMComponentTree = __webpack_require__(6);
+var ReactDOMComponentTree = __webpack_require__(8);
 
 function isCheckable(elem) {
   var type = elem.type;
@@ -8902,8 +8902,8 @@ module.exports = ViewportMetrics;
 
 
 var ExecutionEnvironment = __webpack_require__(9);
-var escapeTextContentForBrowser = __webpack_require__(39);
-var setInnerHTML = __webpack_require__(38);
+var escapeTextContentForBrowser = __webpack_require__(40);
+var setInnerHTML = __webpack_require__(39);
 
 /**
  * Set the textContent property of a node, ensuring that whitespace is preserved
@@ -9145,7 +9145,7 @@ module.exports = CSSProperty;
 
 
 var DOMProperty = __webpack_require__(20);
-var ReactDOMComponentTree = __webpack_require__(6);
+var ReactDOMComponentTree = __webpack_require__(8);
 var ReactInstrumentation = __webpack_require__(13);
 
 var quoteAttributeValueForBrowser = __webpack_require__(152);
@@ -9984,8 +9984,8 @@ var _prodInvariant = __webpack_require__(25),
 
 var ReactNoopUpdateQueue = __webpack_require__(91);
 
-var canDefineProperty = __webpack_require__(41);
-var emptyObject = __webpack_require__(42);
+var canDefineProperty = __webpack_require__(42);
+var emptyObject = __webpack_require__(43);
 var invariant = __webpack_require__(1);
 var lowPriorityWarning = __webpack_require__(56);
 
@@ -10299,13 +10299,13 @@ module.exports = getIteratorFn;
 
 
 
-var ReactCurrentOwner = __webpack_require__(17);
+var ReactCurrentOwner = __webpack_require__(18);
 var ReactComponentTreeHook = __webpack_require__(11);
 var ReactElement = __webpack_require__(22);
 
 var checkReactTypeSpec = __webpack_require__(162);
 
-var canDefineProperty = __webpack_require__(41);
+var canDefineProperty = __webpack_require__(42);
 var getIteratorFn = __webpack_require__(93);
 var warning = __webpack_require__(2);
 var lowPriorityWarning = __webpack_require__(56);
@@ -10554,8 +10554,8 @@ module.exports = ReactElementValidator;
 var _assign = __webpack_require__(5);
 
 var LinkedValueUtils = __webpack_require__(54);
-var ReactDOMComponentTree = __webpack_require__(6);
-var ReactUpdates = __webpack_require__(16);
+var ReactDOMComponentTree = __webpack_require__(8);
+var ReactUpdates = __webpack_require__(17);
 
 var warning = __webpack_require__(2);
 
@@ -11039,7 +11039,7 @@ module.exports = ReactHostComponent;
 
 var _prodInvariant = __webpack_require__(4);
 
-var ReactCurrentOwner = __webpack_require__(17);
+var ReactCurrentOwner = __webpack_require__(18);
 var REACT_ELEMENT_TYPE = __webpack_require__(178);
 
 var getIteratorFn = __webpack_require__(179);
@@ -11471,23 +11471,23 @@ var _prodInvariant = __webpack_require__(4);
 var DOMLazyTree = __webpack_require__(26);
 var DOMProperty = __webpack_require__(20);
 var React = __webpack_require__(27);
-var ReactBrowserEventEmitter = __webpack_require__(40);
-var ReactCurrentOwner = __webpack_require__(17);
-var ReactDOMComponentTree = __webpack_require__(6);
+var ReactBrowserEventEmitter = __webpack_require__(41);
+var ReactCurrentOwner = __webpack_require__(18);
+var ReactDOMComponentTree = __webpack_require__(8);
 var ReactDOMContainerInfo = __webpack_require__(208);
 var ReactDOMFeatureFlags = __webpack_require__(209);
 var ReactFeatureFlags = __webpack_require__(79);
-var ReactInstanceMap = __webpack_require__(31);
+var ReactInstanceMap = __webpack_require__(32);
 var ReactInstrumentation = __webpack_require__(13);
 var ReactMarkupChecksum = __webpack_require__(210);
 var ReactReconciler = __webpack_require__(24);
 var ReactUpdateQueue = __webpack_require__(61);
-var ReactUpdates = __webpack_require__(16);
+var ReactUpdates = __webpack_require__(17);
 
-var emptyObject = __webpack_require__(42);
+var emptyObject = __webpack_require__(43);
 var instantiateReactComponent = __webpack_require__(96);
 var invariant = __webpack_require__(1);
-var setInnerHTML = __webpack_require__(38);
+var setInnerHTML = __webpack_require__(39);
 var shouldUpdateReactComponent = __webpack_require__(59);
 var warning = __webpack_require__(2);
 
@@ -12218,7 +12218,7 @@ var isExtraneousPopstateEvent = exports.isExtraneousPopstateEvent = function isE
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_invariant__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -12337,7 +12337,7 @@ Link.contextTypes = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
@@ -12738,7 +12738,7 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(19);
+var _reactRouterDom = __webpack_require__(15);
 
 var _inner_messager = __webpack_require__(23);
 
@@ -12746,7 +12746,7 @@ var _inner_messager2 = _interopRequireDefault(_inner_messager);
 
 __webpack_require__(259);
 
-var _plain_panel_title = __webpack_require__(44);
+var _plain_panel_title = __webpack_require__(28);
 
 var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
 
@@ -12900,7 +12900,7 @@ var _inner_messager = __webpack_require__(23);
 
 var _inner_messager2 = _interopRequireDefault(_inner_messager);
 
-var _plain_panel_title = __webpack_require__(44);
+var _plain_panel_title = __webpack_require__(28);
 
 var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
 
@@ -13369,11 +13369,11 @@ _reactDom2.default.render(_react2.default.createElement(_index2.default, null), 
 
 
 
-var ReactDOMComponentTree = __webpack_require__(6);
+var ReactDOMComponentTree = __webpack_require__(8);
 var ReactDefaultInjection = __webpack_require__(120);
 var ReactMount = __webpack_require__(104);
 var ReactReconciler = __webpack_require__(24);
-var ReactUpdates = __webpack_require__(16);
+var ReactUpdates = __webpack_require__(17);
 var ReactVersion = __webpack_require__(212);
 
 var findDOMNode = __webpack_require__(213);
@@ -13490,7 +13490,7 @@ var EnterLeaveEventPlugin = __webpack_require__(135);
 var HTMLDOMPropertyConfig = __webpack_require__(136);
 var ReactComponentBrowserEnvironment = __webpack_require__(137);
 var ReactDOMComponent = __webpack_require__(143);
-var ReactDOMComponentTree = __webpack_require__(6);
+var ReactDOMComponentTree = __webpack_require__(8);
 var ReactDOMEmptyComponent = __webpack_require__(183);
 var ReactDOMTreeTraversal = __webpack_require__(184);
 var ReactDOMTextComponent = __webpack_require__(185);
@@ -13648,7 +13648,7 @@ module.exports = ARIADOMPropertyConfig;
 
 
 
-var EventPropagators = __webpack_require__(28);
+var EventPropagators = __webpack_require__(29);
 var ExecutionEnvironment = __webpack_require__(9);
 var FallbackCompositionState = __webpack_require__(123);
 var SyntheticCompositionEvent = __webpack_require__(124);
@@ -14133,7 +14133,7 @@ module.exports = FallbackCompositionState;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 /**
  * @interface Event
@@ -14172,7 +14172,7 @@ module.exports = SyntheticCompositionEvent;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 /**
  * @interface Event
@@ -14212,12 +14212,12 @@ module.exports = SyntheticInputEvent;
 
 
 
-var EventPluginHub = __webpack_require__(29);
-var EventPropagators = __webpack_require__(28);
+var EventPluginHub = __webpack_require__(30);
+var EventPropagators = __webpack_require__(29);
 var ExecutionEnvironment = __webpack_require__(9);
-var ReactDOMComponentTree = __webpack_require__(6);
-var ReactUpdates = __webpack_require__(16);
-var SyntheticEvent = __webpack_require__(18);
+var ReactDOMComponentTree = __webpack_require__(8);
+var ReactUpdates = __webpack_require__(17);
+var SyntheticEvent = __webpack_require__(19);
 
 var inputValueTracking = __webpack_require__(80);
 var getEventTarget = __webpack_require__(48);
@@ -15251,9 +15251,9 @@ module.exports = DefaultEventPluginOrder;
 
 
 
-var EventPropagators = __webpack_require__(28);
-var ReactDOMComponentTree = __webpack_require__(6);
-var SyntheticMouseEvent = __webpack_require__(37);
+var EventPropagators = __webpack_require__(29);
+var ReactDOMComponentTree = __webpack_require__(8);
+var SyntheticMouseEvent = __webpack_require__(38);
 
 var eventTypes = {
   mouseEnter: {
@@ -15992,7 +15992,7 @@ module.exports = getMarkupWrap;
 
 
 var DOMChildrenOperations = __webpack_require__(51);
-var ReactDOMComponentTree = __webpack_require__(6);
+var ReactDOMComponentTree = __webpack_require__(8);
 
 /**
  * Operations used to process updates to DOM nodes.
@@ -16038,11 +16038,11 @@ var DOMLazyTree = __webpack_require__(26);
 var DOMNamespaces = __webpack_require__(52);
 var DOMProperty = __webpack_require__(20);
 var DOMPropertyOperations = __webpack_require__(86);
-var EventPluginHub = __webpack_require__(29);
-var EventPluginRegistry = __webpack_require__(35);
-var ReactBrowserEventEmitter = __webpack_require__(40);
+var EventPluginHub = __webpack_require__(30);
+var EventPluginRegistry = __webpack_require__(36);
+var ReactBrowserEventEmitter = __webpack_require__(41);
 var ReactDOMComponentFlags = __webpack_require__(74);
-var ReactDOMComponentTree = __webpack_require__(6);
+var ReactDOMComponentTree = __webpack_require__(8);
 var ReactDOMInput = __webpack_require__(155);
 var ReactDOMOption = __webpack_require__(170);
 var ReactDOMSelect = __webpack_require__(95);
@@ -16052,7 +16052,7 @@ var ReactMultiChild = __webpack_require__(172);
 var ReactServerRenderingTransaction = __webpack_require__(181);
 
 var emptyFunction = __webpack_require__(12);
-var escapeTextContentForBrowser = __webpack_require__(39);
+var escapeTextContentForBrowser = __webpack_require__(40);
 var invariant = __webpack_require__(1);
 var isEventSupported = __webpack_require__(49);
 var shallowEqual = __webpack_require__(58);
@@ -17045,7 +17045,7 @@ module.exports = ReactDOMComponent;
 
 
 
-var ReactDOMComponentTree = __webpack_require__(6);
+var ReactDOMComponentTree = __webpack_require__(8);
 
 var focusNode = __webpack_require__(84);
 
@@ -17563,7 +17563,7 @@ module.exports = memoizeStringOnly;
 
 
 
-var escapeTextContentForBrowser = __webpack_require__(39);
+var escapeTextContentForBrowser = __webpack_require__(40);
 
 /**
  * Escapes attribute value to prevent scripting attacks.
@@ -17592,7 +17592,7 @@ module.exports = quoteAttributeValueForBrowser;
 
 
 
-var EventPluginHub = __webpack_require__(29);
+var EventPluginHub = __webpack_require__(30);
 
 function runEventQueueInBatch(events) {
   EventPluginHub.enqueueEvents(events);
@@ -17736,8 +17736,8 @@ var _prodInvariant = __webpack_require__(4),
 
 var DOMPropertyOperations = __webpack_require__(86);
 var LinkedValueUtils = __webpack_require__(54);
-var ReactDOMComponentTree = __webpack_require__(6);
-var ReactUpdates = __webpack_require__(16);
+var ReactDOMComponentTree = __webpack_require__(8);
+var ReactUpdates = __webpack_require__(17);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -18401,7 +18401,7 @@ module.exports = PooledClass;
 
 var _prodInvariant = __webpack_require__(25);
 
-var ReactCurrentOwner = __webpack_require__(17);
+var ReactCurrentOwner = __webpack_require__(18);
 var REACT_ELEMENT_TYPE = __webpack_require__(92);
 
 var getIteratorFn = __webpack_require__(93);
@@ -19021,7 +19021,7 @@ module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
 
 var _assign = __webpack_require__(5);
 
-var emptyObject = __webpack_require__(42);
+var emptyObject = __webpack_require__(43);
 var _invariant = __webpack_require__(1);
 
 if (process.env.NODE_ENV !== 'production') {
@@ -19942,7 +19942,7 @@ module.exports = onlyChild;
 var _assign = __webpack_require__(5);
 
 var React = __webpack_require__(27);
-var ReactDOMComponentTree = __webpack_require__(6);
+var ReactDOMComponentTree = __webpack_require__(8);
 var ReactDOMSelect = __webpack_require__(95);
 
 var warning = __webpack_require__(2);
@@ -20069,8 +20069,8 @@ var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(5);
 
 var LinkedValueUtils = __webpack_require__(54);
-var ReactDOMComponentTree = __webpack_require__(6);
-var ReactUpdates = __webpack_require__(16);
+var ReactDOMComponentTree = __webpack_require__(8);
+var ReactUpdates = __webpack_require__(17);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -20232,10 +20232,10 @@ module.exports = ReactDOMTextarea;
 var _prodInvariant = __webpack_require__(4);
 
 var ReactComponentEnvironment = __webpack_require__(57);
-var ReactInstanceMap = __webpack_require__(31);
+var ReactInstanceMap = __webpack_require__(32);
 var ReactInstrumentation = __webpack_require__(13);
 
-var ReactCurrentOwner = __webpack_require__(17);
+var ReactCurrentOwner = __webpack_require__(18);
 var ReactReconciler = __webpack_require__(24);
 var ReactChildReconciler = __webpack_require__(173);
 
@@ -20841,9 +20841,9 @@ var _prodInvariant = __webpack_require__(4),
 
 var React = __webpack_require__(27);
 var ReactComponentEnvironment = __webpack_require__(57);
-var ReactCurrentOwner = __webpack_require__(17);
+var ReactCurrentOwner = __webpack_require__(18);
 var ReactErrorUtils = __webpack_require__(47);
-var ReactInstanceMap = __webpack_require__(31);
+var ReactInstanceMap = __webpack_require__(32);
 var ReactInstrumentation = __webpack_require__(13);
 var ReactNodeTypes = __webpack_require__(97);
 var ReactReconciler = __webpack_require__(24);
@@ -20852,7 +20852,7 @@ if (process.env.NODE_ENV !== 'production') {
   var checkReactTypeSpec = __webpack_require__(175);
 }
 
-var emptyObject = __webpack_require__(42);
+var emptyObject = __webpack_require__(43);
 var invariant = __webpack_require__(1);
 var shallowEqual = __webpack_require__(58);
 var shouldUpdateReactComponent = __webpack_require__(59);
@@ -22034,7 +22034,7 @@ module.exports = flattenChildren;
 var _assign = __webpack_require__(5);
 
 var PooledClass = __webpack_require__(21);
-var Transaction = __webpack_require__(36);
+var Transaction = __webpack_require__(37);
 var ReactInstrumentation = __webpack_require__(13);
 var ReactServerUpdateQueue = __webpack_require__(182);
 
@@ -22271,7 +22271,7 @@ module.exports = ReactServerUpdateQueue;
 var _assign = __webpack_require__(5);
 
 var DOMLazyTree = __webpack_require__(26);
-var ReactDOMComponentTree = __webpack_require__(6);
+var ReactDOMComponentTree = __webpack_require__(8);
 
 var ReactDOMEmptyComponent = function (instantiate) {
   // ReactCompositeComponent uses this:
@@ -22476,9 +22476,9 @@ var _prodInvariant = __webpack_require__(4),
 
 var DOMChildrenOperations = __webpack_require__(51);
 var DOMLazyTree = __webpack_require__(26);
-var ReactDOMComponentTree = __webpack_require__(6);
+var ReactDOMComponentTree = __webpack_require__(8);
 
-var escapeTextContentForBrowser = __webpack_require__(39);
+var escapeTextContentForBrowser = __webpack_require__(40);
 var invariant = __webpack_require__(1);
 var validateDOMNesting = __webpack_require__(62);
 
@@ -22639,8 +22639,8 @@ module.exports = ReactDOMTextComponent;
 
 var _assign = __webpack_require__(5);
 
-var ReactUpdates = __webpack_require__(16);
-var Transaction = __webpack_require__(36);
+var ReactUpdates = __webpack_require__(17);
+var Transaction = __webpack_require__(37);
 
 var emptyFunction = __webpack_require__(12);
 
@@ -22713,8 +22713,8 @@ var _assign = __webpack_require__(5);
 var EventListener = __webpack_require__(101);
 var ExecutionEnvironment = __webpack_require__(9);
 var PooledClass = __webpack_require__(21);
-var ReactDOMComponentTree = __webpack_require__(6);
-var ReactUpdates = __webpack_require__(16);
+var ReactDOMComponentTree = __webpack_require__(8);
+var ReactUpdates = __webpack_require__(17);
 
 var getEventTarget = __webpack_require__(48);
 var getUnboundedScrollPosition = __webpack_require__(188);
@@ -22909,13 +22909,13 @@ module.exports = getUnboundedScrollPosition;
 
 
 var DOMProperty = __webpack_require__(20);
-var EventPluginHub = __webpack_require__(29);
+var EventPluginHub = __webpack_require__(30);
 var EventPluginUtils = __webpack_require__(46);
 var ReactComponentEnvironment = __webpack_require__(57);
 var ReactEmptyComponent = __webpack_require__(98);
-var ReactBrowserEventEmitter = __webpack_require__(40);
+var ReactBrowserEventEmitter = __webpack_require__(41);
 var ReactHostComponent = __webpack_require__(99);
-var ReactUpdates = __webpack_require__(16);
+var ReactUpdates = __webpack_require__(17);
 
 var ReactInjection = {
   Component: ReactComponentEnvironment.injection,
@@ -22949,10 +22949,10 @@ var _assign = __webpack_require__(5);
 
 var CallbackQueue = __webpack_require__(78);
 var PooledClass = __webpack_require__(21);
-var ReactBrowserEventEmitter = __webpack_require__(40);
+var ReactBrowserEventEmitter = __webpack_require__(41);
 var ReactInputSelection = __webpack_require__(102);
 var ReactInstrumentation = __webpack_require__(13);
-var Transaction = __webpack_require__(36);
+var Transaction = __webpack_require__(37);
 var ReactUpdateQueue = __webpack_require__(61);
 
 /**
@@ -23823,11 +23823,11 @@ module.exports = SVGDOMPropertyConfig;
 
 
 
-var EventPropagators = __webpack_require__(28);
+var EventPropagators = __webpack_require__(29);
 var ExecutionEnvironment = __webpack_require__(9);
-var ReactDOMComponentTree = __webpack_require__(6);
+var ReactDOMComponentTree = __webpack_require__(8);
 var ReactInputSelection = __webpack_require__(102);
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 var getActiveElement = __webpack_require__(103);
 var isTextInputElement = __webpack_require__(81);
@@ -24018,18 +24018,18 @@ module.exports = SelectEventPlugin;
 var _prodInvariant = __webpack_require__(4);
 
 var EventListener = __webpack_require__(101);
-var EventPropagators = __webpack_require__(28);
-var ReactDOMComponentTree = __webpack_require__(6);
+var EventPropagators = __webpack_require__(29);
+var ReactDOMComponentTree = __webpack_require__(8);
 var SyntheticAnimationEvent = __webpack_require__(199);
 var SyntheticClipboardEvent = __webpack_require__(200);
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 var SyntheticFocusEvent = __webpack_require__(201);
 var SyntheticKeyboardEvent = __webpack_require__(202);
-var SyntheticMouseEvent = __webpack_require__(37);
+var SyntheticMouseEvent = __webpack_require__(38);
 var SyntheticDragEvent = __webpack_require__(204);
 var SyntheticTouchEvent = __webpack_require__(205);
 var SyntheticTransitionEvent = __webpack_require__(206);
-var SyntheticUIEvent = __webpack_require__(30);
+var SyntheticUIEvent = __webpack_require__(31);
 var SyntheticWheelEvent = __webpack_require__(207);
 
 var emptyFunction = __webpack_require__(12);
@@ -24244,7 +24244,7 @@ module.exports = SimpleEventPlugin;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 /**
  * @interface Event
@@ -24286,7 +24286,7 @@ module.exports = SyntheticAnimationEvent;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 /**
  * @interface Event
@@ -24327,7 +24327,7 @@ module.exports = SyntheticClipboardEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(30);
+var SyntheticUIEvent = __webpack_require__(31);
 
 /**
  * @interface FocusEvent
@@ -24366,7 +24366,7 @@ module.exports = SyntheticFocusEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(30);
+var SyntheticUIEvent = __webpack_require__(31);
 
 var getEventCharCode = __webpack_require__(63);
 var getEventKey = __webpack_require__(203);
@@ -24568,7 +24568,7 @@ module.exports = getEventKey;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(37);
+var SyntheticMouseEvent = __webpack_require__(38);
 
 /**
  * @interface DragEvent
@@ -24607,7 +24607,7 @@ module.exports = SyntheticDragEvent;
 
 
 
-var SyntheticUIEvent = __webpack_require__(30);
+var SyntheticUIEvent = __webpack_require__(31);
 
 var getEventModifierState = __webpack_require__(50);
 
@@ -24655,7 +24655,7 @@ module.exports = SyntheticTouchEvent;
 
 
 
-var SyntheticEvent = __webpack_require__(18);
+var SyntheticEvent = __webpack_require__(19);
 
 /**
  * @interface Event
@@ -24697,7 +24697,7 @@ module.exports = SyntheticTransitionEvent;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(37);
+var SyntheticMouseEvent = __webpack_require__(38);
 
 /**
  * @interface WheelEvent
@@ -24929,9 +24929,9 @@ module.exports = '15.6.2';
 
 var _prodInvariant = __webpack_require__(4);
 
-var ReactCurrentOwner = __webpack_require__(17);
-var ReactDOMComponentTree = __webpack_require__(6);
-var ReactInstanceMap = __webpack_require__(31);
+var ReactCurrentOwner = __webpack_require__(18);
+var ReactDOMComponentTree = __webpack_require__(8);
+var ReactInstanceMap = __webpack_require__(32);
 
 var getHostComponentFromComposite = __webpack_require__(105);
 var invariant = __webpack_require__(1);
@@ -25011,7 +25011,7 @@ module.exports = ReactMount.renderSubtreeIntoContainer;
 
 
 var DOMProperty = __webpack_require__(20);
-var EventPluginRegistry = __webpack_require__(35);
+var EventPluginRegistry = __webpack_require__(36);
 var ReactComponentTreeHook = __webpack_require__(11);
 
 var warning = __webpack_require__(2);
@@ -25274,7 +25274,7 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(19);
+var _reactRouterDom = __webpack_require__(15);
 
 var _filmmaker_info_page = __webpack_require__(246);
 
@@ -25296,7 +25296,7 @@ var _head = __webpack_require__(282);
 
 var _head2 = _interopRequireDefault(_head);
 
-var _tail = __webpack_require__(291);
+var _tail = __webpack_require__(292);
 
 var _tail2 = _interopRequireDefault(_tail);
 
@@ -25304,15 +25304,15 @@ var _msg_dialog = __webpack_require__(45);
 
 var _msg_dialog2 = _interopRequireDefault(_msg_dialog);
 
-var _loading = __webpack_require__(297);
+var _loading = __webpack_require__(295);
 
 var _loading2 = _interopRequireDefault(_loading);
 
-var _user_info_page = __webpack_require__(294);
+var _user_info_page = __webpack_require__(298);
 
 var _user_info_page2 = _interopRequireDefault(_user_info_page);
 
-__webpack_require__(34);
+__webpack_require__(35);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25511,13 +25511,13 @@ var _warning = __webpack_require__(10);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _invariant = __webpack_require__(15);
+var _invariant = __webpack_require__(16);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
 var _LocationUtils = __webpack_require__(64);
 
-var _PathUtils = __webpack_require__(32);
+var _PathUtils = __webpack_require__(33);
 
 var _createTransitionManager = __webpack_require__(65);
 
@@ -25888,13 +25888,13 @@ var _warning = __webpack_require__(10);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _invariant = __webpack_require__(15);
+var _invariant = __webpack_require__(16);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
 var _LocationUtils = __webpack_require__(64);
 
-var _PathUtils = __webpack_require__(32);
+var _PathUtils = __webpack_require__(33);
 
 var _createTransitionManager = __webpack_require__(65);
 
@@ -26298,7 +26298,7 @@ var _warning = __webpack_require__(10);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _PathUtils = __webpack_require__(32);
+var _PathUtils = __webpack_require__(33);
 
 var _LocationUtils = __webpack_require__(64);
 
@@ -26999,7 +26999,7 @@ module.exports = Array.isArray || function (arr) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_invariant__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -27103,7 +27103,7 @@ Prompt.contextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_history__ = __webpack_require__(234);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27211,10 +27211,10 @@ Redirect.contextTypes = {
 /* unused harmony reexport createHashHistory */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__createMemoryHistory__ = __webpack_require__(237);
 /* unused harmony reexport createMemoryHistory */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LocationUtils__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LocationUtils__ = __webpack_require__(44);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__LocationUtils__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_3__LocationUtils__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__PathUtils__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__PathUtils__ = __webpack_require__(34);
 /* unused harmony reexport parsePath */
 /* unused harmony reexport createPath */
 
@@ -27234,10 +27234,10 @@ Redirect.contextTypes = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__createTransitionManager__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DOMUtils__ = __webpack_require__(112);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -27538,10 +27538,10 @@ var createBrowserHistory = function createBrowserHistory() {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__createTransitionManager__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DOMUtils__ = __webpack_require__(112);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -27859,8 +27859,8 @@ var createHashHistory = function createHashHistory() {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PathUtils__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PathUtils__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__createTransitionManager__ = __webpack_require__(69);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -28038,13 +28038,13 @@ var createMemoryHistory = function createMemoryHistory() {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_history_PathUtils__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_history_PathUtils__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_history_PathUtils___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_history_PathUtils__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Router__ = __webpack_require__(67);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -28236,7 +28236,7 @@ StaticRouter.childContextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_invariant__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__matchPath__ = __webpack_require__(68);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28511,11 +28511,11 @@ var _msg_dialog = __webpack_require__(45);
 
 var _msg_dialog2 = _interopRequireDefault(_msg_dialog);
 
-var _plain_panel_title = __webpack_require__(44);
+var _plain_panel_title = __webpack_require__(28);
 
 var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
 
-var _vm_frontend_events_dispatcher = __webpack_require__(34);
+var _vm_frontend_events_dispatcher = __webpack_require__(35);
 
 var _vm_frontend_events_dispatcher2 = _interopRequireDefault(_vm_frontend_events_dispatcher);
 
@@ -28828,7 +28828,7 @@ exports.default = FilmmakerInfoPage;
 var content = __webpack_require__(248);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28848,7 +28848,7 @@ if(false) {
 /* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)();
+exports = module.exports = __webpack_require__(6)();
 // imports
 
 
@@ -28868,7 +28868,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(250);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28888,7 +28888,7 @@ if(false) {
 /* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)();
+exports = module.exports = __webpack_require__(6)();
 // imports
 
 
@@ -28908,7 +28908,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(252);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28928,7 +28928,7 @@ if(false) {
 /* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)();
+exports = module.exports = __webpack_require__(6)();
 // imports
 
 
@@ -28948,7 +28948,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(254);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -28968,7 +28968,7 @@ if(false) {
 /* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)();
+exports = module.exports = __webpack_require__(6)();
 // imports
 
 
@@ -28988,7 +28988,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(256);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -29008,7 +29008,7 @@ if(false) {
 /* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)();
+exports = module.exports = __webpack_require__(6)();
 // imports
 
 
@@ -29028,7 +29028,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(258);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -29048,7 +29048,7 @@ if(false) {
 /* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)();
+exports = module.exports = __webpack_require__(6)();
 // imports
 
 
@@ -29068,7 +29068,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(260);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -29088,7 +29088,7 @@ if(false) {
 /* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)();
+exports = module.exports = __webpack_require__(6)();
 // imports
 
 
@@ -29108,7 +29108,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(262);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -29128,7 +29128,7 @@ if(false) {
 /* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)();
+exports = module.exports = __webpack_require__(6)();
 // imports
 
 
@@ -29148,7 +29148,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(264);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -29168,7 +29168,7 @@ if(false) {
 /* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)();
+exports = module.exports = __webpack_require__(6)();
 // imports
 
 
@@ -29188,7 +29188,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(266);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -29208,7 +29208,7 @@ if(false) {
 /* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)();
+exports = module.exports = __webpack_require__(6)();
 // imports
 
 
@@ -29228,7 +29228,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(268);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -29248,7 +29248,7 @@ if(false) {
 /* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)();
+exports = module.exports = __webpack_require__(6)();
 // imports
 
 
@@ -29268,7 +29268,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(270);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -29288,7 +29288,7 @@ if(false) {
 /* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)();
+exports = module.exports = __webpack_require__(6)();
 // imports
 
 
@@ -29333,7 +29333,7 @@ __webpack_require__(275);
 
 __webpack_require__(277);
 
-__webpack_require__(34);
+__webpack_require__(35);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29976,7 +29976,7 @@ exports.default = Pager; //将App组件导出
 var content = __webpack_require__(274);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -29996,7 +29996,7 @@ if(false) {
 /* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)();
+exports = module.exports = __webpack_require__(6)();
 // imports
 
 
@@ -30016,7 +30016,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(276);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -30036,7 +30036,7 @@ if(false) {
 /* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)();
+exports = module.exports = __webpack_require__(6)();
 // imports
 
 
@@ -30056,7 +30056,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 var content = __webpack_require__(278);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -30076,7 +30076,7 @@ if(false) {
 /* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)();
+exports = module.exports = __webpack_require__(6)();
 // imports
 
 
@@ -30139,11 +30139,11 @@ var _msg_dialog = __webpack_require__(45);
 
 var _msg_dialog2 = _interopRequireDefault(_msg_dialog);
 
-var _plain_panel_title = __webpack_require__(44);
+var _plain_panel_title = __webpack_require__(28);
 
 var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
 
-var _vm_frontend_events_dispatcher = __webpack_require__(34);
+var _vm_frontend_events_dispatcher = __webpack_require__(35);
 
 var _vm_frontend_events_dispatcher2 = _interopRequireDefault(_vm_frontend_events_dispatcher);
 
@@ -30556,7 +30556,7 @@ exports.default = MovieInfoPage;
 var content = __webpack_require__(281);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -30576,7 +30576,7 @@ if(false) {
 /* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)();
+exports = module.exports = __webpack_require__(6)();
 // imports
 
 
@@ -30601,21 +30601,21 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(19);
+var _reactRouterDom = __webpack_require__(15);
 
-var _reactWebsocket = __webpack_require__(304);
+var _reactWebsocket = __webpack_require__(283);
 
 var _reactWebsocket2 = _interopRequireDefault(_reactWebsocket);
 
-var _login_dialog = __webpack_require__(283);
+var _login_dialog = __webpack_require__(284);
 
 var _login_dialog2 = _interopRequireDefault(_login_dialog);
 
-var _regist_dialog = __webpack_require__(286);
+var _regist_dialog = __webpack_require__(287);
 
 var _regist_dialog2 = _interopRequireDefault(_regist_dialog);
 
-__webpack_require__(289);
+__webpack_require__(290);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30807,1045 +30807,6 @@ exports.default = (0, _reactRouterDom.withRouter)(Head); //将App组件导出
 
 /***/ }),
 /* 283 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouterDom = __webpack_require__(19);
-
-__webpack_require__(284);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*登录框*/
-//引入react组件
-var LoginDialog = _react2.default.createClass({
-    displayName: 'LoginDialog',
-
-    getInitialState: function getInitialState() {
-        return {
-            dialogClassName: "",
-            loginFailure: "登录失败",
-            loginSuccess: "登录成功",
-            logining: "正在登陆,请稍等..."
-        };
-    },
-    componentDidMount: function componentDidMount() {
-        window.addEventListener('resize', this.onWindowResize);
-
-        //adjust ui
-        this.adjustUI();
-    },
-    componentWillUnmount: function componentWillUnmount() {
-        window.removeEventListener('resize', this.onWindowResize);
-    },
-    onWindowResize: function onWindowResize() {
-        this.adjustUI();
-    },
-    adjustUI: function adjustUI() {
-        {
-            /*调整样式*/
-        }
-        this.dialogToMiddle();
-    },
-    dialogToMiddle: function dialogToMiddle() {
-        //垂直居中
-        var dialog = $(this.refs.dialog);
-        var content = $(this.refs.content);
-        var dialog_h = dialog.height();
-        var content_h = content.height();
-        var top = (content_h - dialog_h) / 2;
-        dialog.css("margin-top", top + "px");
-    },
-    showLoginDialog: function showLoginDialog() {
-        //show it
-        this.fadeIn();
-
-        //adjust ui
-        this.adjustUI();
-
-        //get focus
-        $(this.refs.username).focus();
-    },
-    closeLoginDialog: function closeLoginDialog() {
-        //hide it
-        this.fadeOut();
-    },
-    fadeIn: function fadeIn() {
-
-        var state = this.state;
-        $(this.refs.content).fadeIn();
-        state.dialogClassName = "block animated bounceIn";
-        this.setState(state);
-
-        // c(this.state);
-    },
-    fadeOut: function fadeOut() {
-        var state = this.state;
-        state.dialogClassName = "animated bounceOut";
-        $(this.refs.content).fadeOut();
-        this.setState(state);
-    },
-    login: function login() {
-
-        var username = $(this.refs.username).val();
-        var password = $(this.refs.password).val();
-        var url = "/user/login?username=" + username + "&password=" + password;
-        ajax.put({
-            url: url,
-            onBeforeRequest: function () {
-                //close login dialog
-                this.closeLoginDialog();
-                //show loading dialog
-                window.VmFrontendEventsDispatcher.showLoading(this.state.logining);
-            }.bind(this),
-            onResponseStart: function () {
-                //close loading
-                window.VmFrontendEventsDispatcher.closeLoading();
-            }.bind(this),
-            onResponseSuccess: function (result) {
-                //login success,hide login dialog
-                this.closeLoginDialog();
-
-                //show msg dialog
-                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginSuccess);
-
-                //callfun
-                this.props.onLoginSuccess(result.data.user);
-            }.bind(this),
-            onResponseFailure: function (result) {
-                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure, function () {
-                    this.showLoginDialog();
-                }.bind(this));
-            }.bind(this)
-        });
-    },
-    handlePasswordKeyUp: function handlePasswordKeyUp(e) {
-        if (e.keyCode === 13) {
-            this.login();
-        }
-    },
-    render: function render() {
-        return _react2.default.createElement(
-            'div',
-            { id: 'login_dialog_content', ref: 'content' },
-            _react2.default.createElement(
-                'div',
-                { id: 'dialog', className: this.state.dialogClassName, ref: 'dialog' },
-                _react2.default.createElement(
-                    'div',
-                    { id: 'head', className: 'clearfix' },
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'title_div' },
-                        '\u767B\u5F55'
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'close_div' },
-                        _react2.default.createElement(
-                            'a',
-                            { href: 'javascript:void(0);', onClick: this.closeLoginDialog },
-                            'X'
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { id: 'body' },
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'login_form' },
-                        _react2.default.createElement(
-                            'div',
-                            { id: 'username_div' },
-                            _react2.default.createElement('input', { id: 'username_input',
-                                type: 'text',
-                                ref: 'username',
-                                placeholder: 'username' })
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { id: 'password_div' },
-                            _react2.default.createElement('input', { id: 'password_input',
-                                type: 'password',
-                                ref: 'password',
-                                onKeyUp: this.handlePasswordKeyUp,
-                                placeholder: 'password' })
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { id: 'login_btn_div' },
-                            _react2.default.createElement('input', { id: 'login_btn_input',
-                                type: 'button',
-                                value: '\u767B\u5F55',
-                                onClick: this.login })
-                        )
-                    )
-                )
-            )
-        );
-    }
-});
-exports.default = LoginDialog;
-
-/***/ }),
-/* 284 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(285);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./login_dialog.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./login_dialog.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 285 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(7)();
-// imports
-
-
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#login_dialog_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  line-height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 9998;\n  background-color: rgba(0, 0, 0, 0.8);\n  text-align: center; }\n  #login_dialog_content #dialog {\n    width: 300px;\n    display: inline-block !important;\n    display: inline;\n    padding: 10px 20px;\n    box-sizing: border-box;\n    background-color: #383d49;\n    border-radius: 2px; }\n    #login_dialog_content #dialog * {\n      color: white; }\n    #login_dialog_content #dialog > div {\n      width: 100%; }\n    #login_dialog_content #dialog #head {\n      border-bottom: 1px solid \"rgb(153,153,153)\"; }\n      #login_dialog_content #dialog #head > div {\n        padding: 15px 5px;\n        box-sizing: border-box;\n        width: 50%;\n        float: left; }\n      #login_dialog_content #dialog #head #title_div {\n        text-align: left; }\n      #login_dialog_content #dialog #head #close_div {\n        text-align: right; }\n        #login_dialog_content #dialog #head #close_div a {\n          cursor: pointer; }\n          #login_dialog_content #dialog #head #close_div a:hover {\n            color: rgb(153,153,153); }\n    #login_dialog_content #dialog #body {\n      width: 100%; }\n      #login_dialog_content #dialog #body #login_form {\n        width: 100%; }\n        #login_dialog_content #dialog #body #login_form > div {\n          width: 100%;\n          margin-bottom: 20px; }\n        #login_dialog_content #dialog #body #login_form #username_input {\n          height: 30px;\n          width: 100%;\n          border: 1px solid rgb(153,153,153);\n          color: black;\n          background-image: url(\"/frontend/image/username.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          border: 1px solid rgb(153,153,153);\n          padding-left: 30px;\n          box-sizing: border-box; }\n        #login_dialog_content #dialog #body #login_form #password_input {\n          height: 30px;\n          width: 100%;\n          border: 1px solid rgb(153,153,153);\n          color: black;\n          background-image: url(\"/frontend/image/password.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          padding-left: 30px;\n          box-sizing: border-box; }\n        #login_dialog_content #dialog #body #login_form #login_btn_input {\n          cursor: pointer;\n          height: 30px;\n          margin: 0px 25%;\n          width: 50%;\n          border: 1px solid rgb(61,158,255);\n          background-color: rgb(61,158,255);\n          color: white;\n          transition: all 500ms; }\n          #login_dialog_content #dialog #body #login_form #login_btn_input:hover {\n            background-color: white;\n            color: black;\n            border: 1px solid white;\n            border-radius: 3px; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 286 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouterDom = __webpack_require__(19);
-
-__webpack_require__(287);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*注册框*/
-//引入react组件
-var RegistDialog = _react2.default.createClass({
-    displayName: 'RegistDialog',
-
-    getInitialState: function getInitialState() {
-        return {
-            dialogClassName: "",
-            registFailure: "注册失败",
-            registSuccess: "注册成功",
-            registing: "正在注册,请稍等..."
-        };
-    },
-    componentDidMount: function componentDidMount() {
-        window.addEventListener('resize', this.onWindowResize);
-
-        //adjust ui
-        this.adjustUI();
-    },
-    componentWillUnmount: function componentWillUnmount() {
-        window.removeEventListener('resize', this.onWindowResize);
-    },
-    onWindowResize: function onWindowResize() {
-        this.adjustUI();
-    },
-    adjustUI: function adjustUI() {
-        {
-            /*调整样式*/
-        }
-        this.dialogToMiddle();
-    },
-    dialogToMiddle: function dialogToMiddle() {
-        //垂直居中
-        var dialog = $(this.refs.dialog);
-        var content = $(this.refs.content);
-        var dialog_h = dialog.height();
-        var content_h = content.height();
-        var top = (content_h - dialog_h) / 2;
-        dialog.css("margin-top", top + "px");
-    },
-    showRegistDialog: function showRegistDialog() {
-        //show it
-        this.fadeIn();
-
-        //adjust ui
-        this.adjustUI();
-
-        //get focus
-        $(this.refs.username).focus();
-    },
-    closeRegistDialog: function closeRegistDialog() {
-        //hide it
-        this.fadeOut();
-    },
-    fadeIn: function fadeIn() {
-
-        var state = this.state;
-        $(this.refs.content).fadeIn();
-        state.dialogClassName = "block animated bounceIn";
-        this.setState(state);
-
-        // c(this.state);
-    },
-    fadeOut: function fadeOut() {
-        var state = this.state;
-        state.dialogClassName = "animated bounceOut";
-        $(this.refs.content).fadeOut();
-        this.setState(state);
-    },
-    regist: function regist() {
-
-        var username = $(this.refs.username).val();
-        var password = $(this.refs.password).val();
-        var url = "/user/regist?username=" + username + "&password=" + password;
-
-        ajax.put({
-            url: url,
-            onBeforeRequest: function () {
-
-                //close login dialog
-                this.closeRegistDialog();
-
-                //show loading dialog
-                window.VmFrontendEventsDispatcher.showLoading(this.state.registing);
-            }.bind(this),
-            onResponseStart: function () {
-                //close loading
-                window.VmFrontendEventsDispatcher.closeLoading();
-            }.bind(this),
-            onResponseSuccess: function (result) {
-                //hide regist dialog
-                this.closeRegistDialog();
-
-                //show msg dialog
-                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.registSuccess);
-
-                //callfun
-                this.props.onRegistSuccess(result.data.user);
-            }.bind(this),
-            onResponseFailure: function (result) {
-                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.registFailure, function () {
-                    this.showRegistDialog();
-                }.bind(this));
-            }.bind(this)
-        });
-    },
-    handlePasswordKeyUp: function handlePasswordKeyUp(e) {
-        if (e.keyCode === 13) {
-            this.regist();
-        }
-    },
-    render: function render() {
-        return _react2.default.createElement(
-            'div',
-            { id: 'regist_dialog_content', ref: 'content' },
-            _react2.default.createElement(
-                'div',
-                { id: 'dialog', className: this.state.dialogClassName, ref: 'dialog' },
-                _react2.default.createElement(
-                    'div',
-                    { id: 'head', className: 'clearfix' },
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'title_div' },
-                        '\u6CE8\u518C'
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'close_div' },
-                        _react2.default.createElement(
-                            'a',
-                            { href: 'javascript:void(0);', onClick: this.closeRegistDialog },
-                            'X'
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { id: 'body' },
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'regist_form' },
-                        _react2.default.createElement(
-                            'div',
-                            { id: 'username_div' },
-                            _react2.default.createElement('input', { id: 'username_input',
-                                type: 'text',
-                                ref: 'username',
-                                placeholder: 'username' })
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { id: 'password_div' },
-                            _react2.default.createElement('input', { id: 'password_input',
-                                type: 'password',
-                                ref: 'password',
-                                onKeyUp: this.handlePasswordKeyUp,
-                                placeholder: 'password' })
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { id: 'regist_btn_div' },
-                            _react2.default.createElement('input', { id: 'regist_btn_input',
-                                type: 'button',
-                                value: '\u6CE8\u518C',
-                                onClick: this.regist })
-                        )
-                    )
-                )
-            )
-        );
-    }
-});
-exports.default = RegistDialog;
-
-/***/ }),
-/* 287 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(288);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./regist_dialog.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./regist_dialog.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 288 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(7)();
-// imports
-
-
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#regist_dialog_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  line-height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 9998;\n  background-color: rgba(0, 0, 0, 0.8);\n  text-align: center; }\n  #regist_dialog_content #dialog {\n    width: 300px;\n    display: inline-block !important;\n    display: inline;\n    padding: 10px 20px;\n    box-sizing: border-box;\n    background-color: #383d49;\n    border-radius: 2px; }\n    #regist_dialog_content #dialog * {\n      color: white; }\n    #regist_dialog_content #dialog > div {\n      width: 100%; }\n    #regist_dialog_content #dialog #head {\n      border-bottom: 1px solid \"rgb(153,153,153)\"; }\n      #regist_dialog_content #dialog #head > div {\n        padding: 15px 5px;\n        box-sizing: border-box;\n        width: 50%;\n        float: left; }\n      #regist_dialog_content #dialog #head #title_div {\n        text-align: left; }\n      #regist_dialog_content #dialog #head #close_div {\n        text-align: right; }\n        #regist_dialog_content #dialog #head #close_div a {\n          cursor: pointer; }\n          #regist_dialog_content #dialog #head #close_div a:hover {\n            color: rgb(153,153,153); }\n    #regist_dialog_content #dialog #body {\n      width: 100%; }\n      #regist_dialog_content #dialog #body #regist_form {\n        width: 100%; }\n        #regist_dialog_content #dialog #body #regist_form > div {\n          width: 100%;\n          margin-bottom: 20px; }\n        #regist_dialog_content #dialog #body #regist_form #username_input {\n          height: 30px;\n          width: 100%;\n          border: 1px solid rgb(153,153,153);\n          color: black;\n          background-image: url(\"/frontend/image/username.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          border: 1px solid rgb(153,153,153);\n          padding-left: 30px;\n          box-sizing: border-box; }\n        #regist_dialog_content #dialog #body #regist_form #password_input {\n          height: 30px;\n          width: 100%;\n          border: 1px solid rgb(153,153,153);\n          color: black;\n          background-image: url(\"/frontend/image/password.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          padding-left: 30px;\n          box-sizing: border-box; }\n        #regist_dialog_content #dialog #body #regist_form #regist_btn_input {\n          cursor: pointer;\n          height: 30px;\n          margin: 0px 25%;\n          width: 50%;\n          border: 1px solid rgb(61,158,255);\n          background-color: rgb(61,158,255);\n          color: white;\n          transition: all 500ms; }\n          #regist_dialog_content #dialog #body #regist_form #regist_btn_input:hover {\n            background-color: white;\n            color: black;\n            border: 1px solid white;\n            border-radius: 3px; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 289 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(290);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./head.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./head.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 290 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(7)();
-// imports
-
-
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n/*var start*/\n/*var end*/\n/*mixin start*/\n/*mixin end*/\n#fragment_head_content {\n  width: 100%;\n  height: 70px;\n  line-height: 70px;\n  background-color: white; }\n  #fragment_head_content #nav_div {\n    background-color: gold;\n    position: fixed;\n    top: 0px;\n    left: 0px;\n    z-index: 9997;\n    background-color: white; }\n    #fragment_head_content #nav_div ul#fragment_head_nav {\n      /*nav*/\n      list-style-type: none;\n      height: 70px;\n      line-height: 70px;\n      padding: 0px 0px;\n      margin: 0px 15%;\n      width: 70%;\n      /*user*/ }\n      #fragment_head_content #nav_div ul#fragment_head_nav li {\n        width: 50%;\n        float: left;\n        display: block;\n        height: 70px;\n        line-height: 70px; }\n      #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_logo #logo_v {\n        color: red;\n        font-weight: bold;\n        font-size: 30px; }\n      #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_logo #logo_m {\n        color: rgb(61,158,255);\n        font-weight: bold;\n        font-size: 30px; }\n      #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul {\n        list-style: none;\n        display: inline; }\n        #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul li {\n          display: inline-block;\n          white-space: nowrap;\n          overflow: hidden;\n          text-overflow: ellipsis;\n          height: auto;\n          width: auto; }\n      #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul#user_ul li {\n        margin: 0px 10px; }\n        #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul#user_ul li a#headImg_a img#headImg_img {\n          border-radius: 100px;\n          width: 42px;\n          height: 42px;\n          margin: 14px 0px; }\n        #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul#user_ul li a:hover {\n          color: red; }\n  #fragment_head_content #blank_div {\n    height: 70px;\n    background-color: \"rgb(61,158,255)\"; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 291 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-__webpack_require__(292);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Tail = _react2.default.createClass({
-    displayName: 'Tail',
-
-
-    render: function render() {
-        return _react2.default.createElement(
-            'div',
-            { id: 'fragment_tail_content' },
-            _react2.default.createElement('img', { src: '/frontend/image/tail.png' })
-        );
-    }
-}); //引入react组件
-exports.default = Tail; //将App组件导出
-
-/***/ }),
-/* 292 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(293);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./tail.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./tail.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 293 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(7)();
-// imports
-
-
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#fragment_tail_content {\n  height: 200px;\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243);\n  margin-top: 30px; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 294 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouterDom = __webpack_require__(19);
-
-var _plain_panel_title = __webpack_require__(44);
-
-var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
-
-var _user_basic_info_page = __webpack_require__(300);
-
-var _user_basic_info_page2 = _interopRequireDefault(_user_basic_info_page);
-
-__webpack_require__(295);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*用户个人中心*/
-//引入react组件
-var UserInfoPage = _react2.default.createClass({
-    displayName: 'UserInfoPage',
-
-    getInitialState: function getInitialState() {
-        return {
-            userId: this.props.match.params.userId
-        };
-    },
-    componentDidMount: function componentDidMount() {
-        // checkUserOnlineStatus();
-    },
-
-    render: function render() {
-        return _react2.default.createElement(
-            'div',
-            { id: 'user_info', className: 'defaultPanel' },
-            _react2.default.createElement(_plain_panel_title2.default, { title: this.state.title }),
-            _react2.default.createElement(
-                _reactRouterDom.HashRouter,
-                null,
-                _react2.default.createElement(
-                    'div',
-                    { id: 'content',
-                        className: 'clearfix' },
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'nav' },
-                        'nav'
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'displayer' },
-                        _react2.default.createElement(
-                            _reactRouterDom.Switch,
-                            null,
-                            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/user/:userId', component: _user_basic_info_page2.default })
-                        )
-                    )
-                )
-            )
-        );
-    }
-});
-exports.default = (0, _reactRouterDom.withRouter)(UserInfoPage);
-
-/***/ }),
-/* 295 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(296);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_info_page.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_info_page.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 296 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(7)();
-// imports
-
-
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_info {\n  margin: 0px 15%;\n  width: 70%;\n  margin-top: 20px; }\n  #user_info #content {\n    width: 100%; }\n    #user_info #content > div {\n      float: left;\n      width: 50%; }\n    #user_info #content #nav {\n      background-color: red; }\n    #user_info #content #displayer {\n      background-color: black; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 297 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouterDom = __webpack_require__(19);
-
-__webpack_require__(298);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*等待展示*/
-//引入react组件
-var Loading = _react2.default.createClass({
-    displayName: 'Loading',
-
-    getInitialState: function getInitialState() {
-        return {
-            dialogClassName: "",
-            nowMsg: "",
-            defaultMsg: "请稍等..."
-        };
-    },
-    componentDidMount: function componentDidMount() {
-
-        window.addEventListener('resize', this.onWindowResize);
-
-        //adjust ui
-        this.adjustUI();
-
-        //regist events
-        this.registEvents();
-    },
-    registEvents: function registEvents() {
-        var _this = this;
-
-        window.event.on('showLoading', function (msg) {
-            _this.showLoading(msg);
-        });
-        window.event.on('closeLoading', function () {
-            _this.closeLoading();
-        });
-    },
-    componentWillUnmount: function componentWillUnmount() {
-        window.removeEventListener('resize', this.onWindowResize);
-    },
-    onWindowResize: function onWindowResize() {
-        this.adjustUI();
-    },
-    adjustUI: function adjustUI() {
-        {
-            /*调整样式*/
-        }
-        this.dialogToMiddle();
-    },
-    dialogToMiddle: function dialogToMiddle() {
-        //垂直居中
-        var dialog = $(this.refs.dialog);
-        var content = $(this.refs.content);
-        var dialog_h = dialog.height();
-        var content_h = content.height();
-        var top = (content_h - dialog_h) / 2;
-        dialog.css("margin-top", top + "px");
-    },
-    updateStateNowMsg: function updateStateNowMsg(msg) {
-        var state = this.state;
-        state.nowMsg = msg;
-        this.setState(state);
-    },
-    showLoading: function showLoading(msg) {
-        //choice msg
-        if (isEmpty(msg)) {
-            this.updateStateNowMsg(this.state.defaultMsg);
-        } else {
-            this.updateStateNowMsg(msg);
-        }
-
-        //show it
-        this.fadeIn();
-
-        //adjust ui
-        this.adjustUI();
-    },
-    closeLoading: function closeLoading() {
-
-        //show it
-        this.fadeOut();
-    },
-
-    fadeIn: function fadeIn() {
-
-        var state = this.state;
-        $(this.refs.content).fadeIn();
-        state.dialogClassName = "block animated bounceIn";
-        this.setState(state);
-
-        // c(this.state);
-    },
-    fadeOut: function fadeOut() {
-        var state = this.state;
-        state.dialogClassName = "animated bounceOut";
-        $(this.refs.content).fadeOut();
-        this.setState(state);
-    },
-    render: function render() {
-
-        return _react2.default.createElement(
-            'div',
-            { id: 'loading_content',
-                ref: 'content' },
-            _react2.default.createElement(
-                'div',
-                { id: 'dialog',
-                    ref: 'dialog',
-                    className: this.state.dialogClassName },
-                _react2.default.createElement('img', { src: '/frontend/image/loading.gif' }),
-                _react2.default.createElement(
-                    'div',
-                    null,
-                    this.state.nowMsg
-                )
-            )
-        );
-    }
-});
-exports.default = Loading;
-
-/***/ }),
-/* 298 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(299);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./loading.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./loading.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 299 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(7)();
-// imports
-
-
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#loading_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  line-height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 10000;\n  background-color: rgba(0, 0, 0, 0.8);\n  text-align: center; }\n  #loading_content #dialog {\n    height: 100px;\n    width: 300px;\n    display: inline-block !important;\n    display: inline;\n    padding: 10px 20px;\n    box-sizing: border-box;\n    background-color: rgba(56, 61, 73, 0);\n    border-radius: 2px; }\n    #loading_content #dialog * {\n      color: white; }\n    #loading_content #dialog img {\n      width: 20px;\n      height: 20px; }\n    #loading_content #dialog div {\n      height: 40px;\n      line-height: 40px;\n      width: 100%; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 300 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouterDom = __webpack_require__(19);
-
-var _plain_panel_title = __webpack_require__(44);
-
-var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
-
-__webpack_require__(301);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*用户基本信息页面*/
-var UserBasicInfoPage = _react2.default.createClass({
-    displayName: 'UserBasicInfoPage',
-
-    getInitialState: function getInitialState() {
-        // c(props);
-        return {
-            userId: this.props.match.params.userId,
-            getInfoFailure: "获取信息失败",
-            title: "用户个人信息",
-            user: {}
-        };
-    },
-    componentDidMount: function componentDidMount() {
-        this.getUserBasicInfo();
-    },
-
-    updateStateUser: function updateStateUser(user) {
-        if (isEmpty(user)) {
-            user = {};
-        }
-        var state = this.state;
-        state.user = user;
-        this.setState(state);
-    },
-    getUserBasicInfo: function getUserBasicInfo() {
-        // c(this.props);
-        var url = "/user/online";
-        ajax.get({
-            url: url,
-            onBeforeRequest: function () {}.bind(this),
-            onResponseStart: function () {
-
-                //hide tip
-                this.showTagTip();
-            }.bind(this),
-            onResponseSuccess: function (result) {
-
-                //update user in state
-                this.updateStateUser(result.data.user);
-            }.bind(this),
-            onResponseFailure: function (result) {
-                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
-            }.bind(this),
-            onResponseEnd: function () {
-                //callfun
-                if (callfun != undefined) {
-                    callfun();
-                }
-            }.bind(this)
-        });
-    },
-    render: function render() {
-        return _react2.default.createElement(
-            'div',
-            { id: 'user_basic_info' },
-            'UserBasicPage',
-            _react2.default.createElement(
-                'form',
-                null,
-                _react2.default.createElement(
-                    'div',
-                    { id: 'displayer' },
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'info_item' },
-                        _react2.default.createElement(
-                            'label',
-                            null,
-                            '\u6635\u79F0 : '
-                        ),
-                        _react2.default.createElement(
-                            'span',
-                            null,
-                            _react2.default.createElement('input', { value: this.state.user.username })
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'info_item' },
-                        _react2.default.createElement(
-                            'label',
-                            null,
-                            '\u6027\u522B : '
-                        ),
-                        _react2.default.createElement(
-                            'span',
-                            null,
-                            _react2.default.createElement('input', { value: this.state.user.sex })
-                        )
-                    )
-                )
-            )
-        );
-    }
-}); //引入react组件
-exports.default = UserBasicInfoPage;
-
-/***/ }),
-/* 301 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(302);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(8)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_basic_info_page.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_basic_info_page.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 302 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(7)();
-// imports
-
-
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 303 */,
-/* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -33040,6 +32001,1044 @@ return /******/ (function(modules) { // webpackBootstrap
 });
 ;
 //# sourceMappingURL=index.map
+
+/***/ }),
+/* 284 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(15);
+
+__webpack_require__(285);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*登录框*/
+//引入react组件
+var LoginDialog = _react2.default.createClass({
+    displayName: 'LoginDialog',
+
+    getInitialState: function getInitialState() {
+        return {
+            dialogClassName: "",
+            loginFailure: "登录失败",
+            loginSuccess: "登录成功",
+            logining: "正在登陆,请稍等..."
+        };
+    },
+    componentDidMount: function componentDidMount() {
+        window.addEventListener('resize', this.onWindowResize);
+
+        //adjust ui
+        this.adjustUI();
+    },
+    componentWillUnmount: function componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+    },
+    onWindowResize: function onWindowResize() {
+        this.adjustUI();
+    },
+    adjustUI: function adjustUI() {
+        {
+            /*调整样式*/
+        }
+        this.dialogToMiddle();
+    },
+    dialogToMiddle: function dialogToMiddle() {
+        //垂直居中
+        var dialog = $(this.refs.dialog);
+        var content = $(this.refs.content);
+        var dialog_h = dialog.height();
+        var content_h = content.height();
+        var top = (content_h - dialog_h) / 2;
+        dialog.css("margin-top", top + "px");
+    },
+    showLoginDialog: function showLoginDialog() {
+        //show it
+        this.fadeIn();
+
+        //adjust ui
+        this.adjustUI();
+
+        //get focus
+        $(this.refs.username).focus();
+    },
+    closeLoginDialog: function closeLoginDialog() {
+        //hide it
+        this.fadeOut();
+    },
+    fadeIn: function fadeIn() {
+
+        var state = this.state;
+        $(this.refs.content).fadeIn();
+        state.dialogClassName = "block animated bounceIn";
+        this.setState(state);
+
+        // c(this.state);
+    },
+    fadeOut: function fadeOut() {
+        var state = this.state;
+        state.dialogClassName = "animated bounceOut";
+        $(this.refs.content).fadeOut();
+        this.setState(state);
+    },
+    login: function login() {
+
+        var username = $(this.refs.username).val();
+        var password = $(this.refs.password).val();
+        var url = "/user/login?username=" + username + "&password=" + password;
+        ajax.put({
+            url: url,
+            onBeforeRequest: function () {
+                //close login dialog
+                this.closeLoginDialog();
+                //show loading dialog
+                window.VmFrontendEventsDispatcher.showLoading(this.state.logining);
+            }.bind(this),
+            onResponseStart: function () {
+                //close loading
+                window.VmFrontendEventsDispatcher.closeLoading();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+                //login success,hide login dialog
+                this.closeLoginDialog();
+
+                //show msg dialog
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginSuccess);
+
+                //callfun
+                this.props.onLoginSuccess(result.data.user);
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure, function () {
+                    this.showLoginDialog();
+                }.bind(this));
+            }.bind(this)
+        });
+    },
+    handlePasswordKeyUp: function handlePasswordKeyUp(e) {
+        if (e.keyCode === 13) {
+            this.login();
+        }
+    },
+    render: function render() {
+        return _react2.default.createElement(
+            'div',
+            { id: 'login_dialog_content', ref: 'content' },
+            _react2.default.createElement(
+                'div',
+                { id: 'dialog', className: this.state.dialogClassName, ref: 'dialog' },
+                _react2.default.createElement(
+                    'div',
+                    { id: 'head', className: 'clearfix' },
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'title_div' },
+                        '\u767B\u5F55'
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'close_div' },
+                        _react2.default.createElement(
+                            'a',
+                            { href: 'javascript:void(0);', onClick: this.closeLoginDialog },
+                            'X'
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { id: 'body' },
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'login_form' },
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'username_div' },
+                            _react2.default.createElement('input', { id: 'username_input',
+                                type: 'text',
+                                ref: 'username',
+                                placeholder: 'username' })
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'password_div' },
+                            _react2.default.createElement('input', { id: 'password_input',
+                                type: 'password',
+                                ref: 'password',
+                                onKeyUp: this.handlePasswordKeyUp,
+                                placeholder: 'password' })
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'login_btn_div' },
+                            _react2.default.createElement('input', { id: 'login_btn_input',
+                                type: 'button',
+                                value: '\u767B\u5F55',
+                                onClick: this.login })
+                        )
+                    )
+                )
+            )
+        );
+    }
+});
+exports.default = LoginDialog;
+
+/***/ }),
+/* 285 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(286);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(7)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./login_dialog.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./login_dialog.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 286 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(6)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#login_dialog_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  line-height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 9998;\n  background-color: rgba(0, 0, 0, 0.8);\n  text-align: center; }\n  #login_dialog_content #dialog {\n    width: 300px;\n    display: inline-block !important;\n    display: inline;\n    padding: 10px 20px;\n    box-sizing: border-box;\n    background-color: #383d49;\n    border-radius: 2px; }\n    #login_dialog_content #dialog * {\n      color: white; }\n    #login_dialog_content #dialog > div {\n      width: 100%; }\n    #login_dialog_content #dialog #head {\n      border-bottom: 1px solid \"rgb(153,153,153)\"; }\n      #login_dialog_content #dialog #head > div {\n        padding: 15px 5px;\n        box-sizing: border-box;\n        width: 50%;\n        float: left; }\n      #login_dialog_content #dialog #head #title_div {\n        text-align: left; }\n      #login_dialog_content #dialog #head #close_div {\n        text-align: right; }\n        #login_dialog_content #dialog #head #close_div a {\n          cursor: pointer; }\n          #login_dialog_content #dialog #head #close_div a:hover {\n            color: rgb(153,153,153); }\n    #login_dialog_content #dialog #body {\n      width: 100%; }\n      #login_dialog_content #dialog #body #login_form {\n        width: 100%; }\n        #login_dialog_content #dialog #body #login_form > div {\n          width: 100%;\n          margin-bottom: 20px; }\n        #login_dialog_content #dialog #body #login_form #username_input {\n          height: 30px;\n          width: 100%;\n          border: 1px solid rgb(153,153,153);\n          color: black;\n          background-image: url(\"/frontend/image/username.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          border: 1px solid rgb(153,153,153);\n          padding-left: 30px;\n          box-sizing: border-box; }\n        #login_dialog_content #dialog #body #login_form #password_input {\n          height: 30px;\n          width: 100%;\n          border: 1px solid rgb(153,153,153);\n          color: black;\n          background-image: url(\"/frontend/image/password.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          padding-left: 30px;\n          box-sizing: border-box; }\n        #login_dialog_content #dialog #body #login_form #login_btn_input {\n          cursor: pointer;\n          height: 30px;\n          margin: 0px 25%;\n          width: 50%;\n          border: 1px solid rgb(61,158,255);\n          background-color: rgb(61,158,255);\n          color: white;\n          transition: all 500ms; }\n          #login_dialog_content #dialog #body #login_form #login_btn_input:hover {\n            background-color: white;\n            color: black;\n            border: 1px solid white;\n            border-radius: 3px; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 287 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(15);
+
+__webpack_require__(288);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*注册框*/
+//引入react组件
+var RegistDialog = _react2.default.createClass({
+    displayName: 'RegistDialog',
+
+    getInitialState: function getInitialState() {
+        return {
+            dialogClassName: "",
+            registFailure: "注册失败",
+            registSuccess: "注册成功",
+            registing: "正在注册,请稍等..."
+        };
+    },
+    componentDidMount: function componentDidMount() {
+        window.addEventListener('resize', this.onWindowResize);
+
+        //adjust ui
+        this.adjustUI();
+    },
+    componentWillUnmount: function componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+    },
+    onWindowResize: function onWindowResize() {
+        this.adjustUI();
+    },
+    adjustUI: function adjustUI() {
+        {
+            /*调整样式*/
+        }
+        this.dialogToMiddle();
+    },
+    dialogToMiddle: function dialogToMiddle() {
+        //垂直居中
+        var dialog = $(this.refs.dialog);
+        var content = $(this.refs.content);
+        var dialog_h = dialog.height();
+        var content_h = content.height();
+        var top = (content_h - dialog_h) / 2;
+        dialog.css("margin-top", top + "px");
+    },
+    showRegistDialog: function showRegistDialog() {
+        //show it
+        this.fadeIn();
+
+        //adjust ui
+        this.adjustUI();
+
+        //get focus
+        $(this.refs.username).focus();
+    },
+    closeRegistDialog: function closeRegistDialog() {
+        //hide it
+        this.fadeOut();
+    },
+    fadeIn: function fadeIn() {
+
+        var state = this.state;
+        $(this.refs.content).fadeIn();
+        state.dialogClassName = "block animated bounceIn";
+        this.setState(state);
+
+        // c(this.state);
+    },
+    fadeOut: function fadeOut() {
+        var state = this.state;
+        state.dialogClassName = "animated bounceOut";
+        $(this.refs.content).fadeOut();
+        this.setState(state);
+    },
+    regist: function regist() {
+
+        var username = $(this.refs.username).val();
+        var password = $(this.refs.password).val();
+        var url = "/user/regist?username=" + username + "&password=" + password;
+
+        ajax.put({
+            url: url,
+            onBeforeRequest: function () {
+
+                //close login dialog
+                this.closeRegistDialog();
+
+                //show loading dialog
+                window.VmFrontendEventsDispatcher.showLoading(this.state.registing);
+            }.bind(this),
+            onResponseStart: function () {
+                //close loading
+                window.VmFrontendEventsDispatcher.closeLoading();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+                //hide regist dialog
+                this.closeRegistDialog();
+
+                //show msg dialog
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.registSuccess);
+
+                //callfun
+                this.props.onRegistSuccess(result.data.user);
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.registFailure, function () {
+                    this.showRegistDialog();
+                }.bind(this));
+            }.bind(this)
+        });
+    },
+    handlePasswordKeyUp: function handlePasswordKeyUp(e) {
+        if (e.keyCode === 13) {
+            this.regist();
+        }
+    },
+    render: function render() {
+        return _react2.default.createElement(
+            'div',
+            { id: 'regist_dialog_content', ref: 'content' },
+            _react2.default.createElement(
+                'div',
+                { id: 'dialog', className: this.state.dialogClassName, ref: 'dialog' },
+                _react2.default.createElement(
+                    'div',
+                    { id: 'head', className: 'clearfix' },
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'title_div' },
+                        '\u6CE8\u518C'
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'close_div' },
+                        _react2.default.createElement(
+                            'a',
+                            { href: 'javascript:void(0);', onClick: this.closeRegistDialog },
+                            'X'
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { id: 'body' },
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'regist_form' },
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'username_div' },
+                            _react2.default.createElement('input', { id: 'username_input',
+                                type: 'text',
+                                ref: 'username',
+                                placeholder: 'username' })
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'password_div' },
+                            _react2.default.createElement('input', { id: 'password_input',
+                                type: 'password',
+                                ref: 'password',
+                                onKeyUp: this.handlePasswordKeyUp,
+                                placeholder: 'password' })
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'regist_btn_div' },
+                            _react2.default.createElement('input', { id: 'regist_btn_input',
+                                type: 'button',
+                                value: '\u6CE8\u518C',
+                                onClick: this.regist })
+                        )
+                    )
+                )
+            )
+        );
+    }
+});
+exports.default = RegistDialog;
+
+/***/ }),
+/* 288 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(289);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(7)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./regist_dialog.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./regist_dialog.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 289 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(6)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#regist_dialog_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  line-height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 9998;\n  background-color: rgba(0, 0, 0, 0.8);\n  text-align: center; }\n  #regist_dialog_content #dialog {\n    width: 300px;\n    display: inline-block !important;\n    display: inline;\n    padding: 10px 20px;\n    box-sizing: border-box;\n    background-color: #383d49;\n    border-radius: 2px; }\n    #regist_dialog_content #dialog * {\n      color: white; }\n    #regist_dialog_content #dialog > div {\n      width: 100%; }\n    #regist_dialog_content #dialog #head {\n      border-bottom: 1px solid \"rgb(153,153,153)\"; }\n      #regist_dialog_content #dialog #head > div {\n        padding: 15px 5px;\n        box-sizing: border-box;\n        width: 50%;\n        float: left; }\n      #regist_dialog_content #dialog #head #title_div {\n        text-align: left; }\n      #regist_dialog_content #dialog #head #close_div {\n        text-align: right; }\n        #regist_dialog_content #dialog #head #close_div a {\n          cursor: pointer; }\n          #regist_dialog_content #dialog #head #close_div a:hover {\n            color: rgb(153,153,153); }\n    #regist_dialog_content #dialog #body {\n      width: 100%; }\n      #regist_dialog_content #dialog #body #regist_form {\n        width: 100%; }\n        #regist_dialog_content #dialog #body #regist_form > div {\n          width: 100%;\n          margin-bottom: 20px; }\n        #regist_dialog_content #dialog #body #regist_form #username_input {\n          height: 30px;\n          width: 100%;\n          border: 1px solid rgb(153,153,153);\n          color: black;\n          background-image: url(\"/frontend/image/username.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          border: 1px solid rgb(153,153,153);\n          padding-left: 30px;\n          box-sizing: border-box; }\n        #regist_dialog_content #dialog #body #regist_form #password_input {\n          height: 30px;\n          width: 100%;\n          border: 1px solid rgb(153,153,153);\n          color: black;\n          background-image: url(\"/frontend/image/password.png\");\n          background-size: 20px 20px;\n          background-repeat: no-repeat;\n          background-position: 5px;\n          padding-left: 30px;\n          box-sizing: border-box; }\n        #regist_dialog_content #dialog #body #regist_form #regist_btn_input {\n          cursor: pointer;\n          height: 30px;\n          margin: 0px 25%;\n          width: 50%;\n          border: 1px solid rgb(61,158,255);\n          background-color: rgb(61,158,255);\n          color: white;\n          transition: all 500ms; }\n          #regist_dialog_content #dialog #body #regist_form #regist_btn_input:hover {\n            background-color: white;\n            color: black;\n            border: 1px solid white;\n            border-radius: 3px; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 290 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(291);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(7)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./head.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./head.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 291 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(6)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n/*var start*/\n/*var end*/\n/*mixin start*/\n/*mixin end*/\n#fragment_head_content {\n  width: 100%;\n  height: 70px;\n  line-height: 70px;\n  background-color: white; }\n  #fragment_head_content #nav_div {\n    background-color: gold;\n    position: fixed;\n    top: 0px;\n    left: 0px;\n    z-index: 9997;\n    background-color: white; }\n    #fragment_head_content #nav_div ul#fragment_head_nav {\n      /*nav*/\n      list-style-type: none;\n      height: 70px;\n      line-height: 70px;\n      padding: 0px 0px;\n      margin: 0px 15%;\n      width: 70%;\n      /*user*/ }\n      #fragment_head_content #nav_div ul#fragment_head_nav li {\n        width: 50%;\n        float: left;\n        display: block;\n        height: 70px;\n        line-height: 70px; }\n      #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_logo #logo_v {\n        color: red;\n        font-weight: bold;\n        font-size: 30px; }\n      #fragment_head_content #nav_div ul#fragment_head_nav li#fragment_head_nav_logo #logo_m {\n        color: rgb(61,158,255);\n        font-weight: bold;\n        font-size: 30px; }\n      #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul {\n        list-style: none;\n        display: inline; }\n        #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul li {\n          display: inline-block;\n          white-space: nowrap;\n          overflow: hidden;\n          text-overflow: ellipsis;\n          height: auto;\n          width: auto; }\n      #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul#user_ul li {\n        margin: 0px 10px; }\n        #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul#user_ul li a#headImg_a img#headImg_img {\n          border-radius: 100px;\n          width: 42px;\n          height: 42px;\n          margin: 14px 0px; }\n        #fragment_head_content #nav_div ul#fragment_head_nav li#user_li ul#user_ul li a:hover {\n          color: red; }\n  #fragment_head_content #blank_div {\n    height: 70px;\n    background-color: \"rgb(61,158,255)\"; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 292 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(293);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Tail = _react2.default.createClass({
+    displayName: 'Tail',
+
+
+    render: function render() {
+        return _react2.default.createElement(
+            'div',
+            { id: 'fragment_tail_content' },
+            _react2.default.createElement('img', { src: '/frontend/image/tail.png' })
+        );
+    }
+}); //引入react组件
+exports.default = Tail; //将App组件导出
+
+/***/ }),
+/* 293 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(294);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(7)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./tail.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./tail.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 294 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(6)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#fragment_tail_content {\n  height: 200px;\n  margin: 0px 15%;\n  width: 70%;\n  background-color: rgb(241,242,243);\n  margin-top: 30px; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 295 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(15);
+
+__webpack_require__(296);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*等待展示*/
+//引入react组件
+var Loading = _react2.default.createClass({
+    displayName: 'Loading',
+
+    getInitialState: function getInitialState() {
+        return {
+            dialogClassName: "",
+            nowMsg: "",
+            defaultMsg: "请稍等..."
+        };
+    },
+    componentDidMount: function componentDidMount() {
+
+        window.addEventListener('resize', this.onWindowResize);
+
+        //adjust ui
+        this.adjustUI();
+
+        //regist events
+        this.registEvents();
+    },
+    registEvents: function registEvents() {
+        var _this = this;
+
+        window.event.on('showLoading', function (msg) {
+            _this.showLoading(msg);
+        });
+        window.event.on('closeLoading', function () {
+            _this.closeLoading();
+        });
+    },
+    componentWillUnmount: function componentWillUnmount() {
+        window.removeEventListener('resize', this.onWindowResize);
+    },
+    onWindowResize: function onWindowResize() {
+        this.adjustUI();
+    },
+    adjustUI: function adjustUI() {
+        {
+            /*调整样式*/
+        }
+        this.dialogToMiddle();
+    },
+    dialogToMiddle: function dialogToMiddle() {
+        //垂直居中
+        var dialog = $(this.refs.dialog);
+        var content = $(this.refs.content);
+        var dialog_h = dialog.height();
+        var content_h = content.height();
+        var top = (content_h - dialog_h) / 2;
+        dialog.css("margin-top", top + "px");
+    },
+    updateStateNowMsg: function updateStateNowMsg(msg) {
+        var state = this.state;
+        state.nowMsg = msg;
+        this.setState(state);
+    },
+    showLoading: function showLoading(msg) {
+        //choice msg
+        if (isEmpty(msg)) {
+            this.updateStateNowMsg(this.state.defaultMsg);
+        } else {
+            this.updateStateNowMsg(msg);
+        }
+
+        //show it
+        this.fadeIn();
+
+        //adjust ui
+        this.adjustUI();
+    },
+    closeLoading: function closeLoading() {
+
+        //show it
+        this.fadeOut();
+    },
+
+    fadeIn: function fadeIn() {
+
+        var state = this.state;
+        $(this.refs.content).fadeIn();
+        state.dialogClassName = "block animated bounceIn";
+        this.setState(state);
+
+        // c(this.state);
+    },
+    fadeOut: function fadeOut() {
+        var state = this.state;
+        state.dialogClassName = "animated bounceOut";
+        $(this.refs.content).fadeOut();
+        this.setState(state);
+    },
+    render: function render() {
+
+        return _react2.default.createElement(
+            'div',
+            { id: 'loading_content',
+                ref: 'content' },
+            _react2.default.createElement(
+                'div',
+                { id: 'dialog',
+                    ref: 'dialog',
+                    className: this.state.dialogClassName },
+                _react2.default.createElement('img', { src: '/frontend/image/loading.gif' }),
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    this.state.nowMsg
+                )
+            )
+        );
+    }
+});
+exports.default = Loading;
+
+/***/ }),
+/* 296 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(297);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(7)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./loading.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./loading.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 297 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(6)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#loading_content {\n  /*默认隐藏*/\n  display: none;\n  width: 100%;\n  height: 100%;\n  line-height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  z-index: 10000;\n  background-color: rgba(0, 0, 0, 0.8);\n  text-align: center; }\n  #loading_content #dialog {\n    height: 100px;\n    width: 300px;\n    display: inline-block !important;\n    display: inline;\n    padding: 10px 20px;\n    box-sizing: border-box;\n    background-color: rgba(56, 61, 73, 0);\n    border-radius: 2px; }\n    #loading_content #dialog * {\n      color: white; }\n    #loading_content #dialog img {\n      width: 20px;\n      height: 20px; }\n    #loading_content #dialog div {\n      height: 40px;\n      line-height: 40px;\n      width: 100%; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 298 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(15);
+
+var _plain_panel_title = __webpack_require__(28);
+
+var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
+
+var _user_basic_info_page = __webpack_require__(299);
+
+var _user_basic_info_page2 = _interopRequireDefault(_user_basic_info_page);
+
+__webpack_require__(302);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*用户个人中心*/
+//引入react组件
+var UserInfoPage = _react2.default.createClass({
+    displayName: 'UserInfoPage',
+
+    getInitialState: function getInitialState() {
+        return {
+            userId: this.props.match.params.userId
+        };
+    },
+    componentDidMount: function componentDidMount() {
+        // checkUserOnlineStatus();
+    },
+
+    render: function render() {
+        return _react2.default.createElement(
+            'div',
+            { id: 'user_info', className: 'defaultPanel' },
+            _react2.default.createElement(_plain_panel_title2.default, { title: this.state.title }),
+            _react2.default.createElement(
+                _reactRouterDom.HashRouter,
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { id: 'content',
+                        className: 'clearfix' },
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'nav' },
+                        'nav'
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'displayer' },
+                        _react2.default.createElement(
+                            _reactRouterDom.Switch,
+                            null,
+                            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/user/:userId', component: _user_basic_info_page2.default })
+                        )
+                    )
+                )
+            )
+        );
+    }
+});
+exports.default = (0, _reactRouterDom.withRouter)(UserInfoPage);
+
+/***/ }),
+/* 299 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(15);
+
+var _plain_panel_title = __webpack_require__(28);
+
+var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
+
+__webpack_require__(300);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*用户基本信息页面*/
+var UserBasicInfoPage = _react2.default.createClass({
+    displayName: 'UserBasicInfoPage',
+
+    getInitialState: function getInitialState() {
+        // c(props);
+        return {
+            userId: this.props.match.params.userId,
+            getInfoFailure: "获取信息失败",
+            title: "用户个人信息",
+            user: {}
+        };
+    },
+    componentDidMount: function componentDidMount() {
+        this.getUserBasicInfo();
+    },
+
+    updateStateUser: function updateStateUser(user) {
+        if (isEmpty(user)) {
+            user = {};
+        }
+        var state = this.state;
+        state.user = user;
+        this.setState(state);
+    },
+    getUserBasicInfo: function getUserBasicInfo() {
+        // c(this.props);
+        var url = "/user/online";
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {}.bind(this),
+            onResponseStart: function () {
+
+                //hide tip
+                this.showTagTip();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+
+                //update user in state
+                this.updateStateUser(result.data.user);
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
+            }.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun();
+                }
+            }.bind(this)
+        });
+    },
+    render: function render() {
+        return _react2.default.createElement(
+            'div',
+            { id: 'user_basic_info' },
+            'UserBasicPage',
+            _react2.default.createElement(
+                'form',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { id: 'displayer' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'info_item' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            '\u6635\u79F0 : '
+                        ),
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            _react2.default.createElement('input', { value: this.state.user.username })
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'info_item' },
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            '\u6027\u522B : '
+                        ),
+                        _react2.default.createElement(
+                            'span',
+                            null,
+                            _react2.default.createElement('input', { value: this.state.user.sex })
+                        )
+                    )
+                )
+            )
+        );
+    }
+}); //引入react组件
+exports.default = UserBasicInfoPage;
+
+/***/ }),
+/* 300 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(301);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(7)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_basic_info_page.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_basic_info_page.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 301 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(6)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 302 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(303);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(7)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_info_page.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_info_page.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 303 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(6)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_info {\n  margin: 0px 15%;\n  width: 70%;\n  margin-top: 20px; }\n  #user_info #content {\n    width: 100%; }\n    #user_info #content > div {\n      float: left;\n      width: 50%; }\n    #user_info #content #nav {\n      background-color: red; }\n    #user_info #content #displayer {\n      background-color: black; }\n", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);
