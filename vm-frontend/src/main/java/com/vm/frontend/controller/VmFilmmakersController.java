@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/filmmaker")
 @Scope("prototype")
 public class VmFilmmakersController extends ServiceController<FilmmakersService> {
-    /*********************************前端*********************************/
+
     /**
      * 获取电影图片
      *
@@ -46,7 +46,7 @@ public class VmFilmmakersController extends ServiceController<FilmmakersService>
         return response;
     }
 
-    /*********************************后端*********************************/
+
 
 }
 

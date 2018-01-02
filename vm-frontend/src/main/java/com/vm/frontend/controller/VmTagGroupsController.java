@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/tagGroup")
 @Scope("prototype")
 public class VmTagGroupsController extends ServiceController<VmTagsService> {
-    /*********************************前端*********************************/
+
     /**
      * 获取所有的tags分组及其下面的tags
      *
@@ -34,7 +34,6 @@ public class VmTagGroupsController extends ServiceController<VmTagsService> {
     }
 
 
-    /*********************************后端*********************************/
 
 }
 

@@ -19,7 +19,6 @@ import java.util.List;
 @RequestMapping("/tag")
 @Scope("prototype")
 public class VmTagsController extends ServiceController<VmTagsService> {
-    /*********************************前端*********************************/
     /**
      * 获取所有的tags
      *
@@ -35,7 +34,6 @@ public class VmTagsController extends ServiceController<VmTagsService> {
 
 
 
-    /*********************************后端*********************************/
 
 }
 

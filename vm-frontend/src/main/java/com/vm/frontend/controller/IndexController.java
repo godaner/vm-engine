@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 /**
- * 页面转发
+ * 页面索引
  */
 @Controller
 @RequestMapping("/")

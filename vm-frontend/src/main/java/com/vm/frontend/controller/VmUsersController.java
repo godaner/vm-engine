@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class VmUsersController extends ServiceController<VmUsersService> {
     public static final String KEY_OF_ONLINE_USER = "ONLINE_USER";
 
-    /*********************************前端*********************************/
     @RequestMapping(value = "/regist", method = RequestMethod.PUT)
     public @ResponseBody
     Object userRegist(@Validated(value = {VmUsersGroups.UserRegist.class}) CustomVmUsers user,
@@ -111,18 +110,17 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         service.sendUserImg(fileId, query, getResponse());
 
     }
-
-    /*********************************后端*********************************/
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public @ResponseBody
-    Object updateUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class}) CustomVmUsers user,
-                               BindingResult result) throws Exception {
-
-        VmUsers vmUsers = service.updateUserBasicInfo(user);
-
-        response.putData("user",vmUsers);
-
-        return response;
-    }
+//
+//    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+//    public @ResponseBody
+//    Object updateUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class}) CustomVmUsers user,
+//                               BindingResult result) throws Exception {
+//
+//        VmUsers vmUsers = service.updateUserBasicInfo(user);
+//
+//        response.putData("user",vmUsers);
+//
+//        return response;
+//    }
 }
 

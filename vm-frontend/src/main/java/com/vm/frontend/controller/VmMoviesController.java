@@ -26,7 +26,7 @@ import java.util.List;
 @RequestMapping("/movie")
 @Scope("prototype")
 public class VmMoviesController extends ServiceController<VmMoviesService> {
-    /*********************************前端*********************************/
+
     /**
      * 获取所有的tags分组及其下面的tags
      *
@@ -152,7 +152,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
         return response;
     }
 
-    /*********************************后端*********************************/
+
 
 }
 
