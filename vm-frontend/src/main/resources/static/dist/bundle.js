@@ -30643,11 +30643,11 @@ var Head = _react2.default.createClass({
     onLoginSuccess: function onLoginSuccess(user) {
         //update and show user info
         this.updateStateUser(user);
-        // c(user);
         //open ws
-        this.wsOpen(user.id);
-        //ajax ws
-        this.wsLogin();
+        this.wsOpen(user.id, function () {
+            //ajax ws
+            this.wsLogin();
+        }.bind(this));
     },
     showRegistDialog: function showRegistDialog() {
         this.refs.regist_dialog.showRegistDialog();
@@ -30678,7 +30678,7 @@ var Head = _react2.default.createClass({
         }
         this.setState(state);
     },
-    wsOpen: function wsOpen(userId) {
+    wsOpen: function wsOpen(userId, onOpenSuccess) {
         if (isEmpty(userId)) {
             return;
         }
@@ -30694,6 +30694,9 @@ var Head = _react2.default.createClass({
                     url: wsUrl
                 });
 
+                this.state.ws.obj.onopen = function () {
+                    onOpenSuccess();
+                };
                 // onmessage
                 this.state.ws.obj.onmessage = function (e) {
                     this.handleWsMessage(e.data);
@@ -30703,7 +30706,7 @@ var Head = _react2.default.createClass({
     },
     wsSend: function wsSend(sendCallfun) {
         //open ws
-        this.wsOpen(this.state.user.id);
+        this.wsOpen(this.state.user.id, function () {});
         //send msg
         if (!isEmpty(this.state.ws.obj)) {
             if (this.state.ws.obj.readyState == 0) {

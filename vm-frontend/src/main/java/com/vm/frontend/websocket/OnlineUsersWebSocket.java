@@ -71,6 +71,7 @@ public class OnlineUsersWebSocket extends CommonUtil {
     public static void userLogin(Long userId) throws IOException {
 
         OnlineUsersWebSocket client = cacheOfClients.get(userId);
+
         onlineClients.put(userId, client);
 
         //通知客户端登陆成功
