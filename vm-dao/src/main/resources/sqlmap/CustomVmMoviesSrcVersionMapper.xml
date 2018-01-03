@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vm.dao.mapper.CustomVmMoviesSrcVersionMapper">
+  <!--**************************** 自定义mapper start ****************************-->
+
+  <select id="selectMovieSrcVersionsByMovieId" resultMap="com.vm.dao.mapper.VmMoviesSrcVersionMapper.BaseResultMap">
+    select v.*
+    from vm_movies_src_version v ,vm_movies m
+    where m.`status` = 1
+    and v.`status` = 1
+    and v.movie_id = m.id
+    and m.id = #{movieId}
+
+  </select>
+  <!--**************************** 自定义mapper end ****************************-->
+</mapper>

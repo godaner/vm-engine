@@ -1,0 +1,13 @@
+@import "frontend-default.scss";
+#director_name{
+  //多余省略
+  width:100%;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  span{
+    cursor: default;
+    color: unquote($defaultLightGrayColorRgb);
+  }
+}

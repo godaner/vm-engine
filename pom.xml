@@ -1,10 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.vm</groupId>
-    <artifactId>vm</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>core</artifactId>
+    <packaging>pom</packaging>
     <version>${project.version}</version>
+    <modules>
+        <module>vm-dao</module>
+        <module>vm-base</module>
+        <module>vm-frontend</module>
+        <module>vm-backend</module>
+    </modules>
     <name>vm</name>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -39,13 +46,13 @@
         </dependency>
         <!--thymeleaf end-->
 
-        <!--thymeleaf不严格检查html start-->
+
+        <!--websocket end-->
         <dependency>
-            <groupId>net.sourceforge.nekohtml</groupId>
-            <artifactId>nekohtml</artifactId>
-            <version>1.9.22</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
-        <!--thymeleaf不严格检查html end-->
+        <!--websocket end-->
 
         <!--spring-boot-starter-test start-->
         <dependency>
@@ -61,11 +68,24 @@
         </dependency>
         <!--spring aop end-->
 
+
+        <!--mybatis start-->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>1.1.1</version>
         </dependency>
+        <!--mybatis end-->
+
+
+        <!--thymeleaf不严格检查html start-->
+        <dependency>
+            <groupId>net.sourceforge.nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+            <version>1.9.22</version>
+        </dependency>
+        <!--thymeleaf不严格检查html end-->
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -157,37 +177,5 @@
         <!--fileupload start-->
     </dependencies>
 
-    <build>
-        <finalName>vm</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
 
-    </build>
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <profileActive>dev</profileActive>
-            </properties>
-        </profile>
-        <profile>
-            <id>prod</id>
-            <properties>
-                <profileActive>prod</profileActive>
-            </properties>
-        </profile>
-        <profile>
-            <id>bugfix</id>
-            <properties>
-                <profileActive>bugfix</profileActive>
-            </properties>
-        </profile>
-    </profiles>
 </project>

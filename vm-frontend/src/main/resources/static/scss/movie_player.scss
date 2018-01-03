@@ -1,0 +1,7 @@
+@import "frontend-default.scss";
+#m {
+  @include defaultWidth;
+  #m_player {
+    @include defaultWidth;
+  }
+}
