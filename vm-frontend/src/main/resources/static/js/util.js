@@ -172,17 +172,16 @@ function contain(arr, e) {
 
 /**
  * 验证obj是否为空;<br/>
- * 即value == null || value==undefined || value==""
  * @param obj
  */
 function isEmpty(obj) {
     var emptyJSON = false;
     try {
-        emptyJSON = JSON.stringify(obj) == "{}";
+        emptyJSON = (JSON.stringify(obj) == "{}");
     } catch (e) {
         emptyJSON = false;
     }
-    return obj == null || obj == undefined || emptyJSON || obj == "" || obj == "null";
+    return obj == null || obj == undefined || emptyJSON || obj == {} || obj == "" || obj == "null";
 }
 /**
  * 验证集合是否为空;

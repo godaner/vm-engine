@@ -30679,13 +30679,13 @@ var Head = _react2.default.createClass({
         this.setState(state);
     },
     wsOpen: function wsOpen(userId, onOpenSuccess) {
-        if (isEmpty(userId)) {
-            return;
-        }
+        c(this.state.ws.obj);
+        c(JSON.stringify(this.state.ws.obj) == "{}");
+        c(isEmpty(this.state.ws.obj));
         //if ws is closed , init ws
         if (isEmpty(this.state.ws.obj) || this.state.ws.obj.readyState == 3) {
             //if have not user login , it will not open ws
-            if (!isEmpty(this.state.user.id)) {
+            if (!isEmpty(userId)) {
                 var wsUrl = WS_URL_PREFIX + "/ws/user/status/" + userId;
                 var wsObj = new WebSocket(wsUrl);
 
@@ -30695,8 +30695,10 @@ var Head = _react2.default.createClass({
                 });
 
                 this.state.ws.obj.onopen = function () {
-                    onOpenSuccess();
-                };
+                    if (!isEmpty(onOpenSuccess)) {
+                        onOpenSuccess();
+                    }
+                }.bind(this, onOpenSuccess);
                 // onmessage
                 this.state.ws.obj.onmessage = function (e) {
                     this.handleWsMessage(e.data);
