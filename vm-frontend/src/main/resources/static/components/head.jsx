@@ -31,13 +31,11 @@ var Head = React.createClass({
     onLoginSuccess: function (user) {
         //update and show user info
         this.updateStateUser(user);
-
+        // c(user);
         //open ws
-        this.wsOpen();
+        this.wsOpen(user.id);
         //ajax ws
-        ajax.put({
-            url: "/user/ws/ctrl/login/" + this.state.user.id
-        });
+        this.wsLogin();
     },
     showRegistDialog: function () {
         this.refs.regist_dialog.showRegistDialog();
@@ -68,12 +66,15 @@ var Head = React.createClass({
         }
         this.setState(state);
     },
-    wsOpen: function () {
+    wsOpen: function (userId) {
+        if(isEmpty(userId)){
+            return ;
+        }
         //if ws is closed , init ws
         if (isEmpty(this.state.ws.obj) || this.state.ws.obj.readyState == 3) {
             //if have not user login , it will not open ws
             if (!isEmpty(this.state.user.id)) {
-                var wsUrl = WS_URL_PREFIX + "/ws/user/status/" + this.state.user.id;
+                var wsUrl = WS_URL_PREFIX + "/ws/user/status/" + userId;
                 var wsObj = new WebSocket(wsUrl);
 
                 this.updateStateWs({
@@ -92,7 +93,7 @@ var Head = React.createClass({
     },
     wsSend: function (sendCallfun) {
         //open ws
-        this.wsOpen();
+        this.wsOpen(this.state.user.id);
         //send msg
         if (!isEmpty(this.state.ws.obj)) {
             if (this.state.ws.obj.readyState == 0) {//CONNECTING
@@ -108,15 +109,35 @@ var Head = React.createClass({
     },
     handleWsMessage: function (msg) {
         var message = JSON.parse(msg);
-        if (message.result == WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA) {//account login in other area
-            this.logout(this.state.accountLoginOtherArea);
+        //account login in other area
+        if (message.result == WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA) {
+            this.httpLogout(this.state.accountLoginOtherArea);
 
         }
-        if (message.result == WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT) {//session timeout
-            this.logout(this.state.sessionTimeOut);
+        //session timeout
+        if (message.result == WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT) {
+            this.httpLogout(this.state.sessionTimeOut);
         }
     },
-    logout: function (msg) {
+    wsLogout: function () {
+        //ajax ws
+        ajax.put({
+            url: "/user/ws/ctrl/logout/" + this.state.user.id
+        });
+    },
+    wsLogin: function () {
+        //ajax ws
+        ajax.put({
+            url: "/user/ws/ctrl/login/" + this.state.user.id
+        });
+    },
+    logout(msg){
+
+        this.httpLogout(msg, function () {
+            this.wsLogout();
+        }.bind(this));
+    },
+    httpLogout: function (msg, callfun) {
         //default msg
         if (isEmpty(msg)) {
             msg = this.state.logoutSuccess;
@@ -136,17 +157,16 @@ var Head = React.createClass({
                 window.VmFrontendEventsDispatcher.closeLoading();
             }.bind(this),
             onResponseSuccess: function (result) {
+                if (!isEmpty(callfun)) {
+                    callfun();
+                }
 
                 window.VmFrontendEventsDispatcher.showMsgDialog(msg);
 
-                //ajax ws
-                ajax.put({
-                    url: "/user/ws/ctrl/logout/" + this.state.user.id
-                });
                 //update user in state
                 this.updateStateUser({});
 
-            }.bind(this, msg),
+            }.bind(this),
             onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.logoutFailure);
             }.bind(this),
@@ -173,9 +193,10 @@ var Head = React.createClass({
                 //update user in state
                 this.updateStateUser(result.data.user);
 
-
-                //when user is online,open websocket
-                this.wsOpen();
+                if(!isEmpty(result.data.user)){
+                    //when user is online,open websocket
+                    this.wsOpen(result.data.user.id);
+                }
 
             }.bind(this),
             onResponseFailure: function (result) {
@@ -207,7 +228,9 @@ var Head = React.createClass({
                         </Link>
                     </li>
                     <li>
-                    <a href="javascript:void(0);" onClick={this.logout}>注销</a>
+                    <a href="javascript:void(0);" onClick={() => {
+                        this.logout()
+                    }}>注销</a>
                     </li>
                 </span>
             );
