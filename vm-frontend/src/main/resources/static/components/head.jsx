@@ -44,7 +44,7 @@ var Head = React.createClass({
             state.wsUrl = "";
         }else{
             state.user = user;
-            state.wsUrl = WS_URL_PREFIX + "/ws/user/login/"+user.id;
+            state.wsUrl = WS_URL_PREFIX + "/websocket/user/login/"+user.id;
         }
         this.setState(state);
     },

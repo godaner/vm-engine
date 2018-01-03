@@ -10,4 +10,9 @@ public class ByteConstantVar {
     public final static byte THREE = 3;
     public final static byte FOUR = 4;
     public final static byte FIVE = 5;
+    public final static byte SIX = 6;
+    public final static byte SEVEN = 7;
+    public final static byte EIGHT = 8;
+    public final static byte NINE = 9;
+    public final static byte TEN = 10;
 }

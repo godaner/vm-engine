@@ -54,15 +54,6 @@
         </dependency>
         <!--websocket end-->
 
-
-        <!--thymeleaf不严格检查html start-->
-        <dependency>
-            <groupId>net.sourceforge.nekohtml</groupId>
-            <artifactId>nekohtml</artifactId>
-            <version>1.9.22</version>
-        </dependency>
-        <!--thymeleaf不严格检查html end-->
-
         <!--spring-boot-starter-test start-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -77,11 +68,24 @@
         </dependency>
         <!--spring aop end-->
 
+
+        <!--mybatis start-->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>1.1.1</version>
         </dependency>
+        <!--mybatis end-->
+
+
+        <!--thymeleaf不严格检查html start-->
+        <dependency>
+            <groupId>net.sourceforge.nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+            <version>1.9.22</version>
+        </dependency>
+        <!--thymeleaf不严格检查html end-->
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -172,7 +176,6 @@
         </dependency>
         <!--fileupload start-->
     </dependencies>
-
 
 
 </project>
