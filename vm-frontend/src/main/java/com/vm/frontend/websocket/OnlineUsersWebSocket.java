@@ -44,10 +44,6 @@ public class OnlineUsersWebSocket extends CommonUtil {
         //缓存所有客户端
         this.cacheOfClients.put(userId, this);
 
-        //移除原有登录信息（原有用户将被破下线）
-//        userLogout(userId, OnlineUsersWebSocket.Result.LOGIN_OTHER_AREA.getCode());
-        //储存新的登录信息
-//        userLogin(userId);
     }
 
     /**

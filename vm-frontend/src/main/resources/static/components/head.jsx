@@ -20,10 +20,7 @@ var Head = React.createClass({
         };
     },
     componentDidMount: function () {
-        this.getOnlineUser(function (user) {
-            //when user is online,open websocket
-            this.wsOpenAndSend();
-        }.bind(this));
+        this.getOnlineUser();
     },
     showLoginDialog: function () {
         this.refs.login_dialog.showLoginDialog();
@@ -34,6 +31,13 @@ var Head = React.createClass({
     onLoginSuccess: function (user) {
         //update and show user info
         this.updateStateUser(user);
+
+        //open ws
+        this.wsOpen();
+        //ajax ws
+        ajax.put({
+            url: "/user/ws/ctrl/login/" + this.state.user.id
+        });
     },
     showRegistDialog: function () {
         this.refs.regist_dialog.showRegistDialog();
@@ -64,7 +68,7 @@ var Head = React.createClass({
         }
         this.setState(state);
     },
-    wsOpenAndSend: function (sendCallfun, handleMsgCallfun) {
+    wsOpen: function () {
         //if ws is closed , init ws
         if (isEmpty(this.state.ws.obj) || this.state.ws.obj.readyState == 3) {
             //if have not user login , it will not open ws
@@ -79,15 +83,17 @@ var Head = React.createClass({
 
                 // onmessage
                 this.state.ws.obj.onmessage = function (e) {
-                    if (isEmpty(handleMsgCallfun)) {
-                        handleMsgCallfun = this.handleWsMessage;
-                    }
-                    handleMsgCallfun(e.data);
-
+                    this.handleWsMessage(e.data);
                 };
 
             }
         }
+
+    },
+    wsSend: function (sendCallfun) {
+        //open ws
+        this.wsOpen();
+        //send msg
         if (!isEmpty(this.state.ws.obj)) {
             if (this.state.ws.obj.readyState == 0) {//CONNECTING
                 this.state.ws.obj.onopen = function () {
@@ -155,6 +161,11 @@ var Head = React.createClass({
             onResponseSuccess: function (result) {
 
                 window.VmFrontendEventsDispatcher.showMsgDialog(msg);
+
+                //ajax ws
+                ajax.put({
+                    url: "/user/ws/ctrl/logout/" + this.state.user.id
+                });
                 //update user in state
                 this.updateStateUser({});
 
@@ -168,7 +179,7 @@ var Head = React.createClass({
 
 
     },
-    getOnlineUser: function (ifUserOnlineCallfun) {
+    getOnlineUser: function () {
 
         const url = "/user/online";
 
@@ -185,10 +196,10 @@ var Head = React.createClass({
                 //update user in state
                 this.updateStateUser(result.data.user);
 
-                //if user is not null , so callfun
-                if (!isEmpty(ifUserOnlineCallfun) && !isEmpty(result.data.user)) {
-                    ifUserOnlineCallfun(result.data.user);
-                }
+
+                //when user is online,open websocket
+                this.wsOpen();
+                
             }.bind(this),
             onResponseFailure: function (result) {
 
@@ -265,9 +276,6 @@ var Head = React.createClass({
                 <LoginDialog ref="login_dialog" onLoginSuccess={this.onLoginSuccess}/>
                 {/*注册框*/}
                 <RegistDialog ref="regist_dialog" onRegistSuccess={this.onRegistSuccess}/>
-                {/*Websocket*/}
-                {/*{isEmpty(this.state.user) ? <span></span> : <Websocket url={this.state.wsUrl}*/}
-                {/*onMessage={this.handleWsOnMessage}/>}*/}
             </div>
         );
     }

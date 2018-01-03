@@ -61,14 +61,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
         VmUsers loginUser = service.userLogin(user);
 
-        getSession().setAttribute(KEY_OF_ONLINE_USER, loginUser);
-
-        //原有客户端下线
-        OnlineUsersWebSocket.userLogout(loginUser.getId(),OnlineUsersWebSocket.Result.LOGIN_OTHER_AREA.getCode());
-
-        //保留新客户端的线上信息
-        OnlineUsersWebSocket.userLogin(loginUser.getId());
-
+        setSessionAttr(KEY_OF_ONLINE_USER, loginUser);
 
         response.putData("user", loginUser);
 
