@@ -5,8 +5,9 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
 import org.assertj.core.util.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -24,7 +25,7 @@ import java.util.regex.Pattern;
 /**
  * Title:CommonUtil
  * <p>
- * Description:全局工具类;
+ * Description:工具类;
  * <p>
  *
  * @author Kor_Zhang
@@ -37,7 +38,7 @@ public class CommonUtil {
     /**
      * 日志打印
      */
-    public final static Logger logger = Logger.getLogger(CommonUtil.class);
+    public final static Logger logger = LoggerFactory.getLogger(CommonUtil.class);
 
     /**
      * 发送邮件工具
@@ -154,7 +155,7 @@ public class CommonUtil {
      * @return
      */
     protected final static boolean isEmptyList(List<?> list) {
-        if(list == null || list.size() == 0 ){
+        if (list == null || list.size() == 0) {
             return true;
         }
         for (Object obj : list) {
@@ -305,35 +306,6 @@ public class CommonUtil {
         }
     }
 
-    /**
-     * Title:info
-     * <p>
-     * Description:利用log4j的info输出信息
-     * <p>
-     *
-     * @param message
-     * @author Kor_Zhang
-     * @date 2017年9月15日 上午10:14:17
-     * @version 1.0
-     */
-    public static void info(Object message) {
-        logger.info(message);
-    }
-
-    /**
-     * Title:debug
-     * <p>
-     * Description:利用log4j的debug输出信息
-     * <p>
-     *
-     * @param message
-     * @author Kor_Zhang
-     * @date 2017年9月15日 上午10:14:17
-     * @version 1.0
-     */
-    public static void debug(Object message) {
-        logger.debug(message);
-    }
 
     /**
      * Title:uuid

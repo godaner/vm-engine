@@ -1,6 +1,7 @@
 package com.vm.frontend.websocket;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.vm.base.utils.ByteConstantVar;
 import com.vm.base.utils.CommonUtil;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-@ServerEndpoint("/ws/user/login/{userId}")
+@ServerEndpoint("/ws/user/status/{userId}")
 public class OnlineUsersWebSocket extends CommonUtil {
 
     // concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识
@@ -41,7 +42,7 @@ public class OnlineUsersWebSocket extends CommonUtil {
         this.userId = userId;
 
         //移除原有登录信息（原有用户将被破下线）
-        userLogout(userId,OutMessage.Result.LOGIN_OTHER_AREA.getCode());
+        userLogout(userId, OutMessage.Result.LOGIN_OTHER_AREA.getCode());
         //储存新的登录信息
         userLogin(userId);
     }
@@ -51,7 +52,7 @@ public class OnlineUsersWebSocket extends CommonUtil {
      */
     @OnClose
     public void onClose() throws Exception {
-        userLogout(userId,OutMessage.Result.LOGOUT_SUCCESS.getCode());
+        userLogout(userId, OutMessage.Result.LOGOUT_SUCCESS.getCode());
     }
 
     public static void userLogout(Long userId, Byte way) throws IOException {
@@ -62,9 +63,10 @@ public class OnlineUsersWebSocket extends CommonUtil {
         clients.remove(userId);
         //通知客户端注销成功(可能是主动注销，可能是被动注销：包括session超时，账户在其他地方登录)
         OutMessage message = new OutMessage();
-        message.setToUserId(userId);
+        message.setUserId(userId);
         message.setResult(way);
         sendMessage(onlineUsersWs, JSON.toJSONString(message));
+        logger.info("OnlineUsersWebSocket userLogout success ! userId is : {} , message is : {}", userId, message);
     }
 
     private void userLogin(Long userId) throws IOException {
@@ -73,9 +75,10 @@ public class OnlineUsersWebSocket extends CommonUtil {
 
         //通知客户端登陆成功
         OutMessage message = new OutMessage();
-        message.setToUserId(userId);
+        message.setUserId(userId);
         message.setResult(OutMessage.Result.LOGIN_SUCCESS.getCode());
         sendMessage(this, JSON.toJSONString(message));
+        logger.info("OnlineUsersWebSocket userLogin success ! userId is : {} , message is : {}", userId, message);
     }
 
     /**
@@ -88,14 +91,14 @@ public class OnlineUsersWebSocket extends CommonUtil {
         error.printStackTrace();
     }
 
-    /********************************************功能性方法****************************************************/
 
     /**
      * 收到客户端消息后调用的方法
      */
     @OnMessage
     public void onMessage(String msg) throws Exception {
-
+        InMessage inMessage = JSONObject.parseObject(msg, InMessage.class);
+        logger.info("OnlineUsersWebSocket onMessage success ! inMessage is : {}", inMessage);
 
     }
 
@@ -142,7 +145,7 @@ public class OnlineUsersWebSocket extends CommonUtil {
  */
 class InMessage {
     private Byte operation;
-    private Long fromUserId;
+    private Long userId;
 
     public InMessage() {
     }
@@ -155,14 +158,13 @@ class InMessage {
         this.operation = operation;
     }
 
-    public Long getFromUserId() {
-        return fromUserId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setFromUserId(Long fromUserId) {
-        this.fromUserId = fromUserId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
-
 
     /**
      * 操作
@@ -209,7 +211,8 @@ class InMessage {
 
 class OutMessage {
     private Byte result;
-    private Long toUserId;
+    private Long userId;
+
 
     public Byte getResult() {
         return result;
@@ -219,12 +222,12 @@ class OutMessage {
         this.result = result;
     }
 
-    public Long getToUserId() {
-        return toUserId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setToUserId(Long toUserId) {
-        this.toUserId = toUserId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public OutMessage() {
@@ -240,7 +243,7 @@ class OutMessage {
         LOGOUT_SUCCESS(ByteConstantVar.THREE, "注销成功"),
         LOGOUT_FAILURE(ByteConstantVar.FOUR, "注销失败"),
         LOGIN_OTHER_AREA(ByteConstantVar.FIVE, "账户在其他地方登录"),
-        SESSION_TIMEOUT(ByteConstantVar.FIVE, "会话超时");
+        SESSION_TIMEOUT(ByteConstantVar.SIX, "会话超时");
 
         Byte code;
 

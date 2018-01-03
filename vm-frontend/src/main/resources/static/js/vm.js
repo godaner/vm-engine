@@ -16,7 +16,7 @@ const MOVIE_LOADING_IMG = "/image/movie_img_loading.gif";
 //电影人图片等待加载时使用的图片
 const FILMMAKER_LOADING_IMG = "/image/filmmaker_img_loading.gif";
 //websocket前缀
-const WS_URL_PREFIX = "websocket://localhost:8888";
+const WS_URL_PREFIX = "ws://localhost:8888";
 
 //开始懒加载，依赖jquery.lazyload.js
 function lazyLoad() {
