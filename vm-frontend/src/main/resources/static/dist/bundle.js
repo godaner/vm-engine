@@ -30696,7 +30696,7 @@ var Head = _react2.default.createClass({
                 // onmessage
                 this.state.ws.obj.onmessage = function (e) {
                     this.handleWsMessage(e.data);
-                };
+                }.bind(this);
             }
         }
     },
@@ -30727,29 +30727,6 @@ var Head = _react2.default.createClass({
             this.logout(this.state.sessionTimeOut);
         }
     },
-    // wsLogin: function () {
-    //     this.wsSend(function (wsObj) {
-    //         // message to server
-    //         this.state.ws.obj.send(this.buildWsMessageJSON(this.state.user.id, 1));
-    //     }.bind(this), this.handleWsMessage);
-    //
-    // },
-    // wsLogout: function () {
-    //     this.wsSend(function (wsObj) {
-    //         // message to server
-    //         this.state.ws.obj.send(this.buildWsMessageJSON(this.state.user.id, 2));
-    //     }.bind(this), this.handleWsMessage);
-    //
-    // },
-    // buildWsMessageJSON: function (userId, operation) {
-    //     return JSON.stringify({
-    //         userId: userId,
-    //         operation: operation
-    //     });
-    // },
-    // logout: function () {
-    //     this.httpLogout();
-    // },
     logout: function logout(msg) {
         //default msg
         if (isEmpty(msg)) {
