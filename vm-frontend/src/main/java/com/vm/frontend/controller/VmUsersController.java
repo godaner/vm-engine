@@ -72,6 +72,8 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
         getSession().removeAttribute(KEY_OF_ONLINE_USER);
 
+        getSession().invalidate();
+
         return response;
 
     }

@@ -30623,7 +30623,7 @@ var Head = _react2.default.createClass({
             logoutSuccess: "注销成功",
             logoutFailure: "注销失败",
             accountLoginOtherArea: "账户在其他地方登录",
-            sessionTimeOut: "回话超时",
+            sessionTimeOut: "会话超时",
             user: {}, //默认为空对象
             ws: {
                 url: undefined,
@@ -30761,6 +30761,7 @@ var Head = _react2.default.createClass({
                 //update user in state
                 this.updateStateUser({});
 
+                c(1);
                 //websocket operation
                 this.wsLogout();
             }.bind(this),

@@ -42,7 +42,7 @@ public class OnlineUsersWebSocket extends CommonUtil {
         this.userId = userId;
 
         //移除原有登录信息（原有用户将被破下线）
-        userLogout(userId, OutMessage.Result.LOGIN_OTHER_AREA.getCode());
+        userLogout(userId, OnlineUsersWebSocket.Result.LOGIN_OTHER_AREA.getCode());
         //储存新的登录信息
         userLogin(userId);
     }
@@ -52,7 +52,7 @@ public class OnlineUsersWebSocket extends CommonUtil {
      */
     @OnClose
     public void onClose() throws Exception {
-        userLogout(userId, OutMessage.Result.LOGOUT_SUCCESS.getCode());
+        userLogout(userId, OnlineUsersWebSocket.Result.LOGOUT_SUCCESS.getCode());
     }
 
     public static void userLogout(Long userId, Byte way) throws IOException {
@@ -76,7 +76,7 @@ public class OnlineUsersWebSocket extends CommonUtil {
         //通知客户端登陆成功
         OutMessage message = new OutMessage();
         message.setUserId(userId);
-        message.setResult(OutMessage.Result.LOGIN_SUCCESS.getCode());
+        message.setResult(OnlineUsersWebSocket.Result.LOGIN_SUCCESS.getCode());
         sendMessage(this, JSON.toJSONString(message));
         logger.info("OnlineUsersWebSocket userLogin success ! userId is : {} , message is : {}", userId, message);
     }
@@ -131,39 +131,12 @@ public class OnlineUsersWebSocket extends CommonUtil {
      * @version 1.0
      */
     public static void sendMessage(OnlineUsersWebSocket onlineUserWs, String message) throws IOException {
-        if (isNullObject(onlineUserWs)) {
+        if (isNullObject(onlineUserWs) || isNullObject(onlineUserWs.session)) {
             return;
         }
-        onlineUserWs.session.getAsyncRemote().sendText(message);
-    }
-
-
-}
-
-/**
- * 定义信息格式
- */
-class InMessage {
-    private Byte operation;
-    private Long userId;
-
-    public InMessage() {
-    }
-
-    public Byte getOperation() {
-        return operation;
-    }
-
-    public void setOperation(Byte operation) {
-        this.operation = operation;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
+        if (onlineUserWs.session.isOpen()) {
+            onlineUserWs.session.getAsyncRemote().sendText(message);
+        }
     }
 
     /**
@@ -207,32 +180,6 @@ class InMessage {
             return LOGOUT.getCode().equals(code);
         }
     }
-}
-
-class OutMessage {
-    private Byte result;
-    private Long userId;
-
-
-    public Byte getResult() {
-        return result;
-    }
-
-    public void setResult(Byte result) {
-        this.result = result;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public OutMessage() {
-
-    }
 
     /**
      * 结果
@@ -270,4 +217,62 @@ class OutMessage {
             this.msg = msg;
         }
     }
+
+}
+
+/**
+ * 定义信息格式
+ */
+class InMessage {
+    private Byte operation;
+    private Long userId;
+
+    public InMessage() {
+    }
+
+    public Byte getOperation() {
+        return operation;
+    }
+
+    public void setOperation(Byte operation) {
+        this.operation = operation;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+
+}
+
+class OutMessage {
+    private Byte result;
+    private Long userId;
+
+
+    public Byte getResult() {
+        return result;
+    }
+
+    public void setResult(Byte result) {
+        this.result = result;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public OutMessage() {
+
+    }
+
+
 }
