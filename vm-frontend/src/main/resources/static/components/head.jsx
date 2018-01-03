@@ -11,16 +11,19 @@ var Head = React.createClass({
             logoutSuccess: "注销成功",
             logoutFailure: "注销失败",
             accountLoginOtherArea: "账户在其他地方登录",
-            sessionTimeOut: "会话超时",
+            sessionTimeOut: "登录超时",
             user: {},//默认为空对象
             ws: {
                 url: undefined,
-                obj: undefined
+                obj: undefined//websocket对象
             }
         };
     },
     componentDidMount: function () {
-        this.getOnlineUser();
+        this.getOnlineUser(function (user) {
+            //when user is online,open websocket
+            this.wsOpenAndSend();
+        }.bind(this));
     },
     showLoginDialog: function () {
         this.refs.login_dialog.showLoginDialog();
@@ -31,11 +34,6 @@ var Head = React.createClass({
     onLoginSuccess: function (user) {
         //update and show user info
         this.updateStateUser(user);
-
-
-        //websocket operation
-        this.wsLogin();
-
     },
     showRegistDialog: function () {
         this.refs.regist_dialog.showRegistDialog();
@@ -66,7 +64,7 @@ var Head = React.createClass({
         }
         this.setState(state);
     },
-    wsSend: function (sendCallfun, handleMsgCallfun) {
+    wsOpenAndSend: function (sendCallfun, handleMsgCallfun) {
         //if ws is closed , init ws
         if (isEmpty(this.state.ws.obj) || this.state.ws.obj.readyState == 3) {
             //if have not user login , it will not open ws
@@ -81,14 +79,16 @@ var Head = React.createClass({
 
                 // onmessage
                 this.state.ws.obj.onmessage = function (e) {
-                    if (!isEmpty(handleMsgCallfun)) {
-                        handleMsgCallfun(e.data);
+                    if (isEmpty(handleMsgCallfun)) {
+                        handleMsgCallfun = this.handleWsMessage;
                     }
+                    handleMsgCallfun(e.data);
+
                 };
 
             }
         }
-        if(!isEmpty(this.state.ws.obj)){
+        if (!isEmpty(this.state.ws.obj)) {
             if (this.state.ws.obj.readyState == 0) {//CONNECTING
                 this.state.ws.obj.onopen = function () {
                     sendCallfun(this.state.ws.obj);
@@ -99,42 +99,43 @@ var Head = React.createClass({
         }
 
 
-
     },
     handleWsMessage: function (msg) {
         var message = JSON.parse(msg);
-        if (message.result == 5) {//account login in other area
+        if (message.result == WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA) {//account login in other area
             this.logout(this.state.accountLoginOtherArea);
 
         }
-        if (message.result == 6) {//session timeout
+        if (message.result == WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT) {//session timeout
             this.logout(this.state.sessionTimeOut);
-
         }
     },
-    wsLogin: function () {
-        this.wsSend(function (wsObj) {
-            // message to server
-            this.state.ws.obj.send(this.buildWsMessageJSON(this.state.user.id, 1));
-        }.bind(this), this.handleWsMessage);
-
-    },
-    wsLogout: function () {
-        this.wsSend(function (wsObj) {
-            // message to server
-            this.state.ws.obj.send(this.buildWsMessageJSON(this.state.user.id, 2));
-        }.bind(this), this.handleWsMessage);
-
-    },
-    buildWsMessageJSON: function (userId, operation) {
-        return JSON.stringify({
-            userId: userId,
-            operation: operation
-        });
-    },
+    // wsLogin: function () {
+    //     this.wsSend(function (wsObj) {
+    //         // message to server
+    //         this.state.ws.obj.send(this.buildWsMessageJSON(this.state.user.id, 1));
+    //     }.bind(this), this.handleWsMessage);
+    //
+    // },
+    // wsLogout: function () {
+    //     this.wsSend(function (wsObj) {
+    //         // message to server
+    //         this.state.ws.obj.send(this.buildWsMessageJSON(this.state.user.id, 2));
+    //     }.bind(this), this.handleWsMessage);
+    //
+    // },
+    // buildWsMessageJSON: function (userId, operation) {
+    //     return JSON.stringify({
+    //         userId: userId,
+    //         operation: operation
+    //     });
+    // },
+    // logout: function () {
+    //     this.httpLogout();
+    // },
     logout: function (msg) {
         //default msg
-        if(isEmpty(msg)){
+        if (isEmpty(msg)) {
             msg = this.state.logoutSuccess;
         }
         //show loading dialog
@@ -157,11 +158,7 @@ var Head = React.createClass({
                 //update user in state
                 this.updateStateUser({});
 
-c(1);
-                //websocket operation
-                this.wsLogout();
-
-            }.bind(this),
+            }.bind(this, msg),
             onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.logoutFailure);
             }.bind(this),
@@ -171,7 +168,7 @@ c(1);
 
 
     },
-    getOnlineUser: function () {
+    getOnlineUser: function (ifUserOnlineCallfun) {
 
         const url = "/user/online";
 
@@ -188,8 +185,10 @@ c(1);
                 //update user in state
                 this.updateStateUser(result.data.user);
 
-                this.wsLogin();
-
+                //if user is not null , so callfun
+                if (!isEmpty(ifUserOnlineCallfun) && !isEmpty(result.data.user)) {
+                    ifUserOnlineCallfun(result.data.user);
+                }
             }.bind(this),
             onResponseFailure: function (result) {
 

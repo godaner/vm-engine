@@ -17,9 +17,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @ServerEndpoint("/ws/user/status/{userId}")
 public class OnlineUsersWebSocket extends CommonUtil {
 
-    // concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识
-    public static Map<Long, OnlineUsersWebSocket> clients = new ConcurrentHashMap<Long, OnlineUsersWebSocket>();
 
+    public static Map<Long, OnlineUsersWebSocket> onlineClients = new ConcurrentHashMap<Long, OnlineUsersWebSocket>();
+    public static Map<Long, OnlineUsersWebSocket> cacheOfClients = new ConcurrentHashMap<Long, OnlineUsersWebSocket>();
     //websocket的session
     public Session session;
     private Long userId;
@@ -41,10 +41,13 @@ public class OnlineUsersWebSocket extends CommonUtil {
 
         this.userId = userId;
 
+        //缓存所有客户端
+        this.cacheOfClients.put(userId, this);
+
         //移除原有登录信息（原有用户将被破下线）
-        userLogout(userId, OnlineUsersWebSocket.Result.LOGIN_OTHER_AREA.getCode());
+//        userLogout(userId, OnlineUsersWebSocket.Result.LOGIN_OTHER_AREA.getCode());
         //储存新的登录信息
-        userLogin(userId);
+//        userLogin(userId);
     }
 
     /**
@@ -57,10 +60,10 @@ public class OnlineUsersWebSocket extends CommonUtil {
 
     public static void userLogout(Long userId, Byte way) throws IOException {
         //注销原有client
-        OnlineUsersWebSocket onlineUsersWs = clients.get(userId);
+        OnlineUsersWebSocket onlineUsersWs = onlineClients.get(userId);
 
         //移除客户端信息
-        clients.remove(userId);
+        onlineClients.remove(userId);
         //通知客户端注销成功(可能是主动注销，可能是被动注销：包括session超时，账户在其他地方登录)
         OutMessage message = new OutMessage();
         message.setUserId(userId);
@@ -69,15 +72,16 @@ public class OnlineUsersWebSocket extends CommonUtil {
         logger.info("OnlineUsersWebSocket userLogout success ! userId is : {} , message is : {}", userId, message);
     }
 
-    private void userLogin(Long userId) throws IOException {
+    public static void userLogin(Long userId) throws IOException {
 
-        clients.put(userId, this);
+        OnlineUsersWebSocket client = cacheOfClients.get(userId);
+        onlineClients.put(userId, client);
 
         //通知客户端登陆成功
         OutMessage message = new OutMessage();
         message.setUserId(userId);
         message.setResult(OnlineUsersWebSocket.Result.LOGIN_SUCCESS.getCode());
-        sendMessage(this, JSON.toJSONString(message));
+        sendMessage(client, JSON.toJSONString(message));
         logger.info("OnlineUsersWebSocket userLogin success ! userId is : {} , message is : {}", userId, message);
     }
 

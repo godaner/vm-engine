@@ -25297,7 +25297,7 @@ var _head = __webpack_require__(282);
 
 var _head2 = _interopRequireDefault(_head);
 
-var _tail = __webpack_require__(292);
+var _tail = __webpack_require__(291);
 
 var _tail2 = _interopRequireDefault(_tail);
 
@@ -25305,11 +25305,11 @@ var _msg_dialog = __webpack_require__(45);
 
 var _msg_dialog2 = _interopRequireDefault(_msg_dialog);
 
-var _loading = __webpack_require__(295);
+var _loading = __webpack_require__(294);
 
 var _loading2 = _interopRequireDefault(_loading);
 
-var _user_info_page = __webpack_require__(298);
+var _user_info_page = __webpack_require__(297);
 
 var _user_info_page2 = _interopRequireDefault(_user_info_page);
 
@@ -30600,15 +30600,15 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(15);
 
-var _login_dialog = __webpack_require__(284);
+var _login_dialog = __webpack_require__(283);
 
 var _login_dialog2 = _interopRequireDefault(_login_dialog);
 
-var _regist_dialog = __webpack_require__(287);
+var _regist_dialog = __webpack_require__(286);
 
 var _regist_dialog2 = _interopRequireDefault(_regist_dialog);
 
-__webpack_require__(290);
+__webpack_require__(289);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30623,16 +30623,19 @@ var Head = _react2.default.createClass({
             logoutSuccess: "注销成功",
             logoutFailure: "注销失败",
             accountLoginOtherArea: "账户在其他地方登录",
-            sessionTimeOut: "会话超时",
+            sessionTimeOut: "登录超时",
             user: {}, //默认为空对象
             ws: {
                 url: undefined,
-                obj: undefined
+                obj: undefined //websocket对象
             }
         };
     },
     componentDidMount: function componentDidMount() {
-        this.getOnlineUser();
+        this.getOnlineUser(function (user) {
+            //when user is online,open websocket
+            this.wsOpenAndSend();
+        }.bind(this));
     },
     showLoginDialog: function showLoginDialog() {
         this.refs.login_dialog.showLoginDialog();
@@ -30643,9 +30646,6 @@ var Head = _react2.default.createClass({
     onLoginSuccess: function onLoginSuccess(user) {
         //update and show user info
         this.updateStateUser(user);
-
-        //websocket operation
-        this.wsLogin();
     },
     showRegistDialog: function showRegistDialog() {
         this.refs.regist_dialog.showRegistDialog();
@@ -30676,7 +30676,7 @@ var Head = _react2.default.createClass({
         }
         this.setState(state);
     },
-    wsSend: function wsSend(sendCallfun, handleMsgCallfun) {
+    wsOpenAndSend: function wsOpenAndSend(sendCallfun, handleMsgCallfun) {
         //if ws is closed , init ws
         if (isEmpty(this.state.ws.obj) || this.state.ws.obj.readyState == 3) {
             //if have not user login , it will not open ws
@@ -30691,9 +30691,10 @@ var Head = _react2.default.createClass({
 
                 // onmessage
                 this.state.ws.obj.onmessage = function (e) {
-                    if (!isEmpty(handleMsgCallfun)) {
-                        handleMsgCallfun(e.data);
+                    if (isEmpty(handleMsgCallfun)) {
+                        handleMsgCallfun = this.handleWsMessage;
                     }
+                    handleMsgCallfun(e.data);
                 };
             }
         }
@@ -30711,33 +30712,38 @@ var Head = _react2.default.createClass({
     },
     handleWsMessage: function handleWsMessage(msg) {
         var message = JSON.parse(msg);
-        if (message.result == 5) {
+        if (message.result == WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA) {
             //account login in other area
             this.logout(this.state.accountLoginOtherArea);
         }
-        if (message.result == 6) {
+        if (message.result == WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT) {
             //session timeout
             this.logout(this.state.sessionTimeOut);
         }
     },
-    wsLogin: function wsLogin() {
-        this.wsSend(function (wsObj) {
-            // message to server
-            this.state.ws.obj.send(this.buildWsMessageJSON(this.state.user.id, 1));
-        }.bind(this), this.handleWsMessage);
-    },
-    wsLogout: function wsLogout() {
-        this.wsSend(function (wsObj) {
-            // message to server
-            this.state.ws.obj.send(this.buildWsMessageJSON(this.state.user.id, 2));
-        }.bind(this), this.handleWsMessage);
-    },
-    buildWsMessageJSON: function buildWsMessageJSON(userId, operation) {
-        return JSON.stringify({
-            userId: userId,
-            operation: operation
-        });
-    },
+    // wsLogin: function () {
+    //     this.wsSend(function (wsObj) {
+    //         // message to server
+    //         this.state.ws.obj.send(this.buildWsMessageJSON(this.state.user.id, 1));
+    //     }.bind(this), this.handleWsMessage);
+    //
+    // },
+    // wsLogout: function () {
+    //     this.wsSend(function (wsObj) {
+    //         // message to server
+    //         this.state.ws.obj.send(this.buildWsMessageJSON(this.state.user.id, 2));
+    //     }.bind(this), this.handleWsMessage);
+    //
+    // },
+    // buildWsMessageJSON: function (userId, operation) {
+    //     return JSON.stringify({
+    //         userId: userId,
+    //         operation: operation
+    //     });
+    // },
+    // logout: function () {
+    //     this.httpLogout();
+    // },
     logout: function logout(msg) {
         //default msg
         if (isEmpty(msg)) {
@@ -30760,18 +30766,14 @@ var Head = _react2.default.createClass({
                 window.VmFrontendEventsDispatcher.showMsgDialog(msg);
                 //update user in state
                 this.updateStateUser({});
-
-                c(1);
-                //websocket operation
-                this.wsLogout();
-            }.bind(this),
+            }.bind(this, msg),
             onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.logoutFailure);
             }.bind(this),
             onResponseEnd: function () {}.bind(this)
         });
     },
-    getOnlineUser: function getOnlineUser() {
+    getOnlineUser: function getOnlineUser(ifUserOnlineCallfun) {
 
         var url = "/user/online";
 
@@ -30784,7 +30786,10 @@ var Head = _react2.default.createClass({
                 //update user in state
                 this.updateStateUser(result.data.user);
 
-                this.wsLogin();
+                //if user is not null , so callfun
+                if (!isEmpty(ifUserOnlineCallfun) && !isEmpty(result.data.user)) {
+                    ifUserOnlineCallfun(result.data.user);
+                }
             }.bind(this),
             onResponseFailure: function (result) {}.bind(this),
             onResponseEnd: function () {}.bind(this)
@@ -30901,8 +30906,7 @@ var Head = _react2.default.createClass({
 exports.default = (0, _reactRouterDom.withRouter)(Head); //将App组件导出
 
 /***/ }),
-/* 283 */,
-/* 284 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30918,7 +30922,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(15);
 
-__webpack_require__(285);
+__webpack_require__(284);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31095,13 +31099,13 @@ var LoginDialog = _react2.default.createClass({
 exports.default = LoginDialog;
 
 /***/ }),
-/* 285 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(286);
+var content = __webpack_require__(285);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(7)(content, {});
@@ -31121,7 +31125,7 @@ if(false) {
 }
 
 /***/ }),
-/* 286 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
@@ -31135,7 +31139,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 
 /***/ }),
-/* 287 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31151,7 +31155,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(15);
 
-__webpack_require__(288);
+__webpack_require__(287);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31331,13 +31335,13 @@ var RegistDialog = _react2.default.createClass({
 exports.default = RegistDialog;
 
 /***/ }),
-/* 288 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(289);
+var content = __webpack_require__(288);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(7)(content, {});
@@ -31357,7 +31361,7 @@ if(false) {
 }
 
 /***/ }),
-/* 289 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
@@ -31371,13 +31375,13 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 
 /***/ }),
-/* 290 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(291);
+var content = __webpack_require__(290);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(7)(content, {});
@@ -31397,7 +31401,7 @@ if(false) {
 }
 
 /***/ }),
-/* 291 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
@@ -31411,7 +31415,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 
 /***/ }),
-/* 292 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31425,7 +31429,7 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(293);
+__webpack_require__(292);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31444,13 +31448,13 @@ var Tail = _react2.default.createClass({
 exports.default = Tail; //将App组件导出
 
 /***/ }),
-/* 293 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(294);
+var content = __webpack_require__(293);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(7)(content, {});
@@ -31470,7 +31474,7 @@ if(false) {
 }
 
 /***/ }),
-/* 294 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
@@ -31484,7 +31488,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 
 /***/ }),
-/* 295 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31500,7 +31504,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(15);
 
-__webpack_require__(296);
+__webpack_require__(295);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31621,13 +31625,13 @@ var Loading = _react2.default.createClass({
 exports.default = Loading;
 
 /***/ }),
-/* 296 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(297);
+var content = __webpack_require__(296);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(7)(content, {});
@@ -31647,7 +31651,7 @@ if(false) {
 }
 
 /***/ }),
-/* 297 */
+/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
@@ -31661,7 +31665,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 
 /***/ }),
-/* 298 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31681,11 +31685,11 @@ var _plain_panel_title = __webpack_require__(28);
 
 var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
 
-var _user_basic_info_page = __webpack_require__(299);
+var _user_basic_info_page = __webpack_require__(298);
 
 var _user_basic_info_page2 = _interopRequireDefault(_user_basic_info_page);
 
-__webpack_require__(302);
+__webpack_require__(301);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31737,7 +31741,7 @@ var UserInfoPage = _react2.default.createClass({
 exports.default = (0, _reactRouterDom.withRouter)(UserInfoPage);
 
 /***/ }),
-/* 299 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31757,7 +31761,7 @@ var _plain_panel_title = __webpack_require__(28);
 
 var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
 
-__webpack_require__(300);
+__webpack_require__(299);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31860,13 +31864,13 @@ var UserBasicInfoPage = _react2.default.createClass({
 exports.default = UserBasicInfoPage;
 
 /***/ }),
-/* 300 */
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(301);
+var content = __webpack_require__(300);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(7)(content, {});
@@ -31886,7 +31890,7 @@ if(false) {
 }
 
 /***/ }),
-/* 301 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
@@ -31900,13 +31904,13 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 
 /***/ }),
-/* 302 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(303);
+var content = __webpack_require__(302);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(7)(content, {});
@@ -31926,7 +31930,7 @@ if(false) {
 }
 
 /***/ }),
-/* 303 */
+/* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
