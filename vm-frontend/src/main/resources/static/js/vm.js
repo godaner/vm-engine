@@ -33,7 +33,7 @@ function lazyLoad() {
 var ajax = {
     ajaxError: "访问服务器失败,请稍后重试",
     requestServerSuccess: function (args, result) {
-        c(result);
+
         if (!isEmpty(args.onResponseStart)) {
             args.onResponseStart();
         }

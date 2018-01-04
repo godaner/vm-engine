@@ -51,7 +51,7 @@ public class OnlineUsersWebSocket extends CommonUtil {
      */
     @OnClose
     public void onClose() throws Exception {
-        userLogout(userId, OnlineUsersWebSocket.Result.LOGOUT_SUCCESS.getCode());
+//        userLogout(userId, OnlineUsersWebSocket.Result.LOGOUT_SUCCESS.getCode());
     }
 
     public static void userLogout(Long userId, Byte way) throws IOException {
@@ -66,6 +66,9 @@ public class OnlineUsersWebSocket extends CommonUtil {
         message.setResult(way);
         sendMessage(onlineUsersWs, JSON.toJSONString(message));
         logger.info("OnlineUsersWebSocket userLogout success ! userId is : {} , message is : {}", userId, message);
+    }
+    public void close() throws IOException {
+        this.session.close();
     }
 
     public static void userLogin(Long userId) throws IOException {

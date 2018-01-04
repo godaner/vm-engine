@@ -32,7 +32,7 @@ var Head = React.createClass({
         //update and show user info
         this.updateStateUser(user);
         //open ws
-        this.wsOpen(user.id,function () {
+        this.wsOpen(user.id, function () {
             //ajax ws
             this.wsLogin();
         }.bind(this));
@@ -66,10 +66,21 @@ var Head = React.createClass({
         }
         this.setState(state);
     },
-    wsOpen: function (userId,onOpenSuccess) {
+    wsClose: function () {
+        if (undefined != this.state.ws.obj) {
+            this.state.ws.obj.close();
+            this.updateStateWs({
+                obj: undefined,
+                url: undefined
+            });
+        }
+    },
+    wsOpen: function (userId, onOpenSuccess) {
+
         //if ws is closed , init ws
-        if (isEmpty(this.state.ws.obj) || this.state.ws.obj.readyState == 3) {
+        if (undefined == this.state.ws.obj) {
             //if have not user login , it will not open ws
+
             if (!isEmpty(userId)) {
                 var wsUrl = WS_URL_PREFIX + "/ws/user/status/" + userId;
                 var wsObj = new WebSocket(wsUrl);
@@ -79,11 +90,11 @@ var Head = React.createClass({
                     url: wsUrl
                 });
 
-                this.state.ws.obj.onopen = function(){
-                    if(!isEmpty(onOpenSuccess)){
+                this.state.ws.obj.onopen = function () {
+                    if (!isEmpty(onOpenSuccess)) {
                         onOpenSuccess();
                     }
-                }.bind(this,onOpenSuccess);
+                }.bind(this, onOpenSuccess);
                 // onmessage
                 this.state.ws.obj.onmessage = function (e) {
                     this.handleWsMessage(e.data);
@@ -95,7 +106,8 @@ var Head = React.createClass({
     },
     wsSend: function (sendCallfun) {
         //open ws
-        this.wsOpen(this.state.user.id,function(){});
+        this.wsOpen(this.state.user.id, function () {
+        });
         //send msg
         if (!isEmpty(this.state.ws.obj)) {
             if (this.state.ws.obj.readyState == 0) {//CONNECTING
@@ -113,18 +125,28 @@ var Head = React.createClass({
         var message = JSON.parse(msg);
         //account login in other area
         if (message.result == WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA) {
-            this.httpLogout(this.state.accountLoginOtherArea);
+            c("WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA");
+            this.httpLogout(this.state.accountLoginOtherArea,function () {
+                this.wsClose();
+            }.bind(this));
+
 
         }
         //session timeout
         if (message.result == WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT) {
-            this.httpLogout(this.state.sessionTimeOut);
+            c("WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT");
+            this.httpLogout(this.state.accountLoginOtherArea,function () {
+                this.wsClose();
+            }.bind(this));
         }
     },
     wsLogout: function () {
         //ajax ws
         ajax.put({
-            url: "/user/ws/ctrl/logout/" + this.state.user.id
+            url: "/user/ws/ctrl/logout/" + this.state.user.id,
+            onResponseSuccess: function () {
+                this.wsClose();
+            }.bind(this)
         });
     },
     wsLogin: function () {
@@ -155,13 +177,13 @@ var Head = React.createClass({
 
             }.bind(this),
             onResponseStart: function () {
+                if (!isEmpty(callfun)) {
+                    callfun();
+                }
                 //close loading dialog
                 window.VmFrontendEventsDispatcher.closeLoading();
             }.bind(this),
             onResponseSuccess: function (result) {
-                if (!isEmpty(callfun)) {
-                    callfun();
-                }
 
                 window.VmFrontendEventsDispatcher.showMsgDialog(msg);
 
@@ -195,9 +217,11 @@ var Head = React.createClass({
                 //update user in state
                 this.updateStateUser(result.data.user);
 
-                if(!isEmpty(result.data.user)){
+                if (!isEmpty(result.data.user)) {
                     //when user is online,open websocket
-                    this.wsOpen(result.data.user.id);
+                    this.wsOpen(result.data.user.id,function () {
+                        this.wsLogin();
+                    }.bind(this));
                 }
 
             }.bind(this),

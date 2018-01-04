@@ -171,17 +171,32 @@ function contain(arr, e) {
 
 
 /**
- * 验证obj是否为空;<br/>
+ * 验证js对象是否为空;
+ * 注意：不能用于验证如websocket等对象，只能验证普通js对象；
  * @param obj
  */
 function isEmpty(obj) {
-    var emptyJSON = false;
-    try {
-        emptyJSON = (JSON.stringify(obj) == "{}");
-    } catch (e) {
-        emptyJSON = false;
+
+    return obj == null || obj == undefined || obj == "" || obj == "{}" || obj == "null" || isEmptyJsObject(obj);
+}
+
+/**
+ * 是否为空的js对象
+ * @param jsObj
+ * @returns {boolean}
+ */
+function isEmptyJsObject(jsObj) {
+    if (!isJsObject(jsObj)) {
+        return false;
     }
-    return obj == null || obj == undefined || emptyJSON || obj == {} || obj == "" || obj == "null";
+    var keys = Object.keys(jsObj);
+    return keys.length == 0;
+}
+/**
+ * 是否为js对象
+ */
+function isJsObject(obj) {
+    return typeof obj === 'object';
 }
 /**
  * 验证集合是否为空;

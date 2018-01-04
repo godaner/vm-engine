@@ -30678,13 +30678,21 @@ var Head = _react2.default.createClass({
         }
         this.setState(state);
     },
+    wsClose: function wsClose() {
+        if (undefined != this.state.ws.obj) {
+            this.state.ws.obj.close();
+            this.updateStateWs({
+                obj: undefined,
+                url: undefined
+            });
+        }
+    },
     wsOpen: function wsOpen(userId, onOpenSuccess) {
-        c(this.state.ws.obj);
-        c(JSON.stringify(this.state.ws.obj) == "{}");
-        c(isEmpty(this.state.ws.obj));
+
         //if ws is closed , init ws
-        if (isEmpty(this.state.ws.obj) || this.state.ws.obj.readyState == 3) {
+        if (undefined == this.state.ws.obj) {
             //if have not user login , it will not open ws
+
             if (!isEmpty(userId)) {
                 var wsUrl = WS_URL_PREFIX + "/ws/user/status/" + userId;
                 var wsObj = new WebSocket(wsUrl);
@@ -30726,17 +30734,26 @@ var Head = _react2.default.createClass({
         var message = JSON.parse(msg);
         //account login in other area
         if (message.result == WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA) {
-            this.httpLogout(this.state.accountLoginOtherArea);
+            c("WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA");
+            this.httpLogout(this.state.accountLoginOtherArea, function () {
+                this.wsClose();
+            }.bind(this));
         }
         //session timeout
         if (message.result == WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT) {
-            this.httpLogout(this.state.sessionTimeOut);
+            c("WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT");
+            this.httpLogout(this.state.accountLoginOtherArea, function () {
+                this.wsClose();
+            }.bind(this));
         }
     },
     wsLogout: function wsLogout() {
         //ajax ws
         ajax.put({
-            url: "/user/ws/ctrl/logout/" + this.state.user.id
+            url: "/user/ws/ctrl/logout/" + this.state.user.id,
+            onResponseSuccess: function () {
+                this.wsClose();
+            }.bind(this)
         });
     },
     wsLogin: function wsLogin() {
@@ -30766,13 +30783,13 @@ var Head = _react2.default.createClass({
             url: url,
             onBeforeRequest: function () {}.bind(this),
             onResponseStart: function () {
+                if (!isEmpty(callfun)) {
+                    callfun();
+                }
                 //close loading dialog
                 window.VmFrontendEventsDispatcher.closeLoading();
             }.bind(this),
             onResponseSuccess: function (result) {
-                if (!isEmpty(callfun)) {
-                    callfun();
-                }
 
                 window.VmFrontendEventsDispatcher.showMsgDialog(msg);
 
@@ -30800,7 +30817,9 @@ var Head = _react2.default.createClass({
 
                 if (!isEmpty(result.data.user)) {
                     //when user is online,open websocket
-                    this.wsOpen(result.data.user.id);
+                    this.wsOpen(result.data.user.id, function () {
+                        this.wsLogin();
+                    }.bind(this));
                 }
             }.bind(this),
             onResponseFailure: function (result) {}.bind(this),
