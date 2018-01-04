@@ -137,7 +137,7 @@ var Head = React.createClass({
         if (message.result == WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT) {
             this.protectPage();
             // c("WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT");
-            this.httpLogout(this.state.accountLoginOtherArea, function () {
+            this.httpLogout(this.state.sessionTimeOut, function () {
                 this.wsClose();
             }.bind(this));
         }
