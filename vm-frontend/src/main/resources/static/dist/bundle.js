@@ -30659,6 +30659,11 @@ var Head = _react2.default.createClass({
     },
     onRegistSuccess: function onRegistSuccess(user) {
         this.updateStateUser(user);
+        //open ws
+        this.wsOpen(user.id, function () {
+            //ajax ws
+            this.wsLogin();
+        }.bind(this));
     },
     updateStateUser: function updateStateUser(user) {
         //when login success reset user

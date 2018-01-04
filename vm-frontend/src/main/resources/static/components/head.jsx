@@ -45,6 +45,11 @@ var Head = React.createClass({
     },
     onRegistSuccess: function (user) {
         this.updateStateUser(user);
+        //open ws
+        this.wsOpen(user.id, function () {
+            //ajax ws
+            this.wsLogin();
+        }.bind(this));
     },
     updateStateUser(user){
         //when login success reset user
