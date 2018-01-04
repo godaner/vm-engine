@@ -31961,7 +31961,34 @@ var UserPage = _react2.default.createClass({
         // checkUserOnlineStatus();
     },
 
+    protectUserPage: function protectUserPage(callfun) {
+        // 监测用户是否在没有登录的情况下直接访问本页面
+        var url = "/user/online";
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {}.bind(this),
+            onResponseStart: function () {}.bind(this),
+            onResponseSuccess: function (result) {
+                //用户不在线
+                if (isEmpty(result.data.user)) {
+                    this.props.history.replace("/");
+                }
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
+            }.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun();
+                }
+            }.bind(this)
+        });
+    },
     render: function render() {
+
+        this.protectUserPage();
+
         var basicInfoUrl = "/user/" + this.state.userId + "/basicInfo";
         var resetPwdUrl = "/user/" + this.state.userId + "/resetPwd";
         return _react2.default.createElement(

@@ -1,5 +1,5 @@
 import React from 'react';  //引入react组件
-import {Switch, BrowserRouter, HashRouter, Route, Link, NavLink, withRouter} from 'react-router-dom';
+import {Switch, BrowserRouter, HashRouter, Route, Link, NavLink, withRouter,Redirect} from 'react-router-dom';
 import PlainPanelTitle from "./plain_panel_title";
 import UserBasicInfoPage from "./user_basic_info_page";
 import "../scss/user_info_page.scss";
@@ -13,7 +13,38 @@ var UserPage = React.createClass({
     componentDidMount(){
         // checkUserOnlineStatus();
     },
+    protectUserPage:function(callfun){
+        // 监测用户是否在没有登录的情况下直接访问本页面
+        const url = "/user/online";
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {
+
+            }.bind(this),
+            onResponseStart: function () {
+
+            }.bind(this),
+            onResponseSuccess: function (result) {
+                //用户不在线
+                if(isEmpty(result.data.user)){
+                    this.props.history.replace("/");
+                }
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
+            }.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun()
+                }
+            }.bind(this)
+        });
+    },
     render: function () {
+
+        this.protectUserPage();
+
         var basicInfoUrl = "/user/" + this.state.userId+"/basicInfo";
         var resetPwdUrl = "/user/" + this.state.userId+"/resetPwd";
         return (
