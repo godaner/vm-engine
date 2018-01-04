@@ -125,8 +125,9 @@ var Head = React.createClass({
         var message = JSON.parse(msg);
         //account login in other area
         if (message.result == WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA) {
-            c("WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA");
-            this.httpLogout(this.state.accountLoginOtherArea,function () {
+            this.protectPage();
+            // c("WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA");
+            this.httpLogout(this.state.accountLoginOtherArea, function () {
                 this.wsClose();
             }.bind(this));
 
@@ -134,8 +135,9 @@ var Head = React.createClass({
         }
         //session timeout
         if (message.result == WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT) {
-            c("WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT");
-            this.httpLogout(this.state.accountLoginOtherArea,function () {
+            this.protectPage();
+            // c("WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT");
+            this.httpLogout(this.state.accountLoginOtherArea, function () {
                 this.wsClose();
             }.bind(this));
         }
@@ -159,7 +161,11 @@ var Head = React.createClass({
 
         this.httpLogout(msg, function () {
             this.wsLogout();
+            this.protectPage();
         }.bind(this));
+    },
+    protectPage: function () {
+        protectPage(this);
     },
     httpLogout: function (msg, callfun) {
         //default msg
@@ -177,18 +183,20 @@ var Head = React.createClass({
 
             }.bind(this),
             onResponseStart: function () {
-                if (!isEmpty(callfun)) {
-                    callfun();
-                }
                 //close loading dialog
                 window.VmFrontendEventsDispatcher.closeLoading();
             }.bind(this),
             onResponseSuccess: function (result) {
+                //callfun
+                if (!isEmpty(callfun)) {
+                    callfun();
+                }
 
                 window.VmFrontendEventsDispatcher.showMsgDialog(msg);
 
                 //update user in state
                 this.updateStateUser({});
+
 
             }.bind(this),
             onResponseFailure: function (result) {
@@ -219,9 +227,11 @@ var Head = React.createClass({
 
                 if (!isEmpty(result.data.user)) {
                     //when user is online,open websocket
-                    this.wsOpen(result.data.user.id,function () {
+                    this.wsOpen(result.data.user.id, function () {
                         this.wsLogin();
                     }.bind(this));
+                } else {
+                    this.protectPage();
                 }
 
             }.bind(this),

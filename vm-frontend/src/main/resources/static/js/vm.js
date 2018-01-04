@@ -10,6 +10,18 @@ function fail(code) {
 function success(code) {
     return code == RESPONSE_CODE_SUCCESS;
 }
+//用户未登录时受保护的页面
+var protectedPageLists = ["/user/[0-9]*"];
+function protectPage(react_this) {
+    for (var i = 0; i < protectedPageLists.length; i++) {
+        var protectedPage = protectedPageLists[i];
+        if (react_this.props.location.pathname.match(protectedPage)) {
+            react_this.props.history.replace("/");
+            break;
+        }
+    }
+
+}
 //用户在其他地方登录code
 const WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA = 5;
 //在线用户超时code

@@ -1,6 +1,5 @@
-import React from 'react';  //引入react组件
-import {Switch, BrowserRouter, HashRouter, Route, Link} from 'react-router-dom';
-import PlainPanelTitle from "./plain_panel_title";
+import React from "react"; //引入react组件
+import {BrowserRouter, HashRouter, Link, Route, Switch} from "react-router-dom";
 import "../scss/user_basic_info_page.scss";
 /*用户基本信息页面*/
 var UserBasicInfoPage = React.createClass({
@@ -24,7 +23,7 @@ var UserBasicInfoPage = React.createClass({
         state.user = user;
         this.setState(state);
     },
-    getUserBasicInfo: function () {
+    getUserBasicInfo: function (callfun) {
         // c(this.props);
         const url = "/user/online";
         ajax.get({
@@ -34,8 +33,6 @@ var UserBasicInfoPage = React.createClass({
             }.bind(this),
             onResponseStart: function () {
 
-                //hide tip
-                this.showTagTip();
             }.bind(this),
             onResponseSuccess: function (result) {
 

@@ -4328,6 +4328,7 @@ window.VmFrontendEventsDispatcher = {
     }
 };
 window.EventsDispatcher = window.VmFrontendEventsDispatcher;
+eventsDispatcher = window.EventsDispatcher;
 
 /***/ }),
 /* 36 */
@@ -30734,14 +30735,16 @@ var Head = _react2.default.createClass({
         var message = JSON.parse(msg);
         //account login in other area
         if (message.result == WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA) {
-            c("WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA");
+            this.protectPage();
+            // c("WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA");
             this.httpLogout(this.state.accountLoginOtherArea, function () {
                 this.wsClose();
             }.bind(this));
         }
         //session timeout
         if (message.result == WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT) {
-            c("WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT");
+            this.protectPage();
+            // c("WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT");
             this.httpLogout(this.state.accountLoginOtherArea, function () {
                 this.wsClose();
             }.bind(this));
@@ -30766,9 +30769,23 @@ var Head = _react2.default.createClass({
 
         this.httpLogout(msg, function () {
             this.wsLogout();
+            this.protectPage();
         }.bind(this));
     },
 
+    protectPage: function (_protectPage) {
+        function protectPage() {
+            return _protectPage.apply(this, arguments);
+        }
+
+        protectPage.toString = function () {
+            return _protectPage.toString();
+        };
+
+        return protectPage;
+    }(function () {
+        protectPage(this);
+    }),
     httpLogout: function httpLogout(msg, callfun) {
         //default msg
         if (isEmpty(msg)) {
@@ -30783,13 +30800,14 @@ var Head = _react2.default.createClass({
             url: url,
             onBeforeRequest: function () {}.bind(this),
             onResponseStart: function () {
-                if (!isEmpty(callfun)) {
-                    callfun();
-                }
                 //close loading dialog
                 window.VmFrontendEventsDispatcher.closeLoading();
             }.bind(this),
             onResponseSuccess: function (result) {
+                //callfun
+                if (!isEmpty(callfun)) {
+                    callfun();
+                }
 
                 window.VmFrontendEventsDispatcher.showMsgDialog(msg);
 
@@ -30820,6 +30838,8 @@ var Head = _react2.default.createClass({
                     this.wsOpen(result.data.user.id, function () {
                         this.wsLogin();
                     }.bind(this));
+                } else {
+                    this.protectPage();
                 }
             }.bind(this),
             onResponseFailure: function (result) {}.bind(this),
@@ -31792,17 +31812,14 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(15);
 
-var _plain_panel_title = __webpack_require__(28);
-
-var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
-
 __webpack_require__(299);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*用户基本信息页面*/
+//引入react组件
 var UserBasicInfoPage = _react2.default.createClass({
-    displayName: 'UserBasicInfoPage',
+    displayName: "UserBasicInfoPage",
 
     getInitialState: function getInitialState() {
         // c(props);
@@ -31825,17 +31842,13 @@ var UserBasicInfoPage = _react2.default.createClass({
         state.user = user;
         this.setState(state);
     },
-    getUserBasicInfo: function getUserBasicInfo() {
+    getUserBasicInfo: function getUserBasicInfo(callfun) {
         // c(this.props);
         var url = "/user/online";
         ajax.get({
             url: url,
             onBeforeRequest: function () {}.bind(this),
-            onResponseStart: function () {
-
-                //hide tip
-                this.showTagTip();
-            }.bind(this),
+            onResponseStart: function () {}.bind(this),
             onResponseSuccess: function (result) {
 
                 //update user in state
@@ -31854,48 +31867,48 @@ var UserBasicInfoPage = _react2.default.createClass({
     },
     render: function render() {
         return _react2.default.createElement(
-            'div',
-            { id: 'user_basic_info' },
-            'UserBasicPage',
+            "div",
+            { id: "user_basic_info" },
+            "UserBasicPage",
             _react2.default.createElement(
-                'form',
+                "form",
                 null,
                 _react2.default.createElement(
-                    'div',
-                    { id: 'displayer' },
+                    "div",
+                    { id: "displayer" },
                     _react2.default.createElement(
-                        'div',
-                        { className: 'info_item' },
+                        "div",
+                        { className: "info_item" },
                         _react2.default.createElement(
-                            'label',
+                            "label",
                             null,
-                            '\u6635\u79F0 : '
+                            "\u6635\u79F0 : "
                         ),
                         _react2.default.createElement(
-                            'span',
+                            "span",
                             null,
-                            _react2.default.createElement('input', { value: this.state.user.username })
+                            _react2.default.createElement("input", { value: this.state.user.username })
                         )
                     ),
                     _react2.default.createElement(
-                        'div',
-                        { className: 'info_item' },
+                        "div",
+                        { className: "info_item" },
                         _react2.default.createElement(
-                            'label',
+                            "label",
                             null,
-                            '\u6027\u522B : '
+                            "\u6027\u522B : "
                         ),
                         _react2.default.createElement(
-                            'span',
+                            "span",
                             null,
-                            _react2.default.createElement('input', { value: this.state.user.sex })
+                            _react2.default.createElement("input", { value: this.state.user.sex })
                         )
                     )
                 )
             )
         );
     }
-}); //引入react组件
+});
 exports.default = UserBasicInfoPage;
 
 /***/ }),
