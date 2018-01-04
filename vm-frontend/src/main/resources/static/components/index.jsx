@@ -10,7 +10,7 @@ import Head from "./head";
 import Tail from "./tail";
 import MsgDialog from "./msg_dialog";
 import Loading from "./loading";
-import UserInfoPage from "./user_info_page";
+import UserPage from "./user_page";
 import "./events_dispatcher";
 
 var Index = React.createClass({
@@ -40,7 +40,8 @@ var Index = React.createClass({
                                    )}/>
                             <Route exact path='/movie/:movieId' component={MovieInfoPage}/>
                             <Route exact path='/filmmaker/:filmmakerId' component={FilmmakerInfoPage}/>
-                            <Route exact path='/user/basicInfo/:userId' component={UserInfoPage}/>
+                            {/*包括/user/1/basicInfo,/user/1/resetPwd等*/}
+                            <Route path='/user/:userId' component={UserPage}/>
                         </Switch>
                         {
                             /*尾部*/

@@ -4,7 +4,7 @@ import PlainPanelTitle from "./plain_panel_title";
 import UserBasicInfoPage from "./user_basic_info_page";
 import "../scss/user_info_page.scss";
 /*用户个人中心*/
-var UserInfoPage = React.createClass({
+var UserPage = React.createClass({
     getInitialState: function () {
         return {
             userId: this.props.match.params.userId
@@ -14,8 +14,8 @@ var UserInfoPage = React.createClass({
         // checkUserOnlineStatus();
     },
     render: function () {
-        var basicInfoUrl = "/user/basicInfo/" + this.state.userId;
-        var resetPwdUrl = "/user/resetPwd/" + this.state.userId;
+        var basicInfoUrl = "/user/" + this.state.userId+"/basicInfo";
+        var resetPwdUrl = "/user/" + this.state.userId+"/resetPwd";
         return (
             <div id="user_info" className="defaultPanel">
                 <PlainPanelTitle title={this.state.title}/>
@@ -41,8 +41,8 @@ var UserInfoPage = React.createClass({
                         </div>
                         <div id="displayer">
                             <Switch>
-                                <Route exact path='/user/basicInfo/:userId' component={UserBasicInfoPage}/>
-                                <Route exact path='/user/resetPwd/:userId' component={UserBasicInfoPage}/>
+                                <Route exact path='/user/:userId/basicInfo' component={UserBasicInfoPage}/>
+                                <Route exact path='/user/:userId/resetPwd' component={UserBasicInfoPage}/>
                             </Switch>
                         </div>
                     </div>
@@ -51,4 +51,4 @@ var UserInfoPage = React.createClass({
         );
     }
 });
-export default withRouter(UserInfoPage);
+export default withRouter(UserPage);

@@ -25311,9 +25311,9 @@ var _loading = __webpack_require__(294);
 
 var _loading2 = _interopRequireDefault(_loading);
 
-var _user_info_page = __webpack_require__(297);
+var _user_page = __webpack_require__(303);
 
-var _user_info_page2 = _interopRequireDefault(_user_info_page);
+var _user_page2 = _interopRequireDefault(_user_page);
 
 __webpack_require__(35);
 
@@ -25352,7 +25352,7 @@ var Index = _react2.default.createClass({
                             } }),
                         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/movie/:movieId', component: _movie_info_page2.default }),
                         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/filmmaker/:filmmakerId', component: _filmmaker_info_page2.default }),
-                        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/user/basicInfo/:userId', component: _user_info_page2.default })
+                        _react2.default.createElement(_reactRouterDom.Route, { path: '/user/:userId', component: _user_page2.default })
                     ),
                     _react2.default.createElement(_tail2.default, null),
                     _react2.default.createElement(_msg_dialog2.default, { ref: 'msg_dialog' }),
@@ -30853,7 +30853,7 @@ var Head = _react2.default.createClass({
             var _this = this;
 
             var userBasicInfoLocation = {
-                pathname: "/user/basicInfo/" + this.state.user.id
+                pathname: "/user/" + this.state.user.id + "/basicInfo"
             };
 
             return _react2.default.createElement(
@@ -31722,108 +31722,7 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 
 /***/ }),
-/* 297 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouterDom = __webpack_require__(15);
-
-var _plain_panel_title = __webpack_require__(34);
-
-var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
-
-var _user_basic_info_page = __webpack_require__(298);
-
-var _user_basic_info_page2 = _interopRequireDefault(_user_basic_info_page);
-
-__webpack_require__(301);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*用户个人中心*/
-//引入react组件
-var UserInfoPage = _react2.default.createClass({
-    displayName: 'UserInfoPage',
-
-    getInitialState: function getInitialState() {
-        return {
-            userId: this.props.match.params.userId
-        };
-    },
-    componentDidMount: function componentDidMount() {
-        // checkUserOnlineStatus();
-    },
-
-    render: function render() {
-        var basicInfoUrl = "/user/basicInfo/" + this.state.userId;
-        var resetPwdUrl = "/user/resetPwd/" + this.state.userId;
-        return _react2.default.createElement(
-            'div',
-            { id: 'user_info', className: 'defaultPanel' },
-            _react2.default.createElement(_plain_panel_title2.default, { title: this.state.title }),
-            _react2.default.createElement(
-                _reactRouterDom.HashRouter,
-                null,
-                _react2.default.createElement(
-                    'div',
-                    { id: 'content',
-                        className: 'clearfix' },
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'nav' },
-                        _react2.default.createElement(
-                            'ul',
-                            { id: 'nav_ul' },
-                            _react2.default.createElement(
-                                'li',
-                                null,
-                                _react2.default.createElement(
-                                    _reactRouterDom.NavLink,
-                                    { to: basicInfoUrl,
-                                        activeClassName: 'active' },
-                                    '\u57FA\u672C\u4FE1\u606F'
-                                )
-                            ),
-                            _react2.default.createElement(
-                                'li',
-                                null,
-                                _react2.default.createElement(
-                                    _reactRouterDom.NavLink,
-                                    { to: resetPwdUrl,
-                                        activeClassName: 'active' },
-                                    '\u4FEE\u6539\u5BC6\u7801'
-                                )
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'displayer' },
-                        _react2.default.createElement(
-                            _reactRouterDom.Switch,
-                            null,
-                            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/user/basicInfo/:userId', component: _user_basic_info_page2.default }),
-                            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/user/resetPwd/:userId', component: _user_basic_info_page2.default })
-                        )
-                    )
-                )
-            )
-        );
-    }
-});
-exports.default = (0, _reactRouterDom.withRouter)(UserInfoPage);
-
-/***/ }),
+/* 297 */,
 /* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32018,6 +31917,108 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 // exports
 
+
+/***/ }),
+/* 303 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(15);
+
+var _plain_panel_title = __webpack_require__(34);
+
+var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
+
+var _user_basic_info_page = __webpack_require__(298);
+
+var _user_basic_info_page2 = _interopRequireDefault(_user_basic_info_page);
+
+__webpack_require__(301);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*用户个人中心*/
+//引入react组件
+var UserPage = _react2.default.createClass({
+    displayName: 'UserPage',
+
+    getInitialState: function getInitialState() {
+        return {
+            userId: this.props.match.params.userId
+        };
+    },
+    componentDidMount: function componentDidMount() {
+        // checkUserOnlineStatus();
+    },
+
+    render: function render() {
+        var basicInfoUrl = "/user/" + this.state.userId + "/basicInfo";
+        var resetPwdUrl = "/user/" + this.state.userId + "/resetPwd";
+        return _react2.default.createElement(
+            'div',
+            { id: 'user_info', className: 'defaultPanel' },
+            _react2.default.createElement(_plain_panel_title2.default, { title: this.state.title }),
+            _react2.default.createElement(
+                _reactRouterDom.HashRouter,
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { id: 'content',
+                        className: 'clearfix' },
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'nav' },
+                        _react2.default.createElement(
+                            'ul',
+                            { id: 'nav_ul' },
+                            _react2.default.createElement(
+                                'li',
+                                null,
+                                _react2.default.createElement(
+                                    _reactRouterDom.NavLink,
+                                    { to: basicInfoUrl,
+                                        activeClassName: 'active' },
+                                    '\u57FA\u672C\u4FE1\u606F'
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'li',
+                                null,
+                                _react2.default.createElement(
+                                    _reactRouterDom.NavLink,
+                                    { to: resetPwdUrl,
+                                        activeClassName: 'active' },
+                                    '\u4FEE\u6539\u5BC6\u7801'
+                                )
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'displayer' },
+                        _react2.default.createElement(
+                            _reactRouterDom.Switch,
+                            null,
+                            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/user/:userId/basicInfo', component: _user_basic_info_page2.default }),
+                            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/user/:userId/resetPwd', component: _user_basic_info_page2.default })
+                        )
+                    )
+                )
+            )
+        );
+    }
+});
+exports.default = (0, _reactRouterDom.withRouter)(UserPage);
 
 /***/ })
 /******/ ]);

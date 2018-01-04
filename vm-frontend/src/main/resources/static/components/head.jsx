@@ -247,7 +247,7 @@ var Head = React.createClass({
         //在线
         var loginStatus = function () {
             var userBasicInfoLocation = {
-                pathname: "/user/basicInfo/" + this.state.user.id
+                pathname: "/user/" + this.state.user.id+"/basicInfo"
             };
 
             return (
