@@ -7,12 +7,27 @@
     @include defaultWidth;
     & > div {
       float: left;
-      width: 50%;
     }
     #nav {
+      width: 30%;
       background-color: red;
+      #nav_ul{
+        list-style: none;
+        li{
+          display: block;
+          width: 100%;
+          NavLink{
+            display: block;
+            width: 100%;
+          }
+          .active{
+            background-color: unquote($defaultBlueRgb);
+          }
+        }
+      }
     }
     #displayer {
+      width: 70%;
       background-color: black;
     }
   }

@@ -244,21 +244,21 @@ var Head = React.createClass({
         });
     },
     render: function () {
-        const location = {
-            pathname: "/user/" + this.state.user.id
-        };
         //在线
         var loginStatus = function () {
+            var userBasicInfoLocation = {
+                pathname: "/user/basicInfo/" + this.state.user.id
+            };
+
             return (
                 <span>
                     <li>
-                        <a id="headImg_a" href="#">
+                        <Link id="headImg_a" to={userBasicInfoLocation}>
                             <img id="headImg_img" src={this.state.user.imgUrl}/>
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <Link id="username" to={location}>
-
+                        <Link id="username" to={userBasicInfoLocation}>
                             {this.state.user.username}
 
                         </Link>

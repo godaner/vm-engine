@@ -40,7 +40,7 @@ var Index = React.createClass({
                                    )}/>
                             <Route exact path='/movie/:movieId' component={MovieInfoPage}/>
                             <Route exact path='/filmmaker/:filmmakerId' component={FilmmakerInfoPage}/>
-                            <Route exact path='/user/:userId' component={UserInfoPage}/>
+                            <Route exact path='/user/basicInfo/:userId' component={UserInfoPage}/>
                         </Switch>
                         {
                             /*尾部*/

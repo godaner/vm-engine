@@ -18,6 +18,7 @@ window.VmFrontendEventsDispatcher = {
     }
 };
 window.EventsDispatcher = window.VmFrontendEventsDispatcher;
-eventsDispatcher = window.EventsDispatcher;
+var eventsDispatcher = window.EventsDispatcher;
+var EventsDispatcher = eventsDispatcher;
 
 
