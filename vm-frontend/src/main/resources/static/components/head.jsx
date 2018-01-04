@@ -11,11 +11,11 @@ var Head = React.createClass({
             logoutSuccess: "注销成功",
             logoutFailure: "注销失败",
             accountLoginOtherArea: "账户在其他地方登录",
-            sessionTimeOut: "会话超时",
+            sessionTimeOut: "登录超时",
             user: {},//默认为空对象
             ws: {
                 url: undefined,
-                obj: undefined
+                obj: undefined//websocket对象
             }
         };
     },
@@ -31,11 +31,11 @@ var Head = React.createClass({
     onLoginSuccess: function (user) {
         //update and show user info
         this.updateStateUser(user);
-
-
-        //websocket operation
-        this.wsLogin();
-
+        //open ws
+        this.wsOpen(user.id, function () {
+            //ajax ws
+            this.wsLogin();
+        }.bind(this));
     },
     showRegistDialog: function () {
         this.refs.regist_dialog.showRegistDialog();
@@ -45,6 +45,11 @@ var Head = React.createClass({
     },
     onRegistSuccess: function (user) {
         this.updateStateUser(user);
+        //open ws
+        this.wsOpen(user.id, function () {
+            //ajax ws
+            this.wsLogin();
+        }.bind(this));
     },
     updateStateUser(user){
         //when login success reset user
@@ -66,12 +71,23 @@ var Head = React.createClass({
         }
         this.setState(state);
     },
-    wsSend: function (sendCallfun, handleMsgCallfun) {
+    wsClose: function () {
+        if (undefined != this.state.ws.obj) {
+            this.state.ws.obj.close();
+            this.updateStateWs({
+                obj: undefined,
+                url: undefined
+            });
+        }
+    },
+    wsOpen: function (userId, onOpenSuccess) {
+
         //if ws is closed , init ws
-        if (isEmpty(this.state.ws.obj) || this.state.ws.obj.readyState == 3) {
+        if (undefined == this.state.ws.obj) {
             //if have not user login , it will not open ws
-            if (!isEmpty(this.state.user.id)) {
-                var wsUrl = WS_URL_PREFIX + "/ws/user/status/" + this.state.user.id;
+
+            if (!isEmpty(userId)) {
+                var wsUrl = WS_URL_PREFIX + "/ws/user/status/" + userId;
                 var wsObj = new WebSocket(wsUrl);
 
                 this.updateStateWs({
@@ -79,16 +95,26 @@ var Head = React.createClass({
                     url: wsUrl
                 });
 
+                this.state.ws.obj.onopen = function () {
+                    if (!isEmpty(onOpenSuccess)) {
+                        onOpenSuccess();
+                    }
+                }.bind(this, onOpenSuccess);
                 // onmessage
                 this.state.ws.obj.onmessage = function (e) {
-                    if (!isEmpty(handleMsgCallfun)) {
-                        handleMsgCallfun(e.data);
-                    }
-                };
+                    this.handleWsMessage(e.data);
+                }.bind(this);
 
             }
         }
-        if(!isEmpty(this.state.ws.obj)){
+
+    },
+    wsSend: function (sendCallfun) {
+        //open ws
+        this.wsOpen(this.state.user.id, function () {
+        });
+        //send msg
+        if (!isEmpty(this.state.ws.obj)) {
             if (this.state.ws.obj.readyState == 0) {//CONNECTING
                 this.state.ws.obj.onopen = function () {
                     sendCallfun(this.state.ws.obj);
@@ -99,42 +125,56 @@ var Head = React.createClass({
         }
 
 
-
     },
     handleWsMessage: function (msg) {
         var message = JSON.parse(msg);
-        if (message.result == 5) {//account login in other area
-            this.logout(this.state.accountLoginOtherArea);
+        //account login in other area
+        if (message.result == WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA) {
+            this.protectPage();
+            // c("WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA");
+            this.httpLogout(this.state.accountLoginOtherArea, function () {
+                this.wsClose();
+            }.bind(this));
+
 
         }
-        if (message.result == 6) {//session timeout
-            this.logout(this.state.sessionTimeOut);
-
+        //session timeout
+        if (message.result == WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT) {
+            this.protectPage();
+            // c("WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT");
+            this.httpLogout(this.state.sessionTimeOut, function () {
+                this.wsClose();
+            }.bind(this));
         }
-    },
-    wsLogin: function () {
-        this.wsSend(function (wsObj) {
-            // message to server
-            this.state.ws.obj.send(this.buildWsMessageJSON(this.state.user.id, 1));
-        }.bind(this), this.handleWsMessage);
-
     },
     wsLogout: function () {
-        this.wsSend(function (wsObj) {
-            // message to server
-            this.state.ws.obj.send(this.buildWsMessageJSON(this.state.user.id, 2));
-        }.bind(this), this.handleWsMessage);
-
-    },
-    buildWsMessageJSON: function (userId, operation) {
-        return JSON.stringify({
-            userId: userId,
-            operation: operation
+        //ajax ws
+        ajax.put({
+            url: "/user/ws/ctrl/logout/" + this.state.user.id,
+            onResponseSuccess: function () {
+                this.wsClose();
+            }.bind(this)
         });
     },
-    logout: function (msg) {
+    wsLogin: function () {
+        //ajax ws
+        ajax.put({
+            url: "/user/ws/ctrl/login/" + this.state.user.id
+        });
+    },
+    logout(msg){
+
+        this.httpLogout(msg, function () {
+            this.wsLogout();
+            this.protectPage();
+        }.bind(this));
+    },
+    protectPage: function () {
+        protectPage(this);
+    },
+    httpLogout: function (msg, callfun) {
         //default msg
-        if(isEmpty(msg)){
+        if (isEmpty(msg)) {
             msg = this.state.logoutSuccess;
         }
         //show loading dialog
@@ -152,14 +192,16 @@ var Head = React.createClass({
                 window.VmFrontendEventsDispatcher.closeLoading();
             }.bind(this),
             onResponseSuccess: function (result) {
+                //callfun
+                if (!isEmpty(callfun)) {
+                    callfun();
+                }
 
                 window.VmFrontendEventsDispatcher.showMsgDialog(msg);
+
                 //update user in state
                 this.updateStateUser({});
 
-c(1);
-                //websocket operation
-                this.wsLogout();
 
             }.bind(this),
             onResponseFailure: function (result) {
@@ -188,7 +230,14 @@ c(1);
                 //update user in state
                 this.updateStateUser(result.data.user);
 
-                this.wsLogin();
+                if (!isEmpty(result.data.user)) {
+                    //when user is online,open websocket
+                    this.wsOpen(result.data.user.id, function () {
+                        this.wsLogin();
+                    }.bind(this));
+                } else {
+                    this.protectPage();
+                }
 
             }.bind(this),
             onResponseFailure: function (result) {
@@ -200,27 +249,29 @@ c(1);
         });
     },
     render: function () {
-        const location = {
-            pathname: "/user/" + this.state.user.id
-        };
         //在线
         var loginStatus = function () {
+            var userBasicInfoLocation = {
+                pathname: "/user/" + this.state.user.id+"/basicInfo"
+            };
+
             return (
                 <span>
                     <li>
-                        <a id="headImg_a" href="#">
+                        <Link id="headImg_a" to={userBasicInfoLocation}>
                             <img id="headImg_img" src={this.state.user.imgUrl}/>
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <Link id="username" to={location}>
-
+                        <Link id="username" to={userBasicInfoLocation}>
                             {this.state.user.username}
 
                         </Link>
                     </li>
                     <li>
-                    <a href="javascript:void(0);" onClick={this.logout}>注销</a>
+                    <a href="javascript:void(0);" onClick={() => {
+                        this.logout()
+                    }}>注销</a>
                     </li>
                 </span>
             );
@@ -266,9 +317,6 @@ c(1);
                 <LoginDialog ref="login_dialog" onLoginSuccess={this.onLoginSuccess}/>
                 {/*注册框*/}
                 <RegistDialog ref="regist_dialog" onRegistSuccess={this.onRegistSuccess}/>
-                {/*Websocket*/}
-                {/*{isEmpty(this.state.user) ? <span></span> : <Websocket url={this.state.wsUrl}*/}
-                {/*onMessage={this.handleWsOnMessage}/>}*/}
             </div>
         );
     }

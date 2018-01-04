@@ -4328,6 +4328,8 @@ window.VmFrontendEventsDispatcher = {
     }
 };
 window.EventsDispatcher = window.VmFrontendEventsDispatcher;
+var eventsDispatcher = window.EventsDispatcher;
+var EventsDispatcher = eventsDispatcher;
 
 /***/ }),
 /* 36 */
@@ -25309,9 +25311,9 @@ var _loading = __webpack_require__(294);
 
 var _loading2 = _interopRequireDefault(_loading);
 
-var _user_info_page = __webpack_require__(297);
+var _user_page = __webpack_require__(303);
 
-var _user_info_page2 = _interopRequireDefault(_user_info_page);
+var _user_page2 = _interopRequireDefault(_user_page);
 
 __webpack_require__(35);
 
@@ -25350,7 +25352,7 @@ var Index = _react2.default.createClass({
                             } }),
                         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/movie/:movieId', component: _movie_info_page2.default }),
                         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/filmmaker/:filmmakerId', component: _filmmaker_info_page2.default }),
-                        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/user/:userId', component: _user_info_page2.default })
+                        _react2.default.createElement(_reactRouterDom.Route, { path: '/user/:userId', component: _user_page2.default })
                     ),
                     _react2.default.createElement(_tail2.default, null),
                     _react2.default.createElement(_msg_dialog2.default, { ref: 'msg_dialog' }),
@@ -30623,11 +30625,11 @@ var Head = _react2.default.createClass({
             logoutSuccess: "注销成功",
             logoutFailure: "注销失败",
             accountLoginOtherArea: "账户在其他地方登录",
-            sessionTimeOut: "会话超时",
+            sessionTimeOut: "登录超时",
             user: {}, //默认为空对象
             ws: {
                 url: undefined,
-                obj: undefined
+                obj: undefined //websocket对象
             }
         };
     },
@@ -30643,9 +30645,11 @@ var Head = _react2.default.createClass({
     onLoginSuccess: function onLoginSuccess(user) {
         //update and show user info
         this.updateStateUser(user);
-
-        //websocket operation
-        this.wsLogin();
+        //open ws
+        this.wsOpen(user.id, function () {
+            //ajax ws
+            this.wsLogin();
+        }.bind(this));
     },
     showRegistDialog: function showRegistDialog() {
         this.refs.regist_dialog.showRegistDialog();
@@ -30655,6 +30659,11 @@ var Head = _react2.default.createClass({
     },
     onRegistSuccess: function onRegistSuccess(user) {
         this.updateStateUser(user);
+        //open ws
+        this.wsOpen(user.id, function () {
+            //ajax ws
+            this.wsLogin();
+        }.bind(this));
     },
     updateStateUser: function updateStateUser(user) {
         //when login success reset user
@@ -30676,12 +30685,23 @@ var Head = _react2.default.createClass({
         }
         this.setState(state);
     },
-    wsSend: function wsSend(sendCallfun, handleMsgCallfun) {
+    wsClose: function wsClose() {
+        if (undefined != this.state.ws.obj) {
+            this.state.ws.obj.close();
+            this.updateStateWs({
+                obj: undefined,
+                url: undefined
+            });
+        }
+    },
+    wsOpen: function wsOpen(userId, onOpenSuccess) {
+
         //if ws is closed , init ws
-        if (isEmpty(this.state.ws.obj) || this.state.ws.obj.readyState == 3) {
+        if (undefined == this.state.ws.obj) {
             //if have not user login , it will not open ws
-            if (!isEmpty(this.state.user.id)) {
-                var wsUrl = WS_URL_PREFIX + "/ws/user/status/" + this.state.user.id;
+
+            if (!isEmpty(userId)) {
+                var wsUrl = WS_URL_PREFIX + "/ws/user/status/" + userId;
                 var wsObj = new WebSocket(wsUrl);
 
                 this.updateStateWs({
@@ -30689,14 +30709,22 @@ var Head = _react2.default.createClass({
                     url: wsUrl
                 });
 
+                this.state.ws.obj.onopen = function () {
+                    if (!isEmpty(onOpenSuccess)) {
+                        onOpenSuccess();
+                    }
+                }.bind(this, onOpenSuccess);
                 // onmessage
                 this.state.ws.obj.onmessage = function (e) {
-                    if (!isEmpty(handleMsgCallfun)) {
-                        handleMsgCallfun(e.data);
-                    }
-                };
+                    this.handleWsMessage(e.data);
+                }.bind(this);
             }
         }
+    },
+    wsSend: function wsSend(sendCallfun) {
+        //open ws
+        this.wsOpen(this.state.user.id, function () {});
+        //send msg
         if (!isEmpty(this.state.ws.obj)) {
             if (this.state.ws.obj.readyState == 0) {
                 //CONNECTING
@@ -30711,34 +30739,60 @@ var Head = _react2.default.createClass({
     },
     handleWsMessage: function handleWsMessage(msg) {
         var message = JSON.parse(msg);
-        if (message.result == 5) {
-            //account login in other area
-            this.logout(this.state.accountLoginOtherArea);
+        //account login in other area
+        if (message.result == WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA) {
+            this.protectPage();
+            // c("WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA");
+            this.httpLogout(this.state.accountLoginOtherArea, function () {
+                this.wsClose();
+            }.bind(this));
         }
-        if (message.result == 6) {
-            //session timeout
-            this.logout(this.state.sessionTimeOut);
+        //session timeout
+        if (message.result == WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT) {
+            this.protectPage();
+            // c("WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT");
+            this.httpLogout(this.state.sessionTimeOut, function () {
+                this.wsClose();
+            }.bind(this));
         }
-    },
-    wsLogin: function wsLogin() {
-        this.wsSend(function (wsObj) {
-            // message to server
-            this.state.ws.obj.send(this.buildWsMessageJSON(this.state.user.id, 1));
-        }.bind(this), this.handleWsMessage);
     },
     wsLogout: function wsLogout() {
-        this.wsSend(function (wsObj) {
-            // message to server
-            this.state.ws.obj.send(this.buildWsMessageJSON(this.state.user.id, 2));
-        }.bind(this), this.handleWsMessage);
+        //ajax ws
+        ajax.put({
+            url: "/user/ws/ctrl/logout/" + this.state.user.id,
+            onResponseSuccess: function () {
+                this.wsClose();
+            }.bind(this)
+        });
     },
-    buildWsMessageJSON: function buildWsMessageJSON(userId, operation) {
-        return JSON.stringify({
-            userId: userId,
-            operation: operation
+    wsLogin: function wsLogin() {
+        //ajax ws
+        ajax.put({
+            url: "/user/ws/ctrl/login/" + this.state.user.id
         });
     },
     logout: function logout(msg) {
+
+        this.httpLogout(msg, function () {
+            this.wsLogout();
+            this.protectPage();
+        }.bind(this));
+    },
+
+    protectPage: function (_protectPage) {
+        function protectPage() {
+            return _protectPage.apply(this, arguments);
+        }
+
+        protectPage.toString = function () {
+            return _protectPage.toString();
+        };
+
+        return protectPage;
+    }(function () {
+        protectPage(this);
+    }),
+    httpLogout: function httpLogout(msg, callfun) {
         //default msg
         if (isEmpty(msg)) {
             msg = this.state.logoutSuccess;
@@ -30756,14 +30810,15 @@ var Head = _react2.default.createClass({
                 window.VmFrontendEventsDispatcher.closeLoading();
             }.bind(this),
             onResponseSuccess: function (result) {
+                //callfun
+                if (!isEmpty(callfun)) {
+                    callfun();
+                }
 
                 window.VmFrontendEventsDispatcher.showMsgDialog(msg);
+
                 //update user in state
                 this.updateStateUser({});
-
-                c(1);
-                //websocket operation
-                this.wsLogout();
             }.bind(this),
             onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.logoutFailure);
@@ -30784,18 +30839,28 @@ var Head = _react2.default.createClass({
                 //update user in state
                 this.updateStateUser(result.data.user);
 
-                this.wsLogin();
+                if (!isEmpty(result.data.user)) {
+                    //when user is online,open websocket
+                    this.wsOpen(result.data.user.id, function () {
+                        this.wsLogin();
+                    }.bind(this));
+                } else {
+                    this.protectPage();
+                }
             }.bind(this),
             onResponseFailure: function (result) {}.bind(this),
             onResponseEnd: function () {}.bind(this)
         });
     },
     render: function render() {
-        var location = {
-            pathname: "/user/" + this.state.user.id
-        };
         //在线
         var loginStatus = function () {
+            var _this = this;
+
+            var userBasicInfoLocation = {
+                pathname: "/user/" + this.state.user.id + "/basicInfo"
+            };
+
             return _react2.default.createElement(
                 "span",
                 null,
@@ -30803,8 +30868,8 @@ var Head = _react2.default.createClass({
                     "li",
                     null,
                     _react2.default.createElement(
-                        "a",
-                        { id: "headImg_a", href: "#" },
+                        _reactRouterDom.Link,
+                        { id: "headImg_a", to: userBasicInfoLocation },
                         _react2.default.createElement("img", { id: "headImg_img", src: this.state.user.imgUrl })
                     )
                 ),
@@ -30813,7 +30878,7 @@ var Head = _react2.default.createClass({
                     null,
                     _react2.default.createElement(
                         _reactRouterDom.Link,
-                        { id: "username", to: location },
+                        { id: "username", to: userBasicInfoLocation },
                         this.state.user.username
                     )
                 ),
@@ -30822,7 +30887,9 @@ var Head = _react2.default.createClass({
                     null,
                     _react2.default.createElement(
                         "a",
-                        { href: "javascript:void(0);", onClick: this.logout },
+                        { href: "javascript:void(0);", onClick: function onClick() {
+                                _this.logout();
+                            } },
                         "\u6CE8\u9500"
                     )
                 )
@@ -31660,283 +31727,16 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 
 /***/ }),
-/* 297 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouterDom = __webpack_require__(15);
-
-var _plain_panel_title = __webpack_require__(34);
-
-var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
-
-var _user_basic_info_page = __webpack_require__(298);
-
-var _user_basic_info_page2 = _interopRequireDefault(_user_basic_info_page);
-
-__webpack_require__(301);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*用户个人中心*/
-//引入react组件
-var UserInfoPage = _react2.default.createClass({
-    displayName: 'UserInfoPage',
-
-    getInitialState: function getInitialState() {
-        return {
-            userId: this.props.match.params.userId
-        };
-    },
-    componentDidMount: function componentDidMount() {
-        // checkUserOnlineStatus();
-    },
-
-    render: function render() {
-        return _react2.default.createElement(
-            'div',
-            { id: 'user_info', className: 'defaultPanel' },
-            _react2.default.createElement(_plain_panel_title2.default, { title: this.state.title }),
-            _react2.default.createElement(
-                _reactRouterDom.HashRouter,
-                null,
-                _react2.default.createElement(
-                    'div',
-                    { id: 'content',
-                        className: 'clearfix' },
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'nav' },
-                        'nav'
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'displayer' },
-                        _react2.default.createElement(
-                            _reactRouterDom.Switch,
-                            null,
-                            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/user/:userId', component: _user_basic_info_page2.default })
-                        )
-                    )
-                )
-            )
-        );
-    }
-});
-exports.default = (0, _reactRouterDom.withRouter)(UserInfoPage);
-
-/***/ }),
-/* 298 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouterDom = __webpack_require__(15);
-
-var _plain_panel_title = __webpack_require__(34);
-
-var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
-
-__webpack_require__(299);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*用户基本信息页面*/
-var UserBasicInfoPage = _react2.default.createClass({
-    displayName: 'UserBasicInfoPage',
-
-    getInitialState: function getInitialState() {
-        // c(props);
-        return {
-            userId: this.props.match.params.userId,
-            getInfoFailure: "获取信息失败",
-            title: "用户个人信息",
-            user: {}
-        };
-    },
-    componentDidMount: function componentDidMount() {
-        this.getUserBasicInfo();
-    },
-
-    updateStateUser: function updateStateUser(user) {
-        if (isEmpty(user)) {
-            user = {};
-        }
-        var state = this.state;
-        state.user = user;
-        this.setState(state);
-    },
-    getUserBasicInfo: function getUserBasicInfo() {
-        // c(this.props);
-        var url = "/user/online";
-        ajax.get({
-            url: url,
-            onBeforeRequest: function () {}.bind(this),
-            onResponseStart: function () {
-
-                //hide tip
-                this.showTagTip();
-            }.bind(this),
-            onResponseSuccess: function (result) {
-
-                //update user in state
-                this.updateStateUser(result.data.user);
-            }.bind(this),
-            onResponseFailure: function (result) {
-                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
-            }.bind(this),
-            onResponseEnd: function () {
-                //callfun
-                if (callfun != undefined) {
-                    callfun();
-                }
-            }.bind(this)
-        });
-    },
-    render: function render() {
-        return _react2.default.createElement(
-            'div',
-            { id: 'user_basic_info' },
-            'UserBasicPage',
-            _react2.default.createElement(
-                'form',
-                null,
-                _react2.default.createElement(
-                    'div',
-                    { id: 'displayer' },
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'info_item' },
-                        _react2.default.createElement(
-                            'label',
-                            null,
-                            '\u6635\u79F0 : '
-                        ),
-                        _react2.default.createElement(
-                            'span',
-                            null,
-                            _react2.default.createElement('input', { value: this.state.user.username })
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'info_item' },
-                        _react2.default.createElement(
-                            'label',
-                            null,
-                            '\u6027\u522B : '
-                        ),
-                        _react2.default.createElement(
-                            'span',
-                            null,
-                            _react2.default.createElement('input', { value: this.state.user.sex })
-                        )
-                    )
-                )
-            )
-        );
-    }
-}); //引入react组件
-exports.default = UserBasicInfoPage;
-
-/***/ }),
-/* 299 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(300);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(7)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_basic_info_page.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_basic_info_page.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 300 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(6)();
-// imports
-
-
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 301 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(302);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(7)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_info_page.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_info_page.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 302 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(6)();
-// imports
-
-
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_info {\n  margin: 0px 15%;\n  width: 70%;\n  margin-top: 20px; }\n  #user_info #content {\n    width: 100%; }\n    #user_info #content > div {\n      float: left;\n      width: 50%; }\n    #user_info #content #nav {\n      background-color: red; }\n    #user_info #content #displayer {\n      background-color: black; }\n", ""]);
-
-// exports
-
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'E:\\zk\\vm\\vm-frontend\\src\\main\\resources\\static\\components\\user_page.jsx'");
 
 /***/ })
 /******/ ]);

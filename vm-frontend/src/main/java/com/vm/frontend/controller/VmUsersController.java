@@ -6,6 +6,7 @@ import com.vm.dao.po.VmUsers;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.frontend.service.inf.VmUsersService;
 import com.vm.dao.validator.group.VmUsersGroups;
+import com.vm.frontend.websocket.OnlineUsersWebSocket;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -38,19 +39,6 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
         return response;
     }
-    @RequestMapping(value = "/login", method = RequestMethod.PUT)
-    public @ResponseBody
-    Object userLogin(@Validated(value = {VmUsersGroups.UserLogin.class}) CustomVmUsers user,
-                     BindingResult result) throws Exception {
-
-        VmUsers loginUser = service.userLogin(user);
-
-        getSession().setAttribute(KEY_OF_ONLINE_USER, loginUser);
-
-        response.putData("user", loginUser);
-
-        return response;
-    }
 
     @RequestMapping(value = "/online", method = RequestMethod.GET)
     public @ResponseBody
@@ -62,6 +50,20 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         }
         response.putData("user", user);
 
+
+        return response;
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.PUT)
+    public @ResponseBody
+    Object userLogin(@Validated(value = {VmUsersGroups.UserLogin.class}) CustomVmUsers user,
+                     BindingResult result) throws Exception {
+
+        VmUsers loginUser = service.userLogin(user);
+
+        setSessionAttr(KEY_OF_ONLINE_USER, loginUser);
+
+        response.putData("user", loginUser);
 
         return response;
     }

@@ -10,6 +10,23 @@ function fail(code) {
 function success(code) {
     return code == RESPONSE_CODE_SUCCESS;
 }
+//用户未登录时受保护的页面，用于用户注销后或者被动离线后调用
+var protectedPageLists = ["/user/[0-9/a-zA-Z]*"];//被保护的页面
+function protectPage(react_this) {
+    for (var i = 0; i < protectedPageLists.length; i++) {
+        var protectedPage = protectedPageLists[i];
+        if (react_this.props.location.pathname.match(protectedPage)) {
+            react_this.props.history.replace("/");
+            break;
+        }
+    }
+
+}
+//用户在其他地方登录code
+const WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA = 5;
+//在线用户超时code
+const WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT = 6;
+
 //电影图片等待加载时使用的图片
 const MOVIE_LOADING_IMG = "/image/movie_img_loading.gif";
 
@@ -28,7 +45,7 @@ function lazyLoad() {
 var ajax = {
     ajaxError: "访问服务器失败,请稍后重试",
     requestServerSuccess: function (args, result) {
-        c(result);
+
         if (!isEmpty(args.onResponseStart)) {
             args.onResponseStart();
         }
@@ -84,6 +101,7 @@ var ajax = {
         this.ajax(args);
     }
 };
+
 
 
 
