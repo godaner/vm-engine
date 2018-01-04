@@ -11,7 +11,7 @@ function success(code) {
     return code == RESPONSE_CODE_SUCCESS;
 }
 //用户未登录时受保护的页面，用于用户注销后或者被动离线后调用
-var protectedPageLists = ["/user/[0-9/a-zA-Z]*"];
+var protectedPageLists = ["/user/[0-9/a-zA-Z]*"];//被保护的页面
 function protectPage(react_this) {
     for (var i = 0; i < protectedPageLists.length; i++) {
         var protectedPage = protectedPageLists[i];

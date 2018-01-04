@@ -31771,7 +31771,7 @@ var UserBasicInfoPage = _react2.default.createClass({
     },
     getUserBasicInfo: function getUserBasicInfo(callfun) {
         // c(this.props);
-        var url = "/user/online";
+        var url = "/user/" + this.state.userId;
         ajax.get({
             url: url,
             onBeforeRequest: function () {}.bind(this),

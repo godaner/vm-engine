@@ -25,7 +25,7 @@ var UserBasicInfoPage = React.createClass({
     },
     getUserBasicInfo: function (callfun) {
         // c(this.props);
-        const url = "/user/online";
+        const url = "/user/"+this.state.userId;
         ajax.get({
             url: url,
             onBeforeRequest: function () {
