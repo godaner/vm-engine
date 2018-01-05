@@ -2,7 +2,9 @@ import React from 'react';  //引入react组件
 import {Switch, BrowserRouter, HashRouter, Route, Link, NavLink, withRouter,Redirect} from 'react-router-dom';
 import PlainPanelTitle from "./plain_panel_title";
 import UserBasicInfoPage from "./user_basic_info_page";
-import "../scss/user_info_page.scss";
+import UserHeadPage from "./user_head_page";
+
+import "../scss/user_page.scss";
 /*用户个人中心*/
 var UserPage = React.createClass({
     getInitialState: function () {
@@ -43,7 +45,7 @@ var UserPage = React.createClass({
     },
     render: function () {
 
-        this.protectUserPage();
+        // this.protectUserPage();
 
         var basicInfoUrl = "/user/" + this.state.userId+"/basicInfo";
         var resetPwdUrl = "/user/" + this.state.userId+"/resetPwd";
@@ -73,7 +75,7 @@ var UserPage = React.createClass({
                         <div id="displayer">
                             <Switch>
                                 <Route exact path='/user/:userId/basicInfo' component={UserBasicInfoPage}/>
-                                <Route exact path='/user/:userId/resetPwd' component={UserBasicInfoPage}/>
+                                <Route exact path='/user/:userId/head' component={UserHeadPage}/>
                             </Switch>
                         </div>
                     </div>

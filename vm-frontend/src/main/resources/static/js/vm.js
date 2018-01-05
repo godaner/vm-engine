@@ -11,10 +11,10 @@ function success(code) {
     return code == RESPONSE_CODE_SUCCESS;
 }
 //用户未登录时受保护的页面，用于用户注销后或者被动离线后调用
-var protectedPageLists = ["/user/[0-9/a-zA-Z]*"];//被保护的页面
-function protectPage(react_this) {
-    for (var i = 0; i < protectedPageLists.length; i++) {
-        var protectedPage = protectedPageLists[i];
+var protectedUserPageLists = ["/user/[0-9/a-zA-Z]*"];//被保护的页面
+function protectUserPage(react_this) {
+    for (var i = 0; i < protectedUserPageLists.length; i++) {
+        var protectedPage = protectedUserPageLists[i];
         if (react_this.props.location.pathname.match(protectedPage)) {
             react_this.props.history.replace("/");
             break;
@@ -81,8 +81,12 @@ var ajax = {
         if (!isEmpty(args.onBeforeRequest) && args.onBeforeRequest() == false) {
             return;
         }
+        if (isEmpty(args.async)) {
+            args.async = true;
+        }
         $.ajax({
             url: args.url,
+            async: args.async,
             type: args.type,
             success: function (result) {
                 this.requestServerSuccess(args, result);

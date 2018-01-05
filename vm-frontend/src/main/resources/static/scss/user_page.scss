@@ -8,26 +8,34 @@
     & > div {
       float: left;
     }
+    display: flex;
     #nav {
-      width: 30%;
-      background-color: red;
+      @include defaultSetPadding(10px,10px);
+      width: 200px;
+      background-color: unquote($defaultLightGrayRgb);
       #nav_ul{
         list-style: none;
+        display: block;
+        width: 100%;
         li{
           display: block;
           width: 100%;
-          NavLink{
+          a{
             display: block;
             width: 100%;
+            height:40px;
+            line-height: 40px;
+            text-align: center;
           }
           .active{
             background-color: unquote($defaultBlueRgb);
+            color: white;
           }
         }
       }
     }
     #displayer {
-      width: 70%;
+      flex: 1;
       background-color: black;
     }
   }

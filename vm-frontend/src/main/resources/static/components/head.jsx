@@ -20,6 +20,7 @@ var Head = React.createClass({
         };
     },
     componentDidMount: function () {
+        //刷新页面后获取在线用户，并且建立新的ws连接，如果用户不在线，那么保护页面
         this.getOnlineUser();
     },
     showLoginDialog: function () {
@@ -170,7 +171,7 @@ var Head = React.createClass({
         }.bind(this));
     },
     protectPage: function () {
-        protectPage(this);
+        protectUserPage(this);
     },
     httpLogout: function (msg, callfun) {
         //default msg

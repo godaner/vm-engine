@@ -25311,7 +25311,7 @@ var _loading = __webpack_require__(294);
 
 var _loading2 = _interopRequireDefault(_loading);
 
-var _user_page = __webpack_require__(303);
+var _user_page = __webpack_require__(297);
 
 var _user_page2 = _interopRequireDefault(_user_page);
 
@@ -30634,6 +30634,7 @@ var Head = _react2.default.createClass({
         };
     },
     componentDidMount: function componentDidMount() {
+        //刷新页面后获取在线用户，并且建立新的ws连接，如果用户不在线，那么保护页面
         this.getOnlineUser();
     },
     showLoginDialog: function showLoginDialog() {
@@ -30779,19 +30780,9 @@ var Head = _react2.default.createClass({
         }.bind(this));
     },
 
-    protectPage: function (_protectPage) {
-        function protectPage() {
-            return _protectPage.apply(this, arguments);
-        }
-
-        protectPage.toString = function () {
-            return _protectPage.toString();
-        };
-
-        return protectPage;
-    }(function () {
-        protectPage(this);
-    }),
+    protectPage: function protectPage() {
+        protectUserPage(this);
+    },
     httpLogout: function httpLogout(msg, callfun) {
         //default msg
         if (isEmpty(msg)) {
@@ -31727,7 +31718,138 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 
 /***/ }),
-/* 297 */,
+/* 297 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(15);
+
+var _plain_panel_title = __webpack_require__(34);
+
+var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
+
+var _user_basic_info_page = __webpack_require__(298);
+
+var _user_basic_info_page2 = _interopRequireDefault(_user_basic_info_page);
+
+var _user_head_page = __webpack_require__(303);
+
+var _user_head_page2 = _interopRequireDefault(_user_head_page);
+
+__webpack_require__(301);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*用户个人中心*/
+var UserPage = _react2.default.createClass({
+    displayName: 'UserPage',
+
+    getInitialState: function getInitialState() {
+        return {
+            userId: this.props.match.params.userId
+        };
+    },
+    componentDidMount: function componentDidMount() {
+        // checkUserOnlineStatus();
+    },
+
+    protectUserPage: function protectUserPage(callfun) {
+        // 监测用户是否在没有登录的情况下直接访问本页面
+        var url = "/user/online";
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {}.bind(this),
+            onResponseStart: function () {}.bind(this),
+            onResponseSuccess: function (result) {
+                //用户不在线
+                if (isEmpty(result.data.user)) {
+                    this.props.history.replace("/");
+                }
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
+            }.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun();
+                }
+            }.bind(this)
+        });
+    },
+    render: function render() {
+
+        // this.protectUserPage();
+
+        var basicInfoUrl = "/user/" + this.state.userId + "/basicInfo";
+        var resetPwdUrl = "/user/" + this.state.userId + "/resetPwd";
+        return _react2.default.createElement(
+            'div',
+            { id: 'user_info', className: 'defaultPanel' },
+            _react2.default.createElement(_plain_panel_title2.default, { title: this.state.title }),
+            _react2.default.createElement(
+                _reactRouterDom.HashRouter,
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { id: 'content',
+                        className: 'clearfix' },
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'nav' },
+                        _react2.default.createElement(
+                            'ul',
+                            { id: 'nav_ul' },
+                            _react2.default.createElement(
+                                'li',
+                                null,
+                                _react2.default.createElement(
+                                    _reactRouterDom.NavLink,
+                                    { to: basicInfoUrl,
+                                        activeClassName: 'active' },
+                                    '\u57FA\u672C\u4FE1\u606F'
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'li',
+                                null,
+                                _react2.default.createElement(
+                                    _reactRouterDom.NavLink,
+                                    { to: resetPwdUrl,
+                                        activeClassName: 'active' },
+                                    '\u4FEE\u6539\u5BC6\u7801'
+                                )
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'displayer' },
+                        _react2.default.createElement(
+                            _reactRouterDom.Switch,
+                            null,
+                            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/user/:userId/basicInfo', component: _user_basic_info_page2.default }),
+                            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/user/:userId/head', component: _user_head_page2.default })
+                        )
+                    )
+                )
+            )
+        );
+    }
+}); //引入react组件
+exports.default = (0, _reactRouterDom.withRouter)(UserPage);
+
+/***/ }),
 /* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31899,8 +32021,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_info_page.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_info_page.scss");
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_page.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_page.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -31918,7 +32040,7 @@ exports = module.exports = __webpack_require__(6)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_info {\n  margin: 0px 15%;\n  width: 70%;\n  margin-top: 20px; }\n  #user_info #content {\n    width: 100%; }\n    #user_info #content > div {\n      float: left; }\n    #user_info #content #nav {\n      width: 30%;\n      background-color: red; }\n      #user_info #content #nav #nav_ul {\n        list-style: none; }\n        #user_info #content #nav #nav_ul li {\n          display: block;\n          width: 100%; }\n          #user_info #content #nav #nav_ul li NavLink {\n            display: block;\n            width: 100%; }\n          #user_info #content #nav #nav_ul li .active {\n            background-color: rgb(61,158,255); }\n    #user_info #content #displayer {\n      width: 70%;\n      background-color: black; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_info {\n  margin: 0px 15%;\n  width: 70%;\n  margin-top: 20px; }\n  #user_info #content {\n    width: 100%;\n    display: flex; }\n    #user_info #content > div {\n      float: left; }\n    #user_info #content #nav {\n      padding: 10px 10px;\n      box-sizing: border-box;\n      width: 200px;\n      background-color: rgb(241,242,243); }\n      #user_info #content #nav #nav_ul {\n        list-style: none;\n        display: block;\n        width: 100%; }\n        #user_info #content #nav #nav_ul li {\n          display: block;\n          width: 100%; }\n          #user_info #content #nav #nav_ul li a {\n            display: block;\n            width: 100%;\n            height: 40px;\n            line-height: 40px;\n            text-align: center; }\n          #user_info #content #nav #nav_ul li .active {\n            background-color: rgb(61,158,255);\n            color: white; }\n    #user_info #content #displayer {\n      flex: 1;\n      background-color: black; }\n", ""]);
 
 // exports
 
@@ -31940,22 +32062,14 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(15);
 
-var _plain_panel_title = __webpack_require__(34);
-
-var _plain_panel_title2 = _interopRequireDefault(_plain_panel_title);
-
-var _user_basic_info_page = __webpack_require__(298);
-
-var _user_basic_info_page2 = _interopRequireDefault(_user_basic_info_page);
-
-__webpack_require__(301);
+__webpack_require__(304);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*用户个人中心*/
+/*用户头像页面*/
 //引入react组件
-var UserPage = _react2.default.createClass({
-    displayName: 'UserPage',
+var UserHeadPage = _react2.default.createClass({
+    displayName: "UserHeadPage",
 
     getInitialState: function getInitialState() {
         return {
@@ -31963,94 +32077,59 @@ var UserPage = _react2.default.createClass({
         };
     },
     componentDidMount: function componentDidMount() {
-        // checkUserOnlineStatus();
+        this.getUserBasicInfo();
     },
 
-    protectUserPage: function protectUserPage(callfun) {
-        // 监测用户是否在没有登录的情况下直接访问本页面
-        var url = "/user/online";
-        ajax.get({
-            url: url,
-            onBeforeRequest: function () {}.bind(this),
-            onResponseStart: function () {}.bind(this),
-            onResponseSuccess: function (result) {
-                //用户不在线
-                if (isEmpty(result.data.user)) {
-                    this.props.history.replace("/");
-                }
-            }.bind(this),
-            onResponseFailure: function (result) {
-                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
-            }.bind(this),
-            onResponseEnd: function () {
-                //callfun
-                if (callfun != undefined) {
-                    callfun();
-                }
-            }.bind(this)
-        });
-    },
+
     render: function render() {
-
-        this.protectUserPage();
-
-        var basicInfoUrl = "/user/" + this.state.userId + "/basicInfo";
-        var resetPwdUrl = "/user/" + this.state.userId + "/resetPwd";
         return _react2.default.createElement(
-            'div',
-            { id: 'user_info', className: 'defaultPanel' },
-            _react2.default.createElement(_plain_panel_title2.default, { title: this.state.title }),
-            _react2.default.createElement(
-                _reactRouterDom.HashRouter,
-                null,
-                _react2.default.createElement(
-                    'div',
-                    { id: 'content',
-                        className: 'clearfix' },
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'nav' },
-                        _react2.default.createElement(
-                            'ul',
-                            { id: 'nav_ul' },
-                            _react2.default.createElement(
-                                'li',
-                                null,
-                                _react2.default.createElement(
-                                    _reactRouterDom.NavLink,
-                                    { to: basicInfoUrl,
-                                        activeClassName: 'active' },
-                                    '\u57FA\u672C\u4FE1\u606F'
-                                )
-                            ),
-                            _react2.default.createElement(
-                                'li',
-                                null,
-                                _react2.default.createElement(
-                                    _reactRouterDom.NavLink,
-                                    { to: resetPwdUrl,
-                                        activeClassName: 'active' },
-                                    '\u4FEE\u6539\u5BC6\u7801'
-                                )
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { id: 'displayer' },
-                        _react2.default.createElement(
-                            _reactRouterDom.Switch,
-                            null,
-                            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/user/:userId/basicInfo', component: _user_basic_info_page2.default }),
-                            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/user/:userId/resetPwd', component: _user_basic_info_page2.default })
-                        )
-                    )
-                )
-            )
+            "div",
+            { id: "user_head_content" },
+            "UserHeadPage"
         );
     }
 });
-exports.default = (0, _reactRouterDom.withRouter)(UserPage);
+exports.default = UserHeadPage;
+
+/***/ }),
+/* 304 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(305);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(7)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_head_page.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_head_page.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 305 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(6)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);
