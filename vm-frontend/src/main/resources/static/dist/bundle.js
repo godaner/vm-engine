@@ -31922,43 +31922,102 @@ var UserBasicInfoPage = _react2.default.createClass({
     render: function render() {
         return _react2.default.createElement(
             "div",
-            { id: "user_basic_info" },
-            "UserBasicPage",
+            { id: "user_basic_info_content", className: "clearfix" },
             _react2.default.createElement(
-                "form",
-                null,
+                "div",
+                { id: "basic_info" },
                 _react2.default.createElement(
-                    "div",
-                    { id: "displayer" },
+                    "form",
+                    null,
                     _react2.default.createElement(
                         "div",
-                        { className: "info_item" },
+                        { id: "displayer" },
                         _react2.default.createElement(
-                            "label",
-                            null,
-                            "\u6635\u79F0 : "
+                            "div",
+                            { className: "info_item clearfix" },
+                            _react2.default.createElement(
+                                "label",
+                                null,
+                                "\u6635\u79F0 : "
+                            ),
+                            _react2.default.createElement(
+                                "span",
+                                null,
+                                _react2.default.createElement("input", { value: this.state.user.username })
+                            )
                         ),
                         _react2.default.createElement(
-                            "span",
-                            null,
-                            _react2.default.createElement("input", { value: this.state.user.username })
-                        )
-                    ),
-                    _react2.default.createElement(
-                        "div",
-                        { className: "info_item" },
-                        _react2.default.createElement(
-                            "label",
-                            null,
-                            "\u6027\u522B : "
+                            "div",
+                            { id: "sex_div", className: "info_item clearfix" },
+                            _react2.default.createElement(
+                                "label",
+                                null,
+                                "\u6027\u522B : "
+                            ),
+                            _react2.default.createElement(
+                                "span",
+                                null,
+                                _react2.default.createElement(
+                                    "select",
+                                    { value: this.state.user.sex },
+                                    _react2.default.createElement(
+                                        "option",
+                                        { value: "1" },
+                                        "\u7537"
+                                    ),
+                                    _react2.default.createElement(
+                                        "option",
+                                        { value: "2" },
+                                        "\u5973"
+                                    ),
+                                    _react2.default.createElement(
+                                        "option",
+                                        { value: "3" },
+                                        "\u4FDD\u5BC6"
+                                    )
+                                )
+                            )
                         ),
                         _react2.default.createElement(
-                            "span",
-                            null,
-                            _react2.default.createElement("input", { value: this.state.user.sex })
+                            "div",
+                            { id: "birthday_div", className: "info_item clearfix" },
+                            _react2.default.createElement(
+                                "label",
+                                null,
+                                "\u751F\u65E5 : "
+                            ),
+                            _react2.default.createElement(
+                                "span",
+                                null,
+                                _react2.default.createElement("select", { id: "year" }),
+                                "\u5E74",
+                                _react2.default.createElement("select", { id: "month" }),
+                                "\u6708",
+                                _react2.default.createElement("select", { id: "day" }),
+                                "\u65E5"
+                            )
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { id: "description_div", className: "info_item clearfix" },
+                            _react2.default.createElement(
+                                "label",
+                                null,
+                                "\u63CF\u8FF0 : "
+                            ),
+                            _react2.default.createElement(
+                                "span",
+                                null,
+                                _react2.default.createElement("textarea", { placeholder: "\u8BF7\u8F93\u5165\u63CF\u8FF0\u4FE1\u606F" })
+                            )
                         )
                     )
                 )
+            ),
+            _react2.default.createElement(
+                "div",
+                { id: "tip" },
+                "\u8BF7\u60A8\u5B8C\u5584\u8D26\u6237\u57FA\u672C\u4FE1\u606F"
             )
         );
     }
@@ -32000,7 +32059,7 @@ exports = module.exports = __webpack_require__(6)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_basic_info_content {\n  width: 100%; }\n  #user_basic_info_content > div {\n    float: left; }\n  #user_basic_info_content #basic_info {\n    width: 70%;\n    padding: 20px;\n    box-sizing: border-box; }\n    #user_basic_info_content #basic_info #displayer {\n      width: 100%; }\n      #user_basic_info_content #basic_info #displayer .info_item {\n        margin-bottom: 20px;\n        width: 100%; }\n        #user_basic_info_content #basic_info #displayer .info_item > * {\n          float: left;\n          display: block; }\n        #user_basic_info_content #basic_info #displayer .info_item label {\n          width: 10%;\n          text-align: right;\n          font-size: 14px;\n          height: 20px;\n          line-height: 20px;\n          padding-right: 8px;\n          box-sizing: border-box; }\n        #user_basic_info_content #basic_info #displayer .info_item span {\n          width: 90%; }\n          #user_basic_info_content #basic_info #displayer .info_item span select {\n            padding-left: 8px;\n            box-sizing: border-box;\n            height: 20px;\n            line-height: 20px;\n            border: 1px solid rgb(61,158,255);\n            width: 50px; }\n      #user_basic_info_content #basic_info #displayer #sex_div select {\n        padding-left: 8px;\n        box-sizing: border-box;\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 50px; }\n      #user_basic_info_content #basic_info #displayer #birthday_div input {\n        padding-left: 8px;\n        box-sizing: border-box;\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 50px; }\n      #user_basic_info_content #basic_info #displayer #description_div textarea {\n        padding-left: 8px;\n        box-sizing: border-box;\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 400px;\n        height: 150px;\n        resize: none; }\n  #user_basic_info_content #tip {\n    width: 30%; }\n", ""]);
 
 // exports
 
@@ -32040,7 +32099,7 @@ exports = module.exports = __webpack_require__(6)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_info {\n  margin: 0px 15%;\n  width: 70%;\n  margin-top: 20px; }\n  #user_info #content {\n    width: 100%;\n    display: flex; }\n    #user_info #content > div {\n      float: left; }\n    #user_info #content #nav {\n      padding: 10px 10px;\n      box-sizing: border-box;\n      width: 200px;\n      background-color: rgb(241,242,243); }\n      #user_info #content #nav #nav_ul {\n        list-style: none;\n        display: block;\n        width: 100%; }\n        #user_info #content #nav #nav_ul li {\n          display: block;\n          width: 100%; }\n          #user_info #content #nav #nav_ul li a {\n            display: block;\n            width: 100%;\n            height: 40px;\n            line-height: 40px;\n            text-align: center; }\n          #user_info #content #nav #nav_ul li .active {\n            background-color: rgb(61,158,255);\n            color: white; }\n    #user_info #content #displayer {\n      flex: 1;\n      background-color: black; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_info {\n  margin: 0px 15%;\n  width: 70%;\n  margin-top: 20px; }\n  #user_info #content {\n    width: 100%;\n    display: flex; }\n    #user_info #content > div {\n      float: left; }\n    #user_info #content #nav {\n      padding: 10px 10px;\n      box-sizing: border-box;\n      width: 200px;\n      background-color: rgb(241,242,243); }\n      #user_info #content #nav #nav_ul {\n        list-style: none;\n        display: block;\n        width: 100%; }\n        #user_info #content #nav #nav_ul li {\n          display: block;\n          width: 100%; }\n          #user_info #content #nav #nav_ul li a {\n            display: block;\n            width: 100%;\n            height: 40px;\n            line-height: 40px;\n            text-align: center;\n            font-size: 15px; }\n          #user_info #content #nav #nav_ul li .active {\n            background-color: rgb(61,158,255);\n            color: white; }\n    #user_info #content #displayer {\n      flex: 1; }\n", ""]);
 
 // exports
 
@@ -32076,9 +32135,7 @@ var UserHeadPage = _react2.default.createClass({
             userId: this.props.match.params.userId
         };
     },
-    componentDidMount: function componentDidMount() {
-        this.getUserBasicInfo();
-    },
+    componentDidMount: function componentDidMount() {},
 
 
     render: function render() {

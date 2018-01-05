@@ -9,7 +9,7 @@ var UserHeadPage = React.createClass({
         };
     },
     componentDidMount(){
-        this.getUserBasicInfo();
+
     },
 
     render: function () {

@@ -26,6 +26,7 @@
             height:40px;
             line-height: 40px;
             text-align: center;
+            font-size: 15px;
           }
           .active{
             background-color: unquote($defaultBlueRgb);
@@ -36,7 +37,7 @@
     }
     #displayer {
       flex: 1;
-      background-color: black;
+      //background-color: black;
     }
   }
 }

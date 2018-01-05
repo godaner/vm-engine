@@ -1,4 +1,79 @@
 @import "frontend-default.scss";
+#user_basic_info_content{
+  width: 100%;
+  &>div{
+    float: left;
+  }
+  #basic_info{
+    width: 70%;
+    @include defaultSetPaddingAround(20px);
+    #displayer{
+      @include defaultWidth;
+
+      $input_height:20px;
+      .info_item{
+        margin-bottom: 20px;
+        @include defaultWidth;
+        &>*{
+          float: left;
+          display: block;
+        }
+        label{
+          width:10%;
+          text-align: right;
+          font-size: 14px;
+          height:$input_height;
+          line-height: $input_height;
+          @include defaultSetPaddingRight(8px);
+        }
+        span{
+          width:90%;
+          select{
+            @include defaultSetPaddingLeft(8px);
+            height:$input_height;
+            line-height: $input_height;
+            border:1px solid unquote($defaultBlueRgb);
+            width: 50px;
+          }
+
+        }
+
+      }
+      #sex_div{
+        select{
+          @include defaultSetPaddingLeft(8px);
+          height:$input_height;
+          line-height: $input_height;
+          border:1px solid unquote($defaultBlueRgb);
+          width: 50px;
+        }
+      }
+      #birthday_div{
+        input{
+          @include defaultSetPaddingLeft(8px);
+          height:$input_height;
+          line-height: $input_height;
+          border:1px solid unquote($defaultBlueRgb);
+          width: 50px;
+        }
+      }
+      #description_div{
+        textarea{
+          @include defaultSetPaddingLeft(8px);
+          height:$input_height;
+          line-height: $input_height;
+          border:1px solid unquote($defaultBlueRgb);
+          width: 400px;
+          height: 150px;
+          resize: none;
+        }
+      }
+    }
+  }
+  #tip{
+    width: 30%;
+  }
+}
 
 
 
