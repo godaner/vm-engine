@@ -54,8 +54,8 @@ var UserBasicInfoPage = React.createClass({
 
 
     },
-    handleDateSelect:function () {
-        c("handleDateSelect");
+    handleBirthdayChange: function () {
+        c("onDateChange");
     },
     render: function () {
         return (
@@ -85,8 +85,9 @@ var UserBasicInfoPage = React.createClass({
                                 <label>生日 : </label>
                                 <span className="split"></span>
                                 <span className="content">
-
-                                    <Date onSelect={this.handleDateSelect}/>
+                                    {/*日期组件*/}
+                                    <Date minYear="1999"
+                                          onDateChange={this.handleBirthdayChange}/>
                                  </span>
                             </div>
                             <div id="description_div" className="info_item clearfix">

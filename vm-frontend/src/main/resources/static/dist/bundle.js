@@ -31922,8 +31922,8 @@ var UserBasicInfoPage = _react2.default.createClass({
             }.bind(this)
         });
     },
-    handleDateSelect: function handleDateSelect() {
-        c("handleDateSelect");
+    handleBirthdayChange: function handleBirthdayChange() {
+        c("onDateChange");
     },
     render: function render() {
         return _react2.default.createElement(
@@ -31998,7 +31998,8 @@ var UserBasicInfoPage = _react2.default.createClass({
                             _react2.default.createElement(
                                 "span",
                                 { className: "content" },
-                                _react2.default.createElement(_date2.default, { onSelect: this.handleDateSelect })
+                                _react2.default.createElement(_date2.default, { minYear: "1999",
+                                    onDateChange: this.handleBirthdayChange })
                             )
                         ),
                         _react2.default.createElement(
@@ -32222,26 +32223,157 @@ var Date = _react2.default.createClass({
     displayName: "Date",
 
     getInitialState: function getInitialState() {
+
+        var now = new Date();
+
+        var maxYear = now.getYear();
+
+        var minYear = now.getYear() - 30;
+        if (!isEmpty(this.props.minYear) && this.props.minYear <= maxYear) {
+            minYear = this.props.minYear;
+        }
         return {
-            onSelect: this.props.onSelect
+            date: {
+                year: undefined,
+                month: undefined,
+                day: undefined
+            },
+            years: [],
+            months: [],
+            days: [],
+            now: now,
+            minYear: minYear,
+            maxYear: maxYear
+
         };
     },
-    componentDidMount: function componentDidMount() {
-        this.initDate();
+    componentDidMount: function componentDidMount() {},
+    handleYearChange: function handleYearChange() {
+        this.props.onDateChange(this.state.date);
+    },
+    handleMonthChange: function handleMonthChange() {
+        this.props.onDateChange(this.state.date);
+    },
+    handleDayChange: function handleDayChange() {
+        this.props.onDateChange(this.state.date);
     },
 
-    initDate: function initDate() {},
+    initDateData: function initDateData() {
+        //init years
+        var years = [];
+        for (var i = this.state.minYear; i <= this.state.maxYear; i++) {
+            years.push(i);
+        }
+        this.updateStateYears(years);
+
+        //init months
+        var months = [];
+        for (var i = 1; i <= 12; i++) {
+            months.push(i);
+        }
+        this.updateStateMonths(months);
+
+        //init days
+        var days = [];
+        var maxDay = this.state.now.getCountOfMonthDay();
+        for (var i = 1; i <= maxDay; i++) {
+            days.push(i);
+        }
+        this.updateStateDays(days);
+    },
+
+    updateStateYears: function updateStateYears(years) {
+        var state = this.state;
+        state.years = years;
+        this.setState(state);
+    },
+    updateStateMonths: function updateStateMonths(months) {
+
+        var state = this.state;
+        state.months = months;
+        this.setState(state);
+    },
+    updateStateDays: function updateStateDays(days) {
+
+        var state = this.state;
+        state.days = days;
+        this.setState(days);
+    },
+    setYearValue: function setYearValue(year) {},
+    setMonthValue: function setMonthValue(month) {},
+    setDayValue: function setDayValue(day) {},
+
     render: function render() {
+
+        this.initDateData();
+
+        var yearOptions = function yearOptions() {
+            var res = [];
+            for (var i = 0; i < this.state.years.length; i++) {
+                var year = this.state.years[i];
+                return _react2.default.createElement(
+                    "option",
+                    { value: year },
+                    year
+                );
+            }
+        };
+        var monthOptions = function monthOptions() {
+            var res = [];
+            for (var i = 0; i < this.state.months.length; i++) {
+                var month = this.state.months[i];
+                return _react2.default.createElement(
+                    "option",
+                    { value: month },
+                    month
+                );
+            }
+        };
+        var dayOptions = function dayOptions() {
+            var res = [];
+            for (var i = 0; i < this.state.days.length; i++) {
+                var day = this.state.days[i];
+                return _react2.default.createElement(
+                    "option",
+                    { value: day },
+                    day
+                );
+            }
+        };
 
         return _react2.default.createElement(
             "span",
             { id: "date_content" },
-            _react2.default.createElement("select", { id: "year", ref: "year" }),
-            "\u5E74",
-            _react2.default.createElement("select", { id: "month", ref: "month" }),
-            "\u6708",
-            _react2.default.createElement("select", { id: "day", ref: "day" }),
-            "\u65E5"
+            _react2.default.createElement(
+                "span",
+                null,
+                _react2.default.createElement(
+                    "select",
+                    { id: "year", ref: "year" },
+                    yearOptions()
+                ),
+                "\u5E74"
+            ),
+            _react2.default.createElement(
+                "span",
+                null,
+                _react2.default.createElement(
+                    "select",
+                    { id: "month", ref: "month" },
+                    monthOptions()
+                ),
+                "\u6708"
+            ),
+            _react2.default.createElement(
+                "span",
+                null,
+                _react2.default.createElement(
+                    "select",
+                    { id: "day", ref: "day" },
+                    dayOptions()
+                ),
+                "\u65E5"
+            )
         );
     }
 }); //引入react组件
@@ -32282,7 +32414,7 @@ exports = module.exports = __webpack_require__(6)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#date_content {\n  width: 100%; }\n  #date_content select {\n    height: 20px;\n    line-height: 20px;\n    border: 1px solid rgb(61,158,255);\n    width: 50px;\n    margin-right: 10px; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#date_content {\n  width: 100%; }\n  #date_content span {\n    margin-right: 10px; }\n    #date_content span select {\n      height: 20px;\n      line-height: 20px;\n      border: 1px solid rgb(61,158,255);\n      width: 50px; }\n", ""]);
 
 // exports
 
