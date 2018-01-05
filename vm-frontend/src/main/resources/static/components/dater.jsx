@@ -1,7 +1,7 @@
 import React from 'react';  //引入react组件
-import "../scss/date.scss";
+import "../scss/dater.scss";
 /*日期插件*/
-var Date = React.createClass({
+var Dater = React.createClass({
     getInitialState: function () {
 
         var now = new Date();
@@ -27,15 +27,15 @@ var Date = React.createClass({
 
         };
     },
-    componentDidMount(){
+    componentDidMount: function () {
     },
-    handleYearChange(){
+    handleYearChange: function () {
         this.props.onDateChange(this.state.date);
     },
-    handleMonthChange(){
+    handleMonthChange: function () {
         this.props.onDateChange(this.state.date);
     },
-    handleDayChange(){
+    handleDayChange: function () {
         this.props.onDateChange(this.state.date);
     },
     initDateData: function () {
@@ -62,60 +62,47 @@ var Date = React.createClass({
         this.updateStateDays(days);
     },
 
-    updateStateYears(years){
+    updateStateYears: function (years) {
         var state = this.state;
         state.years = years;
         this.setState(state);
     },
-    updateStateMonths(months){
+    updateStateMonths: function (months) {
 
         var state = this.state;
         state.months = months;
         this.setState(state);
     },
 
-    updateStateDays(days){
+    updateStateDays: function (days) {
 
         var state = this.state;
         state.days = days;
         this.setState(days);
     },
-    setYearValue(year){
+    setYearValue: function (year) {
 
     },
-    setMonthValue(month){
+    setMonthValue: function (month) {
 
     },
 
-    setDayValue(day){
+    setDayValue: function (day) {
 
+    },
+    generateOptions: function (values) {
+        for (var i = 0; i < values.length; i++) {
+            var value = values[i];
+            return <option value={value}>{value}</option>;
+        }
     },
     render: function () {
 
         this.initDateData();
 
-        var yearOptions = function () {
-            var res = [];
-            for (var i = 0; i < this.state.years.length; i++) {
-                var year = this.state.years[i];
-                return <option value={year}>{year}</option>;
-            }
-        }
-        var monthOptions = function () {
-            var res = [];
-            for (var i = 0; i < this.state.months.length; i++) {
-                var month = this.state.months[i];
-                return <option value={month}>{month}</option>;
-            }
-        }
-        var dayOptions = function () {
-            var res = [];
-            for (var i = 0; i < this.state.days.length; i++) {
-                var day = this.state.days[i];
-                return <option value={day}>{day}</option>;
-            }
-        }
-
+        var yearOptions = this.generateOptions(this.state.years);
+        var monthOptions = this.generateOptions(this.state.months);
+        var dayOptions = this.generateOptions(this.state.days);
         return (
             <span id="date_content">
                 <span>
@@ -147,4 +134,4 @@ var Date = React.createClass({
         );
     }
 });
-export default withRouter(UserPage);
+export default Dater;

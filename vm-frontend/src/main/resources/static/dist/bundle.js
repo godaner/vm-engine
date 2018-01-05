@@ -31866,9 +31866,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(15);
 
-var _date = __webpack_require__(306);
+var _dater = __webpack_require__(309);
 
-var _date2 = _interopRequireDefault(_date);
+var _dater2 = _interopRequireDefault(_dater);
 
 __webpack_require__(299);
 
@@ -31998,7 +31998,7 @@ var UserBasicInfoPage = _react2.default.createClass({
                             _react2.default.createElement(
                                 "span",
                                 { className: "content" },
-                                _react2.default.createElement(_date2.default, { minYear: "1999",
+                                _react2.default.createElement(_dater2.default, { minYear: "1999",
                                     onDateChange: this.handleBirthdayChange })
                             )
                         ),
@@ -32200,7 +32200,10 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 
 
 /***/ }),
-/* 306 */
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32214,13 +32217,13 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(307);
+__webpack_require__(310);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*日期插件*/
-var Date = _react2.default.createClass({
-    displayName: "Date",
+var Dater = _react2.default.createClass({
+    displayName: "Dater",
 
     getInitialState: function getInitialState() {
 
@@ -32257,7 +32260,6 @@ var Date = _react2.default.createClass({
     handleDayChange: function handleDayChange() {
         this.props.onDateChange(this.state.date);
     },
-
     initDateData: function initDateData() {
         //init years
         var years = [];
@@ -32293,6 +32295,7 @@ var Date = _react2.default.createClass({
         state.months = months;
         this.setState(state);
     },
+
     updateStateDays: function updateStateDays(days) {
 
         var state = this.state;
@@ -32301,46 +32304,25 @@ var Date = _react2.default.createClass({
     },
     setYearValue: function setYearValue(year) {},
     setMonthValue: function setMonthValue(month) {},
-    setDayValue: function setDayValue(day) {},
 
+    setDayValue: function setDayValue(day) {},
+    generateOptions: function generateOptions(values) {
+        for (var i = 0; i < values.length; i++) {
+            var value = values[i];
+            return _react2.default.createElement(
+                "option",
+                { value: value },
+                value
+            );
+        }
+    },
     render: function render() {
 
         this.initDateData();
 
-        var yearOptions = function yearOptions() {
-            var res = [];
-            for (var i = 0; i < this.state.years.length; i++) {
-                var year = this.state.years[i];
-                return _react2.default.createElement(
-                    "option",
-                    { value: year },
-                    year
-                );
-            }
-        };
-        var monthOptions = function monthOptions() {
-            var res = [];
-            for (var i = 0; i < this.state.months.length; i++) {
-                var month = this.state.months[i];
-                return _react2.default.createElement(
-                    "option",
-                    { value: month },
-                    month
-                );
-            }
-        };
-        var dayOptions = function dayOptions() {
-            var res = [];
-            for (var i = 0; i < this.state.days.length; i++) {
-                var day = this.state.days[i];
-                return _react2.default.createElement(
-                    "option",
-                    { value: day },
-                    day
-                );
-            }
-        };
-
+        var yearOptions = this.generateOptions(this.state.years);
+        var monthOptions = this.generateOptions(this.state.months);
+        var dayOptions = this.generateOptions(this.state.days);
         return _react2.default.createElement(
             "span",
             { id: "date_content" },
@@ -32377,16 +32359,16 @@ var Date = _react2.default.createClass({
         );
     }
 }); //引入react组件
-exports.default = withRouter(UserPage);
+exports.default = Dater;
 
 /***/ }),
-/* 307 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(308);
+var content = __webpack_require__(311);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(7)(content, {});
@@ -32395,8 +32377,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./date.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./date.scss");
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./dater.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./dater.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -32406,7 +32388,7 @@ if(false) {
 }
 
 /***/ }),
-/* 308 */
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();

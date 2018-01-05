@@ -1,6 +1,6 @@
 import React from "react"; //引入react组件
 import {BrowserRouter, HashRouter, Link, Route, Switch} from "react-router-dom";
-import Date from "./date";
+import Dater from "./dater";
 import "../scss/user_basic_info_page.scss";
 /*用户基本信息页面*/
 var UserBasicInfoPage = React.createClass({
@@ -86,7 +86,7 @@ var UserBasicInfoPage = React.createClass({
                                 <span className="split"></span>
                                 <span className="content">
                                     {/*日期组件*/}
-                                    <Date minYear="1999"
+                                    <Dater minYear="1999"
                                           onDateChange={this.handleBirthdayChange}/>
                                  </span>
                             </div>
