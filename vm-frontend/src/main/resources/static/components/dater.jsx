@@ -14,18 +14,6 @@ var Dater = React.createClass({
         if (!isEmpty(this.props.minYear) && this.props.minYear <= maxYear) {
             minYear = this.props.minYear;
         }
-        //init date
-        var date = {
-            year: now.getFullYear(),
-            month: now.getMonth() + 1,
-            day: now.getDate()
-        };
-        if (!isEmpty(this.props.defaultDate) &&
-            !isEmpty(this.props.defaultDate.year) &&
-            !isEmpty(this.props.defaultDate.month) &&
-            !isEmpty(this.props.defaultDate.day)) {
-            date = this.props.defaultDate;
-        }
 
         //init years
         var years = [];
@@ -44,7 +32,6 @@ var Dater = React.createClass({
             days.push(i);
         }
         return {
-            date: date,
             years: years,
             months: months,
             days: days,
@@ -53,30 +40,41 @@ var Dater = React.createClass({
             maxYear: maxYear
         };
     },
+    splitDate: function (originalJsDate) {
+        var date = undefined;
+        if (!isUndefined(originalJsDate)) {
+
+            var year = originalJsDate.getFullYear();
+            var month = originalJsDate.getMonth() + 1;
+            var day = originalJsDate.getDate();
+            date = {year: year, month: month, day: day};
+        }
+        return date;
+    },
     componentDidMount: function () {
 
     },
-    handleYearChange: function () {
-        var year = $(this.refs.year).val();
+    handleYearChange: function (e) {
+        var year = e.target.value;
         c(year);
-        this.updateStateYear(year);
-        this.props.onDateChange(this.state.date);
+        // this.updateStateYear(year);
+        // this.props.onDateChange(this.state.date);
     },
-    handleMonthChange: function () {
+    handleMonthChange: function (e) {
 
-        var month = $(this.refs.month).val();
+        var month = e.target.value;
         c(month);
-        this.updateStateYear(month);
-        this.props.onDateChange(this.state.date);
+        // this.updateStateYear(month);
+        // this.props.onDateChange(this.state.date);
     },
-    handleDayChange: function () {
+    handleDayChange: function (e) {
 
-        var day = $(this.refs.day).val();
+        var day = e.target.value;
         c(day);
-        this.updateStateYear(day);
-        this.props.onDateChange(this.state.date);
+        // this.updateStateYear(day);
+        // this.props.onDateChange(this.state.date);
     },
-    updateStateYear: function (year) {
+    /*updateStateYear: function (year) {
         var state = this.state;
         state.date.year = year;
         this.setState(state);
@@ -91,7 +89,7 @@ var Dater = React.createClass({
         var state = this.state;
         state.date.day = day;
         this.setState(state);
-    },
+    },*/
     generateOptions: function (values) {
         var res = [];
         for (var i = 0; i < values.length; i++) {
@@ -107,16 +105,29 @@ var Dater = React.createClass({
         return res;
     },
     render: function () {
+        //deal defaultDate
+        var now = this.state.now;
+        var date = {
+            year: now.getFullYear(),
+            month: now.getMonth() + 1,
+            day: now.getDate()
+        };
+        c(now);
+        c(now.getDate());
+        if (!isUndefined(this.props.intDate)) {
+            c("if (!isUndefined(this.props.intDate)) {");
+            date = this.splitDate(new Date(this.props.intDate));
+        }
 
-        c(this.state.date.year);
-        c(this.state.date.month);
-        c(this.state.date.day);
+        c("dates");
+        c(date);
+        c("datee");
         return (
             <span id="date_content">
                 <span>
                     <select id="year"
                             ref="year"
-                            defaultValue={this.state.date.year}
+                            defaultValue={date.year}
                             onChange={this.handleYearChange}>
                         {this.generateOptions(this.state.years)}
                     </select>年
@@ -125,7 +136,7 @@ var Dater = React.createClass({
                 <span>
                     <select id="month"
                             ref="month"
-                            defaultValue={this.state.date.month}
+                            defaultValue={date.month}
                             onChange={this.handleMonthChange}>
                         {this.generateOptions(this.state.months)}
                     </select>月
@@ -134,7 +145,7 @@ var Dater = React.createClass({
                 <span>
                     <select id="day"
                             ref="day"
-                            defaultValue={this.state.date.day}
+                            defaultValue={date.day}
                             onChange={this.handleDayChange}>
                         {this.generateOptions(this.state.days)}
                     </select>日

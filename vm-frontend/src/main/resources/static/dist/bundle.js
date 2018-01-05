@@ -31908,6 +31908,7 @@ var UserBasicInfoPage = _react2.default.createClass({
             onResponseStart: function () {}.bind(this),
             onResponseSuccess: function (result) {
 
+                // c(result.data.user);
                 //update user in state
                 this.updateStateUser(result.data.user);
             }.bind(this),
@@ -31923,20 +31924,9 @@ var UserBasicInfoPage = _react2.default.createClass({
         });
     },
     handleBirthdayChange: function handleBirthdayChange() {
-        c("onDateChange");
+        c("handleBirthdayChange");
     },
-
     render: function render() {
-        var year = undefined;
-        var month = undefined;
-        var day = undefined;
-        if (!isEmpty(this.state.user) && !isEmpty(this.state.user.birthday)) {
-            var b = this.state.user.birthday;
-            var birthday = timeFormatter.formatDate(b);
-            year = birthday.getFullYear();
-            month = birthday.getMonth() + 1;
-            day = birthday.getDate();
-        }
 
         return _react2.default.createElement(
             "div",
@@ -32010,7 +32000,7 @@ var UserBasicInfoPage = _react2.default.createClass({
                             _react2.default.createElement(
                                 "span",
                                 { className: "content" },
-                                _react2.default.createElement(_dater2.default, { defaultDate: { year: year, month: month, day: day },
+                                _react2.default.createElement(_dater2.default, { intDate: this.state.user.birthday,
                                     onDateChange: this.handleBirthdayChange })
                             )
                         ),
@@ -32026,7 +32016,8 @@ var UserBasicInfoPage = _react2.default.createClass({
                             _react2.default.createElement(
                                 "span",
                                 { className: "content" },
-                                _react2.default.createElement("textarea", { placeholder: "\u8BF7\u8F93\u5165\u63CF\u8FF0\u4FE1\u606F" })
+                                _react2.default.createElement("textarea", { placeholder: "\u8BF7\u8F93\u5165\u63CF\u8FF0\u4FE1\u606F",
+                                    value: this.state.user.description })
                             )
                         ),
                         _react2.default.createElement(
@@ -32082,15 +32073,6 @@ var Dater = _react2.default.createClass({
         if (!isEmpty(this.props.minYear) && this.props.minYear <= maxYear) {
             minYear = this.props.minYear;
         }
-        //init date
-        var date = {
-            year: now.getFullYear(),
-            month: now.getMonth() + 1,
-            day: now.getDate()
-        };
-        if (!isEmpty(this.props.defaultDate) && !isEmpty(this.props.defaultDate.year) && !isEmpty(this.props.defaultDate.month) && !isEmpty(this.props.defaultDate.day)) {
-            date = this.props.defaultDate;
-        }
 
         //init years
         var years = [];
@@ -32109,7 +32091,6 @@ var Dater = _react2.default.createClass({
             days.push(i);
         }
         return {
-            date: date,
             years: years,
             months: months,
             days: days,
@@ -32118,43 +32099,53 @@ var Dater = _react2.default.createClass({
             maxYear: maxYear
         };
     },
+    splitDate: function splitDate(originalJsDate) {
+        var date = undefined;
+        if (!isUndefined(originalJsDate)) {
+
+            var year = originalJsDate.getFullYear();
+            var month = originalJsDate.getMonth() + 1;
+            var day = originalJsDate.getDate();
+            date = { year: year, month: month, day: day };
+        }
+        return date;
+    },
     componentDidMount: function componentDidMount() {},
-    handleYearChange: function handleYearChange() {
-        var year = $(this.refs.year).val();
+    handleYearChange: function handleYearChange(e) {
+        var year = e.target.value;
         c(year);
-        this.updateStateYear(year);
-        this.props.onDateChange(this.state.date);
+        // this.updateStateYear(year);
+        // this.props.onDateChange(this.state.date);
     },
-    handleMonthChange: function handleMonthChange() {
+    handleMonthChange: function handleMonthChange(e) {
 
-        var month = $(this.refs.month).val();
+        var month = e.target.value;
         c(month);
-        this.updateStateYear(month);
-        this.props.onDateChange(this.state.date);
+        // this.updateStateYear(month);
+        // this.props.onDateChange(this.state.date);
     },
-    handleDayChange: function handleDayChange() {
+    handleDayChange: function handleDayChange(e) {
 
-        var day = $(this.refs.day).val();
+        var day = e.target.value;
         c(day);
-        this.updateStateYear(day);
-        this.props.onDateChange(this.state.date);
+        // this.updateStateYear(day);
+        // this.props.onDateChange(this.state.date);
     },
-    updateStateYear: function updateStateYear(year) {
+    /*updateStateYear: function (year) {
         var state = this.state;
         state.date.year = year;
         this.setState(state);
     },
-    updateStateMonth: function updateStateMonth(month) {
+    updateStateMonth: function (month) {
         var state = this.state;
         state.date.month = month;
         this.setState(state);
     },
-
-    updateStateDay: function updateStateDay(day) {
+      updateStateDay: function (day) {
         var state = this.state;
         state.date.day = day;
         this.setState(state);
-    },
+    },*/
     generateOptions: function generateOptions(values) {
         var res = [];
         for (var i = 0; i < values.length; i++) {
@@ -32170,10 +32161,23 @@ var Dater = _react2.default.createClass({
         return res;
     },
     render: function render() {
+        //deal defaultDate
+        var now = this.state.now;
+        var date = {
+            year: now.getFullYear(),
+            month: now.getMonth() + 1,
+            day: now.getDate()
+        };
+        c(now);
+        c(now.getDate());
+        if (!isUndefined(this.props.intDate)) {
+            c("if (!isUndefined(this.props.intDate)) {");
+            date = this.splitDate(new Date(this.props.intDate));
+        }
 
-        c(this.state.date.year);
-        c(this.state.date.month);
-        c(this.state.date.day);
+        c("dates");
+        c(date);
+        c("datee");
         return _react2.default.createElement(
             "span",
             { id: "date_content" },
@@ -32184,7 +32188,7 @@ var Dater = _react2.default.createClass({
                     "select",
                     { id: "year",
                         ref: "year",
-                        defaultValue: this.state.date.year,
+                        defaultValue: date.year,
                         onChange: this.handleYearChange },
                     this.generateOptions(this.state.years)
                 ),
@@ -32197,7 +32201,7 @@ var Dater = _react2.default.createClass({
                     "select",
                     { id: "month",
                         ref: "month",
-                        defaultValue: this.state.date.month,
+                        defaultValue: date.month,
                         onChange: this.handleMonthChange },
                     this.generateOptions(this.state.months)
                 ),
@@ -32210,7 +32214,7 @@ var Dater = _react2.default.createClass({
                     "select",
                     { id: "day",
                         ref: "day",
-                        defaultValue: this.state.date.day,
+                        defaultValue: date.day,
                         onChange: this.handleDayChange },
                     this.generateOptions(this.state.days)
                 ),

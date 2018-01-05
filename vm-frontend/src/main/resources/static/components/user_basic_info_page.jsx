@@ -37,9 +37,10 @@ var UserBasicInfoPage = React.createClass({
             }.bind(this),
             onResponseSuccess: function (result) {
 
-
+                // c(result.data.user);
                 //update user in state
                 this.updateStateUser(result.data.user);
+
             }.bind(this),
             onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
@@ -55,21 +56,9 @@ var UserBasicInfoPage = React.createClass({
 
     },
     handleBirthdayChange: function () {
-        c("onDateChange");
+        c("handleBirthdayChange");
     },
-
-
     render: function () {
-        var year = undefined;
-        var month = undefined;
-        var day = undefined;
-        if (!isEmpty(this.state.user) && !isEmpty(this.state.user.birthday)) {
-            var b = this.state.user.birthday;
-            var birthday = timeFormatter.formatDate(b);
-            year = birthday.getFullYear();
-            month = birthday.getMonth() + 1;
-            day = birthday.getDate();
-        }
 
         return (
             <div id="user_basic_info_content" className="clearfix">
@@ -99,7 +88,7 @@ var UserBasicInfoPage = React.createClass({
                                 <span className="split"></span>
                                 <span className="content">
                                     {/*日期组件*/}
-                                    <Dater defaultDate={{year: year, month: month, day: day}}
+                                    <Dater intDate={this.state.user.birthday}
                                            onDateChange={this.handleBirthdayChange}/>
                                  </span>
                             </div>
@@ -107,8 +96,8 @@ var UserBasicInfoPage = React.createClass({
                                 <label>描述 : </label>
                                 <span className="split"></span>
                                 <span className="content">
-                                     <textarea placeholder="请输入描述信息">
-
+                                     <textarea placeholder="请输入描述信息"
+                                               value={this.state.user.description}>
                                      </textarea>
                                  </span>
                             </div>
