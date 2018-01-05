@@ -31866,12 +31866,15 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(15);
 
+var _date = __webpack_require__(306);
+
+var _date2 = _interopRequireDefault(_date);
+
 __webpack_require__(299);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*用户基本信息页面*/
-//引入react组件
 var UserBasicInfoPage = _react2.default.createClass({
     displayName: "UserBasicInfoPage",
 
@@ -31919,6 +31922,9 @@ var UserBasicInfoPage = _react2.default.createClass({
             }.bind(this)
         });
     },
+    handleDateSelect: function handleDateSelect() {
+        c("handleDateSelect");
+    },
     render: function render() {
         return _react2.default.createElement(
             "div",
@@ -31961,7 +31967,7 @@ var UserBasicInfoPage = _react2.default.createClass({
                                 { className: "content" },
                                 _react2.default.createElement(
                                     "select",
-                                    { value: this.state.user.sex },
+                                    { selected: this.state.user.sex },
                                     _react2.default.createElement(
                                         "option",
                                         { value: "1" },
@@ -31992,12 +31998,7 @@ var UserBasicInfoPage = _react2.default.createClass({
                             _react2.default.createElement(
                                 "span",
                                 { className: "content" },
-                                _react2.default.createElement("select", { id: "year" }),
-                                "\u5E74",
-                                _react2.default.createElement("select", { id: "month" }),
-                                "\u6708",
-                                _react2.default.createElement("select", { id: "day" }),
-                                "\u65E5"
+                                _react2.default.createElement(_date2.default, { onSelect: this.handleDateSelect })
                             )
                         ),
                         _react2.default.createElement(
@@ -32014,6 +32015,11 @@ var UserBasicInfoPage = _react2.default.createClass({
                                 { className: "content" },
                                 _react2.default.createElement("textarea", { placeholder: "\u8BF7\u8F93\u5165\u63CF\u8FF0\u4FE1\u606F" })
                             )
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { id: "confirm_div" },
+                            _react2.default.createElement("input", { type: "button", value: "\u786E\u5B9A" })
                         )
                     )
                 )
@@ -32025,7 +32031,7 @@ var UserBasicInfoPage = _react2.default.createClass({
             )
         );
     }
-});
+}); //引入react组件
 exports.default = UserBasicInfoPage;
 
 /***/ }),
@@ -32063,7 +32069,7 @@ exports = module.exports = __webpack_require__(6)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_basic_info_content {\n  width: 100%; }\n  #user_basic_info_content > div {\n    float: left; }\n  #user_basic_info_content #basic_info {\n    width: 70%;\n    padding: 20px;\n    box-sizing: border-box; }\n    #user_basic_info_content #basic_info #displayer {\n      width: 100%; }\n      #user_basic_info_content #basic_info #displayer .info_item {\n        margin-bottom: 20px;\n        display: flex;\n        width: 100%; }\n        #user_basic_info_content #basic_info #displayer .info_item > * {\n          float: left;\n          display: block; }\n        #user_basic_info_content #basic_info #displayer .info_item label {\n          width: 50px;\n          text-align: right;\n          font-size: 14px;\n          height: 20px;\n          line-height: 20px; }\n        #user_basic_info_content #basic_info #displayer .info_item span.split {\n          width: 10px; }\n        #user_basic_info_content #basic_info #displayer .info_item span.content {\n          flex: 1; }\n      #user_basic_info_content #basic_info #displayer #username_div input {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 50px; }\n      #user_basic_info_content #basic_info #displayer #sex_div select {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 50px; }\n      #user_basic_info_content #basic_info #displayer #birthday_div input {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 50px; }\n      #user_basic_info_content #basic_info #displayer #description_div textarea {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 400px;\n        height: 150px;\n        resize: none; }\n  #user_basic_info_content #tip {\n    width: 30%; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_basic_info_content {\n  width: 100%; }\n  #user_basic_info_content > div {\n    float: left; }\n  #user_basic_info_content #basic_info {\n    width: 70%;\n    padding: 20px;\n    box-sizing: border-box; }\n    #user_basic_info_content #basic_info #displayer {\n      width: 100%; }\n      #user_basic_info_content #basic_info #displayer .info_item {\n        margin-bottom: 20px;\n        display: flex;\n        width: 100%; }\n        #user_basic_info_content #basic_info #displayer .info_item > * {\n          float: left;\n          display: block; }\n        #user_basic_info_content #basic_info #displayer .info_item label {\n          width: 50px;\n          text-align: right;\n          font-size: 14px;\n          height: 20px;\n          line-height: 20px; }\n        #user_basic_info_content #basic_info #displayer .info_item span.split {\n          width: 10px; }\n        #user_basic_info_content #basic_info #displayer .info_item span.content {\n          flex: 1; }\n      #user_basic_info_content #basic_info #displayer #username_div input {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 150px; }\n      #user_basic_info_content #basic_info #displayer #sex_div select {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 50px; }\n      #user_basic_info_content #basic_info #displayer #description_div textarea {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 70%;\n        height: 150px;\n        resize: none; }\n      #user_basic_info_content #basic_info #displayer #confirm_div {\n        width: 100%;\n        text-align: center; }\n        #user_basic_info_content #basic_info #displayer #confirm_div input {\n          cursor: pointer;\n          color: white;\n          border: 1px solid rgb(61,158,255);\n          height: 30px;\n          width: 60px;\n          background-color: rgb(61,158,255); }\n  #user_basic_info_content #tip {\n    width: 30%; }\n", ""]);
 
 // exports
 
@@ -32188,6 +32194,95 @@ exports = module.exports = __webpack_require__(6)();
 
 // module
 exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 306 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(307);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*日期插件*/
+var Date = _react2.default.createClass({
+    displayName: "Date",
+
+    getInitialState: function getInitialState() {
+        return {
+            onSelect: this.props.onSelect
+        };
+    },
+    componentDidMount: function componentDidMount() {
+        this.initDate();
+    },
+
+    initDate: function initDate() {},
+    render: function render() {
+
+        return _react2.default.createElement(
+            "span",
+            { id: "date_content" },
+            _react2.default.createElement("select", { id: "year", ref: "year" }),
+            "\u5E74",
+            _react2.default.createElement("select", { id: "month", ref: "month" }),
+            "\u6708",
+            _react2.default.createElement("select", { id: "day", ref: "day" }),
+            "\u65E5"
+        );
+    }
+}); //引入react组件
+exports.default = withRouter(UserPage);
+
+/***/ }),
+/* 307 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(308);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(7)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./date.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./date.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 308 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(6)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#date_content {\n  width: 100%; }\n  #date_content select {\n    height: 20px;\n    line-height: 20px;\n    border: 1px solid rgb(61,158,255);\n    width: 50px;\n    margin-right: 10px; }\n", ""]);
 
 // exports
 

@@ -41,7 +41,7 @@
           height: $input_height;
           line-height: $input_height;
           border: 1px solid unquote($defaultBlueRgb);
-          width: 50px;
+          width: 150px;
         }
       }
       #sex_div {
@@ -53,21 +53,28 @@
         }
       }
       #birthday_div {
-        input {
-          height: $input_height;
-          line-height: $input_height;
-          border: 1px solid unquote($defaultBlueRgb);
-          width: 50px;
-        }
+
       }
       #description_div {
         textarea {
           height: $input_height;
           line-height: $input_height;
           border: 1px solid unquote($defaultBlueRgb);
-          width: 400px;
+          width: 70%;
           height: 150px;
           resize: none;
+        }
+      }
+      #confirm_div{
+        @include defaultWidth;
+        text-align: center;
+        input{
+          cursor: pointer;
+          color: white;
+          border: 1px solid unquote($defaultBlueRgb);
+          height:30px;
+          width:60px;
+          background-color: unquote($defaultBlueRgb);
         }
       }
 

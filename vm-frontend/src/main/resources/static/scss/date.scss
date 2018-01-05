@@ -1,0 +1,12 @@
+@import "frontend-default.scss";
+
+#date_content{
+  @include defaultWidth;
+  select {
+    height: 20px;
+    line-height: 20px;
+    border: 1px solid unquote($defaultBlueRgb);
+    width: 50px;
+    margin-right: 10px;
+  }
+}

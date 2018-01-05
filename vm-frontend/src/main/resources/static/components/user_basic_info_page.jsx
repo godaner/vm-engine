@@ -1,5 +1,6 @@
 import React from "react"; //引入react组件
 import {BrowserRouter, HashRouter, Link, Route, Switch} from "react-router-dom";
+import Date from "./date";
 import "../scss/user_basic_info_page.scss";
 /*用户基本信息页面*/
 var UserBasicInfoPage = React.createClass({
@@ -53,6 +54,9 @@ var UserBasicInfoPage = React.createClass({
 
 
     },
+    handleDateSelect:function () {
+        c("handleDateSelect");
+    },
     render: function () {
         return (
             <div id="user_basic_info_content" className="clearfix">
@@ -70,7 +74,7 @@ var UserBasicInfoPage = React.createClass({
                                 <label>性别 : </label>
                                 <span className="split"></span>
                                 <span className="content">
-                                    <select value={this.state.user.sex}>
+                                    <select selected={this.state.user.sex}>
                                         <option value="1">男</option>
                                         <option value="2">女</option>
                                         <option value="3">保密</option>
@@ -81,18 +85,8 @@ var UserBasicInfoPage = React.createClass({
                                 <label>生日 : </label>
                                 <span className="split"></span>
                                 <span className="content">
-                                    <select id="year">
 
-                                    </select>年
-
-                                    <select id="month">
-
-                                    </select>月
-
-                                    <select id="day">
-
-                                    </select>日
-
+                                    <Date onSelect={this.handleDateSelect}/>
                                  </span>
                             </div>
                             <div id="description_div" className="info_item clearfix">
@@ -103,6 +97,9 @@ var UserBasicInfoPage = React.createClass({
 
                                      </textarea>
                                  </span>
+                            </div>
+                            <div id="confirm_div">
+                                <input type="button" value="确定"/>
                             </div>
                         </div>
                     </form>
