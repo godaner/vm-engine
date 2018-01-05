@@ -57,7 +57,20 @@ var UserBasicInfoPage = React.createClass({
     handleBirthdayChange: function () {
         c("onDateChange");
     },
+
+
     render: function () {
+        var year = undefined;
+        var month = undefined;
+        var day = undefined;
+        if (!isEmpty(this.state.user) && !isEmpty(this.state.user.birthday)) {
+            var b = this.state.user.birthday;
+            var birthday = timeFormatter.formatDate(b);
+            year = birthday.getFullYear();
+            month = birthday.getMonth() + 1;
+            day = birthday.getDate();
+        }
+
         return (
             <div id="user_basic_info_content" className="clearfix">
                 <div id="basic_info">
@@ -86,8 +99,8 @@ var UserBasicInfoPage = React.createClass({
                                 <span className="split"></span>
                                 <span className="content">
                                     {/*日期组件*/}
-                                    <Dater minYear="1999"
-                                          onDateChange={this.handleBirthdayChange}/>
+                                    <Dater defaultDate={{year: year, month: month, day: day}}
+                                           onDateChange={this.handleBirthdayChange}/>
                                  </span>
                             </div>
                             <div id="description_div" className="info_item clearfix">

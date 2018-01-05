@@ -31925,7 +31925,19 @@ var UserBasicInfoPage = _react2.default.createClass({
     handleBirthdayChange: function handleBirthdayChange() {
         c("onDateChange");
     },
+
     render: function render() {
+        var year = undefined;
+        var month = undefined;
+        var day = undefined;
+        if (!isEmpty(this.state.user) && !isEmpty(this.state.user.birthday)) {
+            var b = this.state.user.birthday;
+            var birthday = timeFormatter.formatDate(b);
+            year = birthday.getFullYear();
+            month = birthday.getMonth() + 1;
+            day = birthday.getDate();
+        }
+
         return _react2.default.createElement(
             "div",
             { id: "user_basic_info_content", className: "clearfix" },
@@ -31998,7 +32010,7 @@ var UserBasicInfoPage = _react2.default.createClass({
                             _react2.default.createElement(
                                 "span",
                                 { className: "content" },
-                                _react2.default.createElement(_dater2.default, { minYear: "1999",
+                                _react2.default.createElement(_dater2.default, { defaultDate: { year: year, month: month, day: day },
                                     onDateChange: this.handleBirthdayChange })
                             )
                         ),
@@ -32226,28 +32238,51 @@ var Dater = _react2.default.createClass({
     displayName: "Dater",
 
     getInitialState: function getInitialState() {
-
+        //init default value
         var now = new Date();
+        //init maxYear
+        var maxYear = now.getFullYear();
 
-        var maxYear = now.getYear();
+        //init minYear
+        var minYear = maxYear - 100;
 
-        var minYear = now.getYear() - 30;
         if (!isEmpty(this.props.minYear) && this.props.minYear <= maxYear) {
             minYear = this.props.minYear;
         }
+        //init date
+        var date = {
+            year: now.getFullYear(),
+            month: now.getMonth() + 1,
+            day: now.getDate()
+        };
+        if (!isEmpty(this.props.defaultDate)) {
+            date = this.props.defaultDate;
+        }
+
+        //init years
+        var years = [];
+        for (var i = this.state.maxYear; i >= this.state.minYear; i--) {
+            years.push(i);
+        }
+        //init months
+        var months = [];
+        for (var i = 1; i <= 12; i++) {
+            months.push(i);
+        }
+        //init days
+        var days = [];
+        var maxDay = this.state.now.getCountOfMonthDay();
+        for (var i = 1; i <= maxDay; i++) {
+            days.push(i);
+        }
         return {
-            date: {
-                year: undefined,
-                month: undefined,
-                day: undefined
-            },
-            years: [],
-            months: [],
-            days: [],
+            date: date,
+            years: years,
+            months: months,
+            days: days,
             now: now,
             minYear: minYear,
             maxYear: maxYear
-
         };
     },
     componentDidMount: function componentDidMount() {},
@@ -32260,65 +32295,41 @@ var Dater = _react2.default.createClass({
     handleDayChange: function handleDayChange() {
         this.props.onDateChange(this.state.date);
     },
-    initDaterData: function initDaterData() {
-        //init years
-        var years = [];
-        for (var i = this.state.minYear; i <= this.state.maxYear; i++) {
-            years.push(i);
-        }
-        this.updateStateYears(years);
-
-        //init months
-        var months = [];
-        for (var i = 1; i <= 12; i++) {
-            months.push(i);
-        }
-        this.updateStateMonths(months);
-
-        //init days
-        var days = [];
-        var maxDay = this.state.now.getCountOfMonthDay();
-        for (var i = 1; i <= maxDay; i++) {
-            days.push(i);
-        }
-        this.updateStateDays(days);
-    },
-
     updateStateYears: function updateStateYears(years) {
         var state = this.state;
         state.years = years;
         this.setState(state);
     },
     updateStateMonths: function updateStateMonths(months) {
-
         var state = this.state;
         state.months = months;
         this.setState(state);
     },
 
     updateStateDays: function updateStateDays(days) {
-
         var state = this.state;
         state.days = days;
         this.setState(days);
     },
-    setYearValue: function setYearValue(year) {},
-    setMonthValue: function setMonthValue(month) {},
-
-    setDayValue: function setDayValue(day) {},
-    generateOptions: function generateOptions(values) {
+    generateOptions: function generateOptions(values, selectedVal) {
+        var res = [];
         for (var i = 0; i < values.length; i++) {
             var value = values[i];
-            return _react2.default.createElement(
+            var selected = "selected";
+            if (selectedVal != value) {
+                selected = "";
+            }
+            res.push(_react2.default.createElement(
                 "option",
-                { value: value },
+                { key: value,
+                    value: value,
+                    selected: selected },
                 value
-            );
+            ));
         }
+        return res;
     },
     render: function render() {
-
-        this.initDaterData();
 
         return _react2.default.createElement(
             "span",
@@ -32328,8 +32339,10 @@ var Dater = _react2.default.createClass({
                 null,
                 _react2.default.createElement(
                     "select",
-                    { id: "year", ref: "year" },
-                    this.generateOptions(this.state.years)
+                    { id: "year",
+                        ref: "year",
+                        onChange: this.handleYearChange() },
+                    this.generateOptions(this.state.years, this.state.date.year)
                 ),
                 "\u5E74"
             ),
@@ -32338,8 +32351,8 @@ var Dater = _react2.default.createClass({
                 null,
                 _react2.default.createElement(
                     "select",
-                    { id: "month", ref: "month" },
-                    this.generateOptions(this.state.months)
+                    { id: "month", ref: "month", onChange: this.handleMonthChange() },
+                    this.generateOptions(this.state.months, this.state.date.month)
                 ),
                 "\u6708"
             ),
@@ -32348,8 +32361,8 @@ var Dater = _react2.default.createClass({
                 null,
                 _react2.default.createElement(
                     "select",
-                    { id: "day", ref: "day" },
-                    this.generateOptions(this.state.days)
+                    { id: "day", ref: "day", onChange: this.handleDayChange() },
+                    this.generateOptions(this.state.days, this.state.date.day)
                 ),
                 "\u65E5"
             )
