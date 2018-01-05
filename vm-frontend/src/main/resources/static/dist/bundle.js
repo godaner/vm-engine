@@ -31934,15 +31934,16 @@ var UserBasicInfoPage = _react2.default.createClass({
                         { id: "displayer" },
                         _react2.default.createElement(
                             "div",
-                            { className: "info_item clearfix" },
+                            { id: "username_div", className: "info_item clearfix" },
                             _react2.default.createElement(
                                 "label",
                                 null,
                                 "\u6635\u79F0 : "
                             ),
+                            _react2.default.createElement("span", { className: "split" }),
                             _react2.default.createElement(
                                 "span",
-                                null,
+                                { className: "content" },
                                 _react2.default.createElement("input", { value: this.state.user.username })
                             )
                         ),
@@ -31954,9 +31955,10 @@ var UserBasicInfoPage = _react2.default.createClass({
                                 null,
                                 "\u6027\u522B : "
                             ),
+                            _react2.default.createElement("span", { className: "split" }),
                             _react2.default.createElement(
                                 "span",
-                                null,
+                                { className: "content" },
                                 _react2.default.createElement(
                                     "select",
                                     { value: this.state.user.sex },
@@ -31986,9 +31988,10 @@ var UserBasicInfoPage = _react2.default.createClass({
                                 null,
                                 "\u751F\u65E5 : "
                             ),
+                            _react2.default.createElement("span", { className: "split" }),
                             _react2.default.createElement(
                                 "span",
-                                null,
+                                { className: "content" },
                                 _react2.default.createElement("select", { id: "year" }),
                                 "\u5E74",
                                 _react2.default.createElement("select", { id: "month" }),
@@ -32005,9 +32008,10 @@ var UserBasicInfoPage = _react2.default.createClass({
                                 null,
                                 "\u63CF\u8FF0 : "
                             ),
+                            _react2.default.createElement("span", { className: "split" }),
                             _react2.default.createElement(
                                 "span",
-                                null,
+                                { className: "content" },
                                 _react2.default.createElement("textarea", { placeholder: "\u8BF7\u8F93\u5165\u63CF\u8FF0\u4FE1\u606F" })
                             )
                         )
@@ -32059,7 +32063,7 @@ exports = module.exports = __webpack_require__(6)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_basic_info_content {\n  width: 100%; }\n  #user_basic_info_content > div {\n    float: left; }\n  #user_basic_info_content #basic_info {\n    width: 70%;\n    padding: 20px;\n    box-sizing: border-box; }\n    #user_basic_info_content #basic_info #displayer {\n      width: 100%; }\n      #user_basic_info_content #basic_info #displayer .info_item {\n        margin-bottom: 20px;\n        width: 100%; }\n        #user_basic_info_content #basic_info #displayer .info_item > * {\n          float: left;\n          display: block; }\n        #user_basic_info_content #basic_info #displayer .info_item label {\n          width: 10%;\n          text-align: right;\n          font-size: 14px;\n          height: 20px;\n          line-height: 20px;\n          padding-right: 8px;\n          box-sizing: border-box; }\n        #user_basic_info_content #basic_info #displayer .info_item span {\n          width: 90%; }\n          #user_basic_info_content #basic_info #displayer .info_item span select {\n            padding-left: 8px;\n            box-sizing: border-box;\n            height: 20px;\n            line-height: 20px;\n            border: 1px solid rgb(61,158,255);\n            width: 50px; }\n      #user_basic_info_content #basic_info #displayer #sex_div select {\n        padding-left: 8px;\n        box-sizing: border-box;\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 50px; }\n      #user_basic_info_content #basic_info #displayer #birthday_div input {\n        padding-left: 8px;\n        box-sizing: border-box;\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 50px; }\n      #user_basic_info_content #basic_info #displayer #description_div textarea {\n        padding-left: 8px;\n        box-sizing: border-box;\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 400px;\n        height: 150px;\n        resize: none; }\n  #user_basic_info_content #tip {\n    width: 30%; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_basic_info_content {\n  width: 100%; }\n  #user_basic_info_content > div {\n    float: left; }\n  #user_basic_info_content #basic_info {\n    width: 70%;\n    padding: 20px;\n    box-sizing: border-box; }\n    #user_basic_info_content #basic_info #displayer {\n      width: 100%; }\n      #user_basic_info_content #basic_info #displayer .info_item {\n        margin-bottom: 20px;\n        display: flex;\n        width: 100%; }\n        #user_basic_info_content #basic_info #displayer .info_item > * {\n          float: left;\n          display: block; }\n        #user_basic_info_content #basic_info #displayer .info_item label {\n          width: 50px;\n          text-align: right;\n          font-size: 14px;\n          height: 20px;\n          line-height: 20px; }\n        #user_basic_info_content #basic_info #displayer .info_item span.split {\n          width: 10px; }\n        #user_basic_info_content #basic_info #displayer .info_item span.content {\n          flex: 1; }\n      #user_basic_info_content #basic_info #displayer #username_div input {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 50px; }\n      #user_basic_info_content #basic_info #displayer #sex_div select {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 50px; }\n      #user_basic_info_content #basic_info #displayer #birthday_div input {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 50px; }\n      #user_basic_info_content #basic_info #displayer #description_div textarea {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 400px;\n        height: 150px;\n        resize: none; }\n  #user_basic_info_content #tip {\n    width: 30%; }\n", ""]);
 
 // exports
 

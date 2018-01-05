@@ -59,15 +59,17 @@ var UserBasicInfoPage = React.createClass({
                 <div id="basic_info">
                     <form>
                         <div id="displayer">
-                            <div className="info_item clearfix">
+                            <div id="username_div" className="info_item clearfix">
                                 <label>昵称 : </label>
-                                <span>
+                                <span className="split"></span>
+                                <span className="content">
                                     <input value={this.state.user.username}/>
                                 </span>
                             </div>
                             <div id="sex_div" className="info_item clearfix">
                                 <label>性别 : </label>
-                                <span>
+                                <span className="split"></span>
+                                <span className="content">
                                     <select value={this.state.user.sex}>
                                         <option value="1">男</option>
                                         <option value="2">女</option>
@@ -77,7 +79,8 @@ var UserBasicInfoPage = React.createClass({
                             </div>
                             <div id="birthday_div" className="info_item clearfix">
                                 <label>生日 : </label>
-                                <span>
+                                <span className="split"></span>
+                                <span className="content">
                                     <select id="year">
 
                                     </select>年
@@ -94,7 +97,8 @@ var UserBasicInfoPage = React.createClass({
                             </div>
                             <div id="description_div" className="info_item clearfix">
                                 <label>描述 : </label>
-                                <span>
+                                <span className="split"></span>
+                                <span className="content">
                                      <textarea placeholder="请输入描述信息">
 
                                      </textarea>
