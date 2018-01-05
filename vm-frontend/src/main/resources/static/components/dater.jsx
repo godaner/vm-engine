@@ -57,13 +57,23 @@ var Dater = React.createClass({
 
     },
     handleYearChange: function () {
-        this.updateStateYear($(this.refs.year).val())
+        var year = $(this.refs.year).val();
+        c(year);
+        this.updateStateYear(year);
         this.props.onDateChange(this.state.date);
     },
     handleMonthChange: function () {
+
+        var month = $(this.refs.month).val();
+        c(month);
+        this.updateStateYear(month);
         this.props.onDateChange(this.state.date);
     },
     handleDayChange: function () {
+
+        var day = $(this.refs.day).val();
+        c(day);
+        this.updateStateYear(day);
         this.props.onDateChange(this.state.date);
     },
     updateStateYear: function (year) {

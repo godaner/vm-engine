@@ -32287,13 +32287,23 @@ var Dater = _react2.default.createClass({
     },
     componentDidMount: function componentDidMount() {},
     handleYearChange: function handleYearChange() {
-        this.updateStateYear($(this.refs.year).val());
+        var year = $(this.refs.year).val();
+        c(year);
+        this.updateStateYear(year);
         this.props.onDateChange(this.state.date);
     },
     handleMonthChange: function handleMonthChange() {
+
+        var month = $(this.refs.month).val();
+        c(month);
+        this.updateStateYear(month);
         this.props.onDateChange(this.state.date);
     },
     handleDayChange: function handleDayChange() {
+
+        var day = $(this.refs.day).val();
+        c(day);
+        this.updateStateYear(day);
         this.props.onDateChange(this.state.date);
     },
     updateStateYear: function updateStateYear(year) {
