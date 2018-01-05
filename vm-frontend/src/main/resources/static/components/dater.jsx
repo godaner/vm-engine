@@ -20,13 +20,16 @@ var Dater = React.createClass({
             month: now.getMonth() + 1,
             day: now.getDate()
         };
-        if (!isEmpty(this.props.defaultDate)) {
+        if (!isEmpty(this.props.defaultDate) &&
+            !isEmpty(this.props.defaultDate.year) &&
+            !isEmpty(this.props.defaultDate.month) &&
+            !isEmpty(this.props.defaultDate.day)) {
             date = this.props.defaultDate;
         }
 
         //init years
         var years = [];
-        for (var i = this.state.maxYear; i >= this.state.minYear; i--) {
+        for (var i = maxYear; i >= minYear; i--) {
             years.push(i);
         }
         //init months
@@ -36,7 +39,7 @@ var Dater = React.createClass({
         }
         //init days
         var days = [];
-        var maxDay = this.state.now.getCountOfMonthDay();
+        var maxDay = now.getCountOfMonthDay();
         for (var i = 1; i <= maxDay; i++) {
             days.push(i);
         }
@@ -54,6 +57,7 @@ var Dater = React.createClass({
 
     },
     handleYearChange: function () {
+        this.updateStateYear($(this.refs.year).val())
         this.props.onDateChange(this.state.date);
     },
     handleMonthChange: function () {
@@ -62,34 +66,30 @@ var Dater = React.createClass({
     handleDayChange: function () {
         this.props.onDateChange(this.state.date);
     },
-    updateStateYears: function (years) {
+    updateStateYear: function (year) {
         var state = this.state;
-        state.years = years;
+        state.date.year = year;
         this.setState(state);
     },
-    updateStateMonths: function (months) {
+    updateStateMonth: function (month) {
         var state = this.state;
-        state.months = months;
+        state.date.month = month;
         this.setState(state);
     },
 
-    updateStateDays: function (days) {
+    updateStateDay: function (day) {
         var state = this.state;
-        state.days = days;
-        this.setState(days);
+        state.date.day = day;
+        this.setState(state);
     },
-    generateOptions: function (values, selectedVal) {
+    generateOptions: function (values) {
         var res = [];
         for (var i = 0; i < values.length; i++) {
             var value = values[i];
-            var selected = "selected";
-            if (selectedVal != value) {
-                selected = "";
-            }
+
             res.push(
                 <option key={value}
-                        value={value}
-                        selected={selected}>
+                        value={value}>
                     {value}
                 </option>
             );
@@ -98,26 +98,35 @@ var Dater = React.createClass({
     },
     render: function () {
 
-
+        c(this.state.date.year);
+        c(this.state.date.month);
+        c(this.state.date.day);
         return (
             <span id="date_content">
                 <span>
                     <select id="year"
                             ref="year"
-                            onChange={this.handleYearChange()}>
-                        {this.generateOptions(this.state.years, this.state.date.year)}
+                            defaultValue={this.state.date.year}
+                            onChange={this.handleYearChange}>
+                        {this.generateOptions(this.state.years)}
                     </select>年
                 </span>
 
                 <span>
-                    <select id="month" ref="month" onChange={this.handleMonthChange()}>
-                        {this.generateOptions(this.state.months, this.state.date.month)}
+                    <select id="month"
+                            ref="month"
+                            defaultValue={this.state.date.month}
+                            onChange={this.handleMonthChange}>
+                        {this.generateOptions(this.state.months)}
                     </select>月
                 </span>
 
                 <span>
-                    <select id="day" ref="day" onChange={this.handleDayChange()}>
-                        {this.generateOptions(this.state.days, this.state.date.day)}
+                    <select id="day"
+                            ref="day"
+                            defaultValue={this.state.date.day}
+                            onChange={this.handleDayChange}>
+                        {this.generateOptions(this.state.days)}
                     </select>日
                 </span>
 
