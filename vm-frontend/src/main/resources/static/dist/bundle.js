@@ -32260,7 +32260,7 @@ var Dater = _react2.default.createClass({
     handleDayChange: function handleDayChange() {
         this.props.onDateChange(this.state.date);
     },
-    initDateData: function initDateData() {
+    initDaterData: function initDaterData() {
         //init years
         var years = [];
         for (var i = this.state.minYear; i <= this.state.maxYear; i++) {
@@ -32318,11 +32318,8 @@ var Dater = _react2.default.createClass({
     },
     render: function render() {
 
-        this.initDateData();
+        this.initDaterData();
 
-        var yearOptions = this.generateOptions(this.state.years);
-        var monthOptions = this.generateOptions(this.state.months);
-        var dayOptions = this.generateOptions(this.state.days);
         return _react2.default.createElement(
             "span",
             { id: "date_content" },
@@ -32332,7 +32329,7 @@ var Dater = _react2.default.createClass({
                 _react2.default.createElement(
                     "select",
                     { id: "year", ref: "year" },
-                    yearOptions()
+                    this.generateOptions(this.state.years)
                 ),
                 "\u5E74"
             ),
@@ -32342,7 +32339,7 @@ var Dater = _react2.default.createClass({
                 _react2.default.createElement(
                     "select",
                     { id: "month", ref: "month" },
-                    monthOptions()
+                    this.generateOptions(this.state.months)
                 ),
                 "\u6708"
             ),
@@ -32352,7 +32349,7 @@ var Dater = _react2.default.createClass({
                 _react2.default.createElement(
                     "select",
                     { id: "day", ref: "day" },
-                    dayOptions()
+                    this.generateOptions(this.state.days)
                 ),
                 "\u65E5"
             )

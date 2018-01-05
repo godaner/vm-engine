@@ -38,7 +38,7 @@ var Dater = React.createClass({
     handleDayChange: function () {
         this.props.onDateChange(this.state.date);
     },
-    initDateData: function () {
+    initDaterData: function () {
         //init years
         var years = [];
         for (var i = this.state.minYear; i <= this.state.maxYear; i++) {
@@ -98,17 +98,14 @@ var Dater = React.createClass({
     },
     render: function () {
 
-        this.initDateData();
+        this.initDaterData();
 
-        var yearOptions = this.generateOptions(this.state.years);
-        var monthOptions = this.generateOptions(this.state.months);
-        var dayOptions = this.generateOptions(this.state.days);
         return (
             <span id="date_content">
                 <span>
 
                     <select id="year" ref="year">
-                        {yearOptions()}
+                        {this.generateOptions(this.state.years)}
                     </select>年
                 </span>
 
@@ -116,7 +113,7 @@ var Dater = React.createClass({
 
                     <select id="month" ref="month">
 
-                        {monthOptions()}
+                        {this.generateOptions(this.state.months)}
                     </select>月
                 </span>
 
@@ -125,7 +122,7 @@ var Dater = React.createClass({
 
                     <select id="day" ref="day">
 
-                        {dayOptions()}
+                        {this.generateOptions(this.state.days)}
                     </select>日
                 </span>
 
