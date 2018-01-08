@@ -12,6 +12,7 @@ var Head = React.createClass({
             logoutFailure: "注销失败",
             accountLoginOtherArea: "账户在其他地方登录",
             sessionTimeOut: "登录超时",
+            onlineUserBasicInfoUrl:"/user/online/basicInfo",
             user: {},//默认为空对象
             ws: {
                 url: undefined,
@@ -171,7 +172,7 @@ var Head = React.createClass({
         }.bind(this));
     },
     protectPage: function () {
-        protectUserPage(this);
+        protectUserPageWhenUserIsOffline(this);
     },
     httpLogout: function (msg, callfun) {
         //default msg
@@ -252,19 +253,19 @@ var Head = React.createClass({
     render: function () {
         //在线
         var loginStatus = function () {
-            var userBasicInfoLocation = {
-                pathname: "/user/" + this.state.user.id+"/basicInfo"
+            var onlineUserBasicInfoLocation = {
+                pathname:this.state.onlineUserBasicInfoUrl
             };
 
             return (
                 <span>
                     <li>
-                        <Link id="headImg_a" to={userBasicInfoLocation}>
+                        <Link id="headImg_a" to={onlineUserBasicInfoLocation}>
                             <img id="headImg_img" src={this.state.user.imgUrl}/>
                         </Link>
                     </li>
                     <li>
-                        <Link id="username" to={userBasicInfoLocation}>
+                        <Link id="username" to={onlineUserBasicInfoLocation}>
                             {this.state.user.username}
 
                         </Link>

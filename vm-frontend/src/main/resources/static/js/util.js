@@ -199,6 +199,16 @@ function isEmptyJsObject(jsObj) {
 function isUndefined(obj){
     return obj == undefined;
 }
+/**
+ *
+ * obj is {} ?
+ * @param obj
+ * @returns {boolean}
+ */
+function isEmptyObj(obj){
+    var keys = Object.keys(obj);
+    return keys.length == 0;
+}
 
 /**
  * 是否为js对象

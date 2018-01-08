@@ -11,8 +11,9 @@ function success(code) {
     return code == RESPONSE_CODE_SUCCESS;
 }
 //用户未登录时受保护的页面，用于用户注销后或者被动离线后调用
-var protectedUserPageLists = ["/user/[0-9/a-zA-Z]*"];//被保护的页面
-function protectUserPage(react_this) {
+var protectedUserPageLists = ["/user/[0-9/_-a-zA-Z]*"];
+//保护用户页面
+function protectUserPageWhenUserIsOffline(react_this) {
     for (var i = 0; i < protectedUserPageLists.length; i++) {
         var protectedPage = protectedUserPageLists[i];
         if (react_this.props.location.pathname.match(protectedPage)) {

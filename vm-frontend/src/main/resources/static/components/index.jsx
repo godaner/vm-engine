@@ -40,8 +40,8 @@ var Index = React.createClass({
                                    )}/>
                             <Route exact path='/movie/:movieId' component={MovieInfoPage}/>
                             <Route exact path='/filmmaker/:filmmakerId' component={FilmmakerInfoPage}/>
-                            {/*包括/user/1/basicInfo,/user/1/resetPwd等*/}
-                            <Route path='/user/:userId' component={UserPage}/>
+                            {/*包括/user/online/basicInfo,/user/online/resetPwd等*/}
+                            <Route path='/user/online' component={UserPage}/>
                         </Switch>
                         {
                             /*尾部*/

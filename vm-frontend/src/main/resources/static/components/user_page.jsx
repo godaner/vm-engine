@@ -1,5 +1,5 @@
 import React from 'react';  //引入react组件
-import {Switch, BrowserRouter, HashRouter, Route, Link, NavLink, withRouter,Redirect} from 'react-router-dom';
+import {Switch, BrowserRouter, HashRouter, Route, Link, NavLink, withRouter, Redirect} from 'react-router-dom';
 import PlainPanelTitle from "./plain_panel_title";
 import UserBasicInfoPage from "./user_basic_info_page";
 import UserHeadPage from "./user_head_page";
@@ -7,81 +7,87 @@ import UserHeadPage from "./user_head_page";
 import "../scss/user_page.scss";
 /*用户个人中心*/
 var UserPage = React.createClass({
-    getInitialState: function () {
-        return {
-            userId: this.props.match.params.userId
-        };
-    },
-    componentDidMount(){
-        // checkUserOnlineStatus();
-    },
-    protectUserPage:function(callfun){
-        // 监测用户是否在没有登录的情况下直接访问本页面
-        const url = "/user/online";
-        ajax.get({
-            url: url,
-            onBeforeRequest: function () {
+        getInitialState: function () {
+            return {
 
-            }.bind(this),
-            onResponseStart: function () {
+                basicInfoUrl: "/user/online/basicInfo",
+                headUrl: "/user/online/head"
+                // userId: this.props.match.params.userId
+            }
+                ;
+        },
+        componentDidMount(){
 
-            }.bind(this),
-            onResponseSuccess: function (result) {
-                //用户不在线
-                if(isEmpty(result.data.user)){
-                    this.props.history.replace("/");
-                }
-            }.bind(this),
-            onResponseFailure: function (result) {
-                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
-            }.bind(this),
-            onResponseEnd: function () {
-                //callfun
-                if (callfun != undefined) {
-                    callfun()
-                }
-            }.bind(this)
-        });
-    },
-    render: function () {
+        },
+        preventIlegalAccess: function (callfun) {
+            // 监测用户是否在没有登录的情况下直接访问本页面
+            const url = "/user/online";
+            ajax.get({
+                async: false,
+                url: url,
+                onBeforeRequest: function () {
 
-        // this.protectUserPage();
+                }.bind(this),
+                onResponseStart: function () {
 
-        var basicInfoUrl = "/user/" + this.state.userId+"/basicInfo";
-        var resetPwdUrl = "/user/" + this.state.userId+"/resetPwd";
-        return (
-            <div id="user_info" className="defaultPanel">
-                <PlainPanelTitle title={this.state.title}/>
-                <HashRouter>
-                    <div id="content"
-                         className="clearfix">
-                        <div id="nav">
-                            <ul id="nav_ul">
+                }.bind(this),
+                onResponseSuccess: function (result) {
+                    //用户不在线
+                    var u = result.data.user;
+                    if (isUndefined(u) ||
+                        isEmptyObj(u)) {
+                        this.props.history.replace("/");
+                    }
+                }.bind(this),
+                onResponseFailure: function (result) {
+                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
+                }.bind(this),
+                onResponseEnd: function () {
+                    //callfun
+                    if (callfun != undefined) {
+                        callfun()
+                    }
+                }.bind(this)
+            })
+        },
+        render: function () {
+            //是否为非法进入,即用户未登录的情况下进入
+            this.preventIlegalAccess();
 
-                                <li>
-                                    <NavLink to={basicInfoUrl}
-                                             activeClassName="active">
-                                        基本信息
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to={resetPwdUrl}
-                                             activeClassName="active">
-                                        修改密码
-                                    </NavLink>
-                                </li>
-                            </ul>
+            return (
+                <div id="user_info" className="defaultPanel">
+                    <PlainPanelTitle title={this.state.title}/>
+                    <HashRouter>
+                        <div id="content"
+                             className="clearfix">
+                            <div id="nav">
+                                <ul id="nav_ul">
+
+                                    <li>
+                                        <NavLink to={this.state.basicInfoUrl}
+                                                 activeClassName="active">
+                                            基本信息
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to={this.state.resetPwdUrl}
+                                                 activeClassName="active">
+                                            修改密码
+                                        </NavLink>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="displayer">
+                                <Switch>
+                                    <Route exact path={this.state.basicInfoUrl} component={UserBasicInfoPage}/>
+                                    <Route exact path={this.state.headUrl} component={UserHeadPage}/>
+                                </Switch>
+                            </div>
                         </div>
-                        <div id="displayer">
-                            <Switch>
-                                <Route exact path='/user/:userId/basicInfo' component={UserBasicInfoPage}/>
-                                <Route exact path='/user/:userId/head' component={UserHeadPage}/>
-                            </Switch>
-                        </div>
-                    </div>
-                </HashRouter>
-            </div>
-        );
-    }
-});
+                    </HashRouter>
+                </div>
+            );
+        }
+    })
+;
 export default withRouter(UserPage);
