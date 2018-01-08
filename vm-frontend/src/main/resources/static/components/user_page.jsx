@@ -19,11 +19,13 @@ var UserPage = React.createClass({
         componentDidMount(){
 
         },
-        preventIlegalAccess: function (callfun) {
+        backToHomePage: function () {
+            this.props.history.replace("/");
+        },
+        preventIllegalAccess: function (callfun) {
             // 监测用户是否在没有登录的情况下直接访问本页面
             const url = "/user/online";
             ajax.get({
-                async: false,
                 url: url,
                 onBeforeRequest: function () {
 
@@ -36,23 +38,29 @@ var UserPage = React.createClass({
                     var u = result.data.user;
                     if (isUndefined(u) ||
                         isEmptyObj(u)) {
-                        this.props.history.replace("/");
+                        this.backToHomePage();
                     }
                 }.bind(this),
                 onResponseFailure: function (result) {
-                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
+                    this.backToHomePage();
+                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure, function () {
+
+                    });
                 }.bind(this),
                 onResponseEnd: function () {
                     //callfun
                     if (callfun != undefined) {
                         callfun()
                     }
+                }.bind(this),
+                onRequestError: function () {
+                    this.backToHomePage();
                 }.bind(this)
             })
         },
         render: function () {
             //是否为非法进入,即用户未登录的情况下进入
-            this.preventIlegalAccess();
+            // this.preventIllegalAccess();
 
             return (
                 <div id="user_info" className="defaultPanel">
@@ -70,7 +78,7 @@ var UserPage = React.createClass({
                                         </NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to={this.state.resetPwdUrl}
+                                        <NavLink to={this.state.headUrl}
                                                  activeClassName="active">
                                             修改密码
                                         </NavLink>

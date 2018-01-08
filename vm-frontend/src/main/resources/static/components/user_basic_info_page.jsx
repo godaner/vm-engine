@@ -7,14 +7,17 @@ var UserBasicInfoPage = React.createClass({
     getInitialState: function () {
         // c(props);
         return {
-            userId: this.props.match.params.userId,
+            // userId: this.props.match.params.userId,
             getInfoFailure: "获取信息失败",
             title: "用户个人信息",
+            updateUserBasicInfoSuccess:"更新用户信息成功",
+            updateUserBasicInfoFailure:"更新用户信息失败",
             user: {}
         };
     },
     componentDidMount(){
         this.getUserBasicInfo();
+
     },
     updateStateUser: function (user) {
         if (isEmpty(user)) {
@@ -26,7 +29,7 @@ var UserBasicInfoPage = React.createClass({
     },
     getUserBasicInfo: function (callfun) {
         // c(this.props);
-        const url = "/user/" + this.state.userId;
+        const url = "/user/online";
         ajax.get({
             url: url,
             onBeforeRequest: function () {
@@ -36,10 +39,24 @@ var UserBasicInfoPage = React.createClass({
 
             }.bind(this),
             onResponseSuccess: function (result) {
-
-                // c(result.data.user);
+                // c(result);
+                var u = result.data.user;
+                // var u = {
+                //     birthday: 0,
+                //     createTime: 1515394557,
+                //     description: 6666,
+                //     id: 37,
+                //     imgUrl: "/user/img/-1",
+                //     "password": "",
+                //     "sex": 3,
+                //     "status": 1,
+                //     "updateTime": 1515394557,
+                //     "username": "root"
+                //
+                // };
                 //update user in state
-                this.updateStateUser(result.data.user);
+                this.updateStateUser(u);
+
 
             }.bind(this),
             onResponseFailure: function (result) {
@@ -55,11 +72,50 @@ var UserBasicInfoPage = React.createClass({
 
 
     },
-    handleBirthdayChange: function () {
+    handleBirthdayChange: function (date) {
         c("handleBirthdayChange");
+
+        this.updateUserBirthday(date.getTime() / 1000);
+
+    },
+    updateUserBirthday(birthday){
+        var user = this.state.user;
+        user.birthday = birthday;
+        this.updateStateUser(user);
+    },
+    updateUserBasicInfo:function (callfun) {
+        // c(this.props);
+        const url = "/user/online/update";
+        ajax.put({
+            url: url,
+            data:this.state.user,
+            onBeforeRequest: function () {
+
+            }.bind(this),
+            onResponseStart: function () {
+
+            }.bind(this),
+            onResponseSuccess: function (result) {
+                var u = result.data.user;
+                //update user in state
+                this.updateStateUser(u);
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.updateUserBasicInfoSuccess);
+
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.updateUserBasicInfoFailure);
+            }.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun()
+                }
+            }.bind(this)
+        });
     },
     render: function () {
-
+        var t = parseInt(this.state.user.birthday);
+        var birthday = new Date(t * 1000);
         return (
             <div id="user_basic_info_content" className="clearfix">
                 <div id="basic_info">
@@ -88,8 +144,9 @@ var UserBasicInfoPage = React.createClass({
                                 <span className="split"></span>
                                 <span className="content">
                                     {/*日期组件*/}
-                                    <Dater intDate={this.state.user.birthday}
+                                    <Dater defaultDate={birthday}
                                            onDateChange={this.handleBirthdayChange}/>
+
                                  </span>
                             </div>
                             <div id="description_div" className="info_item clearfix">
@@ -102,7 +159,9 @@ var UserBasicInfoPage = React.createClass({
                                  </span>
                             </div>
                             <div id="confirm_div">
-                                <input type="button" value="确定"/>
+                                <input type="button"
+                                       onClick={this.updateUserBasicInfo}
+                                       value="确定"/>
                             </div>
                         </div>
                     </form>

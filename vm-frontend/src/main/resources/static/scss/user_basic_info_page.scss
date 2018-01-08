@@ -53,7 +53,12 @@
         }
       }
       #birthday_div {
-
+        /*input {
+          height: $input_height;
+          line-height: $input_height;
+          border: 1px solid unquote($defaultBlueRgb);
+          width: 150px;
+        }*/
       }
       #description_div {
         textarea {

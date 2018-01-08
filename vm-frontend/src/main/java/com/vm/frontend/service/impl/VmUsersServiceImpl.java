@@ -77,7 +77,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         VmUsers dbUser = vmUsersMapper.selectByPrimaryKey(userId);
 
-        eject(isNullObject(dbUser) || BasePo.Status.isDeleted(dbUser.getStatus()),
+        eject(isNullObject(dbUser) || CustomVmUsers.Status.isDeleted(dbUser.getStatus()),
                 "getUserBasicInfo user is not exits! userId is:" + userId);
 
         //屏蔽相关信息

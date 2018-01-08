@@ -31765,11 +31765,13 @@ var UserPage = _react2.default.createClass({
     },
     componentDidMount: function componentDidMount() {},
 
-    preventIlegalAccess: function preventIlegalAccess(callfun) {
+    backToHomePage: function backToHomePage() {
+        this.props.history.replace("/");
+    },
+    preventIllegalAccess: function preventIllegalAccess(callfun) {
         // 监测用户是否在没有登录的情况下直接访问本页面
         var url = "/user/online";
         ajax.get({
-            async: false,
             url: url,
             onBeforeRequest: function () {}.bind(this),
             onResponseStart: function () {}.bind(this),
@@ -31777,23 +31779,27 @@ var UserPage = _react2.default.createClass({
                 //用户不在线
                 var u = result.data.user;
                 if (isUndefined(u) || isEmptyObj(u)) {
-                    this.props.history.replace("/");
+                    this.backToHomePage();
                 }
             }.bind(this),
             onResponseFailure: function (result) {
-                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
+                this.backToHomePage();
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure, function () {});
             }.bind(this),
             onResponseEnd: function () {
                 //callfun
                 if (callfun != undefined) {
                     callfun();
                 }
+            }.bind(this),
+            onRequestError: function () {
+                this.backToHomePage();
             }.bind(this)
         });
     },
     render: function render() {
         //是否为非法进入,即用户未登录的情况下进入
-        this.preventIlegalAccess();
+        // this.preventIllegalAccess();
 
         return _react2.default.createElement(
             'div',
@@ -31827,7 +31833,7 @@ var UserPage = _react2.default.createClass({
                                 null,
                                 _react2.default.createElement(
                                     _reactRouterDom.NavLink,
-                                    { to: this.state.resetPwdUrl,
+                                    { to: this.state.headUrl,
                                         activeClassName: 'active' },
                                     '\u4FEE\u6539\u5BC6\u7801'
                                 )
@@ -31883,9 +31889,11 @@ var UserBasicInfoPage = _react2.default.createClass({
     getInitialState: function getInitialState() {
         // c(props);
         return {
-            userId: this.props.match.params.userId,
+            // userId: this.props.match.params.userId,
             getInfoFailure: "获取信息失败",
             title: "用户个人信息",
+            updateUserBasicInfoSuccess: "更新用户信息成功",
+            updateUserBasicInfoFailure: "更新用户信息失败",
             user: {}
         };
     },
@@ -31903,16 +31911,29 @@ var UserBasicInfoPage = _react2.default.createClass({
     },
     getUserBasicInfo: function getUserBasicInfo(callfun) {
         // c(this.props);
-        var url = "/user/" + this.state.userId;
+        var url = "/user/online";
         ajax.get({
             url: url,
             onBeforeRequest: function () {}.bind(this),
             onResponseStart: function () {}.bind(this),
             onResponseSuccess: function (result) {
-
-                // c(result.data.user);
+                // c(result);
+                var u = result.data.user;
+                // var u = {
+                //     birthday: 0,
+                //     createTime: 1515394557,
+                //     description: 6666,
+                //     id: 37,
+                //     imgUrl: "/user/img/-1",
+                //     "password": "",
+                //     "sex": 3,
+                //     "status": 1,
+                //     "updateTime": 1515394557,
+                //     "username": "root"
+                //
+                // };
                 //update user in state
-                this.updateStateUser(result.data.user);
+                this.updateStateUser(u);
             }.bind(this),
             onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
@@ -31925,11 +31946,45 @@ var UserBasicInfoPage = _react2.default.createClass({
             }.bind(this)
         });
     },
-    handleBirthdayChange: function handleBirthdayChange() {
+    handleBirthdayChange: function handleBirthdayChange(date) {
         c("handleBirthdayChange");
+
+        this.updateUserBirthday(date.getTime() / 1000);
+    },
+    updateUserBirthday: function updateUserBirthday(birthday) {
+        var user = this.state.user;
+        user.birthday = birthday;
+        this.updateStateUser(user);
+    },
+
+    updateUserBasicInfo: function updateUserBasicInfo(callfun) {
+        // c(this.props);
+        var url = "/user/online/update";
+        ajax.put({
+            url: url,
+            data: this.state.user,
+            onBeforeRequest: function () {}.bind(this),
+            onResponseStart: function () {}.bind(this),
+            onResponseSuccess: function (result) {
+                var u = result.data.user;
+                //update user in state
+                this.updateStateUser(u);
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.updateUserBasicInfoSuccess);
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.updateUserBasicInfoFailure);
+            }.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun();
+                }
+            }.bind(this)
+        });
     },
     render: function render() {
-
+        var t = parseInt(this.state.user.birthday);
+        var birthday = new Date(t * 1000);
         return _react2.default.createElement(
             "div",
             { id: "user_basic_info_content", className: "clearfix" },
@@ -32002,7 +32057,7 @@ var UserBasicInfoPage = _react2.default.createClass({
                             _react2.default.createElement(
                                 "span",
                                 { className: "content" },
-                                _react2.default.createElement(_dater2.default, { intDate: this.state.user.birthday,
+                                _react2.default.createElement(_dater2.default, { defaultDate: birthday,
                                     onDateChange: this.handleBirthdayChange })
                             )
                         ),
@@ -32025,7 +32080,9 @@ var UserBasicInfoPage = _react2.default.createClass({
                         _react2.default.createElement(
                             "div",
                             { id: "confirm_div" },
-                            _react2.default.createElement("input", { type: "button", value: "\u786E\u5B9A" })
+                            _react2.default.createElement("input", { type: "button",
+                                onClick: this.updateUserBasicInfo,
+                                value: "\u786E\u5B9A" })
                         )
                     )
                 )
@@ -32092,13 +32149,24 @@ var Dater = _react2.default.createClass({
         for (var i = 1; i <= maxDay; i++) {
             days.push(i);
         }
+
+        //init date
+        var date = {
+            year: now.getFullYear(),
+            month: now.getMonth() + 1,
+            day: now.getDate()
+        };
+        if (!isUndefined(this.props.defaultDate)) {
+            date = this.splitDate(this.props.defaultDate);
+        }
         return {
             years: years,
             months: months,
             days: days,
             now: now,
             minYear: minYear,
-            maxYear: maxYear
+            maxYear: maxYear,
+            date: date
         };
     },
     splitDate: function splitDate(originalJsDate) {
@@ -32113,41 +32181,43 @@ var Dater = _react2.default.createClass({
         return date;
     },
     componentDidMount: function componentDidMount() {},
-    handleYearChange: function handleYearChange(e) {
-        var year = e.target.value;
-        c(year);
-        // this.updateStateYear(year);
-        // this.props.onDateChange(this.state.date);
-    },
-    handleMonthChange: function handleMonthChange(e) {
-
-        var month = e.target.value;
-        c(month);
-        // this.updateStateYear(month);
-        // this.props.onDateChange(this.state.date);
-    },
-    handleDayChange: function handleDayChange(e) {
-
-        var day = e.target.value;
-        c(day);
-        // this.updateStateYear(day);
-        // this.props.onDateChange(this.state.date);
-    },
-    /*updateStateYear: function (year) {
+    updateYear: function updateYear(year) {
         var state = this.state;
         state.date.year = year;
         this.setState(state);
     },
-    updateStateMonth: function (month) {
+    updateMonth: function updateMonth(month) {
         var state = this.state;
         state.date.month = month;
         this.setState(state);
     },
-      updateStateDay: function (day) {
+    updateDay: function updateDay(day) {
         var state = this.state;
         state.date.day = day;
         this.setState(state);
-    },*/
+    },
+
+    handleYearChange: function handleYearChange(e) {
+        var year = e.target.value;
+        this.updateYear(year);
+        this.props.onDateChange(this.date2Date(this.state.date));
+    },
+    handleMonthChange: function handleMonthChange(e) {
+
+        var month = e.target.value;
+        this.updateMonth(month);
+        this.props.onDateChange(this.date2Date(this.state.date));
+    },
+    handleDayChange: function handleDayChange(e) {
+
+        var day = e.target.value;
+        this.updateDay(day);
+        this.props.onDateChange(this.date2Date(this.state.date));
+    },
+    date2Date: function date2Date(date) {
+        return new Date(Date.parse(date.year + "/" + date.month + "/" + date.day));
+    },
+
     generateOptions: function generateOptions(values) {
         var res = [];
         for (var i = 0; i < values.length; i++) {
@@ -32163,23 +32233,7 @@ var Dater = _react2.default.createClass({
         return res;
     },
     render: function render() {
-        //deal defaultDate
-        var now = this.state.now;
-        var date = {
-            year: now.getFullYear(),
-            month: now.getMonth() + 1,
-            day: now.getDate()
-        };
-        c(now);
-        c(now.getDate());
-        if (!isUndefined(this.props.intDate)) {
-            c("if (!isUndefined(this.props.intDate)) {");
-            date = this.splitDate(new Date(this.props.intDate));
-        }
 
-        c("dates");
-        c(date);
-        c("datee");
         return _react2.default.createElement(
             "span",
             { id: "date_content" },
@@ -32190,7 +32244,8 @@ var Dater = _react2.default.createClass({
                     "select",
                     { id: "year",
                         ref: "year",
-                        defaultValue: date.year,
+                        defaultValue: "",
+                        value: this.state.date.year,
                         onChange: this.handleYearChange },
                     this.generateOptions(this.state.years)
                 ),
@@ -32203,7 +32258,8 @@ var Dater = _react2.default.createClass({
                     "select",
                     { id: "month",
                         ref: "month",
-                        defaultValue: date.month,
+                        defaultValue: "",
+                        value: this.state.date.month,
                         onChange: this.handleMonthChange },
                     this.generateOptions(this.state.months)
                 ),
@@ -32216,7 +32272,8 @@ var Dater = _react2.default.createClass({
                     "select",
                     { id: "day",
                         ref: "day",
-                        defaultValue: date.day,
+                        defaultValue: "",
+                        value: this.state.date.day,
                         onChange: this.handleDayChange },
                     this.generateOptions(this.state.days)
                 ),
@@ -32302,7 +32359,7 @@ exports = module.exports = __webpack_require__(5)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_basic_info_content {\n  width: 100%; }\n  #user_basic_info_content > div {\n    float: left; }\n  #user_basic_info_content #basic_info {\n    width: 70%;\n    padding: 20px;\n    box-sizing: border-box; }\n    #user_basic_info_content #basic_info #displayer {\n      width: 100%; }\n      #user_basic_info_content #basic_info #displayer .info_item {\n        margin-bottom: 20px;\n        display: flex;\n        width: 100%; }\n        #user_basic_info_content #basic_info #displayer .info_item > * {\n          float: left;\n          display: block; }\n        #user_basic_info_content #basic_info #displayer .info_item label {\n          width: 50px;\n          text-align: right;\n          font-size: 14px;\n          height: 20px;\n          line-height: 20px; }\n        #user_basic_info_content #basic_info #displayer .info_item span.split {\n          width: 10px; }\n        #user_basic_info_content #basic_info #displayer .info_item span.content {\n          flex: 1; }\n      #user_basic_info_content #basic_info #displayer #username_div input {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 150px; }\n      #user_basic_info_content #basic_info #displayer #sex_div select {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 50px; }\n      #user_basic_info_content #basic_info #displayer #description_div textarea {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 70%;\n        height: 150px;\n        resize: none; }\n      #user_basic_info_content #basic_info #displayer #confirm_div {\n        width: 100%;\n        text-align: center; }\n        #user_basic_info_content #basic_info #displayer #confirm_div input {\n          cursor: pointer;\n          color: white;\n          border: 1px solid rgb(61,158,255);\n          height: 30px;\n          width: 60px;\n          background-color: rgb(61,158,255); }\n  #user_basic_info_content #tip {\n    width: 30%; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_basic_info_content {\n  width: 100%; }\n  #user_basic_info_content > div {\n    float: left; }\n  #user_basic_info_content #basic_info {\n    width: 70%;\n    padding: 20px;\n    box-sizing: border-box; }\n    #user_basic_info_content #basic_info #displayer {\n      width: 100%; }\n      #user_basic_info_content #basic_info #displayer .info_item {\n        margin-bottom: 20px;\n        display: flex;\n        width: 100%; }\n        #user_basic_info_content #basic_info #displayer .info_item > * {\n          float: left;\n          display: block; }\n        #user_basic_info_content #basic_info #displayer .info_item label {\n          width: 50px;\n          text-align: right;\n          font-size: 14px;\n          height: 20px;\n          line-height: 20px; }\n        #user_basic_info_content #basic_info #displayer .info_item span.split {\n          width: 10px; }\n        #user_basic_info_content #basic_info #displayer .info_item span.content {\n          flex: 1; }\n      #user_basic_info_content #basic_info #displayer #username_div input {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 150px; }\n      #user_basic_info_content #basic_info #displayer #sex_div select {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 50px; }\n      #user_basic_info_content #basic_info #displayer #birthday_div {\n        /*input {\r\n          height: $input_height;\r\n          line-height: $input_height;\r\n          border: 1px solid unquote($defaultBlueRgb);\r\n          width: 150px;\r\n        }*/ }\n      #user_basic_info_content #basic_info #displayer #description_div textarea {\n        height: 20px;\n        line-height: 20px;\n        border: 1px solid rgb(61,158,255);\n        width: 70%;\n        height: 150px;\n        resize: none; }\n      #user_basic_info_content #basic_info #displayer #confirm_div {\n        width: 100%;\n        text-align: center; }\n        #user_basic_info_content #basic_info #displayer #confirm_div input {\n          cursor: pointer;\n          color: white;\n          border: 1px solid rgb(61,158,255);\n          height: 30px;\n          width: 60px;\n          background-color: rgb(61,158,255); }\n  #user_basic_info_content #tip {\n    width: 30%; }\n", ""]);
 
 // exports
 

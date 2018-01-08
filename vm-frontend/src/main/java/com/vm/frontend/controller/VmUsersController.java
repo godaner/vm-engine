@@ -48,6 +48,10 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         if (!isNullObject(getSession())) {
             user = getSession().getAttribute(KEY_OF_ONLINE_USER);
         }
+        //update use from db
+        if(!isNullObject(user)){
+            user = service.getUserBasicInfo(((VmUsers)user).getId());
+        }
         response.putData("user", user);
 
 
@@ -92,7 +96,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     }
 
 
-    @RequestMapping(value = "/update/online", method = RequestMethod.PUT)
+    @RequestMapping(value = "/online/update", method = RequestMethod.PUT)
     public @ResponseBody
     Object updateOnlineUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class}) CustomVmUsers user,
                                BindingResult result) throws Exception {

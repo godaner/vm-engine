@@ -87,6 +87,7 @@ var ajax = {
         }
         $.ajax({
             url: args.url,
+            data: args.data,
             async: args.async,
             type: args.type,
             success: function (result) {
