@@ -1,5 +1,6 @@
 package com.vm.frontend.controller;
 
+import com.google.common.collect.ImmutableMap;
 import com.vm.base.utils.ServiceController;
 import com.vm.dao.po.CustomVmUsers;
 import com.vm.dao.po.VmUsers;
@@ -29,7 +30,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     @RequestMapping(value = "/regist", method = RequestMethod.PUT)
     public @ResponseBody
     Object userRegist(@Validated(value = {VmUsersGroups.UserRegist.class}) CustomVmUsers user,
-                     BindingResult result) throws Exception {
+                      BindingResult result) throws Exception {
 
         VmUsers loginUser = service.userRegist(user);
 
@@ -49,8 +50,8 @@ public class VmUsersController extends ServiceController<VmUsersService> {
             user = getSession().getAttribute(KEY_OF_ONLINE_USER);
         }
         //update use from db
-        if(!isNullObject(user)){
-            user = service.getUserBasicInfo(((VmUsers)user).getId());
+        if (!isNullObject(user)) {
+            user = service.getUserBasicInfo(((VmUsers) user).getId());
         }
         response.putData("user", user);
 
@@ -99,13 +100,13 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     @RequestMapping(value = "/online/update", method = RequestMethod.PUT)
     public @ResponseBody
     Object updateOnlineUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class}) CustomVmUsers user,
-                               BindingResult result) throws Exception {
+                                     BindingResult result) throws Exception {
 
         Object vmUsers = service.updateUserBasicInfo(user);
 
-        setSessionAttr(KEY_OF_ONLINE_USER,vmUsers);
+        setSessionAttr(KEY_OF_ONLINE_USER, vmUsers);
 
-        return response;
+        return ImmutableMap.of("user", vmUsers);
     }
 
     /**

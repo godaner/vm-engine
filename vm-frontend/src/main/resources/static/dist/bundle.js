@@ -31943,22 +31943,21 @@ var UserBasicInfoPage = _react2.default.createClass({
                 if (callfun != undefined) {
                     callfun();
                 }
-            }.bind(this)
+            }.bind(this, callfun)
         });
     },
     handleBirthdayChange: function handleBirthdayChange(date) {
         c("handleBirthdayChange");
-
-        this.updateUserBirthday(date.getTime() / 1000);
+        var t = parseInt(date.getTime()) / 1000;
+        c(t);
+        this.updateUserBirthday(t);
     },
     updateUserBirthday: function updateUserBirthday(birthday) {
         var user = this.state.user;
         user.birthday = birthday;
         this.updateStateUser(user);
     },
-
     updateUserBasicInfo: function updateUserBasicInfo(callfun) {
-        // c(this.props);
         var url = "/user/online/update";
         ajax.put({
             url: url,
@@ -31979,10 +31978,12 @@ var UserBasicInfoPage = _react2.default.createClass({
                 if (callfun != undefined) {
                     callfun();
                 }
-            }.bind(this)
+            }.bind(this, callfun)
         });
     },
     render: function render() {
+        var _this = this;
+
         var t = parseInt(this.state.user.birthday);
         var birthday = new Date(t * 1000);
         return _react2.default.createElement(
@@ -32081,7 +32082,9 @@ var UserBasicInfoPage = _react2.default.createClass({
                             "div",
                             { id: "confirm_div" },
                             _react2.default.createElement("input", { type: "button",
-                                onClick: this.updateUserBasicInfo,
+                                onClick: function onClick() {
+                                    _this.updateUserBasicInfo();
+                                },
                                 value: "\u786E\u5B9A" })
                         )
                     )
@@ -32159,6 +32162,8 @@ var Dater = _react2.default.createClass({
         if (!isUndefined(this.props.defaultDate)) {
             date = this.splitDate(this.props.defaultDate);
         }
+        c("getInitialState");
+        c(this.props.defaultDate);
         return {
             years: years,
             months: months,
@@ -32215,7 +32220,13 @@ var Dater = _react2.default.createClass({
         this.props.onDateChange(this.date2Date(this.state.date));
     },
     date2Date: function date2Date(date) {
-        return new Date(Date.parse(date.year + "/" + date.month + "/" + date.day));
+        var d = new Date();
+        d.setFullYear(date.year);
+        d.setMonth(date.month);
+        d.setDate(date.day);
+        c(date);
+        c(d);
+        return d;
     },
 
     generateOptions: function generateOptions(values) {
@@ -32233,7 +32244,8 @@ var Dater = _react2.default.createClass({
         return res;
     },
     render: function render() {
-
+        c("render");
+        c(this.state.date);
         return _react2.default.createElement(
             "span",
             { id: "date_content" },

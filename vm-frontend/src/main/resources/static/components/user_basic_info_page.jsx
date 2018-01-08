@@ -10,8 +10,8 @@ var UserBasicInfoPage = React.createClass({
             // userId: this.props.match.params.userId,
             getInfoFailure: "获取信息失败",
             title: "用户个人信息",
-            updateUserBasicInfoSuccess:"更新用户信息成功",
-            updateUserBasicInfoFailure:"更新用户信息失败",
+            updateUserBasicInfoSuccess: "更新用户信息成功",
+            updateUserBasicInfoFailure: "更新用户信息失败",
             user: {}
         };
     },
@@ -67,15 +67,16 @@ var UserBasicInfoPage = React.createClass({
                 if (callfun != undefined) {
                     callfun()
                 }
-            }.bind(this)
+            }.bind(this, callfun)
         });
 
 
     },
-    handleBirthdayChange: function (date) {
+    handleBirthdayChange(date) {
         c("handleBirthdayChange");
-
-        this.updateUserBirthday(date.getTime() / 1000);
+        var t = parseInt(date.getTime()) / 1000;
+        c(t);
+        this.updateUserBirthday(t);
 
     },
     updateUserBirthday(birthday){
@@ -83,12 +84,11 @@ var UserBasicInfoPage = React.createClass({
         user.birthday = birthday;
         this.updateStateUser(user);
     },
-    updateUserBasicInfo:function (callfun) {
-        // c(this.props);
+    updateUserBasicInfo(callfun) {
         const url = "/user/online/update";
         ajax.put({
             url: url,
-            data:this.state.user,
+            data: this.state.user,
             onBeforeRequest: function () {
 
             }.bind(this),
@@ -110,10 +110,10 @@ var UserBasicInfoPage = React.createClass({
                 if (callfun != undefined) {
                     callfun()
                 }
-            }.bind(this)
+            }.bind(this, callfun)
         });
     },
-    render: function () {
+    render() {
         var t = parseInt(this.state.user.birthday);
         var birthday = new Date(t * 1000);
         return (
@@ -160,7 +160,9 @@ var UserBasicInfoPage = React.createClass({
                             </div>
                             <div id="confirm_div">
                                 <input type="button"
-                                       onClick={this.updateUserBasicInfo}
+                                       onClick={() => {
+                                           this.updateUserBasicInfo()
+                                       }}
                                        value="确定"/>
                             </div>
                         </div>

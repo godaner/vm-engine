@@ -41,6 +41,8 @@ var Dater = React.createClass({
         if (!isUndefined(this.props.defaultDate)) {
             date = this.splitDate(this.props.defaultDate);
         }
+        c("getInitialState");
+        c(this.props.defaultDate);
         return {
             years: years,
             months: months,
@@ -98,7 +100,13 @@ var Dater = React.createClass({
         this.props.onDateChange(this.date2Date(this.state.date));
     },
     date2Date(date){
-        return new Date(Date.parse(date.year + "/" + date.month + "/" + date.day));
+        var d = new Date();
+        d.setFullYear(date.year);
+        d.setMonth(date.month);
+        d.setDate(date.day);
+        c(date);
+        c(d);
+        return d;
     },
     generateOptions: function (values) {
         var res = [];
@@ -115,7 +123,8 @@ var Dater = React.createClass({
         return res;
     },
     render: function () {
-
+        c("render");
+        c(this.state.date);
         return (
             <span id="date_content">
                 <span>
