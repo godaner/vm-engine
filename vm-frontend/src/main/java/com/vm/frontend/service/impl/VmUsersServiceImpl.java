@@ -101,9 +101,13 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Transactional
     public VmUsers updateUserBasicInfo(CustomVmUsers user) throws Exception {
         //user是否存在
-        VmUsers dbUser = getUserByUsername(user.getUsername());
-        eject(isNullObject(dbUser),
-                "updateUserBasicInfo dbUser is not exits ! user is :" + dbUser);
+        VmUsers dbUser = vmUsersMapper.selectByPrimaryKey(user.getId());
+        eject(isNullObject(dbUser) || CustomVmUsers.Status.isDeleted(dbUser.getStatus()),
+                "updateUserBasicInfo dbUser is not exits ! user is :" + user);
+        //username是否重复
+        VmUsers repeatUser = getUserByUsername(user.getUsername());
+        eject(!isNullObject(repeatUser) && !repeatUser.getId().equals(user.getId()),
+                "updateUserBasicInfo username repeat ! user is :" + user);
 
         vmUsersMapper.updateByPrimaryKeySelective(makeVmUsers(user));
 
@@ -175,6 +179,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
      */
     private VmUsers makeVmUsers(CustomVmUsers user) {
         VmUsers vmUser = new VmUsers();
+        vmUser.setId(user.getId());
         vmUser.setBirthday(user.getBirthday());
         vmUser.setUpdateTime(DateUtil.unixTime().intValue());
         vmUser.setDescription(user.getDescription());
