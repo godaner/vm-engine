@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 页面索引
  */
 @Controller
-@RequestMapping("/")
+//@RequestMapping("/")
 @Api(value = "IndexController")
 public class IndexController extends BaseController {
     @ApiOperation(value = "访问主页", notes = "")
-    @RequestMapping("/")
+//    @RequestMapping("/")
     public Object index() {
         return "index";
     }
@@ -26,7 +26,7 @@ public class IndexController extends BaseController {
     @ApiOperation(value = "页面转发", notes = "根据page转发到前端页面")
     @ApiImplicitParams({@ApiImplicitParam(name = "page", value = "index", required = true, dataType = "String"),
     })
-    @RequestMapping("/{page}")
+//    @RequestMapping("/{page}")
     public Object forward(@PathVariable("page") String page) {
         return page;
     }
