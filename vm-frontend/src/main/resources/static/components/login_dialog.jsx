@@ -75,11 +75,16 @@ var LoginDialog = React.createClass({
 
         var username = $(this.refs.username).val();
         var password = $(this.refs.password).val();
-        const url = "/user/login?username=" + username + "&password=" + password;
+        const url = "/user/login";
+        const data = {
+            username: username,
+            password: password
+        }
         ajax.put(
             {
                 url: url,
-                onBeforeRequest:function(){
+                data:data,
+                onBeforeRequest: function () {
                     //close login dialog
                     this.closeLoginDialog();
                     //show loading dialog

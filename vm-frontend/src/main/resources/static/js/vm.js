@@ -46,7 +46,9 @@ function lazyLoad() {
 var ajax = {
     ajaxError: "访问服务器失败,请稍后重试",
     requestServerSuccess: function (args, result) {
-
+        if (isUndefined(result)) {
+            return;
+        }
         if (!isEmpty(args.onResponseStart)) {
             args.onResponseStart();
         }
@@ -61,7 +63,12 @@ var ajax = {
         }
 
     },
-    requestServerError: function (args) {
+    requestServerError: function (args, XMLHttpRequest, textStatus, errorThrown) {
+        console.error(XMLHttpRequest);
+        console.error(textStatus);
+        console.error(errorThrown);
+
+
         if (!isEmpty(args.onResponseStart)) {
             args.onResponseStart();
         }
@@ -79,22 +86,33 @@ var ajax = {
 
     },
     ajax: function (args) {
+        //handler args.onBeforeRequest
         if (!isEmpty(args.onBeforeRequest) && args.onBeforeRequest() == false) {
             return;
         }
+        //handler args.async
         if (isEmpty(args.async)) {
             args.async = true;
         }
+        //handler args.data
+        if (isUndefined(args.data) || isEmptyString(args.data)) {
+            args.data = {};
+        }
+        args.data = JSON.stringify(args.data);
         $.ajax({
             url: args.url,
+            //配合@requestBody
             data: args.data,
             async: args.async,
             type: args.type,
+            contentType: "application/json",
+            dataType: "json",
             success: function (result) {
                 this.requestServerSuccess(args, result);
             }.bind(this),
-            error: function () {
-                this.requestServerError(args);
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                this.requestServerError(args, XMLHttpRequest, textStatus, errorThrown);
             }.bind(this)
         });
     },

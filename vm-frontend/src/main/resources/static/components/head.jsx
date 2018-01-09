@@ -162,6 +162,7 @@ var Head = React.createClass({
         //ajax ws
         ajax.put({
             url: "/user/ws/ctrl/login/" + this.state.user.id
+
         });
     },
     logout(msg){

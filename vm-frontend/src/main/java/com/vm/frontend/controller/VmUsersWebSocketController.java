@@ -1,5 +1,6 @@
 package com.vm.frontend.controller;
 
+import com.google.common.collect.ImmutableMap;
 import com.vm.base.utils.ServiceController;
 import com.vm.dao.po.CustomVmUsers;
 import com.vm.dao.po.VmUsers;
@@ -22,13 +23,18 @@ import org.springframework.web.bind.annotation.*;
 @Scope("prototype")
 public class VmUsersWebSocketController extends ServiceController<VmUsersService> {
     @RequestMapping(value = "/login/{userId}", method = RequestMethod.PUT)
-    public void userLogin(@PathVariable("userId")Long userId) throws Exception {
-        OnlineUsersWebSocket.userLogout(userId,OnlineUsersWebSocket.Result.LOGIN_OTHER_AREA.getCode());
+    @ResponseBody
+    public Object userLogin(@PathVariable("userId") Long userId) throws Exception {
+        OnlineUsersWebSocket.userLogout(userId, OnlineUsersWebSocket.Result.LOGIN_OTHER_AREA.getCode());
         OnlineUsersWebSocket.userLogin(userId);
+        return response;
     }
+
     @RequestMapping(value = "/logout/{userId}", method = RequestMethod.PUT)
-    public void userLogout(@PathVariable("userId")Long userId) throws Exception {
-        OnlineUsersWebSocket.userLogout(userId,OnlineUsersWebSocket.Result.LOGIN_SUCCESS.getCode());
+    @ResponseBody
+    public Object userLogout(@PathVariable("userId") Long userId) throws Exception {
+        OnlineUsersWebSocket.userLogout(userId, OnlineUsersWebSocket.Result.LOGIN_SUCCESS.getCode());
+        return response;
     }
 }
 

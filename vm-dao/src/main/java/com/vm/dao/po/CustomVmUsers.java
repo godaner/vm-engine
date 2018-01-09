@@ -19,16 +19,16 @@ public class CustomVmUsers extends BasePo {
     //注册用户时填入的默认img_url前缀
     public static final String USER_IMG_URL_PREFIX = VmProperties.VM_USER_IMG_URL_PREFIX;
 
-    @ApiModelProperty(value = "用户id")
     @NotNull(message = "{CustomVmUsers.id.NotNull}", groups = {VmUsersGroups.UpdateUserBasicInfo.class})
+    @ApiModelProperty(value = "用户id")
     private Long id;
 
-    @ApiModelProperty(value = "用户名")
     @NotBlank(message = "{CustomVmUsers.username.NotBlank}", groups = {VmUsersGroups.UserLogin.class, VmUsersGroups.UserRegist.class})
+    @ApiModelProperty(value = "用户名")
     private String username;
 
-    @ApiModelProperty(value = "用户密码")
     @NotBlank(message = "{CustomVmUsers.password.NotBlank}", groups = {VmUsersGroups.UserLogin.class, VmUsersGroups.UserRegist.class})
+    @ApiModelProperty(value = "用户密码")
     private String password;
 
     @ApiModelProperty(value = "用户性别")

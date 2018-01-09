@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/user")
 @Scope("prototype")
-@Api(value = "VmUsersController")
+@Api(value = "用户相关接口", description = "用户的登录，注册，在线用户的获取等")
 public class VmUsersController extends ServiceController<VmUsersService> {
     public static final String KEY_OF_ONLINE_USER = "ONLINE_USER";
 
     @ApiOperation(value = "用户注册", notes = "用户注册")
     @RequestMapping(value = "/regist", method = RequestMethod.PUT)
     public @ResponseBody
-    Object userRegist(@Validated(value = {VmUsersGroups.UserRegist.class}) CustomVmUsers user,
+    Object userRegist(@Validated(value = {VmUsersGroups.UserRegist.class}) @RequestBody CustomVmUsers user,
                       BindingResult result) throws Exception {
 
         VmUsers loginUser = service.userRegist(user);
@@ -61,7 +61,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
     @RequestMapping(value = "/login", method = RequestMethod.PUT)
     public @ResponseBody
-    Object userLogin(@Validated(value = {VmUsersGroups.UserLogin.class}) CustomVmUsers user,
+    Object userLogin(@Validated(value = {VmUsersGroups.UserLogin.class}) @RequestBody CustomVmUsers user,
                      BindingResult result) throws Exception {
 
         VmUsers loginUser = service.userLogin(user);

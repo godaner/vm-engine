@@ -30771,6 +30771,7 @@ var Head = _react2.default.createClass({
         //ajax ws
         ajax.put({
             url: "/user/ws/ctrl/login/" + this.state.user.id
+
         });
     },
     logout: function logout(msg) {
@@ -31053,9 +31054,14 @@ var LoginDialog = _react2.default.createClass({
 
         var username = $(this.refs.username).val();
         var password = $(this.refs.password).val();
-        var url = "/user/login?username=" + username + "&password=" + password;
+        var url = "/user/login";
+        var data = {
+            username: username,
+            password: password
+        };
         ajax.put({
             url: url,
+            data: data,
             onBeforeRequest: function () {
                 //close login dialog
                 this.closeLoginDialog();
