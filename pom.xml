@@ -33,17 +33,17 @@
     </properties>
     <dependencies>
         <!--spring boot start-->
-        <!--<dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>-->
+        </dependency>
         <!--spring boot end-->
 
         <!--thymeleaf start-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
+        </dependency>-->
         <!--thymeleaf end-->
 
 
@@ -90,6 +90,14 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+
+        <!--javassist start-->
+        <dependency>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.11.0.GA</version>
+        </dependency>
+        <!--javassist end-->
 
         <!--fastjson-->
         <dependency>
