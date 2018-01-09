@@ -1,6 +1,7 @@
 package com.vm.frontend.controller;
 
 import com.google.common.collect.ImmutableMap;
+import com.vm.base.utils.Response;
 import com.vm.base.utils.ServiceController;
 import com.vm.dao.po.CustomVmUsers;
 import com.vm.dao.po.VmUsers;
@@ -27,12 +28,11 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     public static final String KEY_OF_ONLINE_USER = "ONLINE_USER";
 
     @ApiOperation(value = "用户登录", notes = "用户登录", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ApiResponses(@ApiResponse(code= ))
     @RequestMapping(value = "/login", method = RequestMethod.PUT)
     @ResponseBody
     public Object userLogin(@Validated(value = {VmUsersGroups.UserLogin.class})
-                            @RequestBody
-                            @ApiParam(value = "传入json格式用户信息", required = true)
-                                    CustomVmUsers user,
+                            @RequestBody CustomVmUsers user,
                             BindingResult result) throws Exception {
 
         VmUsers loginUser = service.userLogin(user);
@@ -133,14 +133,15 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      */
     @ApiOperation(value = "获取用户头像", notes = "获取用户头像", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "/img/{fileId}", method = RequestMethod.GET)
-    public void getUserImg(
+    @ResponseBody
+    public Object getUserImg(
             @PathVariable("fileId")
             @ApiParam(value = "用户头像文件id", required = true)
                     Long fileId,
-            @ApiParam(value = "获取条件", required = true)
-                    VmMoviesQueryBean query) throws Exception {
-        service.sendUserImg(fileId, query, getResponse());
-
+            @ApiParam(value = "图片宽度")
+                    Integer width) throws Exception {
+        service.sendUserImg(fileId, width, getResponse());
+        return response;
     }
 //
 //    @RequestMapping(value = "/update", method = RequestMethod.PUT)

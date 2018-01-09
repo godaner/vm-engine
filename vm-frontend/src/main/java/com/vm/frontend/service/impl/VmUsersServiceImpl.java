@@ -7,6 +7,7 @@ import com.vm.dao.mapper.VmFilesMapper;
 import com.vm.dao.mapper.VmUsersMapper;
 import com.vm.dao.po.*;
 import com.vm.dao.qo.VmMoviesQueryBean;
+import com.vm.frontend.service.exception.VmUsersException;
 import com.vm.frontend.service.inf.VmUsersService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,13 +58,15 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         //user是否存在
         VmUsers dbUser = getUserByUsername(user.getUsername());
-        eject(isNullObject(dbUser),
-                "userLogin dbUser is not exits ! user is :" + dbUser);
 
-        //密码错误
-        eject(!dbUser.getPassword().equals(user.getPassword()),
-                "userLogin password is error ! user is :" + user);
-
+        if (isNullObject(dbUser)) {
+            logger.info("userLogin dbUser is not exits ! user is : {}", dbUser);
+            throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
+        }
+        if (!dbUser.getPassword().equals(user.getPassword())) {
+            logger.info("userLogin password is error ! user is :  {}", dbUser);
+            throw new VmUsersException(VmUsersException.ErrorCode.PASSWORD_ERROR.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
+        }
 
         return dbUser;
     }
@@ -127,14 +130,13 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     }
 
     @Override
-    public void sendUserImg(Long fileId, VmMoviesQueryBean query, HttpServletResponse response) throws Exception {
+    public void sendUserImg(Long fileId, Integer width, HttpServletResponse response) throws Exception {
         FileInputStream input = null;
         ServletOutputStream output = null;
         try {
             //获取用户图片id信息
             VmFiles file = vmFilesMapper.selectByPrimaryKey(fileId);
             String userImgPath = VmProperties.VM_USER_IMG_PATH;
-            String width = query.getImgWidth();
             String userImgName = null;
             String contentType = null;
             if (file != null) {

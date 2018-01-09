@@ -10,22 +10,16 @@ import java.util.List;
 /**
  * Created by ZhangKe on 2017/12/12.
  */
-@ApiModel(value = "电影查询条件")
 public class VmMoviesQueryBean {
     private String keyword;
-
-    @ApiModelProperty(value = "标签id数组")
     @NotEmpty(message = "{VmMoviesQueryBean.tagIds.NotEmpty}", groups = VmMoviesGroups.GetAboutTagsMoviesGroup.class)
     private List<Long> tagIds;
 
-    @ApiModelProperty(value = "电影人id数组")
     @NotEmpty(message = "{VmMoviesQueryBean.filmmakerIds.NotEmpty}", groups = VmMoviesGroups.GetAboutFilmmakersMoviesGroup.class)
     private List<Long> filmmakerIds;
 
-    @ApiModelProperty(value = "获取的图片宽度")
     private String imgWidth;
 
-    @ApiModelProperty(value = "不查询的电影人id")
     private Long excludeMovieId;
 
     /**

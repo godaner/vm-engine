@@ -104,7 +104,7 @@ public class Response {
 
         //通用
         SUCCESS(1, "success"),
-        FAILURE(2, "fail");
+        FAILURE(-1, "fail");
 
         int code;
         String msg;
