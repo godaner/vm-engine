@@ -96,7 +96,7 @@ var ajax = {
         }
         //handler args.data
         if (isUndefined(args.data) || isEmptyString(args.data)) {
-            args.data = {};
+            args.data = "";
         }
         args.data = JSON.stringify(args.data);
         $.ajax({
