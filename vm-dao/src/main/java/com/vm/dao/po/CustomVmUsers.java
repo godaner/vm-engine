@@ -20,36 +20,36 @@ public class CustomVmUsers extends BasePo {
     public static final String USER_IMG_URL_PREFIX = VmProperties.VM_USER_IMG_URL_PREFIX;
 
     @NotNull(message = "{CustomVmUsers.id.NotNull}", groups = {VmUsersGroups.UpdateUserBasicInfo.class})
-    @ApiModelProperty(value = "用户id")
+    @ApiModelProperty(value = "用户id",example = "123")
     private Long id;
 
     @NotBlank(message = "{CustomVmUsers.username.NotBlank}", groups = {VmUsersGroups.UserLogin.class, VmUsersGroups.UserRegist.class})
-    @ApiModelProperty(value = "用户名")
+    @ApiModelProperty(value = "用户名",example = "123")
     private String username;
 
     @NotBlank(message = "{CustomVmUsers.password.NotBlank}", groups = {VmUsersGroups.UserLogin.class, VmUsersGroups.UserRegist.class})
-    @ApiModelProperty(value = "用户密码")
+    @ApiModelProperty(value = "用户密码",example = "123")
     private String password;
 
-    @ApiModelProperty(value = "用户性别")
+    @ApiModelProperty(value = "用户性别",example = "1")
     private Byte sex;
 
-    @ApiModelProperty(value = "用户生日")
+    @ApiModelProperty(value = "用户生日",example = "46544564")
     private Integer birthday;
 
-    @ApiModelProperty(value = "用户描述")
+    @ApiModelProperty(value = "用户描述",example = "厉害了")
     private String description;
 
-    @ApiModelProperty(value = "用户状态")
+    @ApiModelProperty(value = "用户状态",example = "1")
     private Byte status;
 
-    @ApiModelProperty(value = "用户创建时间")
+    @ApiModelProperty(value = "用户创建时间",example = "4564546")
     private Integer createTime;
 
-    @ApiModelProperty(value = "用户更新时间")
+    @ApiModelProperty(value = "用户更新时间",example = "46445646")
     private Integer updateTime;
 
-    @ApiModelProperty(value = "用户头像url")
+    @ApiModelProperty(value = "用户头像url",example = "/user/img/1")
     private String imgUrl;
 
 

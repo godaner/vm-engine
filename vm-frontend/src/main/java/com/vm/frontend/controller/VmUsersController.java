@@ -26,11 +26,33 @@ import org.springframework.web.bind.annotation.*;
 public class VmUsersController extends ServiceController<VmUsersService> {
     public static final String KEY_OF_ONLINE_USER = "ONLINE_USER";
 
-    @ApiOperation(value = "用户注册", notes = "用户注册")
+    @ApiOperation(value = "用户登录", notes = "用户登录", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/login", method = RequestMethod.PUT)
+    @ResponseBody
+    public Object userLogin(@Validated(value = {VmUsersGroups.UserLogin.class})
+                            @RequestBody
+                            @ApiParam(value = "传入json格式用户信息", required = true)
+                                    CustomVmUsers user,
+                            BindingResult result) throws Exception {
+
+        VmUsers loginUser = service.userLogin(user);
+
+        setSessionAttr(KEY_OF_ONLINE_USER, loginUser);
+
+        response.putData("user", loginUser);
+
+        return response;
+
+    }
+
+    @ApiOperation(value = "用户注册", notes = "用户注册", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "/regist", method = RequestMethod.PUT)
-    public @ResponseBody
-    Object userRegist(@Validated(value = {VmUsersGroups.UserRegist.class}) @RequestBody CustomVmUsers user,
-                      BindingResult result) throws Exception {
+    @ResponseBody
+    public Object userRegist(@Validated(value = {VmUsersGroups.UserRegist.class})
+                             @RequestBody
+                             @ApiParam(value = "传入json格式用户信息", required = true)
+                                     CustomVmUsers user,
+                             BindingResult result) throws Exception {
 
         VmUsers loginUser = service.userRegist(user);
 
@@ -41,9 +63,10 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response;
     }
 
+    @ApiOperation(value = "获取在线用户", notes = "获取在线用户", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "/online", method = RequestMethod.GET)
-    public @ResponseBody
-    Object getOnlineUser() throws Exception {
+    @ResponseBody
+    public Object getOnlineUser() throws Exception {
         Object user = null;
 
         if (!isNullObject(getSession())) {
@@ -59,20 +82,8 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response;
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.PUT)
-    public @ResponseBody
-    Object userLogin(@Validated(value = {VmUsersGroups.UserLogin.class}) @RequestBody CustomVmUsers user,
-                     BindingResult result) throws Exception {
 
-        VmUsers loginUser = service.userLogin(user);
-
-        setSessionAttr(KEY_OF_ONLINE_USER, loginUser);
-
-        response.putData("user", loginUser);
-
-        return response;
-    }
-
+    @ApiOperation(value = "用户注销", notes = "用户注销", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "/logout", method = RequestMethod.PUT)
     public @ResponseBody
     Object userLogout() throws Exception {
@@ -85,9 +96,12 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
     }
 
+    @ApiOperation(value = "获取用户基本信息", notes = "获取用户基本信息", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
     public @ResponseBody
-    Object getUserBasicInfo(@PathVariable("userId") Long userId) throws Exception {
+    Object getUserBasicInfo(@PathVariable("userId")
+                            @ApiParam(value = "用户id", required = true)
+                                    Long userId) throws Exception {
 
         VmUsers user = service.getUserBasicInfo(userId);
 
@@ -97,10 +111,13 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     }
 
 
+    @ApiOperation(value = "更新在线用户基本信息", notes = "更新在线用户基本信息", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "/online/update", method = RequestMethod.PUT)
-    public @ResponseBody
-    Object updateOnlineUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class}) CustomVmUsers user,
-                                     BindingResult result) throws Exception {
+    @ResponseBody
+    public Object updateOnlineUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class})
+                                            @ApiParam(value = "json格式的用户", required = true)
+                                                    CustomVmUsers user,
+                                            BindingResult result) throws Exception {
 
         Object vmUsers = service.updateOnlineUserBasicInfo(user);
 
@@ -114,8 +131,14 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @return
      */
+    @ApiOperation(value = "获取用户头像", notes = "获取用户头像", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "/img/{fileId}", method = RequestMethod.GET)
-    public void getUserImg(@PathVariable("fileId") Long fileId, VmMoviesQueryBean query) throws Exception {
+    public void getUserImg(
+            @PathVariable("fileId")
+            @ApiParam(value = "用户头像文件id", required = true)
+                    Long fileId,
+            @ApiParam(value = "获取条件", required = true)
+                    VmMoviesQueryBean query) throws Exception {
         service.sendUserImg(fileId, query, getResponse());
 
     }
