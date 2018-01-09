@@ -231,7 +231,7 @@ under the License.
    |
    | For example, if you have an integration testing plugin - like cactus - that needs to know where
    | your Tomcat instance is installed, you can provide a variable here such that the variable is 
-   | dereferenced during the build process to configure the cactus plugin.
+   | dereferenced during the build processconfigurationgure the cactus plugin.
    |
    | As noted above, profiles can be activated in a variety of ways. One way - the activeProfiles
    | section of this document (settings.xml) - will be discussed later. Another way essentially

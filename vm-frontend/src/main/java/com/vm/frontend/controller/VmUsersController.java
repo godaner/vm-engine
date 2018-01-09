@@ -7,7 +7,10 @@ import com.vm.dao.po.VmUsers;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.frontend.service.inf.VmUsersService;
 import com.vm.dao.validator.group.VmUsersGroups;
-import com.vm.frontend.websocket.OnlineUsersWebSocket;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -24,9 +27,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/user")
 @Scope("prototype")
+@Api(value = "VmUsersController")
 public class VmUsersController extends ServiceController<VmUsersService> {
     public static final String KEY_OF_ONLINE_USER = "ONLINE_USER";
 
+    @ApiOperation(value = "用户注册", notes = "用户注册")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "root", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "123", required = true, dataType = "String")
+    })
     @RequestMapping(value = "/regist", method = RequestMethod.PUT)
     public @ResponseBody
     Object userRegist(@Validated(value = {VmUsersGroups.UserRegist.class}) CustomVmUsers user,
@@ -102,7 +111,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     Object updateOnlineUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class}) CustomVmUsers user,
                                      BindingResult result) throws Exception {
 
-        Object vmUsers = service.updateUserBasicInfo(user);
+        Object vmUsers = service.updateOnlineUserBasicInfo(user);
 
         setSessionAttr(KEY_OF_ONLINE_USER, vmUsers);
 
@@ -122,10 +131,10 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 //
 //    @RequestMapping(value = "/update", method = RequestMethod.PUT)
 //    public @ResponseBody
-//    Object updateUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class}) CustomVmUsers user,
+//    Object updateOnlineUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class}) CustomVmUsers user,
 //                               BindingResult result) throws Exception {
 //
-//        VmUsers vmUsers = service.updateUserBasicInfo(user);
+//        VmUsers vmUsers = service.updateOnlineUserBasicInfo(user);
 //
 //        response.putData("user",vmUsers);
 //

@@ -99,19 +99,31 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     @Override
     @Transactional
-    public VmUsers updateUserBasicInfo(CustomVmUsers user) throws Exception {
+    public VmUsers updateOnlineUserBasicInfo(CustomVmUsers user) throws Exception {
         //user是否存在
         VmUsers dbUser = vmUsersMapper.selectByPrimaryKey(user.getId());
         eject(isNullObject(dbUser) || CustomVmUsers.Status.isDeleted(dbUser.getStatus()),
-                "updateUserBasicInfo dbUser is not exits ! user is :" + user);
-        //username是否重复
-        VmUsers repeatUser = getUserByUsername(user.getUsername());
-        eject(!isNullObject(repeatUser) && !repeatUser.getId().equals(user.getId()),
-                "updateUserBasicInfo username repeat ! user is :" + user);
+                "updateOnlineUserBasicInfo dbUser is not exits ! user is :" + user);
 
-        vmUsersMapper.updateByPrimaryKeySelective(makeVmUsers(user));
+        vmUsersMapper.updateByPrimaryKeySelective(makeUpdateOnlineVmUsers(user));
 
         return coverUserSomeInfo(vmUsersMapper.selectByPrimaryKey(user.getId()));
+    }
+
+    /**
+     * 构建VmUsers
+     *
+     * @param user
+     * @return
+     */
+    private VmUsers makeUpdateOnlineVmUsers(CustomVmUsers user) {
+        VmUsers vmUser = new VmUsers();
+        vmUser.setId(user.getId());
+        vmUser.setBirthday(user.getBirthday());
+        vmUser.setUpdateTime(DateUtil.unixTime().intValue());
+        vmUser.setDescription(user.getDescription());
+        vmUser.setSex(user.getSex());
+        return vmUser;
     }
 
     @Override
@@ -171,21 +183,5 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         return vmUsers;
     }
 
-    /**
-     * 构建VmUsers
-     *
-     * @param user
-     * @return
-     */
-    private VmUsers makeVmUsers(CustomVmUsers user) {
-        VmUsers vmUser = new VmUsers();
-        vmUser.setId(user.getId());
-        vmUser.setBirthday(user.getBirthday());
-        vmUser.setUpdateTime(DateUtil.unixTime().intValue());
-        vmUser.setDescription(user.getDescription());
-        vmUser.setSex(user.getSex());
-        vmUser.setUsername(user.getUsername());
-        return vmUser;
-    }
 
 }

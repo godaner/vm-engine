@@ -80,7 +80,7 @@ var UserPage = React.createClass({
                                     <li>
                                         <NavLink to={this.state.headUrl}
                                                  activeClassName="active">
-                                            修改密码
+                                            头像修改
                                         </NavLink>
                                     </li>
                                 </ul>

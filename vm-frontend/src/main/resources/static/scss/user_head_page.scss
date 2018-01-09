@@ -1,4 +1,15 @@
 @import "frontend-default.scss";
+#user_head_content{
+  div{
+    float: left;
+    width: 50%;
+  }
+  #head_upload{
+    img{
+      @include defaultWidth;
+    }
+  }
 
+}
 
 

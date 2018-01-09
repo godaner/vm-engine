@@ -100,4 +100,7 @@ public class VmUsers {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl == null ? null : imgUrl.trim();
     }
+
+    public VmUsers() {
+    }
 }

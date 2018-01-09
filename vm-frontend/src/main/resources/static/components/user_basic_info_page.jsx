@@ -126,7 +126,7 @@ var UserBasicInfoPage = React.createClass({
         var username = e.target.value;
         c(username);
         // $(this.refs.username).value(username);
-        this.updateStateUsername(username);
+        // this.updateStateUsername(username);禁止更新username
     },
     updateStateUsername(username){
         var user = this.state.user;
