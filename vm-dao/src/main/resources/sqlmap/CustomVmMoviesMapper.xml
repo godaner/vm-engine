@@ -106,12 +106,12 @@
 
     <select id="getAboutTagsMovies" resultMap="GetMoviesMap">
         SELECT
-            DISTINCT m.*
+        DISTINCT m.*
         FROM
-            vm_movies m,
-            vm_movies_tags_realation tr
+        vm_movies m,
+        vm_movies_tags_realation tr
         WHERE
-            m.`status` = 1
+        m.`status` = 1
         AND tr.`status` = 1
         AND tr.movie_id = m.id
         AND m.id !=#{query.excludeMovieId}

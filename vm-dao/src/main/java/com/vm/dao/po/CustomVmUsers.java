@@ -1,12 +1,10 @@
 package com.vm.dao.po;
 
 
-import com.vm.dao.validator.group.VmUsersGroups;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.validator.constraints.NotBlank;
 import com.vm.base.utils.ByteConstantVar;
 import com.vm.base.utils.VmProperties;
+import com.vm.dao.validator.group.VmUsersGroups;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 

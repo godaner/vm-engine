@@ -103,8 +103,8 @@ public class Response {
     public enum ResponseCode {
 
         //通用
-        SUCCESS(1, "success"),
-        FAILURE(-1, "fail");
+        SUCCESS(1, "请求成功"),
+        FAILURE(-1, "系统错误");
 
         int code;
         String msg;
