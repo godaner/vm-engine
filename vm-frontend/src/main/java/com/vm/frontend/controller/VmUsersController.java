@@ -50,7 +50,6 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     @ResponseBody
     public Object userRegist(@Validated(value = {VmUsersGroups.UserRegist.class})
                              @RequestBody
-                             @ApiParam(value = "传入json格式用户信息", required = true)
                                      CustomVmUsers user,
                              BindingResult result) throws Exception {
 
@@ -98,10 +97,10 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
     @ApiOperation(value = "获取用户基本信息", notes = "获取用户基本信息", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public @ResponseBody
-    Object getUserBasicInfo(@PathVariable("userId")
-                            @ApiParam(value = "用户id", required = true)
-                                    Long userId) throws Exception {
+    @ResponseBody
+    public Object getUserBasicInfo(@PathVariable("userId")
+                                   @ApiParam(value = "用户id", required = true)
+                                           Long userId) throws Exception {
 
         VmUsers user = service.getUserBasicInfo(userId);
 
@@ -115,7 +114,8 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     @RequestMapping(value = "/online/update", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateOnlineUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class})
-                                            @ApiParam(value = "json格式的用户", required = true)
+                                            @RequestBody
+
                                                     CustomVmUsers user,
                                             BindingResult result) throws Exception {
 

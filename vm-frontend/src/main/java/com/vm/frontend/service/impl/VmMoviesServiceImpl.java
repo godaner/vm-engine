@@ -7,6 +7,7 @@ import com.vm.dao.po.*;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.base.utils.BaseService;
+import com.vm.frontend.service.exception.VmMoviesException;
 import com.vm.frontend.service.inf.VmMoviesService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.assertj.core.util.Lists;
@@ -89,8 +90,14 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     public List<VmFilmmakers> getMovieFilmmakers(Long movieId) {
 
         VmMovies vmMovies = validateMovie(movieId);
-        eject(isNullObject(vmMovies),
-                "getMovieFilmmakers vmMovies is not exist ! movieId is :" + movieId);
+
+
+        if (isNullObject(vmMovies)) {
+            logger.error("getMovieFilmmakers vmMovies is not exist ! movieId is : {}", movieId);
+            throw new VmMoviesException(VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getCode(),
+                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getMsg());
+        }
+
         //返回集
         List<VmFilmmakers> filmmakers = Lists.newArrayList();
 
@@ -130,8 +137,12 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     public List<VmMoviesSrcVersion> getMovieSrcVersions(Long movieId) throws Exception {
 
         VmMovies vmMovies = validateMovie(movieId);
-        eject(isNullObject(vmMovies),
-                "getMovieFilmmakers vmMovies is not exist ! movieId is :" + movieId);
+
+        if (isNullObject(vmMovies)) {
+            logger.error("getMovieFilmmakers vmMovies is not exist ! movieId is : {}", movieId);
+            throw new VmMoviesException(VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getCode(),
+                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getMsg());
+        }
 
         return customVmMoviesSrcVersionMapper.selectMovieSrcVersionsByMovieId(movieId);
     }
@@ -140,8 +151,11 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     public String getMoviePosterUrl(Long movieId) throws Exception {
         VmMovies vmMovies = validateMovie(movieId);
 
-        eject(isNullObject(vmMovies),
-                "getMovieFilmmakers vmMovies is not exist ! movieId is :" + movieId);
+        if (isNullObject(vmMovies)) {
+            logger.error("getMovieFilmmakers vmMovies is not exist ! movieId is : {}", movieId);
+            throw new VmMoviesException(VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getCode(),
+                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getMsg());
+        }
 
         return vmMovies.getPosterUrl();
     }
@@ -160,7 +174,6 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
     @Override
     public CustomVmMovies getMovie(Long movieId) {
-        eject(movieId == null, "VmMoviesService#getMovie movieId is null ! movieId is :" + movieId);
 
         return customVmMoviesMapper.getMovie(movieId);
     }

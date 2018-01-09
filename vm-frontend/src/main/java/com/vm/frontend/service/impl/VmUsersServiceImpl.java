@@ -60,11 +60,11 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         VmUsers dbUser = getUserByUsername(user.getUsername());
 
         if (isNullObject(dbUser)) {
-            logger.info("userLogin dbUser is not exits ! user is : {}", dbUser);
+            logger.error("userLogin dbUser is not exits ! user is : {}", user);
             throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
         if (!dbUser.getPassword().equals(user.getPassword())) {
-            logger.info("userLogin password is error ! user is :  {}", dbUser);
+            logger.error("userLogin password is error ! user is :  {}", user);
             throw new VmUsersException(VmUsersException.ErrorCode.PASSWORD_ERROR.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 
@@ -73,15 +73,15 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     @Override
     public VmUsers getUserBasicInfo(Long userId) {
-        eject(isNullObject(userId),
-                "getUserBasicInfo userId is null! userId is:" + userId);
 
         //获取指定id的user
 
         VmUsers dbUser = vmUsersMapper.selectByPrimaryKey(userId);
 
-        eject(isNullObject(dbUser) || CustomVmUsers.Status.isDeleted(dbUser.getStatus()),
-                "getUserBasicInfo user is not exits! userId is:" + userId);
+        if (isNullObject(dbUser) || CustomVmUsers.Status.isDeleted(dbUser.getStatus())) {
+            logger.error("getUserBasicInfo user is not exits! userId is : {}", userId);
+            throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
+        }
 
         //屏蔽相关信息
         coverUserSomeInfo(dbUser);
@@ -105,8 +105,12 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     public VmUsers updateOnlineUserBasicInfo(CustomVmUsers user) throws Exception {
         //user是否存在
         VmUsers dbUser = vmUsersMapper.selectByPrimaryKey(user.getId());
-        eject(isNullObject(dbUser) || CustomVmUsers.Status.isDeleted(dbUser.getStatus()),
-                "updateOnlineUserBasicInfo dbUser is not exits ! user is :" + user);
+
+        if (isNullObject(dbUser) || CustomVmUsers.Status.isDeleted(dbUser.getStatus())) {
+            logger.error("updateOnlineUserBasicInfo dbUser is not exits ! user is : {}", user);
+            throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
+        }
+
 
         vmUsersMapper.updateByPrimaryKeySelective(makeUpdateOnlineVmUsers(user));
 
@@ -165,9 +169,14 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Transactional
     public VmUsers userRegist(CustomVmUsers user) throws Exception {
 
+
         //是否存在username相同的账户
-        eject(!isNullObject(getUserByUsername(user.getUsername())),
-                "userRegist username is exits!user is :" + user);
+
+        if (!isNullObject(getUserByUsername(user.getUsername()))) {
+            logger.error("userRegist username is exits ! user is :  {}", user);
+            throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
+        }
+
         vmUsersMapper.insert(makeRegistVmUser(user));
         VmUsers vmUsers = getUserByUsername(user.getUsername());
         return coverUserSomeInfo(vmUsers);

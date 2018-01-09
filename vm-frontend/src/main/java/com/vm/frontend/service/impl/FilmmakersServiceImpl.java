@@ -2,6 +2,7 @@ package com.vm.frontend.service.impl;
 
 import com.vm.base.utils.BaseService;
 import com.vm.base.utils.VmProperties;
+import com.vm.frontend.service.exception.VmFilmmakersException;
 import com.vm.frontend.service.inf.FilmmakersService;
 import com.vm.dao.mapper.VmFilesMapper;
 import com.vm.dao.mapper.VmFilmmakersMapper;
@@ -62,10 +63,6 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
 
     @Override
     public VmFilmmakers getFilmmakerBasicInfo(Long filmmakerId) throws Exception {
-
-        eject(isNullObject(filmmakerId),
-                "getFilmmakerBasicInfo filmmakerId is null! filmmakerId is:" + filmmakerId);
-
 
         VmFilmmakers filmmaker = vmFilmmakersMapper.selectByPrimaryKey(filmmakerId);
         if (filmmaker != null && BasePo.Status.isDeleted(filmmaker.getStatus())) {

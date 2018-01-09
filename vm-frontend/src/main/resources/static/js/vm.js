@@ -1,17 +1,15 @@
-//成功返回码
-const RESPONSE_CODE_SUCCESS = 1;
-//失败返回码
-const RESPONSE_CODE_FAILURE = 2;
-
 
 function fail(code) {
-    return code == RESPONSE_CODE_FAILURE;
+    return code < 0;
 }
+
 function success(code) {
-    return code == RESPONSE_CODE_SUCCESS;
+    return code > 0;
 }
+
 //用户未登录时受保护的页面，用于用户注销后或者被动离线后调用
 var protectedUserPageLists = ["/user/[0-9/_-a-zA-Z]*"];
+
 //保护用户页面
 function protectUserPageWhenUserIsOffline(react_this) {
     for (var i = 0; i < protectedUserPageLists.length; i++) {
@@ -23,6 +21,7 @@ function protectUserPageWhenUserIsOffline(react_this) {
     }
 
 }
+
 //用户在其他地方登录code
 const WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA = 5;
 //在线用户超时code
@@ -41,6 +40,7 @@ function lazyLoad() {
     // c($("img"));
     $("img").lazyload({effect: "fadeIn"});
 }
+
 //ajax封装
 //common是所有的返回结果都会执行的方法
 var ajax = {
