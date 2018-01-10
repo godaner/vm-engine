@@ -9,18 +9,12 @@ var UserHeadPage = React.createClass({
         };
     },
     componentDidMount(){
-        this.previewHeadImg();
-        this.initHead();
     },
-    previewHeadImg(e){
-        $(this.refs.headSubmitBtn).uploadPreview({Img: this.refs.headImgPreview0, Width: 120, Height: 120});
-        $(this.refs.headSubmitBtn).uploadPreview({Img: this.refs.headImgPreview0, Width: 80, Height: 80});
-        $(this.refs.headSubmitBtn).uploadPreview({Img: this.refs.headImgPreview1, Width: 50, Height: 50});
-        $(this.refs.headSubmitBtn).uploadPreview({Img: this.refs.headImgPreview2, Width: 30, Height: 30});
-
-    },
-    initHead(){
-
+    preImg(e){
+        preImg($(e.target),$(this.refs.headImgPreview));
+        preImg($(e.target),$(this.refs.headImgPreview0));
+        preImg($(e.target),$(this.refs.headImgPreview1));
+        preImg($(e.target),$(this.refs.headImgPreview2));
     },
     render: function () {
         return (
@@ -35,6 +29,7 @@ var UserHeadPage = React.createClass({
                          ref="headImgPreview"/>
                     <input type="button"
                            ref="headSubmitBtn"
+                           onChange={this.preImg}
                            value="上传"/>
                 </div>
                 <div id="head_preview">

@@ -1,3 +1,21 @@
+function getFileUrl(source) {
+    var url;
+    if (navigator.userAgent.indexOf("MSIE")>=1) { // IE
+        url = source.val();
+    }
+    else if(navigator.userAgent.indexOf("Firefox")>0) { // Firefox
+        url = window.URL.createObjectURL(source.val().get(0).files.item(0));
+    }
+    else if(navigator.userAgent.indexOf("Chrome")>0) { // Chrome
+        url = window.URL.createObjectURL(source.val().get(0).files.item(0));
+    }
+    return url;
+}
+function preImg(source, target) {
+    var url = getFileUrl(source);
+    target.attr("src",url);
+}
+
 /**
  * 选中select的某个option展示
  * @param selectId
