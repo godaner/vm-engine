@@ -1,3 +1,12 @@
+/**
+ * 选中select的某个option展示
+ * @param selectId
+ * @param value
+ */
+function selectOption(selectId, value) {
+    $("#" + selectId + " option[value='" + value + "']").attr("selected", "selected");
+}
+
 function getQueryString(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
     var r = window.location.search.substr(1).match(reg);

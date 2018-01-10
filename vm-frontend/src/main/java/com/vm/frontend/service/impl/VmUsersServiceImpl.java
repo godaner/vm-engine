@@ -56,11 +56,12 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     private VmUsersBo makeVmUsersBo(VmUsers user) {
         VmUsersBo vmUsersBo = new VmUsersBo();
-
+        vmUsersBo.setUsername(user.getUsername());
         vmUsersBo.setId(user.getId());
         vmUsersBo.setBirthday(user.getBirthday());
         vmUsersBo.setDescription(user.getDescription());
-        vmUsersBo.setSex(vmUsersBo.getSex());
+        vmUsersBo.setSex(user.getSex());
+        vmUsersBo.setImgUrl(user.getImgUrl());
         return vmUsersBo;
     }
 
