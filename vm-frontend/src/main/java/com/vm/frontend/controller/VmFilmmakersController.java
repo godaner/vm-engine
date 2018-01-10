@@ -3,6 +3,7 @@ package com.vm.frontend.controller;
 import com.vm.base.utils.ServiceController;
 import com.vm.dao.po.VmFilmmakers;
 import com.vm.dao.qo.VmFilmmakersQueryBean;
+import com.vm.frontend.service.bo.VmFilmmakersBo;
 import com.vm.frontend.service.inf.FilmmakersService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -23,14 +24,15 @@ public class VmFilmmakersController extends ServiceController<FilmmakersService>
      * @return
      */
     @RequestMapping(value = "/img/{filmmakerId}", method = RequestMethod.GET)
-    public void sendFilmmakerImg(@PathVariable("filmmakerId") Long filmmakerId, VmFilmmakersQueryBean query) throws Exception {
+    public void sendFilmmakerImg(@PathVariable("filmmakerId") Long filmmakerId, Integer width) throws Exception {
 
-        service.sendFilmmakerImg(filmmakerId, query, getResponse());
+        service.sendFilmmakerImg(filmmakerId, width, getResponse());
 
     }
 
     /**
      * 获取电影人基本信息
+     *
      * @param filmmakerId
      * @return
      * @throws Exception
@@ -38,11 +40,8 @@ public class VmFilmmakersController extends ServiceController<FilmmakersService>
     @RequestMapping(value = "/{filmmakerId}", method = RequestMethod.GET)
     public @ResponseBody
     Object getFilmmakerBasicInfo(@PathVariable("filmmakerId") Long filmmakerId) throws Exception {
-        VmFilmmakers filmmaker = service.getFilmmakerBasicInfo(filmmakerId);
-        response.putData("filmmaker", filmmaker);
-        return response;
+        return response.putData("filmmaker", service.getFilmmakerBasicInfo(filmmakerId));
     }
-
 
 
 }

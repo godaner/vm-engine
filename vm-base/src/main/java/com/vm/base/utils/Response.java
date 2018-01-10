@@ -54,29 +54,34 @@ public class Response {
         }
     }
 
-    public void setData(Map<Object, Object> data) {
+    public Response setData(Map<Object, Object> data) {
         this.data = data;
+        return this;
     }
 
-    public void putData(Object key, Object value) {
+    public Response putData(Object key, Object value) {
         this.data.put(key, value);
+        return this;
     }
 
-    public void setFailure() {
+    public Response setFailure() {
         this.setCode(ResponseCode.FAILURE.getCode());
         this.setMsg(ResponseCode.FAILURE.getMsg());
         this.data.clear();
+        return this;
     }
 
-    public void setFailure(ResponseCode responseCodeEnum) {
+    public Response setFailure(ResponseCode responseCodeEnum) {
         this.setCode(responseCodeEnum.getCode());
         this.setMsg(responseCodeEnum.getMsg());
         this.data.clear();
+        return this;
     }
 
-    public void setSuccess() {
+    public Response setSuccess() {
         this.setCode(ResponseCode.SUCCESS.getCode());
         this.setMsg(ResponseCode.SUCCESS.getMsg());
+        return this;
     }
 
     @Override

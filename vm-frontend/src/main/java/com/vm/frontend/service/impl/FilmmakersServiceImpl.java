@@ -2,6 +2,7 @@ package com.vm.frontend.service.impl;
 
 import com.vm.base.utils.BaseService;
 import com.vm.base.utils.VmProperties;
+import com.vm.frontend.service.bo.VmFilmmakersBo;
 import com.vm.frontend.service.exception.VmFilmmakersException;
 import com.vm.frontend.service.inf.FilmmakersService;
 import com.vm.dao.mapper.VmFilesMapper;
@@ -32,14 +33,13 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
     private VmFilmmakersMapper vmFilmmakersMapper;
 
     @Override
-    public void sendFilmmakerImg(Long filmmakerId, VmFilmmakersQueryBean query, HttpServletResponse response) throws Exception {
+    public void sendFilmmakerImg(Long filmmakerId, Integer width, HttpServletResponse response) throws Exception {
         FileInputStream input = null;
         ServletOutputStream output = null;
         try {
             //获取电影图片id信息
             VmFiles file = vmFilesMapper.selectByPrimaryKey(filmmakerId);
             String USERImgPath = VmProperties.VM_USER_IMG_PATH;
-            String width = query.getImgWidth();
             String USERImgName = null;
             if (file != null) {
                 USERImgName = file.getFilename();
@@ -62,13 +62,28 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
     }
 
     @Override
-    public VmFilmmakers getFilmmakerBasicInfo(Long filmmakerId) throws Exception {
+    public VmFilmmakersBo getFilmmakerBasicInfo(Long filmmakerId) throws Exception {
 
         VmFilmmakers filmmaker = vmFilmmakersMapper.selectByPrimaryKey(filmmakerId);
         if (filmmaker != null && BasePo.Status.isDeleted(filmmaker.getStatus())) {
             return null;
         }
+        return makeFilmmakerBo(filmmaker);
+    }
 
-        return filmmaker;
+    private VmFilmmakersBo makeFilmmakerBo(VmFilmmakers filmmaker) {
+        VmFilmmakersBo vmFilmmakersBo = new VmFilmmakersBo();
+        vmFilmmakersBo.setAlias(filmmaker.getAlias());
+        vmFilmmakersBo.setBirthday(filmmaker.getBirthday());
+        vmFilmmakersBo.setBloodType(filmmaker.getBloodType());
+        vmFilmmakersBo.setConstellation(filmmaker.getConstellation());
+        vmFilmmakersBo.setCountry(filmmaker.getCountry());
+        vmFilmmakersBo.setDescription(filmmaker.getDescription());
+        vmFilmmakersBo.setId(filmmaker.getId());
+        vmFilmmakersBo.setImgUrl(filmmaker.getImgUrl());
+        vmFilmmakersBo.setProfession(filmmaker.getProfession());
+        vmFilmmakersBo.setSex(filmmaker.getSex());
+        vmFilmmakersBo.setName(filmmaker.getName());
+        return vmFilmmakersBo;
     }
 }

@@ -35,9 +35,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
         setSessionAttr(KEY_OF_ONLINE_USER, loginUser);
 
-        return ImmutableMap.of(
-                "user", loginUser
-        );
+        return response.putData("user", loginUser);
 
     }
 
@@ -51,10 +49,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
         getSession().setAttribute(KEY_OF_ONLINE_USER, loginUser);
 
-
-        return ImmutableMap.of(
-                "user", loginUser
-        );
+        return response.putData("user", loginUser);
     }
 
     @RequestMapping(value = "/online", method = RequestMethod.GET)
@@ -73,9 +68,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         //update session user
         setSessionAttr(KEY_OF_ONLINE_USER, user);
 
-        return ImmutableMap.of(
-                "user",user
-        );
+        return response.putData("user", user);
     }
 
 
@@ -95,9 +88,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     @ResponseBody
     public Object getUserBasicInfo(@PathVariable("userId") Long userId) throws Exception {
 
-        return ImmutableMap.of(
-                "user", service.getUserBasicInfo(userId)
-        );
+        return response.putData("user", service.getUserBasicInfo(userId));
     }
 
 
@@ -111,7 +102,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
         setSessionAttr(KEY_OF_ONLINE_USER, vmUsers);
 
-        return ImmutableMap.of("user", vmUsers);
+        return response.putData("user", vmUsers);
     }
 
     /**

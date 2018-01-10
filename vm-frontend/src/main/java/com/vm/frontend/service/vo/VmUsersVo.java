@@ -33,44 +33,6 @@ public class VmUsersVo {
 
     private String imgUrl;
 
-    /**
-     * 状态
-     */
-    public enum Sex {
-        //性别，1为男，1为女，3未设置
-        MEN(ByteConstantVar.ONE, "男"),
-        WOMEN(ByteConstantVar.TWO, "女"),
-        UNKNOWN(ByteConstantVar.THREE, "未设置");
-
-        Byte code;
-
-        String msg;
-
-        Sex(Byte code, String msg) {
-            this.code = code;
-            this.msg = msg;
-        }
-
-        public Byte getCode() {
-            return code;
-        }
-
-        public void setCode(Byte code) {
-            this.code = code;
-        }
-
-        public String getMsg() {
-            return msg;
-        }
-
-        public void setMsg(String msg) {
-            this.msg = msg;
-        }
-
-
-    }
-
-
     public Long getId() {
         return id;
     }
