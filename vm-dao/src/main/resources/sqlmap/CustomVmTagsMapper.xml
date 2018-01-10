@@ -4,15 +4,18 @@
 
     <!--**************************** 自定义mapper start ****************************-->
 
-    <select id="selectTagsByTagGroupId" resultMap="com.vm.dao.mapper.VmTagsMapper.BaseResultMap">
-        SELECT *
+    <select id="selectTagsIdAndNameByTagGroupId" resultMap="com.vm.dao.mapper.VmTagsMapper.BaseResultMap">
+        SELECT
+        t.id,
+        t.name
         from vm_tags t
         where t.`status` =1
         and t.tag_group_id=#{tagGroupId}
     </select>
-    <select id="getTagsOfMovie" resultMap="com.vm.dao.mapper.VmTagsMapper.BaseResultMap">
+    <select id="getTagsIdAndNameOfMovie" resultMap="com.vm.dao.mapper.VmTagsMapper.BaseResultMap">
         SELECT
-            t.*
+            t.id,
+            t.name
         FROM
             vm_tags t,
             vm_movies_tags_realation mtr

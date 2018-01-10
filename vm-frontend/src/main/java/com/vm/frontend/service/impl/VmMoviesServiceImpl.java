@@ -74,6 +74,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
     /**
      * 构建含有actors和director的dto集合
+     *
      * @param aboutFilmmakersMovies
      * @return
      */
@@ -122,27 +123,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         } else {
             query.setTagIdsLength(query.getTagIds().size());
         }
-        return makeGetMoviesVmMoviesBos(customVmMoviesMapper.getMovies(page, query));
-    }
-
-    private List<VmMoviesDto> makeGetMoviesVmMoviesBos(List<CustomVmMovies> movies) {
-        return movies.stream().map((movie) -> {
-            VmMoviesDto vmMoviesBo = new VmMoviesDto();
-            vmMoviesBo.setDescription(movie.getAlias());
-            vmMoviesBo.setDirectorId(movie.getDirectorId());
-            vmMoviesBo.setId(movie.getId());
-            vmMoviesBo.setImgUrl(movie.getImgUrl());
-            vmMoviesBo.setMovieTime(movie.getMovieTime());
-            vmMoviesBo.setName(movie.getName());
-            vmMoviesBo.setPosterUrl(movie.getPosterUrl());
-            vmMoviesBo.setReleaseTime(movie.getReleaseTime());
-            vmMoviesBo.setScore(movie.getScore());
-            vmMoviesBo.setWatchNum(movie.getWatchNum());
-            vmMoviesBo.setReleaseTime(movie.getReleaseTime());
-            vmMoviesBo.setDirector(movie.getDirector());
-            vmMoviesBo.setActors(movie.getActors());
-            return vmMoviesBo;
-        }).collect(toList());
+        return makeMoviesWithDirectorAndActors(customVmMoviesMapper.getMovies(page, query));
     }
 
     @Override
@@ -157,17 +138,14 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
     @Override
     public List<VmTagsDto> getTagsOfMovie(Long movieId) throws Exception {
-        return makeTagsBos(customVmTagsMapper.getTagsOfMovie(movieId));
-    }
-
-    private List<VmTagsDto> makeTagsBos(List<VmTags> tagsOfMovie) {
-        return tagsOfMovie.stream().map((tag) -> {
+        return customVmTagsMapper.getTagsIdAndNameOfMovie(movieId).stream().map((tag) -> {
             VmTagsDto vmTagsBo = new VmTagsDto();
             vmTagsBo.setId(tag.getId());
             vmTagsBo.setName(tag.getName());
             return vmTagsBo;
         }).collect(toList());
     }
+
 
     @Override
     public List<VmFilmmakersDto> getMovieFilmmakers(Long movieId) {
@@ -263,8 +241,6 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     public List<VmMoviesDto> getAboutFilmmakersMovies(PageBean page, VmMoviesQueryBean query) {
         return makeMoviesWithDirectorAndActors(customVmMoviesMapper.getAboutFilmmakersMovies(page, query));
     }
-
-
 
 
     @Override

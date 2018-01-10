@@ -9,7 +9,7 @@
         <result column="status" jdbcType="TINYINT" property="status"/>
         <result column="create_time" jdbcType="INTEGER" property="createTime"/>
         <result column="update_time" jdbcType="INTEGER" property="updateTime"/>
-        <collection property="items" column="id" select="com.vm.dao.mapper.CustomVmTagsMapper.selectTagsByTagGroupId">
+        <collection property="items" column="id" select="com.vm.dao.mapper.CustomVmTagsMapper.selectTagsIdAndNameByTagGroupId">
 
         </collection>
     </resultMap>

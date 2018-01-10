@@ -28,9 +28,7 @@ public class VmTagsController extends ServiceController<VmTagsService> {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public @ResponseBody
     Object getTags()  throws Exception {
-        List<VmTags> list = service.getTags();
-        response.putData("list", list);
-        return response;
+        return response.putData("list", service.getTags());
     }
 
 

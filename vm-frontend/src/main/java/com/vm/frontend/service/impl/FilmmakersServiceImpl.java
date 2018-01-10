@@ -30,6 +30,22 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
     @Autowired
     private VmFilmmakersMapper vmFilmmakersMapper;
 
+    private VmFilmmakersDto makeBasicFilmmakerDto(VmFilmmakers filmmaker) {
+        VmFilmmakersDto vmFilmmakersDto = new VmFilmmakersDto();
+        vmFilmmakersDto.setAlias(filmmaker.getAlias());
+        vmFilmmakersDto.setBirthday(filmmaker.getBirthday());
+        vmFilmmakersDto.setBloodType(filmmaker.getBloodType());
+        vmFilmmakersDto.setConstellation(filmmaker.getConstellation());
+        vmFilmmakersDto.setCountry(filmmaker.getCountry());
+        vmFilmmakersDto.setDescription(filmmaker.getDescription());
+        vmFilmmakersDto.setId(filmmaker.getId());
+        vmFilmmakersDto.setImgUrl(filmmaker.getImgUrl());
+        vmFilmmakersDto.setProfession(filmmaker.getProfession());
+        vmFilmmakersDto.setSex(filmmaker.getSex());
+        vmFilmmakersDto.setName(filmmaker.getName());
+        return vmFilmmakersDto;
+    }
+
     @Override
     public void sendFilmmakerImg(Long filmmakerId, Integer width, HttpServletResponse response) throws Exception {
         FileInputStream input = null;
@@ -66,22 +82,8 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
         if (filmmaker != null && BasePo.Status.isDeleted(filmmaker.getStatus())) {
             return null;
         }
-        return makeFilmmakerBo(filmmaker);
+        return makeBasicFilmmakerDto(filmmaker);
     }
 
-    private VmFilmmakersDto makeFilmmakerBo(VmFilmmakers filmmaker) {
-        VmFilmmakersDto vmFilmmakersBo = new VmFilmmakersDto();
-        vmFilmmakersBo.setAlias(filmmaker.getAlias());
-        vmFilmmakersBo.setBirthday(filmmaker.getBirthday());
-        vmFilmmakersBo.setBloodType(filmmaker.getBloodType());
-        vmFilmmakersBo.setConstellation(filmmaker.getConstellation());
-        vmFilmmakersBo.setCountry(filmmaker.getCountry());
-        vmFilmmakersBo.setDescription(filmmaker.getDescription());
-        vmFilmmakersBo.setId(filmmaker.getId());
-        vmFilmmakersBo.setImgUrl(filmmaker.getImgUrl());
-        vmFilmmakersBo.setProfession(filmmaker.getProfession());
-        vmFilmmakersBo.setSex(filmmaker.getSex());
-        vmFilmmakersBo.setName(filmmaker.getName());
-        return vmFilmmakersBo;
-    }
+
 }

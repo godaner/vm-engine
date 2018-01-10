@@ -8,9 +8,9 @@ import java.util.List;
 public interface CustomVmTagsMapper {
 
 
-    List<VmTags> selectTagsByTagGroupId(@Param("tagGroupId") Long tagGroupId);
+    List<VmTags> selectTagsIdAndNameByTagGroupId(@Param("tagGroupId") Long tagGroupId);
 
-    List<VmTags> getTagsOfMovie(@Param("movieId") Long movieId);
+    List<VmTags> getTagsIdAndNameOfMovie(@Param("movieId") Long movieId);
 
 
 }
