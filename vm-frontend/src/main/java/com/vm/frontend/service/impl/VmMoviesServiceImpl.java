@@ -51,12 +51,12 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     private CustomVmMoviesSrcVersionMapper customVmMoviesSrcVersionMapper;
 
     /**
-     * 构建dto
+     * 构建含有基本电影信息的dto
      *
      * @param customVmMovies
      * @return
      */
-    private VmMoviesDto makeMovieDto(CustomVmMovies customVmMovies) {
+    private VmMoviesDto makeBasicMovieDto(CustomVmMovies customVmMovies) {
         VmMoviesDto vmMoviesDto = new VmMoviesDto();
         vmMoviesDto.setDescription(customVmMovies.getAlias());
         vmMoviesDto.setDirectorId(customVmMovies.getDirectorId());
@@ -70,6 +70,31 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         vmMoviesDto.setWatchNum(customVmMovies.getWatchNum());
         vmMoviesDto.setReleaseTime(customVmMovies.getReleaseTime());
         return vmMoviesDto;
+    }
+
+    /**
+     * 构建含有actors和director的dto集合
+     * @param aboutFilmmakersMovies
+     * @return
+     */
+    private List<VmMoviesDto> makeMoviesWithDirectorAndActors(List<CustomVmMovies> aboutFilmmakersMovies) {
+        return aboutFilmmakersMovies.stream().map((aboutTagsMovie) -> {
+            VmMoviesDto vmMoviesDto = new VmMoviesDto();
+            vmMoviesDto.setDescription(aboutTagsMovie.getAlias());
+            vmMoviesDto.setDirectorId(aboutTagsMovie.getDirectorId());
+            vmMoviesDto.setId(aboutTagsMovie.getId());
+            vmMoviesDto.setImgUrl(aboutTagsMovie.getImgUrl());
+            vmMoviesDto.setMovieTime(aboutTagsMovie.getMovieTime());
+            vmMoviesDto.setName(aboutTagsMovie.getName());
+            vmMoviesDto.setPosterUrl(aboutTagsMovie.getPosterUrl());
+            vmMoviesDto.setReleaseTime(aboutTagsMovie.getReleaseTime());
+            vmMoviesDto.setScore(aboutTagsMovie.getScore());
+            vmMoviesDto.setWatchNum(aboutTagsMovie.getWatchNum());
+            vmMoviesDto.setReleaseTime(aboutTagsMovie.getReleaseTime());
+            vmMoviesDto.setActors(aboutTagsMovie.getActors());
+            vmMoviesDto.setDirector(aboutTagsMovie.getDirector());
+            return vmMoviesDto;
+        }).collect(toList());
     }
 
     /**
@@ -185,11 +210,11 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         }
         //to dto
         return Lists.newArrayList(map.values()).stream().map((filmmaker) -> {
-            VmFilmmakersDto vmFilmmakersBo = new VmFilmmakersDto();
-            vmFilmmakersBo.setName(filmmaker.getName());
-            vmFilmmakersBo.setId(filmmaker.getId());
-            vmFilmmakersBo.setImgUrl(filmmaker.getImgUrl());
-            return vmFilmmakersBo;
+            VmFilmmakersDto vmFilmmakersDto = new VmFilmmakersDto();
+            vmFilmmakersDto.setName(filmmaker.getName());
+            vmFilmmakersDto.setId(filmmaker.getId());
+            vmFilmmakersDto.setImgUrl(filmmaker.getImgUrl());
+            return vmFilmmakersDto;
         }).collect(toList());
     }
 
@@ -230,24 +255,22 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
     @Override
     public List<VmMoviesDto> getAboutTagsMovies(PageBean page, VmMoviesQueryBean query) throws Exception {
-        return customVmMoviesMapper.getAboutTagsMovies(page, query).stream().map((aboutTagsMovie) -> {
-            return makeMovieDto(aboutTagsMovie);
-        }).collect(toList());
+        return makeMoviesWithDirectorAndActors(customVmMoviesMapper.getAboutTagsMovies(page, query));
     }
 
 
     @Override
     public List<VmMoviesDto> getAboutFilmmakersMovies(PageBean page, VmMoviesQueryBean query) {
-        return customVmMoviesMapper.getAboutFilmmakersMovies(page, query).stream().map((aboutFilmmakersMovie) -> {
-            return makeMovieDto(aboutFilmmakersMovie);
-        }).collect(toList());
+        return makeMoviesWithDirectorAndActors(customVmMoviesMapper.getAboutFilmmakersMovies(page, query));
     }
+
+
 
 
     @Override
     public VmMoviesDto getMovie(Long movieId) {
 
-        return makeMovieDto(customVmMoviesMapper.getMovie(movieId));
+        return makeBasicMovieDto(customVmMoviesMapper.getMovie(movieId));
     }
 
 

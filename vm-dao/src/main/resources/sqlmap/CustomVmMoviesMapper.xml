@@ -36,7 +36,6 @@
         m.score,
         m.watch_num,
         m.movie_time,
-        m.src_url,
         m.img_url
         FROM
         vm_movies m
@@ -114,7 +113,6 @@
         m.score,
         m.watch_num,
         m.movie_time,
-        m.src_url,
         m.img_url
         FROM vm_movies m
         where m.id = #{movieId}
@@ -134,7 +132,6 @@
         m.score,
         m.watch_num,
         m.movie_time,
-        m.src_url,
         m.img_url
         FROM
         vm_movies m,
@@ -167,7 +164,6 @@
         m.score,
         m.watch_num,
         m.movie_time,
-        m.src_url,
         m.img_url
         FROM
         vm_movies m,
