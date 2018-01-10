@@ -4,14 +4,12 @@ import com.vm.base.utils.ServiceController;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.frontend.service.inf.VmMoviesService;
-import com.vm.dao.validator.group.VmMoviesGroups;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
@@ -28,10 +26,9 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      * @return
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public @ResponseBody
-    Object getMovies(@Valid PageBean page,
-                     BindingResult result,
-                     VmMoviesQueryBean query) throws Exception {
+    @ResponseBody
+    public Object getMovies(PageBean page,
+                            VmMoviesQueryBean query) throws Exception {
 
         return response.putData("total", service.getMoviesCount(page, query))
                 .putData("list", service.getMovies(page, query));
@@ -43,8 +40,8 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      * @return
      */
     @RequestMapping(value = "/tag/{movieId}", method = RequestMethod.GET)
-    public @ResponseBody
-    Object getTagsOfMovie(@PathVariable("movieId") Long movieId) throws Exception {
+    @ResponseBody
+    public Object getTagsOfMovie(@PathVariable("movieId") Long movieId) throws Exception {
 
         return response.putData("list", service.getTagsOfMovie(movieId));
     }
@@ -57,8 +54,8 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      * @throws Exception
      */
     @RequestMapping(value = "/{movieId}", method = RequestMethod.GET)
-    public @ResponseBody
-    Object getMovie(@PathVariable("movieId") Long movieId) throws Exception {
+    @ResponseBody
+    public Object getMovie(@PathVariable("movieId") Long movieId) throws Exception {
         return response.putData("movie", service.getMovie(movieId));
     }
 
@@ -89,8 +86,8 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      * @return
      */
     @RequestMapping(value = "/filmmaker/{movieId}", method = RequestMethod.GET)
-    public @ResponseBody
-    Object getMovieFilmmakers(@PathVariable("movieId") Long movieId) throws Exception {
+    @ResponseBody
+    public Object getMovieFilmmakers(@PathVariable("movieId") Long movieId) throws Exception {
 
         return response.putData("filmmakers", service.getMovieFilmmakers(movieId));
     }
@@ -101,8 +98,8 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      * @return
      */
     @RequestMapping(value = "/version/{movieId}", method = RequestMethod.GET)
-    public @ResponseBody
-    Object getMovieSrcVersions(@PathVariable("movieId") Long movieId) throws Exception {
+    @ResponseBody
+    public Object getMovieSrcVersions(@PathVariable("movieId") Long movieId) throws Exception {
 
         return response.putData("versions", service.getMovieSrcVersions(movieId))
                 .putData("posterUrl", service.getMoviePosterUrl(movieId));
@@ -114,11 +111,9 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      * @return
      */
     @RequestMapping(value = "/about/tag", method = RequestMethod.GET)
-    public @ResponseBody
-    Object getAboutTagsMovies(@Validated(value = VmMoviesGroups.GetAboutTagsMoviesGroup.class) VmMoviesQueryBean query,
-                              BindingResult result,
-                              @Valid PageBean page,
-                              BindingResult result0) throws Exception {
+    @ResponseBody
+    public Object getAboutTagsMovies(VmMoviesQueryBean query,
+                                     PageBean page) throws Exception {
         return response.putData("movies", service.getAboutTagsMovies(page, query));
     }
 
@@ -128,11 +123,9 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      * @return
      */
     @RequestMapping(value = "/about/filmmaker", method = RequestMethod.GET)
-    public @ResponseBody
-    Object getAboutFilmmakersMovies(@Validated(value = VmMoviesGroups.GetAboutFilmmakersMoviesGroup.class) VmMoviesQueryBean query,
-                                    BindingResult result,
-                                    @Valid PageBean page,
-                                    BindingResult result0) throws Exception {
+    @ResponseBody
+    public Object getAboutFilmmakersMovies(VmMoviesQueryBean query,
+                                           PageBean page) throws Exception {
         return response.putData("movies", service.getAboutFilmmakersMovies(page, query));
     }
 

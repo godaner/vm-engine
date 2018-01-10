@@ -1,8 +1,5 @@
 package com.vm.dao.qo;
 
-import com.vm.dao.validator.group.VmMoviesGroups;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import java.util.List;
 
 /**
@@ -10,10 +7,9 @@ import java.util.List;
  */
 public class VmMoviesQueryBean {
     private String keyword;
-    @NotEmpty(message = "{VmMoviesQueryBean.tagIds.NotEmpty}", groups = VmMoviesGroups.GetAboutTagsMoviesGroup.class)
+
     private List<Long> tagIds;
 
-    @NotEmpty(message = "{VmMoviesQueryBean.filmmakerIds.NotEmpty}", groups = VmMoviesGroups.GetAboutFilmmakersMoviesGroup.class)
     private List<Long> filmmakerIds;
 
     private Long excludeMovieId;

@@ -1,6 +1,6 @@
 package com.vm.dao.mapper;
 
-import com.vm.dao.po.CustomVmTagsGroups;
+import com.vm.dao.po.custom.CustomVmTagsGroups;
 
 import java.util.List;
 

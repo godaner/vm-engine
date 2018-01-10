@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface VmUsersService {
 
-    VmUsersDto userLogin(VmUsersDto user) throws Exception;
+    VmUsersDto userLogin(VmUsersDto vmUsersDto) throws Exception;
 
     VmUsersDto getUserBasicInfo(Long userId) throws Exception;
 

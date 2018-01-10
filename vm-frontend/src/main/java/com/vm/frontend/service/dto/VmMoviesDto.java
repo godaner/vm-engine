@@ -31,7 +31,6 @@ public class VmMoviesDto {
 
     private String imgUrl;
 
-    //附加
     //附加属性
     private List<VmFilmmakers> actors;
     private VmFilmmakers director;

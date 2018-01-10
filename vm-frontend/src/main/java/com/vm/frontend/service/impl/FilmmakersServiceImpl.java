@@ -37,7 +37,7 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
         try {
             //获取电影图片id信息
             VmFiles file = vmFilesMapper.selectByPrimaryKey(filmmakerId);
-            String USERImgPath = VmProperties.VM_USER_IMG_PATH;
+            String USERImgPath = VmProperties.VM_FILMMAKER_IMG_PATH;
             String USERImgName = null;
             if (file != null) {
                 USERImgName = file.getFilename();
@@ -45,7 +45,7 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
             File f = new File(USERImgPath + File.separator + width + "_" + USERImgName);
             //不存在，返回默认图片
             if (!f.exists()) {
-                f = new File(USERImgPath + File.separator + VmProperties.VM_USER_IMG_DEFAULT_NAME);
+                f = new File(USERImgPath + File.separator + VmProperties.VM_FILMMAKER_IMG_DEFAULT_NAME);
             }
             input = new FileInputStream(f);
             output = response.getOutputStream();

@@ -6,7 +6,7 @@ import com.vm.dao.mapper.CustomVmTagsGroupsMapper;
 import com.vm.dao.mapper.VmTagsGroupsMapper;
 import com.vm.dao.mapper.VmTagsMapper;
 import com.vm.dao.po.BasePo;
-import com.vm.dao.po.CustomVmTagsGroups;
+import com.vm.dao.po.custom.CustomVmTagsGroups;
 import com.vm.dao.po.VmTags;
 import com.vm.dao.po.VmTagsExample;
 import org.springframework.beans.factory.annotation.Autowired;

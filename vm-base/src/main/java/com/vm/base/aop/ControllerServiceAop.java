@@ -2,6 +2,7 @@ package com.vm.base.aop;
 
 import com.alibaba.fastjson.JSON;
 import com.vm.base.exception.VmRuntimeException;
+import com.vm.base.utils.CommonUtil;
 import com.vm.base.utils.Response;
 import javassist.*;
 import javassist.bytecode.CodeAttribute;
@@ -10,31 +11,30 @@ import javassist.bytecode.MethodInfo;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.assertj.core.util.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Component
 @Aspect
-public class ControllerServiceAop {
+public class ControllerServiceAop extends CommonUtil {
 
     private final Logger logger = LoggerFactory.getLogger(ControllerServiceAop.class);
 
     @Pointcut("execution(* com.vm.*.controller..*.*(..))")
     public void declareJoinPointExpression() {
     }
+
 
     @Around("declareJoinPointExpression()")
     public Object doAroundAdvice(ProceedingJoinPoint joinPoint) throws Exception {
@@ -46,17 +46,13 @@ public class ControllerServiceAop {
         try {
             logger.info("Request ==> requestUrl is : {} , requestMethod is :[{} # {}]", requestUrl, getMethod(joinPoint), methodArgsNameAndValue);
 
-            //获取验证结果
-            List<BindingResult> bindingResults = getBindingResult(joinPoint.getArgs());
-            //抛出验证结果
-            validate(bindingResults);
-
             //执行方法
             data = joinPoint.proceed();//调用执行目标方法,先執行aop在執行了responsebody
 
             if (data == null) {//无参数
                 return null;
             }
+
 
             //如果返回值为Map或者Response的实例，代表采用ajax方式
             if (data instanceof Map) {
@@ -93,8 +89,8 @@ public class ControllerServiceAop {
         return response;
 
     }
-    /**********************************辅助方法*****************************************/
 
+    /**********************************辅助方法*****************************************/
 
     /**
      * 通过反射机制 获取被切参数名以及参数值
@@ -145,10 +141,15 @@ public class ControllerServiceAop {
     }
 
     private String getRequestUrl() {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-        return request.getRequestURL().toString();
+        return getHttpServletRequest().getRequestURL().toString();
     }
+
+    private HttpServletRequest getHttpServletRequest() {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest httpServletRequest = attributes.getRequest();
+        return httpServletRequest;
+    }
+
 
     private String getMethod(ProceedingJoinPoint joinPoint) {
 
@@ -156,72 +157,5 @@ public class ControllerServiceAop {
         return method.toString();
     }
 
-
-    /**
-     * 通过切面参数获取其中的BindingResult
-     *
-     * @param args
-     * @return
-     */
-    private List<BindingResult> getBindingResult(Object[] args) {
-        List<BindingResult> bindingResults = Lists.newArrayList();
-        for (Object arg : args) {
-            if (arg instanceof BindingResult) {
-                bindingResults.add((BindingResult) arg);
-            }
-        }
-        return bindingResults;
-    }
-
-    /**
-     * Title:getErrors
-     * <p>
-     * Description:获取hibernate-validator的错误信息;
-     * <p>
-     *
-     * @param result
-     * @return
-     * @author Kor_Zhang
-     * @date 2017年9月22日 下午8:15:21
-     * @version 1.0
-     */
-    private static Map<String, String> getErrors(BindingResult result) {
-        Map<String, String> map = new HashMap<String, String>();
-        List<FieldError> list = result.getFieldErrors();
-        for (FieldError error : list) {
-            System.out.println("error.getField():" + error.getField());
-            System.out.println("error.getDefaultMessage():"
-                    + error.getDefaultMessage());
-
-            map.put(error.getField(), error.getDefaultMessage());
-        }
-        return map;
-    }
-
-    /**
-     * Title:validate
-     * <p>
-     * Description:如果hibernate-validator验证有错误信息,那么抛出携带错误信息的异常;
-     * <p>
-     *
-     * @param bindingResults
-     * @return
-     * @throws Exception
-     * @author Kor_Zhang
-     * @date 2017年9月22日 下午8:15:21
-     * @version 1.0
-     */
-    private static void validate(List<BindingResult> bindingResults) throws Exception {
-        if (bindingResults == null) {
-            return;
-        }
-        for (BindingResult bindingResult : bindingResults) {
-            List<FieldError> list = bindingResult.getFieldErrors();
-            for (FieldError error : list) {
-                throw new VmRuntimeException(error.getDefaultMessage());
-            }
-        }
-
-    }
 
 }

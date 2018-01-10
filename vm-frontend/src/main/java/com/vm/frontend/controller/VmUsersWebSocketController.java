@@ -1,18 +1,14 @@
 package com.vm.frontend.controller;
 
-import com.google.common.collect.ImmutableMap;
 import com.vm.base.utils.ServiceController;
-import com.vm.dao.po.CustomVmUsers;
-import com.vm.dao.po.VmUsers;
-import com.vm.dao.qo.VmMoviesQueryBean;
-import com.vm.dao.validator.group.VmUsersGroups;
 import com.vm.frontend.service.inf.VmUsersService;
 import com.vm.frontend.websocket.OnlineUsersWebSocket;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**

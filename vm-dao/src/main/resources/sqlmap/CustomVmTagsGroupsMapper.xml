@@ -3,7 +3,7 @@
 <mapper namespace="com.vm.dao.mapper.CustomVmTagsGroupsMapper">
 
     <!--**************************** 自定义mapper start ****************************-->
-    <resultMap id="GetTagsGroupsWithTagsMap" type="com.vm.dao.po.CustomVmTagsGroups">
+    <resultMap id="GetTagsGroupsWithTagsMap" type="com.vm.dao.po.custom.CustomVmTagsGroups">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="status" jdbcType="TINYINT" property="status"/>

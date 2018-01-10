@@ -1,4 +1,8 @@
-package com.vm.dao.po;
+package com.vm.dao.po.custom;
+
+import com.vm.dao.po.VmFilmmakers;
+import com.vm.dao.po.VmMovies;
+import com.vm.dao.po.VmTags;
 
 import java.util.List;
 

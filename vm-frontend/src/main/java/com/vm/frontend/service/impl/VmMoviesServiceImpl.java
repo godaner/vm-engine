@@ -1,12 +1,13 @@
 package com.vm.frontend.service.impl;
 
 import com.google.common.collect.Maps;
+import com.vm.base.utils.BaseService;
 import com.vm.base.utils.VmProperties;
 import com.vm.dao.mapper.*;
 import com.vm.dao.po.*;
+import com.vm.dao.po.custom.CustomVmMovies;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
-import com.vm.base.utils.BaseService;
 import com.vm.frontend.service.dto.VmFilmmakersDto;
 import com.vm.frontend.service.dto.VmMoviesDto;
 import com.vm.frontend.service.dto.VmMoviesSrcVersionDto;
@@ -48,6 +49,28 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     private VmMoviesSrcVersionMapper vmMoviesSrcVersionMapper;
     @Autowired
     private CustomVmMoviesSrcVersionMapper customVmMoviesSrcVersionMapper;
+
+    /**
+     * 构建dto
+     *
+     * @param customVmMovies
+     * @return
+     */
+    private VmMoviesDto makeMovieDto(CustomVmMovies customVmMovies) {
+        VmMoviesDto vmMoviesDto = new VmMoviesDto();
+        vmMoviesDto.setDescription(customVmMovies.getAlias());
+        vmMoviesDto.setDirectorId(customVmMovies.getDirectorId());
+        vmMoviesDto.setId(customVmMovies.getId());
+        vmMoviesDto.setImgUrl(customVmMovies.getImgUrl());
+        vmMoviesDto.setMovieTime(customVmMovies.getMovieTime());
+        vmMoviesDto.setName(customVmMovies.getName());
+        vmMoviesDto.setPosterUrl(customVmMovies.getPosterUrl());
+        vmMoviesDto.setReleaseTime(customVmMovies.getReleaseTime());
+        vmMoviesDto.setScore(customVmMovies.getScore());
+        vmMoviesDto.setWatchNum(customVmMovies.getWatchNum());
+        vmMoviesDto.setReleaseTime(customVmMovies.getReleaseTime());
+        return vmMoviesDto;
+    }
 
     /**
      * 验证movie是否存在
@@ -165,6 +188,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             VmFilmmakersDto vmFilmmakersBo = new VmFilmmakersDto();
             vmFilmmakersBo.setName(filmmaker.getName());
             vmFilmmakersBo.setId(filmmaker.getId());
+            vmFilmmakersBo.setImgUrl(filmmaker.getImgUrl());
             return vmFilmmakersBo;
         }).collect(toList());
     }
@@ -180,12 +204,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
                     VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getMsg());
         }
 
-        return makeMovieSrcVersionBos(customVmMoviesSrcVersionMapper.selectMovieSrcVersionsByMovieId(movieId));
-    }
-
-    private List<VmMoviesSrcVersionDto> makeMovieSrcVersionBos(List<VmMoviesSrcVersion> vmMoviesSrcVersions) {
-
-        return vmMoviesSrcVersions.stream().map((vmMoviesSrcVersion)->{
+        return customVmMoviesSrcVersionMapper.selectMovieSrcVersionsByMovieId(movieId).stream().map((vmMoviesSrcVersion) -> {
             VmMoviesSrcVersionDto vmMoviesSrcVersionBo = new VmMoviesSrcVersionDto();
             vmMoviesSrcVersionBo.setId(vmMoviesSrcVersion.getId());
             vmMoviesSrcVersionBo.setSrcUrl(vmMoviesSrcVersion.getSrcUrl());
@@ -193,6 +212,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             return vmMoviesSrcVersionBo;
         }).collect(toList());
     }
+
 
     @Override
     public String getMoviePosterUrl(Long movieId) throws Exception {
@@ -210,30 +230,16 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
     @Override
     public List<VmMoviesDto> getAboutTagsMovies(PageBean page, VmMoviesQueryBean query) throws Exception {
-        return makeAboutMovieBos(customVmMoviesMapper.getAboutTagsMovies(page, query));
+        return customVmMoviesMapper.getAboutTagsMovies(page, query).stream().map((aboutTagsMovie) -> {
+            return makeMovieDto(aboutTagsMovie);
+        }).collect(toList());
     }
 
 
     @Override
     public List<VmMoviesDto> getAboutFilmmakersMovies(PageBean page, VmMoviesQueryBean query) {
-        return makeAboutMovieBos(customVmMoviesMapper.getAboutFilmmakersMovies(page, query));
-    }
-
-    private List<VmMoviesDto> makeAboutMovieBos(List<VmMovies> aboutFilmmakersMovies) {
-        return aboutFilmmakersMovies.stream().map((movie)->{
-            VmMoviesDto vmMoviesBo = new VmMoviesDto();
-            vmMoviesBo.setDescription(movie.getAlias());
-            vmMoviesBo.setDirectorId(movie.getDirectorId());
-            vmMoviesBo.setId(movie.getId());
-            vmMoviesBo.setImgUrl(movie.getImgUrl());
-            vmMoviesBo.setMovieTime(movie.getMovieTime());
-            vmMoviesBo.setName(movie.getName());
-            vmMoviesBo.setPosterUrl(movie.getPosterUrl());
-            vmMoviesBo.setReleaseTime(movie.getReleaseTime());
-            vmMoviesBo.setScore(movie.getScore());
-            vmMoviesBo.setWatchNum(movie.getWatchNum());
-            vmMoviesBo.setReleaseTime(movie.getReleaseTime());
-            return vmMoviesBo;
+        return customVmMoviesMapper.getAboutFilmmakersMovies(page, query).stream().map((aboutFilmmakersMovie) -> {
+            return makeMovieDto(aboutFilmmakersMovie);
         }).collect(toList());
     }
 
@@ -241,24 +247,9 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     @Override
     public VmMoviesDto getMovie(Long movieId) {
 
-        return makeGetMovieBo(customVmMoviesMapper.getMovie(movieId));
+        return makeMovieDto(customVmMoviesMapper.getMovie(movieId));
     }
 
-    private VmMoviesDto makeGetMovieBo(CustomVmMovies movie) {
-        VmMoviesDto vmMoviesBo = new VmMoviesDto();
-        vmMoviesBo.setDescription(movie.getAlias());
-        vmMoviesBo.setDirectorId(movie.getDirectorId());
-        vmMoviesBo.setId(movie.getId());
-        vmMoviesBo.setImgUrl(movie.getImgUrl());
-        vmMoviesBo.setMovieTime(movie.getMovieTime());
-        vmMoviesBo.setName(movie.getName());
-        vmMoviesBo.setPosterUrl(movie.getPosterUrl());
-        vmMoviesBo.setReleaseTime(movie.getReleaseTime());
-        vmMoviesBo.setScore(movie.getScore());
-        vmMoviesBo.setWatchNum(movie.getWatchNum());
-        vmMoviesBo.setReleaseTime(movie.getReleaseTime());
-        return vmMoviesBo;
-    }
 
     @Override
     public void sendMovieImg(Long fileId, Integer width, HttpServletResponse response) throws Exception {

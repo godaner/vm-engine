@@ -1,6 +1,6 @@
 package com.vm.frontend.service.inf;
 
-import com.vm.dao.po.CustomVmTagsGroups;
+import com.vm.dao.po.custom.CustomVmTagsGroups;
 import com.vm.dao.po.VmTags;
 
 import java.util.List;

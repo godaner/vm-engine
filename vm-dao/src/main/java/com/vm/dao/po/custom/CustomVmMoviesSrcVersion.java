@@ -1,4 +1,4 @@
-package com.vm.dao.po;
+package com.vm.dao.po.custom;
 
 
 public class CustomVmMoviesSrcVersion {

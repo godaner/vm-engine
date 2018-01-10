@@ -1,21 +1,13 @@
 package com.vm.frontend.service.dto;
 
-import com.vm.dao.validator.group.VmUsersGroups;
-import org.hibernate.validator.constraints.NotBlank;
-
-import javax.validation.constraints.NotNull;
-
 /**
  * Created by ZhangKe on 2018/1/10.
  */
 public class VmUsersDto {
-    @NotNull(message = "{CustomVmUsers.id.NotNull}", groups = {VmUsersGroups.UpdateUserBasicInfo.class})
     private Long id;
 
-    @NotBlank(message = "{CustomVmUsers.username.NotBlank}", groups = {VmUsersGroups.UserLogin.class, VmUsersGroups.UserRegist.class})
     private String username;
 
-    @NotBlank(message = "{CustomVmUsers.password.NotBlank}", groups = {VmUsersGroups.UserLogin.class, VmUsersGroups.UserRegist.class})
     private String password;
 
     private Byte sex;

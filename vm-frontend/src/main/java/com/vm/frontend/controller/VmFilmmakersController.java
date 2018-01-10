@@ -35,8 +35,8 @@ public class VmFilmmakersController extends ServiceController<FilmmakersService>
      * @throws Exception
      */
     @RequestMapping(value = "/{filmmakerId}", method = RequestMethod.GET)
-    public @ResponseBody
-    Object getFilmmakerBasicInfo(@PathVariable("filmmakerId") Long filmmakerId) throws Exception {
+    @ResponseBody
+    public Object getFilmmakerBasicInfo(@PathVariable("filmmakerId") Long filmmakerId) throws Exception {
         return response.putData("filmmaker", service.getFilmmakerBasicInfo(filmmakerId));
     }
 

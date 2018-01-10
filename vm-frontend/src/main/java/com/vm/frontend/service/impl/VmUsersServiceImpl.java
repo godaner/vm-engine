@@ -1,5 +1,6 @@
 package com.vm.frontend.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.vm.base.utils.BaseService;
 import com.vm.base.utils.DateUtil;
 import com.vm.base.utils.VmProperties;
@@ -64,18 +65,17 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     }
 
     @Override
-    public VmUsersDto userLogin(VmUsersDto user) throws Exception {
-
+    public VmUsersDto userLogin(VmUsersDto vmUsersDto) throws Exception {
 
         //user是否存在
-        VmUsers dbUser = getUserByUsername(user.getUsername());
+        VmUsers dbUser = getUserByUsername(vmUsersDto.getUsername());
 
         if (isNullObject(dbUser)) {
-            logger.error("userLogin dbUser is not exits ! user is : {}", user);
+            logger.error("userLogin dbUser is not exits ! user is : {}", vmUsersDto);
             throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
-        if (!dbUser.getPassword().equals(user.getPassword())) {
-            logger.error("userLogin password is error ! user is :  {}", user);
+        if (!dbUser.getPassword().equals(vmUsersDto.getPassword())) {
+            logger.error("userLogin password is error ! user is :  {}", vmUsersDto);
             throw new VmUsersException(VmUsersException.ErrorCode.PASSWORD_ERROR.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 

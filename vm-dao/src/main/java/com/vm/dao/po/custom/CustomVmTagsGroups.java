@@ -1,4 +1,7 @@
-package com.vm.dao.po;
+package com.vm.dao.po.custom;
+
+import com.vm.dao.po.VmTags;
+import com.vm.dao.po.VmTagsGroups;
 
 import java.util.List;
 
