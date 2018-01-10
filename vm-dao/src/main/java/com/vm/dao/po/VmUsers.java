@@ -1,6 +1,12 @@
 package com.vm.dao.po;
 
-public class VmUsers {
+import com.vm.base.utils.ByteConstantVar;
+import com.vm.base.utils.VmProperties;
+
+public class VmUsers extends BasePo {
+    //注册用户时填入的默认img_url前缀
+    public static final String USER_IMG_URL_PREFIX = VmProperties.VM_USER_IMG_URL_PREFIX;
+
     private Long id;
 
     private String username;
@@ -20,6 +26,44 @@ public class VmUsers {
     private Integer updateTime;
 
     private String imgUrl;
+
+    /**
+     * 状态
+     */
+    public enum Sex {
+        //性别，1为男，1为女，3未设置
+        MEN(ByteConstantVar.ONE, "男"),
+        WOMEN(ByteConstantVar.TWO, "女"),
+        UNKNOWN(ByteConstantVar.THREE, "未设置");
+
+        Byte code;
+
+        String msg;
+
+        Sex(Byte code, String msg) {
+            this.code = code;
+            this.msg = msg;
+        }
+
+        public Byte getCode() {
+            return code;
+        }
+
+        public void setCode(Byte code) {
+            this.code = code;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+
+
+    }
+
 
     public Long getId() {
         return id;

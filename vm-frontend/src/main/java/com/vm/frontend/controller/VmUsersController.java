@@ -1,11 +1,14 @@
 package com.vm.frontend.controller;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.vm.base.utils.ServiceController;
 import com.vm.dao.po.CustomVmUsers;
 import com.vm.dao.po.VmUsers;
 import com.vm.dao.validator.group.VmUsersGroups;
+import com.vm.frontend.service.bo.VmUsersBo;
 import com.vm.frontend.service.inf.VmUsersService;
+import com.vm.frontend.service.vo.VmUsersVo;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -25,32 +28,33 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     @RequestMapping(value = "/login", method = RequestMethod.PUT)
     @ResponseBody
     public Object userLogin(@Validated(value = {VmUsersGroups.UserLogin.class})
-                            @RequestBody CustomVmUsers user,
+                            @RequestBody VmUsersVo user,
                             BindingResult result) throws Exception {
 
-        VmUsers loginUser = service.userLogin(user);
+        VmUsersBo loginUser = service.userLogin(user);
 
         setSessionAttr(KEY_OF_ONLINE_USER, loginUser);
 
-        response.putData("user", loginUser);
-
-        return response;
+        return ImmutableMap.of(
+                "user", loginUser
+        );
 
     }
 
     @RequestMapping(value = "/regist", method = RequestMethod.PUT)
     @ResponseBody
     public Object userRegist(@Validated(value = {VmUsersGroups.UserRegist.class})
-                             @RequestBody CustomVmUsers user,
+                             @RequestBody VmUsersVo user,
                              BindingResult result) throws Exception {
 
-        VmUsers loginUser = service.userRegist(user);
+        VmUsersBo loginUser = service.userRegist(user);
 
         getSession().setAttribute(KEY_OF_ONLINE_USER, loginUser);
 
-        response.putData("user", loginUser);
 
-        return response;
+        return ImmutableMap.of(
+                "user", loginUser
+        );
     }
 
     @RequestMapping(value = "/online", method = RequestMethod.GET)
@@ -61,14 +65,17 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         if (!isNullObject(getSession())) {
             user = getSession().getAttribute(KEY_OF_ONLINE_USER);
         }
-        //update use from db
-        if (!isNullObject(user)) {
-            user = service.getUserBasicInfo(((VmUsers) user).getId());
+        if (isNullObject(user)) {
+            return Maps.newHashMap();
         }
-        response.putData("user", user);
+        //get db use
+        user = service.getUserBasicInfo(((VmUsersBo) user).getId());
+        //update session user
+        setSessionAttr(KEY_OF_ONLINE_USER, user);
 
-
-        return response;
+        return ImmutableMap.of(
+                "user",user
+        );
     }
 
 
@@ -88,18 +95,16 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     @ResponseBody
     public Object getUserBasicInfo(@PathVariable("userId") Long userId) throws Exception {
 
-        VmUsers user = service.getUserBasicInfo(userId);
-
-        response.putData("user", user);
-
-        return response;
+        return ImmutableMap.of(
+                "user", service.getUserBasicInfo(userId)
+        );
     }
 
 
     @RequestMapping(value = "/online/update", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateOnlineUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class})
-                                            @RequestBody CustomVmUsers user,
+                                            @RequestBody VmUsersVo user,
                                             BindingResult result) throws Exception {
 
         Object vmUsers = service.updateOnlineUserBasicInfo(user);

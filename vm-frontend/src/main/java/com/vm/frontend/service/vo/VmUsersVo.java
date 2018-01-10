@@ -1,23 +1,22 @@
-package com.vm.dao.po;
-
+package com.vm.frontend.service.vo;
 
 import com.vm.base.utils.ByteConstantVar;
-import com.vm.base.utils.VmProperties;
 import com.vm.dao.validator.group.VmUsersGroups;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 
 /**
- * Created by ZhangKe on 2017/12/28.
+ * Created by ZhangKe on 2018/1/10.
  */
-public class CustomVmUsers {
-
-
+public class VmUsersVo {
+    @NotNull(message = "{CustomVmUsers.id.NotNull}", groups = {VmUsersGroups.UpdateUserBasicInfo.class})
     private Long id;
 
+    @NotBlank(message = "{CustomVmUsers.username.NotBlank}", groups = {VmUsersGroups.UserLogin.class, VmUsersGroups.UserRegist.class})
     private String username;
 
+    @NotBlank(message = "{CustomVmUsers.password.NotBlank}", groups = {VmUsersGroups.UserLogin.class, VmUsersGroups.UserRegist.class})
     private String password;
 
     private Byte sex;
@@ -34,29 +33,43 @@ public class CustomVmUsers {
 
     private String imgUrl;
 
+    /**
+     * 状态
+     */
+    public enum Sex {
+        //性别，1为男，1为女，3未设置
+        MEN(ByteConstantVar.ONE, "男"),
+        WOMEN(ByteConstantVar.TWO, "女"),
+        UNKNOWN(ByteConstantVar.THREE, "未设置");
 
-    @Override
-    public String toString() {
-        return "CustomVmUsers{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", sex=" + sex +
-                ", birthday=" + birthday +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                "} " + super.toString();
+        Byte code;
+
+        String msg;
+
+        Sex(Byte code, String msg) {
+            this.code = code;
+            this.msg = msg;
+        }
+
+        public Byte getCode() {
+            return code;
+        }
+
+        public void setCode(Byte code) {
+            this.code = code;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+
+
     }
 
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
 
     public Long getId() {
         return id;
@@ -71,7 +84,7 @@ public class CustomVmUsers {
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username == null ? null : username.trim();
     }
 
     public String getPassword() {
@@ -79,7 +92,7 @@ public class CustomVmUsers {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password == null ? null : password.trim();
     }
 
     public Byte getSex() {
@@ -103,7 +116,7 @@ public class CustomVmUsers {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description = description == null ? null : description.trim();
     }
 
     public Byte getStatus() {
@@ -128,6 +141,14 @@ public class CustomVmUsers {
 
     public void setUpdateTime(Integer updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl == null ? null : imgUrl.trim();
     }
 
 }

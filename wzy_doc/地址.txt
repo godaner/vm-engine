@@ -33,7 +33,7 @@ http://redmine.wzy.com/  绑了host访问这个， 任务分配都在这上面�
  助手 http://wzy-zsdevtest.ngrok.wezyun.com  微政云测试   123456789
 管家 http://wzy-gjdevtest.ngrok.wezyun.com  wezyun         123456789
 
-
+媒体中心运营方面 http://wzy-mediacenterdevtest.ngrok.wezyun.com
 
 svn	zhangke#zhangke
 

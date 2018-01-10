@@ -3,6 +3,8 @@ package com.vm.frontend.service.inf;
 import com.vm.dao.po.CustomVmUsers;
 import com.vm.dao.po.VmUsers;
 import com.vm.dao.qo.VmMoviesQueryBean;
+import com.vm.frontend.service.bo.VmUsersBo;
+import com.vm.frontend.service.vo.VmUsersVo;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,13 +13,13 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface VmUsersService {
 
-    VmUsers userLogin(CustomVmUsers user) throws Exception;
+    VmUsersBo userLogin(VmUsersVo user) throws Exception;
 
-    VmUsers getUserBasicInfo(Long userId) throws Exception;
+    VmUsersBo getUserBasicInfo(Long userId) throws Exception;
 
-    VmUsers updateOnlineUserBasicInfo(CustomVmUsers user) throws Exception;
+    VmUsersBo updateOnlineUserBasicInfo(VmUsersVo user) throws Exception;
 
     void sendUserImg(Long fileId, Integer width, HttpServletResponse response) throws Exception;
 
-    VmUsers userRegist(CustomVmUsers user) throws Exception;
+    VmUsersBo userRegist(VmUsersVo user) throws Exception;
 }

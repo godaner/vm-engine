@@ -7,8 +7,10 @@ import com.vm.dao.mapper.VmFilesMapper;
 import com.vm.dao.mapper.VmUsersMapper;
 import com.vm.dao.po.*;
 import com.vm.dao.qo.VmMoviesQueryBean;
+import com.vm.frontend.service.bo.VmUsersBo;
 import com.vm.frontend.service.exception.VmUsersException;
 import com.vm.frontend.service.inf.VmUsersService;
+import com.vm.frontend.service.vo.VmUsersVo;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,8 +54,18 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         return vmUsers.get(0);
     }
 
+    private VmUsersBo makeVmUsersBo(VmUsers user) {
+        VmUsersBo vmUsersBo = new VmUsersBo();
+
+        vmUsersBo.setId(user.getId());
+        vmUsersBo.setBirthday(user.getBirthday());
+        vmUsersBo.setDescription(user.getDescription());
+        vmUsersBo.setSex(vmUsersBo.getSex());
+        return vmUsersBo;
+    }
+
     @Override
-    public VmUsers userLogin(CustomVmUsers user) throws Exception {
+    public VmUsersBo userLogin(VmUsersVo user) throws Exception {
 
 
         //user是否存在
@@ -68,45 +80,33 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             throw new VmUsersException(VmUsersException.ErrorCode.PASSWORD_ERROR.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 
-        return dbUser;
+        return makeVmUsersBo(dbUser);
     }
 
     @Override
-    public VmUsers getUserBasicInfo(Long userId) {
+    public VmUsersBo getUserBasicInfo(Long userId) {
 
         //获取指定id的user
 
         VmUsers dbUser = vmUsersMapper.selectByPrimaryKey(userId);
 
-        if (isNullObject(dbUser) || CustomVmUsers.Status.isDeleted(dbUser.getStatus())) {
+        if (isNullObject(dbUser) || VmUsers.Status.isDeleted(dbUser.getStatus())) {
             logger.error("getUserBasicInfo user is not exits! userId is : {}", userId);
             throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 
-        //屏蔽相关信息
-        coverUserSomeInfo(dbUser);
 
-        return dbUser;
+        return makeVmUsersBo(dbUser);
     }
 
-    /**
-     * 屏蔽相关字段
-     *
-     * @param user
-     * @return
-     */
-    private VmUsers coverUserSomeInfo(VmUsers user) {
-        user.setPassword("");
-        return user;
-    }
 
     @Override
     @Transactional
-    public VmUsers updateOnlineUserBasicInfo(CustomVmUsers user) throws Exception {
+    public VmUsersBo updateOnlineUserBasicInfo(VmUsersVo user) throws Exception {
         //user是否存在
         VmUsers dbUser = vmUsersMapper.selectByPrimaryKey(user.getId());
 
-        if (isNullObject(dbUser) || CustomVmUsers.Status.isDeleted(dbUser.getStatus())) {
+        if (isNullObject(dbUser) || VmUsers.Status.isDeleted(dbUser.getStatus())) {
             logger.error("updateOnlineUserBasicInfo dbUser is not exits ! user is : {}", user);
             throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
@@ -114,7 +114,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         vmUsersMapper.updateByPrimaryKeySelective(makeUpdateOnlineVmUsers(user));
 
-        return coverUserSomeInfo(vmUsersMapper.selectByPrimaryKey(user.getId()));
+        return makeVmUsersBo(vmUsersMapper.selectByPrimaryKey(user.getId()));
     }
 
     /**
@@ -123,7 +123,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
      * @param user
      * @return
      */
-    private VmUsers makeUpdateOnlineVmUsers(CustomVmUsers user) {
+    private VmUsers makeUpdateOnlineVmUsers(VmUsersVo user) {
         VmUsers vmUser = new VmUsers();
         vmUser.setId(user.getId());
         vmUser.setBirthday(user.getBirthday());
@@ -167,30 +167,28 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     @Override
     @Transactional
-    public VmUsers userRegist(CustomVmUsers user) throws Exception {
-
+    public VmUsersBo userRegist(VmUsersVo user) throws Exception {
 
         //是否存在username相同的账户
-
         if (!isNullObject(getUserByUsername(user.getUsername()))) {
             logger.error("userRegist username is exits ! user is :  {}", user);
             throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 
-        vmUsersMapper.insert(makeRegistVmUser(user));
+        vmUsersMapper.insert(makeRegistVmUserPo(user));
         VmUsers vmUsers = getUserByUsername(user.getUsername());
-        return coverUserSomeInfo(vmUsers);
+        return makeVmUsersBo(vmUsers);
     }
 
-    private VmUsers makeRegistVmUser(CustomVmUsers user) {
+    private VmUsers makeRegistVmUserPo(VmUsersVo user) {
         VmUsers vmUsers = new VmUsers();
         vmUsers.setUsername(user.getUsername());
         vmUsers.setPassword(user.getPassword());
         vmUsers.setUpdateTime(DateUtil.unixTime().intValue());
         vmUsers.setCreateTime(DateUtil.unixTime().intValue());
-        vmUsers.setStatus(CustomVmUsers.Status.NORMAL.getCode());
-        vmUsers.setSex(CustomVmUsers.Sex.UNKNOWN.getCode());
-        vmUsers.setImgUrl(CustomVmUsers.USER_IMG_URL_PREFIX);
+        vmUsers.setStatus(VmUsers.Status.NORMAL.getCode());
+        vmUsers.setSex(VmUsers.Sex.UNKNOWN.getCode());
+        vmUsers.setImgUrl(VmUsers.USER_IMG_URL_PREFIX);
         return vmUsers;
     }
 
