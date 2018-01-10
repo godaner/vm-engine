@@ -1,6 +1,14 @@
-package com.vm.dao.po;
+package com.vm.frontend.service.dto;
 
-public class VmMovies extends BasePo  {
+import com.vm.dao.po.VmFilmmakers;
+import com.vm.dao.po.VmTags;
+
+import java.util.List;
+
+/**
+ * Created by ZhangKe on 2018/1/10.
+ */
+public class VmMoviesDto {
     private Long id;
 
     private String name;
@@ -23,11 +31,35 @@ public class VmMovies extends BasePo  {
 
     private String imgUrl;
 
-    private Byte status;
+    //附加
+    //附加属性
+    private List<VmFilmmakers> actors;
+    private VmFilmmakers director;
+    private List<VmTags> tags;
 
-    private Integer createTime;
+    public List<VmFilmmakers> getActors() {
+        return actors;
+    }
 
-    private Integer updateTime;
+    public void setActors(List<VmFilmmakers> actors) {
+        this.actors = actors;
+    }
+
+    public VmFilmmakers getDirector() {
+        return director;
+    }
+
+    public void setDirector(VmFilmmakers director) {
+        this.director = director;
+    }
+
+    public List<VmTags> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<VmTags> tags) {
+        this.tags = tags;
+    }
 
     public Long getId() {
         return id;
@@ -42,7 +74,7 @@ public class VmMovies extends BasePo  {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getAlias() {
@@ -50,7 +82,7 @@ public class VmMovies extends BasePo  {
     }
 
     public void setAlias(String alias) {
-        this.alias = alias == null ? null : alias.trim();
+        this.alias = alias;
     }
 
     public String getDescription() {
@@ -58,7 +90,7 @@ public class VmMovies extends BasePo  {
     }
 
     public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+        this.description = description;
     }
 
     public Long getDirectorId() {
@@ -106,7 +138,7 @@ public class VmMovies extends BasePo  {
     }
 
     public void setPosterUrl(String posterUrl) {
-        this.posterUrl = posterUrl == null ? null : posterUrl.trim();
+        this.posterUrl = posterUrl;
     }
 
     public String getImgUrl() {
@@ -114,30 +146,6 @@ public class VmMovies extends BasePo  {
     }
 
     public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl == null ? null : imgUrl.trim();
-    }
-
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Integer getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Integer createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Integer updateTime) {
-        this.updateTime = updateTime;
+        this.imgUrl = imgUrl;
     }
 }

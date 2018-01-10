@@ -16,8 +16,6 @@ public class VmMoviesQueryBean {
     @NotEmpty(message = "{VmMoviesQueryBean.filmmakerIds.NotEmpty}", groups = VmMoviesGroups.GetAboutFilmmakersMoviesGroup.class)
     private List<Long> filmmakerIds;
 
-    private String imgWidth;
-
     private Long excludeMovieId;
 
     /**
@@ -50,14 +48,6 @@ public class VmMoviesQueryBean {
         this.tagIdsLength = tagIdsLength;
     }
 
-    public String getImgWidth() {
-        return imgWidth;
-    }
-
-    public void setImgWidth(String imgWidth) {
-        this.imgWidth = imgWidth;
-    }
-
     public String getKeyword() {
         return keyword;
     }
@@ -79,7 +69,9 @@ public class VmMoviesQueryBean {
         return "VmMoviesQueryBean{" +
                 "keyword='" + keyword + '\'' +
                 ", tagIds=" + tagIds +
-                ", imgWidth='" + imgWidth + '\'' +
+                ", filmmakerIds=" + filmmakerIds +
+                ", excludeMovieId=" + excludeMovieId +
+                ", tagIdsLength=" + tagIdsLength +
                 '}';
     }
 }

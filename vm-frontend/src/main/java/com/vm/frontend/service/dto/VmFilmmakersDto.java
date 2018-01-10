@@ -1,9 +1,9 @@
-package com.vm.frontend.service.bo;
+package com.vm.frontend.service.dto;
 
 /**
  * Created by ZhangKe on 2018/1/10.
  */
-public class VmFilmmakersBo {
+public class VmFilmmakersDto {
     private Long id;
 
     private String name;

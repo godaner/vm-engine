@@ -2,15 +2,13 @@ package com.vm.frontend.service.impl;
 
 import com.vm.base.utils.BaseService;
 import com.vm.base.utils.VmProperties;
-import com.vm.frontend.service.bo.VmFilmmakersBo;
-import com.vm.frontend.service.exception.VmFilmmakersException;
+import com.vm.frontend.service.dto.VmFilmmakersDto;
 import com.vm.frontend.service.inf.FilmmakersService;
 import com.vm.dao.mapper.VmFilesMapper;
 import com.vm.dao.mapper.VmFilmmakersMapper;
 import com.vm.dao.po.BasePo;
 import com.vm.dao.po.VmFiles;
 import com.vm.dao.po.VmFilmmakers;
-import com.vm.dao.qo.VmFilmmakersQueryBean;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,7 +60,7 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
     }
 
     @Override
-    public VmFilmmakersBo getFilmmakerBasicInfo(Long filmmakerId) throws Exception {
+    public VmFilmmakersDto getFilmmakerBasicInfo(Long filmmakerId) throws Exception {
 
         VmFilmmakers filmmaker = vmFilmmakersMapper.selectByPrimaryKey(filmmakerId);
         if (filmmaker != null && BasePo.Status.isDeleted(filmmaker.getStatus())) {
@@ -71,8 +69,8 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
         return makeFilmmakerBo(filmmaker);
     }
 
-    private VmFilmmakersBo makeFilmmakerBo(VmFilmmakers filmmaker) {
-        VmFilmmakersBo vmFilmmakersBo = new VmFilmmakersBo();
+    private VmFilmmakersDto makeFilmmakerBo(VmFilmmakers filmmaker) {
+        VmFilmmakersDto vmFilmmakersBo = new VmFilmmakersDto();
         vmFilmmakersBo.setAlias(filmmaker.getAlias());
         vmFilmmakersBo.setBirthday(filmmaker.getBirthday());
         vmFilmmakersBo.setBloodType(filmmaker.getBloodType());

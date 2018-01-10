@@ -7,6 +7,10 @@ import com.vm.dao.po.*;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.base.utils.BaseService;
+import com.vm.frontend.service.dto.VmFilmmakersDto;
+import com.vm.frontend.service.dto.VmMoviesDto;
+import com.vm.frontend.service.dto.VmMoviesSrcVersionDto;
+import com.vm.frontend.service.dto.VmTagsDto;
 import com.vm.frontend.service.exception.VmMoviesException;
 import com.vm.frontend.service.inf.VmMoviesService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -20,6 +24,8 @@ import java.io.*;
 import java.security.MessageDigest;
 import java.util.List;
 import java.util.Map;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by ZhangKe on 2017/12/12.
@@ -61,14 +67,34 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     }
 
     @Override
-    public List<CustomVmMovies> getMovies(PageBean page, VmMoviesQueryBean query) {
+    public List<VmMoviesDto> getMovies(PageBean page, VmMoviesQueryBean query) {
 
         if (isEmptyList(query.getTagIds())) {
             query.setTagIdsLength(0);
         } else {
             query.setTagIdsLength(query.getTagIds().size());
         }
-        return customVmMoviesMapper.getMovies(page, query);
+        return makeGetMoviesVmMoviesBos(customVmMoviesMapper.getMovies(page, query));
+    }
+
+    private List<VmMoviesDto> makeGetMoviesVmMoviesBos(List<CustomVmMovies> movies) {
+        return movies.stream().map((movie) -> {
+            VmMoviesDto vmMoviesBo = new VmMoviesDto();
+            vmMoviesBo.setDescription(movie.getAlias());
+            vmMoviesBo.setDirectorId(movie.getDirectorId());
+            vmMoviesBo.setId(movie.getId());
+            vmMoviesBo.setImgUrl(movie.getImgUrl());
+            vmMoviesBo.setMovieTime(movie.getMovieTime());
+            vmMoviesBo.setName(movie.getName());
+            vmMoviesBo.setPosterUrl(movie.getPosterUrl());
+            vmMoviesBo.setReleaseTime(movie.getReleaseTime());
+            vmMoviesBo.setScore(movie.getScore());
+            vmMoviesBo.setWatchNum(movie.getWatchNum());
+            vmMoviesBo.setReleaseTime(movie.getReleaseTime());
+            vmMoviesBo.setDirector(movie.getDirector());
+            vmMoviesBo.setActors(movie.getActors());
+            return vmMoviesBo;
+        }).collect(toList());
     }
 
     @Override
@@ -82,12 +108,21 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     }
 
     @Override
-    public List<VmTags> getTagsOfMovie(Long movieId) throws Exception {
-        return customVmTagsMapper.getTagsOfMovie(movieId);
+    public List<VmTagsDto> getTagsOfMovie(Long movieId) throws Exception {
+        return makeTagsBos(customVmTagsMapper.getTagsOfMovie(movieId));
+    }
+
+    private List<VmTagsDto> makeTagsBos(List<VmTags> tagsOfMovie) {
+        return tagsOfMovie.stream().map((tag) -> {
+            VmTagsDto vmTagsBo = new VmTagsDto();
+            vmTagsBo.setId(tag.getId());
+            vmTagsBo.setName(tag.getName());
+            return vmTagsBo;
+        }).collect(toList());
     }
 
     @Override
-    public List<VmFilmmakers> getMovieFilmmakers(Long movieId) {
+    public List<VmFilmmakersDto> getMovieFilmmakers(Long movieId) {
 
         VmMovies vmMovies = validateMovie(movieId);
 
@@ -112,17 +147,12 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             filmmakers.add(director);
         }
 
-        //去除重复的电影人
-        return takeOffSameFilmmakers(filmmakers);
+        return makeFilmmakerBos(filmmakers);
     }
 
-    /**
-     * 去除list的重复filmmaker
-     *
-     * @param filmmakers
-     * @return
-     */
-    private List<VmFilmmakers> takeOffSameFilmmakers(List<VmFilmmakers> filmmakers) {
+
+    private List<VmFilmmakersDto> makeFilmmakerBos(List<VmFilmmakers> filmmakers) {
+        //去除list的重复filmmaker
         if (isEmptyList(filmmakers)) {
             return Lists.newArrayList();
         }
@@ -130,11 +160,17 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         for (VmFilmmakers filmmaker : filmmakers) {
             map.put(filmmaker.getId(), filmmaker);
         }
-        return Lists.newArrayList(map.values());
+        //to dto
+        return Lists.newArrayList(map.values()).stream().map((filmmaker) -> {
+            VmFilmmakersDto vmFilmmakersBo = new VmFilmmakersDto();
+            vmFilmmakersBo.setName(filmmaker.getName());
+            vmFilmmakersBo.setId(filmmaker.getId());
+            return vmFilmmakersBo;
+        }).collect(toList());
     }
 
     @Override
-    public List<VmMoviesSrcVersion> getMovieSrcVersions(Long movieId) throws Exception {
+    public List<VmMoviesSrcVersionDto> getMovieSrcVersions(Long movieId) throws Exception {
 
         VmMovies vmMovies = validateMovie(movieId);
 
@@ -144,7 +180,18 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
                     VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getMsg());
         }
 
-        return customVmMoviesSrcVersionMapper.selectMovieSrcVersionsByMovieId(movieId);
+        return makeMovieSrcVersionBos(customVmMoviesSrcVersionMapper.selectMovieSrcVersionsByMovieId(movieId));
+    }
+
+    private List<VmMoviesSrcVersionDto> makeMovieSrcVersionBos(List<VmMoviesSrcVersion> vmMoviesSrcVersions) {
+
+        return vmMoviesSrcVersions.stream().map((vmMoviesSrcVersion)->{
+            VmMoviesSrcVersionDto vmMoviesSrcVersionBo = new VmMoviesSrcVersionDto();
+            vmMoviesSrcVersionBo.setId(vmMoviesSrcVersion.getId());
+            vmMoviesSrcVersionBo.setSrcUrl(vmMoviesSrcVersion.getSrcUrl());
+            vmMoviesSrcVersionBo.setSharpness(vmMoviesSrcVersion.getSharpness());
+            return vmMoviesSrcVersionBo;
+        }).collect(toList());
     }
 
     @Override
@@ -162,31 +209,65 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
 
     @Override
-    public List<VmMovies> getAboutTagsMovies(PageBean page, VmMoviesQueryBean query) throws Exception {
-        return customVmMoviesMapper.getAboutTagsMovies(page, query);
-    }
-
-    @Override
-    public List<VmMovies> getAboutFilmmakersMovies(PageBean page, VmMoviesQueryBean query) {
-        return customVmMoviesMapper.getAboutFilmmakersMovies(page, query);
+    public List<VmMoviesDto> getAboutTagsMovies(PageBean page, VmMoviesQueryBean query) throws Exception {
+        return makeAboutMovieBos(customVmMoviesMapper.getAboutTagsMovies(page, query));
     }
 
 
     @Override
-    public CustomVmMovies getMovie(Long movieId) {
+    public List<VmMoviesDto> getAboutFilmmakersMovies(PageBean page, VmMoviesQueryBean query) {
+        return makeAboutMovieBos(customVmMoviesMapper.getAboutFilmmakersMovies(page, query));
+    }
 
-        return customVmMoviesMapper.getMovie(movieId);
+    private List<VmMoviesDto> makeAboutMovieBos(List<VmMovies> aboutFilmmakersMovies) {
+        return aboutFilmmakersMovies.stream().map((movie)->{
+            VmMoviesDto vmMoviesBo = new VmMoviesDto();
+            vmMoviesBo.setDescription(movie.getAlias());
+            vmMoviesBo.setDirectorId(movie.getDirectorId());
+            vmMoviesBo.setId(movie.getId());
+            vmMoviesBo.setImgUrl(movie.getImgUrl());
+            vmMoviesBo.setMovieTime(movie.getMovieTime());
+            vmMoviesBo.setName(movie.getName());
+            vmMoviesBo.setPosterUrl(movie.getPosterUrl());
+            vmMoviesBo.setReleaseTime(movie.getReleaseTime());
+            vmMoviesBo.setScore(movie.getScore());
+            vmMoviesBo.setWatchNum(movie.getWatchNum());
+            vmMoviesBo.setReleaseTime(movie.getReleaseTime());
+            return vmMoviesBo;
+        }).collect(toList());
+    }
+
+
+    @Override
+    public VmMoviesDto getMovie(Long movieId) {
+
+        return makeGetMovieBo(customVmMoviesMapper.getMovie(movieId));
+    }
+
+    private VmMoviesDto makeGetMovieBo(CustomVmMovies movie) {
+        VmMoviesDto vmMoviesBo = new VmMoviesDto();
+        vmMoviesBo.setDescription(movie.getAlias());
+        vmMoviesBo.setDirectorId(movie.getDirectorId());
+        vmMoviesBo.setId(movie.getId());
+        vmMoviesBo.setImgUrl(movie.getImgUrl());
+        vmMoviesBo.setMovieTime(movie.getMovieTime());
+        vmMoviesBo.setName(movie.getName());
+        vmMoviesBo.setPosterUrl(movie.getPosterUrl());
+        vmMoviesBo.setReleaseTime(movie.getReleaseTime());
+        vmMoviesBo.setScore(movie.getScore());
+        vmMoviesBo.setWatchNum(movie.getWatchNum());
+        vmMoviesBo.setReleaseTime(movie.getReleaseTime());
+        return vmMoviesBo;
     }
 
     @Override
-    public void sendMovieImg(Long fileId, VmMoviesQueryBean query, HttpServletResponse response) throws Exception {
+    public void sendMovieImg(Long fileId, Integer width, HttpServletResponse response) throws Exception {
         FileInputStream input = null;
         ServletOutputStream output = null;
         try {
             //获取电影图片id信息
             VmFiles file = vmFilesMapper.selectByPrimaryKey(fileId);
             String movieImgPath = VmProperties.VM_MOVIE_IMG_PATH;
-            String width = query.getImgWidth();
             String movieImgName = null;
             String contentType = null;
             if (file != null) {

@@ -1,6 +1,5 @@
-package com.vm.frontend.service.vo;
+package com.vm.frontend.service.dto;
 
-import com.vm.base.utils.ByteConstantVar;
 import com.vm.dao.validator.group.VmUsersGroups;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -9,7 +8,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Created by ZhangKe on 2018/1/10.
  */
-public class VmUsersVo {
+public class VmUsersDto {
     @NotNull(message = "{CustomVmUsers.id.NotNull}", groups = {VmUsersGroups.UpdateUserBasicInfo.class})
     private Long id;
 
@@ -24,12 +23,6 @@ public class VmUsersVo {
     private Integer birthday;
 
     private String description;
-
-    private Byte status;
-
-    private Integer createTime;
-
-    private Integer updateTime;
 
     private String imgUrl;
 
@@ -81,30 +74,6 @@ public class VmUsersVo {
         this.description = description == null ? null : description.trim();
     }
 
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Integer getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Integer createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Integer updateTime) {
-        this.updateTime = updateTime;
-    }
-
     public String getImgUrl() {
         return imgUrl;
     }
@@ -112,5 +81,4 @@ public class VmUsersVo {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl == null ? null : imgUrl.trim();
     }
-
 }

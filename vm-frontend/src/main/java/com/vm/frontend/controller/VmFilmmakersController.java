@@ -1,9 +1,6 @@
 package com.vm.frontend.controller;
 
 import com.vm.base.utils.ServiceController;
-import com.vm.dao.po.VmFilmmakers;
-import com.vm.dao.qo.VmFilmmakersQueryBean;
-import com.vm.frontend.service.bo.VmFilmmakersBo;
 import com.vm.frontend.service.inf.FilmmakersService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;

@@ -1,14 +1,10 @@
 package com.vm.frontend.controller;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.vm.base.utils.ServiceController;
-import com.vm.dao.po.CustomVmUsers;
-import com.vm.dao.po.VmUsers;
 import com.vm.dao.validator.group.VmUsersGroups;
-import com.vm.frontend.service.bo.VmUsersBo;
+import com.vm.frontend.service.dto.VmUsersDto;
 import com.vm.frontend.service.inf.VmUsersService;
-import com.vm.frontend.service.vo.VmUsersVo;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -28,10 +24,10 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     @RequestMapping(value = "/login", method = RequestMethod.PUT)
     @ResponseBody
     public Object userLogin(@Validated(value = {VmUsersGroups.UserLogin.class})
-                            @RequestBody VmUsersVo user,
+                            @RequestBody VmUsersDto user,
                             BindingResult result) throws Exception {
 
-        VmUsersBo loginUser = service.userLogin(user);
+        VmUsersDto loginUser = service.userLogin(user);
 
         setSessionAttr(KEY_OF_ONLINE_USER, loginUser);
 
@@ -42,10 +38,10 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     @RequestMapping(value = "/regist", method = RequestMethod.PUT)
     @ResponseBody
     public Object userRegist(@Validated(value = {VmUsersGroups.UserRegist.class})
-                             @RequestBody VmUsersVo user,
+                             @RequestBody VmUsersDto user,
                              BindingResult result) throws Exception {
 
-        VmUsersBo loginUser = service.userRegist(user);
+        VmUsersDto loginUser = service.userRegist(user);
 
         getSession().setAttribute(KEY_OF_ONLINE_USER, loginUser);
 
@@ -64,7 +60,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
             return Maps.newHashMap();
         }
         //get db use
-        user = service.getUserBasicInfo(((VmUsersBo) user).getId());
+        user = service.getUserBasicInfo(((VmUsersDto) user).getId());
         //update session user
         setSessionAttr(KEY_OF_ONLINE_USER, user);
 
@@ -95,7 +91,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     @RequestMapping(value = "/online/update", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateOnlineUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class})
-                                            @RequestBody VmUsersVo user,
+                                            @RequestBody VmUsersDto user,
                                             BindingResult result) throws Exception {
 
         Object vmUsers = service.updateOnlineUserBasicInfo(user);

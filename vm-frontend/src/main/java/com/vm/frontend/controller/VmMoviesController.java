@@ -1,7 +1,6 @@
 package com.vm.frontend.controller;
 
 import com.vm.base.utils.ServiceController;
-import com.vm.dao.po.*;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.frontend.service.inf.VmMoviesService;
@@ -13,7 +12,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 
 /**
@@ -31,12 +29,12 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public @ResponseBody
-    Object getMovies(@Valid PageBean page, BindingResult result, VmMoviesQueryBean query) throws Exception {
-        Long total = service.getMoviesCount(page, query);
-        List<CustomVmMovies> list = service.getMovies(page, query);
-        response.putData("list", list);
-        response.putData("total", total);
-        return response;
+    Object getMovies(@Valid PageBean page,
+                     BindingResult result,
+                     VmMoviesQueryBean query) throws Exception {
+
+        return response.putData("total", service.getMoviesCount(page, query))
+                .putData("list", service.getMovies(page, query));
     }
 
     /**
@@ -48,9 +46,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
     public @ResponseBody
     Object getTagsOfMovie(@PathVariable("movieId") Long movieId) throws Exception {
 
-        List<VmTags> list = service.getTagsOfMovie(movieId);
-        response.putData("list", list);
-        return response;
+        return response.putData("list", service.getTagsOfMovie(movieId));
     }
 
     /**
@@ -63,9 +59,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
     @RequestMapping(value = "/{movieId}", method = RequestMethod.GET)
     public @ResponseBody
     Object getMovie(@PathVariable("movieId") Long movieId) throws Exception {
-        CustomVmMovies movie = service.getMovie(movieId);
-        response.putData("movie", movie);
-        return response;
+        return response.putData("movie", service.getMovie(movieId));
     }
 
     /**
@@ -74,8 +68,8 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      * @return
      */
     @RequestMapping(value = "/img/{fileId}", method = RequestMethod.GET)
-    public void getMovieImg(@PathVariable("fileId") Long fileId, VmMoviesQueryBean query) throws Exception {
-        service.sendMovieImg(fileId, query, getResponse());
+    public void getMovieImg(@PathVariable("fileId") Long fileId, Integer width) throws Exception {
+        service.sendMovieImg(fileId, width, getResponse());
 
     }
 
@@ -97,9 +91,8 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
     @RequestMapping(value = "/filmmaker/{movieId}", method = RequestMethod.GET)
     public @ResponseBody
     Object getMovieFilmmakers(@PathVariable("movieId") Long movieId) throws Exception {
-        List<VmFilmmakers> filmmakers = service.getMovieFilmmakers(movieId);
-        response.putData("filmmakers", filmmakers);
-        return response;
+
+        return response.putData("filmmakers", service.getMovieFilmmakers(movieId));
     }
 
     /**
@@ -110,11 +103,9 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
     @RequestMapping(value = "/version/{movieId}", method = RequestMethod.GET)
     public @ResponseBody
     Object getMovieSrcVersions(@PathVariable("movieId") Long movieId) throws Exception {
-        List<VmMoviesSrcVersion> versions = service.getMovieSrcVersions(movieId);
-        String posterUrl = service.getMoviePosterUrl(movieId);
-        response.putData("versions", versions);
-        response.putData("posterUrl", posterUrl);
-        return response;
+
+        return response.putData("versions", service.getMovieSrcVersions(movieId))
+                .putData("posterUrl", service.getMoviePosterUrl(movieId));
     }
 
     /**
@@ -128,9 +119,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
                               BindingResult result,
                               @Valid PageBean page,
                               BindingResult result0) throws Exception {
-        List<VmMovies> movies = service.getAboutTagsMovies(page, query);
-        response.putData("movies", movies);
-        return response;
+        return response.putData("movies", service.getAboutTagsMovies(page, query));
     }
 
     /**
@@ -144,11 +133,8 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
                                     BindingResult result,
                                     @Valid PageBean page,
                                     BindingResult result0) throws Exception {
-        List<VmMovies> movies = service.getAboutFilmmakersMovies(page, query);
-        response.putData("movies", movies);
-        return response;
+        return response.putData("movies", service.getAboutFilmmakersMovies(page, query));
     }
-
 
 
 }

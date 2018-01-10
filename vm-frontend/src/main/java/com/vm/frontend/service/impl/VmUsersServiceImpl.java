@@ -6,11 +6,9 @@ import com.vm.base.utils.VmProperties;
 import com.vm.dao.mapper.VmFilesMapper;
 import com.vm.dao.mapper.VmUsersMapper;
 import com.vm.dao.po.*;
-import com.vm.dao.qo.VmMoviesQueryBean;
-import com.vm.frontend.service.bo.VmUsersBo;
+import com.vm.frontend.service.dto.VmUsersDto;
 import com.vm.frontend.service.exception.VmUsersException;
 import com.vm.frontend.service.inf.VmUsersService;
-import com.vm.frontend.service.vo.VmUsersVo;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,8 +52,8 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         return vmUsers.get(0);
     }
 
-    private VmUsersBo makeVmUsersBo(VmUsers user) {
-        VmUsersBo vmUsersBo = new VmUsersBo();
+    private VmUsersDto makeVmUsersBo(VmUsers user) {
+        VmUsersDto vmUsersBo = new VmUsersDto();
         vmUsersBo.setUsername(user.getUsername());
         vmUsersBo.setId(user.getId());
         vmUsersBo.setBirthday(user.getBirthday());
@@ -66,7 +64,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     }
 
     @Override
-    public VmUsersBo userLogin(VmUsersVo user) throws Exception {
+    public VmUsersDto userLogin(VmUsersDto user) throws Exception {
 
 
         //user是否存在
@@ -85,7 +83,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     }
 
     @Override
-    public VmUsersBo getUserBasicInfo(Long userId) {
+    public VmUsersDto getUserBasicInfo(Long userId) {
 
         //获取指定id的user
 
@@ -103,7 +101,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     @Override
     @Transactional
-    public VmUsersBo updateOnlineUserBasicInfo(VmUsersVo user) throws Exception {
+    public VmUsersDto updateOnlineUserBasicInfo(VmUsersDto user) throws Exception {
         //user是否存在
         VmUsers dbUser = vmUsersMapper.selectByPrimaryKey(user.getId());
 
@@ -124,7 +122,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
      * @param user
      * @return
      */
-    private VmUsers makeUpdateOnlineVmUsers(VmUsersVo user) {
+    private VmUsers makeUpdateOnlineVmUsers(VmUsersDto user) {
         VmUsers vmUser = new VmUsers();
         vmUser.setId(user.getId());
         vmUser.setBirthday(user.getBirthday());
@@ -168,7 +166,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     @Override
     @Transactional
-    public VmUsersBo userRegist(VmUsersVo user) throws Exception {
+    public VmUsersDto userRegist(VmUsersDto user) throws Exception {
 
         //是否存在username相同的账户
         if (!isNullObject(getUserByUsername(user.getUsername()))) {
@@ -181,7 +179,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         return makeVmUsersBo(vmUsers);
     }
 
-    private VmUsers makeRegistVmUserPo(VmUsersVo user) {
+    private VmUsers makeRegistVmUserPo(VmUsersDto user) {
         VmUsers vmUsers = new VmUsers();
         vmUsers.setUsername(user.getUsername());
         vmUsers.setPassword(user.getPassword());

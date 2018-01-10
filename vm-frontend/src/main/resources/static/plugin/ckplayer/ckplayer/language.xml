@@ -13,16 +13,16 @@
 			<nextPage>下一集</nextPage>
 			<definition>点击选择清晰度</definition>
 		</buttonOver>
-		<volumeSliderOver>
-			音量：[$volume]%
-		</volumeSliderOver>
+		<DtolumeSliderOver>
+			音量：[$Dtolume]%
+		</DtolumeSliderOver>
 		<buffer>[$percentage]%</buffer>
 		<timeSliderOver><!--鼠标经过进度条显示的时间格式-->
 			[$timeh]:[$timei]:[$times]
 		</timeSliderOver>
-		<liveAndVod>
+		<liveAndDtod>
 			[$timeh]:[$timei]:[$times]
-		</liveAndVod>
+		</liveAndDtod>
 		<live>
 			直播中 [$liveTimeY]-[$liveTimem]-[$liveTimed] [$liveTimeh]:[$liveTimei]:[$liveTimes]
 		</live>

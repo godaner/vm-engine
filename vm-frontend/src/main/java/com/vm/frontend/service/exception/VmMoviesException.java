@@ -30,8 +30,7 @@ public class VmMoviesException extends VmRuntimeException {
     }
 
     public enum ErrorCode {
-        MOVIE_IS_NOT_EXITS(-1,"电影不存在")
-;
+        MOVIE_IS_NOT_EXITS(-1, "电影不存在");
         int code;
         String msg;
 

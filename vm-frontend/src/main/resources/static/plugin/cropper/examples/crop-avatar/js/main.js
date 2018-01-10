@@ -142,7 +142,7 @@
 
           if (this.isImageFile(file)) {
             if (this.url) {
-              URL.revokeObjectURL(this.url); // Revoke the old one
+              URL.reDtokeObjectURL(this.url); // ReDtoke the old one
             }
 
             this.url = URL.createObjectURL(file);

@@ -647,7 +647,7 @@ function addStyle(obj, options) {
 	} else if(obj.sourceMap &&
 		typeof URL === "function" &&
 		typeof URL.createObjectURL === "function" &&
-		typeof URL.revokeObjectURL === "function" &&
+		typeof URL.reDtokeObjectURL === "function" &&
 		typeof Blob === "function" &&
 		typeof btoa === "function") {
 		styleElement = createLinkElement(options);
@@ -655,7 +655,7 @@ function addStyle(obj, options) {
 		remove = function() {
 			removeStyleElement(styleElement);
 			if(styleElement.href)
-				URL.revokeObjectURL(styleElement.href);
+				URL.reDtokeObjectURL(styleElement.href);
 		};
 	} else {
 		styleElement = createStyleElement(options);
@@ -738,7 +738,7 @@ function updateLink(linkElement, obj) {
 	linkElement.href = URL.createObjectURL(blob);
 
 	if(oldSrc)
-		URL.revokeObjectURL(oldSrc);
+		URL.reDtokeObjectURL(oldSrc);
 }
 
 
@@ -2091,7 +2091,7 @@ var EventInterface = {
  * These systems should generally use pooling to reduce the frequency of garbage
  * collection. The system should check `isPersistent` to determine whether the
  * event should be released into the pool after being dispatched. Users that
- * need a persisted event should invoke `persist`.
+ * need a persisted event should inDtoke `persist`.
  *
  * Synthetic events (and subclasses) implement the DOM Level 3 Events API by
  * normalizing browser quirks. Subclasses do not necessarily have to implement a
@@ -3570,7 +3570,7 @@ if (process.env.NODE_ENV !== 'production') {
   }
 
   // React.DOM factories are deprecated. Wrap these methods so that
-  // invocations of the React.DOM namespace and alert users to switch
+  // inDtocations of the React.DOM namespace and alert users to switch
   // to the `react-dom-factories` package.
   React.DOM = {};
   var warnedForFactories = false;
@@ -3829,7 +3829,7 @@ function shouldPreventMouseEvent(name, type, props) {
  *
  *   `executeDispatch` {function(object, function, string)}
  *     Optional, allows plugins to override how an event gets dispatched. By
- *     default, the listener is simply invoked.
+ *     default, the listener is simply inDtoked.
  *
  * Each plugin that is injected into `EventsPluginHub` is immediately operable.
  *
@@ -3958,7 +3958,7 @@ var EventPluginHub = {
 
   /**
    * Enqueues a synthetic event that should be dispatched when
-   * `processEventQueue` is invoked.
+   * `processEventQueue` is inDtoked.
    *
    * @param {*} events An accumulation of synthetic events.
    * @internal
@@ -4612,8 +4612,8 @@ var OBSERVED_ERROR = {};
 
 /**
  * `Transaction` creates a black box that is able to wrap any method such that
- * certain invariants are maintained before and after the method is invoked
- * (Even if an exception is thrown while invoking the wrapped method). Whoever
+ * certain invariants are maintained before and after the method is inDtoked
+ * (Even if an exception is thrown while inDtoking the wrapped method). Whoever
  * instantiates a transaction can provide enforcers of the invariants at
  * creation time. The `Transaction` class itself will supply one additional
  * automatic invariant for you - the invariant that any transaction instance
@@ -4654,7 +4654,7 @@ var OBSERVED_ERROR = {};
  *   while guaranteeing that afterwards, the event system is reactivated.
  * - Flushing a queue of collected DOM mutations to the main UI thread after a
  *   reconciliation takes place in a worker thread.
- * - Invoking any collected `componentDidUpdate` callbacks after rendering new
+ * - InDtoking any collected `componentDidUpdate` callbacks after rendering new
  *   content.
  * - (Future use case): Wrapping particular flushes of the `ReactWorker` queue
  *   to preserve the `scrollTop` (an automatic scroll aware DOM).
@@ -4662,7 +4662,7 @@ var OBSERVED_ERROR = {};
  *
  * Transactional plugin API:
  * - A module that has an `initialize` method that returns any precomputation.
- * - and a `close` method that accepts the precomputation. `close` is invoked
+ * - and a `close` method that accepts the precomputation. `close` is inDtoked
  *   when the wrapped process is completed, or has failed.
  *
  * @param {Array<TransactionalWrapper>} transactionWrapper Wrapper modules
@@ -4710,7 +4710,7 @@ var TransactionImpl = {
    * to bind in many cases.
    *
    * @param {function} method Member of scope to call.
-   * @param {Object} scope Scope to invoke from.
+   * @param {Object} scope Scope to inDtoke from.
    * @param {Object?=} a Argument to pass to the method.
    * @param {Object?=} b Argument to pass to the method.
    * @param {Object?=} c Argument to pass to the method.
@@ -4739,7 +4739,7 @@ var TransactionImpl = {
       try {
         if (errorThrown) {
           // If `method` throws, prefer to show that stack trace over any thrown
-          // by invoking `closeAll`.
+          // by inDtoking `closeAll`.
           try {
             this.closeAll(0);
           } catch (err) {}
@@ -4780,10 +4780,10 @@ var TransactionImpl = {
   },
 
   /**
-   * Invokes each of `this.transactionWrappers.close[i]` functions, passing into
+   * InDtokes each of `this.transactionWrappers.close[i]` functions, passing into
    * them the respective return values of `this.transactionWrappers.init[i]`
    * (`close`rs that correspond to initializers that failed will not be
-   * invoked).
+   * inDtoked).
    */
   closeAll: function (startIndex) {
     !this.isInTransaction() ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Transaction.closeAll(): Cannot close transaction when none are open.') : _prodInvariant('28') : void 0;
@@ -4959,7 +4959,7 @@ if (ExecutionEnvironment.canUseDOM) {
       // Magic theory: IE8 supposedly differentiates between added and updated
       // nodes when processing innerHTML, innerHTML on updated nodes suffers
       // from worse whitespace behavior. Re-adding a node like this triggers
-      // the initial and more favorable whitespace behavior.
+      // the initial and more faDtorable whitespace behavior.
       // TODO: What to do on a detached node?
       if (node.parentNode) {
         node.parentNode.replaceChild(node, node);
@@ -5270,7 +5270,7 @@ var topEventMapping = {
   topTouchMove: 'touchmove',
   topTouchStart: 'touchstart',
   topTransitionEnd: getVendorPrefixedEventName('transitionend') || 'transitionend',
-  topVolumeChange: 'volumechange',
+  topDtolumeChange: 'Dtolumechange',
   topWaiting: 'waiting',
   topWheel: 'wheel'
 };
@@ -5830,9 +5830,9 @@ function executeDispatch(event, simulated, listener, inst) {
   var type = event.type || 'unknown-event';
   event.currentTarget = EventPluginUtils.getNodeFromInstance(inst);
   if (simulated) {
-    ReactErrorUtils.invokeGuardedCallbackWithCatch(type, listener, event);
+    ReactErrorUtils.inDtokeGuardedCallbackWithCatch(type, listener, event);
   } else {
-    ReactErrorUtils.invokeGuardedCallback(type, listener, event);
+    ReactErrorUtils.inDtokeGuardedCallback(type, listener, event);
   }
   event.currentTarget = null;
 }
@@ -5997,11 +5997,11 @@ var caughtError = null;
  * Call a function while guarding against errors that happens within it.
  *
  * @param {String} name of the guard to use for logging or debugging
- * @param {Function} func The function to invoke
+ * @param {Function} func The function to inDtoke
  * @param {*} a First argument
  * @param {*} b Second argument
  */
-function invokeGuardedCallback(name, func, a) {
+function inDtokeGuardedCallback(name, func, a) {
   try {
     func(a);
   } catch (x) {
@@ -6012,13 +6012,13 @@ function invokeGuardedCallback(name, func, a) {
 }
 
 var ReactErrorUtils = {
-  invokeGuardedCallback: invokeGuardedCallback,
+  inDtokeGuardedCallback: inDtokeGuardedCallback,
 
   /**
-   * Invoked by ReactTestUtils.Simulate so that any errors thrown by the event
+   * InDtoked by ReactTestUtils.Simulate so that any errors thrown by the event
    * handler are sure to be rethrown by rethrowCaughtError.
    */
-  invokeGuardedCallbackWithCatch: invokeGuardedCallback,
+  inDtokeGuardedCallbackWithCatch: inDtokeGuardedCallback,
 
   /**
    * During execution of guarded functions we will capture the first error which
@@ -6040,7 +6040,7 @@ if (process.env.NODE_ENV !== 'production') {
    */
   if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function' && typeof document !== 'undefined' && typeof document.createEvent === 'function') {
     var fakeNode = document.createElement('react');
-    ReactErrorUtils.invokeGuardedCallback = function (name, func, a) {
+    ReactErrorUtils.inDtokeGuardedCallback = function (name, func, a) {
       var boundFunc = function () {
         func(a);
       };
@@ -7070,7 +7070,7 @@ var ReactUpdateQueue = {
     }
     // TODO: The callback here is ignored when setState is called from
     // componentWillMount. Either fix it or disallow doing so completely in
-    // favor of getInitialState. Alternatively, we can disallow
+    // faDtor of getInitialState. Alternatively, we can disallow
     // componentWillMount during server-side rendering.
     enqueueUpdate(internalInstance);
   },
@@ -7085,13 +7085,13 @@ var ReactUpdateQueue = {
   },
 
   /**
-   * Forces an update. This should only be invoked when it is known with
+   * Forces an update. This should only be inDtoked when it is known with
    * certainty that we are **not** in a DOM transaction.
    *
    * You may want to call this when you know that some deeper aspect of the
    * component's state has changed but `setState` was not called.
    *
-   * This will not invoke `shouldComponentUpdate`, but it will invoke
+   * This will not inDtoke `shouldComponentUpdate`, but it will inDtoke
    * `componentWillUpdate` and `componentDidUpdate`.
    *
    * @param {ReactClass} publicInstance The instance that should rerender.
@@ -8579,9 +8579,9 @@ var CallbackQueue = function () {
   }
 
   /**
-   * Enqueues a callback to be invoked when `notifyAll` is invoked.
+   * Enqueues a callback to be inDtoked when `notifyAll` is inDtoked.
    *
-   * @param {function} callback Invoked when `notifyAll` is invoked.
+   * @param {function} callback InDtoked when `notifyAll` is inDtoked.
    * @param {?object} context Context to call `callback` with.
    * @internal
    */
@@ -8595,7 +8595,7 @@ var CallbackQueue = function () {
   };
 
   /**
-   * Invokes all enqueued callbacks and clears the queue. This is invoked after
+   * InDtokes all enqueued callbacks and clears the queue. This is inDtoked after
    * the DOM representation of a component has been created or updated.
    *
    * @internal
@@ -9447,7 +9447,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   /**
    * Returns the iterator method function contained on the iterable object.
    *
-   * Be sure to invoke the function with the iterable as context:
+   * Be sure to inDtoke the function with the iterable as context:
    *
    *     var iteratorFn = getIteratorFn(myIterable);
    *     if (iteratorFn) {
@@ -10040,13 +10040,13 @@ ReactComponent.prototype.setState = function (partialState, callback) {
 };
 
 /**
- * Forces an update. This should only be invoked when it is known with
+ * Forces an update. This should only be inDtoked when it is known with
  * certainty that we are **not** in a DOM transaction.
  *
  * You may want to call this when you know that some deeper aspect of the
  * component's state has changed but `setState` was not called.
  *
- * This will not invoke `shouldComponentUpdate`, but it will invoke
+ * This will not inDtoke `shouldComponentUpdate`, but it will inDtoke
  * `componentWillUpdate` and `componentDidUpdate`.
  *
  * @param {?function} callback Called after update is complete.
@@ -10164,13 +10164,13 @@ var ReactNoopUpdateQueue = {
   enqueueCallback: function (publicInstance, callback) {},
 
   /**
-   * Forces an update. This should only be invoked when it is known with
+   * Forces an update. This should only be inDtoked when it is known with
    * certainty that we are **not** in a DOM transaction.
    *
    * You may want to call this when you know that some deeper aspect of the
    * component's state has changed but `setState` was not called.
    *
-   * This will not invoke `shouldComponentUpdate`, but it will invoke
+   * This will not inDtoke `shouldComponentUpdate`, but it will inDtoke
    * `componentWillUpdate` and `componentDidUpdate`.
    *
    * @param {ReactClass} publicInstance The instance that should rerender.
@@ -10260,7 +10260,7 @@ var FAUX_ITERATOR_SYMBOL = '@@iterator'; // Before Symbol spec.
 /**
  * Returns the iterator method function contained on the iterable object.
  *
- * Be sure to invoke the function with the iterable as context:
+ * Be sure to inDtoke the function with the iterable as context:
  *
  *     var iteratorFn = getIteratorFn(myIterable);
  *     if (iteratorFn) {
@@ -11087,7 +11087,7 @@ function getComponentKey(component, index) {
 /**
  * @param {?*} children Children tree container.
  * @param {!string} nameSoFar Name of the key path so far.
- * @param {!function} callback Callback to invoke with each child found.
+ * @param {!function} callback Callback to inDtoke with each child found.
  * @param {?*} traverseContext Used to pass information throughout the traversal
  * process.
  * @return {!number} The number of children in this subtree.
@@ -11190,7 +11190,7 @@ function traverseAllChildrenImpl(children, nameSoFar, callback, traverseContext)
  * the callback might find relevant.
  *
  * @param {?*} children Children tree object.
- * @param {!function} callback To invoke upon traversing each child.
+ * @param {!function} callback To inDtoke upon traversing each child.
  * @param {?*} traverseContext Context for traversal.
  * @return {!number} The number of children in this subtree.
  */
@@ -12997,7 +12997,7 @@ var MoviePlayer = _react2.default.createClass({
             variable: 'player', //该属性必需设置，值等于下面的new chplayer()的对象
             poster: options.poster, //封面图片
             autoplay: false, //默认自动播放
-            volume: 1.0, //初始化音量
+            Dtolume: 1.0, //初始化音量
             flashplayer: true, //如果强制使用flashplayer则设置成true
             video: options.video //视频地址http://img.ksbbs.com/asset/Mon_1703/05cacb4e02f9d9e.mp4
 
@@ -14577,10 +14577,10 @@ ReactRef.shouldUpdateRefs = function (prevElement, nextElement) {
   // instantiateReactComponent is done.
 
   var prevRef = null;
-  var prevOwner = null;
+  var preDtowner = null;
   if (prevElement !== null && typeof prevElement === 'object') {
     prevRef = prevElement.ref;
-    prevOwner = prevElement._owner;
+    preDtowner = prevElement._owner;
   }
 
   var nextRef = null;
@@ -14592,7 +14592,7 @@ ReactRef.shouldUpdateRefs = function (prevElement, nextElement) {
 
   return prevRef !== nextRef ||
   // If owner changes but we have an unchanged function ref, don't update refs
-  typeof nextRef === 'string' && nextOwner !== prevOwner;
+  typeof nextRef === 'string' && nextOwner !== preDtowner;
 };
 
 ReactRef.detachRefs = function (instance, element) {
@@ -15513,7 +15513,7 @@ var HTMLDOMPropertyConfig = {
     property: 0,
     resource: 0,
     'typeof': 0,
-    vocab: 0,
+    Dtocab: 0,
 
     /**
      * Non-standard Properties
@@ -15708,12 +15708,12 @@ function getNodeName(markup) {
 
 /**
  * Creates an array containing the nodes rendered from the supplied markup. The
- * optionally supplied `handleScript` function will be invoked once for each
+ * optionally supplied `handleScript` function will be inDtoked once for each
  * <script> element that is rendered. If no `handleScript` function is supplied,
  * an exception is thrown if any <script> elements are rendered.
  *
  * @param {string} markup A string of valid HTML markup.
- * @param {?function} handleScript Invoked once for each rendered <script>.
+ * @param {?function} handleScript InDtoked once for each rendered <script>.
  * @return {array<DOMElement|DOMTextNode>} An array of rendered nodes.
  */
 function createNodesFromMarkup(markup, handleScript) {
@@ -16265,7 +16265,7 @@ var mediaEvents = {
   topStalled: 'stalled',
   topSuspend: 'suspend',
   topTimeUpdate: 'timeupdate',
-  topVolumeChange: 'volumechange',
+  topDtolumeChange: 'Dtolumechange',
   topWaiting: 'waiting'
 };
 
@@ -18449,7 +18449,7 @@ function getComponentKey(component, index) {
 /**
  * @param {?*} children Children tree container.
  * @param {!string} nameSoFar Name of the key path so far.
- * @param {!function} callback Callback to invoke with each child found.
+ * @param {!function} callback Callback to inDtoke with each child found.
  * @param {?*} traverseContext Used to pass information throughout the traversal
  * process.
  * @return {!number} The number of children in this subtree.
@@ -18552,7 +18552,7 @@ function traverseAllChildrenImpl(children, nameSoFar, callback, traverseContext)
  * the callback might find relevant.
  *
  * @param {?*} children Children tree object.
- * @param {!function} callback To invoke upon traversing each child.
+ * @param {!function} callback To inDtoke upon traversing each child.
  * @param {?*} traverseContext Context for traversal.
  * @return {!number} The number of children in this subtree.
  */
@@ -19124,10 +19124,10 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     // ==== Definition methods ====
 
     /**
-     * Invoked when the component is mounted. Values in the mapping will be set on
+     * InDtoked when the component is mounted. Values in the mapping will be set on
      * `this.props` if that prop is not specified (i.e. using an `in` check).
      *
-     * This method is invoked before `getInitialState` and therefore cannot rely
+     * This method is inDtoked before `getInitialState` and therefore cannot rely
      * on `this.state` or use `this.setState`.
      *
      * @return {object}
@@ -19136,7 +19136,7 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     getDefaultProps: 'DEFINE_MANY_MERGED',
 
     /**
-     * Invoked once before the component is mounted. The return value will be used
+     * InDtoked once before the component is mounted. The return value will be used
      * as the initial value of `this.state`.
      *
      *   getInitialState: function() {
@@ -19161,7 +19161,7 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
      * Uses props from `this.props` and state from `this.state` to render the
      * structure of the component.
      *
-     * No guarantees are made about when or how often this method is invoked, so
+     * No guarantees are made about when or how often this method is inDtoked, so
      * it must not have side effects.
      *
      *   render: function() {
@@ -19177,7 +19177,7 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     // ==== Delegate methods ====
 
     /**
-     * Invoked when the component is initially created and about to be mounted.
+     * InDtoked when the component is initially created and about to be mounted.
      * This may have side effects, but any external subscriptions or data created
      * by this method must be cleaned up in `componentWillUnmount`.
      *
@@ -19186,7 +19186,7 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     componentWillMount: 'DEFINE_MANY',
 
     /**
-     * Invoked when the component has been mounted and has a DOM representation.
+     * InDtoked when the component has been mounted and has a DOM representation.
      * However, there is no guarantee that the DOM node is in the document.
      *
      * Use this as an opportunity to operate on the DOM when the component has
@@ -19198,7 +19198,7 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     componentDidMount: 'DEFINE_MANY',
 
     /**
-     * Invoked before the component receives new props.
+     * InDtoked before the component receives new props.
      *
      * Use this as an opportunity to react to a prop transition by updating the
      * state using `this.setState`. Current props are accessed via `this.props`.
@@ -19219,7 +19219,7 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     componentWillReceiveProps: 'DEFINE_MANY',
 
     /**
-     * Invoked while deciding if the component should be updated as a result of
+     * InDtoked while deciding if the component should be updated as a result of
      * receiving new props, state and/or context.
      *
      * Use this as an opportunity to `return false` when you're certain that the
@@ -19241,7 +19241,7 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     shouldComponentUpdate: 'DEFINE_ONCE',
 
     /**
-     * Invoked when the component is about to update due to a transition from
+     * InDtoked when the component is about to update due to a transition from
      * `this.props`, `this.state` and `this.context` to `nextProps`, `nextState`
      * and `nextContext`.
      *
@@ -19258,7 +19258,7 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     componentWillUpdate: 'DEFINE_MANY',
 
     /**
-     * Invoked when the component's DOM representation has been updated.
+     * InDtoked when the component's DOM representation has been updated.
      *
      * Use this as an opportunity to operate on the DOM when the component has
      * been updated.
@@ -19272,7 +19272,7 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
     componentDidUpdate: 'DEFINE_MANY',
 
     /**
-     * Invoked when the component is about to be removed from its parent and have
+     * InDtoked when the component is about to be removed from its parent and have
      * its DOM representation destroyed.
      *
      * Use this as an opportunity to deallocate any external resources.
@@ -19592,11 +19592,11 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
   }
 
   /**
-   * Creates a function that invokes two functions and merges their return values.
+   * Creates a function that inDtokes two functions and merges their return values.
    *
-   * @param {function} one Function to invoke first.
-   * @param {function} two Function to invoke second.
-   * @return {function} Function that invokes the two argument functions.
+   * @param {function} one Function to inDtoke first.
+   * @param {function} two Function to inDtoke second.
+   * @return {function} Function that inDtokes the two argument functions.
    * @private
    */
   function createMergedResultFunction(one, two) {
@@ -19616,11 +19616,11 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
   }
 
   /**
-   * Creates a function that invokes two functions and ignores their return vales.
+   * Creates a function that inDtokes two functions and ignores their return vales.
    *
-   * @param {function} one Function to invoke first.
-   * @param {function} two Function to invoke second.
-   * @return {function} Function that invokes the two argument functions.
+   * @param {function} one Function to inDtoke first.
+   * @param {function} two Function to inDtoke second.
+   * @return {function} Function that inDtokes the two argument functions.
    * @private
    */
   function createChainedFunction(one, two) {
@@ -21230,7 +21230,7 @@ var ReactCompositeComponent = {
 
       if (safely) {
         var name = this.getName() + '.componentWillUnmount()';
-        ReactErrorUtils.invokeGuardedCallback(name, inst.componentWillUnmount.bind(inst));
+        ReactErrorUtils.inDtokeGuardedCallback(name, inst.componentWillUnmount.bind(inst));
       } else {
         if (process.env.NODE_ENV !== 'production') {
           measureLifeCyclePerf(function () {
@@ -21919,7 +21919,7 @@ var FAUX_ITERATOR_SYMBOL = '@@iterator'; // Before Symbol spec.
 /**
  * Returns the iterator method function contained on the iterable object.
  *
- * Be sure to invoke the function with the iterable as context:
+ * Be sure to inDtoke the function with the iterable as context:
  *
  *     var iteratorFn = getIteratorFn(myIterable);
  *     if (iteratorFn) {
@@ -22096,7 +22096,7 @@ var Mixin = {
   },
 
   /**
-   * `PooledClass` looks for this, and will invoke this before allowing this
+   * `PooledClass` looks for this, and will inDtoke this before allowing this
    * instance to be reused.
    */
   destructor: function () {},
@@ -22187,13 +22187,13 @@ var ReactServerUpdateQueue = function () {
   };
 
   /**
-   * Forces an update. This should only be invoked when it is known with
+   * Forces an update. This should only be inDtoked when it is known with
    * certainty that we are **not** in a DOM transaction.
    *
    * You may want to call this when you know that some deeper aspect of the
    * component's state has changed but `setState` was not called.
    *
-   * This will not invoke `shouldComponentUpdate`, but it will invoke
+   * This will not inDtoke `shouldComponentUpdate`, but it will inDtoke
    * `componentWillUpdate` and `componentDidUpdate`.
    *
    * @param {ReactClass} publicInstance The instance that should rerender.
@@ -22423,10 +22423,10 @@ function traverseTwoPhase(inst, fn, arg) {
 }
 
 /**
- * Traverses the ID hierarchy and invokes the supplied `cb` on any IDs that
+ * Traverses the ID hierarchy and inDtokes the supplied `cb` on any IDs that
  * should would receive a `mouseEnter` or `mouseLeave` event.
  *
- * Does not invoke the callback on the nearest common ancestor because nothing
+ * Does not inDtoke the callback on the nearest common ancestor because nothing
  * "entered" or "left" that element.
  */
 function traverseEnterLeave(from, to, fn, argFrom, argTo) {
@@ -23012,7 +23012,7 @@ var ON_DOM_READY_QUEUEING = {
   },
 
   /**
-   * After DOM is flushed, invoke all registered `onDOMReady` callbacks.
+   * After DOM is flushed, inDtoke all registered `onDOMReady` callbacks.
    */
   close: function () {
     this.reactMountReady.notifyAll();
@@ -23099,7 +23099,7 @@ var Mixin = {
   },
 
   /**
-   * `PooledClass` looks for this, and will invoke this before allowing this
+   * `PooledClass` looks for this, and will inDtoke this before allowing this
    * instance to be reused.
    */
   destructor: function () {
@@ -24059,7 +24059,7 @@ var invariant = __webpack_require__(1);
  */
 var eventTypes = {};
 var topLevelEventsToDispatchConfig = {};
-['abort', 'animationEnd', 'animationIteration', 'animationStart', 'blur', 'canPlay', 'canPlayThrough', 'click', 'contextMenu', 'copy', 'cut', 'doubleClick', 'drag', 'dragEnd', 'dragEnter', 'dragExit', 'dragLeave', 'dragOver', 'dragStart', 'drop', 'durationChange', 'emptied', 'encrypted', 'ended', 'error', 'focus', 'input', 'invalid', 'keyDown', 'keyPress', 'keyUp', 'load', 'loadedData', 'loadedMetadata', 'loadStart', 'mouseDown', 'mouseMove', 'mouseOut', 'mouseOver', 'mouseUp', 'paste', 'pause', 'play', 'playing', 'progress', 'rateChange', 'reset', 'scroll', 'seeked', 'seeking', 'stalled', 'submit', 'suspend', 'timeUpdate', 'touchCancel', 'touchEnd', 'touchMove', 'touchStart', 'transitionEnd', 'volumeChange', 'waiting', 'wheel'].forEach(function (event) {
+['abort', 'animationEnd', 'animationIteration', 'animationStart', 'blur', 'canPlay', 'canPlayThrough', 'click', 'contextMenu', 'copy', 'cut', 'doubleClick', 'drag', 'dragEnd', 'dragEnter', 'dragExit', 'dragLeave', 'dragOver', 'dragStart', 'drop', 'durationChange', 'emptied', 'encrypted', 'ended', 'error', 'focus', 'input', 'invalid', 'keyDown', 'keyPress', 'keyUp', 'load', 'loadedData', 'loadedMetadata', 'loadStart', 'mouseDown', 'mouseMove', 'mouseOut', 'mouseOver', 'mouseUp', 'paste', 'pause', 'play', 'playing', 'progress', 'rateChange', 'reset', 'scroll', 'seeked', 'seeking', 'stalled', 'submit', 'suspend', 'timeUpdate', 'touchCancel', 'touchEnd', 'touchMove', 'touchStart', 'transitionEnd', 'DtolumeChange', 'waiting', 'wheel'].forEach(function (event) {
   var capitalizedEvent = event[0].toUpperCase() + event.slice(1);
   var onEvent = 'on' + capitalizedEvent;
   var topEvent = 'top' + capitalizedEvent;
@@ -24123,7 +24123,7 @@ var SimpleEventPlugin = {
       case 'topSubmit':
       case 'topSuspend':
       case 'topTimeUpdate':
-      case 'topVolumeChange':
+      case 'topDtolumeChange':
       case 'topWaiting':
         // HTML Events
         // @see http://www.w3.org/TR/html5/index.html#events-0
@@ -24208,7 +24208,7 @@ var SimpleEventPlugin = {
   didPutListener: function (inst, registrationName, listener) {
     // Mobile Safari does not fire properly bubble click events on
     // non-interactive elements, which means delegated click listeners do not
-    // fire. The workaround for this bug involves attaching an empty click
+    // fire. The workaround for this bug inDtolves attaching an empty click
     // listener on the target node.
     // http://www.quirksmode.org/blog/archives/2010/09/click_event_del.html
     if (registrationName === 'onClick' && !isInteractive(inst._tag)) {
@@ -25066,7 +25066,7 @@ if (process.env.NODE_ENV !== 'production') {
       // We were unable to guess which prop the user intended.
       // It is likely that the user was just blindly spreading/forwarding props
       // Components should be careful to only render valid props/attributes.
-      // Warning will be invoked in warnUnknownProperties to allow grouping.
+      // Warning will be inDtoked in warnUnknownProperties to allow grouping.
       return false;
     }
   };
