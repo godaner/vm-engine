@@ -3,6 +3,7 @@ package com.vm.frontend.listener;
 import com.vm.base.utils.CommonUtil;
 import com.vm.dao.po.VmUsers;
 import com.vm.frontend.controller.VmUsersController;
+import com.vm.frontend.service.dto.VmUsersDto;
 import com.vm.frontend.websocket.OnlineUsersWebSocket;
 
 import javax.servlet.annotation.WebListener;
@@ -25,17 +26,17 @@ public class SessionListener extends CommonUtil implements HttpSessionListener {
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
-        VmUsers vmUsers = (VmUsers) se.getSession().getAttribute(VmUsersController.KEY_OF_ONLINE_USER);
+        VmUsersDto vmUsersDto = (VmUsersDto) se.getSession().getAttribute(VmUsersController.KEY_OF_ONLINE_USER);
 
-        if (isNullObject(vmUsers)) {
+        if (isNullObject(vmUsersDto)) {
             return;
         }
         try {
-            OnlineUsersWebSocket.userLogout(vmUsers.getId(), OnlineUsersWebSocket.Result.SESSION_TIMEOUT.getCode());
-            logger.info("SessionListener userLogout is success! user is : {}", vmUsers);
+            OnlineUsersWebSocket.userLogout(vmUsersDto.getId(), OnlineUsersWebSocket.Result.SESSION_TIMEOUT.getCode());
+            logger.info("SessionListener userLogout is success! user is : {}", vmUsersDto);
         } catch (IOException e) {
             e.printStackTrace();
-            logger.info("SessionListener userLogout is fail! user is : {}", vmUsers);
+            logger.info("SessionListener userLogout is fail! user is : {}", vmUsersDto);
         }
         logger.info("SessionListener sessionDestroyed success!");
 
