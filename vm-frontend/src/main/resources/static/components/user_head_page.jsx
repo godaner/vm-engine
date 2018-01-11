@@ -140,33 +140,44 @@ var UserHeadPage = React.createClass({
 
                 <div id="head_upload">
 
-                    <img src=""
-                         id="headImgPreview"
-                         ref="headImgPreview"/>
-                    <input type="file"
-                           ref="headImgInput"
-                           name="headImgInput"
-                           id="headImgInput"
-                           onChange={() => {
-                               this.uploadTempHeadImg()
-                           }}/>
-                    <input type="button"
-                           id="headImgSaveBtn"
-                           ref="headImgSaveBtn"
-                           value="保存"
-                    />
+                    <div id="head_upload_to_middle_div">
+                        <img src=""
+                             id="headImgPreview"
+                             ref="headImgPreview"/>
+                        <input type="file"
+                               ref="headImgInput"
+                               name="headImgInput"
+                               id="headImgInput"
+                               onChange={() => {
+                                   this.uploadTempHeadImg()
+                               }}/>
+                        <div id="headImgSaveBtn_to_middle_div">
+                            <input type="button"
+                                   id="headImgSaveBtn"
+                                   ref="headImgSaveBtn"
+                                   value="保存"
+                            />
+                        </div>
+                    </div>
 
                 </div>
                 <div id="head_preview">
                     <img ref="headImgPreview0"
                          id="headImgPreview0"
                          src=""/>
+                    80x
                     <img ref="headImgPreview1"
                          id="headImgPreview1"
                          src=""/>
+                    50x
                     <img ref="headImgPreview2"
                          id="headImgPreview2"
                          src=""/>
+                    30x
+                </div>
+
+                <div id="headImg_description">
+                    在这里可以上传您的心头像
                 </div>
             </div>
         );
