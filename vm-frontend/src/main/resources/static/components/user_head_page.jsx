@@ -60,7 +60,7 @@ var UserHeadPage = React.createClass({
         c(headImgFile);
 
         //unselect, size
-        if (isUndefined(headImgFile)||isUndefined(headImgFile.size)) {
+        if (isUndefined(headImgFile) || isUndefined(headImgFile.size)) {
             throw this.state.userHeadImgFileIsEmpty;
         }
         if (headImgFile.size > userHeadUploadConfig.fileMaxsize) {
@@ -75,16 +75,18 @@ var UserHeadPage = React.createClass({
     uploadTempHeadImg(callfun){
 
         window.EventsDispatcher.showLoading(this.state.uploadTempHeadImgTip);
-        var headImg = $(this.refs.headImg).get(0).files[0];
+
+        var headImgInput = $(this.refs.headImgInput);
+        var headImgFile = headImgInput.get(0).files[0];
         //validateHeadImgFile
         try {
-            this.validateHeadImgFile(headImg)
+            this.validateHeadImgFile(headImgFile)
         } catch (e) {
             window.EventsDispatcher.closeLoading();
             window.EventsDispatcher.showMsgDialog(e);
 
             // clear input #file
-            $(this.refs.headImg).val("");
+            headImgInput.val("");
             //back self original img
             this.previewHeadImg(this.state.user.ImgUrl);
             return;
@@ -92,7 +94,7 @@ var UserHeadPage = React.createClass({
 
 
         var formData = new FormData();
-        formData.append("headImg", headImg);
+        formData.append("headImg", headImgFile);
         var userId = this.state.user.id;
         const url = "/user/" + userId + "/img/upload/temp";
         ajax.post({
@@ -146,17 +148,23 @@ var UserHeadPage = React.createClass({
                         <img src=""
                              id="headImgPreview"
                              ref="headImgPreview"/>
-                        <input type="file"
-                               ref="headImg"
-                               name="headImg"
-                               onChange={() => {
-                                   this.uploadTempHeadImg()
-                               }}/>
+                        <div id="headImgInput_div">
+                            <input type="file"
+                                   ref="headImgInput"
+                                   name="headImgInput"
+                                   id="headImgInput"
+                                   onChange={() => {
+                                       this.uploadTempHeadImg()
+                                   }}/>
+                        </div>
+                        <div id="headImgSaveBtn_div">
+                            <input type="button"
+                                   id="headImgSaveBtn"
+                                   ref="headImgSaveBtn"
+                                   value="保存"
+                            />
+                        </div>
 
-                        <input type="button"
-                               ref="headSubmitBtn"
-                               value="保存"
-                        />
                     </form>
                 </div>
                 <div id="head_preview">

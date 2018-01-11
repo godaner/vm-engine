@@ -6,10 +6,42 @@
     width: 50%;
   }
   #head_upload {
-
+    text-align: center;
     #headImgPreview {
+      display: block;
       width: 200px;
       height: 200px;
+    }
+
+    #headImgInput_div{
+      display: block;
+      width: 200px;
+      text-align: left;
+      #headImgInput {
+        display: block;
+        width: 100px;
+      }
+    }
+    #headImgSaveBtn_div {
+      display: block;
+      text-align: center;
+      @include defaultWidth;
+      #headImgSaveBtn {
+        display: block;
+        margin-top: 10px;
+        background-color: white;
+        color: $defaultBlueRgb;
+        border: 1px solid unquote($defaultBlueRgb);
+        width: 100px;
+        height: 30px;
+        cursor: pointer;
+        transition: all 500ms;
+        &:hover {
+          background-color: unquote($defaultBlueRgb);
+          border-radius: 99px;
+          color: unquote(white);
+        }
+      }
     }
 
   }
