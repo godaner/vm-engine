@@ -40,25 +40,9 @@ var UserBasicInfoPage = React.createClass({
 
             }.bind(this),
             onResponseSuccess: function (result) {
-                // c(result);
                 var u = result.data.user;
-                // var u = {
-                //     birthday: 0,
-                //     createTime: 1515394557,
-                //     description: 6666,
-                //     id: 37,
-                //     imgUrl: "/user/img/-1",
-                //     "password": "",
-                //     "sex": 3,
-                //     "status": 1,
-                //     "updateTime": 1515394557,
-                //     "username": "root"
-                //
-                // };
                 //update user in state
                 this.updateStateUser(u);
-                // c("u0");
-                // c(u);
 
             }.bind(this),
             onResponseFailure: function (result) {
@@ -161,13 +145,7 @@ var UserBasicInfoPage = React.createClass({
     },
     render() {
         var t = parseInt(this.state.user.birthday);
-        // c("this.state.user.birthday");
-        // c(this.state.user.birthday);
-        // c("t");
-        // c(t);
         var birthday = new Date(t * 1000);
-        // c("birthday");
-        // c(birthday);
         return (
             <div id="user_basic_info_content" className="clearfix">
                 <div id="basic_info">

@@ -21,6 +21,12 @@ public class VmProperties {
     public static String VM_USER_IMG_URL_PREFIX;
     public static String VM_FILMMAKER_IMG_PATH;
     public static String VM_FILMMAKER_IMG_DEFAULT_NAME;
+    public static String VM_USER_IMG_TEMP_PATH;
+
+    @Value("${vm.user.img.temp.path}")
+    public void setVmUserImgTempPath(String vmUserImgTempPath) {
+        VM_USER_IMG_TEMP_PATH = vmUserImgTempPath;
+    }
 
     @Value("${vm.filmmaker.img.path}")
     public void setVmFilmmakerImgPath(String vmFilmmakerImgPath) {

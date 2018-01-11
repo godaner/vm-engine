@@ -1,25 +1,27 @@
 package com.vm.frontend.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.vm.base.utils.BaseService;
 import com.vm.base.utils.DateUtil;
 import com.vm.base.utils.VmProperties;
 import com.vm.dao.mapper.VmFilesMapper;
 import com.vm.dao.mapper.VmUsersMapper;
-import com.vm.dao.po.*;
+import com.vm.dao.po.BasePo;
+import com.vm.dao.po.VmFiles;
+import com.vm.dao.po.VmUsers;
+import com.vm.dao.po.VmUsersExample;
 import com.vm.frontend.service.dto.VmUsersDto;
 import com.vm.frontend.service.exception.VmUsersException;
 import com.vm.frontend.service.inf.VmUsersService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -177,6 +179,54 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         vmUsersMapper.insert(makeRegistVmUserPo(user));
         VmUsers vmUsers = getUserByUsername(user.getUsername());
         return makeVmUsersBo(vmUsers);
+    }
+
+    @Override
+    public String saveUserTempHeadImg(Long userId, MultipartFile headImg) throws Exception {
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        String targetHeadImgName = null;
+        try {
+            String targetPath = VmProperties.VM_USER_IMG_TEMP_PATH;
+            String contentType = headImg.getContentType();
+            if (!contentType.equals(MediaType.IMAGE_JPEG_VALUE)) {
+                logger.error("saveUserTempHeadImg headImg contentType is error ! headImg is : {}", headImg);
+                throw new VmUsersException(VmUsersException.ErrorCode.USER_HEAD_IMG_CONTENT_TYPE_ERROR.getCode(),
+                        VmUsersException.ErrorCode.USER_HEAD_IMG_CONTENT_TYPE_ERROR.getMsg());
+            }
+            //get ext
+            String ext = getFileNameExt(headImg.getOriginalFilename());
+            targetHeadImgName = File.separator + userId + "." + ext;
+            String headImgName = targetPath + targetHeadImgName;
+            //save head Img
+            inputStream = headImg.getInputStream();
+            outputStream = new FileOutputStream(headImgName);
+            org.apache.commons.io.IOUtils.copy(inputStream, outputStream);
+        } catch (VmUsersException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            closeStream(inputStream, outputStream);
+        }
+        return targetHeadImgName;
+    }
+
+    @Override
+    public void getUserTempHeadImg(String fileName, HttpServletResponse response) throws Exception {
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        try {
+            String targetPath = VmProperties.VM_USER_IMG_TEMP_PATH;
+            String headImgName = targetPath + fileName;
+            inputStream = new FileInputStream(headImgName);
+            org.apache.commons.io.IOUtils.copy(inputStream, response.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            closeStream(inputStream, outputStream);
+        }
+
     }
 
     private VmUsers makeRegistVmUserPo(VmUsersDto user) {

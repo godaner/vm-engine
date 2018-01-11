@@ -1,4 +1,3 @@
-
 function fail(code) {
     return code < 0;
 }
@@ -7,8 +6,6 @@ function success(code) {
     return code > 0;
 }
 
-//用户未登录时受保护的页面，用于用户注销后或者被动离线后调用
-var protectedUserPageLists = ["/user/[0-9/_-a-zA-Z]*"];
 
 //保护用户页面
 function protectUserPageWhenUserIsOffline(react_this) {
@@ -22,18 +19,6 @@ function protectUserPageWhenUserIsOffline(react_this) {
 
 }
 
-//用户在其他地方登录code
-const WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA = 5;
-//在线用户超时code
-const WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT = 6;
-
-//电影图片等待加载时使用的图片
-const MOVIE_LOADING_IMG = "/image/movie_img_loading.gif";
-
-//电影人图片等待加载时使用的图片
-const FILMMAKER_LOADING_IMG = "/image/filmmaker_img_loading.gif";
-//websocket前缀
-const WS_URL_PREFIX = "ws://localhost:8888";
 
 //开始懒加载，依赖jquery.lazyload.js
 function lazyLoad() {
@@ -91,22 +76,42 @@ var ajax = {
             return;
         }
         //handler args.async
-        if (isEmpty(args.async)) {
+        if (isUndefined(args.async)) {
             args.async = true;
         }
-        //handler args.data
-        if (isUndefined(args.data) || isEmptyString(args.data)) {
-            args.data = "{}";
+
+        //handle args.contentType
+        if (isUndefined(args.contentType)) {
+            args.contentType = "application/json";
         }
-        args.data = JSON.stringify(args.data);
+        //handle args.data
+        if (!isUndefined(args.data) && args.contentType == "application/json") {
+            args.data = JSON.stringify(args.data);
+        }
+        //handle args.dataType
+        if (isUndefined(args.dataType)) {
+            args.dataType = "json";
+        }
+        //handle args.processData
+        if (isUndefined(args.processData)) {
+            args.processData = true;
+        }
+        //handle args.processData
+        if (isUndefined(args.enctype)) {
+            args.enctype = "text/plain";
+        }
+        // c("request data is : ");
+        // c(args);
         $.ajax({
             url: args.url,
             //配合@requestBody
             data: args.data,
             async: args.async,
             type: args.type,
-            contentType: "application/json",
-            dataType: "json",
+            contentType: args.contentType,
+            dataType: args.dataType,
+            processData: args.processData,
+            enctype: args.enctype,
             success: function (result) {
                 this.requestServerSuccess(args, result);
             }.bind(this),
@@ -123,11 +128,11 @@ var ajax = {
     put: function (args) {
         args.type = "PUT";
         this.ajax(args);
+    },
+    post: function (args) {
+        args.type = "POST";
+        this.ajax(args);
     }
 };
-
-
-
-
 
 

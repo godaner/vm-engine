@@ -1,3 +1,18 @@
+/**
+ * 文件后缀，如jpg
+ * @param fileName
+ */
+function getFileNameExt(fileName){
+    if (fileName == undefined || fileName == "") {
+        return "";
+    }
+    if (fileName.indexOf(".") < 0) {
+        return "";
+    }
+
+    return fileName.substring(fileName.lastIndexOf(".") + 1);
+}
+
 function getFileUrl(source) {
     var url;
     if (navigator.userAgent.indexOf("MSIE")>=1) { // IE

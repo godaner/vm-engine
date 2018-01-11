@@ -7,6 +7,7 @@ import com.vm.frontend.service.inf.VmUsersService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -103,6 +104,29 @@ public class VmUsersController extends ServiceController<VmUsersService> {
             Integer width) throws Exception {
         service.sendUserImg(fileId, width, getResponse());
         return response;
+    }
+
+    /**
+     * 上传用户临时头像
+     *
+     * @return
+     */
+    @RequestMapping(value = "/{userId}/img/upload/temp", method = RequestMethod.POST)
+    @ResponseBody
+    public Object uploadUserTempHeadImg(@PathVariable("userId") Long userId, @RequestParam("headImg") MultipartFile headImg) throws Exception {
+        String headImgFileName = service.saveUserTempHeadImg(userId, headImg);
+        return response.putData("tempHeadImgUrl", "/user/img/temp?fileName=" + headImgFileName);
+    }
+
+    /**
+     * 获取用户临时头像
+     *
+     * @return
+     */
+    @RequestMapping(value = "/img/temp", method = RequestMethod.GET)
+    @ResponseBody
+    public void getUserTempHeadImg(@RequestParam("fileName") String fileName) throws Exception {
+        service.getUserTempHeadImg(fileName, getResponse());
     }
 //
 //    @RequestMapping(value = "/update", method = RequestMethod.PUT)

@@ -31,7 +31,8 @@ public class VmUsersException extends VmRuntimeException {
 
     public enum ErrorCode {
         USER_IS_NOT_EXITS(-1, "账户不存在"),
-        PASSWORD_ERROR(-2, "密码错误");
+        PASSWORD_ERROR(-2, "密码错误"),
+        USER_HEAD_IMG_CONTENT_TYPE_ERROR(-3,"用户头像文件格式错误");
 
         int code;
         String msg;

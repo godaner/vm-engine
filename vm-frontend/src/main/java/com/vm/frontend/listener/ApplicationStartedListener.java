@@ -43,6 +43,8 @@ public class ApplicationStartedListener implements ApplicationListener<ContextRe
         checkAndCreateDir(VmProperties.VM_USER_IMG_PATH);
 
         checkAndCreateDir(VmProperties.VM_FILMMAKER_IMG_PATH);
+
+        checkAndCreateDir(VmProperties.VM_USER_IMG_TEMP_PATH);
     }
 
 

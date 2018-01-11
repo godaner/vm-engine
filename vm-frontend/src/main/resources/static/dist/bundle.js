@@ -31924,25 +31924,9 @@ var UserBasicInfoPage = _react2.default.createClass({
             onBeforeRequest: function () {}.bind(this),
             onResponseStart: function () {}.bind(this),
             onResponseSuccess: function (result) {
-                // c(result);
                 var u = result.data.user;
-                // var u = {
-                //     birthday: 0,
-                //     createTime: 1515394557,
-                //     description: 6666,
-                //     id: 37,
-                //     imgUrl: "/user/img/-1",
-                //     "password": "",
-                //     "sex": 3,
-                //     "status": 1,
-                //     "updateTime": 1515394557,
-                //     "username": "root"
-                //
-                // };
                 //update user in state
                 this.updateStateUser(u);
-                // c("u0");
-                // c(u);
             }.bind(this),
             onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
@@ -32037,13 +32021,7 @@ var UserBasicInfoPage = _react2.default.createClass({
         var _this = this;
 
         var t = parseInt(this.state.user.birthday);
-        // c("this.state.user.birthday");
-        // c(this.state.user.birthday);
-        // c("t");
-        // c(t);
         var birthday = new Date(t * 1000);
-        // c("birthday");
-        // c(birthday);
         return _react2.default.createElement(
             "div",
             { id: "user_basic_info_content", className: "clearfix" },
@@ -32439,44 +32417,144 @@ var UserHeadPage = _react2.default.createClass({
 
     getInitialState: function getInitialState() {
         return {
-            userId: this.props.match.params.userId
+            // userId: this.props.match.params.userId,
+            uploadTempHeadImgTip: "正在上传头像",
+            getInfoFailure: "获取信息失败",
+            userHeadImgFileTooMax: "文件过大,最大允许 : " + userHeadUploadConfig.fileMaxsize + " kb",
+            userHeadImgFileExtError: "文件类型错误,允许的文件类型 : " + userHeadUploadConfig.fileTypes,
+            userHeadImgFileIsEmpty: "不能是空文件",
+            user: {}
         };
     },
-    componentDidMount: function componentDidMount() {},
-    preImg: function (_preImg) {
-        function preImg(_x) {
-            return _preImg.apply(this, arguments);
+    componentDidMount: function componentDidMount() {
+        this.getOnlineUser();
+    },
+
+
+    updateStateUser: function updateStateUser(user) {
+        if (isEmpty(user)) {
+            user = {};
+        }
+        var state = this.state;
+        state.user = user;
+        this.setState(state);
+    },
+    getOnlineUser: function getOnlineUser(callfun) {
+        // c(this.props);
+        var url = "/user/online";
+        ajax.get({
+            url: url,
+            onBeforeRequest: function () {}.bind(this),
+            onResponseStart: function () {}.bind(this),
+            onResponseSuccess: function (result) {
+                var u = result.data.user;
+                //update user in state
+                this.updateStateUser(u);
+                this.previewHeadImg(u.imgUrl);
+            }.bind(this),
+            onResponseFailure: function (result) {
+                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
+            }.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun();
+                }
+            }.bind(this, callfun)
+        });
+    },
+    validateHeadImgFile: function validateHeadImgFile(headImgFile) {
+
+        c(headImgFile);
+        //size
+        if (isUndefined(headImgFile.size)) {
+            throw this.state.userHeadImgFileIsEmpty;
+        }
+        if (headImgFile.size > userHeadUploadConfig.fileMaxsize) {
+            throw this.state.userHeadImgFileTooMax;
+        }
+        var ext = getFileNameExt(headImgFile.name);
+        if (!userHeadUploadConfig.fileTypes.contains(ext)) {
+            throw this.state.userHeadImgFileExtError;
+        }
+    },
+    uploadTempHeadImg: function uploadTempHeadImg(callfun) {
+
+        window.EventsDispatcher.showLoading(this.state.uploadTempHeadImgTip);
+        var headImg = $(this.refs.headImg).get(0).files[0];
+        //validateHeadImgFile
+        try {
+            this.validateHeadImgFile(headImg);
+        } catch (e) {
+            window.EventsDispatcher.closeLoading();
+            window.EventsDispatcher.showMsgDialog(e);
+            $(this.refs.headImg).val("");
+            return;
         }
 
-        preImg.toString = function () {
-            return _preImg.toString();
-        };
+        var formData = new FormData();
+        formData.append("headImg", headImg);
+        var userId = this.state.user.id;
+        var url = "/user/" + userId + "/img/upload/temp";
+        ajax.post({
+            url: url,
+            data: formData,
+            enctype: 'multipart/form-data',
+            contentType: false, //必须false才会避开jQuery对 formdata 的默认处理 XMLHttpRequest会对 formdata 进行正确的处理
+            processData: false, //必须false才会自动加上正确的Content-Type
+            onBeforeRequest: function () {}.bind(this),
+            onResponseStart: function () {
+                window.EventsDispatcher.closeLoading();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+                this.previewHeadImg(result.data.tempHeadImgUrl);
+            }.bind(this),
+            onResponseFailure: function (result) {}.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun();
+                }
+            }.bind(this),
+            onRequestError: function () {}.bind(this)
+        });
+    },
+    previewHeadImg: function previewHeadImg(tempHeadImgUrl) {
+        $(this.refs.headImgPreview).attr("src", tempHeadImgUrl);
+        $(this.refs.headImgPreview0).attr("src", tempHeadImgUrl);
+        $(this.refs.headImgPreview1).attr("src", tempHeadImgUrl);
+        $(this.refs.headImgPreview2).attr("src", tempHeadImgUrl);
+    },
 
-        return preImg;
-    }(function (e) {
-        preImg($(e.target), $(this.refs.headImgPreview));
-        preImg($(e.target), $(this.refs.headImgPreview0));
-        preImg($(e.target), $(this.refs.headImgPreview1));
-        preImg($(e.target), $(this.refs.headImgPreview2));
-    }),
 
     render: function render() {
+        var _this = this;
+
         return _react2.default.createElement(
             "div",
             { id: "user_head_content", className: "clearfix" },
             _react2.default.createElement(
                 "div",
                 { id: "head_upload" },
-                _react2.default.createElement("input", { type: "file",
-                    ref: "imgChoiceBtn",
-                    value: "\u9009\u62E9\u56FE\u7247" }),
-                _react2.default.createElement("img", { src: "",
-                    id: "headImgPreview",
-                    ref: "headImgPreview" }),
-                _react2.default.createElement("input", { type: "button",
-                    ref: "headSubmitBtn",
-                    onChange: this.preImg,
-                    value: "\u4E0A\u4F20" })
+                _react2.default.createElement(
+                    "form",
+                    { id: "headImgForm",
+                        ref: "headImgForm",
+                        method: "post",
+                        encType: "multipart/form-data" },
+                    _react2.default.createElement("img", { src: "",
+                        id: "headImgPreview",
+                        ref: "headImgPreview" }),
+                    _react2.default.createElement("input", { type: "file",
+                        ref: "headImg",
+                        name: "headImg",
+                        onChange: function onChange() {
+                            _this.uploadTempHeadImg();
+                        } }),
+                    _react2.default.createElement("input", { type: "button",
+                        ref: "headSubmitBtn"
+                    })
+                )
             ),
             _react2.default.createElement(
                 "div",
@@ -32531,7 +32609,7 @@ exports = module.exports = __webpack_require__(5)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_head_content div {\n  float: left;\n  width: 50%; }\n\n#user_head_content #head_upload img {\n  width: 100%; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_head_content div {\n  float: left;\n  width: 50%; }\n\n#user_head_content #head_upload img {\n  width: 100%; }\n\n#user_head_content #head_upload #headImgPreview {\n  width: 120px; }\n\n#user_head_content #head_upload #headImgPreview0 {\n  width: 80px; }\n\n#user_head_content #head_upload #headImgPreview1 {\n  width: 50px; }\n\n#user_head_content #head_upload #headImgPreview2 {\n  width: 30px; }\n", ""]);
 
 // exports
 
