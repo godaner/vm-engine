@@ -4,7 +4,7 @@
  */
 var userHeadUploadConfig = {
     fileTypes: ["jpg", "png"],
-    fileMaxsize: 1024 * 2//1M
+    fileMaxsize: 1024 * 1024 * 2//1M
 }
 
 

@@ -1,33 +1,36 @@
 @import "frontend-default.scss";
-#user_head_content{
-  div{
+
+#user_head_content {
+  div {
     float: left;
     width: 50%;
   }
-  #head_upload{
-    img{
-      @include defaultWidth;
-    }
-    #headImgPreview{
-      width: 120px;
+  #head_upload {
 
+    #headImgPreview {
+      width: 200px;
+      height: 200px;
     }
 
-    #headImgPreview0{
+  }
+  #head_preview {
+    #headImgPreview0 {
       width: 80px;
+      height: 80px;
 
     }
 
-    #headImgPreview1{
+    #headImgPreview1 {
       width: 50px;
+      height: 50px;
 
     }
 
-    #headImgPreview2{
+    #headImgPreview2 {
       width: 30px;
+      height: 30px;
 
     }
-
   }
 
 }

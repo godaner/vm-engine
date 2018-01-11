@@ -8,7 +8,7 @@ var UserHeadPage = React.createClass({
             // userId: this.props.match.params.userId,
             uploadTempHeadImgTip: "正在上传头像",
             getInfoFailure: "获取信息失败",
-            userHeadImgFileTooMax: "文件过大,最大允许 : " + userHeadUploadConfig.fileMaxsize + " kb",
+            userHeadImgFileTooMax: "文件过大,最大允许 : " + (userHeadUploadConfig.fileMaxsize / 1024) + " kb",
             userHeadImgFileExtError: "文件类型错误,允许的文件类型 : " + userHeadUploadConfig.fileTypes,
             userHeadImgFileIsEmpty: "不能是空文件",
             user: {}
@@ -58,8 +58,9 @@ var UserHeadPage = React.createClass({
     validateHeadImgFile(headImgFile){
 
         c(headImgFile);
-        //size
-        if (isUndefined(headImgFile.size)) {
+
+        //unselect, size
+        if (isUndefined(headImgFile)||isUndefined(headImgFile.size)) {
             throw this.state.userHeadImgFileIsEmpty;
         }
         if (headImgFile.size > userHeadUploadConfig.fileMaxsize) {
@@ -81,7 +82,11 @@ var UserHeadPage = React.createClass({
         } catch (e) {
             window.EventsDispatcher.closeLoading();
             window.EventsDispatcher.showMsgDialog(e);
+
+            // clear input #file
             $(this.refs.headImg).val("");
+            //back self original img
+            this.previewHeadImg(this.state.user.ImgUrl);
             return;
         }
 
@@ -150,6 +155,7 @@ var UserHeadPage = React.createClass({
 
                         <input type="button"
                                ref="headSubmitBtn"
+                               value="保存"
                         />
                     </form>
                 </div>

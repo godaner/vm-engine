@@ -32420,7 +32420,7 @@ var UserHeadPage = _react2.default.createClass({
             // userId: this.props.match.params.userId,
             uploadTempHeadImgTip: "正在上传头像",
             getInfoFailure: "获取信息失败",
-            userHeadImgFileTooMax: "文件过大,最大允许 : " + userHeadUploadConfig.fileMaxsize + " kb",
+            userHeadImgFileTooMax: "文件过大,最大允许 : " + userHeadUploadConfig.fileMaxsize / 1024 + " kb",
             userHeadImgFileExtError: "文件类型错误,允许的文件类型 : " + userHeadUploadConfig.fileTypes,
             userHeadImgFileIsEmpty: "不能是空文件",
             user: {}
@@ -32466,8 +32466,9 @@ var UserHeadPage = _react2.default.createClass({
     validateHeadImgFile: function validateHeadImgFile(headImgFile) {
 
         c(headImgFile);
-        //size
-        if (isUndefined(headImgFile.size)) {
+
+        //unselect, size
+        if (isUndefined(headImgFile) || isUndefined(headImgFile.size)) {
             throw this.state.userHeadImgFileIsEmpty;
         }
         if (headImgFile.size > userHeadUploadConfig.fileMaxsize) {
@@ -32488,7 +32489,11 @@ var UserHeadPage = _react2.default.createClass({
         } catch (e) {
             window.EventsDispatcher.closeLoading();
             window.EventsDispatcher.showMsgDialog(e);
+
+            // clear input #file
             $(this.refs.headImg).val("");
+            //back self original img
+            this.previewHeadImg(this.state.user.ImgUrl);
             return;
         }
 
@@ -32552,7 +32557,8 @@ var UserHeadPage = _react2.default.createClass({
                             _this.uploadTempHeadImg();
                         } }),
                     _react2.default.createElement("input", { type: "button",
-                        ref: "headSubmitBtn"
+                        ref: "headSubmitBtn",
+                        value: "\u4FDD\u5B58"
                     })
                 )
             ),
@@ -32609,7 +32615,7 @@ exports = module.exports = __webpack_require__(5)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_head_content div {\n  float: left;\n  width: 50%; }\n\n#user_head_content #head_upload img {\n  width: 100%; }\n\n#user_head_content #head_upload #headImgPreview {\n  width: 120px; }\n\n#user_head_content #head_upload #headImgPreview0 {\n  width: 80px; }\n\n#user_head_content #head_upload #headImgPreview1 {\n  width: 50px; }\n\n#user_head_content #head_upload #headImgPreview2 {\n  width: 30px; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_head_content div {\n  float: left;\n  width: 50%; }\n\n#user_head_content #head_upload #headImgPreview {\n  width: 200px;\n  height: 200px; }\n\n#user_head_content #head_preview #headImgPreview0 {\n  width: 80px;\n  height: 80px; }\n\n#user_head_content #head_preview #headImgPreview1 {\n  width: 50px;\n  height: 50px; }\n\n#user_head_content #head_preview #headImgPreview2 {\n  width: 30px;\n  height: 30px; }\n", ""]);
 
 // exports
 
