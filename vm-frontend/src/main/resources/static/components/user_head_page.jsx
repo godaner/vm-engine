@@ -140,32 +140,22 @@ var UserHeadPage = React.createClass({
 
                 <div id="head_upload">
 
-                    <form id="headImgForm"
-                          ref="headImgForm"
-                          method="post"
-                          encType="multipart/form-data">
+                    <img src=""
+                         id="headImgPreview"
+                         ref="headImgPreview"/>
+                    <input type="file"
+                           ref="headImgInput"
+                           name="headImgInput"
+                           id="headImgInput"
+                           onChange={() => {
+                               this.uploadTempHeadImg()
+                           }}/>
+                    <input type="button"
+                           id="headImgSaveBtn"
+                           ref="headImgSaveBtn"
+                           value="保存"
+                    />
 
-                        <img src=""
-                             id="headImgPreview"
-                             ref="headImgPreview"/>
-                        <div id="headImgInput_div">
-                            <input type="file"
-                                   ref="headImgInput"
-                                   name="headImgInput"
-                                   id="headImgInput"
-                                   onChange={() => {
-                                       this.uploadTempHeadImg()
-                                   }}/>
-                        </div>
-                        <div id="headImgSaveBtn_div">
-                            <input type="button"
-                                   id="headImgSaveBtn"
-                                   ref="headImgSaveBtn"
-                                   value="保存"
-                            />
-                        </div>
-
-                    </form>
                 </div>
                 <div id="head_preview">
                     <img ref="headImgPreview0"

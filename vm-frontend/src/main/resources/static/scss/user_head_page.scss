@@ -5,47 +5,40 @@
     float: left;
     width: 50%;
   }
+  $imgWidthAndHeight: 200px;
   #head_upload {
     text-align: center;
+
     #headImgPreview {
-      display: block;
-      width: 200px;
-      height: 200px;
+      width: $imgWidthAndHeight;
+      height: $imgWidthAndHeight;
     }
 
-    #headImgInput_div{
-      display: block;
-      width: 200px;
-      text-align: left;
-      #headImgInput {
-        display: block;
-        width: 100px;
-      }
+    #headImgInput {
+      width: 100px;
     }
-    #headImgSaveBtn_div {
-      display: block;
-      text-align: center;
-      @include defaultWidth;
-      #headImgSaveBtn {
-        display: block;
-        margin-top: 10px;
-        background-color: white;
-        color: $defaultBlueRgb;
-        border: 1px solid unquote($defaultBlueRgb);
-        width: 100px;
-        height: 30px;
-        cursor: pointer;
-        transition: all 500ms;
-        &:hover {
-          background-color: unquote($defaultBlueRgb);
-          border-radius: 99px;
-          color: unquote(white);
-        }
+
+    #headImgSaveBtn {
+      margin-top: 10px;
+      background-color: white;
+      color: $defaultBlueRgb;
+      border: 1px solid unquote($defaultBlueRgb);
+      width: 100px;
+      height: 30px;
+      cursor: pointer;
+      transition: all 500ms;
+      &:hover {
+        background-color: unquote($defaultBlueRgb);
+        border-radius: 99px;
+        color: unquote(white);
       }
     }
 
   }
   #head_preview {
+    & > * {
+      margin-left: 10px;
+    }
     #headImgPreview0 {
       width: 80px;
       height: 80px;
