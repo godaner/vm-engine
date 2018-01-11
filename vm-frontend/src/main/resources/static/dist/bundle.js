@@ -4325,6 +4325,9 @@ window.VmFrontendEventsDispatcher = {
     },
     closeLoading: function closeLoading() {
         this.event.emit('closeLoading');
+    },
+    onUpdateHeadImgSuccess: function onUpdateHeadImgSuccess(newUser) {
+        this.event.emit('onUpdateHeadImgSuccess');
     }
 };
 window.EventsDispatcher = window.VmFrontendEventsDispatcher;
@@ -30635,8 +30638,16 @@ var Head = _react2.default.createClass({
         };
     },
     componentDidMount: function componentDidMount() {
+        this.registEvents();
         //刷新页面后获取在线用户，并且建立新的ws连接，如果用户不在线，那么保护页面
         this.getOnlineUser();
+    },
+    registEvents: function registEvents() {
+        var _this = this;
+
+        window.event.on('onUpdateHeadImgSuccess', function (newUser) {
+            _this.updateStateUser(newUser);
+        });
     },
     showLoginDialog: function showLoginDialog() {
         this.refs.login_dialog.showLoginDialog();
@@ -30848,7 +30859,7 @@ var Head = _react2.default.createClass({
     render: function render() {
         //在线
         var loginStatus = function () {
-            var _this = this;
+            var _this2 = this;
 
             var onlineUserBasicInfoLocation = {
                 pathname: this.state.onlineUserBasicInfoUrl
@@ -30881,7 +30892,7 @@ var Head = _react2.default.createClass({
                     _react2.default.createElement(
                         "a",
                         { href: "javascript:void(0);", onClick: function onClick() {
-                                _this.logout();
+                                _this2.logout();
                             } },
                         "\u6CE8\u9500"
                     )
@@ -32428,6 +32439,7 @@ var UserHeadPage = _react2.default.createClass({
             userHeadImgFileTooMax: "文件过大,最大允许 : " + userHeadUploadConfig.fileMaxsize / 1024 + " kb",
             userHeadImgFileExtError: "文件类型错误,允许的文件类型 : " + userHeadUploadConfig.fileTypes,
             userHeadImgFileIsEmpty: "请选择一个文件",
+            userHeadImgUpdateSuccess: "头像更新成功",
             serverTempHeadImgFileName: "", //服务器临时保存的用户头像的filename，如a.png
             user: {}
         };
@@ -32518,8 +32530,8 @@ var UserHeadPage = _react2.default.createClass({
 
         var formData = new FormData();
         formData.append("headImg", headImgFile);
-        var userId = this.state.user.id;
-        var url = "/user/" + userId + "/img/upload/temp";
+        // var userId = this.state.user.id;
+        var url = "/user/online/img/upload/temp";
         ajax.post({
             url: url,
             data: formData,
@@ -32557,7 +32569,7 @@ var UserHeadPage = _react2.default.createClass({
         state.serverTempHeadImgFileName = serverTempHeadImgFileName;
         this.setState(state);
     },
-    saveHeadImg: function saveHeadImg() {
+    saveHeadImg: function saveHeadImg(callfun) {
 
         var headImgInput = this.getHeadImgInput();
         var headImgFile = this.getHeadImgFile();
@@ -32569,18 +32581,23 @@ var UserHeadPage = _react2.default.createClass({
             return;
         }
 
-        window.EventsDispatcher.showLoading(this.state.saveHeadImg);
+        window.EventsDispatcher.showLoading();
 
-        var userId = this.state.user.id;
-        var url = "/user/" + userId + "/update/img?userId=" + userId + "&serverCacheFileName=" + this.state.serverTempHeadImgFileName;
+        // var userId = this.state.user.id;
+        var url = "/user/online/update/img?serverCacheFileName=" + this.state.serverTempHeadImgFileName;
         ajax.put({
             url: url,
+            loadingMsg: this.state.saveHeadImg,
             onBeforeRequest: function () {}.bind(this),
             onResponseStart: function () {
                 window.EventsDispatcher.closeLoading();
             }.bind(this),
             onResponseSuccess: function (result) {
                 this.previewHeadImg(result.data.tempHeadImgUrl);
+
+                window.EventsDispatcher.showMsgDialog(this.state.userHeadImgUpdateSuccess);
+
+                window.EventsDispatcher.onUpdateHeadImgSuccess(result.data.user);
             }.bind(this),
             onResponseFailure: function (result) {}.bind(this),
             onResponseEnd: function () {

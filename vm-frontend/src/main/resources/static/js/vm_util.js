@@ -50,6 +50,7 @@ var ajax = {
             args.onResponseEnd();
         }
 
+        window.EventsDispatcher.closeLoading();
     },
     requestServerError: function (args, XMLHttpRequest, textStatus, errorThrown) {
         console.error(XMLHttpRequest);
@@ -71,6 +72,7 @@ var ajax = {
 
         });
 
+        window.EventsDispatcher.closeLoading();
 
     },
     ajax: function (args) {
@@ -102,6 +104,10 @@ var ajax = {
         //handle args.processData
         if (isUndefined(args.enctype)) {
             args.enctype = "text/plain";
+        }
+        //handle args.loadingMsg
+        if (!isUndefined(args.loadingMsg)) {
+            window.EventsDispatcher.showMsgDialog(args.loadingMsg);
         }
         // c("request data is : ");
         // c(args);

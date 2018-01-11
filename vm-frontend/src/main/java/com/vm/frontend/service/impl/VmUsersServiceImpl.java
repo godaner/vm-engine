@@ -55,15 +55,15 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         return vmUsers.get(0);
     }
 
-    private VmUsersDto makeVmUsersBo(VmUsers user) {
-        VmUsersDto vmUsersBo = new VmUsersDto();
-        vmUsersBo.setUsername(user.getUsername());
-        vmUsersBo.setId(user.getId());
-        vmUsersBo.setBirthday(user.getBirthday());
-        vmUsersBo.setDescription(user.getDescription());
-        vmUsersBo.setSex(user.getSex());
-        vmUsersBo.setImgUrl(user.getImgUrl());
-        return vmUsersBo;
+    private VmUsersDto makeVmUsersDto(VmUsers user) {
+        VmUsersDto vmUsersDto = new VmUsersDto();
+        vmUsersDto.setUsername(user.getUsername());
+        vmUsersDto.setId(user.getId());
+        vmUsersDto.setBirthday(user.getBirthday());
+        vmUsersDto.setDescription(user.getDescription());
+        vmUsersDto.setSex(user.getSex());
+        vmUsersDto.setImgUrl(user.getImgUrl());
+        return vmUsersDto;
     }
 
     @Override
@@ -81,7 +81,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             throw new VmUsersException(VmUsersException.ErrorCode.PASSWORD_ERROR.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 
-        return makeVmUsersBo(dbUser);
+        return makeVmUsersDto(dbUser);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         }
 
 
-        return makeVmUsersBo(dbUser);
+        return makeVmUsersDto(dbUser);
     }
 
 
@@ -115,7 +115,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         vmUsersMapper.updateByPrimaryKeySelective(makeUpdateOnlineVmUsers(user));
 
-        return makeVmUsersBo(vmUsersMapper.selectByPrimaryKey(user.getId()));
+        return makeVmUsersDto(vmUsersMapper.selectByPrimaryKey(user.getId()));
     }
 
     /**
@@ -178,7 +178,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         vmUsersMapper.insert(makeRegistVmUserPo(user));
         VmUsers vmUsers = getUserByUsername(user.getUsername());
-        return makeVmUsersBo(vmUsers);
+        return makeVmUsersDto(vmUsers);
     }
 
     @Override
@@ -231,9 +231,10 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     @Override
     @Transactional
-    public void updateUserHeadImg(Long userId, String serverCacheFileName) throws Exception {
+    public VmUsersDto updateUserHeadImg(Long onlineUserId, String serverCacheFileName) throws Exception {
         File sourceFile = null;
         File targetFile = null;
+        VmUsers vmUsers = null;
         try {
             //获取缓存图片
             sourceFile = new File(VmProperties.VM_USER_IMG_TEMP_PATH + File.separator + serverCacheFileName);
@@ -254,21 +255,29 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             vmFiles.setFilename(newFileName);
             vmFiles.setOriginalName(serverCacheFileName);
             vmFiles.setStatus(VmFiles.Status.NORMAL.getCode());
-            vmFiles.setSize(-1l);
-            vmFilesMapper.insert(vmFiles);
-            //update user
+            vmFiles.setSize(0l);
+            Integer fileId = vmFilesMapper.insert(vmFiles);
 
-            VmUsers vmUsers = new VmUsers();
-            vmUsers.setId(userId);
-            vmUsers.setImgUrl(VmProperties.VM_USER_IMG_URL_PREFIX + "/" + vmFiles.getId());
+
+            //update user
+            vmUsers = new VmUsers();
+            vmUsers.setId(onlineUserId);
+            vmUsers.setImgUrl(VmProperties.VM_USER_IMG_URL_PREFIX + "/" + fileId.longValue());
             vmUsersMapper.updateByPrimaryKeySelective(vmUsers);
+
+
+            //get new user
+
+
+            vmUsers = vmUsersMapper.selectByPrimaryKey(onlineUserId);
+            vmUsers = (vmUsers == null || BasePo.Status.isDeleted(vmUsers.getStatus())) ? null : vmUsers;
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             deleteFiles(sourceFile);
         }
-
+        return vmUsers == null ? null : makeVmUsersDto(vmUsers);
 
     }
 

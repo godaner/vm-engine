@@ -2,6 +2,7 @@ package com.vm.frontend.controller;
 
 import com.google.common.collect.Maps;
 import com.vm.base.utils.ServiceController;
+import com.vm.dao.po.VmUsers;
 import com.vm.frontend.service.dto.VmUsersDto;
 import com.vm.frontend.service.inf.VmUsersService;
 import org.springframework.context.annotation.Scope;
@@ -111,10 +112,11 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @return
      */
-    @RequestMapping(value = "/{userId}/img/upload/temp", method = RequestMethod.POST)
+    @RequestMapping(value = "/online/img/upload/temp", method = RequestMethod.POST)
     @ResponseBody
-    public Object uploadUserTempHeadImg(@PathVariable("userId") Long userId, @RequestParam("headImg") MultipartFile headImg) throws Exception {
-        String headImgFileName = service.saveUserTempHeadImg(userId, headImg);
+    public Object uploadUserTempHeadImg(@RequestParam("headImg") MultipartFile headImg) throws Exception {
+        VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);
+        String headImgFileName = service.saveUserTempHeadImg(onlineUser.getId(), headImg);
         return response.putData("tempHeadImgUrl", "/user/img/temp?fileName=" + headImgFileName).
                 putData("serverTempHeadImgFileName", headImgFileName);
     }
@@ -136,12 +138,11 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @return
      */
-    @RequestMapping(value = "/{userId}/update/img", method = RequestMethod.PUT)
+    @RequestMapping(value = "/online/update/img", method = RequestMethod.PUT)
     @ResponseBody
-    public Object updateUserHeadImg(@PathVariable("userId") Long userId,
-                                    @RequestParam("serverCacheFileName") String serverCacheFileName) throws Exception {
-        service.updateUserHeadImg(userId, serverCacheFileName);
-        return response;
+    public Object updateUserHeadImg(@RequestParam("serverCacheFileName") String serverCacheFileName) throws Exception {
+        VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);
+        return response.putData("user", service.updateUserHeadImg(onlineUser.getId(), serverCacheFileName));
     }
 //
 //    @RequestMapping(value = "/update", method = RequestMethod.PUT)

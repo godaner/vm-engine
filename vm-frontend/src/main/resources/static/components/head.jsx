@@ -21,8 +21,15 @@ var Head = React.createClass({
         };
     },
     componentDidMount: function () {
+        this.registEvents();
         //刷新页面后获取在线用户，并且建立新的ws连接，如果用户不在线，那么保护页面
         this.getOnlineUser();
+
+    },
+    registEvents: function () {
+        window.event.on('onUpdateHeadImgSuccess', (newUser) => {
+            this.updateStateUser(newUser);
+        });
     },
     showLoginDialog: function () {
         this.refs.login_dialog.showLoginDialog();

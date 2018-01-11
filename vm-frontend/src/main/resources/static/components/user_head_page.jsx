@@ -12,6 +12,7 @@ var UserHeadPage = React.createClass({
             userHeadImgFileTooMax: "文件过大,最大允许 : " + (userHeadUploadConfig.fileMaxsize / 1024) + " kb",
             userHeadImgFileExtError: "文件类型错误,允许的文件类型 : " + userHeadUploadConfig.fileTypes,
             userHeadImgFileIsEmpty: "请选择一个文件",
+            userHeadImgUpdateSuccess: "头像更新成功",
             serverTempHeadImgFileName: "",//服务器临时保存的用户头像的filename，如a.png
             user: {}
         };
@@ -108,8 +109,8 @@ var UserHeadPage = React.createClass({
 
         var formData = new FormData();
         formData.append("headImg", headImgFile);
-        var userId = this.state.user.id;
-        const url = "/user/" + userId + "/img/upload/temp";
+        // var userId = this.state.user.id;
+        const url = "/user/online/img/upload/temp";
         ajax.post({
             url: url,
             data: formData,
@@ -154,7 +155,7 @@ var UserHeadPage = React.createClass({
         state.serverTempHeadImgFileName = serverTempHeadImgFileName;
         this.setState(state);
     },
-    saveHeadImg(){
+    saveHeadImg(callfun){
 
         var headImgInput = this.getHeadImgInput();
         var headImgFile = this.getHeadImgFile();
@@ -166,12 +167,13 @@ var UserHeadPage = React.createClass({
             return;
         }
 
-        window.EventsDispatcher.showLoading(this.state.saveHeadImg);
+        window.EventsDispatcher.showLoading();
 
-        var userId = this.state.user.id;
-        const url = "/user/" + userId + "/update/img?userId="+userId+"&serverCacheFileName="+this.state.serverTempHeadImgFileName;
+        // var userId = this.state.user.id;
+        const url = "/user/online/update/img?serverCacheFileName="+this.state.serverTempHeadImgFileName;
         ajax.put({
             url: url,
+            loadingMsg:this.state.saveHeadImg,
             onBeforeRequest: function () {
 
             }.bind(this),
@@ -181,6 +183,11 @@ var UserHeadPage = React.createClass({
             }.bind(this),
             onResponseSuccess: function (result) {
                 this.previewHeadImg(result.data.tempHeadImgUrl);
+
+                window.EventsDispatcher.showMsgDialog(this.state.userHeadImgUpdateSuccess);
+
+                window.EventsDispatcher.onUpdateHeadImgSuccess(result.data.user);
+
             }.bind(this),
             onResponseFailure: function (result) {
 
