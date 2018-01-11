@@ -69,7 +69,8 @@
 
     }
   }
-  #headImg_description {
+  #tip {
+    @include defaultSetPaddingTop(30px);
     flex: 1;
   }
 

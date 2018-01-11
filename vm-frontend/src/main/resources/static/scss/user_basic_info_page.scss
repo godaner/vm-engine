@@ -86,6 +86,7 @@
     }
   }
   #tip {
+    @include defaultSetPaddingTop(30px);
     width: 30%;
   }
 }

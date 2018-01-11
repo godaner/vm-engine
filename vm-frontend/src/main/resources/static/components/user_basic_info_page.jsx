@@ -202,7 +202,8 @@ var UserBasicInfoPage = React.createClass({
                     </form>
                 </div>
                 <div id="tip">
-                    请您完善账户基本信息
+
+                    <p>请您完善账户基本信息</p>
                 </div>
 
             </div>

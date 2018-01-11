@@ -162,6 +162,7 @@ var UserHeadPage = React.createClass({
 
                 </div>
                 <div id="head_preview">
+                    <p>头像预览 : </p>
                     <img ref="headImgPreview0"
                          id="headImgPreview0"
                          src=""/>
@@ -176,8 +177,8 @@ var UserHeadPage = React.createClass({
                     30x
                 </div>
 
-                <div id="headImg_description">
-                    在这里可以上传您的心头像
+                <div id="tip">
+                    <p>在这里可以上传您的头像</p>
                 </div>
             </div>
         );

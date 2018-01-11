@@ -74,6 +74,11 @@
   padding-left: $left;
   box-sizing:border-box;
 }
+@mixin defaultSetPaddingTop($top){
+  padding-left: $top;
+  box-sizing:border-box;
+}
+
 @mixin defaultSetPaddingRight($right){
   padding-right: $right;
   box-sizing:border-box;
