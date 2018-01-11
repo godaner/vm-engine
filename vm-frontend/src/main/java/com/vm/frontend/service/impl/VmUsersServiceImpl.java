@@ -243,6 +243,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             String uuid = uuid();
             String newFileName = uuid + "." + ext;
 
+            //写入多版本文件
             writeFileWithCompress(sourceFile, VmProperties.VM_USER_IMG_VERSIONS, VmProperties.VM_USER_IMG_PATH, newFileName);
 
             //save File
@@ -267,8 +268,6 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
 
             //get new user
-
-
             vmUsers = vmUsersMapper.select(onlineUserId);
             vmUsers = (vmUsers == null || BasePo.Status.isDeleted(vmUsers.getStatus())) ? null : vmUsers;
 
