@@ -102,7 +102,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     @ResponseBody
     public Object getUserImg(
             @PathVariable("fileId") Long fileId,
-            Integer width) throws Exception {
+            @RequestParam("width") Integer width) throws Exception {
         service.sendUserImg(fileId, width, getResponse());
         return response;
     }

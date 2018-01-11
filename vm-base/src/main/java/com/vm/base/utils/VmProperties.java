@@ -22,6 +22,12 @@ public class VmProperties {
     public static String VM_FILMMAKER_IMG_PATH;
     public static String VM_FILMMAKER_IMG_DEFAULT_NAME;
     public static String VM_USER_IMG_TEMP_PATH;
+    public static String VM_USER_IMG_VERSIONS;
+
+    @Value("${vm.user.img.versions}")
+    public void setVmUserImgVersions(String vmUserImgVersions) {
+        VM_USER_IMG_VERSIONS = vmUserImgVersions;
+    }
 
     @Value("${vm.user.img.temp.path}")
     public void setVmUserImgTempPath(String vmUserImgTempPath) {

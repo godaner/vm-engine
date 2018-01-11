@@ -4327,7 +4327,7 @@ window.VmFrontendEventsDispatcher = {
         this.event.emit('closeLoading');
     },
     onUpdateHeadImgSuccess: function onUpdateHeadImgSuccess(newUser) {
-        this.event.emit('onUpdateHeadImgSuccess');
+        this.event.emit('onUpdateHeadImgSuccess', newUser);
     }
 };
 window.EventsDispatcher = window.VmFrontendEventsDispatcher;
@@ -30864,7 +30864,7 @@ var Head = _react2.default.createClass({
             var onlineUserBasicInfoLocation = {
                 pathname: this.state.onlineUserBasicInfoUrl
             };
-
+            var headImgUrl = this.state.user.imgUrl + "?width=50";
             return _react2.default.createElement(
                 "span",
                 null,
@@ -30874,7 +30874,7 @@ var Head = _react2.default.createClass({
                     _react2.default.createElement(
                         _reactRouterDom.Link,
                         { id: "headImg_a", to: onlineUserBasicInfoLocation },
-                        _react2.default.createElement("img", { id: "headImg_img", src: this.state.user.imgUrl })
+                        _react2.default.createElement("img", { id: "headImg_img", src: headImgUrl })
                     )
                 ),
                 _react2.default.createElement(
@@ -32468,7 +32468,7 @@ var UserHeadPage = _react2.default.createClass({
                 var u = result.data.user;
                 //update user in state
                 this.updateStateUser(u);
-                this.previewHeadImg(u.imgUrl);
+                this.previewHeadImg(u.imgUrl + "?width=80");
             }.bind(this),
             onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);

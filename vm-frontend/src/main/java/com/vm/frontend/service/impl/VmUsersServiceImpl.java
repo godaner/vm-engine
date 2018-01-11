@@ -147,6 +147,9 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
                 contentType = file.getContentType();
                 userImgName = file.getFilename();
             }
+            if (width == null) {
+                width = 50;
+            }
             File f = new File(userImgPath + File.separator + width + "_" + userImgName);
             //不存在，返回默认图片
             if (!f.exists()) {
@@ -187,12 +190,12 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         String targetHeadImgName = null;
         try {
             String targetPath = VmProperties.VM_USER_IMG_TEMP_PATH;
-            String contentType = headImg.getContentType();
-            if (!contentType.equals(MediaType.IMAGE_JPEG_VALUE)) {
-                logger.error("saveUserTempHeadImg headImg contentType is error ! headImg is : {}", headImg);
-                throw new VmUsersException(VmUsersException.ErrorCode.USER_HEAD_IMG_CONTENT_TYPE_ERROR.getCode(),
-                        VmUsersException.ErrorCode.USER_HEAD_IMG_CONTENT_TYPE_ERROR.getMsg());
-            }
+//            String contentType = headImg.getContentType();
+//            if (!contentType.equals(MediaType.IMAGE_JPEG_VALUE)) {
+//                logger.error("saveUserTempHeadImg headImg contentType is error ! headImg is : {}", headImg);
+//                throw new VmUsersException(VmUsersException.ErrorCode.USER_HEAD_IMG_CONTENT_TYPE_ERROR.getCode(),
+//                        VmUsersException.ErrorCode.USER_HEAD_IMG_CONTENT_TYPE_ERROR.getMsg());
+//            }
             //get ext
             String ext = getFileNameExt(headImg.getOriginalFilename());
             targetHeadImgName = userId + "." + ext;
@@ -232,7 +235,6 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Transactional
     public VmUsersDto updateUserHeadImg(Long onlineUserId, String serverCacheFileName) throws Exception {
         File sourceFile = null;
-        File targetFile = null;
         VmUsers vmUsers = null;
         try {
             //获取缓存图片
@@ -240,9 +242,8 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             String ext = getFileNameExt(serverCacheFileName);
             String uuid = uuid();
             String newFileName = uuid + "." + ext;
-            targetFile = new File(VmProperties.VM_USER_IMG_PATH + File.separator + newFileName);
 
-            copyFiles(sourceFile, targetFile);
+            writeFileWithCompress(sourceFile, VmProperties.VM_USER_IMG_VERSIONS, VmProperties.VM_USER_IMG_PATH, newFileName);
 
             //save File
             VmFiles vmFiles = new VmFiles();

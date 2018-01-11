@@ -415,7 +415,7 @@ public class CommonUtil {
         for (String widthStr : widthStrs) {
             Integer width = Integer.valueOf(widthStr);
 
-            File targetFile = new File(savePath + widthStr + "_" + fileName);
+            File targetFile = new File(savePath + File.separator + widthStr + "_" + fileName);
 
             compressImg(sourceFile, targetFile, width);
         }
@@ -576,16 +576,17 @@ public class CommonUtil {
 
     /**
      * 批量删除files
+     *
      * @param files
      * @return
      */
-    public static Boolean deleteFiles(File ...files){
+    public static Boolean deleteFiles(File... files) {
 
-        Lists.newArrayList(files).stream().map((file)->{
+        Lists.newArrayList(files).stream().map((file) -> {
             deleteFile(file);
             return true;
         });
-        return  true;
+        return true;
     }
 
     /**

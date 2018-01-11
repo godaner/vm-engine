@@ -44,7 +44,7 @@ var UserHeadPage = React.createClass({
                 var u = result.data.user;
                 //update user in state
                 this.updateStateUser(u);
-                this.previewHeadImg(u.imgUrl);
+                this.previewHeadImg(u.imgUrl + "?width=80");
 
             }.bind(this),
             onResponseFailure: function (result) {
@@ -129,6 +129,7 @@ var UserHeadPage = React.createClass({
                 this.previewHeadImg(result.data.tempHeadImgUrl);
                 //获取服务器暂存图片名
                 this.updateServerTempHeadImgFileName(result.data.serverTempHeadImgFileName);
+
             }.bind(this),
             onResponseFailure: function (result) {
 
@@ -170,10 +171,10 @@ var UserHeadPage = React.createClass({
         window.EventsDispatcher.showLoading();
 
         // var userId = this.state.user.id;
-        const url = "/user/online/update/img?serverCacheFileName="+this.state.serverTempHeadImgFileName;
+        const url = "/user/online/update/img?serverCacheFileName=" + this.state.serverTempHeadImgFileName;
         ajax.put({
             url: url,
-            loadingMsg:this.state.saveHeadImg,
+            loadingMsg: this.state.saveHeadImg,
             onBeforeRequest: function () {
 
             }.bind(this),
