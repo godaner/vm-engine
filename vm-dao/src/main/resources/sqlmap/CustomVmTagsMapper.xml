@@ -4,7 +4,7 @@
 
     <!--**************************** 自定义mapper start ****************************-->
 
-    <select id="selectTagsIdAndNameByTagGroupId" resultMap="com.vm.dao.mapper.VmTagsMapper.BaseResultMap">
+    <select id="selectTagsIdAndNameByTagGroupId" resultMap="com.vm.dao.mapper.VmTagsMapper.VmTagsMap">
         SELECT
         t.id,
         t.name
@@ -12,7 +12,7 @@
         where t.`status` =1
         and t.tag_group_id=#{tagGroupId}
     </select>
-    <select id="getTagsIdAndNameOfMovie" resultMap="com.vm.dao.mapper.VmTagsMapper.BaseResultMap">
+    <select id="getTagsIdAndNameOfMovie" resultMap="com.vm.dao.mapper.VmTagsMapper.VmTagsMap">
         SELECT
             t.id,
             t.name

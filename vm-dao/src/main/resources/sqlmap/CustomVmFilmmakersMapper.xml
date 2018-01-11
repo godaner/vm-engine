@@ -4,7 +4,7 @@
 
     <!--**************************** 自定义mapper start ****************************-->
 
-    <select id="selectActorsByMovieId" resultMap="com.vm.dao.mapper.VmFilmmakersMapper.BaseResultMap">
+    <select id="selectActorsByMovieId" resultMap="com.vm.dao.mapper.VmFilmmakersMapper.VmFilmmakersMap">
         SELECT
         fm.*
         FROM
@@ -20,7 +20,7 @@
         AND fm.`status` = 1
 
       </select>
-    <select id="selectActorsIdAndNameByMovieId" resultMap="com.vm.dao.mapper.VmFilmmakersMapper.BaseResultMap">
+    <select id="selectActorsIdAndNameByMovieId" resultMap="com.vm.dao.mapper.VmFilmmakersMapper.VmFilmmakersMap">
       SELECT
       fm.id,fm.name
       FROM
@@ -36,7 +36,7 @@
       AND fm.`status` = 1
 
     </select>
-    <select id="selectDirectorIdAndNameByDirectorId" resultMap="com.vm.dao.mapper.VmFilmmakersMapper.BaseResultMap">
+    <select id="selectDirectorIdAndNameByDirectorId" resultMap="com.vm.dao.mapper.VmFilmmakersMapper.VmFilmmakersMap">
         select
         f.id,f.name
         from vm_filmmakers f

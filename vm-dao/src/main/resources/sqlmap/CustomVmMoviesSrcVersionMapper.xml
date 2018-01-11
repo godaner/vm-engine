@@ -3,7 +3,7 @@
 <mapper namespace="com.vm.dao.mapper.custom.CustomVmMoviesSrcVersionMapper">
   <!--**************************** 自定义mapper start ****************************-->
 
-  <select id="selectMovieSrcVersionsByMovieId" resultMap="com.vm.dao.mapper.VmMoviesSrcVersionMapper.BaseResultMap">
+  <select id="selectMovieSrcVersionsByMovieId" resultMap="com.vm.dao.mapper.VmMoviesSrcVersionMapper.VmMoviesSrcVersionMap">
     select v.*
     from vm_movies_src_version v ,vm_movies m
     where m.`status` = 1
