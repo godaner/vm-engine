@@ -44,7 +44,7 @@ var UserHeadPage = React.createClass({
                 var u = result.data.user;
                 //update user in state
                 this.updateStateUser(u);
-                this.previewHeadImg(u.imgUrl + "?width=80");
+                this.previewHeadImg(u.imgUrl + "?width=300");
 
             }.bind(this),
             onResponseFailure: function (result) {
@@ -85,6 +85,54 @@ var UserHeadPage = React.createClass({
     },
     getHeadImgFile(){
         return this.getHeadImgInput().get(0).files[0];
+    },
+    previewHeadImg(tempHeadImgUrl){
+
+
+        var headImgPreview = $(this.refs.headImgPreview);
+        headImgPreview.attr("src", tempHeadImgUrl);
+
+        var $previews = $('.preview');
+
+        c($previews);
+        headImgPreview.cropper({
+            ready: function (e) {
+                var $clone = $(this).clone().removeClass('cropper-hidden');
+
+                $clone.css({
+                    display: 'block',
+                    width: '100%',
+                    minWidth: 0,
+                    minHeight: 0,
+                    maxWidth: 'none',
+                    maxHeight: 'none'
+                });
+
+                $previews.css({
+                    width: '100%',
+                    overflow: 'hidden'
+                }).html($clone);
+            },
+
+            crop: function (e) {
+                var imageData = $(this).cropper('getImageData');
+                var previewAspectRatio = e.width / e.height;
+
+                $previews.each(function () {
+                    var $preview = $(this);
+                    var previewWidth = $preview.width();
+                    var previewHeight = previewWidth / previewAspectRatio;
+                    var imageScaledRatio = e.width / previewWidth;
+
+                    $preview.height(previewHeight).find('img').css({
+                        width: imageData.naturalWidth / imageScaledRatio,
+                        height: imageData.naturalHeight / imageScaledRatio,
+                        marginLeft: -e.x / imageScaledRatio,
+                        marginTop: -e.y / imageScaledRatio
+                    });
+                });
+            }
+        });
     },
     uploadTempHeadImg(callfun){
 
@@ -130,6 +178,8 @@ var UserHeadPage = React.createClass({
                 //获取服务器暂存图片名
                 this.updateServerTempHeadImgFileName(result.data.serverTempHeadImgFileName);
 
+                // this.initCropper();
+
             }.bind(this),
             onResponseFailure: function (result) {
 
@@ -144,12 +194,6 @@ var UserHeadPage = React.createClass({
 
             }.bind(this)
         })
-    },
-    previewHeadImg(tempHeadImgUrl){
-        $(this.refs.headImgPreview).attr("src", tempHeadImgUrl);
-        $(this.refs.headImgPreview0).attr("src", tempHeadImgUrl);
-        $(this.refs.headImgPreview1).attr("src", tempHeadImgUrl);
-        $(this.refs.headImgPreview2).attr("src", tempHeadImgUrl);
     },
     updateServerTempHeadImgFileName(serverTempHeadImgFileName){
         var state = this.state;
@@ -238,18 +282,18 @@ var UserHeadPage = React.createClass({
                 </div>
                 <div id="head_preview">
                     <p>头像预览 : </p>
-                    <img ref="headImgPreview0"
-                         id="headImgPreview0"
-                         src=""/>
-                    80x
-                    <img ref="headImgPreview1"
-                         id="headImgPreview1"
-                         src=""/>
-                    50x
-                    <img ref="headImgPreview2"
-                         id="headImgPreview2"
-                         src=""/>
-                    30x
+                    <div id="headImgPreview0">
+                        <div className="preview"/>
+                        80x
+                    </div>
+                    <div id="headImgPreview1">
+                        <div className="preview"/>
+                        50x
+                    </div>
+                    <div id="headImgPreview2">
+                        <div className="preview"/>
+                        30x
+                    </div>
                 </div>
 
                 <div id="tip">

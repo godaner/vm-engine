@@ -32468,7 +32468,7 @@ var UserHeadPage = _react2.default.createClass({
                 var u = result.data.user;
                 //update user in state
                 this.updateStateUser(u);
-                this.previewHeadImg(u.imgUrl + "?width=80");
+                this.previewHeadImg(u.imgUrl + "?width=300");
             }.bind(this),
             onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
@@ -32507,6 +32507,53 @@ var UserHeadPage = _react2.default.createClass({
     },
     getHeadImgFile: function getHeadImgFile() {
         return this.getHeadImgInput().get(0).files[0];
+    },
+    previewHeadImg: function previewHeadImg(tempHeadImgUrl) {
+
+        var headImgPreview = $(this.refs.headImgPreview);
+        headImgPreview.attr("src", tempHeadImgUrl);
+
+        var $previews = $('.preview');
+
+        c($previews);
+        headImgPreview.cropper({
+            ready: function ready(e) {
+                var $clone = $(this).clone().removeClass('cropper-hidden');
+
+                $clone.css({
+                    display: 'block',
+                    width: '100%',
+                    minWidth: 0,
+                    minHeight: 0,
+                    maxWidth: 'none',
+                    maxHeight: 'none'
+                });
+
+                $previews.css({
+                    width: '100%',
+                    overflow: 'hidden'
+                }).html($clone);
+            },
+
+            crop: function crop(e) {
+                var imageData = $(this).cropper('getImageData');
+                var previewAspectRatio = e.width / e.height;
+
+                $previews.each(function () {
+                    var $preview = $(this);
+                    var previewWidth = $preview.width();
+                    var previewHeight = previewWidth / previewAspectRatio;
+                    var imageScaledRatio = e.width / previewWidth;
+
+                    $preview.height(previewHeight).find('img').css({
+                        width: imageData.naturalWidth / imageScaledRatio,
+                        height: imageData.naturalHeight / imageScaledRatio,
+                        marginLeft: -e.x / imageScaledRatio,
+                        marginTop: -e.y / imageScaledRatio
+                    });
+                });
+            }
+        });
     },
     uploadTempHeadImg: function uploadTempHeadImg(callfun) {
 
@@ -32547,6 +32594,8 @@ var UserHeadPage = _react2.default.createClass({
                 this.previewHeadImg(result.data.tempHeadImgUrl);
                 //获取服务器暂存图片名
                 this.updateServerTempHeadImgFileName(result.data.serverTempHeadImgFileName);
+
+                // this.initCropper();
             }.bind(this),
             onResponseFailure: function (result) {}.bind(this),
             onResponseEnd: function () {
@@ -32557,12 +32606,6 @@ var UserHeadPage = _react2.default.createClass({
             }.bind(this),
             onRequestError: function () {}.bind(this)
         });
-    },
-    previewHeadImg: function previewHeadImg(tempHeadImgUrl) {
-        $(this.refs.headImgPreview).attr("src", tempHeadImgUrl);
-        $(this.refs.headImgPreview0).attr("src", tempHeadImgUrl);
-        $(this.refs.headImgPreview1).attr("src", tempHeadImgUrl);
-        $(this.refs.headImgPreview2).attr("src", tempHeadImgUrl);
     },
     updateServerTempHeadImgFileName: function updateServerTempHeadImgFileName(serverTempHeadImgFileName) {
         var state = this.state;
@@ -32654,18 +32697,24 @@ var UserHeadPage = _react2.default.createClass({
                     null,
                     "\u5934\u50CF\u9884\u89C8 : "
                 ),
-                _react2.default.createElement("img", { ref: "headImgPreview0",
-                    id: "headImgPreview0",
-                    src: "" }),
-                "80x",
-                _react2.default.createElement("img", { ref: "headImgPreview1",
-                    id: "headImgPreview1",
-                    src: "" }),
-                "50x",
-                _react2.default.createElement("img", { ref: "headImgPreview2",
-                    id: "headImgPreview2",
-                    src: "" }),
-                "30x"
+                _react2.default.createElement(
+                    "div",
+                    { id: "headImgPreview0" },
+                    _react2.default.createElement("div", { className: "preview" }),
+                    "80x"
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { id: "headImgPreview1" },
+                    _react2.default.createElement("div", { className: "preview" }),
+                    "50x"
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { id: "headImgPreview2" },
+                    _react2.default.createElement("div", { className: "preview" }),
+                    "30x"
+                )
             ),
             _react2.default.createElement(
                 "div",

@@ -148,7 +148,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
                 userImgName = file.getFilename();
             }
             if (width == null) {
-                width = 50;
+                width = 300;
             }
             File f = new File(userImgPath + File.separator + width + "_" + userImgName);
             //不存在，返回默认图片
