@@ -169,14 +169,9 @@ var UserHeadPage = React.createClass({
         window.EventsDispatcher.showLoading(this.state.saveHeadImg);
 
         var userId = this.state.user.id;
-        const url = "/user/" + userId + "/update/img";
+        const url = "/user/" + userId + "/update/img?userId="+userId+"&serverCacheFileName="+this.state.serverTempHeadImgFileName;
         ajax.put({
             url: url,
-            contentType:ajax.contentType.TEXT,
-            data: {
-                userId: userId,
-                serverCacheFileName: this.state.serverTempHeadImgFileName
-            },
             onBeforeRequest: function () {
 
             }.bind(this),

@@ -26,8 +26,11 @@ function lazyLoad() {
     $("img").lazyload({effect: "fadeIn"});
 }
 
-//ajax封装
-//common是所有的返回结果都会执行的方法
+/**
+ * json用data传递-后台使用@RequestBody;<br/>
+ * 非json用url拼接-后台使用@RequestParam
+ * @type {{ajaxError: string, requestServerSuccess: ajax.requestServerSuccess, requestServerError: ajax.requestServerError, ajax: ajax.ajax, get: ajax.get, put: ajax.put, post: ajax.post, contentType: {TEXT: string, JSON: string}}}
+ */
 var ajax = {
     ajaxError: "访问服务器失败,请稍后重试",
     requestServerSuccess: function (args, result) {

@@ -196,8 +196,8 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             }
             //get ext
             String ext = getFileNameExt(headImg.getOriginalFilename());
-            targetHeadImgName = File.separator + userId + "." + ext;
-            String headImgName = targetPath + targetHeadImgName;
+            targetHeadImgName = userId + "." + ext;
+            String headImgName = targetPath + File.separator + targetHeadImgName;
             //save head Img
             inputStream = headImg.getInputStream();
             outputStream = new FileOutputStream(headImgName);
@@ -218,7 +218,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         OutputStream outputStream = null;
         try {
             String targetPath = VmProperties.VM_USER_IMG_TEMP_PATH;
-            String headImgName = targetPath + fileName;
+            String headImgName = targetPath + File.separator + fileName;
             inputStream = new FileInputStream(headImgName);
             org.apache.commons.io.IOUtils.copy(inputStream, response.getOutputStream());
         } catch (IOException e) {
@@ -231,7 +231,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     @Override
     @Transactional
-    public void updateUserHeadImg(Long userId,String serverCacheFileName) throws Exception {
+    public void updateUserHeadImg(Long userId, String serverCacheFileName) throws Exception {
         File sourceFile = null;
         File targetFile = null;
         try {
