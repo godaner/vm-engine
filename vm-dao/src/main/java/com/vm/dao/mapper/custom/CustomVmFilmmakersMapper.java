@@ -1,4 +1,4 @@
-package com.vm.dao.mapper;
+package com.vm.dao.mapper.custom;
 
 import com.vm.dao.po.VmFilmmakers;
 import org.apache.ibatis.annotations.Param;

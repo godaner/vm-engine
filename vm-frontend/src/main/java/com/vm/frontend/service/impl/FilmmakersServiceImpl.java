@@ -52,7 +52,7 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
         ServletOutputStream output = null;
         try {
             //获取电影图片id信息
-            VmFiles file = vmFilesMapper.selectByPrimaryKey(filmmakerId);
+            VmFiles file = vmFilesMapper.select(filmmakerId);
             String USERImgPath = VmProperties.VM_FILMMAKER_IMG_PATH;
             String USERImgName = null;
             if (file != null) {
@@ -78,7 +78,7 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
     @Override
     public VmFilmmakersDto getFilmmakerBasicInfo(Long filmmakerId) throws Exception {
 
-        VmFilmmakers filmmaker = vmFilmmakersMapper.selectByPrimaryKey(filmmakerId);
+        VmFilmmakers filmmaker = vmFilmmakersMapper.select(filmmakerId);
         if (filmmaker != null && BasePo.Status.isDeleted(filmmaker.getStatus())) {
             return null;
         }

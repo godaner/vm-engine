@@ -1,4 +1,4 @@
-package com.vm.dao.mapper;
+package com.vm.dao.mapper.custom;
 
 public interface CustomVmFilesMapper {
 

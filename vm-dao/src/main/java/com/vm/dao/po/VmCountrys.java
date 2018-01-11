@@ -1,7 +1,6 @@
 package com.vm.dao.po;
 
-public class VmCountrys  extends BasePo{
-    private Byte id;
+public class VmCountrys extends BasePo {
 
     private String code;
 
@@ -9,19 +8,6 @@ public class VmCountrys  extends BasePo{
 
     private String nameEnglish;
 
-    private Byte status;
-
-    private Integer createTime;
-
-    private Integer updateTime;
-
-    public Byte getId() {
-        return id;
-    }
-
-    public void setId(Byte id) {
-        this.id = id;
-    }
 
     public String getCode() {
         return code;
@@ -47,27 +33,4 @@ public class VmCountrys  extends BasePo{
         this.nameEnglish = nameEnglish == null ? null : nameEnglish.trim();
     }
 
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Integer getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Integer createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Integer updateTime) {
-        this.updateTime = updateTime;
-    }
 }

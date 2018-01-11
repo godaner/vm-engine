@@ -1,25 +1,11 @@
 package com.vm.dao.po;
 
-public class VmTags{
-    private Long id;
+public class VmTags extends BasePo {
 
     private String name;
 
     private Long tagGroupId;
 
-    private Byte status;
-
-    private Integer createTime;
-
-    private Integer updateTime;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -37,27 +23,4 @@ public class VmTags{
         this.tagGroupId = tagGroupId;
     }
 
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Integer getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Integer createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Integer updateTime) {
-        this.updateTime = updateTime;
-    }
 }

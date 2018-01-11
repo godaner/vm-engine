@@ -1,4 +1,4 @@
-package com.vm.dao.mapper;
+package com.vm.dao.mapper.custom;
 
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.dao.po.custom.CustomVmMovies;

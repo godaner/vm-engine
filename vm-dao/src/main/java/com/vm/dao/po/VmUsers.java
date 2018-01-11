@@ -7,7 +7,6 @@ public class VmUsers extends BasePo {
     //注册用户时填入的默认img_url前缀
     public static final String USER_IMG_URL_PREFIX = VmProperties.VM_USER_IMG_URL_PREFIX + "/-1";
 
-    private Long id;
 
     private String username;
 
@@ -18,12 +17,6 @@ public class VmUsers extends BasePo {
     private Integer birthday;
 
     private String description;
-
-    private Byte status;
-
-    private Integer createTime;
-
-    private Integer updateTime;
 
     private String imgUrl;
 
@@ -65,13 +58,6 @@ public class VmUsers extends BasePo {
     }
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
@@ -113,29 +99,6 @@ public class VmUsers extends BasePo {
         this.description = description == null ? null : description.trim();
     }
 
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Integer getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Integer createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Integer updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public String getImgUrl() {
         return imgUrl;

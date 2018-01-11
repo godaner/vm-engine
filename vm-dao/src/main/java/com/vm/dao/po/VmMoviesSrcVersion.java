@@ -3,7 +3,6 @@ package com.vm.dao.po;
 import com.vm.base.utils.ByteConstantVar;
 
 public class VmMoviesSrcVersion extends BasePo {
-    private Long id;
 
     private Byte sharpness;
 
@@ -13,11 +12,6 @@ public class VmMoviesSrcVersion extends BasePo {
 
     private String srcUrl;
 
-    private Byte status;
-
-    private Integer createTime;
-
-    private Integer updateTime;
 
     /**
      * 清晰度
@@ -52,37 +46,6 @@ public class VmMoviesSrcVersion extends BasePo {
             this.msg = msg;
         }
 
-    }
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Integer getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Integer createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Integer updateTime) {
-        this.updateTime = updateTime;
     }
 
     public Byte getSharpness() {

@@ -1,5 +1,6 @@
 package com.vm.frontend.service.impl;
 
+import com.google.common.collect.ImmutableMap;
 import com.vm.base.utils.BaseService;
 import com.vm.base.utils.DateUtil;
 import com.vm.base.utils.VmProperties;
@@ -8,7 +9,6 @@ import com.vm.dao.mapper.VmUsersMapper;
 import com.vm.dao.po.BasePo;
 import com.vm.dao.po.VmFiles;
 import com.vm.dao.po.VmUsers;
-import com.vm.dao.po.VmUsersExample;
 import com.vm.frontend.service.dto.VmUsersDto;
 import com.vm.frontend.service.exception.VmUsersException;
 import com.vm.frontend.service.inf.VmUsersService;
@@ -44,15 +44,14 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
      */
     private VmUsers getUserByUsername(String username) {
         //是否存在此username的user
-        VmUsersExample example = new VmUsersExample();
-        VmUsersExample.Criteria criteria = example.createCriteria();
-        criteria.andUsernameEqualTo(username);
-        criteria.andStatusEqualTo(BasePo.Status.NORMAL.getCode());
-        List<VmUsers> vmUsers = vmUsersMapper.selectByExample(example);
-        if (isEmptyList(vmUsers)) {
+        VmUsers vmUsers = vmUsersMapper.selectOneBy(ImmutableMap.of(
+                "status", BasePo.Status.NORMAL.getCode(),
+                username, username
+        ));
+        if (isNullObject(vmUsers)) {
             return null;
         }
-        return vmUsers.get(0);
+        return vmUsers;
     }
 
     private VmUsersDto makeVmUsersDto(VmUsers user) {
@@ -89,7 +88,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         //获取指定id的user
 
-        VmUsers dbUser = vmUsersMapper.selectByPrimaryKey(userId);
+        VmUsers dbUser = vmUsersMapper.select(userId);
 
         if (isNullObject(dbUser) || VmUsers.Status.isDeleted(dbUser.getStatus())) {
             logger.error("getUserBasicInfo user is not exits! userId is : {}", userId);
@@ -105,7 +104,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Transactional
     public VmUsersDto updateOnlineUserBasicInfo(VmUsersDto user) throws Exception {
         //user是否存在
-        VmUsers dbUser = vmUsersMapper.selectByPrimaryKey(user.getId());
+        VmUsers dbUser = vmUsersMapper.select(user.getId());
 
         if (isNullObject(dbUser) || VmUsers.Status.isDeleted(dbUser.getStatus())) {
             logger.error("updateOnlineUserBasicInfo dbUser is not exits ! user is : {}", user);
@@ -113,9 +112,9 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         }
 
 
-        vmUsersMapper.updateByPrimaryKeySelective(makeUpdateOnlineVmUsers(user));
+        vmUsersMapper.update(makeUpdateOnlineVmUsers(user));
 
-        return makeVmUsersDto(vmUsersMapper.selectByPrimaryKey(user.getId()));
+        return makeVmUsersDto(vmUsersMapper.select(user.getId()));
     }
 
     /**
@@ -140,7 +139,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         ServletOutputStream output = null;
         try {
             //获取用户图片id信息
-            VmFiles file = vmFilesMapper.selectByPrimaryKey(fileId);
+            VmFiles file = vmFilesMapper.select(fileId);
             String userImgPath = VmProperties.VM_USER_IMG_PATH;
             String userImgName = null;
             String contentType = null;
@@ -263,13 +262,13 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             vmUsers = new VmUsers();
             vmUsers.setId(onlineUserId);
             vmUsers.setImgUrl(VmProperties.VM_USER_IMG_URL_PREFIX + "/" + vmFiles.getId());
-            vmUsersMapper.updateByPrimaryKeySelective(vmUsers);
+            vmUsersMapper.update(vmUsers);
 
 
             //get new user
 
 
-            vmUsers = vmUsersMapper.selectByPrimaryKey(onlineUserId);
+            vmUsers = vmUsersMapper.select(onlineUserId);
             vmUsers = (vmUsers == null || BasePo.Status.isDeleted(vmUsers.getStatus())) ? null : vmUsers;
 
         } catch (Exception e) {

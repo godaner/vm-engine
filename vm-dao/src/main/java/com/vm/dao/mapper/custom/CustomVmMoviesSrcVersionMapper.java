@@ -1,4 +1,4 @@
-package com.vm.dao.mapper;
+package com.vm.dao.mapper.custom;
 
 import com.vm.dao.po.VmMoviesSrcVersion;
 import org.apache.ibatis.annotations.Param;

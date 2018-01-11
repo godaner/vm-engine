@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.vm.dao.mapper.CustomVmMoviesMapper">
+<mapper namespace="com.vm.dao.mapper.custom.CustomVmMoviesMapper">
 
     <!--**************************** 自定义mapper start ****************************-->
     <resultMap id="GetMoviesMap" type="com.vm.dao.po.custom.CustomVmMovies">
@@ -16,10 +16,10 @@
         <result column="src_url" jdbcType="VARCHAR" property="srcUrl"/>
         <result column="img_url" jdbcType="VARCHAR" property="imgUrl"/>
         <association property="director" column="director_id"
-                     select="com.vm.dao.mapper.CustomVmFilmmakersMapper.selectDirectorIdAndNameByDirectorId">
+                     select="com.vm.dao.mapper.custom.CustomVmFilmmakersMapper.selectDirectorIdAndNameByDirectorId">
         </association>
         <collection property="actors" column="id"
-                    select="com.vm.dao.mapper.CustomVmFilmmakersMapper.selectActorsIdAndNameByMovieId">
+                    select="com.vm.dao.mapper.custom.CustomVmFilmmakersMapper.selectActorsIdAndNameByMovieId">
         </collection>
 
     </resultMap>

@@ -4,6 +4,10 @@ import com.google.common.collect.Maps;
 import com.vm.base.utils.BaseService;
 import com.vm.base.utils.VmProperties;
 import com.vm.dao.mapper.*;
+import com.vm.dao.mapper.custom.CustomVmFilmmakersMapper;
+import com.vm.dao.mapper.custom.CustomVmMoviesMapper;
+import com.vm.dao.mapper.custom.CustomVmMoviesSrcVersionMapper;
+import com.vm.dao.mapper.custom.CustomVmTagsMapper;
 import com.vm.dao.po.*;
 import com.vm.dao.po.custom.CustomVmMovies;
 import com.vm.dao.qo.PageBean;
@@ -106,7 +110,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
      */
     private VmMovies validateMovie(Long movieId) {
         //获取电影
-        VmMovies vmMovies = vmMoviesMapper.selectByPrimaryKey(movieId);
+        VmMovies vmMovies = vmMoviesMapper.select(movieId);
         if (vmMovies == null || BasePo.Status.isDeleted(vmMovies.getStatus())) {
             return null;
         } else {
@@ -169,7 +173,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         //获取导演
         Long directorId = vmMovies.getDirectorId();
         if (!isNullObject(directorId)) {
-            VmFilmmakers director = vmFilmmakersMapper.selectByPrimaryKey(directorId);
+            VmFilmmakers director = vmFilmmakersMapper.select(directorId);
             filmmakers.add(director);
         }
 
@@ -256,7 +260,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         ServletOutputStream output = null;
         try {
             //获取电影图片id信息
-            VmFiles file = vmFilesMapper.selectByPrimaryKey(fileId);
+            VmFiles file = vmFilesMapper.select(fileId);
             String movieImgPath = VmProperties.VM_MOVIE_IMG_PATH;
             String movieImgName = null;
             String contentType = null;
@@ -288,7 +292,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         InputStream input = null;
         OutputStream output = null;
         try {
-            VmFiles file = vmFilesMapper.selectByPrimaryKey(fileId);
+            VmFiles file = vmFilesMapper.select(fileId);
             String movieSrcPath = VmProperties.VM_MOVIE_SRC_PATH;
 
             String movieSrcName = null;
