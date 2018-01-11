@@ -132,6 +132,10 @@ var ajax = {
     post: function (args) {
         args.type = "POST";
         this.ajax(args);
+    },
+    contentType: {
+        TEXT: "text/plain",
+        JSON: "application/json"
     }
 };
 

@@ -115,7 +115,8 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     @ResponseBody
     public Object uploadUserTempHeadImg(@PathVariable("userId") Long userId, @RequestParam("headImg") MultipartFile headImg) throws Exception {
         String headImgFileName = service.saveUserTempHeadImg(userId, headImg);
-        return response.putData("tempHeadImgUrl", "/user/img/temp?fileName=" + headImgFileName);
+        return response.putData("tempHeadImgUrl", "/user/img/temp?fileName=" + headImgFileName).
+                putData("serverTempHeadImgFileName", headImgFileName);
     }
 
     /**
@@ -130,15 +131,16 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     }
 
     /**
-     * 更新用户头像
+     * 更具已缓存图片更新用户头像<br/>
+     * 实现缓存接口{@link VmUsersController#uploadUserTempHeadImg}
      *
      * @return
      */
     @RequestMapping(value = "/{userId}/update/img", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateUserHeadImg(@PathVariable("userId") Long userId,
-                                    @RequestParam("fileName") String fileName) throws Exception {
-        service.updateUserHeadImg(userId, fileName);
+                                    @RequestParam("serverCacheFileName") String serverCacheFileName) throws Exception {
+        service.updateUserHeadImg(userId, serverCacheFileName);
         return response;
     }
 //

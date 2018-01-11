@@ -32428,6 +32428,7 @@ var UserHeadPage = _react2.default.createClass({
             userHeadImgFileTooMax: "文件过大,最大允许 : " + userHeadUploadConfig.fileMaxsize / 1024 + " kb",
             userHeadImgFileExtError: "文件类型错误,允许的文件类型 : " + userHeadUploadConfig.fileTypes,
             userHeadImgFileIsEmpty: "请选择一个文件",
+            serverTempHeadImgFileName: "", //服务器临时保存的用户头像的filename，如a.png
             user: {}
         };
     },
@@ -32475,7 +32476,7 @@ var UserHeadPage = _react2.default.createClass({
     },
     validateHeadImgFileOnChoice: function validateHeadImgFileOnChoice(headImgFile) {
 
-        c(headImgFile);
+        // c(headImgFile);
 
         //unselect, size
         if (isUndefined(headImgFile) || isUndefined(headImgFile.size)) {
@@ -32489,10 +32490,16 @@ var UserHeadPage = _react2.default.createClass({
             throw this.state.userHeadImgFileExtError;
         }
     },
+    getHeadImgInput: function getHeadImgInput() {
+        return $(this.refs.headImgInput);
+    },
+    getHeadImgFile: function getHeadImgFile() {
+        return this.getHeadImgInput().get(0).files[0];
+    },
     uploadTempHeadImg: function uploadTempHeadImg(callfun) {
 
-        var headImgInput = $(this.refs.headImgInput);
-        var headImgFile = headImgInput.get(0).files[0];
+        var headImgInput = this.getHeadImgInput();
+        var headImgFile = this.getHeadImgFile();
         //validateHeadImgFileOnChoice
         try {
             this.validateHeadImgFileOnChoice(headImgFile);
@@ -32524,7 +32531,10 @@ var UserHeadPage = _react2.default.createClass({
                 window.EventsDispatcher.closeLoading();
             }.bind(this),
             onResponseSuccess: function (result) {
+                //获取服务器暂存图片访问地址
                 this.previewHeadImg(result.data.tempHeadImgUrl);
+                //获取服务器暂存图片名
+                this.updateServerTempHeadImgFileName(result.data.serverTempHeadImgFileName);
             }.bind(this),
             onResponseFailure: function (result) {}.bind(this),
             onResponseEnd: function () {
@@ -32542,10 +32552,15 @@ var UserHeadPage = _react2.default.createClass({
         $(this.refs.headImgPreview1).attr("src", tempHeadImgUrl);
         $(this.refs.headImgPreview2).attr("src", tempHeadImgUrl);
     },
+    updateServerTempHeadImgFileName: function updateServerTempHeadImgFileName(serverTempHeadImgFileName) {
+        var state = this.state;
+        state.serverTempHeadImgFileName = serverTempHeadImgFileName;
+        this.setState(state);
+    },
     saveHeadImg: function saveHeadImg() {
 
-        var headImgInput = $(this.refs.headImgInput);
-        var headImgFile = headImgInput.get(0).files[0];
+        var headImgInput = this.getHeadImgInput();
+        var headImgFile = this.getHeadImgFile();
         try {
             this.validateHeadImgFileOnSubmit(headImgFile);
         } catch (e) {
@@ -32558,9 +32573,13 @@ var UserHeadPage = _react2.default.createClass({
 
         var userId = this.state.user.id;
         var url = "/user/" + userId + "/update/img";
-        ajax.post({
+        ajax.put({
             url: url,
-            data: {},
+            contentType: ajax.contentType.TEXT,
+            data: {
+                userId: userId,
+                serverCacheFileName: this.state.serverTempHeadImgFileName
+            },
             onBeforeRequest: function () {}.bind(this),
             onResponseStart: function () {
                 window.EventsDispatcher.closeLoading();

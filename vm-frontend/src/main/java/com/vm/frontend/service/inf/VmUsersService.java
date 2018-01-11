@@ -24,5 +24,5 @@ public interface VmUsersService {
 
     void getUserTempHeadImg(String fileName, HttpServletResponse response) throws Exception;
 
-    void updateUserHeadImg(Long userId, String fileName) throws Exception;
+    void updateUserHeadImg(Long userId, String serverCacheFileName) throws Exception;
 }

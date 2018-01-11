@@ -231,13 +231,13 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     @Override
     @Transactional
-    public void updateUserHeadImg(Long userId, String fileName) throws Exception {
+    public void updateUserHeadImg(Long userId,String serverCacheFileName) throws Exception {
         File sourceFile = null;
         File targetFile = null;
-        try {        //获取缓存图片
-
-            sourceFile = new File(VmProperties.VM_USER_IMG_TEMP_PATH + File.separator + fileName);
-            String ext = getFileNameExt(fileName);
+        try {
+            //获取缓存图片
+            sourceFile = new File(VmProperties.VM_USER_IMG_TEMP_PATH + File.separator + serverCacheFileName);
+            String ext = getFileNameExt(serverCacheFileName);
             String uuid = uuid();
             String newFileName = uuid + "." + ext;
             targetFile = new File(VmProperties.VM_USER_IMG_PATH + File.separator + newFileName);
@@ -252,7 +252,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             vmFiles.setCreateTime(now);
             vmFiles.setUpdateTime(now);
             vmFiles.setFilename(newFileName);
-            vmFiles.setOriginalName(fileName);
+            vmFiles.setOriginalName(serverCacheFileName);
             vmFiles.setStatus(VmFiles.Status.NORMAL.getCode());
             vmFiles.setSize(-1l);
             vmFilesMapper.insert(vmFiles);

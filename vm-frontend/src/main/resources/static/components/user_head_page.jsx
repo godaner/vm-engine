@@ -12,6 +12,7 @@ var UserHeadPage = React.createClass({
             userHeadImgFileTooMax: "文件过大,最大允许 : " + (userHeadUploadConfig.fileMaxsize / 1024) + " kb",
             userHeadImgFileExtError: "文件类型错误,允许的文件类型 : " + userHeadUploadConfig.fileTypes,
             userHeadImgFileIsEmpty: "请选择一个文件",
+            serverTempHeadImgFileName: "",//服务器临时保存的用户头像的filename，如a.png
             user: {}
         };
     },
@@ -63,7 +64,7 @@ var UserHeadPage = React.createClass({
     },
     validateHeadImgFileOnChoice(headImgFile){
 
-        c(headImgFile);
+        // c(headImgFile);
 
         //unselect, size
         if (isUndefined(headImgFile) || isUndefined(headImgFile.size)) {
@@ -78,11 +79,17 @@ var UserHeadPage = React.createClass({
         }
 
     },
+    getHeadImgInput(){
+        return $(this.refs.headImgInput);
+    },
+    getHeadImgFile(){
+        return this.getHeadImgInput().get(0).files[0];
+    },
     uploadTempHeadImg(callfun){
 
 
-        var headImgInput = $(this.refs.headImgInput);
-        var headImgFile = headImgInput.get(0).files[0];
+        var headImgInput = this.getHeadImgInput();
+        var headImgFile = this.getHeadImgFile();
         //validateHeadImgFileOnChoice
         try {
             this.validateHeadImgFileOnChoice(headImgFile)
@@ -117,7 +124,10 @@ var UserHeadPage = React.createClass({
 
             }.bind(this),
             onResponseSuccess: function (result) {
+                //获取服务器暂存图片访问地址
                 this.previewHeadImg(result.data.tempHeadImgUrl);
+                //获取服务器暂存图片名
+                this.updateServerTempHeadImgFileName(result.data.serverTempHeadImgFileName);
             }.bind(this),
             onResponseFailure: function (result) {
 
@@ -139,10 +149,15 @@ var UserHeadPage = React.createClass({
         $(this.refs.headImgPreview1).attr("src", tempHeadImgUrl);
         $(this.refs.headImgPreview2).attr("src", tempHeadImgUrl);
     },
+    updateServerTempHeadImgFileName(serverTempHeadImgFileName){
+        var state = this.state;
+        state.serverTempHeadImgFileName = serverTempHeadImgFileName;
+        this.setState(state);
+    },
     saveHeadImg(){
 
-        var headImgInput = $(this.refs.headImgInput);
-        var headImgFile = headImgInput.get(0).files[0];
+        var headImgInput = this.getHeadImgInput();
+        var headImgFile = this.getHeadImgFile();
         try {
             this.validateHeadImgFileOnSubmit(headImgFile);
         } catch (e) {
@@ -155,9 +170,13 @@ var UserHeadPage = React.createClass({
 
         var userId = this.state.user.id;
         const url = "/user/" + userId + "/update/img";
-        ajax.post({
+        ajax.put({
             url: url,
-            data: {},
+            contentType:ajax.contentType.TEXT,
+            data: {
+                userId: userId,
+                serverCacheFileName: this.state.serverTempHeadImgFileName
+            },
             onBeforeRequest: function () {
 
             }.bind(this),
