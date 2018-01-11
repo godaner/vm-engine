@@ -256,13 +256,13 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             vmFiles.setOriginalName(serverCacheFileName);
             vmFiles.setStatus(VmFiles.Status.NORMAL.getCode());
             vmFiles.setSize(0l);
-            Integer fileId = vmFilesMapper.insert(vmFiles);
+            vmFilesMapper.insert(vmFiles);
 
 
             //update user
             vmUsers = new VmUsers();
             vmUsers.setId(onlineUserId);
-            vmUsers.setImgUrl(VmProperties.VM_USER_IMG_URL_PREFIX + "/" + fileId.longValue());
+            vmUsers.setImgUrl(VmProperties.VM_USER_IMG_URL_PREFIX + "/" + vmFiles.getId());
             vmUsersMapper.updateByPrimaryKeySelective(vmUsers);
 
 
