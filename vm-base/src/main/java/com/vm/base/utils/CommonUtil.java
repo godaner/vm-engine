@@ -575,6 +575,20 @@ public class CommonUtil {
     }
 
     /**
+     * 批量删除files
+     * @param files
+     * @return
+     */
+    public static Boolean deleteFiles(File ...files){
+
+        Lists.newArrayList(files).stream().map((file)->{
+            deleteFile(file);
+            return true;
+        });
+        return  true;
+    }
+
+    /**
      * 加载properties
      *
      * @param propsPath ：propsPath开头不加斜杠

@@ -5,7 +5,7 @@ import com.vm.base.utils.VmProperties;
 
 public class VmUsers extends BasePo {
     //注册用户时填入的默认img_url前缀
-    public static final String USER_IMG_URL_PREFIX = VmProperties.VM_USER_IMG_URL_PREFIX;
+    public static final String USER_IMG_URL_PREFIX = VmProperties.VM_USER_IMG_URL_PREFIX + "/-1";
 
     private Long id;
 

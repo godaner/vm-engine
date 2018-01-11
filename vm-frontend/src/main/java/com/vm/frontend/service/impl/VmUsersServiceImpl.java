@@ -229,6 +229,49 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     }
 
+    @Override
+    @Transactional
+    public void updateUserHeadImg(Long userId, String fileName) throws Exception {
+        File sourceFile = null;
+        File targetFile = null;
+        try {        //获取缓存图片
+
+            sourceFile = new File(VmProperties.VM_USER_IMG_TEMP_PATH + File.separator + fileName);
+            String ext = getFileNameExt(fileName);
+            String uuid = uuid();
+            String newFileName = uuid + "." + ext;
+            targetFile = new File(VmProperties.VM_USER_IMG_PATH + File.separator + newFileName);
+
+            copyFiles(sourceFile, targetFile);
+
+            //save File
+            VmFiles vmFiles = new VmFiles();
+
+            Integer now = DateUtil.unixTime().intValue();
+
+            vmFiles.setCreateTime(now);
+            vmFiles.setUpdateTime(now);
+            vmFiles.setFilename(newFileName);
+            vmFiles.setOriginalName(fileName);
+            vmFiles.setStatus(VmFiles.Status.NORMAL.getCode());
+            vmFiles.setSize(-1l);
+            vmFilesMapper.insert(vmFiles);
+            //update user
+
+            VmUsers vmUsers = new VmUsers();
+            vmUsers.setId(userId);
+            vmUsers.setImgUrl(VmProperties.VM_USER_IMG_URL_PREFIX + "/" + vmFiles.getId());
+            vmUsersMapper.updateByPrimaryKeySelective(vmUsers);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            deleteFiles(sourceFile);
+        }
+
+
+    }
+
     private VmUsers makeRegistVmUserPo(VmUsersDto user) {
         VmUsers vmUsers = new VmUsers();
         vmUsers.setUsername(user.getUsername());

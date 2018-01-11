@@ -1,6 +1,6 @@
 package com.vm.dao.po;
 
-public class VmFiles {
+public class VmFiles extends BasePo {
     private Long id;
 
     private String filename;

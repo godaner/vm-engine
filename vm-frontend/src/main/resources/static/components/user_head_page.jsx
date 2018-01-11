@@ -6,11 +6,12 @@ var UserHeadPage = React.createClass({
     getInitialState: function () {
         return {
             // userId: this.props.match.params.userId,
-            uploadTempHeadImgTip: "正在上传头像",
+            uploadTempHeadImgTip: "正在读取头像",
+            saveHeadImg: "正在保存头像",
             getInfoFailure: "获取信息失败",
             userHeadImgFileTooMax: "文件过大,最大允许 : " + (userHeadUploadConfig.fileMaxsize / 1024) + " kb",
             userHeadImgFileExtError: "文件类型错误,允许的文件类型 : " + userHeadUploadConfig.fileTypes,
-            userHeadImgFileIsEmpty: "不能是空文件",
+            userHeadImgFileIsEmpty: "请选择一个文件",
             user: {}
         };
     },
@@ -55,7 +56,12 @@ var UserHeadPage = React.createClass({
             }.bind(this, callfun)
         });
     },
-    validateHeadImgFile(headImgFile){
+    validateHeadImgFileOnSubmit(headImgFile){
+        if (isUndefined(headImgFile) || isUndefined(headImgFile.size)) {
+            throw this.state.userHeadImgFileIsEmpty;
+        }
+    },
+    validateHeadImgFileOnChoice(headImgFile){
 
         c(headImgFile);
 
@@ -74,13 +80,12 @@ var UserHeadPage = React.createClass({
     },
     uploadTempHeadImg(callfun){
 
-        window.EventsDispatcher.showLoading(this.state.uploadTempHeadImgTip);
 
         var headImgInput = $(this.refs.headImgInput);
         var headImgFile = headImgInput.get(0).files[0];
-        //validateHeadImgFile
+        //validateHeadImgFileOnChoice
         try {
-            this.validateHeadImgFile(headImgFile)
+            this.validateHeadImgFileOnChoice(headImgFile)
         } catch (e) {
             window.EventsDispatcher.closeLoading();
             window.EventsDispatcher.showMsgDialog(e);
@@ -92,6 +97,7 @@ var UserHeadPage = React.createClass({
             return;
         }
 
+        window.EventsDispatcher.showLoading(this.state.uploadTempHeadImgTip);
 
         var formData = new FormData();
         formData.append("headImg", headImgFile);
@@ -133,7 +139,51 @@ var UserHeadPage = React.createClass({
         $(this.refs.headImgPreview1).attr("src", tempHeadImgUrl);
         $(this.refs.headImgPreview2).attr("src", tempHeadImgUrl);
     },
+    saveHeadImg(){
 
+        var headImgInput = $(this.refs.headImgInput);
+        var headImgFile = headImgInput.get(0).files[0];
+        try {
+            this.validateHeadImgFileOnSubmit(headImgFile);
+        } catch (e) {
+            window.EventsDispatcher.closeLoading();
+            window.EventsDispatcher.showMsgDialog(e);
+            return;
+        }
+
+        window.EventsDispatcher.showLoading(this.state.saveHeadImg);
+
+        var userId = this.state.user.id;
+        const url = "/user/" + userId + "/update/img";
+        ajax.post({
+            url: url,
+            data: {},
+            onBeforeRequest: function () {
+
+            }.bind(this),
+            onResponseStart: function () {
+                window.EventsDispatcher.closeLoading();
+
+            }.bind(this),
+            onResponseSuccess: function (result) {
+                this.previewHeadImg(result.data.tempHeadImgUrl);
+            }.bind(this),
+            onResponseFailure: function (result) {
+
+            }.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun()
+                }
+            }.bind(this),
+            onRequestError: function () {
+
+            }.bind(this)
+        })
+
+
+    },
     render: function () {
         return (
             <div id="user_head_content" className="clearfix">
@@ -155,6 +205,9 @@ var UserHeadPage = React.createClass({
                             <input type="button"
                                    id="headImgSaveBtn"
                                    ref="headImgSaveBtn"
+                                   onClick={() => {
+                                       this.saveHeadImg()
+                                   }}
                                    value="保存"
                             />
                         </div>

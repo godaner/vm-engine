@@ -128,6 +128,19 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     public void getUserTempHeadImg(@RequestParam("fileName") String fileName) throws Exception {
         service.getUserTempHeadImg(fileName, getResponse());
     }
+
+    /**
+     * 更新用户头像
+     *
+     * @return
+     */
+    @RequestMapping(value = "/{userId}/update/img", method = RequestMethod.PUT)
+    @ResponseBody
+    public Object updateUserHeadImg(@PathVariable("userId") Long userId,
+                                    @RequestParam("fileName") String fileName) throws Exception {
+        service.updateUserHeadImg(userId, fileName);
+        return response;
+    }
 //
 //    @RequestMapping(value = "/update", method = RequestMethod.PUT)
 //    public @ResponseBody

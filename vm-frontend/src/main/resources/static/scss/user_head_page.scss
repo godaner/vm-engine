@@ -5,9 +5,9 @@
   div {
     float: left;
   }
-  $imgWidthAndHeight: 200px;
+  $imgWidthAndHeight: 300px;
   #head_upload {
-    width: 300px;
+    width: 400px;
     @include defaultSetPaddingLeft(50px);
     #head_upload_to_middle_div {
       margin: 0px auto;

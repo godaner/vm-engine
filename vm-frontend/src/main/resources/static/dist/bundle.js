@@ -32422,11 +32422,12 @@ var UserHeadPage = _react2.default.createClass({
     getInitialState: function getInitialState() {
         return {
             // userId: this.props.match.params.userId,
-            uploadTempHeadImgTip: "正在上传头像",
+            uploadTempHeadImgTip: "正在读取头像",
+            saveHeadImg: "正在保存头像",
             getInfoFailure: "获取信息失败",
             userHeadImgFileTooMax: "文件过大,最大允许 : " + userHeadUploadConfig.fileMaxsize / 1024 + " kb",
             userHeadImgFileExtError: "文件类型错误,允许的文件类型 : " + userHeadUploadConfig.fileTypes,
-            userHeadImgFileIsEmpty: "不能是空文件",
+            userHeadImgFileIsEmpty: "请选择一个文件",
             user: {}
         };
     },
@@ -32467,7 +32468,12 @@ var UserHeadPage = _react2.default.createClass({
             }.bind(this, callfun)
         });
     },
-    validateHeadImgFile: function validateHeadImgFile(headImgFile) {
+    validateHeadImgFileOnSubmit: function validateHeadImgFileOnSubmit(headImgFile) {
+        if (isUndefined(headImgFile) || isUndefined(headImgFile.size)) {
+            throw this.state.userHeadImgFileIsEmpty;
+        }
+    },
+    validateHeadImgFileOnChoice: function validateHeadImgFileOnChoice(headImgFile) {
 
         c(headImgFile);
 
@@ -32485,13 +32491,11 @@ var UserHeadPage = _react2.default.createClass({
     },
     uploadTempHeadImg: function uploadTempHeadImg(callfun) {
 
-        window.EventsDispatcher.showLoading(this.state.uploadTempHeadImgTip);
-
         var headImgInput = $(this.refs.headImgInput);
         var headImgFile = headImgInput.get(0).files[0];
-        //validateHeadImgFile
+        //validateHeadImgFileOnChoice
         try {
-            this.validateHeadImgFile(headImgFile);
+            this.validateHeadImgFileOnChoice(headImgFile);
         } catch (e) {
             window.EventsDispatcher.closeLoading();
             window.EventsDispatcher.showMsgDialog(e);
@@ -32502,6 +32506,8 @@ var UserHeadPage = _react2.default.createClass({
             this.previewHeadImg(this.state.user.ImgUrl);
             return;
         }
+
+        window.EventsDispatcher.showLoading(this.state.uploadTempHeadImgTip);
 
         var formData = new FormData();
         formData.append("headImg", headImgFile);
@@ -32536,7 +32542,42 @@ var UserHeadPage = _react2.default.createClass({
         $(this.refs.headImgPreview1).attr("src", tempHeadImgUrl);
         $(this.refs.headImgPreview2).attr("src", tempHeadImgUrl);
     },
+    saveHeadImg: function saveHeadImg() {
 
+        var headImgInput = $(this.refs.headImgInput);
+        var headImgFile = headImgInput.get(0).files[0];
+        try {
+            this.validateHeadImgFileOnSubmit(headImgFile);
+        } catch (e) {
+            window.EventsDispatcher.closeLoading();
+            window.EventsDispatcher.showMsgDialog(e);
+            return;
+        }
+
+        window.EventsDispatcher.showLoading(this.state.saveHeadImg);
+
+        var userId = this.state.user.id;
+        var url = "/user/" + userId + "/update/img";
+        ajax.post({
+            url: url,
+            data: {},
+            onBeforeRequest: function () {}.bind(this),
+            onResponseStart: function () {
+                window.EventsDispatcher.closeLoading();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+                this.previewHeadImg(result.data.tempHeadImgUrl);
+            }.bind(this),
+            onResponseFailure: function (result) {}.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun();
+                }
+            }.bind(this),
+            onRequestError: function () {}.bind(this)
+        });
+    },
 
     render: function render() {
         var _this = this;
@@ -32566,6 +32607,9 @@ var UserHeadPage = _react2.default.createClass({
                         _react2.default.createElement("input", { type: "button",
                             id: "headImgSaveBtn",
                             ref: "headImgSaveBtn",
+                            onClick: function onClick() {
+                                _this.saveHeadImg();
+                            },
                             value: "\u4FDD\u5B58"
                         })
                     )
@@ -32641,7 +32685,7 @@ exports = module.exports = __webpack_require__(5)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_head_content {\n  display: flex; }\n  #user_head_content div {\n    float: left; }\n  #user_head_content #head_upload {\n    width: 300px;\n    padding-left: 50px;\n    box-sizing: border-box; }\n    #user_head_content #head_upload #head_upload_to_middle_div {\n      margin: 0px auto;\n      width: 200px; }\n      #user_head_content #head_upload #head_upload_to_middle_div > * {\n        display: block; }\n      #user_head_content #head_upload #head_upload_to_middle_div #headImgPreview {\n        width: 200px;\n        height: 200px; }\n      #user_head_content #head_upload #head_upload_to_middle_div #headImgInput {\n        width: 100px; }\n      #user_head_content #head_upload #head_upload_to_middle_div #headImgSaveBtn_to_middle_div {\n        width: 100%;\n        text-align: center; }\n        #user_head_content #head_upload #head_upload_to_middle_div #headImgSaveBtn_to_middle_div #headImgSaveBtn {\n          margin-top: 30px;\n          background-color: white;\n          color: \"rgb(61,158,255)\";\n          border: 1px solid rgb(61,158,255);\n          width: 100px;\n          height: 30px;\n          cursor: pointer;\n          transition: all 500ms; }\n          #user_head_content #head_upload #head_upload_to_middle_div #headImgSaveBtn_to_middle_div #headImgSaveBtn:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px;\n            color: white; }\n  #user_head_content #head_preview {\n    flex: 1; }\n    #user_head_content #head_preview > * {\n      margin-left: 10px; }\n    #user_head_content #head_preview #headImgPreview0 {\n      width: 80px;\n      height: 80px; }\n    #user_head_content #head_preview #headImgPreview1 {\n      width: 50px;\n      height: 50px; }\n    #user_head_content #head_preview #headImgPreview2 {\n      width: 30px;\n      height: 30px; }\n  #user_head_content #tip {\n    padding-left: 30px;\n    box-sizing: border-box;\n    flex: 1; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_head_content {\n  display: flex; }\n  #user_head_content div {\n    float: left; }\n  #user_head_content #head_upload {\n    width: 400px;\n    padding-left: 50px;\n    box-sizing: border-box; }\n    #user_head_content #head_upload #head_upload_to_middle_div {\n      margin: 0px auto;\n      width: 300px; }\n      #user_head_content #head_upload #head_upload_to_middle_div > * {\n        display: block; }\n      #user_head_content #head_upload #head_upload_to_middle_div #headImgPreview {\n        width: 300px;\n        height: 300px; }\n      #user_head_content #head_upload #head_upload_to_middle_div #headImgInput {\n        width: 100px; }\n      #user_head_content #head_upload #head_upload_to_middle_div #headImgSaveBtn_to_middle_div {\n        width: 100%;\n        text-align: center; }\n        #user_head_content #head_upload #head_upload_to_middle_div #headImgSaveBtn_to_middle_div #headImgSaveBtn {\n          margin-top: 30px;\n          background-color: white;\n          color: \"rgb(61,158,255)\";\n          border: 1px solid rgb(61,158,255);\n          width: 100px;\n          height: 30px;\n          cursor: pointer;\n          transition: all 500ms; }\n          #user_head_content #head_upload #head_upload_to_middle_div #headImgSaveBtn_to_middle_div #headImgSaveBtn:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px;\n            color: white; }\n  #user_head_content #head_preview {\n    flex: 1; }\n    #user_head_content #head_preview > * {\n      margin-left: 10px; }\n    #user_head_content #head_preview #headImgPreview0 {\n      width: 80px;\n      height: 80px; }\n    #user_head_content #head_preview #headImgPreview1 {\n      width: 50px;\n      height: 50px; }\n    #user_head_content #head_preview #headImgPreview2 {\n      width: 30px;\n      height: 30px; }\n  #user_head_content #tip {\n    padding-left: 30px;\n    box-sizing: border-box;\n    flex: 1; }\n", ""]);
 
 // exports
 
