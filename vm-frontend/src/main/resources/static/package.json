@@ -18,7 +18,6 @@
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.22.0",
     "babel-runtime": "^6.26.0",
-    "cropper": "^3.1.3",
     "css-loader": "^0.26.1",
     "events": "^1.1.1",
     "json-loader": "^0.5.4",
