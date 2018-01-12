@@ -1,21 +1,30 @@
 import React from "react"; //引入react组件
 import {BrowserRouter, HashRouter, Link, Route, Switch} from "react-router-dom";
 import "../scss/user_head_page.scss";
+
+
 /*用户头像页面*/
 var UserHeadPage = React.createClass({
     getInitialState: function () {
+        var config = {
+            fileTypes: ["jpg", "png"],
+            fileMaxsize: 1024 * 1024 * 2//1M
+        };
         return {
+            config: config,
             // userId: this.props.match.params.userId,
             uploadTempHeadImgTip: "正在读取头像",
             saveHeadImg: "正在保存头像",
             getInfoFailure: "获取信息失败",
-            userHeadImgFileTooMax: "文件过大,最大允许 : " + (userHeadUploadConfig.fileMaxsize / 1024) + " kb",
-            userHeadImgFileExtError: "文件类型错误,允许的文件类型 : " + userHeadUploadConfig.fileTypes,
+            userHeadImgFileTooMax: "文件过大,最大允许 : " + (config.fileMaxsize / 1024) + " kb",
+            userHeadImgFileExtError: "文件类型错误,允许的文件类型 : " + config.fileTypes,
             userHeadImgFileIsEmpty: "请选择一个文件",
             userHeadImgUpdateSuccess: "头像更新成功",
-            willUpdateUserHeadImgInfo:{
-                serverTempHeadImgFileName:""//服务器临时保存的用户头像的filename，如a.png
+            userHeadRequestWidth: 300,
+            willUpdateUserHeadImgInfo: {
+                serverTempHeadImgFileName: undefined//服务器临时保存的用户头像的filename，如a.png，如果为undefined，那么将禁止其更新头像
             },
+            $headImgPreview:undefined,
             user: {}
         };
     },
@@ -46,7 +55,7 @@ var UserHeadPage = React.createClass({
                 var u = result.data.user;
                 //update user in state
                 this.updateStateUser(u);
-                this.previewHeadImg(u.imgUrl + "?width=300&t=" + Date.now());
+                this.previewHeadImg(u.imgUrl + "?width=" + this.state.userHeadRequestWidth + "&t=" + Date.now());
 
             }.bind(this),
             onResponseFailure: function (result) {
@@ -61,7 +70,8 @@ var UserHeadPage = React.createClass({
         });
     },
     validateHeadImgFileOnSubmit(headImgFile){
-        if (isUndefined(headImgFile) || isUndefined(headImgFile.size)) {
+        //服务器未接收到相关的图片缓存
+        if (isUndefined(this.state.willUpdateUserHeadImgInfo.serverTempHeadImgFileName)) {
             throw this.state.userHeadImgFileIsEmpty;
         }
     },
@@ -73,24 +83,30 @@ var UserHeadPage = React.createClass({
         if (isUndefined(headImgFile) || isUndefined(headImgFile.size)) {
             throw this.state.userHeadImgFileIsEmpty;
         }
-        if (headImgFile.size > userHeadUploadConfig.fileMaxsize) {
+        if (headImgFile.size > this.state.config.fileMaxsize) {
             throw this.state.userHeadImgFileTooMax;
         }
         var ext = getFileNameExt(headImgFile.name);
-        if (!userHeadUploadConfig.fileTypes.contains(ext)) {
+        if (!this.state.config.fileTypes.contains(ext)) {
             throw this.state.userHeadImgFileExtError;
         }
 
     },
+
     getHeadImgInput(){
         return $(this.refs.headImgInput);
     },
     getHeadImgFile(){
         return this.getHeadImgInput().get(0).files[0];
     },
-    previewHeadImg(tempHeadImgUrl){
+    updateStateHeadImgPreview($headImgPreview){
+        var state = this.state;
+        state.$headImgPreview = $headImgPreview;
+        this.setState(state);
+    },
+    previewHeadImg(headImgUrl){
 
-        var buildImageBoxDataByCropEvent = function (e) {
+        var updateWillUpdateUserHeadImgInfo = function (e) {
 
             var $imageBoxData = {};
 
@@ -107,7 +123,6 @@ var UserHeadPage = React.createClass({
             $imageBoxData.serverTempHeadImgFileName = this.state.willUpdateUserHeadImgInfo.serverTempHeadImgFileName;
 
 
-
             var state = this.state;
             state.willUpdateUserHeadImgInfo = $imageBoxData;
             this.setState(state);
@@ -115,22 +130,15 @@ var UserHeadPage = React.createClass({
             return $imageBoxData;
         }.bind(this);
 
-        var $headImgPreview = $(this.refs.headImgPreview);
-        //设置src
-        $headImgPreview.cropper('destroy').attr('src', tempHeadImgUrl);
 
         var $previews = $('.preview');
-        //options
+        //cropper options
         var options = {
             aspectRatio: 1 / 1,
             viewMode: 2,
-        };
-        // create cropper
-        $headImgPreview.on({
             ready: function (e) {
                 console.log(e.type);
 
-                //写入预览图片
                 var $clone = $(this).clone().removeClass('cropper-hidden');
 
                 $clone.css({
@@ -158,7 +166,7 @@ var UserHeadPage = React.createClass({
             },
             crop: function (e) {
 
-                buildImageBoxDataByCropEvent(e);
+                updateWillUpdateUserHeadImgInfo(e);
 
                 var imageData = $(this).cropper('getImageData');
 
@@ -178,9 +186,16 @@ var UserHeadPage = React.createClass({
                 });
             },
             zoom: function (e) {
-                console.log(e.type, e.ratio);
+                c(e.type, e.ratio);
             }
-        }).cropper(options);
+        };
+        if(isUndefined($headImgPreview)){
+            var $headImgPreview = $(this.refs.headImgPreview);
+            //init cropper
+            $headImgPreview.cropper(options);
+            this.updateStateHeadImgPreview($headImgPreview);
+        }
+        this.state.$headImgPreview.cropper("replace",headImgUrl);
 
     },
     uploadTempHeadImg(callfun){
@@ -192,13 +207,13 @@ var UserHeadPage = React.createClass({
         try {
             this.validateHeadImgFileOnChoice(headImgFile)
         } catch (e) {
-            window.EventsDispatcher.closeLoading();
+            // window.EventsDispatcher.closeLoading();
             window.EventsDispatcher.showMsgDialog(e);
 
             // clear input #file
-            headImgInput.val("");
+            // this.clearHeadImgInput();
             //back self original img
-            this.previewHeadImg(this.state.user.ImgUrl);
+            // this.previewHeadImg(this.state.user.ImgUrl);
             return;
         }
 
@@ -222,9 +237,9 @@ var UserHeadPage = React.createClass({
 
             }.bind(this),
             onResponseSuccess: function (result) {
-                //获取服务器暂存图片访问地址
-                this.previewHeadImg(result.data.tempHeadImgUrl+"&t=" + Date.now());
-                //获取服务器暂存图片名
+                //更新服务器暂存图片访问地址
+                this.previewHeadImg(result.data.tempHeadImgUrl + "&t=" + Date.now());
+                //更新服务器暂存图片名
                 this.updateServerTempHeadImgFileName(result.data.serverTempHeadImgFileName);
 
                 // this.initCropper();
@@ -251,12 +266,12 @@ var UserHeadPage = React.createClass({
     },
     saveHeadImg(callfun){
 
-        var headImgInput = this.getHeadImgInput();
-        var headImgFile = this.getHeadImgFile();
+        // var headImgInput = this.getHeadImgInput();
+        // var headImgFile = this.getHeadImgFile();
         try {
-            this.validateHeadImgFileOnSubmit(headImgFile);
+            this.validateHeadImgFileOnSubmit();
         } catch (e) {
-            window.EventsDispatcher.closeLoading();
+            // window.EventsDispatcher.closeLoading();
             window.EventsDispatcher.showMsgDialog(e);
             return;
         }
@@ -269,7 +284,7 @@ var UserHeadPage = React.createClass({
         // data.serverCacheFileName = this.state.serverTempHeadImgFileName;
         ajax.put({
             url: url,
-            data:data,
+            data: data,
             loadingMsg: this.state.saveHeadImg,
             onBeforeRequest: function () {
 
@@ -284,6 +299,13 @@ var UserHeadPage = React.createClass({
                 window.EventsDispatcher.showMsgDialog(this.state.userHeadImgUpdateSuccess);
 
                 window.EventsDispatcher.onUpdateHeadImgSuccess(result.data.user);
+
+                // clear temp filename
+                this.updateServerTempHeadImgFileName(undefined);
+
+                //preview new head img
+                this.previewHeadImg(result.data.user.imgUrl + "?width=" + this.state.userHeadRequestWidth + "&t=" + Date.now())
+
 
             }.bind(this),
             onResponseFailure: function (result) {
@@ -315,15 +337,25 @@ var UserHeadPage = React.createClass({
                                  id="headImgPreview"
                                  ref="headImgPreview"/>
                         </div>
-                        <input type="file"
-                               ref="headImgInput"
-                               name="headImgInput"
-                               id="headImgInput"
-                               onChange={() => {
-                                   this.uploadTempHeadImg()
-                               }}/>
-                        <div id="headImgSaveBtn_to_middle_div">
+
+
+                        <div id="btns_div">
+                            <input type="file"
+                                   ref="headImgInput"
+                                   name="headImgInput"
+                                   id="headImgInput"
+                                   onChange={() => {
+                                       this.uploadTempHeadImg()
+                                   }}/>
                             <input type="button"
+                                   className="operateBtn"
+                                   id="uploadTempHeadImgBtn"
+                                   value="选择图片"
+                                   onClick={() => {
+                                       this.refs.headImgInput.click();
+                                   }}/>
+                            <input type="button"
+                                   className="operateBtn"
                                    id="headImgSaveBtn"
                                    ref="headImgSaveBtn"
                                    onClick={() => {
@@ -336,7 +368,7 @@ var UserHeadPage = React.createClass({
 
                 </div>
                 <div id="head_preview">
-                    <p>头像预览 : </p>
+                    <p>预览 : </p>
                     <div id="headImgPreview0">
                         <div className="preview"/>
                         80x

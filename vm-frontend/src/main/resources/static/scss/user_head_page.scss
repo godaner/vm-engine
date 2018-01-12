@@ -15,7 +15,7 @@
       & > * {
         display: block;
       }
-      #headImgPreviewWrapper{
+      #headImgPreviewWrapper {
         width: $imgWidthAndHeight;
         height: $imgWidthAndHeight;
         #headImgPreview {
@@ -24,14 +24,11 @@
         }
       }
 
-      #headImgInput {
-        width: 100px;
-      }
-      #headImgSaveBtn_to_middle_div {
+      #btns_div {
+        margin-top: 15px;
         @include defaultWidth;
-        text-align: center;
-        #headImgSaveBtn {
-          margin-top: 30px;
+
+        & > .operateBtn {
           background-color: white;
           color: $defaultBlueRgb;
           border: 1px solid unquote($defaultBlueRgb);
@@ -44,6 +41,16 @@
             border-radius: 99px;
             color: unquote(white);
           }
+        }
+        #uploadTempHeadImgBtn {
+          float: left;
+        }
+        #headImgInput {
+          display: none;
+        }
+        #headImgSaveBtn {
+
+          float: right;
         }
       }
 

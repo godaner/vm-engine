@@ -582,9 +582,8 @@ public class CommonUtil {
      */
     public static Boolean deleteFiles(String... filePaths) {
 
-        Lists.newArrayList(filePaths).stream().map((filePath) -> {
+        Lists.newArrayList(filePaths).stream().parallel().forEach((filePath) -> {
             deleteFile(new File(filePath));
-            return true;
         });
         return true;
     }
@@ -597,9 +596,8 @@ public class CommonUtil {
      */
     public static Boolean deleteFiles(File... files) {
 
-        Lists.newArrayList(files).stream().map((file) -> {
+        Lists.newArrayList(files).stream().parallel().forEach((file) -> {
             deleteFile(file);
-            return true;
         });
         return true;
     }

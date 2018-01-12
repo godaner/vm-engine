@@ -138,6 +138,12 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     @Override
     public void sendUserImg(Long fileId, Integer width, HttpServletResponse response) throws Exception {
+
+        if (isNullObject(width)) {
+            logger.error("sendUserImg width is null ! fileId is : {} , width is : {}", fileId, width);
+            throw new VmUsersException(VmUsersException.ErrorCode.USER_HEAD_IMG_WIDTH_IS_NULL.getCode(),
+                    VmUsersException.ErrorCode.USER_HEAD_IMG_WIDTH_IS_NULL.getMsg());
+        }
         FileInputStream input = null;
         ServletOutputStream output = null;
         try {
@@ -242,22 +248,28 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         try {
             //缓存图片
             sourceFilePath = VmProperties.VM_USER_IMG_TEMP_PATH + File.separator + updateHeadImgInfo.getServerTempHeadImgFileName();
-            
+
             //数据库保存的图片名
             String ext = getFileNameExt(updateHeadImgInfo.getServerTempHeadImgFileName());
             String uuid = uuid();
             String newFileName = uuid + "." + ext;
 
             //写入多版本文件
-            String finalSourceFilePath = sourceFilePath;
-            Lists.newArrayList(VmProperties.VM_USER_IMG_VERSIONS.split(",")).stream().map((version) -> {
+            final String finalSourceFilePath = sourceFilePath;
+            String[] versions = VmProperties.VM_USER_IMG_VERSIONS.split(",");
+            Lists.newArrayList(versions).stream().parallel().forEach((version) -> {
                 String targetFilePath = VmProperties.VM_USER_IMG_PATH + File.separator + version + "_" + newFileName;
                 try {
-                    ImageUtil.cutImage(finalSourceFilePath, targetFilePath, updateHeadImgInfo.getX(), updateHeadImgInfo.getY(), updateHeadImgInfo.getWidth(), updateHeadImgInfo.getHeight());
+                    ImageUtil.cutImage(finalSourceFilePath,
+                            targetFilePath,
+                            updateHeadImgInfo.getX(),
+                            updateHeadImgInfo.getY(),
+                            updateHeadImgInfo.getWidth(),
+                            updateHeadImgInfo.getHeight(),
+                            ext);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return true;
             });
 
             //save File

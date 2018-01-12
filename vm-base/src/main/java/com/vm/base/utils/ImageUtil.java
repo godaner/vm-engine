@@ -56,8 +56,11 @@ public class ImageUtil {
      * 图片裁剪通用接口 
      */  
   
-    public static void cutImage(String src,String dest,int x,int y,int w,int h) throws IOException{   
-           Iterator iterator = ImageIO.getImageReadersByFormatName("jpg");   
+    public static void cutImage(String src,String dest,int x,int y,int w,int h,String formatName) throws IOException{
+            if(formatName == null){
+                formatName = "jpg";
+            }
+           Iterator iterator = ImageIO.getImageReadersByFormatName(formatName);
            ImageReader reader = (ImageReader)iterator.next();   
            InputStream in=new FileInputStream(src);  
            ImageInputStream iis = ImageIO.createImageInputStream(in);   
@@ -66,7 +69,7 @@ public class ImageUtil {
            Rectangle rect = new Rectangle(x, y, w,h);    
            param.setSourceRegion(rect);   
            BufferedImage bi = reader.read(0,param);     
-           ImageIO.write(bi, "jpg", new File(dest));             
+           ImageIO.write(bi, formatName, new File(dest));
   
     }   
     /* 

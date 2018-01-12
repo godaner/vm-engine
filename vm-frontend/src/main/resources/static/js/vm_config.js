@@ -1,15 +1,7 @@
-/**
- * 用户头像上传相关配置
- * @type {{fileTypes: [*], fileMaxsize: number}}
- */
-var userHeadUploadConfig = {
-    fileTypes: ["jpg", "png"],
-    fileMaxsize: 1024 * 1024 * 2//1M
-}
-
-
-//用户未登录时受保护的页面，用于用户注销后或者被动离线后调用
-var protectedUserPageLists = ["/user/[0-9/_-a-zA-Z]*"];
+var vm_config = {
+    //用户未登录时受保护的页面，用于用户注销后或者被动离线后调用
+    protectedUserPageLists: ["/user/[0-9/_-a-zA-Z]*"]
+};
 
 
 //用户在其他地方登录code

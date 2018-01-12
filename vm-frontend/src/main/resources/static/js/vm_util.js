@@ -9,8 +9,8 @@ function success(code) {
 
 //保护用户页面
 function protectUserPageWhenUserIsOffline(react_this) {
-    for (var i = 0; i < protectedUserPageLists.length; i++) {
-        var protectedPage = protectedUserPageLists[i];
+    for (var i = 0; i < vm_config.protectedUserPageLists.length; i++) {
+        var protectedPage = vm_config.protectedUserPageLists[i];
         if (react_this.props.location.pathname.match(protectedPage)) {
             react_this.props.history.replace("/");
             break;
