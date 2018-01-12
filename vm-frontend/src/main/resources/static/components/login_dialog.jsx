@@ -6,8 +6,8 @@ var LoginDialog = React.createClass({
     getInitialState: function () {
         return {
             dialogClassName: "",
-            loginFailure: "登录失败",
-            loginSuccess: "登录成功",
+            // loginFailure: "登录失败",
+            // loginSuccess: "登录成功",
             logining: "正在登陆,请稍等..."
         };
     },
@@ -99,13 +99,13 @@ var LoginDialog = React.createClass({
                     this.closeLoginDialog();
 
                     //show msg dialog
-                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginSuccess);
+                    window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
 
                     //callfun
                     this.props.onLoginSuccess(result.data.user);
                 }.bind(this),
                 onResponseFailure: function (result) {
-                    window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure, function () {
+                    window.VmFrontendEventsDispatcher.showMsgDialog(result.msg, function () {
                         this.showLoginDialog();
                     }.bind(this));
                 }.bind(this)

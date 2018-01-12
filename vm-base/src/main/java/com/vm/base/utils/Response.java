@@ -38,8 +38,9 @@ public class Response {
         return msg;
     }
 
-    public void setMsg(String msg) {
+    public Response setMsg(String msg) {
         this.msg = msg;
+        return this;
     }
 
     public Map getData() {

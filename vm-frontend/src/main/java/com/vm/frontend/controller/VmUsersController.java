@@ -2,7 +2,7 @@ package com.vm.frontend.controller;
 
 import com.google.common.collect.Maps;
 import com.vm.base.utils.ServiceController;
-import com.vm.dao.po.VmUsers;
+import com.vm.frontend.service.dto.UpdateHeadImgInfo;
 import com.vm.frontend.service.dto.VmUsersDto;
 import com.vm.frontend.service.inf.VmUsersService;
 import org.springframework.context.annotation.Scope;
@@ -15,9 +15,12 @@ import org.springframework.web.multipart.MultipartFile;
  * Created by ZhangKe on 2017/12/28.
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping(VmUsersController.USER_CONTROLLER_URL_PREFIX)
 @Scope("prototype")
 public class VmUsersController extends ServiceController<VmUsersService> {
+
+    public static final String USER_CONTROLLER_URL_PREFIX = "/user";
+
     public static final String KEY_OF_ONLINE_USER = "ONLINE_USER";
 
     @RequestMapping(value = "/login", method = RequestMethod.PUT)
@@ -28,7 +31,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
         setSessionAttr(KEY_OF_ONLINE_USER, loginUser);
 
-        return response.putData("user", loginUser);
+        return response.putData("user", loginUser).setMsg("登录成功");
     }
 
     @RequestMapping(value = "/regist", method = RequestMethod.PUT)
@@ -107,6 +110,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response;
     }
 
+
     /**
      * 上传用户临时头像
      *
@@ -117,8 +121,10 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     public Object uploadUserTempHeadImg(@RequestParam("headImg") MultipartFile headImg) throws Exception {
         VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);
         String headImgFileName = service.saveUserTempHeadImg(onlineUser.getId(), headImg);
-        return response.putData("tempHeadImgUrl", "/user/img/temp?fileName=" + headImgFileName).
-                putData("serverTempHeadImgFileName", headImgFileName);
+        return response.putData("tempHeadImgUrl",
+                VmUsersController.USER_CONTROLLER_URL_PREFIX + VmUsersController.ONLINE_USER_TEMP_HEAD_IMG_URL_SUFFIX +
+                        "?fileName=" + headImgFileName).putData("serverTempHeadImgFileName", headImgFileName
+        );
     }
 
     /**
@@ -126,7 +132,9 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @return
      */
-    @RequestMapping(value = "/img/temp", method = RequestMethod.GET)
+    private final static String ONLINE_USER_TEMP_HEAD_IMG_URL_SUFFIX = "/online/img/temp";
+
+    @RequestMapping(value = VmUsersController.ONLINE_USER_TEMP_HEAD_IMG_URL_SUFFIX, method = RequestMethod.GET)
     @ResponseBody
     public void getUserTempHeadImg(@RequestParam("fileName") String fileName) throws Exception {
         service.getUserTempHeadImg(fileName, getResponse());
@@ -140,9 +148,9 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      */
     @RequestMapping(value = "/online/update/img", method = RequestMethod.PUT)
     @ResponseBody
-    public Object updateUserHeadImg(@RequestParam("serverCacheFileName") String serverCacheFileName) throws Exception {
+    public Object updateUserHeadImg(@RequestBody UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
         VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);
-        return response.putData("user", service.updateUserHeadImg(onlineUser.getId(), serverCacheFileName));
+        return response.putData("user", service.updateUserHeadImg(onlineUser.getId(), updateHeadImgInfo));
     }
 //
 //    @RequestMapping(value = "/update", method = RequestMethod.PUT)

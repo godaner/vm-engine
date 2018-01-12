@@ -13,7 +13,9 @@ var UserHeadPage = React.createClass({
             userHeadImgFileExtError: "文件类型错误,允许的文件类型 : " + userHeadUploadConfig.fileTypes,
             userHeadImgFileIsEmpty: "请选择一个文件",
             userHeadImgUpdateSuccess: "头像更新成功",
-            serverTempHeadImgFileName: "",//服务器临时保存的用户头像的filename，如a.png
+            willUpdateUserHeadImgInfo:{
+                serverTempHeadImgFileName:""//服务器临时保存的用户头像的filename，如a.png
+            },
             user: {}
         };
     },
@@ -44,7 +46,7 @@ var UserHeadPage = React.createClass({
                 var u = result.data.user;
                 //update user in state
                 this.updateStateUser(u);
-                this.previewHeadImg(u.imgUrl + "?width=300");
+                this.previewHeadImg(u.imgUrl + "?width=300&t=" + Date.now());
 
             }.bind(this),
             onResponseFailure: function (result) {
@@ -88,15 +90,47 @@ var UserHeadPage = React.createClass({
     },
     previewHeadImg(tempHeadImgUrl){
 
+        var buildImageBoxDataByCropEvent = function (e) {
 
-        var headImgPreview = $(this.refs.headImgPreview);
-        headImgPreview.attr("src", tempHeadImgUrl);
+            var $imageBoxData = {};
+
+            $imageBoxData.x = Math.round(e.x);
+            $imageBoxData.y = Math.round(e.y);
+
+            $imageBoxData.height = Math.round(e.height);
+            $imageBoxData.width = Math.round(e.width);
+
+            $imageBoxData.rotate = Math.round(e.rotate);
+            $imageBoxData.scaleX = Math.round(e.scaleX);
+            $imageBoxData.scaleY = Math.round(e.scaleY);
+            //leave serverTempHeadImgFileName
+            $imageBoxData.serverTempHeadImgFileName = this.state.willUpdateUserHeadImgInfo.serverTempHeadImgFileName;
+
+
+
+            var state = this.state;
+            state.willUpdateUserHeadImgInfo = $imageBoxData;
+            this.setState(state);
+
+            return $imageBoxData;
+        }.bind(this);
+
+        var $headImgPreview = $(this.refs.headImgPreview);
+        //设置src
+        $headImgPreview.cropper('destroy').attr('src', tempHeadImgUrl);
 
         var $previews = $('.preview');
-
-        c($previews);
-        headImgPreview.cropper({
+        //options
+        var options = {
+            aspectRatio: 1 / 1,
+            viewMode: 2,
+        };
+        // create cropper
+        $headImgPreview.on({
             ready: function (e) {
+                console.log(e.type);
+
+                //写入预览图片
                 var $clone = $(this).clone().removeClass('cropper-hidden');
 
                 $clone.css({
@@ -113,11 +147,22 @@ var UserHeadPage = React.createClass({
                     overflow: 'hidden'
                 }).html($clone);
             },
-
+            cropstart: function (e) {
+                console.log(e.type, e.action);
+            },
+            cropmove: function (e) {
+                console.log(e.type, e.action);
+            },
+            cropend: function (e) {
+                console.log(e.type, e.action);
+            },
             crop: function (e) {
-                var imageData = $(this).cropper('getImageData');
-                var previewAspectRatio = e.width / e.height;
 
+                buildImageBoxDataByCropEvent(e);
+
+                var imageData = $(this).cropper('getImageData');
+
+                var previewAspectRatio = e.width / e.height;
                 $previews.each(function () {
                     var $preview = $(this);
                     var previewWidth = $preview.width();
@@ -131,8 +176,12 @@ var UserHeadPage = React.createClass({
                         marginTop: -e.y / imageScaledRatio
                     });
                 });
+            },
+            zoom: function (e) {
+                console.log(e.type, e.ratio);
             }
-        });
+        }).cropper(options);
+
     },
     uploadTempHeadImg(callfun){
 
@@ -174,7 +223,7 @@ var UserHeadPage = React.createClass({
             }.bind(this),
             onResponseSuccess: function (result) {
                 //获取服务器暂存图片访问地址
-                this.previewHeadImg(result.data.tempHeadImgUrl);
+                this.previewHeadImg(result.data.tempHeadImgUrl+"&t=" + Date.now());
                 //获取服务器暂存图片名
                 this.updateServerTempHeadImgFileName(result.data.serverTempHeadImgFileName);
 
@@ -197,7 +246,7 @@ var UserHeadPage = React.createClass({
     },
     updateServerTempHeadImgFileName(serverTempHeadImgFileName){
         var state = this.state;
-        state.serverTempHeadImgFileName = serverTempHeadImgFileName;
+        state.willUpdateUserHeadImgInfo.serverTempHeadImgFileName = serverTempHeadImgFileName;
         this.setState(state);
     },
     saveHeadImg(callfun){
@@ -215,9 +264,12 @@ var UserHeadPage = React.createClass({
         window.EventsDispatcher.showLoading();
 
         // var userId = this.state.user.id;
-        const url = "/user/online/update/img?serverCacheFileName=" + this.state.serverTempHeadImgFileName;
+        const url = "/user/online/update/img";
+        var data = this.state.willUpdateUserHeadImgInfo;
+        // data.serverCacheFileName = this.state.serverTempHeadImgFileName;
         ajax.put({
             url: url,
+            data:data,
             loadingMsg: this.state.saveHeadImg,
             onBeforeRequest: function () {
 
@@ -257,9 +309,12 @@ var UserHeadPage = React.createClass({
                 <div id="head_upload">
 
                     <div id="head_upload_to_middle_div">
-                        <img src=""
-                             id="headImgPreview"
-                             ref="headImgPreview"/>
+                        <div id="headImgPreviewWrapper"
+                             ref="headImgPreviewWrapper">
+                            <img src=""
+                                 id="headImgPreview"
+                                 ref="headImgPreview"/>
+                        </div>
                         <input type="file"
                                ref="headImgInput"
                                name="headImgInput"

@@ -18,6 +18,7 @@ public class VmUsersDto {
 
     private String imgUrl;
 
+
     public Long getId() {
         return id;
     }

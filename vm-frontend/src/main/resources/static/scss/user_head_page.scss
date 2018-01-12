@@ -15,9 +15,13 @@
       & > * {
         display: block;
       }
-      #headImgPreview {
+      #headImgPreviewWrapper{
         width: $imgWidthAndHeight;
         height: $imgWidthAndHeight;
+        #headImgPreview {
+          width: $imgWidthAndHeight;
+          height: $imgWidthAndHeight;
+        }
       }
 
       #headImgInput {
@@ -49,7 +53,7 @@
   #head_preview {
     flex: 1;
     & > * {
-      margin-left: 10px;
+      margin-left: 20px;
     }
     #headImgPreview0 {
       width: 80px;

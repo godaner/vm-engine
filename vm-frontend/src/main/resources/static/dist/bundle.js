@@ -31000,8 +31000,8 @@ var LoginDialog = _react2.default.createClass({
     getInitialState: function getInitialState() {
         return {
             dialogClassName: "",
-            loginFailure: "登录失败",
-            loginSuccess: "登录成功",
+            // loginFailure: "登录失败",
+            // loginSuccess: "登录成功",
             logining: "正在登陆,请稍等..."
         };
     },
@@ -31088,13 +31088,13 @@ var LoginDialog = _react2.default.createClass({
                 this.closeLoginDialog();
 
                 //show msg dialog
-                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginSuccess);
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg);
 
                 //callfun
                 this.props.onLoginSuccess(result.data.user);
             }.bind(this),
             onResponseFailure: function (result) {
-                window.VmFrontendEventsDispatcher.showMsgDialog(this.state.loginFailure, function () {
+                window.VmFrontendEventsDispatcher.showMsgDialog(result.msg, function () {
                     this.showLoginDialog();
                 }.bind(this));
             }.bind(this)
@@ -32440,7 +32440,9 @@ var UserHeadPage = _react2.default.createClass({
             userHeadImgFileExtError: "文件类型错误,允许的文件类型 : " + userHeadUploadConfig.fileTypes,
             userHeadImgFileIsEmpty: "请选择一个文件",
             userHeadImgUpdateSuccess: "头像更新成功",
-            serverTempHeadImgFileName: "", //服务器临时保存的用户头像的filename，如a.png
+            willUpdateUserHeadImgInfo: {
+                serverTempHeadImgFileName: "" //服务器临时保存的用户头像的filename，如a.png
+            },
             user: {}
         };
     },
@@ -32468,7 +32470,7 @@ var UserHeadPage = _react2.default.createClass({
                 var u = result.data.user;
                 //update user in state
                 this.updateStateUser(u);
-                this.previewHeadImg(u.imgUrl + "?width=300");
+                this.previewHeadImg(u.imgUrl + "?width=300&t=" + Date.now());
             }.bind(this),
             onResponseFailure: function (result) {
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure);
@@ -32510,14 +32512,45 @@ var UserHeadPage = _react2.default.createClass({
     },
     previewHeadImg: function previewHeadImg(tempHeadImgUrl) {
 
-        var headImgPreview = $(this.refs.headImgPreview);
-        headImgPreview.attr("src", tempHeadImgUrl);
+        var buildImageBoxDataByCropEvent = function (e) {
+
+            var $imageBoxData = {};
+
+            $imageBoxData.x = Math.round(e.x);
+            $imageBoxData.y = Math.round(e.y);
+
+            $imageBoxData.height = Math.round(e.height);
+            $imageBoxData.width = Math.round(e.width);
+
+            $imageBoxData.rotate = Math.round(e.rotate);
+            $imageBoxData.scaleX = Math.round(e.scaleX);
+            $imageBoxData.scaleY = Math.round(e.scaleY);
+            //leave serverTempHeadImgFileName
+            $imageBoxData.serverTempHeadImgFileName = this.state.willUpdateUserHeadImgInfo.serverTempHeadImgFileName;
+
+            var state = this.state;
+            state.willUpdateUserHeadImgInfo = $imageBoxData;
+            this.setState(state);
+
+            return $imageBoxData;
+        }.bind(this);
+
+        var $headImgPreview = $(this.refs.headImgPreview);
+        //设置src
+        $headImgPreview.cropper('destroy').attr('src', tempHeadImgUrl);
 
         var $previews = $('.preview');
-
-        c($previews);
-        headImgPreview.cropper({
+        //options
+        var options = {
+            aspectRatio: 1 / 1,
+            viewMode: 2
+        };
+        // create cropper
+        $headImgPreview.on({
             ready: function ready(e) {
+                console.log(e.type);
+
+                //写入预览图片
                 var $clone = $(this).clone().removeClass('cropper-hidden');
 
                 $clone.css({
@@ -32534,11 +32567,22 @@ var UserHeadPage = _react2.default.createClass({
                     overflow: 'hidden'
                 }).html($clone);
             },
-
+            cropstart: function cropstart(e) {
+                console.log(e.type, e.action);
+            },
+            cropmove: function cropmove(e) {
+                console.log(e.type, e.action);
+            },
+            cropend: function cropend(e) {
+                console.log(e.type, e.action);
+            },
             crop: function crop(e) {
-                var imageData = $(this).cropper('getImageData');
-                var previewAspectRatio = e.width / e.height;
 
+                buildImageBoxDataByCropEvent(e);
+
+                var imageData = $(this).cropper('getImageData');
+
+                var previewAspectRatio = e.width / e.height;
                 $previews.each(function () {
                     var $preview = $(this);
                     var previewWidth = $preview.width();
@@ -32552,8 +32596,11 @@ var UserHeadPage = _react2.default.createClass({
                         marginTop: -e.y / imageScaledRatio
                     });
                 });
+            },
+            zoom: function zoom(e) {
+                console.log(e.type, e.ratio);
             }
-        });
+        }).cropper(options);
     },
     uploadTempHeadImg: function uploadTempHeadImg(callfun) {
 
@@ -32591,7 +32638,7 @@ var UserHeadPage = _react2.default.createClass({
             }.bind(this),
             onResponseSuccess: function (result) {
                 //获取服务器暂存图片访问地址
-                this.previewHeadImg(result.data.tempHeadImgUrl);
+                this.previewHeadImg(result.data.tempHeadImgUrl + "&t=" + Date.now());
                 //获取服务器暂存图片名
                 this.updateServerTempHeadImgFileName(result.data.serverTempHeadImgFileName);
 
@@ -32609,7 +32656,7 @@ var UserHeadPage = _react2.default.createClass({
     },
     updateServerTempHeadImgFileName: function updateServerTempHeadImgFileName(serverTempHeadImgFileName) {
         var state = this.state;
-        state.serverTempHeadImgFileName = serverTempHeadImgFileName;
+        state.willUpdateUserHeadImgInfo.serverTempHeadImgFileName = serverTempHeadImgFileName;
         this.setState(state);
     },
     saveHeadImg: function saveHeadImg(callfun) {
@@ -32627,9 +32674,12 @@ var UserHeadPage = _react2.default.createClass({
         window.EventsDispatcher.showLoading();
 
         // var userId = this.state.user.id;
-        var url = "/user/online/update/img?serverCacheFileName=" + this.state.serverTempHeadImgFileName;
+        var url = "/user/online/update/img";
+        var data = this.state.willUpdateUserHeadImgInfo;
+        // data.serverCacheFileName = this.state.serverTempHeadImgFileName;
         ajax.put({
             url: url,
+            data: data,
             loadingMsg: this.state.saveHeadImg,
             onBeforeRequest: function () {}.bind(this),
             onResponseStart: function () {
@@ -32665,9 +32715,14 @@ var UserHeadPage = _react2.default.createClass({
                 _react2.default.createElement(
                     "div",
                     { id: "head_upload_to_middle_div" },
-                    _react2.default.createElement("img", { src: "",
-                        id: "headImgPreview",
-                        ref: "headImgPreview" }),
+                    _react2.default.createElement(
+                        "div",
+                        { id: "headImgPreviewWrapper",
+                            ref: "headImgPreviewWrapper" },
+                        _react2.default.createElement("img", { src: "",
+                            id: "headImgPreview",
+                            ref: "headImgPreview" })
+                    ),
                     _react2.default.createElement("input", { type: "file",
                         ref: "headImgInput",
                         name: "headImgInput",
@@ -32765,7 +32820,7 @@ exports = module.exports = __webpack_require__(5)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_head_content {\n  display: flex; }\n  #user_head_content div {\n    float: left; }\n  #user_head_content #head_upload {\n    width: 400px;\n    padding-left: 50px;\n    box-sizing: border-box; }\n    #user_head_content #head_upload #head_upload_to_middle_div {\n      margin: 0px auto;\n      width: 300px; }\n      #user_head_content #head_upload #head_upload_to_middle_div > * {\n        display: block; }\n      #user_head_content #head_upload #head_upload_to_middle_div #headImgPreview {\n        width: 300px;\n        height: 300px; }\n      #user_head_content #head_upload #head_upload_to_middle_div #headImgInput {\n        width: 100px; }\n      #user_head_content #head_upload #head_upload_to_middle_div #headImgSaveBtn_to_middle_div {\n        width: 100%;\n        text-align: center; }\n        #user_head_content #head_upload #head_upload_to_middle_div #headImgSaveBtn_to_middle_div #headImgSaveBtn {\n          margin-top: 30px;\n          background-color: white;\n          color: \"rgb(61,158,255)\";\n          border: 1px solid rgb(61,158,255);\n          width: 100px;\n          height: 30px;\n          cursor: pointer;\n          transition: all 500ms; }\n          #user_head_content #head_upload #head_upload_to_middle_div #headImgSaveBtn_to_middle_div #headImgSaveBtn:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px;\n            color: white; }\n  #user_head_content #head_preview {\n    flex: 1; }\n    #user_head_content #head_preview > * {\n      margin-left: 10px; }\n    #user_head_content #head_preview #headImgPreview0 {\n      width: 80px;\n      height: 80px; }\n    #user_head_content #head_preview #headImgPreview1 {\n      width: 50px;\n      height: 50px; }\n    #user_head_content #head_preview #headImgPreview2 {\n      width: 30px;\n      height: 30px; }\n  #user_head_content #tip {\n    padding-left: 30px;\n    box-sizing: border-box;\n    flex: 1; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_head_content {\n  display: flex; }\n  #user_head_content div {\n    float: left; }\n  #user_head_content #head_upload {\n    width: 400px;\n    padding-left: 50px;\n    box-sizing: border-box; }\n    #user_head_content #head_upload #head_upload_to_middle_div {\n      margin: 0px auto;\n      width: 300px; }\n      #user_head_content #head_upload #head_upload_to_middle_div > * {\n        display: block; }\n      #user_head_content #head_upload #head_upload_to_middle_div #headImgPreviewWrapper {\n        width: 300px;\n        height: 300px; }\n        #user_head_content #head_upload #head_upload_to_middle_div #headImgPreviewWrapper #headImgPreview {\n          width: 300px;\n          height: 300px; }\n      #user_head_content #head_upload #head_upload_to_middle_div #headImgInput {\n        width: 100px; }\n      #user_head_content #head_upload #head_upload_to_middle_div #headImgSaveBtn_to_middle_div {\n        width: 100%;\n        text-align: center; }\n        #user_head_content #head_upload #head_upload_to_middle_div #headImgSaveBtn_to_middle_div #headImgSaveBtn {\n          margin-top: 30px;\n          background-color: white;\n          color: \"rgb(61,158,255)\";\n          border: 1px solid rgb(61,158,255);\n          width: 100px;\n          height: 30px;\n          cursor: pointer;\n          transition: all 500ms; }\n          #user_head_content #head_upload #head_upload_to_middle_div #headImgSaveBtn_to_middle_div #headImgSaveBtn:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px;\n            color: white; }\n  #user_head_content #head_preview {\n    flex: 1; }\n    #user_head_content #head_preview > * {\n      margin-left: 20px; }\n    #user_head_content #head_preview #headImgPreview0 {\n      width: 80px;\n      height: 80px; }\n    #user_head_content #head_preview #headImgPreview1 {\n      width: 50px;\n      height: 50px; }\n    #user_head_content #head_preview #headImgPreview2 {\n      width: 30px;\n      height: 30px; }\n  #user_head_content #tip {\n    padding-left: 30px;\n    box-sizing: border-box;\n    flex: 1; }\n", ""]);
 
 // exports
 

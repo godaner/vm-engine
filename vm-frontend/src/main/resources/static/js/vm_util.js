@@ -33,51 +33,47 @@ function lazyLoad() {
  */
 var ajax = {
     ajaxError: "访问服务器失败,请稍后重试",
+    startResponse(args, result){
+        window.EventsDispatcher.closeLoading();
+        if (!isUndefined(args.onResponseStart)) {
+            args.onResponseStart();
+        }
+    },
+    endResponse(args, result){
+
+        if (!isUndefined(args.onResponseEnd)) {
+            args.onResponseEnd();
+        }
+    },
     requestServerSuccess: function (args, result) {
         if (isUndefined(result)) {
             return;
         }
-        if (!isEmpty(args.onResponseStart)) {
-            args.onResponseStart();
-        }
-        if (fail(result.code) && !isEmpty(args.onResponseFailure)) {
+        if (fail(result.code) && !isUndefined(args.onResponseFailure)) {
             args.onResponseFailure(result);
         }
-        if (success(result.code) && !isEmpty(args.onResponseSuccess)) {
+        if (success(result.code) && !isUndefined(args.onResponseSuccess)) {
             args.onResponseSuccess(result);
         }
-        if (!isEmpty(args.onResponseEnd)) {
-            args.onResponseEnd();
-        }
 
-        window.EventsDispatcher.closeLoading();
     },
     requestServerError: function (args, XMLHttpRequest, textStatus, errorThrown) {
         console.error(XMLHttpRequest);
         console.error(textStatus);
         console.error(errorThrown);
 
-
-        if (!isEmpty(args.onResponseStart)) {
-            args.onResponseStart();
-        }
-
         window.VmFrontendEventsDispatcher.showMsgDialog(this.ajaxError, function () {
-            if (!isEmpty(args.onRequestError)) {
-                args.onRequestError();
-            }
-            if (!isEmpty(args.onResponseEnd)) {
-                args.onResponseEnd();
-            }
 
         });
+        if (!isUndefined(args.onRequestError)) {
+            args.onRequestError();
+        }
 
-        window.EventsDispatcher.closeLoading();
 
     },
     ajax: function (args) {
         //handler args.onBeforeRequest
-        if (!isEmpty(args.onBeforeRequest) && args.onBeforeRequest() == false) {
+        if (!isUndefined(args.onBeforeRequest) && args.onBeforeRequest() == false) {
             return;
         }
         //handler args.async
@@ -107,7 +103,7 @@ var ajax = {
         }
         //handle args.loadingMsg
         if (!isUndefined(args.loadingMsg)) {
-            window.EventsDispatcher.showMsgDialog(args.loadingMsg);
+            window.EventsDispatcher.showLoading(args.loadingMsg);
         }
         // c("request data is : ");
         // c(args);
@@ -122,11 +118,14 @@ var ajax = {
             processData: args.processData,
             enctype: args.enctype,
             success: function (result) {
+                this.startResponse(args, result);
                 this.requestServerSuccess(args, result);
+                this.endResponse(args, result);
             }.bind(this),
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-
+                this.startResponse();
                 this.requestServerError(args, XMLHttpRequest, textStatus, errorThrown);
+                this.endResponse();
             }.bind(this)
         });
     },

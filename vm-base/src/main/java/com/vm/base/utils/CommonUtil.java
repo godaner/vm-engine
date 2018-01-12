@@ -577,6 +577,21 @@ public class CommonUtil {
     /**
      * 批量删除files
      *
+     * @param filePaths
+     * @return
+     */
+    public static Boolean deleteFiles(String... filePaths) {
+
+        Lists.newArrayList(filePaths).stream().map((filePath) -> {
+            deleteFile(new File(filePath));
+            return true;
+        });
+        return true;
+    }
+
+    /**
+     * 批量删除files
+     *
      * @param files
      * @return
      */

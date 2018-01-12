@@ -1,5 +1,6 @@
 package com.vm.frontend.service.inf;
 
+import com.vm.frontend.service.dto.UpdateHeadImgInfo;
 import com.vm.frontend.service.dto.VmUsersDto;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,5 +25,5 @@ public interface VmUsersService {
 
     void getUserTempHeadImg(String fileName, HttpServletResponse response) throws Exception;
 
-    VmUsersDto updateUserHeadImg(Long onlineUserId, String serverCacheFileName) throws Exception;
+    VmUsersDto updateUserHeadImg(Long onlineUserId, UpdateHeadImgInfo updateHeadImgInfo) throws Exception;
 }
