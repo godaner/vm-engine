@@ -1,6 +1,6 @@
 package com.vm.frontend.listener;
 
-import com.vm.base.utils.VmProperties;
+import com.vm.base.utils.ServerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -36,15 +36,15 @@ public class ApplicationStartedListener implements ApplicationListener<ContextRe
      */
     private void initFileDir() {
 
-        checkAndCreateDir(VmProperties.VM_MOVIE_IMG_PATH);
+        checkAndCreateDir(ServerConfig.VM_MOVIE_IMG_PATH);
 
-        checkAndCreateDir(VmProperties.VM_MOVIE_SRC_PATH);
+        checkAndCreateDir(ServerConfig.VM_MOVIE_SRC_PATH);
 
-        checkAndCreateDir(VmProperties.VM_USER_IMG_PATH);
+        checkAndCreateDir(ServerConfig.VM_USER_IMG_PATH);
 
-        checkAndCreateDir(VmProperties.VM_FILMMAKER_IMG_PATH);
+        checkAndCreateDir(ServerConfig.VM_FILMMAKER_IMG_PATH);
 
-        checkAndCreateDir(VmProperties.VM_USER_IMG_TEMP_PATH);
+        checkAndCreateDir(ServerConfig.VM_USER_IMG_TEMP_PATH);
     }
 
 

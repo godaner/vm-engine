@@ -32449,8 +32449,8 @@ var UserHeadPage = _react2.default.createClass({
         var config = {
             fileTypes: ["jpg", "png"],
             fileMaxsize: 1024 * 1024 * 2, //2M
-            saveImgUrl: "/user/online/img",
-            uploadTempImgUrl: "/user/online/img/temp"
+            saveImgUrl: "/user/img",
+            uploadTempImgUrl: "/user/img/temp"
         };
         return {
             config: config,
@@ -32642,8 +32642,8 @@ var ImgUpload = _react2.default.createClass({
         // var config = {
         //     fileTypes: ["jpg", "png"],
         //     fileMaxsize: 1024 * 1024 * 2,//1M
-        //     saveImgUrl:"/online/img",//服务器接受imgFile,返回tempImgUrl和serverTempImgFileName
-        //     uploadTempImgUrl:"/online/img/temp",//服务器接受x,y,w,h等参数,返回newImgUrl
+        //     saveImgUrl:"/online/img",//服务器接受x,y,w,h,fileId等参数,返回newImgUrl
+        //     uploadTempImgUrl:"/online/img/temp",//服务器接受imgFile,返回tempImgUrl和fileId
         //      defaultDisplayImg:"/img/1?width=11&t=1321321"
         // };
         var config = this.props.config;
@@ -32666,7 +32666,7 @@ var ImgUpload = _react2.default.createClass({
     },
     validateImgFileOnSubmit: function validateImgFileOnSubmit() {
         //服务器未接收到相关的图片缓存
-        if (isUndefined(this.state.willUpdatedImgInfo.serverTempImgFileName)) {
+        if (isUndefined(this.state.willUpdatedImgInfo.fileId)) {
             throw this.state.userImgFileIsEmpty;
         }
     },
@@ -32826,7 +32826,7 @@ var ImgUpload = _react2.default.createClass({
                 //更新服务器暂存图片访问地址
                 this.previewImg(result.data.tempImgUrl + "&t=" + Date.now());
                 //更新服务器暂存图片名
-                this.updateServerTempImgFileName(result.data.serverTempImgFileName);
+                this.updateTempFileId(result.data.fileId);
 
                 // this.initCropper();
             }.bind(this),
@@ -32840,9 +32840,9 @@ var ImgUpload = _react2.default.createClass({
             onRequestError: function () {}.bind(this)
         });
     },
-    updateServerTempImgFileName: function updateServerTempImgFileName(serverTempImgFileName) {
+    updateTempFileId: function updateTempFileId(fileId) {
         var state = this.state;
-        state.willUpdatedImgInfo.serverTempImgFileName = serverTempImgFileName;
+        state.willUpdatedImgInfo.fileId = fileId;
         this.setState(state);
     },
     saveImg: function saveImg(callfun) {
@@ -32873,15 +32873,15 @@ var ImgUpload = _react2.default.createClass({
             }.bind(this),
             onResponseSuccess: function (result) {
 
-                c("result");
-                c(result);
+                // c("result");
+                // c(result);
                 this.props.onUpdateImgSuccess(result);
                 // this.previewImg(result.data.tempImgUrl);
 
                 window.EventsDispatcher.showMsgDialog(this.state.userImgUpdateSuccess);
 
                 // clear temp filename
-                this.updateServerTempImgFileName(undefined);
+                this.updateTempFileId(undefined);
 
                 //preview new img
                 this.previewImg(result.data.newImgUrl + "&t=" + Date.now());

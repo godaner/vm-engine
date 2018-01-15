@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.vm.base.utils.BaseService;
 import com.vm.base.utils.DateUtil;
 import com.vm.base.utils.ImageUtil;
-import com.vm.base.utils.VmProperties;
+import com.vm.base.utils.ServerConfig;
 import com.vm.dao.mapper.VmFilesMapper;
 import com.vm.dao.mapper.VmUsersMapper;
 import com.vm.dao.po.BasePo;
@@ -17,7 +17,6 @@ import com.vm.frontend.service.inf.VmUsersService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -149,7 +148,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         try {
             //获取用户图片id信息
             VmFiles file = vmFilesMapper.select(fileId);
-            String userImgPath = VmProperties.VM_USER_IMG_PATH;
+            String userImgPath = ServerConfig.VM_USER_IMG_PATH;
             String userImgName = null;
             String contentType = null;
             if (file != null) {
@@ -162,7 +161,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             File f = new File(userImgPath + File.separator + width + "_" + userImgName);
             //不存在，返回默认图片
             if (!f.exists()) {
-                f = new File(userImgPath + File.separator + VmProperties.VM_USER_IMG_DEFAULT_NAME);
+                f = new File(userImgPath + File.separator + ServerConfig.VM_USER_IMG_DEFAULT_NAME);
             }
             output = response.getOutputStream();
             input = new FileInputStream(f);
@@ -193,44 +192,73 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     }
 
     @Override
-    public String saveUserTempHeadImg(Long userId, MultipartFile headImg) throws Exception {
+    @Transactional
+    public Long saveUserTempHeadImg(Long userId, MultipartFile headImg) throws Exception {
         InputStream inputStream = null;
         OutputStream outputStream = null;
         String targetHeadImgName = null;
+        String targetHeadImgPathName = null;
+        VmFiles vmFiles = null;
         try {
-            String targetPath = VmProperties.VM_USER_IMG_TEMP_PATH;
-//            String contentType = headImg.getContentType();
-//            if (!contentType.equals(MediaType.IMAGE_JPEG_VALUE)) {
-//                logger.error("saveUserTempHeadImg headImg contentType is error ! headImg is : {}", headImg);
-//                throw new VmUsersException(VmUsersException.ErrorCode.USER_HEAD_IMG_CONTENT_TYPE_ERROR.getCode(),
-//                        VmUsersException.ErrorCode.USER_HEAD_IMG_CONTENT_TYPE_ERROR.getMsg());
-//            }
+            //targetPath
+            String targetPath = ServerConfig.VM_USER_IMG_TEMP_PATH;
+            //contentType
+            String contentType = headImg.getContentType();
+            //originalFilename
+            String originalFilename = headImg.getOriginalFilename();
+            //exts
+            List<String> exts = Lists.newArrayList(ServerConfig.VM_USER_TEMP_IMG_EXTS.split(","));
             //get ext
-            String ext = getFileNameExt(headImg.getOriginalFilename());
+            String ext = getFileNameExt(originalFilename);
+            //get size
+            Long size = headImg.getSize();
+            //now
+            Integer now = DateUtil.unixTime().intValue();
+
+            if (!exts.contains(ext)) {
+                logger.error("saveUserTempHeadImg headImg ext is error ! headImg is : {}", headImg);
+                throw new VmUsersException(VmUsersException.ErrorCode.USER_HEAD_IMG_CONTENT_TYPE_ERROR.getCode(),
+                        VmUsersException.ErrorCode.USER_HEAD_IMG_CONTENT_TYPE_ERROR.getMsg());
+            }
             targetHeadImgName = userId + "." + ext;
-            String headImgName = targetPath + File.separator + targetHeadImgName;
+            targetHeadImgPathName = targetPath + File.separator + targetHeadImgName;
             //save head Img
             inputStream = headImg.getInputStream();
-            outputStream = new FileOutputStream(headImgName);
+            outputStream = new FileOutputStream(targetHeadImgPathName);
             org.apache.commons.io.IOUtils.copy(inputStream, outputStream);
-        } catch (VmUsersException e) {
+
+
+            //写入数据库
+            vmFiles = new VmFiles();
+
+            vmFiles.setUpdateTime(now);
+            vmFiles.setCreateTime(now);
+            vmFiles.setSize(size);
+            vmFiles.setStatus(BasePo.Status.NORMAL.getCode());
+            vmFiles.setOriginalName(originalFilename);
+            vmFiles.setFilename(targetHeadImgName);
+            vmFiles.setContentType(contentType);
+            vmFilesMapper.insert(vmFiles);
+
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            deleteFiles(targetHeadImgName);
         } finally {
             closeStream(inputStream, outputStream);
         }
-        return targetHeadImgName;
+        return vmFiles.getId();
     }
 
     @Override
-    public void getUserTempHeadImg(String fileName, HttpServletResponse response) throws Exception {
+    public void getUserTempHeadImg(Long fileId, HttpServletResponse response) throws Exception {
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
-            String targetPath = VmProperties.VM_USER_IMG_TEMP_PATH;
-            String headImgName = targetPath + File.separator + fileName;
-            inputStream = new FileInputStream(headImgName);
+
+            VmFiles vmFiles = vmFilesMapper.select(fileId);
+            String targetPath = ServerConfig.VM_USER_IMG_TEMP_PATH;
+            String targetHeadImgPathName = targetPath + File.separator + vmFiles.getFilename();
+            inputStream = new FileInputStream(targetHeadImgPathName);
             org.apache.commons.io.IOUtils.copy(inputStream, response.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
@@ -243,22 +271,31 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Override
     @Transactional
     public VmUsersDto updateUserHeadImg(Long onlineUserId, UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
-        String sourceFilePath = null;
+        String sourceFilePathName = null;
+        String sourceFileName = null;
         VmUsers vmUsers = null;
+        VmFiles vmFiles = null;
         try {
-            //缓存图片
-            sourceFilePath = VmProperties.VM_USER_IMG_TEMP_PATH + File.separator + updateHeadImgInfo.getServerTempImgFileName();
+
+            //now
+            Integer now = DateUtil.unixTime().intValue();
+            //vmFiles
+            vmFiles = vmFilesMapper.select(updateHeadImgInfo.getFileId());
+            //sourceFileName
+            sourceFileName = vmFiles.getFilename();
+            //sourceFilePathName
+            sourceFilePathName = ServerConfig.VM_USER_IMG_TEMP_PATH + File.separator + sourceFileName;
 
             //数据库保存的图片名
-            String ext = getFileNameExt(updateHeadImgInfo.getServerTempImgFileName());
+            String ext = getFileNameExt(sourceFileName);
             String uuid = uuid();
             String newFileName = uuid + "." + ext;
 
             //写入多版本文件
-            final String finalSourceFilePath = sourceFilePath;
-            String[] versions = VmProperties.VM_USER_IMG_VERSIONS.split(",");
+            final String finalSourceFilePath = sourceFilePathName;
+            String[] versions = ServerConfig.VM_USER_IMG_VERSIONS.split(",");
             Lists.newArrayList(versions).stream().parallel().forEach((version) -> {
-                String targetFilePath = VmProperties.VM_USER_IMG_PATH + File.separator + version + "_" + newFileName;
+                String targetFilePath = ServerConfig.VM_USER_IMG_PATH + File.separator + version + "_" + newFileName;
                 try {
                     ImageUtil.cutImage(finalSourceFilePath,
                             targetFilePath,
@@ -273,23 +310,21 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             });
 
             //save File
-            VmFiles vmFiles = new VmFiles();
-
-            Integer now = DateUtil.unixTime().intValue();
-
+//            vmFiles = new VmFiles();
+            vmFiles.setId(null);
             vmFiles.setCreateTime(now);
             vmFiles.setUpdateTime(now);
             vmFiles.setFilename(newFileName);
-            vmFiles.setOriginalName(updateHeadImgInfo.getServerTempImgFileName());
-            vmFiles.setStatus(VmFiles.Status.NORMAL.getCode());
-            vmFiles.setSize(0l);
+//            vmFiles.setOriginalName(vmFiles.getOriginalName());
+//            vmFiles.setStatus(VmFiles.Status.NORMAL.getCode());
+//            vmFiles.setSize(0l);
             vmFilesMapper.insert(vmFiles);
 
 
             //update user
             vmUsers = new VmUsers();
             vmUsers.setId(onlineUserId);
-            vmUsers.setImgUrl(VmProperties.VM_USER_IMG_URL_PREFIX + "/" + vmFiles.getId());
+            vmUsers.setImgUrl(ServerConfig.VM_USER_IMG_URL_PREFIX + "/" + vmFiles.getId());
             vmUsersMapper.update(vmUsers);
 
 
@@ -300,7 +335,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            deleteFiles(sourceFilePath);
+            deleteFiles(sourceFilePathName);
         }
         return vmUsers == null ? null : makeVmUsersDto(vmUsers);
 

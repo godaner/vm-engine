@@ -21,9 +21,9 @@ public interface VmUsersService {
 
     VmUsersDto userRegist(VmUsersDto user) throws Exception;
 
-    String saveUserTempHeadImg(Long onlineUserId, MultipartFile headImg) throws Exception;
+    Long saveUserTempHeadImg(Long onlineUserId, MultipartFile headImg) throws Exception;
 
-    void getUserTempHeadImg(String fileName, HttpServletResponse response) throws Exception;
+    void getUserTempHeadImg(Long fileId, HttpServletResponse response) throws Exception;
 
     VmUsersDto updateUserHeadImg(Long onlineUserId, UpdateHeadImgInfo updateHeadImgInfo) throws Exception;
 }

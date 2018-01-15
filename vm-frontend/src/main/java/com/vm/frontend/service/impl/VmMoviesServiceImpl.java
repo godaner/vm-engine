@@ -2,7 +2,7 @@ package com.vm.frontend.service.impl;
 
 import com.google.common.collect.Maps;
 import com.vm.base.utils.BaseService;
-import com.vm.base.utils.VmProperties;
+import com.vm.base.utils.ServerConfig;
 import com.vm.dao.mapper.*;
 import com.vm.dao.mapper.custom.CustomVmFilmmakersMapper;
 import com.vm.dao.mapper.custom.CustomVmMoviesMapper;
@@ -261,7 +261,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         try {
             //获取电影图片id信息
             VmFiles file = vmFilesMapper.select(fileId);
-            String movieImgPath = VmProperties.VM_MOVIE_IMG_PATH;
+            String movieImgPath = ServerConfig.VM_MOVIE_IMG_PATH;
             String movieImgName = null;
             String contentType = null;
             if (file != null) {
@@ -271,7 +271,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             File f = new File(movieImgPath + File.separator + width + "_" + movieImgName);
             //不存在，返回默认图片
             if (!f.exists()) {
-                f = new File(movieImgPath + File.separator + VmProperties.VM_MOVIE_IMG_DEFAULT_NAME);
+                f = new File(movieImgPath + File.separator + ServerConfig.VM_MOVIE_IMG_DEFAULT_NAME);
             }
             input = new FileInputStream(f);
             output = response.getOutputStream();
@@ -293,7 +293,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         OutputStream output = null;
         try {
             VmFiles file = vmFilesMapper.select(fileId);
-            String movieSrcPath = VmProperties.VM_MOVIE_SRC_PATH;
+            String movieSrcPath = ServerConfig.VM_MOVIE_SRC_PATH;
 
             String movieSrcName = null;
             String contentType = null;
@@ -304,7 +304,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             File f = new File(movieSrcPath + File.separator + movieSrcName);
             //不存在，返回默认图片
             if (!f.exists()) {
-                movieSrcName = VmProperties.VM_MOVIE_SRC_DEFAULT_NAME;
+                movieSrcName = ServerConfig.VM_MOVIE_SRC_DEFAULT_NAME;
                 f = new File(movieSrcPath + File.separator + movieSrcName);
             }
             input = new FileInputStream(f);

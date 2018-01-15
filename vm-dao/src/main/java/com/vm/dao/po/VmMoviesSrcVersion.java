@@ -12,20 +12,22 @@ public class VmMoviesSrcVersion extends BasePo {
 
     private String srcUrl;
 
+    private Byte weight;
+
 
     /**
      * 清晰度
      */
     public enum Sharpness {
-        NORMAL(ByteConstantVar.ONE,"标清"),
-        HIGH(ByteConstantVar.TWO,"高清"),
-        SUPER_HIGH(ByteConstantVar.THREE,"超清");
+        NORMAL(ByteConstantVar.ONE, "标清"),
+        HIGH(ByteConstantVar.TWO, "高清"),
+        SUPER_HIGH(ByteConstantVar.THREE, "超清");
 
         Byte code;
 
         String msg;
 
-        Sharpness(Byte code, String msg){
+        Sharpness(Byte code, String msg) {
             this.code = code;
             this.msg = msg;
         }
@@ -46,6 +48,14 @@ public class VmMoviesSrcVersion extends BasePo {
             this.msg = msg;
         }
 
+    }
+
+    public Byte getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Byte weight) {
+        this.weight = weight;
     }
 
     public Byte getSharpness() {

@@ -15,11 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
  * Created by ZhangKe on 2017/12/28.
  */
 @Controller
-@RequestMapping(VmUsersController.USER_CONTROLLER_URL_PREFIX)
+@RequestMapping("/user")
 @Scope("prototype")
 public class VmUsersController extends ServiceController<VmUsersService> {
 
-    public static final String USER_CONTROLLER_URL_PREFIX = "/user";
 
     public static final String KEY_OF_ONLINE_USER = "ONLINE_USER";
 
@@ -112,39 +111,29 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
 
     /**
-     * 用户临时头像
-     *
-     * @return
-     */
-    private final static String ONLINE_USER_TEMP_HEAD_IMG_URL_SUFFIX = "/online/img/temp";
-
-    /**
      * 上传用户临时(缓存)头像
      *
      * @return
      */
-    @RequestMapping(value = VmUsersController.ONLINE_USER_TEMP_HEAD_IMG_URL_SUFFIX, method = RequestMethod.POST)
+    @RequestMapping(value = "/img/temp", method = RequestMethod.POST)
     @ResponseBody
     public Object uploadUserTempHeadImg(@RequestParam("img") MultipartFile headImg) throws Exception {
         VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);
-        String headImgFileName = service.saveUserTempHeadImg(onlineUser.getId(), headImg);
-        return response.putData("tempImgUrl",
-                VmUsersController.USER_CONTROLLER_URL_PREFIX + VmUsersController.ONLINE_USER_TEMP_HEAD_IMG_URL_SUFFIX +
-                        "?fileName=" + headImgFileName).putData("serverTempImgFileName", headImgFileName
-        );
+        Long fileId = service.saveUserTempHeadImg(onlineUser.getId(), headImg);
+        return response.putData("tempImgUrl", "/user/img/temp/" + fileId).
+                putData("fileId", fileId);
     }
 
 
     /**
      * 获取{@link VmUsersController#uploadUserTempHeadImg}接口缓存的图片;
      *
-     * @param fileName
      * @throws Exception
      */
-    @RequestMapping(value = VmUsersController.ONLINE_USER_TEMP_HEAD_IMG_URL_SUFFIX, method = RequestMethod.GET)
+    @RequestMapping(value = "/img/temp/{fileId}", method = RequestMethod.GET)
     @ResponseBody
-    public void getUserTempHeadImg(@RequestParam("fileName") String fileName) throws Exception {
-        service.getUserTempHeadImg(fileName, getResponse());
+    public void getUserTempHeadImg(@PathVariable("fileId") Long fileId) throws Exception {
+        service.getUserTempHeadImg(fileId, getResponse());
     }
 
     /**
@@ -153,7 +142,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @return
      */
-    @RequestMapping(value = "/online/img", method = RequestMethod.PUT)
+    @RequestMapping(value = "/img", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateUserHeadImg(@RequestBody UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
         VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);

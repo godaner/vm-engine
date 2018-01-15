@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
  * setter不需要static修饰!!!
  * Created by ZhangKe on 2017/12/13.
  */
-@PropertySource(value = {"classpath:config/vm.properties"}, encoding = "utf-8")
+@PropertySource(value = {"classpath:config/server.properties"}, encoding = "utf-8")
 @Component
-public class VmProperties {
+public class ServerConfig {
 
     public static String VM_MOVIE_SRC_DEFAULT_NAME;
     public static String VM_MOVIE_IMG_PATH;
@@ -19,10 +19,22 @@ public class VmProperties {
     public static String VM_USER_IMG_PATH;
     public static String VM_USER_IMG_DEFAULT_NAME;
     public static String VM_USER_IMG_URL_PREFIX;
+    public static Integer VM_USER_TEMP_IMG_MAX_SIZE;
+    public static String VM_USER_TEMP_IMG_EXTS;
     public static String VM_FILMMAKER_IMG_PATH;
     public static String VM_FILMMAKER_IMG_DEFAULT_NAME;
     public static String VM_USER_IMG_TEMP_PATH;
     public static String VM_USER_IMG_VERSIONS;
+
+    @Value("${vm.user.temp.img.exts}")
+    public void setVmUserTempImgExts(String vmUserTempImgExts) {
+        VM_USER_TEMP_IMG_EXTS = vmUserTempImgExts;
+    }
+
+    @Value("${vm.user.temp.img.max.size}")
+    public void setVmUserTempImgMaxSize(Integer vmUserTempImgMaxSize) {
+        VM_USER_TEMP_IMG_MAX_SIZE = vmUserTempImgMaxSize;
+    }
 
     @Value("${vm.user.img.versions}")
     public void setVmUserImgVersions(String vmUserImgVersions) {
