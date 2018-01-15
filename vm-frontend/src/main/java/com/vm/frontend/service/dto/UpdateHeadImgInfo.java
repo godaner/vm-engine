@@ -5,7 +5,7 @@ package com.vm.frontend.service.dto;
  * 上传头像参数信息
  */
 public class UpdateHeadImgInfo {
-    private String serverTempHeadImgFileName;
+    private String serverTempImgFileName;
     private Integer x;
     private Integer y;
     private Integer height;
@@ -14,12 +14,12 @@ public class UpdateHeadImgInfo {
     private Integer scaleX;
     private Integer scaleY;
 
-    public String getServerTempHeadImgFileName() {
-        return serverTempHeadImgFileName;
+    public String getServerTempImgFileName() {
+        return serverTempImgFileName;
     }
 
-    public void setServerTempHeadImgFileName(String serverTempHeadImgFileName) {
-        this.serverTempHeadImgFileName = serverTempHeadImgFileName;
+    public void setServerTempImgFileName(String serverTempImgFileName) {
+        this.serverTempImgFileName = serverTempImgFileName;
     }
 
     public Integer getX() {

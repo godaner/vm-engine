@@ -69,7 +69,7 @@ var UserHeadPage = React.createClass({
         this.getUserHeadUploader().previewImg(imgUrl);
     },
     onUpdateImgSuccess(result){
-        window.EventsDispatcher.onUpdateImgSuccess(result.data.user);
+        window.EventsDispatcher.onUpdateHeadImgSuccess(result.data.user);
     },
     render: function () {
         return (

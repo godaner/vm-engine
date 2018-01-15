@@ -1,12 +1,12 @@
 @import "frontend-default.scss";
 
 #img_uploader {
-  $imgWidthAndHeight: 300px;
   display: flex;
   & > div {
     float: left;
 
   }
+  $imgWidthAndHeight: 300px;
   #img_upload {
     width: 400px;
     @include defaultSetPaddingLeft(50px);

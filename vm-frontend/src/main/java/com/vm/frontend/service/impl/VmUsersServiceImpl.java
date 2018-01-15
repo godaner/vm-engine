@@ -247,10 +247,10 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         VmUsers vmUsers = null;
         try {
             //缓存图片
-            sourceFilePath = VmProperties.VM_USER_IMG_TEMP_PATH + File.separator + updateHeadImgInfo.getServerTempHeadImgFileName();
+            sourceFilePath = VmProperties.VM_USER_IMG_TEMP_PATH + File.separator + updateHeadImgInfo.getServerTempImgFileName();
 
             //数据库保存的图片名
-            String ext = getFileNameExt(updateHeadImgInfo.getServerTempHeadImgFileName());
+            String ext = getFileNameExt(updateHeadImgInfo.getServerTempImgFileName());
             String uuid = uuid();
             String newFileName = uuid + "." + ext;
 
@@ -280,7 +280,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             vmFiles.setCreateTime(now);
             vmFiles.setUpdateTime(now);
             vmFiles.setFilename(newFileName);
-            vmFiles.setOriginalName(updateHeadImgInfo.getServerTempHeadImgFileName());
+            vmFiles.setOriginalName(updateHeadImgInfo.getServerTempImgFileName());
             vmFiles.setStatus(VmFiles.Status.NORMAL.getCode());
             vmFiles.setSize(0l);
             vmFilesMapper.insert(vmFiles);

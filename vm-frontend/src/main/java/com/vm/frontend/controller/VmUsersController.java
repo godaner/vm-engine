@@ -157,7 +157,8 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     @ResponseBody
     public Object updateUserHeadImg(@RequestBody UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
         VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);
-        return response.putData("user", service.updateUserHeadImg(onlineUser.getId(), updateHeadImgInfo)).
+        onlineUser = service.updateUserHeadImg(onlineUser.getId(), updateHeadImgInfo);
+        return response.putData("user", onlineUser).
                 putData("newImgUrl", onlineUser.getImgUrl() + "?width=300");
     }
 //

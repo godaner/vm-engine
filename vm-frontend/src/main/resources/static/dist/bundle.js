@@ -32504,7 +32504,7 @@ var UserHeadPage = _react2.default.createClass({
         this.getUserHeadUploader().previewImg(imgUrl);
     },
     onUpdateImgSuccess: function onUpdateImgSuccess(result) {
-        window.EventsDispatcher.onUpdateImgSuccess(result.data.user);
+        window.EventsDispatcher.onUpdateHeadImgSuccess(result.data.user);
     },
 
     render: function render() {
@@ -32567,7 +32567,7 @@ exports = module.exports = __webpack_require__(5)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_head_content {\n  display: flex; }\n  #user_head_content div {\n    float: left; }\n  #user_head_content #react_img_uploader {\n    flex: 1; }\n  #user_head_content #tip {\n    padding-left: 30px;\n    box-sizing: border-box;\n    flex: 1; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_head_content {\n  display: flex; }\n  #user_head_content div {\n    float: left; }\n  #user_head_content #react_img_uploader {\n    flex: 2; }\n  #user_head_content #tip {\n    padding-left: 30px;\n    box-sizing: border-box;\n    flex: 1; }\n", ""]);
 
 // exports
 
@@ -32642,8 +32642,8 @@ var ImgUpload = _react2.default.createClass({
         // var config = {
         //     fileTypes: ["jpg", "png"],
         //     fileMaxsize: 1024 * 1024 * 2,//1M
-        //     saveImgUrl:"/online/img",//服务器接受x,y,w,h等信息和参数imgFile,返回tempImgUrl和serverTempImgFileName
-        //     uploadTempImgUrl:"/online/img/temp",//返回newImgUrl
+        //     saveImgUrl:"/online/img",//服务器接受imgFile,返回tempImgUrl和serverTempImgFileName
+        //     uploadTempImgUrl:"/online/img/temp",//服务器接受x,y,w,h等参数,返回newImgUrl
         //      defaultDisplayImg:"/img/1?width=11&t=1321321"
         // };
         var config = this.props.config;
@@ -32873,6 +32873,8 @@ var ImgUpload = _react2.default.createClass({
             }.bind(this),
             onResponseSuccess: function (result) {
 
+                c("result");
+                c(result);
                 this.props.onUpdateImgSuccess(result);
                 // this.previewImg(result.data.tempImgUrl);
 
