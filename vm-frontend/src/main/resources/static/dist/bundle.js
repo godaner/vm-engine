@@ -31776,7 +31776,7 @@ var _user_head_page = __webpack_require__(304);
 
 var _user_head_page2 = _interopRequireDefault(_user_head_page);
 
-__webpack_require__(307);
+__webpack_require__(310);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32435,7 +32435,7 @@ var _reactRouterDom = __webpack_require__(14);
 
 __webpack_require__(305);
 
-var _img_uploader = __webpack_require__(309);
+var _img_uploader = __webpack_require__(307);
 
 var _img_uploader2 = _interopRequireDefault(_img_uploader);
 
@@ -32576,46 +32576,6 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $ma
 /* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(308);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(6)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_page.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_page.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 308 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(5)();
-// imports
-
-
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_info {\n  margin: 0px 15%;\n  width: 70%;\n  margin-top: 20px; }\n  #user_info #content {\n    width: 100%;\n    display: flex; }\n    #user_info #content > div {\n      float: left; }\n    #user_info #content #nav {\n      padding: 10px 10px;\n      box-sizing: border-box;\n      width: 200px;\n      background-color: rgb(241,242,243); }\n      #user_info #content #nav #nav_ul {\n        list-style: none;\n        display: block;\n        width: 100%; }\n        #user_info #content #nav #nav_ul li {\n          display: block;\n          width: 100%; }\n          #user_info #content #nav #nav_ul li a {\n            display: block;\n            width: 100%;\n            height: 40px;\n            line-height: 40px;\n            text-align: center;\n            font-size: 15px; }\n          #user_info #content #nav #nav_ul li .active {\n            background-color: rgb(61,158,255);\n            color: white; }\n    #user_info #content #displayer {\n      flex: 1; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 309 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
@@ -32627,7 +32587,7 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__(310);
+__webpack_require__(308);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32982,13 +32942,13 @@ var ImgUpload = _react2.default.createClass({
 exports.default = ImgUpload;
 
 /***/ }),
-/* 310 */
+/* 308 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(311);
+var content = __webpack_require__(309);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(6)(content, {});
@@ -33008,7 +32968,7 @@ if(false) {
 }
 
 /***/ }),
-/* 311 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(5)();
@@ -33017,6 +32977,46 @@ exports = module.exports = __webpack_require__(5)();
 
 // module
 exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#img_uploader {\n  display: flex; }\n  #img_uploader > div {\n    float: left; }\n  #img_uploader #img_upload {\n    width: 400px;\n    padding-left: 50px;\n    box-sizing: border-box; }\n    #img_uploader #img_upload #img_upload_to_middle_div {\n      margin: 0px auto;\n      width: 300px; }\n      #img_uploader #img_upload #img_upload_to_middle_div > * {\n        display: block; }\n      #img_uploader #img_upload #img_upload_to_middle_div #imgPreviewWrapper {\n        width: 300px;\n        height: 300px; }\n        #img_uploader #img_upload #img_upload_to_middle_div #imgPreviewWrapper #imgPreview {\n          width: 300px;\n          height: 300px; }\n      #img_uploader #img_upload #img_upload_to_middle_div #btns_div {\n        margin-top: 15px;\n        width: 100%; }\n        #img_uploader #img_upload #img_upload_to_middle_div #btns_div > .operateBtn {\n          background-color: white;\n          color: \"rgb(61,158,255)\";\n          border: 1px solid rgb(61,158,255);\n          width: 100px;\n          height: 30px;\n          cursor: pointer;\n          transition: all 500ms; }\n          #img_uploader #img_upload #img_upload_to_middle_div #btns_div > .operateBtn:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px;\n            color: white; }\n        #img_uploader #img_upload #img_upload_to_middle_div #btns_div #uploadTempImgBtn {\n          float: left; }\n        #img_uploader #img_upload #img_upload_to_middle_div #btns_div #imgInput {\n          display: none; }\n        #img_uploader #img_upload #img_upload_to_middle_div #btns_div #imgSaveBtn {\n          float: right; }\n  #img_uploader #head_preview {\n    flex: 1; }\n    #img_uploader #head_preview > * {\n      margin-left: 20px; }\n    #img_uploader #head_preview #imgPreview0 {\n      width: 80px;\n      height: 80px; }\n    #img_uploader #head_preview #imgPreview1 {\n      width: 50px;\n      height: 50px; }\n    #img_uploader #head_preview #imgPreview2 {\n      width: 30px;\n      height: 30px; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 310 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(311);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(6)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_page.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./user_page.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 311 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(5)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_info {\n  margin: 0px 15%;\n  width: 70%;\n  margin-top: 20px; }\n  #user_info #content {\n    width: 100%;\n    display: flex; }\n    #user_info #content > div {\n      float: left; }\n    #user_info #content #nav {\n      padding: 10px 10px;\n      box-sizing: border-box;\n      width: 200px;\n      background-color: rgb(241,242,243); }\n      #user_info #content #nav #nav_ul {\n        list-style: none;\n        display: block;\n        width: 100%; }\n        #user_info #content #nav #nav_ul li {\n          display: block;\n          width: 100%; }\n          #user_info #content #nav #nav_ul li a {\n            display: block;\n            width: 100%;\n            height: 40px;\n            line-height: 40px;\n            text-align: center;\n            font-size: 15px; }\n          #user_info #content #nav #nav_ul li .active {\n            background-color: rgb(61,158,255);\n            color: white; }\n    #user_info #content #displayer {\n      flex: 1; }\n", ""]);
 
 // exports
 

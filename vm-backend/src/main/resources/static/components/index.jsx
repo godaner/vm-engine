@@ -3,12 +3,11 @@ import React from 'react';
 import {Layout, Menu, Breadcrumb, Icon} from 'antd';
 const {Header, Content, Footer, Sider} = Layout;
 const SubMenu = Menu.SubMenu;
+import HomePage from "./home_page";
 import {Switch, BrowserRouter, HashRouter, Route} from 'react-router-dom';
 import {EventEmitter} from 'events';
 import "antd/dist/antd.css";
 import '../scss/index.scss';
-// import Head from "./head";
-// import Tail from "./tail";
 import "./events_dispatcher";
 
 var Index = React.createClass({
@@ -61,18 +60,22 @@ var Index = React.createClass({
                         </Menu>
                     </Sider>
                     <Layout>
-                        <Header style={{background: '#fff', padding: 0}}/>
+                        <Header style={{background: '#fff', padding: 0}}
+                                value="VM后台管理系统"/>
                         <Content style={{margin: '0 16px'}}>
                             <Breadcrumb style={{margin: '16px 0'}}>
                                 <Breadcrumb.Item>User</Breadcrumb.Item>
                                 <Breadcrumb.Item>Bill</Breadcrumb.Item>
                             </Breadcrumb>
                             <div style={{padding: 24, background: '#fff', minHeight: 360}}>
-                                Bill is a cat.
+                                <Route exact path='/'
+                                       render={() => (
+                                           <HomePage />
+                                       )}/>
                             </div>
                         </Content>
                         <Footer style={{textAlign: 'center'}}>
-                            Ant Design ©2016 Created by Ant UED
+                             Vm backend ©2016 Created by Zhangke
                         </Footer>
                     </Layout>
                 </Layout>
