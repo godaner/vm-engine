@@ -1,0 +1,162 @@
+@mixin defaultWidth {
+  width: 100%;
+}
+
+@mixin defaultHeight {
+  height: 100%;
+}
+
+@mixin defaultSize {
+  @include defaultWidth;
+  @include defaultHeight;
+}
+
+@mixin defaultPadding {
+  padding: 0px 0px;
+}
+
+@mixin defaultMargin {
+  margin: 0px 0px;
+}
+
+@mixin defaultPaddingAndMargin {
+  padding: 0px 0px;
+  margin: 0px 0px;
+}
+
+@mixin defaultBody {
+  @include defaultSize;
+  @include defaultPaddingAndMargin;
+  background-color: unquote($defaultLightGrayRgb);
+}
+
+@mixin defaultSameHightOfInputAndBtn {
+  border-radius: 0px; /*省略所有浏览器前缀*/
+  //outline: 1px;
+  //!!!!注意，有时有效 vertical-align: middle;
+  box-sizing: border-box;
+}
+
+/* 一般用于div居中
+ * $marginPercent：距离左右的距离
+ */
+@mixin defaultMiddle($marginPercent:0%) {
+  margin: 0px (100%- unquote($marginPercent))/2;
+  width: unquote($marginPercent);
+}
+
+/*水平ul*/
+@mixin defaultHUl {
+  ul {
+    list-style: none;
+    display: inline;
+    li {
+
+      //display:inline
+      //width:auto;
+
+      //超过部分省略号代替,横向显示
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      //display: block;
+      height: auto;
+      width: auto;
+    }
+  }
+}
+@mixin defaultSetPadding($a,$b){
+  padding: $a $b;
+  box-sizing:border-box;
+}
+@mixin defaultSetPaddingLeft($left){
+  padding-left: $left;
+  box-sizing:border-box;
+}
+@mixin defaultSetPaddingTop($top){
+  padding-left: $top;
+  box-sizing:border-box;
+}
+
+@mixin defaultSetPaddingRight($right){
+  padding-right: $right;
+  box-sizing:border-box;
+}
+@mixin defaultSetPaddingAround($pad){
+  padding: $pad;
+  box-sizing:border-box;
+}
+@mixin defaultPanel {
+  @include defaultWidth;
+  border-radius: 3px;
+  background-color: white;
+  @include defaultSetPadding(20px,20px);
+
+}
+
+
+
+$defaultBlueRgb: "rgb(61,158,255)";
+$defaultLightGrayColorRgb: "rgb(153,153,153)";
+$defaultLightGrayRgb: "rgb(241,242,243)";
+
+.aLink {
+  &, a {
+    cursor: pointer;
+    color: unquote($defaultBlueRgb);
+    transition: all 500ms;
+
+    &:hover {
+      color: red;
+    }
+  }
+}
+
+.block {
+  display: block;
+}
+
+.none {
+  display: none;
+}
+
+.clear {
+  clear: both;
+}
+
+.clearfix:before, .clearfix:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  overflow: hidden;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.clearfix {
+  zoom: 1;
+}
+
+.defaultPanel{
+  @include defaultPanel;
+}
+
+* {
+  @include defaultPaddingAndMargin;
+  @include defaultWidth;
+  text-decoration: none;
+  outline: none;
+  color: unquote($defaultLightGrayColorRgb);
+  font-size: 12px;
+  fontFamily: "Microsoft YaHei UI";
+  //cursor: default;
+}
+
+
+
+body, html {
+  @include defaultBody;
+}
