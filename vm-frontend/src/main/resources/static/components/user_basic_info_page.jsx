@@ -61,8 +61,8 @@ var UserBasicInfoPage = React.createClass({
     handleBirthdayChange(date) {
         // c("handleBirthdayChange");
         var t = parseInt(date.getTime()) / 1000;
-        c("t.toFixed(0)");
-        c(t.toFixed(0));
+        // c("t.toFixed(0)");
+        // c(t.toFixed(0));
         // c(t);
         this.updateUserBirthday(t.toFixed(0));
 
@@ -74,7 +74,7 @@ var UserBasicInfoPage = React.createClass({
     },
     updateUserBasicInfo(callfun) {
         window.EventsDispatcher.showLoading(this.state.updatingUserBasicInfo);
-        const url = "/user/online/update";
+        const url = "/user/online";
         ajax.put({
             url: url,
             data: this.state.user,
@@ -108,7 +108,7 @@ var UserBasicInfoPage = React.createClass({
     },
     handleUsernameChange(e){
         var username = e.target.value;
-        c(username);
+        // c(username);
         // $(this.refs.username).value(username);
         // this.updateStateUsername(username);禁止更新username
     },

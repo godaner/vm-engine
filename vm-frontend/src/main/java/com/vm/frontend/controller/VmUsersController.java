@@ -85,7 +85,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     }
 
 
-    @RequestMapping(value = "/online/update", method = RequestMethod.PUT)
+    @RequestMapping(value = "/online", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateOnlineUserBasicInfo(@RequestBody VmUsersDto user) throws Exception {
 
@@ -112,11 +112,11 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
 
     /**
-     * 上传用户临时头像
+     * 上传用户临时(缓存)头像
      *
      * @return
      */
-    @RequestMapping(value = "/online/img/upload/temp", method = RequestMethod.POST)
+    @RequestMapping(value = "/online/img/temp", method = RequestMethod.POST)
     @ResponseBody
     public Object uploadUserTempHeadImg(@RequestParam("headImg") MultipartFile headImg) throws Exception {
         VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);
@@ -134,6 +134,11 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      */
     private final static String ONLINE_USER_TEMP_HEAD_IMG_URL_SUFFIX = "/online/img/temp";
 
+    /**
+     * 获取{@link VmUsersController#uploadUserTempHeadImg}接口缓存的图片;
+     * @param fileName
+     * @throws Exception
+     */
     @RequestMapping(value = VmUsersController.ONLINE_USER_TEMP_HEAD_IMG_URL_SUFFIX, method = RequestMethod.GET)
     @ResponseBody
     public void getUserTempHeadImg(@RequestParam("fileName") String fileName) throws Exception {
@@ -146,7 +151,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @return
      */
-    @RequestMapping(value = "/online/update/img", method = RequestMethod.PUT)
+    @RequestMapping(value = "/online/img", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateUserHeadImg(@RequestBody UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
         VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);

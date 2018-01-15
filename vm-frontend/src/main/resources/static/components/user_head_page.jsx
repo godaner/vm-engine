@@ -222,7 +222,7 @@ var UserHeadPage = React.createClass({
         var formData = new FormData();
         formData.append("headImg", headImgFile);
         // var userId = this.state.user.id;
-        const url = "/user/online/img/upload/temp";
+        const url = "/user/online/img/temp";
         ajax.post({
             url: url,
             data: formData,
@@ -279,7 +279,7 @@ var UserHeadPage = React.createClass({
         window.EventsDispatcher.showLoading();
 
         // var userId = this.state.user.id;
-        const url = "/user/online/update/img";
+        const url = "/user/online/img";
         var data = this.state.willUpdateUserHeadImgInfo;
         // data.serverCacheFileName = this.state.serverTempHeadImgFileName;
         ajax.put({

@@ -30630,6 +30630,9 @@ var Head = _react2.default.createClass({
             accountLoginOtherArea: "账户在其他地方登录",
             sessionTimeOut: "登录超时",
             onlineUserBasicInfoUrl: "/user/online/basicInfo",
+
+            //用户未登录时受保护的页面，用于用户注销后或者被动离线后调用
+            protectedUserPageLists: ["/user/[0-9/_-a-zA-Z]*"],
             user: {}, //默认为空对象
             ws: {
                 url: undefined,
@@ -30754,7 +30757,7 @@ var Head = _react2.default.createClass({
         var message = JSON.parse(msg);
         //account login in other area
         if (message.result == WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA) {
-            this.protectPage();
+            this.protectPageWhenUserOffline();
             // c("WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA");
             this.httpLogout(this.state.accountLoginOtherArea, function () {
                 this.wsClose();
@@ -30762,7 +30765,7 @@ var Head = _react2.default.createClass({
         }
         //session timeout
         if (message.result == WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT) {
-            this.protectPage();
+            this.protectPageWhenUserOffline();
             // c("WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT");
             this.httpLogout(this.state.sessionTimeOut, function () {
                 this.wsClose();
@@ -30789,13 +30792,22 @@ var Head = _react2.default.createClass({
 
         this.httpLogout(msg, function () {
             this.wsLogout();
-            this.protectPage();
+            this.protectPageWhenUserOffline();
         }.bind(this));
     },
 
-    protectPage: function protectPage() {
-        protectUserPageWhenUserIsOffline(this);
+    protectPageWhenUserOffline: function protectPageWhenUserOffline() {
+        // protectUserPageWhenUserIsOffline(this);
+        var protectedUserPageLists = this.state.protectedUserPageLists;
+        for (var i = 0; i < protectedUserPageLists.length; i++) {
+            var protectedPage = protectedUserPageLists[i];
+            if (this.props.location.pathname.match(protectedPage)) {
+                this.props.history.replace("/");
+                break;
+            }
+        }
     },
+
     httpLogout: function httpLogout(msg, callfun) {
         //default msg
         if (isEmpty(msg)) {
@@ -30849,7 +30861,7 @@ var Head = _react2.default.createClass({
                         this.wsLogin();
                     }.bind(this));
                 } else {
-                    this.protectPage();
+                    this.protectPageWhenUserOffline();
                 }
             }.bind(this),
             onResponseFailure: function (result) {}.bind(this),
@@ -31799,7 +31811,7 @@ var UserPage = _react2.default.createClass({
                     this.backToHomePage();
                 }
             }.bind(this),
-            onResponseFailure: function (result) {
+            onResponseFailbackToHomePageure: function (result) {
                 this.backToHomePage();
                 window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure, function () {});
             }.bind(this),
@@ -31953,8 +31965,8 @@ var UserBasicInfoPage = _react2.default.createClass({
     handleBirthdayChange: function handleBirthdayChange(date) {
         // c("handleBirthdayChange");
         var t = parseInt(date.getTime()) / 1000;
-        c("t.toFixed(0)");
-        c(t.toFixed(0));
+        // c("t.toFixed(0)");
+        // c(t.toFixed(0));
         // c(t);
         this.updateUserBirthday(t.toFixed(0));
     },
@@ -31965,7 +31977,7 @@ var UserBasicInfoPage = _react2.default.createClass({
     },
     updateUserBasicInfo: function updateUserBasicInfo(callfun) {
         window.EventsDispatcher.showLoading(this.state.updatingUserBasicInfo);
-        var url = "/user/online/update";
+        var url = "/user/online";
         ajax.put({
             url: url,
             data: this.state.user,
@@ -31996,7 +32008,7 @@ var UserBasicInfoPage = _react2.default.createClass({
     },
     handleUsernameChange: function handleUsernameChange(e) {
         var username = e.target.value;
-        c(username);
+        // c(username);
         // $(this.refs.username).value(username);
         // this.updateStateUsername(username);禁止更新username
     },
@@ -32637,7 +32649,7 @@ var UserHeadPage = _react2.default.createClass({
         var formData = new FormData();
         formData.append("headImg", headImgFile);
         // var userId = this.state.user.id;
-        var url = "/user/online/img/upload/temp";
+        var url = "/user/online/img/temp";
         ajax.post({
             url: url,
             data: formData,
@@ -32686,7 +32698,7 @@ var UserHeadPage = _react2.default.createClass({
         window.EventsDispatcher.showLoading();
 
         // var userId = this.state.user.id;
-        var url = "/user/online/update/img";
+        var url = "/user/online/img";
         var data = this.state.willUpdateUserHeadImgInfo;
         // data.serverCacheFileName = this.state.serverTempHeadImgFileName;
         ajax.put({

@@ -13,8 +13,7 @@ var UserPage = React.createClass({
                 basicInfoUrl: "/user/online/basicInfo",
                 headUrl: "/user/online/head"
                 // userId: this.props.match.params.userId
-            }
-                ;
+            };
         },
         componentDidMount(){
 
@@ -41,7 +40,7 @@ var UserPage = React.createClass({
                         this.backToHomePage();
                     }
                 }.bind(this),
-                onResponseFailure: function (result) {
+                onResponseFailbackToHomePageure: function (result) {
                     this.backToHomePage();
                     window.VmFrontendEventsDispatcher.showMsgDialog(this.state.getInfoFailure, function () {
 

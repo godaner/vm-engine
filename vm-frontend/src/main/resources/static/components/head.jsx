@@ -13,6 +13,9 @@ var Head = React.createClass({
             accountLoginOtherArea: "账户在其他地方登录",
             sessionTimeOut: "登录超时",
             onlineUserBasicInfoUrl: "/user/online/basicInfo",
+
+            //用户未登录时受保护的页面，用于用户注销后或者被动离线后调用
+            protectedUserPageLists: ["/user/[0-9/_-a-zA-Z]*"],
             user: {},//默认为空对象
             ws: {
                 url: undefined,
@@ -139,7 +142,7 @@ var Head = React.createClass({
         var message = JSON.parse(msg);
         //account login in other area
         if (message.result == WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA) {
-            this.protectPage();
+            this.protectPageWhenUserOffline();
             // c("WS_USER_STATUS_RESULT_CODE_LOGIN_OTHER_AREA");
             this.httpLogout(this.state.accountLoginOtherArea, function () {
                 this.wsClose();
@@ -149,7 +152,7 @@ var Head = React.createClass({
         }
         //session timeout
         if (message.result == WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT) {
-            this.protectPage();
+            this.protectPageWhenUserOffline();
             // c("WS_USER_STATUS_RESULT_CODE_SESSION_TIMEOUT");
             this.httpLogout(this.state.sessionTimeOut, function () {
                 this.wsClose();
@@ -176,12 +179,21 @@ var Head = React.createClass({
 
         this.httpLogout(msg, function () {
             this.wsLogout();
-            this.protectPage();
+            this.protectPageWhenUserOffline();
         }.bind(this));
     },
-    protectPage: function () {
-        protectUserPageWhenUserIsOffline(this);
+    protectPageWhenUserOffline: function () {
+        // protectUserPageWhenUserIsOffline(this);
+        var protectedUserPageLists = this.state.protectedUserPageLists;
+        for (var i = 0; i < protectedUserPageLists.length; i++) {
+            var protectedPage = protectedUserPageLists[i];
+            if (this.props.location.pathname.match(protectedPage)) {
+                this.props.history.replace("/");
+                break;
+            }
+        }
     },
+
     httpLogout: function (msg, callfun) {
         //default msg
         if (isEmpty(msg)) {
@@ -246,7 +258,7 @@ var Head = React.createClass({
                         this.wsLogin();
                     }.bind(this));
                 } else {
-                    this.protectPage();
+                    this.protectPageWhenUserOffline();
                 }
 
             }.bind(this),

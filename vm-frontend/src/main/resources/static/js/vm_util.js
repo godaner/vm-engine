@@ -8,16 +8,16 @@ function success(code) {
 
 
 //保护用户页面
-function protectUserPageWhenUserIsOffline(react_this) {
-    for (var i = 0; i < vm_config.protectedUserPageLists.length; i++) {
-        var protectedPage = vm_config.protectedUserPageLists[i];
-        if (react_this.props.location.pathname.match(protectedPage)) {
-            react_this.props.history.replace("/");
-            break;
-        }
-    }
-
-}
+// function protectUserPageWhenUserIsOffline(react_this) {
+//     for (var i = 0; i < vm_config.protectedUserPageLists.length; i++) {
+//         var protectedPage = vm_config.protectedUserPageLists[i];
+//         if (react_this.props.location.pathname.match(protectedPage)) {
+//             react_this.props.history.replace("/");
+//             break;
+//         }
+//     }
+//
+// }
 
 
 //开始懒加载，依赖jquery.lazyload.js
@@ -35,14 +35,17 @@ var ajax = {
     ajaxError: "访问服务器失败,请稍后重试",
     startResponse(args, result){
         window.EventsDispatcher.closeLoading();
-        if (!isUndefined(args.onResponseStart)) {
-            args.onResponseStart();
+        if (!isUndefined(args)) {
+            if (!isUndefined(args.onResponseStart)) {
+                args.onResponseStart();
+            }
         }
     },
     endResponse(args, result){
-
-        if (!isUndefined(args.onResponseEnd)) {
-            args.onResponseEnd();
+        if (!isUndefined(args)) {
+            if (!isUndefined(args.onResponseEnd)) {
+                args.onResponseEnd();
+            }
         }
     },
     requestServerSuccess: function (args, result) {
