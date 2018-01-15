@@ -5,80 +5,8 @@
   div {
     float: left;
   }
-  $imgWidthAndHeight: 300px;
-  #head_upload {
-    width: 400px;
-    @include defaultSetPaddingLeft(50px);
-    #head_upload_to_middle_div {
-      margin: 0px auto;
-      width: $imgWidthAndHeight;
-      & > * {
-        display: block;
-      }
-      #headImgPreviewWrapper {
-        width: $imgWidthAndHeight;
-        height: $imgWidthAndHeight;
-        #headImgPreview {
-          width: $imgWidthAndHeight;
-          height: $imgWidthAndHeight;
-        }
-      }
-
-      #btns_div {
-        margin-top: 15px;
-        @include defaultWidth;
-
-        & > .operateBtn {
-          background-color: white;
-          color: $defaultBlueRgb;
-          border: 1px solid unquote($defaultBlueRgb);
-          width: 100px;
-          height: 30px;
-          cursor: pointer;
-          transition: all 500ms;
-          &:hover {
-            background-color: unquote($defaultBlueRgb);
-            border-radius: 99px;
-            color: unquote(white);
-          }
-        }
-        #uploadTempHeadImgBtn {
-          float: left;
-        }
-        #headImgInput {
-          display: none;
-        }
-        #headImgSaveBtn {
-
-          float: right;
-        }
-      }
-
-    }
-
-  }
-  #head_preview {
+  #react_img_uploader {
     flex: 1;
-    & > * {
-      margin-left: 20px;
-    }
-    #headImgPreview0 {
-      width: 80px;
-      height: 80px;
-
-    }
-
-    #headImgPreview1 {
-      width: 50px;
-      height: 50px;
-
-    }
-
-    #headImgPreview2 {
-      width: 30px;
-      height: 30px;
-
-    }
   }
   #tip {
     @include defaultSetPaddingTop(30px);

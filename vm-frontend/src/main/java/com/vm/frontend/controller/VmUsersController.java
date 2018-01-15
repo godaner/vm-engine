@@ -112,30 +112,32 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
 
     /**
-     * 上传用户临时(缓存)头像
-     *
-     * @return
-     */
-    @RequestMapping(value = "/online/img/temp", method = RequestMethod.POST)
-    @ResponseBody
-    public Object uploadUserTempHeadImg(@RequestParam("headImg") MultipartFile headImg) throws Exception {
-        VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);
-        String headImgFileName = service.saveUserTempHeadImg(onlineUser.getId(), headImg);
-        return response.putData("tempHeadImgUrl",
-                VmUsersController.USER_CONTROLLER_URL_PREFIX + VmUsersController.ONLINE_USER_TEMP_HEAD_IMG_URL_SUFFIX +
-                        "?fileName=" + headImgFileName).putData("serverTempHeadImgFileName", headImgFileName
-        );
-    }
-
-    /**
-     * 获取用户临时头像
+     * 用户临时头像
      *
      * @return
      */
     private final static String ONLINE_USER_TEMP_HEAD_IMG_URL_SUFFIX = "/online/img/temp";
 
     /**
+     * 上传用户临时(缓存)头像
+     *
+     * @return
+     */
+    @RequestMapping(value = VmUsersController.ONLINE_USER_TEMP_HEAD_IMG_URL_SUFFIX, method = RequestMethod.POST)
+    @ResponseBody
+    public Object uploadUserTempHeadImg(@RequestParam("img") MultipartFile headImg) throws Exception {
+        VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);
+        String headImgFileName = service.saveUserTempHeadImg(onlineUser.getId(), headImg);
+        return response.putData("tempImgUrl",
+                VmUsersController.USER_CONTROLLER_URL_PREFIX + VmUsersController.ONLINE_USER_TEMP_HEAD_IMG_URL_SUFFIX +
+                        "?fileName=" + headImgFileName).putData("serverTempImgFileName", headImgFileName
+        );
+    }
+
+
+    /**
      * 获取{@link VmUsersController#uploadUserTempHeadImg}接口缓存的图片;
+     *
      * @param fileName
      * @throws Exception
      */
@@ -155,7 +157,8 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     @ResponseBody
     public Object updateUserHeadImg(@RequestBody UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
         VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);
-        return response.putData("user", service.updateUserHeadImg(onlineUser.getId(), updateHeadImgInfo));
+        return response.putData("user", service.updateUserHeadImg(onlineUser.getId(), updateHeadImgInfo)).
+                putData("newImgUrl", onlineUser.getImgUrl() + "?width=300");
     }
 //
 //    @RequestMapping(value = "/update", method = RequestMethod.PUT)

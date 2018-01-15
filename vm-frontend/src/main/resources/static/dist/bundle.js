@@ -32435,33 +32435,28 @@ var _reactRouterDom = __webpack_require__(14);
 
 __webpack_require__(305);
 
+var _img_uploader = __webpack_require__(309);
+
+var _img_uploader2 = _interopRequireDefault(_img_uploader);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*用户头像页面*/
-//引入react组件
 var UserHeadPage = _react2.default.createClass({
     displayName: "UserHeadPage",
 
     getInitialState: function getInitialState() {
         var config = {
             fileTypes: ["jpg", "png"],
-            fileMaxsize: 1024 * 1024 * 2 //1M
+            fileMaxsize: 1024 * 1024 * 2, //2M
+            saveImgUrl: "/user/online/img",
+            uploadTempImgUrl: "/user/online/img/temp"
         };
         return {
             config: config,
             // userId: this.props.match.params.userId,
-            uploadTempHeadImgTip: "正在读取头像",
-            saveHeadImg: "正在保存头像",
             getInfoFailure: "获取信息失败",
-            userHeadImgFileTooMax: "文件过大,最大允许 : " + config.fileMaxsize / 1024 + " kb",
-            userHeadImgFileExtError: "文件类型错误,允许的文件类型 : " + config.fileTypes,
-            userHeadImgFileIsEmpty: "请选择一个文件",
-            userHeadImgUpdateSuccess: "头像更新成功",
             userHeadRequestWidth: 300,
-            willUpdateUserHeadImgInfo: {
-                serverTempHeadImgFileName: undefined //服务器临时保存的用户头像的filename，如a.png，如果为undefined，那么将禁止其更新头像
-            },
-            $headImgPreview: undefined,
             user: {}
         };
     },
@@ -32502,312 +32497,26 @@ var UserHeadPage = _react2.default.createClass({
             }.bind(this, callfun)
         });
     },
-    validateHeadImgFileOnSubmit: function validateHeadImgFileOnSubmit(headImgFile) {
-        //服务器未接收到相关的图片缓存
-        if (isUndefined(this.state.willUpdateUserHeadImgInfo.serverTempHeadImgFileName)) {
-            throw this.state.userHeadImgFileIsEmpty;
-        }
+    getUserHeadUploader: function getUserHeadUploader() {
+        return this.refs.userHeadUploader;
     },
-    validateHeadImgFileOnChoice: function validateHeadImgFileOnChoice(headImgFile) {
-
-        // c(headImgFile);
-
-        //unselect, size
-        if (isUndefined(headImgFile) || isUndefined(headImgFile.size)) {
-            throw this.state.userHeadImgFileIsEmpty;
-        }
-        if (headImgFile.size > this.state.config.fileMaxsize) {
-            throw this.state.userHeadImgFileTooMax;
-        }
-        var ext = getFileNameExt(headImgFile.name);
-        if (!this.state.config.fileTypes.contains(ext)) {
-            throw this.state.userHeadImgFileExtError;
-        }
+    previewHeadImg: function previewHeadImg(imgUrl) {
+        this.getUserHeadUploader().previewImg(imgUrl);
     },
-    getHeadImgInput: function getHeadImgInput() {
-        return $(this.refs.headImgInput);
-    },
-    getHeadImgFile: function getHeadImgFile() {
-        return this.getHeadImgInput().get(0).files[0];
-    },
-    updateStateHeadImgPreview: function updateStateHeadImgPreview($headImgPreview) {
-        var state = this.state;
-        state.$headImgPreview = $headImgPreview;
-        this.setState(state);
-    },
-    previewHeadImg: function previewHeadImg(headImgUrl) {
-
-        var updateWillUpdateUserHeadImgInfo = function (e) {
-
-            var $imageBoxData = {};
-
-            $imageBoxData.x = Math.round(e.x);
-            $imageBoxData.y = Math.round(e.y);
-
-            $imageBoxData.height = Math.round(e.height);
-            $imageBoxData.width = Math.round(e.width);
-
-            $imageBoxData.rotate = Math.round(e.rotate);
-            $imageBoxData.scaleX = Math.round(e.scaleX);
-            $imageBoxData.scaleY = Math.round(e.scaleY);
-            //leave serverTempHeadImgFileName
-            $imageBoxData.serverTempHeadImgFileName = this.state.willUpdateUserHeadImgInfo.serverTempHeadImgFileName;
-
-            var state = this.state;
-            state.willUpdateUserHeadImgInfo = $imageBoxData;
-            this.setState(state);
-
-            return $imageBoxData;
-        }.bind(this);
-
-        var $previews = $('.preview');
-        //cropper options
-        var options = {
-            aspectRatio: 1 / 1,
-            viewMode: 2,
-            ready: function ready(e) {
-                console.log(e.type);
-
-                var $clone = $(this).clone().removeClass('cropper-hidden');
-
-                $clone.css({
-                    display: 'block',
-                    width: '100%',
-                    minWidth: 0,
-                    minHeight: 0,
-                    maxWidth: 'none',
-                    maxHeight: 'none'
-                });
-
-                $previews.css({
-                    width: '100%',
-                    overflow: 'hidden'
-                }).html($clone);
-            },
-            cropstart: function cropstart(e) {
-                console.log(e.type, e.action);
-            },
-            cropmove: function cropmove(e) {
-                console.log(e.type, e.action);
-            },
-            cropend: function cropend(e) {
-                console.log(e.type, e.action);
-            },
-            crop: function crop(e) {
-
-                updateWillUpdateUserHeadImgInfo(e);
-
-                var imageData = $(this).cropper('getImageData');
-
-                var previewAspectRatio = e.width / e.height;
-                $previews.each(function () {
-                    var $preview = $(this);
-                    var previewWidth = $preview.width();
-                    var previewHeight = previewWidth / previewAspectRatio;
-                    var imageScaledRatio = e.width / previewWidth;
-
-                    $preview.height(previewHeight).find('img').css({
-                        width: imageData.naturalWidth / imageScaledRatio,
-                        height: imageData.naturalHeight / imageScaledRatio,
-                        marginLeft: -e.x / imageScaledRatio,
-                        marginTop: -e.y / imageScaledRatio
-                    });
-                });
-            },
-            zoom: function zoom(e) {
-                c(e.type, e.ratio);
-            }
-        };
-        if (isUndefined($headImgPreview)) {
-            var $headImgPreview = $(this.refs.headImgPreview);
-            //init cropper
-            $headImgPreview.cropper(options);
-            this.updateStateHeadImgPreview($headImgPreview);
-        }
-        this.state.$headImgPreview.cropper("replace", headImgUrl);
-    },
-    uploadTempHeadImg: function uploadTempHeadImg(callfun) {
-
-        var headImgInput = this.getHeadImgInput();
-        var headImgFile = this.getHeadImgFile();
-        //validateHeadImgFileOnChoice
-        try {
-            this.validateHeadImgFileOnChoice(headImgFile);
-        } catch (e) {
-            // window.EventsDispatcher.closeLoading();
-            window.EventsDispatcher.showMsgDialog(e);
-
-            // clear input #file
-            // this.clearHeadImgInput();
-            //back self original img
-            // this.previewHeadImg(this.state.user.ImgUrl);
-            return;
-        }
-
-        window.EventsDispatcher.showLoading(this.state.uploadTempHeadImgTip);
-
-        var formData = new FormData();
-        formData.append("headImg", headImgFile);
-        // var userId = this.state.user.id;
-        var url = "/user/online/img/temp";
-        ajax.post({
-            url: url,
-            data: formData,
-            enctype: 'multipart/form-data',
-            contentType: false, //必须false才会避开jQuery对 formdata 的默认处理 XMLHttpRequest会对 formdata 进行正确的处理
-            processData: false, //必须false才会自动加上正确的Content-Type
-            onBeforeRequest: function () {}.bind(this),
-            onResponseStart: function () {
-                window.EventsDispatcher.closeLoading();
-            }.bind(this),
-            onResponseSuccess: function (result) {
-                //更新服务器暂存图片访问地址
-                this.previewHeadImg(result.data.tempHeadImgUrl + "&t=" + Date.now());
-                //更新服务器暂存图片名
-                this.updateServerTempHeadImgFileName(result.data.serverTempHeadImgFileName);
-
-                // this.initCropper();
-            }.bind(this),
-            onResponseFailure: function (result) {}.bind(this),
-            onResponseEnd: function () {
-                //callfun
-                if (callfun != undefined) {
-                    callfun();
-                }
-            }.bind(this),
-            onRequestError: function () {}.bind(this)
-        });
-    },
-    updateServerTempHeadImgFileName: function updateServerTempHeadImgFileName(serverTempHeadImgFileName) {
-        var state = this.state;
-        state.willUpdateUserHeadImgInfo.serverTempHeadImgFileName = serverTempHeadImgFileName;
-        this.setState(state);
-    },
-    saveHeadImg: function saveHeadImg(callfun) {
-
-        // var headImgInput = this.getHeadImgInput();
-        // var headImgFile = this.getHeadImgFile();
-        try {
-            this.validateHeadImgFileOnSubmit();
-        } catch (e) {
-            // window.EventsDispatcher.closeLoading();
-            window.EventsDispatcher.showMsgDialog(e);
-            return;
-        }
-
-        window.EventsDispatcher.showLoading();
-
-        // var userId = this.state.user.id;
-        var url = "/user/online/img";
-        var data = this.state.willUpdateUserHeadImgInfo;
-        // data.serverCacheFileName = this.state.serverTempHeadImgFileName;
-        ajax.put({
-            url: url,
-            data: data,
-            loadingMsg: this.state.saveHeadImg,
-            onBeforeRequest: function () {}.bind(this),
-            onResponseStart: function () {
-                window.EventsDispatcher.closeLoading();
-            }.bind(this),
-            onResponseSuccess: function (result) {
-                this.previewHeadImg(result.data.tempHeadImgUrl);
-
-                window.EventsDispatcher.showMsgDialog(this.state.userHeadImgUpdateSuccess);
-
-                window.EventsDispatcher.onUpdateHeadImgSuccess(result.data.user);
-
-                // clear temp filename
-                this.updateServerTempHeadImgFileName(undefined);
-
-                //preview new head img
-                this.previewHeadImg(result.data.user.imgUrl + "?width=" + this.state.userHeadRequestWidth + "&t=" + Date.now());
-            }.bind(this),
-            onResponseFailure: function (result) {}.bind(this),
-            onResponseEnd: function () {
-                //callfun
-                if (callfun != undefined) {
-                    callfun();
-                }
-            }.bind(this),
-            onRequestError: function () {}.bind(this)
-        });
+    onUpdateImgSuccess: function onUpdateImgSuccess(result) {
+        window.EventsDispatcher.onUpdateImgSuccess(result.data.user);
     },
 
     render: function render() {
-        var _this = this;
-
         return _react2.default.createElement(
             "div",
             { id: "user_head_content", className: "clearfix" },
             _react2.default.createElement(
                 "div",
-                { id: "head_upload" },
-                _react2.default.createElement(
-                    "div",
-                    { id: "head_upload_to_middle_div" },
-                    _react2.default.createElement(
-                        "div",
-                        { id: "headImgPreviewWrapper",
-                            ref: "headImgPreviewWrapper" },
-                        _react2.default.createElement("img", { src: "",
-                            id: "headImgPreview",
-                            ref: "headImgPreview" })
-                    ),
-                    _react2.default.createElement(
-                        "div",
-                        { id: "btns_div" },
-                        _react2.default.createElement("input", { type: "file",
-                            ref: "headImgInput",
-                            name: "headImgInput",
-                            id: "headImgInput",
-                            onChange: function onChange() {
-                                _this.uploadTempHeadImg();
-                            } }),
-                        _react2.default.createElement("input", { type: "button",
-                            className: "operateBtn",
-                            id: "uploadTempHeadImgBtn",
-                            value: "\u9009\u62E9\u56FE\u7247",
-                            onClick: function onClick() {
-                                _this.refs.headImgInput.click();
-                            } }),
-                        _react2.default.createElement("input", { type: "button",
-                            className: "operateBtn",
-                            id: "headImgSaveBtn",
-                            ref: "headImgSaveBtn",
-                            onClick: function onClick() {
-                                _this.saveHeadImg();
-                            },
-                            value: "\u4FDD\u5B58"
-                        })
-                    )
-                )
-            ),
-            _react2.default.createElement(
-                "div",
-                { id: "head_preview" },
-                _react2.default.createElement(
-                    "p",
-                    null,
-                    "\u9884\u89C8 : "
-                ),
-                _react2.default.createElement(
-                    "div",
-                    { id: "headImgPreview0" },
-                    _react2.default.createElement("div", { className: "preview" }),
-                    "80x"
-                ),
-                _react2.default.createElement(
-                    "div",
-                    { id: "headImgPreview1" },
-                    _react2.default.createElement("div", { className: "preview" }),
-                    "50x"
-                ),
-                _react2.default.createElement(
-                    "div",
-                    { id: "headImgPreview2" },
-                    _react2.default.createElement("div", { className: "preview" }),
-                    "30x"
-                )
+                { id: "react_img_uploader" },
+                _react2.default.createElement(_img_uploader2.default, { ref: "userHeadUploader",
+                    config: this.state.config,
+                    onUpdateImgSuccess: this.onUpdateImgSuccess })
             ),
             _react2.default.createElement(
                 "div",
@@ -32820,7 +32529,7 @@ var UserHeadPage = _react2.default.createClass({
             )
         );
     }
-});
+}); //引入react组件
 exports.default = UserHeadPage;
 
 /***/ }),
@@ -32858,7 +32567,7 @@ exports = module.exports = __webpack_require__(5)();
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_head_content {\n  display: flex; }\n  #user_head_content div {\n    float: left; }\n  #user_head_content #head_upload {\n    width: 400px;\n    padding-left: 50px;\n    box-sizing: border-box; }\n    #user_head_content #head_upload #head_upload_to_middle_div {\n      margin: 0px auto;\n      width: 300px; }\n      #user_head_content #head_upload #head_upload_to_middle_div > * {\n        display: block; }\n      #user_head_content #head_upload #head_upload_to_middle_div #headImgPreviewWrapper {\n        width: 300px;\n        height: 300px; }\n        #user_head_content #head_upload #head_upload_to_middle_div #headImgPreviewWrapper #headImgPreview {\n          width: 300px;\n          height: 300px; }\n      #user_head_content #head_upload #head_upload_to_middle_div #btns_div {\n        margin-top: 15px;\n        width: 100%; }\n        #user_head_content #head_upload #head_upload_to_middle_div #btns_div > .operateBtn {\n          background-color: white;\n          color: \"rgb(61,158,255)\";\n          border: 1px solid rgb(61,158,255);\n          width: 100px;\n          height: 30px;\n          cursor: pointer;\n          transition: all 500ms; }\n          #user_head_content #head_upload #head_upload_to_middle_div #btns_div > .operateBtn:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px;\n            color: white; }\n        #user_head_content #head_upload #head_upload_to_middle_div #btns_div #uploadTempHeadImgBtn {\n          float: left; }\n        #user_head_content #head_upload #head_upload_to_middle_div #btns_div #headImgInput {\n          display: none; }\n        #user_head_content #head_upload #head_upload_to_middle_div #btns_div #headImgSaveBtn {\n          float: right; }\n  #user_head_content #head_preview {\n    flex: 1; }\n    #user_head_content #head_preview > * {\n      margin-left: 20px; }\n    #user_head_content #head_preview #headImgPreview0 {\n      width: 80px;\n      height: 80px; }\n    #user_head_content #head_preview #headImgPreview1 {\n      width: 50px;\n      height: 50px; }\n    #user_head_content #head_preview #headImgPreview2 {\n      width: 30px;\n      height: 30px; }\n  #user_head_content #tip {\n    padding-left: 30px;\n    box-sizing: border-box;\n    flex: 1; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_head_content {\n  display: flex; }\n  #user_head_content div {\n    float: left; }\n  #user_head_content #react_img_uploader {\n    flex: 1; }\n  #user_head_content #tip {\n    padding-left: 30px;\n    box-sizing: border-box;\n    flex: 1; }\n", ""]);
 
 // exports
 
@@ -32899,6 +32608,410 @@ exports = module.exports = __webpack_require__(5)();
 
 // module
 exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#user_info {\n  margin: 0px 15%;\n  width: 70%;\n  margin-top: 20px; }\n  #user_info #content {\n    width: 100%;\n    display: flex; }\n    #user_info #content > div {\n      float: left; }\n    #user_info #content #nav {\n      padding: 10px 10px;\n      box-sizing: border-box;\n      width: 200px;\n      background-color: rgb(241,242,243); }\n      #user_info #content #nav #nav_ul {\n        list-style: none;\n        display: block;\n        width: 100%; }\n        #user_info #content #nav #nav_ul li {\n          display: block;\n          width: 100%; }\n          #user_info #content #nav #nav_ul li a {\n            display: block;\n            width: 100%;\n            height: 40px;\n            line-height: 40px;\n            text-align: center;\n            font-size: 15px; }\n          #user_info #content #nav #nav_ul li .active {\n            background-color: rgb(61,158,255);\n            color: white; }\n    #user_info #content #displayer {\n      flex: 1; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 309 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__(310);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * 图片上传组件
+ */
+var ImgUpload = _react2.default.createClass({
+    displayName: "ImgUpload",
+
+    getInitialState: function getInitialState() {
+
+        // var config = {
+        //     fileTypes: ["jpg", "png"],
+        //     fileMaxsize: 1024 * 1024 * 2,//1M
+        //     saveImgUrl:"/online/img",//服务器接受x,y,w,h等信息和参数imgFile,返回tempImgUrl和serverTempImgFileName
+        //     uploadTempImgUrl:"/online/img/temp",//返回newImgUrl
+        //      defaultDisplayImg:"/img/1?width=11&t=1321321"
+        // };
+        var config = this.props.config;
+        return {
+            config: config,
+            uploadTempImgTip: "正在读取头像",
+            saveImg: "正在保存头像",
+            userImgFileTooMax: "文件过大,最大允许 : " + config.fileMaxsize / 1024 + " kb",
+            userImgFileExtError: "文件类型错误,允许的文件类型 : " + config.fileTypes,
+            userImgFileIsEmpty: "请选择一个文件",
+            userImgUpdateSuccess: "头像更新成功",
+            willUpdatedImgInfo: {
+                serverTempImgFileName: undefined //服务器临时保存的用户头像的filename，如a.png，如果为undefined，那么将禁止其更新头像
+            },
+            $imgPreview: undefined
+        };
+    },
+    componentDidMount: function componentDidMount() {
+        this.previewImg(this.state.config.defaultDisplayImg);
+    },
+    validateImgFileOnSubmit: function validateImgFileOnSubmit() {
+        //服务器未接收到相关的图片缓存
+        if (isUndefined(this.state.willUpdatedImgInfo.serverTempImgFileName)) {
+            throw this.state.userImgFileIsEmpty;
+        }
+    },
+    validateImgFileOnChoice: function validateImgFileOnChoice(imgFile) {
+
+        // c(imgFile);
+
+        //unselect, size
+        if (isUndefined(imgFile) || isUndefined(imgFile.size)) {
+            throw this.state.userImgFileIsEmpty;
+        }
+        if (imgFile.size > this.state.config.fileMaxsize) {
+            throw this.state.userImgFileTooMax;
+        }
+        var ext = getFileNameExt(imgFile.name);
+        if (!this.state.config.fileTypes.contains(ext)) {
+            throw this.state.userImgFileExtError;
+        }
+    },
+    getImgInput: function getImgInput() {
+        return $(this.refs.imgInput);
+    },
+    getImgFile: function getImgFile() {
+        return this.getImgInput().get(0).files[0];
+    },
+    updateStateImgPreview: function updateStateImgPreview($imgPreview) {
+        var state = this.state;
+        state.$imgPreview = $imgPreview;
+        this.setState(state);
+    },
+    previewImg: function previewImg(imgUrl) {
+
+        var updateWillUpdateUserImgInfo = function (e) {
+
+            var $imageBoxData = {};
+
+            $imageBoxData.x = Math.round(e.x);
+            $imageBoxData.y = Math.round(e.y);
+
+            $imageBoxData.height = Math.round(e.height);
+            $imageBoxData.width = Math.round(e.width);
+
+            $imageBoxData.rotate = Math.round(e.rotate);
+            $imageBoxData.scaleX = Math.round(e.scaleX);
+            $imageBoxData.scaleY = Math.round(e.scaleY);
+            //leave serverTempImgFileName
+            $imageBoxData.serverTempImgFileName = this.state.willUpdatedImgInfo.serverTempImgFileName;
+
+            var state = this.state;
+            state.willUpdatedImgInfo = $imageBoxData;
+            this.setState(state);
+
+            return $imageBoxData;
+        }.bind(this);
+
+        var $previews = $('.preview');
+        //cropper options
+        var options = {
+            aspectRatio: 1 / 1,
+            viewMode: 2,
+            ready: function ready(e) {
+                console.log(e.type);
+
+                var $clone = $(this).clone().removeClass('cropper-hidden');
+
+                $clone.css({
+                    display: 'block',
+                    width: '100%',
+                    minWidth: 0,
+                    minHeight: 0,
+                    maxWidth: 'none',
+                    maxHeight: 'none'
+                });
+
+                $previews.css({
+                    width: '100%',
+                    overflow: 'hidden'
+                }).html($clone);
+            },
+            cropstart: function cropstart(e) {
+                console.log(e.type, e.action);
+            },
+            cropmove: function cropmove(e) {
+                console.log(e.type, e.action);
+            },
+            cropend: function cropend(e) {
+                console.log(e.type, e.action);
+            },
+            crop: function crop(e) {
+
+                updateWillUpdateUserImgInfo(e);
+
+                var imageData = $(this).cropper('getImageData');
+
+                var previewAspectRatio = e.width / e.height;
+                $previews.each(function () {
+                    var $preview = $(this);
+                    var previewWidth = $preview.width();
+                    var previewHeight = previewWidth / previewAspectRatio;
+                    var imageScaledRatio = e.width / previewWidth;
+
+                    $preview.height(previewHeight).find('img').css({
+                        width: imageData.naturalWidth / imageScaledRatio,
+                        height: imageData.naturalHeight / imageScaledRatio,
+                        marginLeft: -e.x / imageScaledRatio,
+                        marginTop: -e.y / imageScaledRatio
+                    });
+                });
+            },
+            zoom: function zoom(e) {
+                c(e.type, e.ratio);
+            }
+        };
+        if (isUndefined(this.state.$imgPreview)) {
+            var $imgPreview = $(this.refs.imgPreview);
+            //init cropper
+            $imgPreview.cropper(options);
+            this.updateStateImgPreview($imgPreview);
+        }
+        this.state.$imgPreview.cropper("replace", imgUrl);
+    },
+    uploadTempImg: function uploadTempImg(callfun) {
+
+        var imgInput = this.getImgInput();
+        var imgFile = this.getImgFile();
+        //validateImgFileOnChoice
+        try {
+            this.validateImgFileOnChoice(imgFile);
+        } catch (e) {
+            // window.EventsDispatcher.closeLoading();
+            window.EventsDispatcher.showMsgDialog(e);
+
+            // clear input #file
+            // this.clearImgInput();
+            //back self original img
+            // this.previewImg(this.state.user.ImgUrl);
+            return;
+        }
+
+        window.EventsDispatcher.showLoading(this.state.uploadTempImgTip);
+
+        var formData = new FormData();
+        formData.append("img", imgFile);
+        // var userId = this.state.user.id;
+        var url = this.state.config.uploadTempImgUrl;
+        ajax.post({
+            url: url,
+            data: formData,
+            enctype: 'multipart/form-data',
+            contentType: false, //必须false才会避开jQuery对 formdata 的默认处理 XMLHttpRequest会对 formdata 进行正确的处理
+            processData: false, //必须false才会自动加上正确的Content-Type
+            onBeforeRequest: function () {}.bind(this),
+            onResponseStart: function () {
+                window.EventsDispatcher.closeLoading();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+                //更新服务器暂存图片访问地址
+                this.previewImg(result.data.tempImgUrl + "&t=" + Date.now());
+                //更新服务器暂存图片名
+                this.updateServerTempImgFileName(result.data.serverTempImgFileName);
+
+                // this.initCropper();
+            }.bind(this),
+            onResponseFailure: function (result) {}.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun();
+                }
+            }.bind(this),
+            onRequestError: function () {}.bind(this)
+        });
+    },
+    updateServerTempImgFileName: function updateServerTempImgFileName(serverTempImgFileName) {
+        var state = this.state;
+        state.willUpdatedImgInfo.serverTempImgFileName = serverTempImgFileName;
+        this.setState(state);
+    },
+    saveImg: function saveImg(callfun) {
+
+        // var imgInput = this.getImgInput();
+        // var imgFile = this.getImgFile();
+        try {
+            this.validateImgFileOnSubmit();
+        } catch (e) {
+            // window.EventsDispatcher.closeLoading();
+            window.EventsDispatcher.showMsgDialog(e);
+            return;
+        }
+
+        window.EventsDispatcher.showLoading();
+
+        // var userId = this.state.user.id;
+        var url = this.state.config.saveImgUrl;
+        var data = this.state.willUpdatedImgInfo;
+        // data.serverCacheFileName = this.state.serverTempImgFileName;
+        ajax.put({
+            url: url,
+            data: data,
+            loadingMsg: this.state.saveImg,
+            onBeforeRequest: function () {}.bind(this),
+            onResponseStart: function () {
+                window.EventsDispatcher.closeLoading();
+            }.bind(this),
+            onResponseSuccess: function (result) {
+
+                this.props.onUpdateImgSuccess(result);
+                // this.previewImg(result.data.tempImgUrl);
+
+                window.EventsDispatcher.showMsgDialog(this.state.userImgUpdateSuccess);
+
+                // clear temp filename
+                this.updateServerTempImgFileName(undefined);
+
+                //preview new img
+                this.previewImg(result.data.newImgUrl + "&t=" + Date.now());
+            }.bind(this),
+            onResponseFailure: function (result) {}.bind(this),
+            onResponseEnd: function () {
+                //callfun
+                if (callfun != undefined) {
+                    callfun();
+                }
+            }.bind(this),
+            onRequestError: function () {}.bind(this)
+        });
+    },
+
+    render: function render() {
+        var _this = this;
+
+        return _react2.default.createElement(
+            "div",
+            { id: "img_uploader", className: "clearfix" },
+            _react2.default.createElement(
+                "div",
+                { id: "img_upload" },
+                _react2.default.createElement(
+                    "div",
+                    { id: "img_upload_to_middle_div" },
+                    _react2.default.createElement(
+                        "div",
+                        { id: "imgPreviewWrapper",
+                            ref: "imgPreviewWrapper" },
+                        _react2.default.createElement("img", { src: "",
+                            id: "imgPreview",
+                            ref: "imgPreview" })
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        { id: "btns_div" },
+                        _react2.default.createElement("input", { type: "file",
+                            ref: "imgInput",
+                            name: "img",
+                            id: "imgInput",
+                            onChange: function onChange() {
+                                _this.uploadTempImg();
+                            } }),
+                        _react2.default.createElement("input", { type: "button",
+                            className: "operateBtn",
+                            id: "uploadTempImgBtn",
+                            value: "\u9009\u62E9\u56FE\u7247",
+                            onClick: function onClick() {
+                                _this.refs.imgInput.click();
+                            } }),
+                        _react2.default.createElement("input", { type: "button",
+                            className: "operateBtn",
+                            id: "imgSaveBtn",
+                            ref: "imgSaveBtn",
+                            onClick: function onClick() {
+                                _this.saveImg();
+                            },
+                            value: "\u4FDD\u5B58"
+                        })
+                    )
+                )
+            ),
+            _react2.default.createElement(
+                "div",
+                { id: "head_preview" },
+                _react2.default.createElement(
+                    "p",
+                    null,
+                    "\u9884\u89C8 : "
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { id: "imgPreview0" },
+                    _react2.default.createElement("div", { className: "preview" }),
+                    "80x"
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { id: "imgPreview1" },
+                    _react2.default.createElement("div", { className: "preview" }),
+                    "50x"
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { id: "imgPreview2" },
+                    _react2.default.createElement("div", { className: "preview" }),
+                    "30x"
+                )
+            )
+        );
+    }
+}); //引入react组件
+exports.default = ImgUpload;
+
+/***/ }),
+/* 310 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(311);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(6)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./img_uploader.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./img_uploader.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 311 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(5)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* 一般用于div居中\r\n * $marginPercent：距离左右的距离\r\n */\n/*水平ul*/\n.aLink, .aLink a {\n  cursor: pointer;\n  color: rgb(61,158,255);\n  transition: all 500ms; }\n  .aLink:hover, .aLink a:hover {\n    color: red; }\n\n.block {\n  display: block; }\n\n.none {\n  display: none; }\n\n.clear {\n  clear: both; }\n\n.clearfix:before, .clearfix:after {\n  content: \" \";\n  display: block;\n  height: 0;\n  overflow: hidden; }\n\n.clearfix:after {\n  clear: both; }\n\n.clearfix {\n  zoom: 1; }\n\n.defaultPanel {\n  width: 100%;\n  border-radius: 3px;\n  background-color: white;\n  padding: 20px 20px;\n  box-sizing: border-box; }\n\n* {\n  padding: 0px 0px;\n  margin: 0px 0px;\n  width: 100%;\n  text-decoration: none;\n  outline: none;\n  color: rgb(153,153,153);\n  font-size: 12px;\n  fontFamily: \"Microsoft YaHei UI\"; }\n\nbody, html {\n  width: 100%;\n  height: 100%;\n  padding: 0px 0px;\n  margin: 0px 0px;\n  background-color: rgb(241,242,243); }\n\n#img_uploader {\n  display: flex; }\n  #img_uploader > div {\n    float: left; }\n  #img_uploader #img_upload {\n    width: 400px;\n    padding-left: 50px;\n    box-sizing: border-box; }\n    #img_uploader #img_upload #img_upload_to_middle_div {\n      margin: 0px auto;\n      width: 300px; }\n      #img_uploader #img_upload #img_upload_to_middle_div > * {\n        display: block; }\n      #img_uploader #img_upload #img_upload_to_middle_div #imgPreviewWrapper {\n        width: 300px;\n        height: 300px; }\n        #img_uploader #img_upload #img_upload_to_middle_div #imgPreviewWrapper #imgPreview {\n          width: 300px;\n          height: 300px; }\n      #img_uploader #img_upload #img_upload_to_middle_div #btns_div {\n        margin-top: 15px;\n        width: 100%; }\n        #img_uploader #img_upload #img_upload_to_middle_div #btns_div > .operateBtn {\n          background-color: white;\n          color: \"rgb(61,158,255)\";\n          border: 1px solid rgb(61,158,255);\n          width: 100px;\n          height: 30px;\n          cursor: pointer;\n          transition: all 500ms; }\n          #img_uploader #img_upload #img_upload_to_middle_div #btns_div > .operateBtn:hover {\n            background-color: rgb(61,158,255);\n            border-radius: 99px;\n            color: white; }\n        #img_uploader #img_upload #img_upload_to_middle_div #btns_div #uploadTempImgBtn {\n          float: left; }\n        #img_uploader #img_upload #img_upload_to_middle_div #btns_div #imgInput {\n          display: none; }\n        #img_uploader #img_upload #img_upload_to_middle_div #btns_div #imgSaveBtn {\n          float: right; }\n  #img_uploader #head_preview {\n    flex: 1; }\n    #img_uploader #head_preview > * {\n      margin-left: 20px; }\n    #img_uploader #head_preview #imgPreview0 {\n      width: 80px;\n      height: 80px; }\n    #img_uploader #head_preview #imgPreview1 {\n      width: 50px;\n      height: 50px; }\n    #img_uploader #head_preview #imgPreview2 {\n      width: 30px;\n      height: 30px; }\n", ""]);
 
 // exports
 
