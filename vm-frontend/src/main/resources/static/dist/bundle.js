@@ -32656,7 +32656,7 @@ var ImgUpload = _react2.default.createClass({
             userImgFileIsEmpty: "请选择一个文件",
             userImgUpdateSuccess: "头像更新成功",
             willUpdatedImgInfo: {
-                serverTempImgFileName: undefined //服务器临时保存的用户头像的filename，如a.png，如果为undefined，那么将禁止其更新头像
+                fileId: undefined //服务器临时保存的用户头像的filename，如a.png，如果为undefined，那么将禁止其更新头像
             },
             $imgPreview: undefined
         };
@@ -32701,7 +32701,7 @@ var ImgUpload = _react2.default.createClass({
 
         var updateWillUpdateUserImgInfo = function (e) {
 
-            var $imageBoxData = {};
+            var $imageBoxData = this.state.willUpdatedImgInfo;
 
             $imageBoxData.x = Math.round(e.x);
             $imageBoxData.y = Math.round(e.y);
@@ -32712,8 +32712,6 @@ var ImgUpload = _react2.default.createClass({
             $imageBoxData.rotate = Math.round(e.rotate);
             $imageBoxData.scaleX = Math.round(e.scaleX);
             $imageBoxData.scaleY = Math.round(e.scaleY);
-            //leave serverTempImgFileName
-            $imageBoxData.serverTempImgFileName = this.state.willUpdatedImgInfo.serverTempImgFileName;
 
             var state = this.state;
             state.willUpdatedImgInfo = $imageBoxData;
@@ -32824,7 +32822,7 @@ var ImgUpload = _react2.default.createClass({
             }.bind(this),
             onResponseSuccess: function (result) {
                 //更新服务器暂存图片访问地址
-                this.previewImg(result.data.tempImgUrl + "&t=" + Date.now());
+                this.previewImg(timestamp(result.data.tempImgUrl));
                 //更新服务器暂存图片名
                 this.updateTempFileId(result.data.fileId);
 
@@ -32844,6 +32842,9 @@ var ImgUpload = _react2.default.createClass({
         var state = this.state;
         state.willUpdatedImgInfo.fileId = fileId;
         this.setState(state);
+    },
+    clearImgInput: function clearImgInput() {
+        this.getImgInput().val("");
     },
     saveImg: function saveImg(callfun) {
 
@@ -32884,7 +32885,9 @@ var ImgUpload = _react2.default.createClass({
                 this.updateTempFileId(undefined);
 
                 //preview new img
-                this.previewImg(result.data.newImgUrl + "&t=" + Date.now());
+                this.previewImg(timestamp(result.data.newImgUrl));
+
+                this.clearImgInput();
             }.bind(this),
             onResponseFailure: function (result) {}.bind(this),
             onResponseEnd: function () {

@@ -1,4 +1,18 @@
-
+/**
+ * 对url添加时间戳
+ * @param url
+ * @returns {*}
+ */
+function timestamp(url){
+    //  var getTimestamp=Math.random();
+    var getTimestamp=new Date().getTime();
+    if(url.indexOf("?")>-1){
+        url=url+"&timestamp="+getTimestamp
+    }else{
+        url=url+"?timestamp="+getTimestamp
+    }
+    return url;
+}
 /**
  * 文件后缀，如jpg
  * @param fileName
