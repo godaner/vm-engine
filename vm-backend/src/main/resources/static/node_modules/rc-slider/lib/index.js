@@ -1,6 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.createSliderWithTooltip = exports.Handle = exports.Range = undefined;
 
 var _Slider = require('./Slider');

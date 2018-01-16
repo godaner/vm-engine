@@ -1,3 +1,4 @@
+import _defineProperty from 'babel-runtime/helpers/defineProperty';
 import _extends from 'babel-runtime/helpers/extends';
 import React from 'react';
 import classNames from 'classnames';
@@ -41,7 +42,7 @@ var Steps = function Steps(_ref) {
       style = _extends({}, style, activeDotStyle);
     }
 
-    var pointClassName = classNames((_classNames = {}, _classNames[prefixCls + '-dot'] = true, _classNames[prefixCls + '-dot-active'] = isActived, _classNames));
+    var pointClassName = classNames((_classNames = {}, _defineProperty(_classNames, prefixCls + '-dot', true), _defineProperty(_classNames, prefixCls + '-dot-active', isActived), _classNames));
 
     return React.createElement('span', { className: pointClassName, style: style, key: point });
   });

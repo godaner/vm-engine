@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import * as React from 'react';
+import React from 'react';
 export interface IconProps {
     type: string;
     className?: string;

@@ -1,3 +1,4 @@
+import _toConsumableArray from 'babel-runtime/helpers/toConsumableArray';
 import { findDOMNode } from 'react-dom';
 import keyCode from 'rc-util/es/KeyCode';
 
@@ -31,7 +32,7 @@ export function getClosestPoint(val, _ref2) {
   var diffs = points.map(function (point) {
     return Math.abs(val - point);
   });
-  return points[diffs.indexOf(Math.min.apply(Math, diffs))];
+  return points[diffs.indexOf(Math.min.apply(Math, _toConsumableArray(diffs)))];
 }
 
 export function getPrecision(step) {

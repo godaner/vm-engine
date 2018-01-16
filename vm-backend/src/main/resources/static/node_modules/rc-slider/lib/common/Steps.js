@@ -1,6 +1,12 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
 var _extends2 = require('babel-runtime/helpers/extends');
 
@@ -58,7 +64,7 @@ var Steps = function Steps(_ref) {
       style = (0, _extends3['default'])({}, style, activeDotStyle);
     }
 
-    var pointClassName = (0, _classnames2['default'])((_classNames = {}, _classNames[prefixCls + '-dot'] = true, _classNames[prefixCls + '-dot-active'] = isActived, _classNames));
+    var pointClassName = (0, _classnames2['default'])((_classNames = {}, (0, _defineProperty3['default'])(_classNames, prefixCls + '-dot', true), (0, _defineProperty3['default'])(_classNames, prefixCls + '-dot-active', isActived), _classNames));
 
     return _react2['default'].createElement('span', { className: pointClassName, style: style, key: point });
   });

@@ -1,6 +1,13 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 exports.isEventFromHandle = isEventFromHandle;
 exports.isValueOutOfRange = isValueOutOfRange;
 exports.isNotTouchEvent = isNotTouchEvent;
@@ -52,7 +59,7 @@ function getClosestPoint(val, _ref2) {
   var diffs = points.map(function (point) {
     return Math.abs(val - point);
   });
-  return points[diffs.indexOf(Math.min.apply(Math, diffs))];
+  return points[diffs.indexOf(Math.min.apply(Math, (0, _toConsumableArray3['default'])(diffs)))];
 }
 
 function getPrecision(step) {

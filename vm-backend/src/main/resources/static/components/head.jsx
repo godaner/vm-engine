@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import {Layout, Menu, Breadcrumb, Icon} from 'antd';
+import {Layout, Menu, Breadcrumb, Icon, Form, Input, Button, Checkbox} from 'antd';
+const FormItem = Form.Item;
 const {Header, Content, Footer, Sider} = Layout;
 const SubMenu = Menu.SubMenu;
 import {Switch, BrowserRouter, HashRouter, Route} from 'react-router-dom';
@@ -10,24 +11,30 @@ import "antd/dist/antd.css";
 import '../scss/head.scss';
 import "./events_dispatcher";
 
-var Index = React.createClass({
+var Head = React.createClass({
     getInitialState: function () {
         return {};
+    },
+    showLoginDialog(){
+        window.EventsDispatcher.showLoginDialog();
     },
     render: function () {
         //set now page's props
         return (
 
             <div id="head">
-                <div key="1" style={{fontSize:25,color:'#22B9FF', paddingLeft:16}}>
+                <div style={{fontSize: 25, color: '#22B9FF', float: 'left'}}>
                     VM后台管理系统
                 </div>
-                <div key="2" style={{color:'#22B9FF'}}>
-                    登录
+                <div style={{color: '#22B9FF', float: 'right'}}>
+                    <span onClick={this.showLoginDialog}
+                          style={{cursor: 'pointer'}}>
+                        登录
+                    </span>
                 </div>
             </div>
         );
     }
 });
 
-export default Index;   //将App组件导出
+export default Head;   //将App组件导出
