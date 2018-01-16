@@ -5,10 +5,12 @@ const {Header, Content, Footer, Sider} = Layout;
 const SubMenu = Menu.SubMenu;
 import HomePage from "./home_page";
 import {Switch, BrowserRouter, HashRouter, Route} from 'react-router-dom';
-import {EventEmitter} from 'events';
+import "./events_dispatcher";
+import Head from "./head";
+
+
 import "antd/dist/antd.css";
 import '../scss/index.scss';
-import "./events_dispatcher";
 
 var Index = React.createClass({
     getInitialState: function () {
@@ -21,6 +23,7 @@ var Index = React.createClass({
     render: function () {
         //set now page's props
         return (
+
             <HashRouter>
                 <Layout style={{minHeight: '100vh'}}>
                     <Sider
@@ -52,16 +55,17 @@ var Index = React.createClass({
                                 <Menu.Item key="5">信息管理</Menu.Item>
                             </SubMenu>
                             {/*<Menu.Item key="2">*/}
-                                {/*<Icon type="desktop"/>*/}
-                                {/*<span>视频管理</span>*/}
+                            {/*<Icon type="desktop"/>*/}
+                            {/*<span>视频管理</span>*/}
                             {/*</Menu.Item>*/}
 
 
                         </Menu>
                     </Sider>
                     <Layout>
-                        <Header style={{background: '#fff', padding: 0}}
-                                value="VM后台管理系统"/>
+                        <Header style={{background: '#fff'}}>
+                            <Head/>
+                        </Header>
                         <Content style={{margin: '0 16px'}}>
                             <Breadcrumb style={{margin: '16px 0'}}>
                                 <Breadcrumb.Item>User</Breadcrumb.Item>
@@ -75,7 +79,7 @@ var Index = React.createClass({
                             </div>
                         </Content>
                         <Footer style={{textAlign: 'center'}}>
-                             Vm backend ©2016 Created by Zhangke
+                            Vm backend ©2016 Created by Zhangke
                         </Footer>
                     </Layout>
                 </Layout>

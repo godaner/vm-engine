@@ -1,4 +1,8 @@
-var path = require('path');
+const path = require('path');
+const webpack = require('webpack');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+
 
 module.exports = {
     entry: './main/main.js',
@@ -26,5 +30,20 @@ module.exports = {
             test: /\.(css|scss)$/,
             loader: "style-loader!css-loader!sass-loader"
         }]
-    }
+    },
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            output: {
+                comments: false,  // remove all comments
+            },
+            compress: {
+                warnings: false
+            }
+        }),
+        new webpack.DllReferencePlugin({
+            context: __dirname,
+            manifest: require("./dist/vendors-manifest.json")
+        }),
+
+    ]
 }
