@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.vm.dao.mapper.base;
 
 import org.apache.ibatis.annotations.Param;

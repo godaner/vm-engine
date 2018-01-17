@@ -2,7 +2,6 @@ package com.vm.dao.mapper.custom;
 
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.dao.po.custom.CustomVmMovies;
-import com.vm.dao.po.VmMovies;
 import com.vm.dao.po.VmTags;
 import com.vm.dao.qo.PageBean;
 import org.apache.ibatis.annotations.Param;

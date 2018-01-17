@@ -776,7 +776,7 @@ public class DateUtil {
     }
 
     public static List<String> getLastDaysFromNow(int days) {
-        List<String> everyDays = new ArrayList<>();
+        List<String> everyDays = new ArrayList<String>();
         Long date = new Date().getTime();
         for (Integer day = 0; day < days; day++) {
             Date dateNew = new Date(date - DAY);
@@ -788,7 +788,7 @@ public class DateUtil {
     }
 
     public static List<String> getLastDaysFromDateTime(int days, Long date) {
-        List<String> everyDays = new ArrayList<>();
+        List<String> everyDays = new ArrayList<String>();
         for (Integer day = 0; day < days; day++) {
             Date dateNew = new Date(date);
             everyDays.add(new SimpleDateFormat(YYYY_MM_DD).format(dateNew));
@@ -848,7 +848,7 @@ public class DateUtil {
     }
 
     public static List<Week> getWeekSplit(Date startDate, Date endDate) {
-        ArrayList<Week> WeekList = new ArrayList<>();
+        ArrayList<Week> WeekList = new ArrayList<Week>();
         try {
             SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD);
             Calendar startCal = Calendar.getInstance();
@@ -932,7 +932,7 @@ public class DateUtil {
     }
 
     public static List<MonthlyBasis> getMonthSplit(Date beginDate, Date endDate) {
-        List<MonthlyBasis> monthlyBasises = new ArrayList<>();
+        List<MonthlyBasis> monthlyBasises = new ArrayList<MonthlyBasis>();
         try {
             String firstDay = "";
             String lastDay = "";
@@ -973,7 +973,7 @@ public class DateUtil {
     }
 
     public static List<MonthlyBasis> getQuarterSplit(Date beginDate, Date endDate) {
-        List<MonthlyBasis> monthlyBasises = new ArrayList<>();
+        List<MonthlyBasis> monthlyBasises = new ArrayList<MonthlyBasis>();
         try {
             String firstDay = "";
             String lastDay = "";
@@ -1013,7 +1013,7 @@ public class DateUtil {
     }
 
     public static List<MonthlyBasis> getHalfYearSplit(Date beginDate, Date endDate) {
-        List<MonthlyBasis> monthlyBasises = new ArrayList<>();
+        List<MonthlyBasis> monthlyBasises = new ArrayList<MonthlyBasis>();
         try {
             String firstDay = "";
             String lastDay = "";

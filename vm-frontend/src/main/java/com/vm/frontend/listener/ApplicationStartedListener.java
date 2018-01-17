@@ -3,6 +3,7 @@ package com.vm.frontend.listener;
 import com.vm.base.util.ServerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
@@ -15,6 +16,8 @@ public class ApplicationStartedListener implements ApplicationListener<ContextRe
 
     private Logger logger = LoggerFactory.getLogger(ApplicationStartedListener.class);
 
+//    @Autowired
+//    private SessionManager sessionManager;
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         try {
@@ -22,6 +25,9 @@ public class ApplicationStartedListener implements ApplicationListener<ContextRe
 
             //初始化项目目录，例如图片储存，电影储存
             initFileDir();
+
+            //clear user session
+//            sessionManager.clearSessionManager();
 
             logger.debug("ApplicationStartedListener start successful !");
         } catch (Exception e) {

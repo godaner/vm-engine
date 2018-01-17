@@ -92,7 +92,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             throw new VmUsersException(VmUsersException.ErrorCode.PASSWORD_ERROR.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 
-//        String  token = SessionMnager.userLogin(dbUser);
+//        String  token = SessionManager.userLogin(dbUser);
 
         return makeVmUsersDto(dbUser);
     }
