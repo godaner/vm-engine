@@ -39,6 +39,16 @@
         </dependency>
         <!--spring boot end-->
 
+
+        <!--redis start-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>1.5.2.RELEASE</version>
+        </dependency>
+        <!--redis end-->
+
+
         <!--thymeleaf start-->
         <!--<dependency>
             <groupId>org.springframework.boot</groupId>
