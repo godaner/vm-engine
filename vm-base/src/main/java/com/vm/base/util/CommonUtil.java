@@ -1,4 +1,4 @@
-package com.vm.base.utils;
+package com.vm.base.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;

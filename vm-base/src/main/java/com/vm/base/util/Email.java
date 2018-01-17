@@ -1,4 +1,4 @@
-package com.vm.base.utils;
+package com.vm.base.util;
 
 import javax.mail.*;
 import javax.mail.Message.RecipientType;

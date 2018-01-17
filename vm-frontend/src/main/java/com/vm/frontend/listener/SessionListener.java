@@ -1,7 +1,6 @@
 package com.vm.frontend.listener;
 
-import com.vm.base.utils.CommonUtil;
-import com.vm.dao.po.VmUsers;
+import com.vm.base.util.CommonUtil;
 import com.vm.frontend.controller.VmUsersController;
 import com.vm.frontend.service.dto.VmUsersDto;
 import com.vm.frontend.websocket.OnlineUsersWebSocket;

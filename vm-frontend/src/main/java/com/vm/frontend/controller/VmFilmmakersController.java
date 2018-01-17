@@ -1,6 +1,6 @@
 package com.vm.frontend.controller;
 
-import com.vm.base.utils.ServiceController;
+import com.vm.base.util.ServiceController;
 import com.vm.frontend.service.inf.FilmmakersService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;

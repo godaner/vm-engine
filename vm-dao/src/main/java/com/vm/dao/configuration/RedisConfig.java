@@ -9,8 +9,8 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
-@Configuration  
-@EnableCaching//开启注解  
+@Configuration
+@EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
     @Bean
     public CacheManager cacheManager(RedisTemplate<?,?> redisTemplate) {

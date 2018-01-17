@@ -1,7 +1,7 @@
 package com.vm.frontend.service.impl;
 
 import com.google.common.collect.ImmutableMap;
-import com.vm.base.utils.BaseService;
+import com.vm.base.util.BaseService;
 import com.vm.frontend.service.dto.VmTagsDto;
 import com.vm.frontend.service.dto.VmTagsGroupsDto;
 import com.vm.frontend.service.inf.VmTagsService;

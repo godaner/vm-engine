@@ -1,4 +1,4 @@
-package com.vm.base.utils;
+package com.vm.base.util;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;

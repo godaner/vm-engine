@@ -1,7 +1,7 @@
 package com.vm.dao.po;
 
-import com.vm.base.utils.ByteConstantVar;
-import com.vm.base.utils.ServerConfig;
+import com.vm.base.util.ByteConstantVar;
+import com.vm.base.util.ServerConfig;
 
 public class VmUsers extends BasePo {
     //注册用户时填入的默认img_url前缀

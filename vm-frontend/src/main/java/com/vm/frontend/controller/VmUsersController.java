@@ -1,7 +1,7 @@
 package com.vm.frontend.controller;
 
 import com.google.common.collect.Maps;
-import com.vm.base.utils.ServiceController;
+import com.vm.base.util.ServiceController;
 import com.vm.frontend.service.dto.UpdateHeadImgInfo;
 import com.vm.frontend.service.dto.VmUsersDto;
 import com.vm.frontend.service.inf.VmUsersService;
@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/user")
 @Scope("prototype")
 public class VmUsersController extends ServiceController<VmUsersService> {
-
 
     public static final String KEY_OF_ONLINE_USER = "ONLINE_USER";
 

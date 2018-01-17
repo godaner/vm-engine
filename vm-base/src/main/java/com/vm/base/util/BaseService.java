@@ -1,4 +1,4 @@
-package com.vm.base.utils;
+package com.vm.base.util;
 
 
 public class BaseService extends CommonUtil {

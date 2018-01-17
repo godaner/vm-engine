@@ -1,7 +1,7 @@
 package com.vm.frontend.service.exception;
 
 import com.vm.base.exception.VmRuntimeException;
-import com.vm.base.utils.Response;
+import com.vm.base.util.Response;
 
 import java.util.Map;
 

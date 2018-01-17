@@ -2,8 +2,8 @@ package com.vm.base.aop;
 
 import com.alibaba.fastjson.JSON;
 import com.vm.base.exception.VmRuntimeException;
-import com.vm.base.utils.CommonUtil;
-import com.vm.base.utils.Response;
+import com.vm.base.util.CommonUtil;
+import com.vm.base.util.Response;
 import javassist.*;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.LocalVariableAttribute;
@@ -11,14 +11,12 @@ import javassist.bytecode.MethodInfo;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

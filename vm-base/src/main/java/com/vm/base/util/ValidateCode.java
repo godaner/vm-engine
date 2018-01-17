@@ -1,4 +1,4 @@
-package com.vm.base.utils;
+package com.vm.base.util;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

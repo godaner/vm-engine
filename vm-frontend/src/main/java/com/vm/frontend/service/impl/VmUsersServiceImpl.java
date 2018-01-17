@@ -1,10 +1,10 @@
 package com.vm.frontend.service.impl;
 
 import com.google.common.collect.ImmutableMap;
-import com.vm.base.utils.BaseService;
-import com.vm.base.utils.DateUtil;
-import com.vm.base.utils.ImageUtil;
-import com.vm.base.utils.ServerConfig;
+import com.vm.base.util.BaseService;
+import com.vm.base.util.DateUtil;
+import com.vm.base.util.ImageUtil;
+import com.vm.base.util.ServerConfig;
 import com.vm.dao.mapper.VmFilesMapper;
 import com.vm.dao.mapper.VmUsersMapper;
 import com.vm.dao.po.BasePo;
@@ -37,7 +37,6 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Autowired
     private VmFilesMapper vmFilesMapper;
 
-
     /**
      * 通过username获取user
      *
@@ -56,6 +55,17 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         return vmUsers;
     }
 
+    private VmUsersDto makeVmUsersDto(VmUsers user,String token) {
+        VmUsersDto vmUsersDto = new VmUsersDto();
+        vmUsersDto.setUsername(user.getUsername());
+        vmUsersDto.setId(user.getId());
+        vmUsersDto.setBirthday(user.getBirthday());
+        vmUsersDto.setDescription(user.getDescription());
+        vmUsersDto.setSex(user.getSex());
+        vmUsersDto.setImgUrl(user.getImgUrl());
+        vmUsersDto.setToken(token);
+        return vmUsersDto;
+    }
     private VmUsersDto makeVmUsersDto(VmUsers user) {
         VmUsersDto vmUsersDto = new VmUsersDto();
         vmUsersDto.setUsername(user.getUsername());
@@ -82,6 +92,8 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             throw new VmUsersException(VmUsersException.ErrorCode.PASSWORD_ERROR.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 
+//        String  token = SessionMnager.userLogin(dbUser);
+
         return makeVmUsersDto(dbUser);
     }
 
@@ -89,7 +101,6 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     public VmUsersDto getUserBasicInfo(Long userId) {
 
         //获取指定id的user
-
         VmUsers dbUser = vmUsersMapper.select(userId);
 
         if (isNullObject(dbUser) || VmUsers.Status.isDeleted(dbUser.getStatus())) {

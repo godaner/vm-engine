@@ -1,4 +1,4 @@
-package com.vm.base.utils;
+package com.vm.base.util;
   
 import java.awt.Image;  
 import java.awt.Rectangle;  

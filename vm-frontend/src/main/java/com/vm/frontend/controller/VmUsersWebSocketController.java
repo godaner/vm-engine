@@ -1,6 +1,6 @@
 package com.vm.frontend.controller;
 
-import com.vm.base.utils.ServiceController;
+import com.vm.base.util.ServiceController;
 import com.vm.frontend.service.inf.VmUsersService;
 import com.vm.frontend.websocket.OnlineUsersWebSocket;
 import org.springframework.context.annotation.Scope;

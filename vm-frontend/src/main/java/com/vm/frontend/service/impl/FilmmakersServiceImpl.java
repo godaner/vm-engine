@@ -1,7 +1,7 @@
 package com.vm.frontend.service.impl;
 
-import com.vm.base.utils.BaseService;
-import com.vm.base.utils.ServerConfig;
+import com.vm.base.util.BaseService;
+import com.vm.base.util.ServerConfig;
 import com.vm.frontend.service.dto.VmFilmmakersDto;
 import com.vm.frontend.service.inf.FilmmakersService;
 import com.vm.dao.mapper.VmFilesMapper;

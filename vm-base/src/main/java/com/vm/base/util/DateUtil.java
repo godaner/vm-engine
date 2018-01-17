@@ -1,4 +1,4 @@
-package com.vm.base.utils;
+package com.vm.base.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -704,7 +704,7 @@ public class DateUtil {
     }
 
     public static List<String> getMonthsBetween(Date date1, Date date2) {
-        List<String> result = new ArrayList<>();
+        List<String> result = new ArrayList<String>();
         Calendar start = Calendar.getInstance();
         start.setTime(date1);
         Calendar end = Calendar.getInstance();
@@ -719,7 +719,7 @@ public class DateUtil {
     }
 
     public static List<String> getDaysBetween(Date date1, Date date2, String pattern) {
-        List<String> result = new ArrayList<>();
+        List<String> result = new ArrayList<String>();
         Calendar start = Calendar.getInstance();
         start.setTime(date1);
         Calendar end = Calendar.getInstance();

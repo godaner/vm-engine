@@ -1,6 +1,6 @@
 package com.vm.frontend.controller;
 
-import com.vm.base.utils.ServiceController;
+import com.vm.base.util.ServiceController;
 import com.vm.dao.qo.PageBean;
 import com.vm.dao.qo.VmMoviesQueryBean;
 import com.vm.frontend.service.inf.VmMoviesService;

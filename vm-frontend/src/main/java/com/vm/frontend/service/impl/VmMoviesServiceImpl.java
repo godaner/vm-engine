@@ -1,8 +1,8 @@
 package com.vm.frontend.service.impl;
 
 import com.google.common.collect.Maps;
-import com.vm.base.utils.BaseService;
-import com.vm.base.utils.ServerConfig;
+import com.vm.base.util.BaseService;
+import com.vm.base.util.ServerConfig;
 import com.vm.dao.mapper.*;
 import com.vm.dao.mapper.custom.CustomVmFilmmakersMapper;
 import com.vm.dao.mapper.custom.CustomVmMoviesMapper;

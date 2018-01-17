@@ -1,6 +1,6 @@
 package com.vm.dao.po;
 
-import com.vm.base.utils.ByteConstantVar;
+import com.vm.base.util.ByteConstantVar;
 
 public class VmMoviesSrcVersion extends BasePo {
 
