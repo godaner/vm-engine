@@ -13,6 +13,17 @@
             <artifactId>base</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!--redis start-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-redis</artifactId>
+        </dependency>
+
+
+        <!--redis end-->
+
+
     </dependencies>
 
 </project>
