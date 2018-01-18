@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
 
 /**
  * Created by ZhangKe on 2018/1/17.
- * 记录<token,userId>的键值对
+ * 记录<token,userId>的键值对,token被记录则代表在线
  */
 public class SessionManager {
 

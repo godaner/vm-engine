@@ -1,6 +1,5 @@
 package com.vm.frontend.controller;
 
-import com.google.common.collect.Maps;
 import com.vm.base.util.ServiceController;
 import com.vm.frontend.aop.RequiredLogin;
 import com.vm.frontend.resolve.OnlineUser;
@@ -45,11 +44,20 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response.putData("user", loginUser);
     }
 
-    @RequiredLogin
+    /**
+     * 客户端获取在线用户
+     * @param onlineUser
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/online", method = RequestMethod.GET)
     @ResponseBody
     public Object getOnlineUser(@OnlineUser VmUsersDto onlineUser) throws Exception {
 
+        //防止出现问题
+        if (onlineUser == null || onlineUser.getId() == null) {
+            onlineUser = null;
+        }
         return response.putData("user", onlineUser);
     }
 

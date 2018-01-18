@@ -28,10 +28,6 @@ import java.util.Map;
 public class RequiredLoginAop extends CommonUtil {
     private final Logger logger = LoggerFactory.getLogger(RequiredLoginAop.class);
 
-    public final static String KEY_OF_ACCESS_TOKEN = "accessToken";
-
-    @Autowired
-    private VmUsersService vmUsersService;
 
     @Pointcut("execution(* com.vm.frontend.controller..*.*(..))")
     public void declareJoinPointExpression() {
@@ -46,7 +42,7 @@ public class RequiredLoginAop extends CommonUtil {
         try {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = attributes.getRequest();
-            String token = request.getHeader(KEY_OF_ACCESS_TOKEN);
+            String token = request.getHeader(OnlineConstants.KEY_OF_ACCESS_TOKEN);
             Long userId = (Long) SessionManager.getOnlineUserInfo(token);
             if (userId == null) {
                 throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_OFFLINE.getCode(),
@@ -54,17 +50,8 @@ public class RequiredLoginAop extends CommonUtil {
             }
 
             /**
-             * 添加{@link com.vm.frontend.resolve.OnlineConstants#KEY_OF_ONLINE_USER}参数
-             */
-            VmUsersDto vmUsersDto = vmUsersService.getUserBasicInfo(userId);
-            //set token
-            vmUsersDto.setToken(token);
-
-            request.setAttribute(OnlineConstants.KEY_OF_ONLINE_USER, vmUsersDto);
-            /**
              * 接下来会执行{@link OnlineUserMethodArgumentResolver}
              */
-
 
             //执行方法
             data = joinPoint.proceed();
