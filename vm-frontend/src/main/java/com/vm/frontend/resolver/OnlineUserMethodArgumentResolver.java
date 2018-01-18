@@ -46,7 +46,8 @@ public class OnlineUserMethodArgumentResolver extends CommonUtil implements Hand
             vmUsersDto.setToken(token);
             return vmUsersDto;
         }
-        throw new MissingServletRequestPartException(OnlineConstants.KEY_OF_ONLINE_USER);
+        return vmUsersDto;
+//        throw new MissingServletRequestPartException(OnlineConstants.KEY_OF_ONLINE_USER);
     }
 
 

@@ -71,8 +71,7 @@ public class SessionManager extends CommonUtil {
      */
     public static String userLogin(Object info) {
         String token = CommonUtil.uuid();
-        logger.info(timeout.toString());
-        boolean res = redisRepositoryCache.hset(REDIS_KEY_OF_ONLINE_USER_MAP, token, info, timeout);
+        redisRepositoryCache.hset(REDIS_KEY_OF_ONLINE_USER_MAP, token, info, timeout);
         return token;
     }
 
