@@ -26,7 +26,6 @@ import java.util.Map;
 
 @Component
 @Aspect
-@Order(100)
 public class ControllerServiceAop extends CommonUtil {
     private final Logger logger = LoggerFactory.getLogger(ControllerServiceAop.class);
 

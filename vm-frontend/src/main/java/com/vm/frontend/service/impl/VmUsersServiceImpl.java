@@ -1,7 +1,6 @@
 package com.vm.frontend.service.impl;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.DateUtil;
 import com.vm.base.util.ImageUtil;
@@ -58,7 +57,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         return vmUsers;
     }
 
-    private VmUsersDto makeVmUsersDto(VmUsers user,String token) {
+    private VmUsersDto makeVmUsersDto(VmUsers user, String token) {
         VmUsersDto vmUsersDto = new VmUsersDto();
         vmUsersDto.setUsername(user.getUsername());
         vmUsersDto.setId(user.getId());
@@ -69,6 +68,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         vmUsersDto.setToken(token);
         return vmUsersDto;
     }
+
     private VmUsersDto makeVmUsersDto(VmUsers user) {
         VmUsersDto vmUsersDto = new VmUsersDto();
         vmUsersDto.setUsername(user.getUsername());
@@ -95,9 +95,9 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             throw new VmUsersException(VmUsersException.ErrorCode.PASSWORD_ERROR.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 
-        String  token = SessionManager.userLogin(dbUser.getId());
+        String token = SessionManager.userLogin(dbUser.getId());
 
-        return makeVmUsersDto(dbUser,token);
+        return makeVmUsersDto(dbUser, token);
     }
 
     @Override
@@ -206,7 +206,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         String token = SessionManager.userLogin(vmUsers.getId());
 
-        return makeVmUsersDto(vmUsers,token);
+        return makeVmUsersDto(vmUsers, token);
     }
 
     @Override
@@ -373,10 +373,20 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Override
     public VmUsersDto getOnlineUser(String token) throws Exception {
 
+        if (null == token) {
+            return null;
+        }
         Long userId = (Long) SessionManager.getOnlineUserInfo(token);
 
+        if (null == userId) {
+            return null;
+        }
+        VmUsers vmUsers = vmUsersMapper.select(userId);
+        if (null == vmUsers) {
+            return null;
+        }
         //get db use
-        VmUsersDto dbUser = makeVmUsersDto(vmUsersMapper.select(userId),token);
+        VmUsersDto dbUser = makeVmUsersDto(vmUsers, token);
 
         return dbUser;
     }

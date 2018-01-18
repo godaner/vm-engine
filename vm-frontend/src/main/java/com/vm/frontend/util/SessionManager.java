@@ -19,7 +19,7 @@ public class SessionManager extends CommonUtil {
 
     private final static Long timeout = FrontendServerConfig.VM_USER_SESSION_TIMEOUT;
 
-    private final static String ONLINE_USER_REDIS_MAP_KEY = "ONLINE_USER_REDIS_MAP_KEY";
+    private final static String REDIS_KEY_OF_ONLINE_USER_MAP = "REDIS_KEY_OF_ONLINE_USER_MAP";
 
     @Autowired
     private RedisRepository redisRepository;
@@ -37,7 +37,7 @@ public class SessionManager extends CommonUtil {
      * @return
      */
     public final static boolean clearSessionManager() {
-        redisRepositoryCache.hmset(ONLINE_USER_REDIS_MAP_KEY, Maps.newHashMap());
+        redisRepositoryCache.hmset(REDIS_KEY_OF_ONLINE_USER_MAP, Maps.newHashMap());
         return true;
     }
 
@@ -49,7 +49,7 @@ public class SessionManager extends CommonUtil {
      */
     public static Object clearSession(String token) {
         Object[] keys = Lists.newArrayList(token).toArray();
-        redisRepositoryCache.hdel(ONLINE_USER_REDIS_MAP_KEY, keys);
+        redisRepositoryCache.hdel(REDIS_KEY_OF_ONLINE_USER_MAP, keys);
         return true;
     }
 
@@ -60,7 +60,7 @@ public class SessionManager extends CommonUtil {
      * @return
      */
     public static Object getOnlineUserInfo(String token) {
-        return redisRepositoryCache.hget(ONLINE_USER_REDIS_MAP_KEY, token);
+        return redisRepositoryCache.hget(REDIS_KEY_OF_ONLINE_USER_MAP, token);
     }
 
     /**
@@ -72,7 +72,7 @@ public class SessionManager extends CommonUtil {
     public static String userLogin(Object info) {
         String token = CommonUtil.uuid();
         logger.info(timeout.toString());
-        boolean res = redisRepositoryCache.hset(ONLINE_USER_REDIS_MAP_KEY, token, info, timeout);
+        boolean res = redisRepositoryCache.hset(REDIS_KEY_OF_ONLINE_USER_MAP, token, info, timeout);
         return token;
     }
 
@@ -83,7 +83,7 @@ public class SessionManager extends CommonUtil {
      * @return
      */
     public static boolean userLogout(String token) {
-        redisRepositoryCache.hdel(ONLINE_USER_REDIS_MAP_KEY, token);
+        redisRepositoryCache.hdel(REDIS_KEY_OF_ONLINE_USER_MAP, token);
         return true;
     }
 }

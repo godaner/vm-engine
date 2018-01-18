@@ -1,6 +1,7 @@
 package com.vm.frontend.configuration;
 
 import com.vm.frontend.resolver.OnlineUserMethodArgumentResolver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -13,9 +14,11 @@ import java.util.List;
 @Configuration
 public class ResolverConfig extends WebMvcConfigurerAdapter {
 
+    @Autowired
+    private  OnlineUserMethodArgumentResolver onlineUserMethodArgumentResolver;
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 //        super.addArgumentResolvers(argumentResolvers);
-        argumentResolvers.add(new OnlineUserMethodArgumentResolver());
+        argumentResolvers.add(onlineUserMethodArgumentResolver);
     }
 }

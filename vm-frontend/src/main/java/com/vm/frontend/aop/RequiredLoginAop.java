@@ -27,7 +27,6 @@ import java.util.Map;
  */
 @Component
 @Aspect
-@Order(51)
 public class RequiredLoginAop extends CommonUtil {
 
     private final Logger logger = LoggerFactory.getLogger(RequiredLoginAop.class);
