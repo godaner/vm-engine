@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 
 /**
  * Created by ZhangKe on 2018/1/17.
+ * 记录<token,userId>的键值对
  */
 public class SessionManager {
 

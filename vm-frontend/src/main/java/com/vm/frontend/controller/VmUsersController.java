@@ -2,6 +2,8 @@ package com.vm.frontend.controller;
 
 import com.google.common.collect.Maps;
 import com.vm.base.util.ServiceController;
+import com.vm.frontend.aop.RequiredLogin;
+import com.vm.frontend.resolve.OnlineUser;
 import com.vm.frontend.service.dto.UpdateHeadImgInfo;
 import com.vm.frontend.service.dto.VmUsersDto;
 import com.vm.frontend.service.inf.VmUsersService;
@@ -19,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Scope("prototype")
 public class VmUsersController extends ServiceController<VmUsersService> {
 
-    public static final String KEY_OF_ONLINE_USER = "ONLINE_USER";
 
     @RequestMapping(value = "/login", method = RequestMethod.PUT)
     @ResponseBody
@@ -32,6 +33,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response.putData("user", loginUser).setMsg("登录成功");
     }
 
+
     @RequestMapping(value = "/regist", method = RequestMethod.PUT)
     @ResponseBody
     public Object userRegist(VmUsersDto user) throws Exception {
@@ -43,19 +45,22 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response.putData("user", loginUser);
     }
 
+    @RequiredLogin
     @RequestMapping(value = "/online", method = RequestMethod.GET)
     @ResponseBody
-    public Object getOnlineUser(@RequestParam("token") String token) throws Exception {
+    public Object getOnlineUser(@OnlineUser VmUsersDto onlineUser) throws Exception {
 
-        return response.putData("user", service.getOnlineUser(token));
+        return response.putData("user", onlineUser);
     }
 
 
+    @RequiredLogin
     @RequestMapping(value = "/logout", method = RequestMethod.PUT)
     @ResponseBody
-    public Object userLogout(@RequestParam("token") String token) throws Exception {
+    public Object userLogout(@OnlineUser VmUsersDto onlineUser) throws Exception {
 
-        service.userLogout(token);
+        service.userLogout(onlineUser.getToken());
+
 //        getSession().removeAttribute(KEY_OF_ONLINE_USER);
 
 //        getSession().invalidate();
@@ -72,13 +77,17 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     }
 
 
+    @RequiredLogin
     @RequestMapping(value = "/online", method = RequestMethod.PUT)
     @ResponseBody
-    public Object updateOnlineUserBasicInfo(@RequestBody VmUsersDto user) throws Exception {
+    public Object updateOnlineUserBasicInfo(@OnlineUser VmUsersDto onlineUser,
+                                            @RequestBody VmUsersDto user) throws Exception {
+
+        user.setId(onlineUser.getId());
 
         Object vmUsers = service.updateOnlineUserBasicInfo(user);
 
-        setSessionAttr(KEY_OF_ONLINE_USER, vmUsers);
+//        setSessionAttr(KEY_OF_ONLINE_USER, vmUsers);
 
         return response.putData("user", vmUsers);
     }
@@ -103,10 +112,12 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @return
      */
+    @RequiredLogin
     @RequestMapping(value = "/img/temp", method = RequestMethod.POST)
     @ResponseBody
-    public Object uploadUserTempHeadImg(@RequestParam("img") MultipartFile headImg) throws Exception {
-        VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);
+    public Object uploadUserTempHeadImg(@OnlineUser VmUsersDto onlineUser,
+                                        @RequestParam("img") MultipartFile headImg) throws Exception {
+//        VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);
         Long fileId = service.saveUserTempHeadImg(onlineUser.getId(), headImg);
         return response.putData("tempImgUrl", "/user/img/temp/" + fileId).
                 putData("fileId", fileId);
@@ -118,6 +129,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @throws Exception
      */
+    @RequiredLogin
     @RequestMapping(value = "/img/temp/{fileId}", method = RequestMethod.GET)
     @ResponseBody
     public void getUserTempHeadImg(@PathVariable("fileId") Long fileId) throws Exception {
@@ -130,10 +142,12 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @return
      */
+    @RequiredLogin
     @RequestMapping(value = "/img", method = RequestMethod.PUT)
     @ResponseBody
-    public Object updateUserHeadImg(@RequestBody UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
-        VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);
+    public Object updateUserHeadImg(@OnlineUser VmUsersDto onlineUser,
+                                    @RequestBody UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
+//        VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);
         onlineUser = service.updateUserHeadImg(onlineUser.getId(), updateHeadImgInfo);
         return response.putData("user", onlineUser).
                 putData("newImgUrl", onlineUser.getImgUrl() + "?width=300");

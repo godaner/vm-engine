@@ -201,9 +201,11 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         }
 
         vmUsersMapper.insert(makeRegistVmUserPo(user));
+
         VmUsers vmUsers = getUserByUsername(user.getUsername());
 
         String token = SessionManager.userLogin(vmUsers.getId());
+
         return makeVmUsersDto(vmUsers,token);
     }
 
