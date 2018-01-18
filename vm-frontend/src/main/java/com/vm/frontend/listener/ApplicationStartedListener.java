@@ -1,12 +1,14 @@
 package com.vm.frontend.listener;
 
 import com.vm.base.util.ServerConfig;
+import com.vm.frontend.util.SessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
+import javax.annotation.Resource;
 import java.io.File;
 
 /**
@@ -16,20 +18,18 @@ public class ApplicationStartedListener implements ApplicationListener<ContextRe
 
     private Logger logger = LoggerFactory.getLogger(ApplicationStartedListener.class);
 
-//    @Autowired
-//    private SessionManager sessionManager;
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         try {
-            logger.debug("ApplicationStartedListener starting !");
+            logger.info("ApplicationStartedListener starting !");
 
             //初始化项目目录，例如图片储存，电影储存
             initFileDir();
 
             //clear user session
-//            sessionManager.clearSessionManager();
+            SessionManager.clearSessionManager();
 
-            logger.debug("ApplicationStartedListener start successful !");
+            logger.info("ApplicationStartedListener start successful !");
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("ApplicationStartedListener start failed", e);

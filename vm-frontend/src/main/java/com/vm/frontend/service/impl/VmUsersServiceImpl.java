@@ -1,6 +1,7 @@
 package com.vm.frontend.service.impl;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.DateUtil;
 import com.vm.base.util.ImageUtil;
@@ -14,6 +15,8 @@ import com.vm.frontend.service.dto.UpdateHeadImgInfo;
 import com.vm.frontend.service.dto.VmUsersDto;
 import com.vm.frontend.service.exception.VmUsersException;
 import com.vm.frontend.service.inf.VmUsersService;
+import com.vm.frontend.util.SessionManager;
+import com.vm.frontend.websocket.OnlineUsersWebSocket;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,9 +95,9 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             throw new VmUsersException(VmUsersException.ErrorCode.PASSWORD_ERROR.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 
-//        String  token = SessionManager.userLogin(dbUser);
+        String  token = SessionManager.userLogin(dbUser.getId());
 
-        return makeVmUsersDto(dbUser);
+        return makeVmUsersDto(dbUser,token);
     }
 
     @Override
@@ -199,7 +202,9 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         vmUsersMapper.insert(makeRegistVmUserPo(user));
         VmUsers vmUsers = getUserByUsername(user.getUsername());
-        return makeVmUsersDto(vmUsers);
+
+        String token = SessionManager.userLogin(vmUsers.getId());
+        return makeVmUsersDto(vmUsers,token);
     }
 
     @Override
@@ -350,6 +355,28 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         }
         return vmUsers == null ? null : makeVmUsersDto(vmUsers);
 
+    }
+
+    @Override
+    public void userLogout(String token) throws Exception {
+
+        Long userId = (Long) SessionManager.getOnlineUserInfo(token);
+
+        SessionManager.userLogout(token);
+
+        OnlineUsersWebSocket.userLogout(userId, OnlineUsersWebSocket.Result.LOGOUT_SUCCESS.getCode());
+
+    }
+
+    @Override
+    public VmUsersDto getOnlineUser(String token) throws Exception {
+
+        Long userId = (Long) SessionManager.getOnlineUserInfo(token);
+
+        //get db use
+        VmUsersDto dbUser = makeVmUsersDto(vmUsersMapper.select(userId),token);
+
+        return dbUser;
     }
 
     private VmUsers makeRegistVmUserPo(VmUsersDto user) {

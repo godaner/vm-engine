@@ -27,7 +27,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
         VmUsersDto loginUser = service.userLogin(vmUsersDto);
 
-        setSessionAttr(KEY_OF_ONLINE_USER, loginUser);
+//        setSessionAttr(KEY_OF_ONLINE_USER, loginUser);
 
         return response.putData("user", loginUser).setMsg("登录成功");
     }
@@ -38,38 +38,27 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
         VmUsersDto loginUser = service.userRegist(user);
 
-        getSession().setAttribute(KEY_OF_ONLINE_USER, loginUser);
+//        getSession().setAttribute(KEY_OF_ONLINE_USER, loginUser);
 
         return response.putData("user", loginUser);
     }
 
     @RequestMapping(value = "/online", method = RequestMethod.GET)
     @ResponseBody
-    public Object getOnlineUser() throws Exception {
-        Object user = null;
+    public Object getOnlineUser(@RequestParam("token") String token) throws Exception {
 
-        if (!isNullObject(getSession())) {
-            user = getSession().getAttribute(KEY_OF_ONLINE_USER);
-        }
-        if (isNullObject(user)) {
-            return Maps.newHashMap();
-        }
-        //get db use
-        user = service.getUserBasicInfo(((VmUsersDto) user).getId());
-        //update session user
-        setSessionAttr(KEY_OF_ONLINE_USER, user);
-
-        return response.putData("user", user);
+        return response.putData("user", service.getOnlineUser(token));
     }
 
 
     @RequestMapping(value = "/logout", method = RequestMethod.PUT)
-    public @ResponseBody
-    Object userLogout() throws Exception {
+    @ResponseBody
+    public Object userLogout(@RequestParam("token") String token) throws Exception {
 
-        getSession().removeAttribute(KEY_OF_ONLINE_USER);
+        service.userLogout(token);
+//        getSession().removeAttribute(KEY_OF_ONLINE_USER);
 
-        getSession().invalidate();
+//        getSession().invalidate();
 
         return response;
 

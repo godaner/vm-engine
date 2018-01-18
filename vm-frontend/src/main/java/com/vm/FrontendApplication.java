@@ -1,6 +1,7 @@
 package com.vm;
 
 import com.vm.frontend.listener.ApplicationStartedListener;
+import com.vm.frontend.listener.ApplicationStopedListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -17,6 +18,7 @@ public class FrontendApplication {
 
         SpringApplication springApplication = new SpringApplication(FrontendApplication.class);
         springApplication.addListeners(new ApplicationStartedListener());
+        springApplication.addListeners(new ApplicationStopedListener());
         springApplication.run(args);
 
     }

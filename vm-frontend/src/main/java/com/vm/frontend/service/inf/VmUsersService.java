@@ -26,4 +26,8 @@ public interface VmUsersService {
     void getUserTempHeadImg(Long fileId, HttpServletResponse response) throws Exception;
 
     VmUsersDto updateUserHeadImg(Long onlineUserId, UpdateHeadImgInfo updateHeadImgInfo) throws Exception;
+
+    void userLogout(String token) throws Exception;
+
+    VmUsersDto getOnlineUser(String token) throws Exception;
 }
