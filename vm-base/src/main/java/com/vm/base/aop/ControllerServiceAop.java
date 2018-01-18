@@ -14,6 +14,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -25,8 +26,8 @@ import java.util.Map;
 
 @Component
 @Aspect
+@Order(100)
 public class ControllerServiceAop extends CommonUtil {
-
     private final Logger logger = LoggerFactory.getLogger(ControllerServiceAop.class);
 
     @Pointcut("execution(* com.vm.*.controller..*.*(..))")

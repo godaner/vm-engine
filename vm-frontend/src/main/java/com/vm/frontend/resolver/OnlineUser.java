@@ -1,4 +1,4 @@
-package com.vm.frontend.resolve;
+package com.vm.frontend.resolver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

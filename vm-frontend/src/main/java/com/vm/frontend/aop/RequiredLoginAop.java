@@ -3,11 +3,9 @@ package com.vm.frontend.aop;
 import com.vm.base.exception.VmRuntimeException;
 import com.vm.base.util.CommonUtil;
 import com.vm.base.util.Response;
-import com.vm.frontend.resolve.OnlineConstants;
-import com.vm.frontend.resolve.OnlineUserMethodArgumentResolver;
-import com.vm.frontend.service.dto.VmUsersDto;
+import com.vm.frontend.resolver.OnlineConstants;
+import com.vm.frontend.resolver.OnlineUserMethodArgumentResolver;
 import com.vm.frontend.service.exception.VmUsersException;
-import com.vm.frontend.service.inf.VmUsersService;
 import com.vm.frontend.util.SessionManager;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -15,7 +13,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -23,9 +22,14 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
+/**
+ * 当方法含有{@link RequiredLogin}注解，那么去除其token 验证是否登录
+ */
 @Component
 @Aspect
+@Order(51)
 public class RequiredLoginAop extends CommonUtil {
+
     private final Logger logger = LoggerFactory.getLogger(RequiredLoginAop.class);
 
 
@@ -43,6 +47,7 @@ public class RequiredLoginAop extends CommonUtil {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = attributes.getRequest();
             String token = request.getHeader(OnlineConstants.KEY_OF_ACCESS_TOKEN);
+
             Long userId = (Long) SessionManager.getOnlineUserInfo(token);
             if (userId == null) {
                 throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_OFFLINE.getCode(),
@@ -78,6 +83,7 @@ public class RequiredLoginAop extends CommonUtil {
         return response;
 
     }
+
 
 //    private HttpServletRequest getHttpServletRequest() {
 //        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

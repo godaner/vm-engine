@@ -1,4 +1,4 @@
-package com.vm.frontend.resolve;
+package com.vm.frontend.resolver;
 
 /**
  * 在线用户变量

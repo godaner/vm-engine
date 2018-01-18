@@ -2,7 +2,7 @@ package com.vm.frontend.controller;
 
 import com.vm.base.util.ServiceController;
 import com.vm.frontend.aop.RequiredLogin;
-import com.vm.frontend.resolve.OnlineUser;
+import com.vm.frontend.resolver.OnlineUser;
 import com.vm.frontend.service.dto.UpdateHeadImgInfo;
 import com.vm.frontend.service.dto.VmUsersDto;
 import com.vm.frontend.service.inf.VmUsersService;
