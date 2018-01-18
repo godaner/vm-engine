@@ -1,6 +1,5 @@
 package com.vm.frontend.test;
 
-import com.vm.base.util.CommonUtil;
 import com.vm.redis.repository.RedisRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +17,10 @@ public class ApplicationTest {
 
     @Test
     public void testRedis() {
+
+        redisRepository.hset("1", "1", 1000);
+
+        redisRepository.hget("1", "1");
 
     }
 }

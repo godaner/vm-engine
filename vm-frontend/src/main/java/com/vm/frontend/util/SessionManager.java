@@ -14,13 +14,22 @@ import javax.annotation.PostConstruct;
  * Created by ZhangKe on 2018/1/17.
  * 记录<token,userId>的键值对,token被记录则代表在线
  */
-public class SessionManager {
+@Component
+public class SessionManager extends CommonUtil {
 
     private final static Long timeout = FrontendServerConfig.VM_USER_SESSION_TIMEOUT;
 
     private final static String ONLINE_USER_REDIS_MAP_KEY = "ONLINE_USER_REDIS_MAP_KEY";
 
-    private static RedisRepository redisRepository = RedisRepository.getInstance();
+    @Autowired
+    private RedisRepository redisRepository;
+
+    private static RedisRepository redisRepositoryCache;
+
+    @PostConstruct
+    public void init() {
+        this.redisRepositoryCache = this.redisRepository;
+    }
 
     /**
      * 清空SessionMnanger
@@ -28,7 +37,7 @@ public class SessionManager {
      * @return
      */
     public final static boolean clearSessionManager() {
-        redisRepository.hmset(ONLINE_USER_REDIS_MAP_KEY, Maps.newHashMap());
+        redisRepositoryCache.hmset(ONLINE_USER_REDIS_MAP_KEY, Maps.newHashMap());
         return true;
     }
 
@@ -40,7 +49,7 @@ public class SessionManager {
      */
     public static Object clearSession(String token) {
         Object[] keys = Lists.newArrayList(token).toArray();
-        redisRepository.hdel(ONLINE_USER_REDIS_MAP_KEY, keys);
+        redisRepositoryCache.hdel(ONLINE_USER_REDIS_MAP_KEY, keys);
         return true;
     }
 
@@ -51,7 +60,7 @@ public class SessionManager {
      * @return
      */
     public static Object getOnlineUserInfo(String token) {
-        return redisRepository.hget(ONLINE_USER_REDIS_MAP_KEY, token);
+        return redisRepositoryCache.hget(ONLINE_USER_REDIS_MAP_KEY, token);
     }
 
     /**
@@ -62,7 +71,8 @@ public class SessionManager {
      */
     public static String userLogin(Object info) {
         String token = CommonUtil.uuid();
-        redisRepository.hset(ONLINE_USER_REDIS_MAP_KEY, token, info, timeout);
+        logger.info(timeout.toString());
+        boolean res = redisRepositoryCache.hset(ONLINE_USER_REDIS_MAP_KEY, token, info, timeout);
         return token;
     }
 
@@ -73,7 +83,7 @@ public class SessionManager {
      * @return
      */
     public static boolean userLogout(String token) {
-        redisRepository.hdel(ONLINE_USER_REDIS_MAP_KEY, token);
+        redisRepositoryCache.hdel(ONLINE_USER_REDIS_MAP_KEY, token);
         return true;
     }
 }
