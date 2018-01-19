@@ -13,8 +13,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -47,7 +45,7 @@ public class RequiredLoginAop extends CommonUtil {
             HttpServletRequest request = attributes.getRequest();
             String token = request.getHeader(OnlineConstants.KEY_OF_ACCESS_TOKEN);
 
-            Long userId = (Long) SessionManager.getOnlineUserInfo(token);
+            Long userId = (Long) SessionManager.getOnlineUserId(token);
             if (userId == null) {
                 throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_OFFLINE.getCode(),
                         VmUsersException.ErrorCode.USER_IS_OFFLINE.getMsg());

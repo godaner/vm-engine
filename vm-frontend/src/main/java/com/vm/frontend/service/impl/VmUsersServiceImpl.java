@@ -95,7 +95,11 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             throw new VmUsersException(VmUsersException.ErrorCode.PASSWORD_ERROR.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 
-        String token = SessionManager.userLogin(dbUser.getId());
+        //login in session
+        SessionManager.UserInfo userInfo = new SessionManager.UserInfo();
+        userInfo.setId(dbUser.getId());
+        userInfo.setUsername(dbUser.getUsername());
+        String token = SessionManager.userLogin(userInfo);
 
         return makeVmUsersDto(dbUser, token);
     }
@@ -204,7 +208,12 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         VmUsers vmUsers = getUserByUsername(user.getUsername());
 
-        String token = SessionManager.userLogin(vmUsers.getId());
+
+        //login in session
+        SessionManager.UserInfo userInfo = new SessionManager.UserInfo();
+        userInfo.setId(vmUsers.getId());
+        userInfo.setUsername(vmUsers.getUsername());
+        String token = SessionManager.userLogin(userInfo);
 
         return makeVmUsersDto(vmUsers, token);
     }
@@ -362,7 +371,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Override
     public void userLogout(String token) throws Exception {
 
-        Long userId = (Long) SessionManager.getOnlineUserInfo(token);
+        Long userId = (Long) SessionManager.getOnlineUserId(token);
 
         SessionManager.userLogout(token);
 
@@ -376,7 +385,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         if (null == token) {
             return null;
         }
-        Long userId = (Long) SessionManager.getOnlineUserInfo(token);
+        Long userId = (Long) SessionManager.getOnlineUserId(token);
 
         if (null == userId) {
             return null;

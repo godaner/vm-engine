@@ -27,7 +27,7 @@ public class ApplicationStartedListener implements ApplicationListener<ContextRe
             initFileDir();
 
             //clear user session
-            SessionManager.clearSessionManager();
+//            SessionManager.clearSessionManager();
 
             logger.info("ApplicationStartedListener start successful !");
         } catch (Exception e) {

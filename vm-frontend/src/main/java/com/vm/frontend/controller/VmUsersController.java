@@ -137,7 +137,6 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @throws Exception
      */
-    @RequiredLogin
     @RequestMapping(value = "/img/temp/{fileId}", method = RequestMethod.GET)
     @ResponseBody
     public void getUserTempHeadImg(@PathVariable("fileId") Long fileId) throws Exception {
