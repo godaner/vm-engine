@@ -5,6 +5,7 @@ import com.vm.frontend.aop.RequiredLogin;
 import com.vm.frontend.resolver.OnlineUser;
 import com.vm.frontend.service.dto.UpdateHeadImgInfo;
 import com.vm.frontend.service.dto.VmUsersDto;
+import com.vm.frontend.service.exception.VmUsersException;
 import com.vm.frontend.service.inf.VmUsersService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -45,19 +46,33 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     }
 
     /**
-     * 客户端获取在线用户
+     * 试探用户是否在线;在线返回user，不在线抛出异常；未登录可以访问
      * @param onlineUser
      * @return
      * @throws Exception
      */
+    @RequestMapping(value = "/feelerOnlineUser", method = RequestMethod.GET)
+    @ResponseBody
+    public Object feelerOnlineUser(@OnlineUser VmUsersDto onlineUser) throws Exception {
+        boolean online = true;
+        //防止出现问题
+        if (onlineUser == null || onlineUser.getId() == null) {
+            online = false;
+        }
+        return response.putData("online", online).putData("user",onlineUser);
+    }
+
+    /**
+     * 客户端获取在线用户；未登录不能访问
+     * @param onlineUser
+     * @return
+     * @throws Exception
+     */
+    @RequiredLogin
     @RequestMapping(value = "/online", method = RequestMethod.GET)
     @ResponseBody
     public Object getOnlineUser(@OnlineUser VmUsersDto onlineUser) throws Exception {
 
-        //防止出现问题
-        if (onlineUser == null || onlineUser.getId() == null) {
-            onlineUser = null;
-        }
         return response.putData("user", onlineUser);
     }
 

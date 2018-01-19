@@ -30,15 +30,7 @@ public class SessionManager extends CommonUtil {
         this.redisRepositoryCache = this.redisRepository;
     }
 
-    /**
-     * 清空SessionMnanger
-     *
-     * @return
-     */
-//    public final static boolean clearSessionManager() {
-//        redisRepositoryCache.hmset(REDIS_KEY_OF_ONLINE_USER_PREFIX, Maps.newHashMap());
-//        return true;
-//    }
+
     private static String generateToken() {
         return CommonUtil.uuid();
     }
@@ -55,6 +47,19 @@ public class SessionManager extends CommonUtil {
         }
         redisRepositoryCache.expire(token,0);
         redisRepositoryCache.del(Lists.newArrayList(token).toString());
+        return true;
+    }
+    /**
+     * 延长session生命时间
+     *
+     * @param token
+     * @return
+     */
+    public static Object extendSessionLife(String token) {
+        if (null == token) {
+            return true;
+        }SessionManager.clearSession(token);
+        redisRepositoryCache.set(token,redisRepositoryCache.get(token),timeout);
         return true;
     }
 
