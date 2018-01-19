@@ -53,6 +53,7 @@ public class SessionManager extends CommonUtil {
         if (null == token) {
             return true;
         }
+        redisRepositoryCache.expire(token,0);
         redisRepositoryCache.del(Lists.newArrayList(token).toString());
         return true;
     }
