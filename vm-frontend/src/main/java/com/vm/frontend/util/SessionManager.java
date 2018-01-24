@@ -1,10 +1,10 @@
 package com.vm.frontend.util;
 
 
+import com.google.common.collect.Lists;
 import com.vm.base.util.CommonUtil;
 import com.vm.base.util.DateUtil;
 import com.vm.redis.repository.RedisRepository;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -46,9 +46,11 @@ public class SessionManager extends CommonUtil {
             return true;
         }
         redisRepositoryCache.expire(token,0);
+        redisRepositoryCache.set(token,null);
         redisRepositoryCache.del(Lists.newArrayList(token).toString());
         return true;
     }
+
     /**
      * 延长session生命时间
      *
@@ -58,8 +60,12 @@ public class SessionManager extends CommonUtil {
     public static Object extendSessionLife(String token) {
         if (null == token) {
             return true;
-        }SessionManager.clearSession(token);
-        redisRepositoryCache.set(token,redisRepositoryCache.get(token),timeout);
+        }
+        UserInfo userInfo = (UserInfo) redisRepositoryCache.get(token);
+        if (userInfo == null) {
+            return true;
+        }
+        redisRepositoryCache.expire(token, timeout);
         return true;
     }
 
@@ -107,7 +113,7 @@ public class SessionManager extends CommonUtil {
         }
         userInfo = rebuildUserInfo(userInfo);
         String token = generateToken();
-        boolean res = redisRepositoryCache.set(token, userInfo, timeout);
+        redisRepositoryCache.set(token, userInfo, timeout);
         return token;
     }
 

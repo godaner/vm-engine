@@ -8,24 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>frontend</artifactId>
     <packaging>jar</packaging>
-
-
     <dependencies>
-        <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>base</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>dao</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>base</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>com.vm</groupId>
             <artifactId>base</artifactId>
@@ -48,7 +31,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration><!-- 指定该Main Class为全局的唯一入口 -->
-                    <mainClass>com.vm.FrontendApplication</mainClass>
+                    <mainClass>com.vm.UserApplication</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>
@@ -65,5 +48,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>

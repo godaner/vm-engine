@@ -2,10 +2,11 @@ package com.vm.base.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.google.common.collect.Lists;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.io.IOUtils;
-import org.assertj.core.util.Lists;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;

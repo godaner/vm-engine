@@ -1,5 +1,6 @@
 package com.vm.frontend.service.impl;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.ServerConfig;
@@ -19,7 +20,6 @@ import com.vm.frontend.service.dto.VmTagsDto;
 import com.vm.frontend.service.exception.VmMoviesException;
 import com.vm.frontend.service.inf.VmMoviesService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

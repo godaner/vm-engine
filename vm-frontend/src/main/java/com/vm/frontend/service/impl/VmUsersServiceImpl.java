@@ -1,6 +1,7 @@
 package com.vm.frontend.service.impl;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.DateUtil;
 import com.vm.base.util.ImageUtil;
@@ -17,7 +18,6 @@ import com.vm.frontend.service.inf.VmUsersService;
 import com.vm.frontend.util.SessionManager;
 import com.vm.frontend.websocket.OnlineUsersWebSocket;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

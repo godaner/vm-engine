@@ -6,12 +6,21 @@
         <version>${project.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>redis</artifactId>
-
+    <artifactId>user</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.vm</groupId>
             <artifactId>base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vm</groupId>
+            <artifactId>dao</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vm</groupId>
+            <artifactId>redis</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
