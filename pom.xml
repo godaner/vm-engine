@@ -3,8 +3,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.vm</groupId>
-    <artifactId>engine</artifactId>
-    <name>engine</name>
+    <artifactId>vm-engine</artifactId>
     <packaging>pom</packaging>
     <version>${project.version}</version>
     <modules>
@@ -13,7 +12,7 @@
         <module>vm-frontend</module>
         <module>vm-backend</module>
         <module>vm-redis</module>
-        <module>vm-user</module>
+        <module>vm-user-provider</module>
         <module>vm-eureka</module>
     </modules>
     <parent>
