@@ -12,7 +12,7 @@
         <module>vm-frontend</module>
         <module>vm-backend</module>
         <module>vm-redis</module>
-        <module>vm-user-provider</module>
+        <module>vm-provider-user</module>
         <module>vm-eureka</module>
     </modules>
     <parent>
