@@ -1,15 +1,15 @@
-#禁用eureka注册自己
 eureka:
   client:
     fetch:
       registry: false
     register-with-eureka: false
-#eureka集群名
+eureka:
+  server:
+    enable-self-preservation: true
 spring:
   application:
-    name: eureka-cluster
-#通过spring.profiles.active=[eureka01|eureka02]激活
---- #eureka01
+    name: vm-eureka-cluster
+---
 spring:
   profiles: eureka01
 server:
@@ -27,7 +27,7 @@ security:
     name: godaner
     password: ZK19951217.
 
---- #eureka02
+---
 spring:
   profiles: eureka02
 server:

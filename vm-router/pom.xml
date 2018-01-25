@@ -6,25 +6,28 @@
         <version>${project.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>vm-eureka</artifactId>
-    <packaging>jar</packaging>
-
+    <artifactId>vm-router</artifactId>
     <dependencies>
+        <dependency>
+            <groupId>com.vm</groupId>
+            <artifactId>vm-base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!--eureka start-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka-server</artifactId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
         <!--eureka end-->
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration><!-- 指定该Main Class为全局的唯一入口 -->
-                    <mainClass>com.vm.ConfigServerApplication</mainClass>
+                    <mainClass>com.vm.RouterApplication</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>
@@ -41,5 +44,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

@@ -6,16 +6,23 @@
         <version>${project.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>vm-eureka</artifactId>
+    <artifactId>vm-config-server</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
-        <!--eureka start-->
+        <!--config start-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka-server</artifactId>
+            <artifactId>spring-cloud-config-server</artifactId>
         </dependency>
-        <!--eureka end-->
+        <!--config end-->
+
+        <!--config start-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!--config end-->
     </dependencies>
 
     <build>
