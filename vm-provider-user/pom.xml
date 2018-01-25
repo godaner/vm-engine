@@ -6,7 +6,7 @@
         <version>${project.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>vm-user-provider</artifactId>
+    <artifactId>vm-provider-user</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.vm</groupId>
@@ -23,6 +23,13 @@
             <artifactId>vm-redis</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!--eureka start-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka-server</artifactId>
+        </dependency>
+        <!--eureka end-->
     </dependencies>
     <build>
         <plugins>

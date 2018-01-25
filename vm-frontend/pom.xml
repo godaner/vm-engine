@@ -24,6 +24,9 @@
             <artifactId>vm-redis</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+
+
     </dependencies>
     <build>
         <plugins>

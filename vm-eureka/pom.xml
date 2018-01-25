@@ -9,7 +9,14 @@
     <artifactId>vm-eureka</artifactId>
     <packaging>jar</packaging>
     <dependencies>
+        <!--eureka start-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka-server</artifactId>
+        </dependency>
+        <!--eureka end-->
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
