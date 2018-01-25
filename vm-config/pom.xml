@@ -6,7 +6,7 @@
         <version>${project.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>vm-config-server</artifactId>
+    <artifactId>vm-config</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -17,12 +17,6 @@
         </dependency>
         <!--config end-->
 
-        <!--config start-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <!--config end-->
     </dependencies>
 
     <build>
@@ -31,7 +25,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration><!-- 指定该Main Class为全局的唯一入口 -->
-                    <mainClass>com.vm.ConfigServerApplication</mainClass>
+                    <mainClass>com.vm.ConfigApplication</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>

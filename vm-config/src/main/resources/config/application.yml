@@ -1,0 +1,11 @@
+server:
+  port: 6666
+spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/godaner/vm-engine.git
+          searchPaths: cloud-config

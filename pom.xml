@@ -15,7 +15,7 @@
         <module>vm-provider-user</module>
         <module>vm-eureka</module>
         <module>vm-router</module>
-        <module>vm-config-server</module>
+        <module>vm-config</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
