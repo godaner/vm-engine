@@ -3,7 +3,6 @@ eureka:
     fetch:
       registry: false
     register-with-eureka: false
-eureka:
   server:
     enable-self-preservation: true
 spring:
@@ -19,14 +18,7 @@ eureka:
     hostname: eureka01
   client:
     service-url:
-      default-zone: http://root:123@eureka02:1112/eureka
-security:
-  basic:
-    enabled: true
-  user:
-    name: root
-    password: 123
-
+      default-zone: http://eureka02:1112/eureka
 ---
 spring:
   profiles: eureka02
@@ -37,10 +29,5 @@ eureka:
     hostname: eureka02
   client:
     service-url:
-      default-zone: http://root:123@eureka01:1111/eureka
-security:
-  basic:
-    enabled: true
-  user:
-    name: root
-    password: 123
+      default-zone: http://eureka01:1111/eureka
+
