@@ -28,7 +28,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration><!-- 指定该Main Class为全局的唯一入口 -->
-                    <mainClass>com.vm.backend.BackendApplication</mainClass>
+                    <mainClass>com.vm.BackendApplication</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>
@@ -47,27 +47,5 @@
 
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <profileActive>dev</profileActive>
-            </properties>
-        </profile>
-        <profile>
-            <id>prod</id>
-            <properties>
-                <profileActive>prod</profileActive>
-            </properties>
-        </profile>
-        <profile>
-            <id>bugfix</id>
-            <properties>
-                <profileActive>bugfix</profileActive>
-            </properties>
-        </profile>
-    </profiles>
+
 </project>
