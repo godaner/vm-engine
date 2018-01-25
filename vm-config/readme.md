@@ -13,4 +13,4 @@
     
     
 ### 例如：
-    http://localhost:6666/config/dev/zk_spring_cloud
+    http://localhost:7777/zk_spring_cloud/vm-config-dev.properties
