@@ -14,3 +14,9 @@
     
 ### 例如：
     http://localhost:7777/zk_spring_cloud/vm-config-eureka-dev.yml
+    
+    
+    
+#运行config-server
+
+    # nohup java -jar vm-config-1.0.0.jar >config.out 2>&1 &

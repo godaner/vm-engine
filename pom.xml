@@ -14,7 +14,7 @@
         <module>vm-redis</module>
         <module>vm-provider-user</module>
         <module>vm-eureka</module>
-        <module>vm-router</module>
+        <module>vm-gateway</module>
         <module>vm-config</module>
     </modules>
     <parent>

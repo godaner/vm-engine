@@ -17,6 +17,19 @@
         </dependency>
         <!--config end-->
 
+        <!--test start-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--test end-->
+        <!--eureka start-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
+        </dependency>
+        <!--eureka end-->
     </dependencies>
 
     <build>

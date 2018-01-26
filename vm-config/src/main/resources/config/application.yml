@@ -1,9 +1,15 @@
 server:
   port: 7777
 spring:
+  application:
+    name: vm-config
   cloud:
     config:
       server:
         git:
           uri: https://github.com/godaner/vm-engine.git
           searchPaths: cloud-config
+eureka:
+  client:
+    serviceUrl:
+      default-zone: http://eureka01:1111/eureka,http://eureka02:1112/eureka

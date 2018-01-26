@@ -1,8 +1,0 @@
-spring:
-  cloud:
-    config:
-     uri: http://localhost:7777
-     profile: eureka #对应业务名称的profile
-     label: zk_spring_cloud #当配置文件在git上时为分支名
-  application:
-    name: vm-config  #对应文件的业务名称
