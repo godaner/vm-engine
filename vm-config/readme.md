@@ -13,4 +13,4 @@
     
     
 ### 例如：
-    http://localhost:7777/zk_spring_cloud/vm-config-dev.properties
+    http://localhost:7777/zk_spring_cloud/vm-config-eureka-dev.yml
