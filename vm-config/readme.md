@@ -18,5 +18,26 @@
     
     
 #运行config-server
-
-    # nohup java -jar vm-config-1.0.0.jar >config.out 2>&1 &
+    
+    
+    
+    #1.
+        linux:
+            # vim /etc/hosts
+        windows:
+            # 编辑 c:\windows\system32\drivers\etc
+        输入==> 127.0.0.1  config01 config02
+    
+    #2.
+        # nohup java -jar vm-config-1.0.0.jar --spring.profiles.active=config01 >config01.out 2>&1 &
+        
+        # nohup java -jar vm-config-1.0.0.jar --spring.profiles.active=config02 >config02.out 2>&1 &
+    #3.
+        http://config01:7777/zk_spring_cloud/vm-provider-user-dev.yml
+        
+        
+    #4.
+        可能用到的命令:
+        # scp /usr/local/src/a.jar root@120.78.191.94:/usr/local/src
+        
+        

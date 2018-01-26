@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: vm-provider-user
+  cloud:
+    config:
+      label: zk_spring_cloud
+      profile: dev
+      discovery:
+        enabled: true
+        serviceId: vm-config
+#spring.cloud.config.uri= http://localhost:8888/
+eureka:
+  client:
+    serviceUrl:
+      default-zone: http://eureka01:1111/eureka,http://eureka02:1112/eureka
+
+server:
+  port: 2221
+
+---
+spring:
+  profiles: providerUser01
+server:
+  port: 2221
+
+---
+spring:
+  profiles: providerUser02
+server:
+  port: 2222
+
+
+

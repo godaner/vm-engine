@@ -1,10 +1,13 @@
+eureka:
+  client:
+    fetch:
+      registry: false
+    register-with-eureka: false
+  server:
+    enable-self-preservation: true
 spring:
   application:
     name: vm-eureka
-eureka:
-  client:
-    registerWithEureka: false  #是否将eureka自身作为应用注册到eureka注册中心
-    fetchRegistry: false       #为true时，可以启动，但报异常：Cannot execute request on any known server
 ---
 spring:
   profiles: eureka01

@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ConfigClientController {
-    //取配置文件中的值
+        //取配置文件中的值
     @Value("${profile}")
     private String profile;
 
     @GetMapping("/profile")
     public String getProfile(){
         return profile;
+    }
+    @GetMapping("/")
+    public String index() {
+        return "ProviderUserApplication";
     }
 }

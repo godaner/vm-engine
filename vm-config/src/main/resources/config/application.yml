@@ -1,5 +1,3 @@
-server:
-  port: 7777
 spring:
   application:
     name: vm-config
@@ -13,3 +11,16 @@ eureka:
   client:
     serviceUrl:
       default-zone: http://eureka01:1111/eureka,http://eureka02:1112/eureka
+
+---
+spring:
+  profiles: config01
+server:
+  port: 7771
+
+---
+spring:
+  profiles: config02
+server:
+  port: 7772
+
