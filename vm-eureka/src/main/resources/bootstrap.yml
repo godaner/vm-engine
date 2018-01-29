@@ -1,5 +1,30 @@
-server:
-  port: 8761
 spring:
   application:
     name: eureka-server
+eureka:
+  client:
+    registerWithEureka: false  #是否将eureka自身作为应用注册到eureka注册中心
+    fetchRegistry: false       #为true时，可以启动，但报异常：Cannot execute request on any known server
+    service-url:
+      defaultZone:
+        http://eureka01:1111/eureka/,http://eureka02:1112/eureka/
+
+---
+spring:
+  profiles: eureka01
+server:
+  port: 1111
+eureka:
+  instance:
+    hostname: eureka01
+
+---
+spring:
+  profiles: eureka02
+server:
+  port: 1112
+eureka:
+  instance:
+    hostname: eureka02
+
+
