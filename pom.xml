@@ -7,11 +7,11 @@
     <packaging>pom</packaging>
     <version>${project.version}</version>
     <modules>
-        <module>vm-dao</module>
         <module>vm-base</module>
-        <module>vm-frontend</module>
-        <module>vm-backend</module>
         <module>vm-redis</module>
+        <module>vm-dao</module>
+        <module>vm-provider-movie</module>
+        <module>vm-provider-file</module>
         <module>vm-provider-user</module>
         <module>vm-eureka</module>
         <module>vm-gateway</module>
