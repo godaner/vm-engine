@@ -17,19 +17,19 @@
         <module>vm-gateway</module>
         <module>vm-config</module>
     </modules>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.0.RELEASE</version>
+        <version>1.4.5.RELEASE</version>
     </parent>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <project.version>1.0.0</project.version>
-        <spring.cloud.version>Camden.SR3</spring.cloud.version>
+        <spring.cloud.version>Camden.SR6</spring.cloud.version>
     </properties>
-
     <dependencyManagement>
         <dependencies>
             <!--spring cloud start-->

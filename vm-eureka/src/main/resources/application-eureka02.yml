@@ -1,0 +1,12 @@
+server:
+  port: 1112
+spring:
+  application:
+    name: EurekaServer
+eureka:
+  instance:
+    hostname: eureka02
+  client:
+    service-url:
+      defaultZone:
+        http://eureka01:1111/eureka/,http://eureka02:1112/eureka/

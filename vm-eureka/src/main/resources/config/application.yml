@@ -5,7 +5,8 @@ eureka:
   client:
     registerWithEureka: false  #是否将eureka自身作为应用注册到eureka注册中心
     fetchRegistry: false       #为true时，可以启动，但报异常：Cannot execute request on any known server
-
+    service-url:
+          default-zone: http://eureka01:1111/eureka/,http://eureka02:1112/eureka/ #多节点互联
 ---
 spring:
   profiles: eureka01
@@ -14,9 +15,6 @@ server:
 eureka:
   instance:
     hostname: eureka01
-  client:
-    service-url:
-      default-zone: http://eureka02:1112/eureka
 ---
 spring:
   profiles: eureka02
@@ -25,7 +23,5 @@ server:
 eureka:
   instance:
     hostname: eureka02
-  client:
-    service-url:
-      default-zone: http://eureka01:1111/eureka
+
 
