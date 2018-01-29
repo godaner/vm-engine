@@ -1,8 +1,5 @@
 package com.vm.dao.qo;
 
-import com.vm.dao.validator.group.VmMoviesGroups;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import java.util.List;
 
 /**
@@ -10,13 +7,18 @@ import java.util.List;
  */
 public class VmMoviesQueryBean {
     private String keyword;
-    @NotEmpty(message = "{VmMoviesQueryBean.tagIds.NotEmpty}", groups = VmMoviesGroups.GetAboutTagsMoviesGroup.class)
+
     private List<Long> tagIds;
-    @NotEmpty(message = "{VmMoviesQueryBean.filmmakerIds.NotEmpty}", groups = VmMoviesGroups.GetAboutFilmmakersMoviesGroup.class)
+
     private List<Long> filmmakerIds;
-    private Integer tagIdsLength;
-    private String imgWidth;
+
     private Long excludeMovieId;
+
+    /**
+     * 非前台数据
+     */
+    private Integer tagIdsLength;
+
 
     public Long getExcludeMovieId() {
         return excludeMovieId;
@@ -42,14 +44,6 @@ public class VmMoviesQueryBean {
         this.tagIdsLength = tagIdsLength;
     }
 
-    public String getImgWidth() {
-        return imgWidth;
-    }
-
-    public void setImgWidth(String imgWidth) {
-        this.imgWidth = imgWidth;
-    }
-
     public String getKeyword() {
         return keyword;
     }
@@ -71,7 +65,9 @@ public class VmMoviesQueryBean {
         return "VmMoviesQueryBean{" +
                 "keyword='" + keyword + '\'' +
                 ", tagIds=" + tagIds +
-                ", imgWidth='" + imgWidth + '\'' +
+                ", filmmakerIds=" + filmmakerIds +
+                ", excludeMovieId=" + excludeMovieId +
+                ", tagIdsLength=" + tagIdsLength +
                 '}';
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.vm.dao.mapper.CustomVmMoviesMapper">
+<mapper namespace="com.vm.dao.mapper.custom.CustomVmMoviesMapper">
 
     <!--**************************** 自定义mapper start ****************************-->
-    <resultMap id="GetMoviesMap" type="com.vm.dao.po.CustomVmMovies">
+    <resultMap id="GetMoviesMap" type="com.vm.dao.po.custom.CustomVmMovies">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="alias" jdbcType="VARCHAR" property="alias"/>
@@ -15,14 +15,11 @@
         <result column="movie_time" jdbcType="INTEGER" property="movieTime"/>
         <result column="src_url" jdbcType="VARCHAR" property="srcUrl"/>
         <result column="img_url" jdbcType="VARCHAR" property="imgUrl"/>
-        <result column="status" jdbcType="TINYINT" property="status"/>
-        <result column="create_time" jdbcType="INTEGER" property="createTime"/>
-        <result column="update_time" jdbcType="INTEGER" property="updateTime"/>
         <association property="director" column="director_id"
-                     select="com.vm.dao.mapper.VmFilmmakersMapper.selectByPrimaryKey">
+                     select="com.vm.dao.mapper.custom.CustomVmFilmmakersMapper.selectDirectorIdAndNameByDirectorId">
         </association>
         <collection property="actors" column="id"
-                    select="com.vm.dao.mapper.CustomVmFilmmakersMapper.selectActorsByMovieId">
+                    select="com.vm.dao.mapper.custom.CustomVmFilmmakersMapper.selectActorsIdAndNameByMovieId">
         </collection>
 
     </resultMap>
@@ -30,7 +27,16 @@
     <select id="getMovies" resultMap="GetMoviesMap">
 
         SELECT
-        m.*
+        m.id,
+        m.name,
+        m.alias,
+        m.description,
+        m.director_id,
+        m.release_time,
+        m.score,
+        m.watch_num,
+        m.movie_time,
+        m.img_url
         FROM
         vm_movies m
         WHERE
@@ -97,7 +103,17 @@
 
     <!--获取单个movie-->
     <select id="getMovie" resultMap="GetMoviesMap">
-        SELECT *
+        SELECT
+        m.id,
+        m.name,
+        m.alias,
+        m.description,
+        m.director_id,
+        m.release_time,
+        m.score,
+        m.watch_num,
+        m.movie_time,
+        m.img_url
         FROM vm_movies m
         where m.id = #{movieId}
         and m.status = 1
@@ -106,12 +122,22 @@
 
     <select id="getAboutTagsMovies" resultMap="GetMoviesMap">
         SELECT
-            DISTINCT m.*
+        DISTINCT
+        m.id,
+        m.name,
+        m.alias,
+        m.description,
+        m.director_id,
+        m.release_time,
+        m.score,
+        m.watch_num,
+        m.movie_time,
+        m.img_url
         FROM
-            vm_movies m,
-            vm_movies_tags_realation tr
+        vm_movies m,
+        vm_movies_tags_realation tr
         WHERE
-            m.`status` = 1
+        m.`status` = 1
         AND tr.`status` = 1
         AND tr.movie_id = m.id
         AND m.id !=#{query.excludeMovieId}
@@ -128,7 +154,17 @@
     </select>
     <select id="getAboutFilmmakersMovies" resultMap="GetMoviesMap">
         SELECT
-        DISTINCT m.*
+        DISTINCT
+        m.id,
+        m.name,
+        m.alias,
+        m.description,
+        m.director_id,
+        m.release_time,
+        m.score,
+        m.watch_num,
+        m.movie_time,
+        m.img_url
         FROM
         vm_movies m,
         vm_movies_filmmakers_realation mfr

@@ -1,7 +1,7 @@
 package com.vm.base.exception;
 
 
-import com.vm.base.utils.Response;
+import com.vm.base.util.Response;
 
 import java.util.Map;
 

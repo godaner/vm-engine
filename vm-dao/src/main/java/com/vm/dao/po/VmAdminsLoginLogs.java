@@ -1,7 +1,6 @@
 package com.vm.dao.po;
 
-public class VmAdminsLoginLogs extends BasePo{
-    private Long id;
+public class VmAdminsLoginLogs extends BasePo {
 
     private Long adminId;
 
@@ -23,19 +22,6 @@ public class VmAdminsLoginLogs extends BasePo{
 
     private Byte result;
 
-    private Byte status;
-
-    private Integer createTime;
-
-    private Integer updateTime;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getAdminId() {
         return adminId;
@@ -117,27 +103,4 @@ public class VmAdminsLoginLogs extends BasePo{
         this.result = result;
     }
 
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Integer getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Integer createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Integer updateTime) {
-        this.updateTime = updateTime;
-    }
 }

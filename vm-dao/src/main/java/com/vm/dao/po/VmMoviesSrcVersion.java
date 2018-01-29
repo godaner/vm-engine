@@ -1,13 +1,8 @@
 package com.vm.dao.po;
 
-public class VmMoviesSrcVersion {
-    private Long id;
+import com.vm.base.util.ByteConstantVar;
 
-    private Byte status;
-
-    private Integer createTime;
-
-    private Integer updateTime;
+public class VmMoviesSrcVersion extends BasePo {
 
     private Byte sharpness;
 
@@ -17,36 +12,50 @@ public class VmMoviesSrcVersion {
 
     private String srcUrl;
 
-    public Long getId() {
-        return id;
+    private Byte weight;
+
+
+    /**
+     * 清晰度
+     */
+    public enum Sharpness {
+        NORMAL(ByteConstantVar.ONE, "标清"),
+        HIGH(ByteConstantVar.TWO, "高清"),
+        SUPER_HIGH(ByteConstantVar.THREE, "超清");
+
+        Byte code;
+
+        String msg;
+
+        Sharpness(Byte code, String msg) {
+            this.code = code;
+            this.msg = msg;
+        }
+
+        public Byte getCode() {
+            return code;
+        }
+
+        public void setCode(Byte code) {
+            this.code = code;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Byte getWeight() {
+        return weight;
     }
 
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Integer getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Integer createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Integer updateTime) {
-        this.updateTime = updateTime;
+    public void setWeight(Byte weight) {
+        this.weight = weight;
     }
 
     public Byte getSharpness() {
@@ -80,4 +89,5 @@ public class VmMoviesSrcVersion {
     public void setSrcUrl(String srcUrl) {
         this.srcUrl = srcUrl == null ? null : srcUrl.trim();
     }
+
 }

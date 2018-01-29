@@ -1,11 +1,14 @@
 package com.vm.frontend.listener;
 
-import com.vm.base.utils.VmProperties;
+import com.vm.base.util.ServerConfig;
+import com.vm.frontend.util.SessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
+import javax.annotation.Resource;
 import java.io.File;
 
 /**
@@ -18,12 +21,15 @@ public class ApplicationStartedListener implements ApplicationListener<ContextRe
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         try {
-            logger.debug("ApplicationStartedListener starting !");
+            logger.info("ApplicationStartedListener starting !");
 
             //初始化项目目录，例如图片储存，电影储存
             initFileDir();
 
-            logger.debug("ApplicationStartedListener start successful !");
+            //clear user session
+//            SessionManager.clearSessionManager();
+
+            logger.info("ApplicationStartedListener start successful !");
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("ApplicationStartedListener start failed", e);
@@ -36,11 +42,15 @@ public class ApplicationStartedListener implements ApplicationListener<ContextRe
      */
     private void initFileDir() {
 
-        checkAndCreateDir(VmProperties.VM_MOVIE_IMG_PATH);
+        checkAndCreateDir(ServerConfig.VM_MOVIE_IMG_PATH);
 
-        checkAndCreateDir(VmProperties.VM_MOVIE_SRC_PATH);
+        checkAndCreateDir(ServerConfig.VM_MOVIE_SRC_PATH);
 
-        checkAndCreateDir(VmProperties.VM_USER_IMG_PATH);
+        checkAndCreateDir(ServerConfig.VM_USER_IMG_PATH);
+
+        checkAndCreateDir(ServerConfig.VM_FILMMAKER_IMG_PATH);
+
+        checkAndCreateDir(ServerConfig.VM_USER_IMG_TEMP_PATH);
     }
 
 

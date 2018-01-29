@@ -1,7 +1,12 @@
 package com.vm.dao.po;
 
-public class VmUsers {
-    private Long id;
+import com.vm.base.util.ByteConstantVar;
+import com.vm.base.util.ServerConfig;
+
+public class VmUsers extends BasePo {
+    //注册用户时填入的默认img_url前缀
+    public static final String USER_IMG_URL_PREFIX = ServerConfig.VM_USER_IMG_URL_PREFIX + "/-1";
+
 
     private String username;
 
@@ -13,21 +18,46 @@ public class VmUsers {
 
     private String description;
 
-    private Byte status;
-
-    private Integer createTime;
-
-    private Integer updateTime;
-
     private String imgUrl;
 
-    public Long getId() {
-        return id;
+    /**
+     * 状态
+     */
+    public enum Sex {
+        //性别，1为男，1为女，3未设置
+        MEN(ByteConstantVar.ONE, "男"),
+        WOMEN(ByteConstantVar.TWO, "女"),
+        UNKNOWN(ByteConstantVar.THREE, "未设置");
+
+        Byte code;
+
+        String msg;
+
+        Sex(Byte code, String msg) {
+            this.code = code;
+            this.msg = msg;
+        }
+
+        public Byte getCode() {
+            return code;
+        }
+
+        public void setCode(Byte code) {
+            this.code = code;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+
+
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+
 
     public String getUsername() {
         return username;
@@ -69,29 +99,6 @@ public class VmUsers {
         this.description = description == null ? null : description.trim();
     }
 
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Integer getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Integer createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Integer updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public String getImgUrl() {
         return imgUrl;
@@ -99,5 +106,8 @@ public class VmUsers {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl == null ? null : imgUrl.trim();
+    }
+
+    public VmUsers() {
     }
 }

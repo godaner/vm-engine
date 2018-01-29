@@ -2,8 +2,8 @@ package com.vm.frontend.websocket;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.vm.base.utils.ByteConstantVar;
-import com.vm.base.utils.CommonUtil;
+import com.vm.base.util.ByteConstantVar;
+import com.vm.base.util.CommonUtil;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;

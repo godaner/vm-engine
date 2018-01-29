@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.vm.dao.mapper.CustomVmTagsMapper">
+<mapper namespace="com.vm.dao.mapper.custom.CustomVmTagsMapper">
 
     <!--**************************** 自定义mapper start ****************************-->
 
-    <select id="selectTagsByTagGroupId" resultMap="com.vm.dao.mapper.VmTagsMapper.BaseResultMap">
-        SELECT *
+    <select id="selectTagsIdAndNameByTagGroupId" resultMap="com.vm.dao.mapper.VmTagsMapper.VmTagsMap">
+        SELECT
+        t.id,
+        t.name
         from vm_tags t
         where t.`status` =1
         and t.tag_group_id=#{tagGroupId}
     </select>
-    <select id="getTagsOfMovie" resultMap="com.vm.dao.mapper.VmTagsMapper.BaseResultMap">
+    <select id="getTagsIdAndNameOfMovie" resultMap="com.vm.dao.mapper.VmTagsMapper.VmTagsMap">
         SELECT
-            t.*
+            t.id,
+            t.name
         FROM
             vm_tags t,
             vm_movies_tags_realation mtr
