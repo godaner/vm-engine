@@ -7,10 +7,10 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @SpringBootApplication
 @ServletComponentScan
-public class FrontendApplication {
+public class ProviderFileApplication {
     public static void main(String[] args) {
 
-        SpringApplication springApplication = new SpringApplication(FrontendApplication.class);
+        SpringApplication springApplication = new SpringApplication(ProviderMovieApplication.class);
 //        springApplication.addListeners(new ApplicationStartedListener());
 //        springApplication.addListeners(new ApplicationStopedListener());
         springApplication.run(args);

@@ -10,12 +10,12 @@
         <module>vm-base</module>
         <module>vm-redis</module>
         <module>vm-dao</module>
-        <module>vm-provider-movie</module>
-        <module>vm-provider-file</module>
         <module>vm-provider-user</module>
         <module>vm-eureka</module>
         <module>vm-gateway</module>
         <module>vm-config</module>
+        <module>vm-provider-movie</module>
+        <module>vm-provider-file</module>
     </modules>
 
     <parent>
