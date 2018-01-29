@@ -12,18 +12,17 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://eureka01:1111/eureka,http://eureka02:1112/eureka
+      defaultZone: http://eureka01:1111/eureka/,http://eureka02:1112/eureka/
 
 
 ---
 spring:
-  profiles: provider-user01
+  profiles: providerUser01
 server:
   port: 2221
-
 ---
 spring:
-  profiles: provider-user02
+  profiles: providerUser02
 server:
   port: 2222
 

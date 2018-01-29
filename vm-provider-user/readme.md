@@ -1,3 +1,4 @@
 # 运行
     运行参数：
-        --spring.profile.active=provider-user01
+        --spring.profiles.active=providerUser01
+     
