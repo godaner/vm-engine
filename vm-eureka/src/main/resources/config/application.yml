@@ -5,17 +5,6 @@ eureka:
   client:
     registerWithEureka: false  #是否将eureka自身作为应用注册到eureka注册中心
     fetchRegistry: false       #为true时，可以启动，但报异常：Cannot execute request on any known server
-eureka:
-  server:
-    #eureka server刷新readCacheMap的时间，注意，client读取的是readCacheMap，这个时间决定了多久会把readWriteCacheMap的缓存更新到readCacheMap上
-    #默认30s
-    responseCacheUpdateInvervalMs: 3000
-    #eureka server缓存readWriteCacheMap失效时间，这个只有在这个时间过去后缓存才会失效，失效前不会更新，过期后从registry重新读取注册服务信息，registry是一个ConcurrentHashMap。
-    #由于启用了evict其实就用不太上改这个配置了
-    #默认180s
-    responseCacheAutoExpirationInSeconds: 180
-    #启用主动失效，并且每次主动失效检测间隔为3s
-    eviction-interval-timer-in-ms: 3000
 
 ---
 spring:

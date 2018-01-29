@@ -16,7 +16,7 @@
 #4.
     可能用到的命令:
     # scp /usr/local/src/a.jar root@120.78.191.94:/usr/local/src
-    
+    # systemctl stop firewalld.service  关闭防火墙
     
 #5.application.yml
     #禁用eureka注册自己
