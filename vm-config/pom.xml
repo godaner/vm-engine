@@ -10,6 +10,8 @@
     <packaging>jar</packaging>
 
     <dependencies>
+
+
         <!--config start-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

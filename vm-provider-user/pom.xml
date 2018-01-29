@@ -8,31 +8,29 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>vm-provider-user</artifactId>
     <dependencies>
-        <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>vm-base</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>vm-dao</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>vm-redis</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.vm</groupId>-->
+            <!--<artifactId>vm-base</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.vm</groupId>-->
+            <!--<artifactId>vm-dao</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.vm</groupId>-->
+            <!--<artifactId>vm-redis</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
 
+        <!--config start-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
+        <!--config end-->
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
 
         <!--eureka start-->
         <dependency>
@@ -40,11 +38,6 @@
             <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
         <!--eureka end-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -52,7 +45,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration><!-- 指定该Main Class为全局的唯一入口 -->
-                    <mainClass>com.vm.RouterApplication</mainClass>
+                    <mainClass>com.vm.ProviderUserApplication</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>
