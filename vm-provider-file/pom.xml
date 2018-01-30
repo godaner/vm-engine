@@ -25,6 +25,20 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!--config start-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+        <!--config end-->
+
+
+        <!--eureka start-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
+        </dependency>
+        <!--eureka end-->
     </dependencies>
     <build>
         <plugins>
@@ -49,4 +63,6 @@
             </plugin>
         </plugins>
     </build>
+
+
 </project>

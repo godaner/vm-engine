@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: vm-gateway
+  cloud:
+    config:
+      label: zk_spring_cloud
+      profile: dev
+      discovery:
+        enabled: true
+        serviceId: vm-config
+#spring.cloud.config.uri= http://localhost:8888/
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka01:1111/eureka/,http://eureka02:1112/eureka/
+
+
+---
+spring:
+  profiles: gateway01
+server:
+  port: 5551
+---
+spring:
+  profiles: gateway02
+server:
+  port: 5552
+
+
+
