@@ -2,6 +2,7 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+# log
 logging:
   level:
     com.netflix: INFO
@@ -13,26 +14,13 @@ zuul:
     socket-timeout-millis: 60000
     connect-timeout-millis: 60000
   routes:
-    api-user:
+    vm-provider-user:
       path: /user/**
-      service-id: vm-provider-user
       stripPrefix: false
-    api-filmmaker:
-      path: /filmmaker/**
-      service-id: vm-provider-movie
+    vm-provider-movie:
+      path: /filmmaker/**,/movie/**,/tagGroup/**,/tag/**
       stripPrefix: false
-    api-movie:
-      path: /movie/**
-      service-id: vm-provider-movie
-      stripPrefix: false
-    api-tagGroup:
-      path: /tagGroup/**
-      service-id: vm-provider-movie
-      stripPrefix: false
-    api-tag:
-      path: /tag/**
-      service-id: vm-provider-movie
-      stripPrefix: false
+
 
 ribbon:
   NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule # 配置服务端负载均衡策略
