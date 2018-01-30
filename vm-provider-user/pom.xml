@@ -39,6 +39,16 @@
             <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
         <!--eureka end-->
+
+
+        <!--热部署 start-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--热部署 end-->
+
     </dependencies>
     <build>
         <plugins>

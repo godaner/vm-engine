@@ -14,6 +14,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!--config start-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+        <!--config end-->
 
         <!--zuul start-->
         <dependency>
@@ -29,6 +35,15 @@
         </dependency>
         <!--eureka end-->
 
+
+
+        <!--热部署 start-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--热部署 end-->
 
     </dependencies>
     <build>

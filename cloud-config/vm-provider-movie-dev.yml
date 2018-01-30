@@ -1,3 +1,7 @@
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
 spring:
   #db connection
   datasource:
@@ -5,4 +9,3 @@ spring:
     url: jdbc:mysql://120.78.191.94:3306/vm?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true&amp;autoReconnect=true
     username: root
     password: 123
-

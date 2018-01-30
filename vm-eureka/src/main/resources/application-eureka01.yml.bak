@@ -1,8 +1,0 @@
-server:
-  port: 1111
-spring:
-  application:
-    name: EurekaServer
-eureka:
-  instance:
-    hostname: eureka01

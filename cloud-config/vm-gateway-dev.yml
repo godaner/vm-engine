@@ -1,3 +1,7 @@
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
 # 路由配置
 zuul:
   host:
