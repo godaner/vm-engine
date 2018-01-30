@@ -1,9 +1,12 @@
 package com.vm;
 
+import com.vm.gateway.LogFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+import org.springframework.context.annotation.Bean;
+
 /**
  * Created by ZhangKe on 2017/12/26.
  */
@@ -18,4 +21,8 @@ public class GatewayApplication {
 
     }
 
+    @Bean
+    public LogFilter logFilter(){
+        return new LogFilter();
+    }
 }
