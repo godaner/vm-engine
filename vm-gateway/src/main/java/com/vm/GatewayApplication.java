@@ -1,6 +1,6 @@
 package com.vm;
 
-import com.vm.gateway.LogFilter;
+import com.vm.gateway.ConsoleLogFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -22,7 +22,7 @@ public class GatewayApplication {
     }
 
     @Bean
-    public LogFilter logFilter(){
-        return new LogFilter();
+    public ConsoleLogFilter logFilter(){
+        return new ConsoleLogFilter();
     }
 }

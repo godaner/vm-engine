@@ -8,6 +8,8 @@ logging:
     com.netflix: INFO
 # 路由配置
 zuul:
+  #全局设置
+  #retryable: true
   info:
     request: true
   host:
@@ -18,6 +20,8 @@ zuul:
       path: /user/**
       stripPrefix: false
     vm-provider-movie:
+      #局部设置
+      retryable: false
       path: /filmmaker/**,/movie/**,/tagGroup/**,/tag/**
       stripPrefix: false
 
