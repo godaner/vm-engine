@@ -37,6 +37,16 @@
         </dependency>
         <!--spring aop end-->
 
+
+
+
+        <!--mysql-connector-java start-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!--mysql-connector-java end-->
+
         <!-- 邮件 start -->
         <dependency>
             <groupId>javax.mail</groupId>

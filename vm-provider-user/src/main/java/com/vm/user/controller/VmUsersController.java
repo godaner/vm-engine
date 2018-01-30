@@ -1,4 +1,4 @@
-package com.vm.user;
+package com.vm.user.controller;
 
 import com.vm.base.util.ServiceController;
 import com.vm.user.aop.RequiredLogin;

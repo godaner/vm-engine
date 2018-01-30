@@ -14,12 +14,22 @@
             <version>${project.version}</version>
         </dependency>
 
+
+        <!--zuul start-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zuul</artifactId>
+        </dependency>
+        <!--zuul end-->
+
         <!--eureka start-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
         <!--eureka end-->
+
+
     </dependencies>
     <build>
         <plugins>
@@ -27,7 +37,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration><!-- 指定该Main Class为全局的唯一入口 -->
-                    <mainClass>com.vm.RouterApplication</mainClass>
+                    <mainClass>com.vm.GatewayApplication</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>
