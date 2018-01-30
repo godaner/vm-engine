@@ -2,8 +2,14 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
+logging:
+  level:
+    com.netflix: DEBUG
 # 路由配置
 zuul:
+  debug:
+    request: true
+  include-debug-header: true
   host:
     socket-timeout-millis: 60000
     connect-timeout-millis: 60000
