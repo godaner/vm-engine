@@ -1,4 +1,4 @@
-package com.vm.base.configuration;
+package com.vm.gateway.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,7 @@ import org.springframework.web.filter.CorsFilter;
  * Created by ZhangKe on 2018/1/17.
  * 跨域配置
  */
-//@Configuration
+@Configuration
 public class CorsConfig {
 
     private CorsConfiguration buildConfig() {
