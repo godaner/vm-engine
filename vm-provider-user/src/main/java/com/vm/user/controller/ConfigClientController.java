@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RefreshScope
 public class ConfigClientController {
         //取配置文件中的值
-    @Value("${profile}")
+    @Value("${spring.application.name}")
     private String profile;
 
     @GetMapping("/profile")

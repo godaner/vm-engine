@@ -6,19 +6,3 @@ spring:
     username: root
     password: 123
 
-#spring.cloud.config.uri= http://localhost:8888/
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://eureka01:1111/eureka/,http://eureka02:1112/eureka/
-
----
-spring:
-  profiles: providerMovie01
-server:
-  port: 3331
----
-spring:
-  profiles: providerMovie02
-server:
-  port: 3332

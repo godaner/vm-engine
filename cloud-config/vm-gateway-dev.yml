@@ -1,0 +1,37 @@
+# 路由配置
+zuul:
+  host:
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+  routes:
+    api-user:
+      path: /user/**
+      service-id: vm-provider-user
+    api-filmmaker:
+      path: /filmmaker/**
+      service-id: vm-provider-movie
+    api-movie:
+      path: /movie/**
+      service-id: vm-provider-movie
+    api-tagGroup:
+      path: /tagGroup/**
+      service-id: vm-provider-movie
+    api-tag:
+      path: /tag/**
+      service-id: vm-provider-movie
+
+ribbon:
+  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule # 配置服务端负载均衡策略
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 60000
