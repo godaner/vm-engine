@@ -28,7 +28,7 @@ zuul:
         path: /tagGroup/**
         serviceId: vm-provider-movie
         stripPrefix: false
-      tagGroup:
+      tag:
         path: /tag/**
         serviceId: vm-provider-movie
         stripPrefix: false
