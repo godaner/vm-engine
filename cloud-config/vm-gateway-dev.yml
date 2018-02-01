@@ -13,7 +13,7 @@ zuul:
     connect-timeout-millis: 60000
   routes:
     vm-provider-user: /user/**
-    vm-provider-movie: /filmmaker/**,/movie/**,/tagGroup/**,/tag/**
+    vm-provider-movie: /filmmaker/**
 
 eureka:
   client:
