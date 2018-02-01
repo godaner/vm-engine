@@ -13,41 +13,42 @@ import com.netflix.zuul.context.RequestContext;
  */
 public class ConsoleLogFilter extends ZuulFilter {
 
-	private static Logger logger = LoggerFactory.getLogger(ConsoleLogFilter.class);
-	/* (non-Javadoc)
-	 * @see com.netflix.zuul.IZuulFilter#shouldFilter()
-	 */
-	@Override
-	public boolean shouldFilter() {
-		return true;
-	}
+    private static Logger logger = LoggerFactory.getLogger(ConsoleLogFilter.class);
 
-	/* (non-Javadoc)
-	 * @see com.netflix.zuul.IZuulFilter#run()
-	 */
-	@Override
-	public Object run() {
-		System.out.println("running ConsoleLogFilter");
-		RequestContext ctx = RequestContext.getCurrentContext();
+    /* (non-Javadoc)
+     * @see com.netflix.zuul.IZuulFilter#shouldFilter()
+     */
+    @Override
+    public boolean shouldFilter() {
+        return true;
+    }
+
+    /* (non-Javadoc)
+     * @see com.netflix.zuul.IZuulFilter#run()
+     */
+    @Override
+    public Object run() {
+        logger.info("running ConsoleLogFilter");
+        RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
-        logger.info("request path is : "+request.getServletPath());
-		return null;
-	}
+        logger.info("request path is : {}", request.getServletPath());
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.netflix.zuul.ZuulFilter#filterType()
-	 */
-	@Override
-	public String filterType() {
-		return "pre";
-	}
+    /* (non-Javadoc)
+     * @see com.netflix.zuul.ZuulFilter#filterType()
+     */
+    @Override
+    public String filterType() {
+        return "pre";
+    }
 
-	/* (non-Javadoc)
-	 * @see com.netflix.zuul.ZuulFilter#filterOrder()
-	 */
-	@Override
-	public int filterOrder() {
-		return 0;
-	}
+    /* (non-Javadoc)
+     * @see com.netflix.zuul.ZuulFilter#filterOrder()
+     */
+    @Override
+    public int filterOrder() {
+        return 0;
+    }
 
 }

@@ -8,6 +8,7 @@ logging:
     com.netflix: INFO
 # 路由配置
 zuul:
+  prefix: /vm-gateway
   #全局设置
   #retryable: true
   info:
@@ -18,12 +19,12 @@ zuul:
   routes:
     vm-provider-user:
       path: /vm-gateway/user/**
-      stripPrefix: false
+#      stripPrefix: false
     vm-provider-movie:
       #局部设置
 #      retryable: false
       path: /vm-gateway/filmmaker/**,/vm-gateway/movie/**,/vm-gateway/tagGroup/**,/vm-gateway/tag/**
-      stripPrefix: false
+#      stripPrefix: false
 
 
 ribbon:
