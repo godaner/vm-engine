@@ -1,11 +1,13 @@
 package com.vm;
 
-import com.vm.gateway.configuration.ConsoleLogFilter;
+import com.vm.gateway.configuration.ConsoleLogConfig;
+import com.vm.gateway.configuration.CorsConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.filter.CorsFilter;
 
 /**
  * Created by ZhangKe on 2017/12/26.
@@ -22,7 +24,13 @@ public class GatewayApplication {
     }
 
     @Bean
-    public ConsoleLogFilter logFilter(){
-        return new ConsoleLogFilter();
+    public ConsoleLogConfig logFilter(){
+        return new ConsoleLogConfig();
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+
+        return new CorsConfig().CorsConfig();
     }
 }

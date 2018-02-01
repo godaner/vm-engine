@@ -3,13 +3,13 @@ spring:
     name: eureka-server
 eureka:
   client:
-    registerWithEureka: false  #是否将eureka自身作为应用注册到eureka注册中心
-    fetchRegistry: false       #为true时，可以启动，但报异常：Cannot execute request on any known server
+    registerWithEureka: true  #是否将eureka自身作为应用注册到eureka注册中心
+    fetchRegistry: true
     service-url:
       defaultZone:
         http://eureka01:1111/eureka/,http://eureka02:1112/eureka/
   server:
-    #当服务嗝儿屁时，及时注销服务实例
+    #关闭自我保护，当服务嗝儿屁时，及时注销服务实例
     enableSelfPreservation: false
 ---
 spring:

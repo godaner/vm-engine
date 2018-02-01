@@ -11,9 +11,9 @@ import com.netflix.zuul.context.RequestContext;
 /**
  * Created by ZhangKe on 2017/12/26.
  */
-public class ConsoleLogFilter extends ZuulFilter {
+public class ConsoleLogConfig extends ZuulFilter {
 
-    private static Logger logger = LoggerFactory.getLogger(ConsoleLogFilter.class);
+    private static Logger logger = LoggerFactory.getLogger(ConsoleLogConfig.class);
 
     /* (non-Javadoc)
      * @see com.netflix.zuul.IZuulFilter#shouldFilter()
@@ -28,7 +28,7 @@ public class ConsoleLogFilter extends ZuulFilter {
      */
     @Override
     public Object run() {
-        logger.info("running ConsoleLogFilter");
+        logger.info("running ConsoleLogConfig");
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
         logger.info("request path is : {}", request.getServletPath());
