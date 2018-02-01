@@ -16,13 +16,15 @@ zuul:
     socket-timeout-millis: 60000
     connect-timeout-millis: 60000
   routes:
-    vm-provider-user:
+    api-user:
       path: /user/**
+      serviceId: vm-provider-user
       stripPrefix: false
-    vm-provider-movie:
+    api-movie:
       #局部设置
-      retryable: false
+#      retryable: false
       path: /filmmaker/**,/movie/**,/tagGroup/**,/tag/**
+      serviceId: vm-provider-movie
       stripPrefix: false
 
 
