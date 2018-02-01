@@ -13,12 +13,8 @@ zuul:
     connect-timeout-millis: 60000
   routes:
     vm-provider-user: /user/**
-    vm-provider-movie: /filmmaker/**
+    vm-provider-movie: /filmmaker/**,/movie/**,/tagGroup/**,/tag/**
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://eureka01:1111/eureka/,http://eureka02:1112/eureka/
 
 
 
