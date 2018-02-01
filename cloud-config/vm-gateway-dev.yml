@@ -8,7 +8,6 @@ logging:
     com.netflix: INFO
 # 路由配置
 zuul:
-  prefix: /vm-gateway
   #全局设置
   #retryable: true
   info:
@@ -18,15 +17,18 @@ zuul:
     connect-timeout-millis: 60000
   routes:
     vm-provider-user:
-      path: /vm-gateway/user/**
+      path: /user/**
 #      stripPrefix: false
     vm-provider-movie:
       #局部设置
 #      retryable: false
-      path: /vm-gateway/filmmaker/**,/vm-gateway/movie/**,/vm-gateway/tagGroup/**,/vm-gateway/tag/**
+      path: /filmmaker/**,/movie/**,/tagGroup/**,/tag/**
 #      stripPrefix: false
 
-
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka01:1111/eureka/,http://eureka02:1112/eureka/
 ribbon:
   NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule # 配置服务端负载均衡策略
   ReadTimeout: 60000
