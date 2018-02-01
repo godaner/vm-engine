@@ -14,57 +14,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka01:1111/eureka/,http://eureka02:1112/eureka/
-  instance:
-    leaseRenewalIntervalInSeconds: 1
-    leaseExpirationDurationInSeconds: 2
-logging:
-  level:
-    com.netflix: INFO
-zuul:
-  info:
-    request: true
-  host:
-    connect-timeout-millis: 10000
-    socket-timeout-millis: 60000
-  routes:
-      user:
-        path: /user/**
-        serviceId: vm-provider-user
-        stripPrefix: false
-      filmmaker:
-        path: /filmmaker/**
-        serviceId: vm-provider-movie
-        stripPrefix: false
-      movie:
-        path: /movie/**
-        serviceId: vm-provider-movie
-        stripPrefix: false
-      tagGroup:
-        path: /tagGroup/**
-        serviceId: vm-provider-movie
-        stripPrefix: false
-      tag:
-        path: /tag/**
-        serviceId: vm-provider-movie
-        stripPrefix: false
-feign:
-  hystrix:
-    enabled: true
 
-
-ribbon:
-  ReadTimeout: 60000
-  ConnectTimeout: 60000
-
-
-
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 60000
 
 ---
 spring:

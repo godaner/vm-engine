@@ -1,7 +1,7 @@
 # spring cloud config
 spring:
   application:
-    name: vm-provider-user
+    name: vm-provider-movie
   cloud:
     config:
       label: zk_spring_cloud
