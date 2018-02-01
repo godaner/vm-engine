@@ -16,7 +16,7 @@ zuul:
         path: /user/**
         serviceId: vm-provider-user
         stripPrefix: false
-      user:
+      movie:
         path: /filmmaker/**,/movie/**,/tagGroup/**,/tag/**
         serviceId: vm-provider-movie
         stripPrefix: false
