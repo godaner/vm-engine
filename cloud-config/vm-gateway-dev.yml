@@ -17,12 +17,12 @@ zuul:
     connect-timeout-millis: 60000
   routes:
     vm-provider-user:
-      path: /user/**
+      path: /vm-gateway/user/**
       stripPrefix: false
     vm-provider-movie:
       #局部设置
 #      retryable: false
-      path: /filmmaker/**,/movie/**,/tagGroup/**,/tag/**
+      path: /vm-gateway/filmmaker/**,/vm-gateway/movie/**,/vm-gateway/tagGroup/**,/vm-gateway/tag/**
       stripPrefix: false
 
 
