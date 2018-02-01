@@ -9,8 +9,8 @@ zuul:
   info:
     request: true
   host:
+    connect-timeout-millis: 10000
     socket-timeout-millis: 60000
-    connect-timeout-millis: 60000
   routes:
       user:
         path: /user/**
@@ -38,9 +38,8 @@ feign:
 
 
 ribbon:
-#  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
   ReadTimeout: 60000
-  ConnectTimeout: 60000
+  ConnectTimeout: 60000 
 
 
 
