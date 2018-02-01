@@ -38,7 +38,7 @@ feign:
 
 
 ribbon:
-  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+#  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
   ReadTimeout: 60000
   ConnectTimeout: 60000
 
