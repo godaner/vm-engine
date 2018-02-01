@@ -15,6 +15,10 @@ zuul:
     vm-provider-user: /user/**
     vm-provider-movie: /filmmaker/**,/movie/**,/tagGroup/**,/tag/**
 
+feign:
+  hystrix:
+    enabled: true
+
 
 ribbon:
   NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
