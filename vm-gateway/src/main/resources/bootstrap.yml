@@ -16,6 +16,23 @@ eureka:
       defaultZone: http://eureka01:1111/eureka/,http://eureka02:1112/eureka/
 
 
+
+
+logging:
+  level:
+    com.netflix: INFO
+zuul:
+  info:
+    request: true
+  routes:
+    vm-provider-user: /user/**
+    vm-provider-movie: /filmmaker/**,/movie/**,/tagGroup/**,/tag/**
+
+
+
+
+
+
 ---
 spring:
   profiles: gateway01
