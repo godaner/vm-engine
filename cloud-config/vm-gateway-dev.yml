@@ -12,10 +12,8 @@ zuul:
     socket-timeout-millis: 60000
     connect-timeout-millis: 60000
   routes:
-    vm-provider-user:
-      path: /user/**
-    vm-provider-movie:
-      path: /filmmaker/**,/movie/**,/tagGroup/**,/tag/**
+    vm-provider-user: /user/**
+    vm-provider-movie: /filmmaker/**,/movie/**,/tagGroup/**,/tag/**
 
 eureka:
   client:
