@@ -1,7 +1,7 @@
 eureka:
   instance:
-    leaseRenewalIntervalInSeconds: 1 #eureka客户需要多长时间发送心跳给eureka服务器，表明它仍然活着,默认为30 秒
-    leaseExpirationDurationInSeconds: 2 #Eureka服务器在接收到实例的最后一次发出的心跳后，需要等待多久才可以将此实例删除，默认为90秒
+    leaseRenewalIntervalInSeconds: 10 #eureka客户需要多长时间发送心跳给eureka服务器，表明它仍然活着,默认为30 秒
+    leaseExpirationDurationInSeconds: 10 #Eureka服务器在接收到实例的最后一次发出的心跳后，需要等待多久才可以将此实例删除，默认为90秒
     prefer-ip-address: true #在eureka页面显示ip而不是linux主机名，微服务使用这里展示的进行调用，如果是使用主机名，那么可能无法调用
     instance-id: ${spring.cloud.client.ipAddress}:${server.port} #实例的id
 spring:

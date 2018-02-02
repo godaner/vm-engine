@@ -17,11 +17,11 @@ eureka:
       defaultZone: http://server01:1111/eureka/,http://server02:1112/eureka/
 ---
 spring:
-  profiles: server01
+  profiles: providerMovie01
 server:
   port: 3331
 ---
 spring:
-  profiles: server02
+  profiles: providerMovie02
 server:
   port: 3332

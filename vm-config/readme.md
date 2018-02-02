@@ -26,12 +26,12 @@
             # vim /etc/hosts
         windows:
             # 编辑 c:\windows\system32\drivers\etc
-        输入==> 127.0.0.1  server01 server02 与linux主机同名主机
+        输入==> 127.0.0.1  server01 server02 
     
     #2.
-        # nohup java -jar vm-config-1.0.0.jar --spring.profiles.active=server01 >config01.out 2>&1 &
+        # nohup java -jar vm-config-1.0.0.jar --spring.profiles.active=config01 >config01.out 2>&1 &
         
-        # nohup java -jar vm-config-1.0.0.jar --spring.profiles.active=server02 >config02.out 2>&1 &
+        # nohup java -jar vm-config-1.0.0.jar --spring.profiles.active=config02 >config02.out 2>&1 &
     #3.
         http://config01:7777/zk_spring_cloud/vm-provider-user-dev.yml
         

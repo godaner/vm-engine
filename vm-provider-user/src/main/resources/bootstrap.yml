@@ -19,11 +19,11 @@ eureka:
 
 ---
 spring:
-  profiles: server01
+  profiles: providerUser01
 server:
   port: 2221
 ---
 spring:
-  profiles: server02
+  profiles: providerUser02
 server:
   port: 2222
