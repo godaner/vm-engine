@@ -13,8 +13,6 @@ public class ProviderMovieApplication {
     public static void main(String[] args) {
 
         SpringApplication springApplication = new SpringApplication(ProviderMovieApplication.class);
-//        springApplication.addListeners(new ApplicationStartedListener());
-//        springApplication.addListeners(new ApplicationStopedListener());
         springApplication.run(args);
 
     }

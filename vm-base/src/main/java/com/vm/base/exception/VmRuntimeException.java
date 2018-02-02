@@ -18,32 +18,28 @@ import java.util.Map;
  * <b>Date:</b>2017/11/24 9:55
  */
 public class VmRuntimeException extends RuntimeException {
-    protected int errorCode;
-    protected Map params;
+    protected int errorCode;//=returnCode
+    protected String errorMsg;//=returnMsg
+    protected String logMsg;//=exception#getMessage()
 
-    public VmRuntimeException(int errorCode, String message, Map params, Throwable e) {
-
-        super(message, e);
+    public VmRuntimeException(int errorCode, String errorMsg) {
+        super(errorMsg);
+        this.errorMsg = errorMsg;
         this.errorCode = errorCode;
-        this.params = params;
     }
 
-    public VmRuntimeException(int errorCode, String message, Map data) {
-
-        this(errorCode, message, data, null);
+    public VmRuntimeException(String logMsg, int errorCode, String errorMsg) {
+        super(logMsg);
+        this.logMsg = logMsg;
+        this.errorMsg = errorMsg;
+        this.errorCode = errorCode;
     }
 
-    public VmRuntimeException(int errorCode, String message) {
-        this(errorCode, message, null, null);
-    }
-
-    public VmRuntimeException(Response.ResponseCode errorCode) {
-        this(errorCode.getCode(), errorCode.getMsg(), null, null);
-    }
-
-    public VmRuntimeException(String message) {
-
-        this(Response.ResponseCode.FAILURE.getCode(), message, null, null);
+    public VmRuntimeException(String logMsg) {
+        super(logMsg);
+        this.logMsg = logMsg;
+        this.errorMsg = Response.ResponseCode.FAILURE.getMsg();
+        this.errorCode = Response.ResponseCode.FAILURE.getCode();
     }
 
     public int getErrorCode() {
@@ -54,26 +50,19 @@ public class VmRuntimeException extends RuntimeException {
         this.errorCode = errorCode;
     }
 
-    public String toString() {
-        StringBuffer sb = new StringBuffer(super.toString());
-        if (getParams() != null) {
-            Map args = getParams();
-            for (Object object : args.keySet()) {
-                String name = (String) object;
-                sb.append(" " + name + ":").append(args.get(name)).append(";");
-            }
-        }
-        return sb.toString();
+    public String getErrorMsg() {
+        return errorMsg;
     }
 
-
-    public Map getParams() {
-        return params;
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
     }
 
-    public void setParams(Map params) {
-        this.params = params;
+    public String getLogMsg() {
+        return logMsg;
     }
 
-
+    public void setLogMsg(String logMsg) {
+        this.logMsg = logMsg;
+    }
 }

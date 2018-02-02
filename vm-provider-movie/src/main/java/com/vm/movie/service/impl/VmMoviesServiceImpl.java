@@ -158,8 +158,9 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
 
         if (isNullObject(vmMovies)) {
-            logger.error("getMovieFilmmakers vmMovies is not exist ! movieId is : {}", movieId);
-            throw new VmMoviesException(VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getCode(),
+
+            throw new VmMoviesException("getMovieFilmmakers vmMovies is not exist ! movieId is : " + movieId,
+                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getCode(),
                     VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getMsg());
         }
 
@@ -206,8 +207,8 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         VmMovies vmMovies = validateMovie(movieId);
 
         if (isNullObject(vmMovies)) {
-            logger.error("getMovieFilmmakers vmMovies is not exist ! movieId is : {}", movieId);
-            throw new VmMoviesException(VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getCode(),
+            throw new VmMoviesException("getMovieFilmmakers vmMovies is not exist ! movieId is : " + movieId,
+                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getCode(),
                     VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getMsg());
         }
 
@@ -226,8 +227,8 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         VmMovies vmMovies = validateMovie(movieId);
 
         if (isNullObject(vmMovies)) {
-            logger.error("getMovieFilmmakers vmMovies is not exist ! movieId is : {}", movieId);
-            throw new VmMoviesException(VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getCode(),
+            throw new VmMoviesException("getMovieFilmmakers vmMovies is not exist ! movieId is : " + movieId,
+                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getCode(),
                     VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getMsg());
         }
 

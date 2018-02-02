@@ -9,24 +9,18 @@ import java.util.Map;
  * Created by ZhangKe on 2018/1/9.
  */
 public class VmFilmmakersException extends VmRuntimeException {
-    public VmFilmmakersException(int errorCode, String message, Map params, Throwable e) {
-        super(errorCode, message, params, e);
+
+
+    public VmFilmmakersException(int errorCode, String errorMsg) {
+        super(errorCode, errorMsg);
     }
 
-    public VmFilmmakersException(int errorCode, String message, Map data) {
-        super(errorCode, message, data);
+    public VmFilmmakersException(String logMsg, int errorCode, String errorMsg) {
+        super(logMsg, errorCode, errorMsg);
     }
 
-    public VmFilmmakersException(int errorCode, String message) {
-        super(errorCode, message);
-    }
-
-    public VmFilmmakersException(Response.ResponseCode errorCode) {
-        super(errorCode);
-    }
-
-    public VmFilmmakersException(String message) {
-        super(message);
+    public VmFilmmakersException(String logMsg) {
+        super(logMsg);
     }
 
     public enum ErrorCode {

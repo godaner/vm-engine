@@ -9,28 +9,22 @@ import java.util.Map;
  * Created by ZhangKe on 2018/1/9.
  */
 public class VmTagsException extends VmRuntimeException {
-    public VmTagsException(int errorCode, String message, Map params, Throwable e) {
-        super(errorCode, message, params, e);
+
+
+    public VmTagsException(int errorCode, String errorMsg) {
+        super(errorCode, errorMsg);
     }
 
-    public VmTagsException(int errorCode, String message, Map data) {
-        super(errorCode, message, data);
+    public VmTagsException(String logMsg, int errorCode, String errorMsg) {
+        super(logMsg, errorCode, errorMsg);
     }
 
-    public VmTagsException(int errorCode, String message) {
-        super(errorCode, message);
-    }
-
-    public VmTagsException(Response.ResponseCode errorCode) {
-        super(errorCode);
-    }
-
-    public VmTagsException(String message) {
-        super(message);
+    public VmTagsException(String logMsg) {
+        super(logMsg);
     }
 
     public enum ErrorCode {
-;
+        ;
         int code;
         String msg;
 

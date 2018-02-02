@@ -9,24 +9,18 @@ import java.util.Map;
  * Created by ZhangKe on 2018/1/9.
  */
 public class VmUsersException extends VmRuntimeException {
-    public VmUsersException(int errorCode, String message, Map params, Throwable e) {
-        super(errorCode, message, params, e);
+
+
+    public VmUsersException(int errorCode, String errorMsg) {
+        super(errorCode, errorMsg);
     }
 
-    public VmUsersException(int errorCode, String message, Map data) {
-        super(errorCode, message, data);
+    public VmUsersException(String logMsg, int errorCode, String errorMsg) {
+        super(logMsg, errorCode, errorMsg);
     }
 
-    public VmUsersException(int errorCode, String message) {
-        super(errorCode, message);
-    }
-
-    public VmUsersException(Response.ResponseCode errorCode) {
-        super(errorCode);
-    }
-
-    public VmUsersException(String message) {
-        super(message);
+    public VmUsersException(String logMsg) {
+        super(logMsg);
     }
 
     public enum ErrorCode {

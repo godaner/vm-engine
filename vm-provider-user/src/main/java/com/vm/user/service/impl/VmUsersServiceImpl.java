@@ -87,12 +87,12 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         VmUsers dbUser = getUserByUsername(vmUsersDto.getUsername());
 
         if (isNullObject(dbUser)) {
-            logger.error("userLogin dbUser is not exits ! user is : {}", vmUsersDto);
-            throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
+            throw new VmUsersException("userLogin dbUser is not exits ! user is : " + vmUsersDto,
+                    VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
         if (!dbUser.getPassword().equals(vmUsersDto.getPassword())) {
-            logger.error("userLogin password is error ! user is :  {}", vmUsersDto);
-            throw new VmUsersException(VmUsersException.ErrorCode.PASSWORD_ERROR.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
+            throw new VmUsersException("userLogin password is error ! user is :  " + vmUsersDto,
+                    VmUsersException.ErrorCode.PASSWORD_ERROR.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 
         //login in session
@@ -111,8 +111,8 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         VmUsers dbUser = vmUsersMapper.select(userId);
 
         if (isNullObject(dbUser) || VmUsers.Status.isDeleted(dbUser.getStatus())) {
-            logger.error("getUserBasicInfo user is not exits! userId is : {}", userId);
-            throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
+            throw new VmUsersException("getUserBasicInfo user is not exits! userId is : " + userId,
+                    VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 
 
@@ -127,8 +127,8 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         VmUsers dbUser = vmUsersMapper.select(user.getId());
 
         if (isNullObject(dbUser) || VmUsers.Status.isDeleted(dbUser.getStatus())) {
-            logger.error("updateOnlineUserBasicInfo dbUser is not exits ! user is : {}", user);
-            throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
+            throw new VmUsersException("updateOnlineUserBasicInfo dbUser is not exits ! user is : " + user,
+                    VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 
 
@@ -157,8 +157,8 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     public void sendUserImg(Long fileId, Integer width, HttpServletResponse response) throws Exception {
 
         if (isNullObject(width)) {
-            logger.error("sendUserImg width is null ! fileId is : {} , width is : {}", fileId, width);
-            throw new VmUsersException(VmUsersException.ErrorCode.USER_HEAD_IMG_WIDTH_IS_NULL.getCode(),
+            throw new VmUsersException("sendUserImg width is null ! fileId is : " + fileId + " , width is : " + width,
+                    VmUsersException.ErrorCode.USER_HEAD_IMG_WIDTH_IS_NULL.getCode(),
                     VmUsersException.ErrorCode.USER_HEAD_IMG_WIDTH_IS_NULL.getMsg());
         }
         FileInputStream input = null;
@@ -200,8 +200,9 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         //是否存在username相同的账户
         if (!isNullObject(getUserByUsername(user.getUsername()))) {
-            logger.error("userRegist username is exits ! user is :  {}", user);
-            throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
+
+            throw new VmUsersException("userRegist username is exits ! user is :  " + user,
+                    VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 
         vmUsersMapper.insert(makeRegistVmUserPo(user));
@@ -243,8 +244,8 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             Integer now = DateUtil.unixTime().intValue();
 
             if (!exts.contains(ext)) {
-                logger.error("saveUserTempHeadImg headImg ext is error ! headImg is : {}", headImg);
-                throw new VmUsersException(VmUsersException.ErrorCode.USER_HEAD_IMG_CONTENT_TYPE_ERROR.getCode(),
+                throw new VmUsersException("saveUserTempHeadImg headImg ext is error ! headImg is : " + headImg,
+                        VmUsersException.ErrorCode.USER_HEAD_IMG_CONTENT_TYPE_ERROR.getCode(),
                         VmUsersException.ErrorCode.USER_HEAD_IMG_CONTENT_TYPE_ERROR.getMsg());
             }
             targetHeadImgName = userId + "." + ext;
