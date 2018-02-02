@@ -13,9 +13,9 @@ eureka:
     service-url:
       defaultZone:
         http://eureka01:1111/eureka/,http://eureka02:1112/eureka/
-  instance:
-    leaseRenewalIntervalInSeconds: 1
-    leaseExpirationDurationInSeconds: 2
+#  instance:
+#    leaseRenewalIntervalInSeconds: 1
+#    leaseExpirationDurationInSeconds: 2
 ---
 spring:
   profiles: config01

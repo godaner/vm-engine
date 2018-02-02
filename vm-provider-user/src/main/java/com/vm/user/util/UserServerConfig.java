@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 /**
  * Created by ZhangKe on 2018/1/17.
  */
-@PropertySource(value = {"classpath:user_server.properties"}, encoding = "utf-8")
+@PropertySource(value = {"classpath:/user-server.properties"}, encoding = "utf-8")
 @Component
-public class UserServerConfig extends ServerConfig{
+public class UserServerConfig extends ServerConfig {
     public static Long VM_USER_SESSION_TIMEOUT;
 
     @Value("${vm.user.session.timeout}")
-    public void setVM_USER_SESSION_TIMEOUT(Long VM_USER_SESSION_TIMEOUT) {
-        this.VM_USER_SESSION_TIMEOUT = VM_USER_SESSION_TIMEOUT;
+    public void setVmUserSessionTimeout(Long vmUserSessionTimeout) {
+        VM_USER_SESSION_TIMEOUT = vmUserSessionTimeout;
     }
 }
