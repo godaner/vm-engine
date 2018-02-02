@@ -1,6 +1,7 @@
 package com.vm.base.util;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @PropertySource(value = {"classpath:config/serverConfig.properties"}, encoding = "utf-8")
 @Component
+@Configuration
 public class ServerConfig {
 
     public static String VM_MOVIE_SRC_DEFAULT_NAME;
