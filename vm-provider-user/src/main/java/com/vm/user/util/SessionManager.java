@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Component
 public class SessionManager extends CommonUtil {
 
-    private final static Integer timeout = UserServerConfig.VM_USER_SESSION_TIMEOUT;
+    private final static Long timeout = UserServerConfig.VM_USER_SESSION_TIMEOUT;
 
     @Autowired
     private RedisRepository redisRepository;
