@@ -1,6 +1,6 @@
 spring:
   application:
-    name: eureka-server
+    name: vm-eureka
 eureka:
   client:
     registerWithEureka: true #实例是否在eureka服务器上注册自己的信息以供其他服务发现，默认为true
