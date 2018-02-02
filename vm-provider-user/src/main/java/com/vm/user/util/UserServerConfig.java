@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 @PropertySource(value = {"classpath:/user-server.properties"}, encoding = "utf-8")
 @Component
 public class UserServerConfig extends ServerConfig {
-    public static Long VM_USER_SESSION_TIMEOUT;
+    public static Integer VM_USER_SESSION_TIMEOUT;
 
     @Value("${vm.user.session.timeout}")
-    public void setVmUserSessionTimeout(Long vmUserSessionTimeout) {
+    public void setVmUserSessionTimeout(Integer vmUserSessionTimeout) {
         VM_USER_SESSION_TIMEOUT = vmUserSessionTimeout;
     }
 }

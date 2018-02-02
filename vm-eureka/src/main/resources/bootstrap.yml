@@ -9,8 +9,8 @@ eureka:
       defaultZone:
         http://eureka01:1111/eureka/,http://eureka02:1112/eureka/
   server:
-    #关闭自我保护，当服务嗝儿屁时，及时注销服务实例
-#    enableSelfPreservation: false
+    #打开自我保护
+    enableSelfPreservation: true
 ---
 spring:
   profiles: eureka01
