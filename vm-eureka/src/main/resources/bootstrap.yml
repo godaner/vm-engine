@@ -3,30 +3,35 @@ spring:
     name: eureka-server
 eureka:
   client:
-    registerWithEureka: true  #是否将eureka自身作为应用注册到eureka注册中心
-    fetchRegistry: true
+    registerWithEureka: true #实例是否在eureka服务器上注册自己的信息以供其他服务发现，默认为true
+    fetchRegistry: true #此客户端是否获取eureka服务器注册表上的注册信息，默认为true
+    registry-fetch-interval-seconds: 2 #从eureka服务器注册表中获取注册信息的时间间隔（s），默认为30秒
+    instance-info-replication-interval-seconds: 5 #复制实例变化信息到eureka服务器所需要的时间间隔（s），默认为30秒
+    eureka-service-url-poll-interval-seconds: 1 #最初复制实例信息到eureka服务器所需的时间（s），默认为40秒
+    initial-instance-info-replication-interval-seconds: 2 #询问Eureka服务url信息变化的时间间隔（s），默认为300秒
     service-url:
-      defaultZone:
-        http://eureka01:1111/eureka/,http://eureka02:1112/eureka/
+          defaultZone:
+            http://server01:1111/eureka/,http://server02:1112/eureka/
   server:
-    #打开自我保护
-    enableSelfPreservation: true
+    enableSelfPreservation: false #自我保护模式，当出现出现网络分区、eureka在短时间内丢失过多客户端时，会进入自我保护模式，即一个服务长时间没有发送心跳，eureka也不会将其删除，默认为true
+
+
 ---
 spring:
-  profiles: eureka01
+  profiles: server01
 server:
   port: 1111
 eureka:
   instance:
-    hostname: eureka01
+    hostname: server01
 
 ---
 spring:
-  profiles: eureka02
+  profiles: server02
 server:
   port: 1112
 eureka:
   instance:
-    hostname: eureka02
+    hostname: server02
 
 

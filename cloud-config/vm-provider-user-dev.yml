@@ -1,7 +1,7 @@
 #eureka:
-#  instance:
-#    leaseRenewalIntervalInSeconds: 1
-#    leaseExpirationDurationInSeconds: 2
+  instance:
+    leaseRenewalIntervalInSeconds: 1 #eureka客户需要多长时间发送心跳给eureka服务器，表明它仍然活着,默认为30 秒
+    leaseExpirationDurationInSeconds: 2 #Eureka服务器在接收到实例的最后一次发出的心跳后，需要等待多久才可以将此实例删除，默认为90秒
 spring:
   #db connection
   datasource:

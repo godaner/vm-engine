@@ -3,12 +3,12 @@
         # vim /etc/hosts
     windows:
         # 编辑 c:\windows\system32\drivers\etc
-    输入==> 127.0.0.1  eureka01 eureka02
+    输入==> 127.0.0.1  server01 server02 与linux主机同名主机
 
 #2.
-    # nohup java -jar vm-eureka-1.0.0.jar --spring.profiles.active=eureka01 >eureka01.out 2>&1 &
+    # nohup java -jar vm-eureka-1.0.0.jar --spring.profiles.active=server01 >eureka01.out 2>&1 &
      
-    # nohup java -jar vm-eureka-1.0.0.jar --spring.profiles.active=eureka02 >eureka02.out 2>&1 &
+    # nohup java -jar vm-eureka-1.0.0.jar --spring.profiles.active=server02 >eureka02.out 2>&1 &
 #3.
     http://eureka01:1111
     

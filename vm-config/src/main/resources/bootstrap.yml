@@ -12,19 +12,19 @@ eureka:
   client:
     service-url:
       defaultZone:
-        http://eureka01:1111/eureka/,http://eureka02:1112/eureka/
+        http://server01:1111/eureka/,http://server02:1112/eureka/
 #  instance:
 #    leaseRenewalIntervalInSeconds: 1
 #    leaseExpirationDurationInSeconds: 2
 ---
 spring:
-  profiles: config01
+  profiles: server01
 server:
   port: 7771
 
 ---
 spring:
-  profiles: config02
+  profiles: server02
 server:
   port: 7772
 

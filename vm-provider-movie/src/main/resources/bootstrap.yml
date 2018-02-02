@@ -14,14 +14,14 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://eureka01:1111/eureka/,http://eureka02:1112/eureka/
+      defaultZone: http://server01:1111/eureka/,http://server02:1112/eureka/
 ---
 spring:
-  profiles: providerMovie01
+  profiles: server01
 server:
   port: 3331
 ---
 spring:
-  profiles: providerMovie02
+  profiles: server02
 server:
   port: 3332
