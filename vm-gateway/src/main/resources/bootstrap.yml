@@ -18,12 +18,12 @@ eureka:
 
 ---
 spring:
-  profiles: gateway01
+  profiles: server01
 server:
   port: 5551
 ---
 spring:
-  profiles: gateway02
+  profiles: server02
 server:
   port: 5552
 
