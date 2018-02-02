@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 /**
  * Created by ZhangKe on 2018/1/17.
  */
-//@PropertySource(value = {"classpath:userServerConfig.properties"}, encoding = "utf-8")
+@PropertySource(value = {"classpath:userServerConfig.properties"}, encoding = "utf-8")
 @Component
-public class UserServerConfig {
+public class UserServerConfig extends ServerConfig {
     public static Long VM_USER_SESSION_TIMEOUT;
 
     @Value("${vm.user.session.timeout}")

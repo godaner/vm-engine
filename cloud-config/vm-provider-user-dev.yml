@@ -12,10 +12,6 @@ spring:
     username: root
     password: 123
 
-vm:
-  user:
-    session:
-      timeout: 60
 
 
 
