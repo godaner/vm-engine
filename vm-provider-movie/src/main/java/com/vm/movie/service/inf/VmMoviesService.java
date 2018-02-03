@@ -20,10 +20,6 @@ public interface VmMoviesService {
 
     VmMoviesDto getMovie(Long movieId) throws Exception;
 
-    void sendMovieImg(Long fileId,Integer width, HttpServletResponse response) throws Exception;
-
-    void sendMovieSrc(Long fileId, HttpServletResponse response) throws Exception;
-
     List<VmTagsDto> getTagsOfMovie(Long movieId)throws Exception;
 
     List<VmFilmmakersDto> getMovieFilmmakers(Long movieId);

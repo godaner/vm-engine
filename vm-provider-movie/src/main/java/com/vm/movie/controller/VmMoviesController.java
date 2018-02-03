@@ -64,21 +64,21 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      *
      * @return
      */
-    @RequestMapping(value = "/img/{fileId}", method = RequestMethod.GET)
-    public void getMovieImg(@PathVariable("fileId") Long fileId, Integer width) throws Exception {
-        service.sendMovieImg(fileId, width, getResponse());
-
-    }
+//    @RequestMapping(value = "/img/{fileId}", method = RequestMethod.GET)
+//    public void getMovieImg(@PathVariable("fileId") Long fileId, Integer width) throws Exception {
+//        service.sendMovieImg(fileId, width, getResponse());
+//
+//    }
 
     /**
      * 获取电影资源
      *
      * @return
      */
-    @RequestMapping(value = "/src/{fileId}", method = RequestMethod.GET)
-    public void getMovieSrc(@PathVariable("fileId") Long fileId) throws Exception {
-        service.sendMovieSrc(fileId, getResponse());
-    }
+//    @RequestMapping(value = "/src/{fileId}", method = RequestMethod.GET)
+//    public void getMovieSrc(@PathVariable("fileId") Long fileId) throws Exception {
+//        service.sendMovieSrc(fileId, getResponse());
+//    }
 
     /**
      * 获取电影相关电影人:包括导演,演员
