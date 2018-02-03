@@ -6,6 +6,7 @@ import com.vm.base.util.CommonUtil;
 import com.vm.base.util.DateUtil;
 import com.vm.redis.repository.RedisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -18,7 +19,7 @@ import java.io.Serializable;
 @Component
 public class SessionManager extends CommonUtil {
 
-    private final static Long timeout = UserServerConfig.VM_USER_SESSION_TIMEOUT;
+    private static Long timeout = UserServerConfig.VM_USER_SESSION_TIMEOUT;
 
     @Autowired
     private RedisRepository redisRepository;
@@ -45,8 +46,8 @@ public class SessionManager extends CommonUtil {
         if (null == token) {
             return true;
         }
-        redisRepositoryCache.expire(token,0);
-        redisRepositoryCache.set(token,null);
+        redisRepositoryCache.expire(token, 0);
+        redisRepositoryCache.set(token, null);
         redisRepositoryCache.del(Lists.newArrayList(token).toString());
         return true;
     }

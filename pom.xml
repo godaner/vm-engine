@@ -15,6 +15,7 @@
         <module>vm-config</module>
         <module>vm-provider-user</module>
         <module>vm-provider-movie</module>
+        <module>vm-provider-src</module>
     </modules>
 
     <parent>

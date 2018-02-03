@@ -1,14 +1,11 @@
 package com.vm.user.util;
 
 
-import com.vm.base.util.CommonUtil;
 import com.vm.base.util.ServerConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 /**
  * Created by ZhangKe on 2018/1/17.
