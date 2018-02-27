@@ -63,7 +63,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         FileInputStream input = null;
         ServletOutputStream output = null;
         try {
-            //获取电影图片id信息
+            //获取图片id信息
             VmFiles file = vmFilesMapper.select(fileId);
             String movieImgPath = StaticConstants.VM_SRC_IMG_PATH;
             String movieImgName = null;
