@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Scope("prototype")
 public class VmSrcController extends ServiceController<VmSrcService>{
     /**
-     * 获取资源
+     * 获取视频资源
      *
      * @return
      */
@@ -25,7 +25,7 @@ public class VmSrcController extends ServiceController<VmSrcService>{
         service.sendVideoSrc(fileId, getResponse());
     }
     /**
-     * 获取资源
+     * 获取图片资源
      *
      * @return
      */

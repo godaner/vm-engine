@@ -35,7 +35,7 @@ zuul:
         stripPrefix: false
       src:
         path: /src/**
-        serviceId: vm-provider-file
+        serviceId: vm-provider-src
         stripPrefix: false
       filmmaker:
         path: /filmmaker/**
