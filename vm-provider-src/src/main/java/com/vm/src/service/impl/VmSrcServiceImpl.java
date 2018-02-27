@@ -1,18 +1,24 @@
 package com.vm.src.service.impl;
 
+import com.google.common.collect.Lists;
 import com.vm.base.util.BaseService;
+import com.vm.base.util.DateUtil;
+import com.vm.base.util.ServerConfig;
 import com.vm.dao.mapper.VmFilesMapper;
+import com.vm.dao.po.BasePo;
 import com.vm.dao.po.VmFiles;
 import com.vm.src.service.inf.VmSrcService;
 import com.vm.src.util.StaticConstants;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.security.MessageDigest;
+import java.util.List;
 
 /**
  * Created by ZhangKe on 2018/2/3.
@@ -88,5 +94,10 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         } finally {
             closeStream(input, output);
         }
+    }
+
+    @Override
+    public Long saveImg(MultipartFile headImg) {
+        return null;
     }
 }

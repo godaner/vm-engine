@@ -1,5 +1,7 @@
 package com.vm.src.service.inf;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -9,4 +11,6 @@ public interface VmSrcService {
     void sendVideoSrc(Long fileId, HttpServletResponse response);
 
     void sendImgSrc(Long fileId, Integer width, HttpServletResponse response);
+
+    Long saveImg(MultipartFile headImg);
 }
