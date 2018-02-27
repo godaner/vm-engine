@@ -16,7 +16,6 @@ import com.vm.user.service.dto.VmUsersDto;
 import com.vm.user.service.exception.VmUsersException;
 import com.vm.user.service.inf.VmUsersService;
 import com.vm.user.util.SessionManager;
-import com.vm.user.websocket.OnlineUsersWebSocket;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -375,8 +374,6 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         Long userId = (Long) SessionManager.getOnlineUserId(token);
 
         SessionManager.userLogout(token);
-
-        OnlineUsersWebSocket.userLogout(userId, OnlineUsersWebSocket.Result.LOGOUT_SUCCESS.getCode());
 
     }
 

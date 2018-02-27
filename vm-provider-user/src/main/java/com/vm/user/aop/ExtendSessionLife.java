@@ -26,7 +26,7 @@ public class ExtendSessionLife extends CommonUtil {
     private final Logger logger = LoggerFactory.getLogger(ExtendSessionLife.class);
 
 
-    @Pointcut("execution(* com.vm.frontend.controller..*.*(..))")
+    @Pointcut("execution(* com.vm..*.controller..*.*(..))&&!@annotation(IgnoreExtendSessionLife)")
     public void declareJoinPointExpression() {
     }
 

@@ -5,5 +5,5 @@ package com.vm.user.util;
  */
 public class StaticConstants {
 
-    public static Long VM_USER_SESSION_TIMEOUT = 10l;
+    public final static Long VM_USER_SESSION_TIMEOUT = 60l;
 }

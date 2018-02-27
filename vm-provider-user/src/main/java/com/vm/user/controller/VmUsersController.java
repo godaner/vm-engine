@@ -1,6 +1,7 @@
 package com.vm.user.controller;
 
 import com.vm.base.util.ServiceController;
+import com.vm.user.aop.IgnoreExtendSessionLife;
 import com.vm.user.aop.RequiredLogin;
 import com.vm.user.resolver.OnlineUser;
 import com.vm.user.service.dto.UpdateHeadImgInfo;
@@ -50,6 +51,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      * @return
      * @throws Exception
      */
+    @IgnoreExtendSessionLife
     @RequestMapping(value = "/feelerOnlineUser", method = RequestMethod.GET)
     @ResponseBody
     public Object feelerOnlineUser(@OnlineUser VmUsersDto onlineUser) throws Exception {
@@ -83,10 +85,6 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
         service.userLogout(onlineUser.getToken());
 
-//        getSession().removeAttribute(KEY_OF_ONLINE_USER);
-
-//        getSession().invalidate();
-
         return response;
 
     }
@@ -119,14 +117,14 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @return
      */
-    @RequestMapping(value = "/img/{fileId}", method = RequestMethod.GET)
-    @ResponseBody
-    public Object getUserImg(
-            @PathVariable("fileId") Long fileId,
-            @RequestParam("width") Integer width) throws Exception {
-        service.sendUserImg(fileId, width, getResponse());
-        return response;
-    }
+//    @RequestMapping(value = "/img/{fileId}", method = RequestMethod.GET)
+//    @ResponseBody
+//    public Object getUserImg(
+//            @PathVariable("fileId") Long fileId,
+//            @RequestParam("width") Integer width) throws Exception {
+//        service.sendUserImg(fileId, width, getResponse());
+//        return response;
+//    }
 
 
     /**
