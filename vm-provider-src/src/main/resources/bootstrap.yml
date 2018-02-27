@@ -16,6 +16,19 @@ spring:
     url: jdbc:mysql://120.78.191.94:3306/vm?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true&amp;autoReconnect=true
     username: root
     password: 123
+    # for initial,min,max
+    initialSize: 5
+    minIdle: 5
+    maxActive: 100
+    # sql for validating
+    validationQuery: SELECT 1
+    # this will validate idle connection.if validation failed, will remove from pool
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # max wait time
+    maxWait: 6000000
+    timeBetweenEvictionRunsMillis: 30000
 
 #spring.cloud.config.uri= http://localhost:8888/
 eureka:
