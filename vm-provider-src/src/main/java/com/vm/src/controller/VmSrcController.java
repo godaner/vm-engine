@@ -20,7 +20,7 @@ public class VmSrcController extends ServiceController<VmSrcService>{
      *
      * @return
      */
-    @RequestMapping(value = "/src/video/{fileId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/video/{fileId}", method = RequestMethod.GET)
     public void getVideoSrc(@PathVariable("fileId") Long fileId) throws Exception {
         service.sendVideoSrc(fileId, getResponse());
     }
@@ -30,7 +30,7 @@ public class VmSrcController extends ServiceController<VmSrcService>{
      * @return
      */
 
-    @RequestMapping(value = "/src/img/{fileId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/img/{fileId}", method = RequestMethod.GET)
     public void getImgSrc(@PathVariable("fileId") Long fileId, Integer width) throws Exception {
         service.sendImgSrc(fileId, width, getResponse());
 

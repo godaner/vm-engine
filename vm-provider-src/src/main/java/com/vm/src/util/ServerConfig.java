@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * setter不需要static修饰!!!
  * Created by ZhangKe on 2017/12/13.
  */
-@PropertySource(value = {"classpath:config/serverConfig.properties"}, encoding = "utf-8")
+@PropertySource(value = {"classpath:serverConfig.properties"}, encoding = "utf-8")
 @Component
 @Configuration
 public class ServerConfig {
