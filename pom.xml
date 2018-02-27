@@ -169,28 +169,28 @@
             <!--thymeleaf不严格检查html end-->
         </dependencies>
     </dependencyManagement>
-    <!--<profiles>-->
-        <!--<profile>-->
-            <!--<id>dev</id>-->
-            <!--<activation>-->
-                <!--<activeByDefault>true</activeByDefault>-->
-            <!--</activation>-->
-            <!--<properties>-->
-                <!--<profileActive>dev</profileActive>-->
-            <!--</properties>-->
-        <!--</profile>-->
-        <!--<profile>-->
-            <!--<id>prod</id>-->
-            <!--<properties>-->
-                <!--<profileActive>prod</profileActive>-->
-            <!--</properties>-->
-        <!--</profile>-->
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <profileActive>dev</profileActive>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profileActive>prod</profileActive>
+            </properties>
+        </profile>
         <!--<profile>-->
             <!--<id>bugfix</id>-->
             <!--<properties>-->
                 <!--<profileActive>bugfix</profileActive>-->
             <!--</properties>-->
         <!--</profile>-->
-    <!--</profiles>-->
+    </profiles>
 
 </project>

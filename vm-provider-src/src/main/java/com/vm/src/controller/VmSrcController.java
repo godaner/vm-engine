@@ -1,7 +1,6 @@
 package com.vm.src.controller;
 
 import com.vm.base.util.ServiceController;
-import com.vm.dao.po.VmFiles;
 import com.vm.src.service.inf.VmSrcService;
 import com.vm.src.util.StaticConstants;
 import org.springframework.context.annotation.Scope;
