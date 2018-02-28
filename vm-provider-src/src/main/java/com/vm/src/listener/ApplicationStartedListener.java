@@ -1,6 +1,6 @@
 package com.vm.src.listener;
 
-import com.vm.src.util.SrcConfig;
+import com.vm.base.util.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -39,9 +39,9 @@ public class ApplicationStartedListener implements ApplicationListener<ContextRe
      */
     private void initFileDir() {
 
-        checkAndCreateDir(SrcConfig.VM_SRC_IMG_PATH);
+        checkAndCreateDir(Config.VM_SRC_IMG_PATH);
 
-        checkAndCreateDir(SrcConfig.VM_SRC_VIDEO_PATH);
+        checkAndCreateDir(Config.VM_SRC_VIDEO_PATH);
 
     }
 
