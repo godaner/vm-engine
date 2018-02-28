@@ -1,4 +1,5 @@
-package com.vm.base.util;
+package com.vm.config;
+
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
