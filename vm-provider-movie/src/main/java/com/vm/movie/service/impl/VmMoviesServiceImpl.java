@@ -3,7 +3,6 @@ package com.vm.movie.service.impl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.vm.base.util.BaseService;
-import com.vm.base.util.ServerConfig;
 import com.vm.dao.mapper.*;
 import com.vm.dao.mapper.custom.CustomVmFilmmakersMapper;
 import com.vm.dao.mapper.custom.CustomVmMoviesMapper;
@@ -19,14 +18,9 @@ import com.vm.movie.service.dto.VmMoviesSrcVersionDto;
 import com.vm.movie.service.dto.VmTagsDto;
 import com.vm.movie.service.exception.VmMoviesException;
 import com.vm.movie.service.inf.VmMoviesService;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.security.MessageDigest;
 import java.util.List;
 import java.util.Map;
 

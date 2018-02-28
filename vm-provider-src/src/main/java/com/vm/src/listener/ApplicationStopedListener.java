@@ -1,9 +1,7 @@
-package com.vm.user.listener;
+package com.vm.src.listener;
 
-import com.vm.user.util.SessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextStoppedEvent;
 
@@ -13,9 +11,6 @@ import org.springframework.context.event.ContextStoppedEvent;
 public class ApplicationStopedListener implements ApplicationListener<ContextStoppedEvent> {
 
     private Logger logger = LoggerFactory.getLogger(ApplicationStopedListener.class);
-
-    @Autowired
-    private SessionManager sessionManager;
 
 
     @Override

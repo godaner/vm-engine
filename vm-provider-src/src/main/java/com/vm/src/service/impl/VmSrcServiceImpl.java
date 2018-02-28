@@ -2,13 +2,14 @@ package com.vm.src.service.impl;
 
 import com.google.common.collect.Lists;
 import com.vm.base.util.BaseService;
+import com.vm.base.util.Config;
 import com.vm.base.util.DateUtil;
-import com.vm.base.util.ServerConfig;
+import com.vm.base.util.ImageUtil;
 import com.vm.dao.mapper.VmFilesMapper;
 import com.vm.dao.po.BasePo;
 import com.vm.dao.po.VmFiles;
+import com.vm.src.service.dto.VmFilesDto;
 import com.vm.src.service.inf.VmSrcService;
-import com.vm.src.util.ProviderSrcServerConfig;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.security.MessageDigest;
-import java.util.List;
 
 /**
  * Created by ZhangKe on 2018/2/3.
@@ -29,13 +29,14 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     private VmFilesMapper vmFilesMapper;
 
     @Override
-    public void sendVideoSrc(Long fileId, HttpServletResponse response) {
+    public void sendVideoSrc(VmFilesDto vmFilesDto, HttpServletResponse response) {
 
+        Long fileId = vmFilesDto.getFileId();
         InputStream input = null;
         OutputStream output = null;
         try {
             VmFiles file = vmFilesMapper.select(fileId);
-            String movieSrcPath = ProviderSrcServerConfig.VM_SRC_VIDEO_PATH;
+            String movieSrcPath = Config.VM_SRC_VIDEO_PATH;
 
             String movieSrcName = null;
             String contentType = null;
@@ -46,7 +47,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             File f = new File(movieSrcPath + File.separator + movieSrcName);
             //不存在，返回默认图片
             if (!f.exists()) {
-                movieSrcName = ProviderSrcServerConfig.VM_SRC_VIDEO_DEFAULT;
+                movieSrcName = Config.VM_SRC_VIDEO_DEFAULT;
                 f = new File(movieSrcPath + File.separator + movieSrcName);
             }
             input = new FileInputStream(f);
@@ -65,13 +66,15 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     }
 
     @Override
-    public void sendImgSrc(Long fileId, Integer width, HttpServletResponse response) {
+    public void sendImgSrc(VmFilesDto vmFilesDto, HttpServletResponse response) {
         FileInputStream input = null;
         ServletOutputStream output = null;
         try {
+            Long fileId = vmFilesDto.getFileId();
+            Integer width = vmFilesDto.getWidth();
             //获取图片id信息
             VmFiles file = vmFilesMapper.select(fileId);
-            String movieImgPath = ProviderSrcServerConfig.VM_SRC_IMG_PATH;
+            String movieImgPath = Config.VM_SRC_IMG_PATH;
             String movieImgName = null;
             String contentType = null;
             if (file != null) {
@@ -81,7 +84,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             File f = new File(movieImgPath + File.separator + width + "_" + movieImgName);
             //不存在，返回默认图片
             if (!f.exists()) {
-                f = new File(movieImgPath + File.separator + ProviderSrcServerConfig.VM_SRC_IMG_DEFAULT);
+                f = new File(movieImgPath + File.separator + Config.VM_SRC_IMG_DEFAULT);
             }
             input = new FileInputStream(f);
             output = response.getOutputStream();
@@ -97,7 +100,86 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     }
 
     @Override
-    public Long saveImg(MultipartFile headImg) {
-        return null;
+    public Long saveImg(VmFilesDto vmFilesDto) {
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        String targetImgName = null;
+        String targetHeadImgPathName = null;
+        VmFiles vmFiles = null;
+        try {
+            //file
+            MultipartFile imgFile = vmFilesDto.getFile();
+            //uuid
+            String uuid = uuid();
+            //targetPath
+            String targetPath = Config.VM_SRC_IMG_PATH;
+            //contentType
+            String contentType = imgFile.getContentType();
+            //originalFilename
+            String originalFilename = imgFile.getOriginalFilename();
+            //get ext
+            String ext = getFileNameExt(originalFilename);
+            //get size
+            Long size = imgFile.getSize();
+            //now
+            Integer now = DateUtil.unixTime().intValue();
+
+            targetImgName = uuid + "." + ext;
+            targetHeadImgPathName = targetPath + targetImgName;
+            //save head Img
+            inputStream = imgFile.getInputStream();
+            outputStream = new FileOutputStream(targetHeadImgPathName);
+            org.apache.commons.io.IOUtils.copy(inputStream, outputStream);
+
+
+            //写入数据库
+            vmFiles = new VmFiles();
+
+            vmFiles.setUpdateTime(now);
+            vmFiles.setCreateTime(now);
+            vmFiles.setSize(size);
+            vmFiles.setStatus(BasePo.Status.NORMAL.getCode());
+            vmFiles.setOriginalName(originalFilename);
+            vmFiles.setFilename(targetImgName);
+            vmFiles.setContentType(contentType);
+            vmFilesMapper.insert(vmFiles);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            deleteFiles(targetImgName);
+        } finally {
+            closeStream(inputStream, outputStream);
+        }
+        return vmFiles.getId();
     }
+
+    @Override
+    public Long cutUploadedImgFile(VmFilesDto vmFilesDto) {
+        VmFiles vmFiles = vmFilesMapper.select(vmFilesDto.getFileId());
+
+        String filePath = Config.VM_SRC_IMG_PATH;
+        String fileName = vmFiles.getFilename();
+        String filePathName = filePath + fileName;
+
+
+        String ext = getFileNameExt(fileName);
+        String[] versions = vmFilesDto.getVersions().split(",");
+        Lists.newArrayList(versions).stream().parallel().forEach((version) -> {
+            String targetFilePath = filePath + version + "_" + fileName;
+            try {
+                ImageUtil.cutImage(filePathName,
+                        targetFilePath,
+                        vmFilesDto.getX(),
+                        vmFilesDto.getY(),
+                        vmFilesDto.getWidth(),
+                        vmFilesDto.getHeight(),
+                        ext);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return vmFiles.getId();
+    }
+
 }

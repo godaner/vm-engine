@@ -1,12 +1,8 @@
 package com.vm.dao.po;
 
 import com.vm.base.util.ByteConstantVar;
-import com.vm.base.util.ServerConfig;
 
 public class VmUsers extends BasePo {
-    //注册用户时填入的默认img_url前缀
-    public static final String USER_IMG_URL_PREFIX = ServerConfig.VM_USER_IMG_URL_PREFIX + "/-1";
-
 
     private String username;
 

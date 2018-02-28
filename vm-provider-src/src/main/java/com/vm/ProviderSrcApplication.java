@@ -1,5 +1,6 @@
 package com.vm;
 
+import com.vm.src.listener.ApplicationStartedListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -17,6 +18,7 @@ public class ProviderSrcApplication {
     public static void main(String[] args) {
 
         SpringApplication springApplication = new SpringApplication(ProviderSrcApplication.class);
+        springApplication.addListeners(new ApplicationStartedListener());
         springApplication.run(args);
 
     }

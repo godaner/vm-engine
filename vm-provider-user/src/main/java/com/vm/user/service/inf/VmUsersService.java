@@ -6,6 +6,7 @@ import com.vm.user.service.dto.VmUsersDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * Created by ZhangKe on 2017/12/18.
@@ -22,7 +23,7 @@ public interface VmUsersService {
 
     VmUsersDto userRegist(VmUsersDto user) throws Exception;
 
-    Long saveUserTempHeadImg(Long onlineUserId, MultipartFile headImg) throws Exception;
+    Map<String, String> saveUserTempHeadImg(Long onlineUserId, MultipartFile headImg) throws Exception;
 
     void getUserTempHeadImg(Long fileId, HttpServletResponse response) throws Exception;
 

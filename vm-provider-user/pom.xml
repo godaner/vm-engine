@@ -40,6 +40,12 @@
         </dependency>
         <!--eureka end-->
 
+        <!--feign start-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-feign</artifactId>
+        </dependency>
+        <!--feign end-->
 
         <!--热部署 start-->
         <dependency>
