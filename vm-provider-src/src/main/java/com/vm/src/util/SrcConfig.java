@@ -1,4 +1,4 @@
-package com.vm.base.util;
+package com.vm.src.util;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -7,9 +7,7 @@ import org.springframework.stereotype.Component;
  * Created by ZhangKe on 2018/2/28.
  */
 @Component
-public class Config {
-
-    public static Long VM_USER_SESSION_LIFETIME;
+public class SrcConfig {
     public static String VM_SRC_IMG_ALLOW_SUFFIX;
     public static String VM_SRC_IMG_URL;
     public static String VM_SRC_IMG_MAX_SIZE;
@@ -53,11 +51,6 @@ public class Config {
     @Value("${vm.src.video.default}")
     public void setVmSrcVideoDefault(String vmSrcVideoDefault) {
         VM_SRC_VIDEO_DEFAULT = vmSrcVideoDefault;
-    }
-
-    @Value("${vm.user.session.lifetime}")
-    public void setVmUserSessionLifetime(Long vmUserSessionLifetime) {
-        VM_USER_SESSION_LIFETIME = vmUserSessionLifetime;
     }
 
     @Value("${vm.src.video.url}")

@@ -36,10 +36,49 @@ eureka:
     serviceUrl:
       defaultZone: http://server01:1111/eureka/,http://server02:1112/eureka/
   instance:
-    leaseRenewalIntervalInSeconds: 15 #eureka客户需要多长时间发送心跳给eureka服务器，表明它仍然活着,默认为30 秒
-    leaseExpirationDurationInSeconds: 30 #Eureka服务器在接收到实例的最后一次发出的心跳后，需要等待多久才可以将此实例删除，默认为90秒
+    leaseRenewalIntervalInSeconds: 5 #eureka客户需要多长时间发送心跳给eureka服务器，表明它仍然活着,默认为30 秒
+    leaseExpirationDurationInSeconds: 5 #Eureka服务器在接收到实例的最后一次发出的心跳后，需要等待多久才可以将此实例删除，默认为90秒
     prefer-ip-address: true #在eureka页面显示ip而不是linux主机名，微服务使用这里展示的进行调用，如果是使用主机名，那么可能无法调用
     instance-id: ${spring.cloud.client.ipAddress}:${server.port} #实例的id
 
 
 
+#default
+vm:
+  src:
+    img:
+      url: /src/img/
+      default: default.png
+      path: d:/vm/src/img
+      maxSize: 2097152
+      allowSuffixs: jpg,png
+    video:
+      url: /src/video/
+      default: default.mp4
+      path: d:/vm/src/video
+
+server:
+  port: ${random.int(8000,9000)}
+
+# profiles
+---
+spring:
+  profiles: dev
+vm:
+  src:
+    img:
+      path: d:/vm/src/img
+    video:
+      path: d:/vm/src/video
+
+
+
+---
+spring:
+  profiles: prod
+vm:
+  src:
+    img:
+      path: /usr/local/src/vm/src/img/
+    video:
+      path: /usr/local/src/vm/src/video/

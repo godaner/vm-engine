@@ -1,23 +1,16 @@
 package com.vm.movie.service.impl;
 
 import com.vm.base.util.BaseService;
-import com.vm.base.util.Config;
 import com.vm.movie.service.dto.VmFilmmakersDto;
 import com.vm.movie.service.inf.FilmmakersService;
 import com.vm.dao.mapper.VmFilesMapper;
 import com.vm.dao.mapper.VmFilmmakersMapper;
 import com.vm.dao.po.BasePo;
-import com.vm.dao.po.VmFiles;
 import com.vm.dao.po.VmFilmmakers;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
 /**
  * Created by ZhangKe on 2017/12/26.

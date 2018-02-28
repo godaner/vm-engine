@@ -2,7 +2,6 @@ package com.vm.src.service.impl;
 
 import com.google.common.collect.Lists;
 import com.vm.base.util.BaseService;
-import com.vm.base.util.Config;
 import com.vm.base.util.DateUtil;
 import com.vm.base.util.ImageUtil;
 import com.vm.dao.mapper.VmFilesMapper;
@@ -10,6 +9,7 @@ import com.vm.dao.po.BasePo;
 import com.vm.dao.po.VmFiles;
 import com.vm.src.service.dto.VmFilesDto;
 import com.vm.src.service.inf.VmSrcService;
+import com.vm.src.util.SrcConfig;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         OutputStream output = null;
         try {
             VmFiles file = vmFilesMapper.select(fileId);
-            String movieSrcPath = Config.VM_SRC_VIDEO_PATH;
+            String movieSrcPath = SrcConfig.VM_SRC_VIDEO_PATH;
 
             String movieSrcName = null;
             String contentType = null;
@@ -47,7 +47,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             File f = new File(movieSrcPath + File.separator + movieSrcName);
             //不存在，返回默认图片
             if (!f.exists()) {
-                movieSrcName = Config.VM_SRC_VIDEO_DEFAULT;
+                movieSrcName = SrcConfig.VM_SRC_VIDEO_DEFAULT;
                 f = new File(movieSrcPath + File.separator + movieSrcName);
             }
             input = new FileInputStream(f);
@@ -74,7 +74,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             Integer width = vmFilesDto.getWidth();
             //获取图片id信息
             VmFiles file = vmFilesMapper.select(fileId);
-            String movieImgPath = Config.VM_SRC_IMG_PATH;
+            String movieImgPath = SrcConfig.VM_SRC_IMG_PATH;
             String movieImgName = null;
             String contentType = null;
             if (file != null) {
@@ -84,7 +84,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             File f = new File(movieImgPath + File.separator + width + "_" + movieImgName);
             //不存在，返回默认图片
             if (!f.exists()) {
-                f = new File(movieImgPath + File.separator + Config.VM_SRC_IMG_DEFAULT);
+                f = new File(movieImgPath + File.separator + SrcConfig.VM_SRC_IMG_DEFAULT);
             }
             input = new FileInputStream(f);
             output = response.getOutputStream();
@@ -112,7 +112,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             //uuid
             String uuid = uuid();
             //targetPath
-            String targetPath = Config.VM_SRC_IMG_PATH;
+            String targetPath = SrcConfig.VM_SRC_IMG_PATH;
             //contentType
             String contentType = imgFile.getContentType();
             //originalFilename
@@ -157,7 +157,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     public Long cutUploadedImgFile(VmFilesDto vmFilesDto) {
         VmFiles vmFiles = vmFilesMapper.select(vmFilesDto.getFileId());
 
-        String filePath = Config.VM_SRC_IMG_PATH;
+        String filePath = SrcConfig.VM_SRC_IMG_PATH;
         String fileName = vmFiles.getFilename();
         String filePathName = filePath + fileName;
 

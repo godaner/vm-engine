@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableMap;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.BeanMapUtil;
-import com.vm.base.util.Config;
 import com.vm.base.util.DateUtil;
 import com.vm.dao.mapper.VmFilesMapper;
 import com.vm.dao.mapper.VmUsersMapper;
@@ -305,7 +304,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         vmUsers.setCreateTime(DateUtil.unixTime().intValue());
         vmUsers.setStatus(VmUsers.Status.NORMAL.getCode());
         vmUsers.setSex(VmUsers.Sex.UNKNOWN.getCode());
-        vmUsers.setImgUrl(Config.VM_SRC_IMG_URL + "?fileId=" + uuid());
+        vmUsers.setImgUrl("");//暂时搁置
         return vmUsers;
     }
 
