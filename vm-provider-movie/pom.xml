@@ -10,11 +10,7 @@
     <packaging>jar</packaging>
     <dependencies>
 
-        <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>vm-config</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>com.vm</groupId>
             <artifactId>vm-base</artifactId>

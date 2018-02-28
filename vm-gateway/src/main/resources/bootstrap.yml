@@ -10,15 +10,7 @@ spring:
 #        enabled: true
 #        serviceId: vm-config
 #spring.cloud.config.uri= http://localhost:8888/
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://server01:1111/eureka/,http://server02:1112/eureka/
-  instance:
-    leaseRenewalIntervalInSeconds: 5 #eureka客户需要多长时间发送心跳给eureka服务器，表明它仍然活着,默认为30 秒
-    leaseExpirationDurationInSeconds: 5 #Eureka服务器在接收到实例的最后一次发出的心跳后，需要等待多久才可以将此实例删除，默认为90秒
-    prefer-ip-address: true #在eureka页面显示ip而不是linux主机名，微服务使用这里展示的进行调用，如果是使用主机名，那么可能无法调用
-    instance-id: ${spring.cloud.client.ipAddress}:${server.port} #实例的id
+
 logging:
   level:
     com.netflix: INFO
@@ -73,19 +65,3 @@ hystrix:
           thread:
             timeoutInMilliseconds: 60000
 
-# s00为测试环境，s01-s0n为正式环境
----
-spring:
-  profiles: s00
-server:
-  port: 5551
----
-spring:
-  profiles: s01
-server:
-  port: 5551
----
-spring:
-  profiles: s02
-server:
-  port: 5552
