@@ -3,8 +3,8 @@ package com.vm.user.util;
 
 import com.google.common.collect.Lists;
 import com.vm.base.util.CommonUtil;
-import com.vm.base.util.Config;
 import com.vm.base.util.DateUtil;
+import com.vm.base.util.Config;
 import com.vm.redis.repository.RedisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

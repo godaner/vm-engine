@@ -9,6 +9,12 @@
     <artifactId>vm-provider-user</artifactId>
     <packaging>jar</packaging>
     <dependencies>
+
+        <dependency>
+            <groupId>com.vm</groupId>
+            <artifactId>vm-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.vm</groupId>
             <artifactId>vm-base</artifactId>
@@ -26,10 +32,10 @@
         </dependency>
 
         <!--config start-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-config</artifactId>-->
+        <!--</dependency>-->
         <!--config end-->
 
 

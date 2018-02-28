@@ -12,7 +12,6 @@
         <module>vm-dao</module>
         <module>vm-eureka</module>
         <module>vm-gateway</module>
-        <module>vm-config</module>
         <module>vm-provider-user</module>
         <module>vm-provider-movie</module>
         <module>vm-provider-src</module>

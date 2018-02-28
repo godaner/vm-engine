@@ -1,4 +1,4 @@
-package com.vm.config;
+package com.vm.base.util;
 
 
 import org.springframework.beans.factory.annotation.Value;
