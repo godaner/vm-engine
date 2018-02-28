@@ -21,9 +21,11 @@ eureka:
     prefer-ip-address: true #在eureka页面显示ip而不是linux主机名，微服务使用这里展示的进行调用，如果是使用主机名，那么可能无法调用
     instance-id: ${spring.cloud.client.ipAddress}:${server.port} #实例的id
 
+
+# 00为测试环境，01-0n为正式环境
 ---
 spring:
-  profiles: eureka01
+  profiles: 00
 server:
   port: 1111
 eureka:
@@ -32,11 +34,21 @@ eureka:
 
 ---
 spring:
-  profiles: eureka02
+  profiles: 01
+server:
+  port: 1111
+eureka:
+  instance:
+    hostname: server01 #与此实例相关联的主机名，是其他实例可以用来进行请求的准确名称
+
+---
+spring:
+  profiles: 02
 server:
   port: 1112
 eureka:
   instance:
     hostname: server02 #与此实例相关联的主机名，是其他实例可以用来进行请求的准确名称
+
 
 

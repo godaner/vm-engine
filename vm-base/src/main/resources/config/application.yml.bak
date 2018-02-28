@@ -15,7 +15,7 @@ vm:
       default: default.mp4
       path: d:/vm/src/video
 server:
-  port: ${random.int(10000,19999)}
+  port: ${random.int(8000,9000)}
 
 # profiles
 
@@ -37,7 +37,7 @@ vm:
 spring:
   profiles: prod
 server:
-  port: ${random.int(10000,19999)}
+  port: ${random.int(8000,9000)}
 vm:
   src:
     img:

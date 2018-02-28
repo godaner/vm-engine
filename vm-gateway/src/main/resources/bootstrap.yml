@@ -73,17 +73,19 @@ hystrix:
           thread:
             timeoutInMilliseconds: 60000
 
-
+# 00为测试环境，01-0n为正式环境
 ---
 spring:
-  profiles: gateway01
+  profiles: 00
 server:
   port: 5551
 ---
 spring:
-  profiles: gateway02
+  profiles: 01
+server:
+  port: 5551
+---
+spring:
+  profiles: 02
 server:
   port: 5552
-
-
-

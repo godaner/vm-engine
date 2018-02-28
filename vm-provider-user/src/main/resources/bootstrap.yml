@@ -41,3 +41,24 @@ eureka:
     instance-id: ${spring.cloud.client.ipAddress}:${server.port} #实例的id
 
 
+#default
+vm:
+  user:
+    session:
+      lifetime: 60000 #秒
+server:
+  port: ${random.int(8000,9000)}
+
+# profiles
+---
+spring:
+  profiles: dev
+server:
+  port: ${random.int(8000,9000)}
+
+---
+spring:
+  profiles: prod
+server:
+  port: ${random.int(8000,9000)}
+
