@@ -22,10 +22,10 @@ eureka:
     instance-id: ${spring.cloud.client.ipAddress}:${server.port} #实例的id
 
 
-# 00为测试环境，01-0n为正式环境
+
 ---
 spring:
-  profiles: 00
+  profiles: eureka01
 server:
   port: 1111
 eureka:
@@ -34,7 +34,19 @@ eureka:
 
 ---
 spring:
-  profiles: 01
+  profiles: eureka02
+server:
+  port: 1112
+eureka:
+  instance:
+    hostname: server02 #与此实例相关联的主机名，是其他实例可以用来进行请求的准确名称
+
+
+
+# s00为测试环境，s01-s0n为正式环境
+---
+spring:
+  profiles: s00
 server:
   port: 1111
 eureka:
@@ -43,7 +55,16 @@ eureka:
 
 ---
 spring:
-  profiles: 02
+  profiles: s01
+server:
+  port: 1111
+eureka:
+  instance:
+    hostname: server01 #与此实例相关联的主机名，是其他实例可以用来进行请求的准确名称
+
+---
+spring:
+  profiles: s02
 server:
   port: 1112
 eureka:
