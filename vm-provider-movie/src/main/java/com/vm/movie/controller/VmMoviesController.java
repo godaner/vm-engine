@@ -1,8 +1,8 @@
 package com.vm.movie.controller;
 
+import com.vm.base.util.PageBean;
 import com.vm.base.util.ServiceController;
-import com.vm.dao.qo.PageBean;
-import com.vm.dao.qo.VmMoviesQueryBean;
+import com.vm.movie.dao.qo.VmMoviesQueryBean;
 import com.vm.movie.service.inf.VmMoviesService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;

@@ -2,16 +2,14 @@ package com.vm.movie.service.impl;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.vm.base.util.BasePo;
 import com.vm.base.util.BaseService;
-import com.vm.dao.mapper.*;
-import com.vm.dao.mapper.custom.CustomVmFilmmakersMapper;
-import com.vm.dao.mapper.custom.CustomVmMoviesMapper;
-import com.vm.dao.mapper.custom.CustomVmMoviesSrcVersionMapper;
-import com.vm.dao.mapper.custom.CustomVmTagsMapper;
-import com.vm.dao.po.*;
-import com.vm.dao.po.custom.CustomVmMovies;
-import com.vm.dao.qo.PageBean;
-import com.vm.dao.qo.VmMoviesQueryBean;
+import com.vm.base.util.PageBean;
+import com.vm.movie.dao.mapper.*;
+import com.vm.movie.dao.mapper.custom.*;
+import com.vm.movie.dao.po.*;
+import com.vm.movie.dao.po.custom.*;
+import com.vm.movie.dao.qo.*;
 import com.vm.movie.service.dto.VmFilmmakersDto;
 import com.vm.movie.service.dto.VmMoviesDto;
 import com.vm.movie.service.dto.VmMoviesSrcVersionDto;
@@ -35,8 +33,6 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     private CustomVmMoviesMapper customVmMoviesMapper;
     @Autowired
     private VmMoviesMapper vmMoviesMapper;
-    @Autowired
-    private VmFilesMapper vmFilesMapper;
     @Autowired
     private CustomVmTagsMapper customVmTagsMapper;
     @Autowired

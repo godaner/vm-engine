@@ -1,16 +1,8 @@
-package com.vm.movie.service.dto;
+package com.vm.movie.dao.po;
 
+import com.vm.base.util.BasePo;
 
-import com.vm.movie.dao.po.VmFilmmakers;
-import com.vm.movie.dao.po.VmTags;
-
-import java.util.List;
-
-/**
- * Created by ZhangKe on 2018/1/10.
- */
-public class VmMoviesDto {
-    private Long id;
+public class VmMovies extends BasePo {
 
     private String name;
 
@@ -32,49 +24,13 @@ public class VmMoviesDto {
 
     private String imgUrl;
 
-    //附加属性
-    private List<VmFilmmakers> actors;
-    private VmFilmmakers director;
-    private List<VmTags> tags;
-
-    public List<VmFilmmakers> getActors() {
-        return actors;
-    }
-
-    public void setActors(List<VmFilmmakers> actors) {
-        this.actors = actors;
-    }
-
-    public VmFilmmakers getDirector() {
-        return director;
-    }
-
-    public void setDirector(VmFilmmakers director) {
-        this.director = director;
-    }
-
-    public List<VmTags> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<VmTags> tags) {
-        this.tags = tags;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 
     public String getAlias() {
@@ -82,7 +38,7 @@ public class VmMoviesDto {
     }
 
     public void setAlias(String alias) {
-        this.alias = alias;
+        this.alias = alias == null ? null : alias.trim();
     }
 
     public String getDescription() {
@@ -90,7 +46,7 @@ public class VmMoviesDto {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description = description == null ? null : description.trim();
     }
 
     public Long getDirectorId() {
@@ -138,7 +94,7 @@ public class VmMoviesDto {
     }
 
     public void setPosterUrl(String posterUrl) {
-        this.posterUrl = posterUrl;
+        this.posterUrl = posterUrl == null ? null : posterUrl.trim();
     }
 
     public String getImgUrl() {
@@ -146,6 +102,7 @@ public class VmMoviesDto {
     }
 
     public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+        this.imgUrl = imgUrl == null ? null : imgUrl.trim();
     }
+
 }

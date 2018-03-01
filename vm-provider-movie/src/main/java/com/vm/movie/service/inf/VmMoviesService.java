@@ -1,13 +1,13 @@
 package com.vm.movie.service.inf;
 
-import com.vm.dao.qo.PageBean;
-import com.vm.dao.qo.VmMoviesQueryBean;
+
+import com.vm.base.util.PageBean;
+import com.vm.movie.dao.qo.VmMoviesQueryBean;
 import com.vm.movie.service.dto.VmFilmmakersDto;
 import com.vm.movie.service.dto.VmMoviesDto;
 import com.vm.movie.service.dto.VmMoviesSrcVersionDto;
 import com.vm.movie.service.dto.VmTagsDto;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -20,7 +20,7 @@ public interface VmMoviesService {
 
     VmMoviesDto getMovie(Long movieId) throws Exception;
 
-    List<VmTagsDto> getTagsOfMovie(Long movieId)throws Exception;
+    List<VmTagsDto> getTagsOfMovie(Long movieId) throws Exception;
 
     List<VmFilmmakersDto> getMovieFilmmakers(Long movieId);
 

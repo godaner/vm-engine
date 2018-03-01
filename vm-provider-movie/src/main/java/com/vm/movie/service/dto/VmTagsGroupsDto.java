@@ -1,6 +1,7 @@
 package com.vm.movie.service.dto;
 
-import com.vm.dao.po.VmTags;
+
+import com.vm.movie.dao.po.VmTags;
 
 import java.util.List;
 

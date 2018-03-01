@@ -1,11 +1,12 @@
 package com.vm.movie.service.impl;
 
+import com.vm.base.util.BasePo;
 import com.vm.base.util.BaseService;
+import com.vm.movie.dao.mapper.VmFilmmakersMapper;
+import com.vm.movie.dao.po.VmFilmmakers;
 import com.vm.movie.service.dto.VmFilmmakersDto;
 import com.vm.movie.service.inf.FilmmakersService;
-import com.vm.dao.mapper.VmFilmmakersMapper;
-import com.vm.dao.po.BasePo;
-import com.vm.dao.po.VmFilmmakers;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 public class FilmmakersServiceImpl extends BaseService implements FilmmakersService {
 
-    @Autowired
-    private VmFilesMapper vmFilesMapper;
     @Autowired
     private VmFilmmakersMapper vmFilmmakersMapper;
 
