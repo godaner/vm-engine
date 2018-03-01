@@ -29,6 +29,16 @@ public class VmConfig {
     private String srcVideoUrl;
     @Value("${vm.user.session.lifetime}")
     private Long userSessionLifetime;
+    @Value("${vm.src.img.versions}")
+    private String srcImgVersions;
+
+    public String getSrcImgVersions() {
+        return srcImgVersions;
+    }
+
+    public void setSrcImgVersions(String srcImgVersions) {
+        this.srcImgVersions = srcImgVersions;
+    }
 
     public Long getUserSessionLifetime() {
         return userSessionLifetime;

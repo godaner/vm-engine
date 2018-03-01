@@ -4,6 +4,7 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
@@ -11,9 +12,7 @@ import java.util.Map;
 @FeignClient(value = "vm-provider-src")
 public interface SrcServiceClient {
 
-    @RequestMapping(value = "/src/img", method = RequestMethod.POST)
-    String uploadImgFile(Map<String, Object> params);
 
     @RequestMapping(value = "/src/img/cut", method = RequestMethod.POST)
-    String cutUploadedImgFile(Map<String, Object> params);
+    String cutUploadedImgFile(@RequestParam Map<String, Object> params);
 }

@@ -23,8 +23,6 @@ public interface VmUsersService {
 
     VmUsersDto userRegist(VmUsersDto user) throws Exception;
 
-    Map<String, String> saveUserTempHeadImg(Long onlineUserId, MultipartFile headImg) throws Exception;
-
     void getUserTempHeadImg(Long fileId, HttpServletResponse response) throws Exception;
 
     VmUsersDto updateUserHeadImg(Long onlineUserId, UpdateHeadImgInfo updateHeadImgInfo) throws Exception;

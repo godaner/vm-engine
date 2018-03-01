@@ -13,6 +13,15 @@ public class UpdateHeadImgInfo {
     private Integer rotate;
     private Integer scaleX;
     private Integer scaleY;
+    private String versions;
+
+    public String getVersions() {
+        return versions;
+    }
+
+    public void setVersions(String versions) {
+        this.versions = versions;
+    }
 
     public Long getFileId() {
         return fileId;

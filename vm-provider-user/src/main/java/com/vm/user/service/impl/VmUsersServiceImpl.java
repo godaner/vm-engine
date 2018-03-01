@@ -1,10 +1,13 @@
 package com.vm.user.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
+import com.vm.base.config.VmConfig;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.BeanMapUtil;
 import com.vm.base.util.DateUtil;
+import com.vm.base.util.Response;
 import com.vm.dao.mapper.VmFilesMapper;
 import com.vm.dao.mapper.VmUsersMapper;
 import com.vm.dao.po.BasePo;
@@ -35,7 +38,8 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     private VmFilesMapper vmFilesMapper;
     @Autowired
     private SrcServiceClient srcServiceClient;
-
+    @Autowired
+    private VmConfig vmConfig;
 
     /**
      * 通过username获取user
@@ -217,14 +221,6 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         return makeVmUsersDto(vmUsers, token);
     }
 
-    @Override
-    @Transactional
-    public Map<String, String> saveUserTempHeadImg(Long userId, MultipartFile headImg) throws Exception {
-        String json = srcServiceClient.uploadImgFile(ImmutableMap.of(
-                "headImg", headImg
-        ));
-        return (Map<String, String>) JSON.parse(json);
-    }
 
     @Override
     public void getUserTempHeadImg(Long fileId, HttpServletResponse response) throws Exception {
@@ -248,9 +244,16 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Override
     @Transactional
     public VmUsersDto updateUserHeadImg(Long onlineUserId, UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
+        //set versions
+        updateHeadImgInfo.setVersions(vmConfig.getSrcImgVersions());
 
-        String imgUrl = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
-
+        //feign
+        String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
+        Response response = JSONObject.parseObject(res, Response.class);
+        if (response.getCode() == Response.ResponseCode.FAILURE.getCode()) {
+            throw new VmUsersException("updateUserHeadImg srcServiceClient#cutUploadedImgFile is fail !! onlineUserId is :" + onlineUserId + " , updateHeadImgInfo is : " + updateHeadImgInfo);
+        }
+        String imgUrl = (String) response.getData("imgUrl");
         //update user
         VmUsers vmUsers = new VmUsers();
         vmUsers.setId(onlineUserId);
@@ -304,7 +307,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         vmUsers.setCreateTime(DateUtil.unixTime().intValue());
         vmUsers.setStatus(VmUsers.Status.NORMAL.getCode());
         vmUsers.setSex(VmUsers.Sex.UNKNOWN.getCode());
-        vmUsers.setImgUrl("");//暂时搁置
+        vmUsers.setImgUrl(vmConfig.getSrcImgUrl() + "?fileId=" + uuid());//暂时搁置
         return vmUsers;
     }
 

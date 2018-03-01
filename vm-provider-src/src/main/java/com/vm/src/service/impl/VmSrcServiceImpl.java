@@ -75,17 +75,22 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             Integer width = vmFilesDto.getWidth();
             //获取图片id信息
             VmFiles file = vmFilesMapper.select(fileId);
-            String movieImgPath = vmConfig.getSrcVideoPath();
-            String movieImgName = null;
+            String imgPath = vmConfig.getSrcImgPath();
+            String imgName = null;
             String contentType = null;
             if (file != null) {
                 contentType = file.getContentType();
-                movieImgName = file.getFilename();
+                imgName = file.getFilename();
             }
-            File f = new File(movieImgPath + File.separator + width + "_" + movieImgName);
+            //img path name
+            String imgPathName = imgPath + File.separator + width + "_" + imgName;;
+            if(null == width){
+                imgPathName = imgPath + File.separator +  imgName;
+            }
+            File f = new File(imgPathName);
             //不存在，返回默认图片
             if (!f.exists()) {
-                f = new File(movieImgPath + File.separator + vmConfig.getSrcImgDefault());
+                f = new File(imgPath + File.separator + vmConfig.getSrcImgDefault());
             }
             input = new FileInputStream(f);
             output = response.getOutputStream();

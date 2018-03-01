@@ -26,18 +26,18 @@ vm:
       lifetime: 60000 #秒
   src:
     img:
-      url: /src/img/
+      url: /src/img
       default: default.png
-      path: d:/vm/src/img
       maxSize: 2097152
+      versions: 50,80,300
       allowSuffix: jpg,png
     video:
-      url: /src/video/
+      url: /src/video
       default: default.mp4
-      path: d:/vm/src/video
 
 
 #==================== providers profiles ====================
+
 ---
 spring:
   profiles: dev
@@ -46,9 +46,9 @@ server:
 vm:
   src:
     img:
-      path: d:/vm/src/img
+      path: d:/vm/src/img/
     video:
-      path: d:/vm/src/video
+      path: d:/vm/src/video/
 
 
 
