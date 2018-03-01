@@ -19,7 +19,7 @@ eureka:
 
 
 
-#==================== providers ====================
+#==================== providers config ====================
 #providers config
 vm:
   user:
@@ -31,13 +31,14 @@ vm:
       default: default.png
       path: d:/vm/src/img
       maxSize: 2097152
-      allowSuffixs: jpg,png
+      allowSuffix: jpg,png
     video:
       url: /src/video/
       default: default.mp4
       path: d:/vm/src/video
 
-# providers profiles
+
+#==================== providers profiles ====================
 ---
 spring:
   profiles: dev

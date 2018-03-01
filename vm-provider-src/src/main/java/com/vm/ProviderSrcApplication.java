@@ -1,6 +1,6 @@
 package com.vm;
 
-import com.vm.src.listener.ApplicationStartedListener;
+import com.vm.src.listener.ApplicationRefreshedListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -15,10 +15,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @ServletComponentScan
 @EnableDiscoveryClient
 public class ProviderSrcApplication {
+
     public static void main(String[] args) {
 
         SpringApplication springApplication = new SpringApplication(ProviderSrcApplication.class);
-        springApplication.addListeners(new ApplicationStartedListener());
+        springApplication.addListeners(new ApplicationRefreshedListener());
         springApplication.run(args);
 
     }

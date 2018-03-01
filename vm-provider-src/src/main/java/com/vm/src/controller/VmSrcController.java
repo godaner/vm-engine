@@ -1,9 +1,10 @@
 package com.vm.src.controller;
 
+import com.vm.base.config.VmConfig;
 import com.vm.base.util.ServiceController;
-import com.vm.base.util.Config;
 import com.vm.src.service.dto.VmFilesDto;
 import com.vm.src.service.inf.VmSrcService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/src")
 @Scope("prototype")
 public class VmSrcController extends ServiceController<VmSrcService> {
+    @Autowired
+    private VmConfig vmConfig;
+
     /**
      * 获取视频资源
      *
@@ -50,7 +54,7 @@ public class VmSrcController extends ServiceController<VmSrcService> {
     @ResponseBody
     public Object uploadImgFile(VmFilesDto vmFilesDto) throws Exception {
         Long fileId = service.saveImg(vmFilesDto);
-        return response.putData("imgUrl", Config.VM_SRC_IMG_URL + "?fileId=" + +fileId).putData("fileId", fileId);
+        return response.putData("imgUrl", vmConfig.getSrcImgUrl() + "?fileId=" + +fileId).putData("fileId", fileId);
     }
 
     /**
@@ -64,6 +68,6 @@ public class VmSrcController extends ServiceController<VmSrcService> {
     @ResponseBody
     public Object cutUploadedImgFile(VmFilesDto vmFilesDto) throws Exception {
         Long fileId = service.cutUploadedImgFile(vmFilesDto);
-        return response.putData("imgUrl", Config.VM_SRC_IMG_URL + "?fileId=" + fileId);
+        return response.putData("imgUrl", vmConfig.getSrcImgUrl() + "?fileId=" + fileId);
     }
 }
