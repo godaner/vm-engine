@@ -1,18 +1,18 @@
 #==================== spring cloud ====================
 eureka:
   client:
-#      registerWithEureka: true #实例是否在eureka服务器上注册自己的信息以供其他服务发现，默认为true
-#      fetchRegistry: true #此客户端是否获取eureka服务器注册表上的注册信息，默认为true
-#      registry-fetch-interval-seconds: 5 #从eureka服务器注册表中获取注册信息的时间间隔（s），默认为30秒
-#      instance-info-replication-interval-seconds: 5 #复制实例变化信息到eureka服务器所需要的时间间隔（s），默认为30秒
-#      eureka-service-url-poll-interval-seconds: 1 #最初复制实例信息到eureka服务器所需的时间（s），默认为40秒
-#      initial-instance-info-replication-interval-seconds: 5 #询问Eureka服务url信息变化的时间间隔（s），默认为300秒
+      registerWithEureka: true #实例是否在eureka服务器上注册自己的信息以供其他服务发现，默认为true
+      fetchRegistry: true #此客户端是否获取eureka服务器注册表上的注册信息，默认为true
+      registry-fetch-interval-seconds: 15 #从eureka服务器注册表中获取注册信息的时间间隔（s），默认为30秒
+      instance-info-replication-interval-seconds: 15 #复制实例变化信息到eureka服务器所需要的时间间隔（s），默认为30秒
+      eureka-service-url-poll-interval-seconds: 20 #最初复制实例信息到eureka服务器所需的时间（s），默认为40秒
+      initial-instance-info-replication-interval-seconds: 150 #询问Eureka服务url信息变化的时间间隔（s），默认为300秒
       service-url:
             defaultZone:
               http://server01:1111/eureka/,http://server02:1112/eureka/
   instance:
-#    leaseRenewalIntervalInSeconds: 3 #eureka客户需要多长时间发送心跳给eureka服务器，表明它仍然活着,默认为30 秒
-#    leaseExpirationDurationInSeconds: 3 #Eureka服务器在接收到实例的最后一次发出的心跳后，需要等待多久才可以将此实例删除，默认为90秒
+    leaseRenewalIntervalInSeconds: 15 #eureka客户需要多长时间发送心跳给eureka服务器，表明它仍然活着,默认为30 秒
+    leaseExpirationDurationInSeconds: 45 #Eureka服务器在接收到实例的最后一次发出的心跳后，需要等待多久才可以将此实例删除，默认为90秒
     prefer-ip-address: true #在eureka页面显示ip而不是linux主机名，微服务使用这里展示的进行调用，如果是使用主机名，那么可能无法调用
     instance-id: ${spring.cloud.client.ipAddress}:${random.int(0,10000)} #实例的id
 
@@ -72,27 +72,27 @@ spring:
   profiles: eureka00
 server:
   port: 1111
-eureka:
-  instance:
-    hostname: server01 #与此实例相关联的主机名，是其他实例可以用来进行请求的准确名称
+#eureka:
+#  instance:
+#    hostname: server01 #与此实例相关联的主机名，是其他实例可以用来进行请求的准确名称
 
 ---
 spring:
   profiles: eureka01
 server:
   port: 1111
-eureka:
-  instance:
-    hostname: server01 #与此实例相关联的主机名，是其他实例可以用来进行请求的准确名称
+#eureka:
+#  instance:
+#    hostname: server01 #与此实例相关联的主机名，是其他实例可以用来进行请求的准确名称
 
 ---
 spring:
   profiles: eureka02
 server:
   port: 1112
-eureka:
-  instance:
-    hostname: server02 #与此实例相关联的主机名，是其他实例可以用来进行请求的准确名称
+#eureka:
+#  instance:
+#    hostname: server02 #与此实例相关联的主机名，是其他实例可以用来进行请求的准确名称
 
 #==================== gateway ====================
 
