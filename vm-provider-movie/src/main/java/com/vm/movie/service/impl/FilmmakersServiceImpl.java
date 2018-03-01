@@ -3,7 +3,6 @@ package com.vm.movie.service.impl;
 import com.vm.base.util.BaseService;
 import com.vm.movie.service.dto.VmFilmmakersDto;
 import com.vm.movie.service.inf.FilmmakersService;
-import com.vm.dao.mapper.VmFilesMapper;
 import com.vm.dao.mapper.VmFilmmakersMapper;
 import com.vm.dao.po.BasePo;
 import com.vm.dao.po.VmFilmmakers;

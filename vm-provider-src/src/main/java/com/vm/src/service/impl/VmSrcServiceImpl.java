@@ -1,13 +1,13 @@
 package com.vm.src.service.impl;
 
 import com.google.common.collect.Lists;
+import com.vm.base.config.VmConfig;
+import com.vm.base.util.BasePo;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.DateUtil;
 import com.vm.base.util.ImageUtil;
-import com.vm.base.config.VmConfig;
-import com.vm.dao.mapper.VmFilesMapper;
-import com.vm.dao.po.BasePo;
-import com.vm.dao.po.VmFiles;
+import com.vm.src.dao.mapper.VmFilesMapper;
+import com.vm.src.dao.po.VmFiles;
 import com.vm.src.service.dto.VmFilesDto;
 import com.vm.src.service.inf.VmSrcService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -29,6 +29,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     private VmFilesMapper vmFilesMapper;
     @Autowired
     private VmConfig vmConfig;
+
     @Override
     public void sendVideoSrc(VmFilesDto vmFilesDto, HttpServletResponse response) {
 
@@ -81,8 +82,8 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             File f = null;
             String imgPathName = null;
             if (null == file || null == width) {//if db have not this file record
-                imgPathName = imgPath  + vmConfig.getSrcImgDefault();
-            }else{
+                imgPathName = imgPath + vmConfig.getSrcImgDefault();
+            } else {
 //                contentType = file.getContentType();
                 imgName = file.getFilename();
                 imgPathName = imgPath + File.separator + width + "_" + imgName;
@@ -97,7 +98,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             f = new File(imgPathName);
             // not exits
             if (!f.exists()) {
-                f = new File(imgPath  + vmConfig.getSrcImgDefault());
+                f = new File(imgPath + vmConfig.getSrcImgDefault());
             }
             input = new FileInputStream(f);
             output = response.getOutputStream();

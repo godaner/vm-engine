@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.vm.dao.mapper.VmFilesMapper">
-<resultMap type="com.vm.dao.po.VmFiles"  id="VmFilesMap">
+<mapper namespace="com.vm.src.dao.mapper.VmFilesMapper">
+<resultMap type="com.vm.src.dao.po.VmFiles"  id="VmFilesMap">
   <id column="id" property="id"/>
   <result column="filename" property="filename"/>
   <result column="original_name" property="originalName"/>
@@ -62,7 +62,7 @@
 			id = #{id}
 	</delete>
 
-<update id="update" parameterType="com.vm.dao.po.VmFiles" >
+<update id="update" parameterType="com.vm.src.dao.po.VmFiles" >
 UPDATE
 		vm_files
 <set>

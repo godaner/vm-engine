@@ -1,14 +1,11 @@
 package com.vm.user.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.vm.base.config.VmConfig;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.BeanMapUtil;
 import com.vm.base.util.DateUtil;
 import com.vm.base.util.Response;
-import com.vm.dao.mapper.VmFilesMapper;
 import com.vm.dao.mapper.VmUsersMapper;
 import com.vm.dao.po.BasePo;
 import com.vm.dao.po.VmUsers;
@@ -21,10 +18,8 @@ import com.vm.user.util.SessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 /**
  * Created by ZhangKe on 2017/12/28.

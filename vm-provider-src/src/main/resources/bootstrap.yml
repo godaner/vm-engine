@@ -13,7 +13,7 @@ spring:
   #db connection
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://120.78.191.94:3306/vm?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true&amp;autoReconnect=true
+    url: jdbc:mysql://120.78.191.94:3306/vm_src?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true&amp;autoReconnect=true
     username: root
     password: 123
     # for initial,min,max
@@ -30,5 +30,8 @@ spring:
     maxWait: 6000000
     timeBetweenEvictionRunsMillis: 30000
 
-
-
+# MyBatis
+mybatis:
+#    typeAliasesPackage: com.vm.src.dao.po
+    mapperLocations: classpath:/com/vm/src/dao/mapper/*.xml
+#    configLocation: classpath:/mybatis-config.xml

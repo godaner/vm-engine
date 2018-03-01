@@ -9,6 +9,12 @@
     <artifactId>vm-base</artifactId>
 
     <dependencies>
+        <!--mybatis start-->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+        <!--mybatis end-->
 
         <!--websocket end-->
         <dependency>
