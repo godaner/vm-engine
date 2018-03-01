@@ -68,6 +68,6 @@ public class VmSrcController extends ServiceController<VmSrcService> {
     @ResponseBody
     public Object cutUploadedImgFile(VmFilesDto vmFilesDto) throws Exception {
         Long fileId = service.cutUploadedImgFile(vmFilesDto);
-        return response.putData("imgUrl", vmConfig.getSrcImgUrl() + "?fileId=" + fileId);
+        return response.putData("imgUrl", vmConfig.getSrcImgUrl() + "?fileId=" + fileId).putData("fileId", fileId);
     }
 }

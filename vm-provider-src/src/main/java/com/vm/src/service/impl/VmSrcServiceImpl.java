@@ -77,26 +77,33 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             VmFiles file = vmFilesMapper.select(fileId);
             String imgPath = vmConfig.getSrcImgPath();
             String imgName = null;
-            String contentType = null;
-            if (file != null) {
-                contentType = file.getContentType();
+//            String contentType = null;
+            File f = null;
+            String imgPathName = null;
+            if (null == file || null == width) {//if db have not this file record
+                imgPathName = imgPath  + vmConfig.getSrcImgDefault();
+            }else{
+//                contentType = file.getContentType();
                 imgName = file.getFilename();
+                imgPathName = imgPath + File.separator + width + "_" + imgName;
+
             }
             //img path name
-            String imgPathName = imgPath + File.separator + width + "_" + imgName;;
-            if(null == width){
-                imgPathName = imgPath + File.separator +  imgName;
-            }
-            File f = new File(imgPathName);
-            //不存在，返回默认图片
+//            String imgPathName = imgPath + File.separator + width + "_" + imgName;
+//            if(null == width){
+//                imgPathName = imgPath + File.separator +  imgName;
+//            }
+
+            f = new File(imgPathName);
+            // not exits
             if (!f.exists()) {
-                f = new File(imgPath + File.separator + vmConfig.getSrcImgDefault());
+                f = new File(imgPath  + vmConfig.getSrcImgDefault());
             }
             input = new FileInputStream(f);
             output = response.getOutputStream();
             //设置响应的媒体类型
 // ");
-            response.setContentType(contentType); // 设置返回的文件类型
+//            response.setContentType(contentType); // 设置返回的文件类型
             IOUtils.copy(input, output);
         } catch (IOException e) {
             e.printStackTrace();
