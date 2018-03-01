@@ -249,11 +249,11 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         //feign
         String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
-        Response response = JSONObject.parseObject(res, Response.class);
-        if (response.getCode() == Response.ResponseCode.FAILURE.getCode()) {
+        Response response = Response.parseJSON(res);
+        if (response.isFailure()) {
             throw new VmUsersException("updateUserHeadImg srcServiceClient#cutUploadedImgFile is fail !! onlineUserId is :" + onlineUserId + " , updateHeadImgInfo is : " + updateHeadImgInfo);
         }
-        String imgUrl = (String) response.getData("newImgUrl");
+        String imgUrl = (String) response.getData("imgUrl");
         //update user
         VmUsers vmUsers = new VmUsers();
         vmUsers.setId(onlineUserId);

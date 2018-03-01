@@ -1,6 +1,8 @@
 package com.vm.base.util;
 
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,12 +23,14 @@ public class Response {
     private Map<Object, Object> data = new HashMap<Object, Object>();
     private String msg;
 
-    public boolean isFailure(){
+    public boolean isFailure() {
         return this.code == ResponseCode.FAILURE.getCode();
     }
-    public boolean isSuccess(){
+
+    public boolean isSuccess() {
         return this.code == ResponseCode.SUCCESS.getCode();
     }
+
     public Response() {
         super();
         setSuccess();
@@ -98,6 +102,18 @@ public class Response {
                 ", data=" + data +
                 ", msg='" + msg + '\'' +
                 '}';
+    }
+
+    public static final Response parseJSON(String res) {
+//        private int code;
+//        private Map<Object, Object> data = new HashMap<Object, Object>();
+//        private String msg;
+        Response response = new Response();
+        JSONObject json = JSONObject.parseObject(res);
+        response.code = json.getInteger("code");
+        response.data = json.getObject("data", Map.class);
+        response.msg = json.getString("msg");
+        return response;
     }
 
     /**

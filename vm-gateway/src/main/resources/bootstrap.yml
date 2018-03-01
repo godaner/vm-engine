@@ -54,6 +54,7 @@ ribbon:
   NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
   ReadTimeout: 6000000
   ConnectTimeout: 6000000
+  ServerListRefreshInterval: 5000 #eureka客户端ribbon刷新时间,默认30s
 
 
 
