@@ -253,7 +253,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         if (response.getCode() == Response.ResponseCode.FAILURE.getCode()) {
             throw new VmUsersException("updateUserHeadImg srcServiceClient#cutUploadedImgFile is fail !! onlineUserId is :" + onlineUserId + " , updateHeadImgInfo is : " + updateHeadImgInfo);
         }
-        String imgUrl = (String) response.getData("imgUrl");
+        String imgUrl = (String) response.getData("newImgUrl");
         //update user
         VmUsers vmUsers = new VmUsers();
         vmUsers.setId(onlineUserId);

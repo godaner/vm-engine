@@ -31,9 +31,11 @@ vm:
       maxSize: 2097152
       versions: 50,80,300
       allowSuffix: jpg,png
+      path: d:/vm/src/img/
     video:
       url: /src/video
       default: default.mp4
+      path: d:/vm/src/video/
 
 
 #==================== providers profiles ====================

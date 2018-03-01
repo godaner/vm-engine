@@ -21,6 +21,12 @@ public class Response {
     private Map<Object, Object> data = new HashMap<Object, Object>();
     private String msg;
 
+    public boolean isFailure(){
+        return this.code == ResponseCode.FAILURE.getCode();
+    }
+    public boolean isSuccess(){
+        return this.code == ResponseCode.SUCCESS.getCode();
+    }
     public Response() {
         super();
         setSuccess();
