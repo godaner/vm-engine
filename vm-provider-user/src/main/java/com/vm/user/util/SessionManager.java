@@ -19,7 +19,11 @@ import java.io.Serializable;
 @Component
 public class SessionManager extends CommonUtil {
 
-    private static Long timeout = VmConfig.userSessionLifetime;
+    @Autowired
+    private VmConfig vmConfig;
+    private static VmConfig vmConfigCache;
+
+    private static Long timeout = null;
 
     @Autowired
     private RedisRepository redisRepository;
@@ -28,7 +32,10 @@ public class SessionManager extends CommonUtil {
 
     @PostConstruct
     public void init() {
+
         this.redisRepositoryCache = this.redisRepository;
+        this.vmConfigCache = this.vmConfig;
+        this.timeout = this.vmConfigCache.getUserSessionLifetime();
     }
 
 

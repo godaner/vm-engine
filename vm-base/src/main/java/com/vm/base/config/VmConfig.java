@@ -27,6 +27,16 @@ public class VmConfig {
     private String srcVideoDefault;
     @Value("${vm.src.video.url}")
     private String srcVideoUrl;
+    @Value("${vm.user.session.lifetime}")
+    private Long userSessionLifetime;
+
+    public Long getUserSessionLifetime() {
+        return userSessionLifetime;
+    }
+
+    public void setUserSessionLifetime(Long userSessionLifetime) {
+        this.userSessionLifetime = userSessionLifetime;
+    }
 
     public String getSrcImgAllowSuffix() {
         return srcImgAllowSuffix;

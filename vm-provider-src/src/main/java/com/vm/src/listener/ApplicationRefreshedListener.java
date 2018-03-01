@@ -23,7 +23,6 @@ public class ApplicationRefreshedListener implements ApplicationListener<Context
             logger.info("ApplicationRefreshedListener starting !");
             vmConfig = event.getApplicationContext().getBean(VmConfig.class);
 
-//            vmConfig = (VmConfig) event.getApplicationContext().getBean("vmConfig");
             //初始化项目目录，例如图片储存，电影储存
             initFileDir();
 
