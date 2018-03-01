@@ -30,8 +30,6 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     private VmUsersMapper vmUsersMapper;
 
     @Autowired
-    private VmFilesMapper vmFilesMapper;
-    @Autowired
     private SrcServiceClient srcServiceClient;
     @Autowired
     private VmConfig vmConfig;
