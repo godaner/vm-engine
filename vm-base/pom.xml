@@ -9,6 +9,13 @@
     <artifactId>vm-base</artifactId>
 
     <dependencies>
+        <!--mybatis.generator start-->
+        <dependency>
+            <groupId>org.mybatis.generator</groupId>
+            <artifactId>mybatis-generator-core</artifactId>
+        </dependency>
+        <!--mybatis.generator end-->
+
         <!--mybatis start-->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
