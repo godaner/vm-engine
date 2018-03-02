@@ -34,7 +34,12 @@ public class OnlineUserMethodArgumentResolver extends CommonUtil implements Hand
         String token = webRequest.getHeader(OnlineConstants.KEY_OF_ACCESS_TOKEN);
 
 
-        VmUsersDto vmUsersDto = vmUsersService.getOnlineUser(token);
+        VmUsersDto vmUsersDto = null;
+        try {
+            vmUsersDto = vmUsersService.getOnlineUser(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         if (vmUsersDto != null) {
