@@ -16,4 +16,6 @@ public interface VmSrcService {
     Long saveImg(VmFilesDto vmFilesDto);
 
     Long cutUploadedImgFile(VmFilesDto vmFilesDto);
+
+    void batchUpdate();
 }

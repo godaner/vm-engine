@@ -30,3 +30,6 @@ spring:
     maxWait: 6000000
     timeBetweenEvictionRunsMillis: 30000
 
+logging:
+  level:
+    com.vm.admin.dao.mapper: debug

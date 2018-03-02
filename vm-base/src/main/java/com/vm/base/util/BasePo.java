@@ -14,6 +14,16 @@ public class BasePo {
 
     private Integer updateTime;
 
+    private Byte isDeleted;
+
+    public Byte getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Byte isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     public Long getId() {
         return id;
     }
@@ -51,8 +61,7 @@ public class BasePo {
      */
     public enum Status {
         NORMAL(ByteConstantVar.ONE, "正常"),
-        FROZEN(ByteConstantVar.TWO, "冻结"),
-        DELETED(ByteConstantVar.THREE, "删除");
+        FROZEN(ByteConstantVar.TWO, "冻结");
 
         Byte code;
 
@@ -79,17 +88,6 @@ public class BasePo {
             this.msg = msg;
         }
 
-        /**
-         * 是否删除状态
-         *
-         * @return
-         */
-        public static boolean isDeleted(Byte status) {
-            if (status.equals(Status.DELETED.getCode())) {
-                return true;
-            }
-            return false;
-        }
 
         /**
          * 是否冻结状态
@@ -116,4 +114,49 @@ public class BasePo {
         }
     }
 
+    /**
+     * 是否删除枚举
+     */
+    public enum IsDeleted {
+        YES(ByteConstantVar.ONE, "删除"),
+        NO(ByteConstantVar.TWO, "未删除");
+
+        Byte code;
+
+        String msg;
+
+        IsDeleted(Byte code, String msg) {
+            this.code = code;
+            this.msg = msg;
+        }
+
+        public Byte getCode() {
+            return code;
+        }
+
+        public void setCode(Byte code) {
+            this.code = code;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+
+        /**
+         * 是否删除状态
+         *
+         * @return
+         */
+        public static boolean isDeleted(Byte status) {
+            if (status.equals(IsDeleted.YES.getCode())) {
+                return true;
+            }
+            return false;
+        }
+
+    }
 }

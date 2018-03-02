@@ -1,5 +1,6 @@
 package com.vm.src.service.impl;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.vm.base.config.VmConfig;
 import com.vm.base.util.BasePo;
@@ -19,6 +20,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.security.MessageDigest;
+import java.util.List;
 
 /**
  * Created by ZhangKe on 2018/2/3.
@@ -76,7 +78,6 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         String imgPath = vmConfig.getSrcImgPath();
         String imgName = null;
         String contentType = "image/png";
-        File f = null;
         String imgPathName = null;
         if (null == file) {//if db have not this file record
             imgPathName = imgPath + vmConfig.getSrcImgDefault();
@@ -151,7 +152,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
 
             vmFiles.setUpdateTime(now);
             vmFiles.setCreateTime(now);
-            vmFiles.setSize(size);
+            vmFiles.setFileSize(size);
             vmFiles.setStatus(BasePo.Status.NORMAL.getCode());
             vmFiles.setOriginalName(originalFilename);
             vmFiles.setFilename(targetImgName);
@@ -194,6 +195,43 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         });
 
         return vmFiles.getId();
+    }
+
+    @Override
+    public void batchUpdate() {
+        List<VmFiles> files = Lists.newArrayList();
+        for(int i = 0;i<10;i++){
+            VmFiles f = new VmFiles();
+            f.setContentType(i+"");
+            f.setFilename(""+i);
+            f.setOriginalName(""+i);
+            f.setFileSize(Long.valueOf(i));
+            f.setCreateTime(DateUtil.unixTime().intValue());
+            f.setUpdateTime(DateUtil.unixTime().intValue());
+            f.setStatus(BasePo.Status.NORMAL.getCode());
+            f.setIsDeleted(BasePo.IsDeleted.NO.getCode());
+            files.add(f);
+        }
+        int ij = vmFilesMapper.batchInsert(files);
+
+        vmFilesMapper.update(ImmutableMap.of(
+                "filename","0",
+                "id",412
+        ));
+
+        vmFilesMapper.batchUpdate(ImmutableMap.of(
+                "filename","0"
+        ),ImmutableMap.of(
+                "filename","110"
+        ));
+
+        VmFiles filename = vmFilesMapper.selectOneBy(ImmutableMap.of(
+                "filename", "0"
+        ));
+        ij = vmFilesMapper.deleteBy(ImmutableMap.of(
+                "filename","0"
+        ));
+        System.out.println(ij);
     }
 
 }

@@ -7,7 +7,8 @@
   <id column="id" property="id"/>
   <result column="filename" property="filename"/>
   <result column="original_name" property="originalName"/>
-  <result column="size" property="size"/>
+  <result column="file_size" property="fileSize"/>
+  <result column="is_deleted" property="isDeleted"/>
   <result column="status" property="status"/>
   <result column="create_time" property="createTime"/>
   <result column="update_time" property="updateTime"/>
@@ -22,7 +23,8 @@
 	<sql id="BASE_COLUM_WITHOUT_ID">
 		filename,
 		original_name,
-		size,
+		file_size,
+		is_deleted,
 		status,
 		create_time,
 		update_time,
@@ -46,7 +48,8 @@
         VALUES (
 #{filename},
 #{originalName},
-#{size},
+#{fileSize},
+#{isDeleted},
 #{status},
 #{createTime},
 #{updateTime},
@@ -62,20 +65,27 @@
 			id = #{id}
 	</delete>
 
-<update id="update" parameterType="com.vm.src.dao.po.VmFiles" >
+<delete id="deleteBy">
+		DELETE
+		FROM
+			vm_files
+		<include refid="queryCondition" />
+	</delete>
+
+<update id="update" >
 UPDATE
 		vm_files
-<set>
-<if test="filename != null">filename=#{filename},</if>
-<if test="originalName != null">original_name=#{originalName},</if>
-<if test="size != null">size=#{size},</if>
-<if test="status != null">status=#{status},</if>
-<if test="createTime != null">create_time=#{createTime},</if>
-<if test="updateTime != null">update_time=#{updateTime},</if>
-<if test="contentType != null">content_type=#{contentType}</if>
-</set>
+<include refid="setFields" />
 WHERE
 id=#{id}
+</update>
+
+
+<update id="batchUpdate">
+UPDATE
+		vm_files
+<include refid="setFields" />
+<include refid="queryCondition" />
 </update>
 
 
@@ -111,8 +121,11 @@ id=#{id}
 <if test="query.originalName != null ">
 		and original_name=#{query.originalName}
 </if>
-<if test="query.size != null ">
-		and size=#{query.size}
+<if test="query.fileSize != null ">
+		and file_size=#{query.fileSize}
+</if>
+<if test="query.isDeleted != null ">
+		and is_deleted=#{query.isDeleted}
 </if>
 <if test="query.status != null ">
 		and status=#{query.status}
@@ -131,6 +144,22 @@ id=#{id}
 </sql>
 
 
+<sql id="setFields">
+<set>
+<trim suffix="" suffixOverrides=",">
+<if test="newObj.filename != null">filename=#{newObj.filename},</if>
+<if test="newObj.originalName != null">original_name=#{newObj.originalName},</if>
+<if test="newObj.fileSize != null">file_size=#{newObj.fileSize},</if>
+<if test="newObj.isDeleted != null">is_deleted=#{newObj.isDeleted},</if>
+<if test="newObj.status != null">status=#{newObj.status},</if>
+<if test="newObj.createTime != null">create_time=#{newObj.createTime},</if>
+<if test="newObj.updateTime != null">update_time=#{newObj.updateTime},</if>
+<if test="newObj.contentType != null">content_type=#{newObj.contentType}</if>
+</trim>
+</set>
+</sql>
+
+
 <insert id="batchInsert"  useGeneratedKeys="true" parameterType="java.util.List" keyProperty="id">
         INSERT INTO vm_files(
         <include refid="BASE_COLUM_WITHOUT_ID"/>
@@ -139,7 +168,8 @@ id=#{id}
 (
 #{item.filename},
 #{item.originalName},
-#{item.size},
+#{item.fileSize},
+#{item.isDeleted},
 #{item.status},
 #{item.createTime},
 #{item.updateTime},

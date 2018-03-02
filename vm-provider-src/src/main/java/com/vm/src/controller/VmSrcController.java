@@ -70,4 +70,12 @@ public class VmSrcController extends ServiceController<VmSrcService> {
         Long fileId = service.cutUploadedImgFile(vmFilesDto);
         return response.putData("imgUrl", vmConfig.getSrcImgUrl() + "?fileId=" + fileId).putData("fileId", fileId);
     }
+
+
+    @RequestMapping(value = "/img/batchUpdate")
+    @ResponseBody
+    public Object batchUpdate( ) throws Exception {
+        service.batchUpdate();
+        return response;
+    }
 }

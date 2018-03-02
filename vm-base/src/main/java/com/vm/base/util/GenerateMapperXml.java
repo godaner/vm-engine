@@ -1,3 +1,5 @@
+package com.vm.base.util;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -36,9 +38,7 @@ public class GenerateMapperXml {
     //命名空间指向的mapper类名格式
     private static String mapperNamespaceClassTemple = null;
 
-    public static void main(String[] args) throws Exception {
-        generateMapperXmlByPros();
-    }
+
 
 
     //根据properties文件初始化变量
@@ -172,11 +172,15 @@ public class GenerateMapperXml {
         stringBuffer.append(generateCount(tableName) + "\n\n");
         stringBuffer.append(generateInsertString(tableName) + "\n\n");
         stringBuffer.append(generateDeleteString(tableName) + "\n\n");
+        stringBuffer.append(generateDeleteBy(tableName) + "\n\n");
         stringBuffer.append(generateUpdateString(cls, tableName) + "\n\n");
+        stringBuffer.append(generateBatchUpdate(cls, tableName) + "\n\n");
+
         stringBuffer.append(generateListSql(cls, tableName) + "\n\n");
         stringBuffer.append(generateOrdeByListSql(cls, tableName) + "\n\n");
 
         stringBuffer.append(generateQueryCondition(cls, tableName) + "\n\n");
+        stringBuffer.append(generateSetFields(tableName) + "\n\n");
 
         stringBuffer.append(generateBatchInsert(cls, tableName) + "\n\n");
         stringBuffer.append(generateSelectByIdSql(cls, tableName) + "\n\n");
@@ -206,6 +210,9 @@ public class GenerateMapperXml {
         generateDeleteString(tableName);
 
         generateQueryCondition(cls, tableName);
+
+        generateSetFields(tableName);
+
         generateCount(tableName);
         generateListSql(cls, tableName);
         generateOrdeByListSql(cls, tableName);
@@ -323,6 +330,32 @@ public class GenerateMapperXml {
 
     }
 
+    public static String generateBatchUpdate(Class cls, String tableName) {
+        StringBuffer buffer = new StringBuffer();
+        String updateSql = "<update id=\"batchUpdate\">\n";
+        buffer.append(updateSql);
+        buffer.append("UPDATE\n" + "\t\t" + tableName + "\n");
+        buffer.append("<include refid=\"setFields\" />\n");
+        buffer.append("<include refid=\"queryCondition\" />\n");
+        buffer.append("</update>\n");
+        return buffer.toString();
+
+    }
+
+    public static String generateDeleteBy(String tableName) {
+
+
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("<delete id=\"deleteBy\">\n" +
+                "\t\tDELETE\n" +
+                "\t\tFROM\n" +
+                "\t\t\t" + tableName + "\n" +
+                "\t\t<include refid=\"queryCondition\" />\n" +
+                "\t</delete>");
+        return buffer.toString();
+
+    }
+
     public static String generateOrdeByListSql(Class cls, String tableName) {
         String orderSql = "\t<if test=\"orderBy != null and orderType != null\">\n" +
                 "\t\t\torder by ${orderBy} ${orderType}\n" +
@@ -423,10 +456,22 @@ public class GenerateMapperXml {
 
     public static String generateUpdateString(Class cls, String tableName) {
         StringBuffer buffer = new StringBuffer();
-        String updateSql = "<update id=\"update\" parameterType=\"" + cls.getCanonicalName() + "\" >\n";
+        String updateSql = "<update id=\"update\" >\n";
         buffer.append(updateSql);
         buffer.append("UPDATE\n" + "\t\t" + tableName + "\n");
+        buffer.append("<include refid=\"setFields\" />\n");
+        buffer.append("WHERE\n");
+        buffer.append("id=#{id}\n");
+        buffer.append("</update>\n");
+        return buffer.toString();
+    }
+
+    public static String generateSetFields(String tableName) {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("<sql id=\"setFields\">\n");
         buffer.append("<set>\n");
+        buffer.append("<trim suffix=\"\" suffixOverrides=\",\">\n");
+
         ResultSetMetaData metaData = getTableMeta(tableName);
         try {
             int count = metaData.getColumnCount();
@@ -435,17 +480,17 @@ public class GenerateMapperXml {
                 if ("id".equals(column)) {
                     continue;
                 }
-                buffer.append("<if test=\"" + convertColumnToFiledName(column) + " != null\">");
-                buffer.append(column + "=#{"
+                buffer.append("<if test=\"newObj." + convertColumnToFiledName(column) + " != null\">");
+                buffer.append(column + "=#{newObj."
                         + convertColumnToFiledName(column) + "}"
                         + (index < count ? "," : ""));
                 buffer.append("</if>\n");
             }
 
+            buffer.append("</trim>\n");
             buffer.append("</set>\n");
-            buffer.append("WHERE\n");
-            buffer.append("id=#{id}\n");
-            buffer.append("</update>\n");
+            buffer.append("</sql>\n");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -490,10 +535,10 @@ public class GenerateMapperXml {
         ResultSetMetaData metaData = getTableMeta(tableName);
         try {
             int count = 0;
-            try{
+            try {
                 count = metaData.getColumnCount();
-            }catch (Exception e){
-                System.err.println("表<"+tableName+">不存在");
+            } catch (Exception e) {
+                System.err.println("表<" + tableName + ">不存在");
             }
             for (int index = 1; index <= count; index++) {
                 String column = metaData.getColumnName(index).toLowerCase();

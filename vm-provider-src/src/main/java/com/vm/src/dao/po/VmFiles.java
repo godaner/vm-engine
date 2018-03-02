@@ -8,10 +8,17 @@ public class VmFiles extends BasePo {
 
     private String originalName;
 
-    private Long size;
+    private Long fileSize;
 
     private String contentType;
 
+    public Long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(Long fileSize) {
+        this.fileSize = fileSize;
+    }
 
     public String getFilename() {
         return filename;
@@ -27,14 +34,6 @@ public class VmFiles extends BasePo {
 
     public void setOriginalName(String originalName) {
         this.originalName = originalName == null ? null : originalName.trim();
-    }
-
-    public Long getSize() {
-        return size;
-    }
-
-    public void setSize(Long size) {
-        this.size = size;
     }
 
 
