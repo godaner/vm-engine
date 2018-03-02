@@ -38,14 +38,11 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
      */
     private VmUsers getUserByUsername(String username) {
         //是否存在此username的user
-        VmUsers vmUsers = vmUsersMapper.selectOneBy(ImmutableMap.of(
+        return vmUsersMapper.selectOneBy(ImmutableMap.of(
                 "status", BasePo.Status.NORMAL.getCode(),
-                username, username
+                "username", username,
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
         ));
-        if (isNullObject(vmUsers)) {
-            return null;
-        }
-        return vmUsers;
     }
 
     private VmUsersDto makeVmUsersDto(VmUsers user, String token) {
@@ -75,7 +72,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     public VmUsersDto userLogin(VmUsersDto vmUsersDto) throws Exception {
 
         //user是否存在
-        VmUsers dbUser = getUserByUsername(vmUsersDto.getUsername());
+        VmUsers dbUser = this.getUserByUsername(vmUsersDto.getUsername());
 
         if (isNullObject(dbUser)) {
             throw new VmUsersException("userLogin dbUser is not exits ! user is : " + vmUsersDto,
@@ -99,7 +96,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     public VmUsersDto getUserBasicInfo(Long userId) {
 
         //获取指定id的user
-        VmUsers dbUser = vmUsersMapper.select(userId);
+        VmUsers dbUser = this.getUsableUserById(userId);
 
         if (isNullObject(dbUser) || VmUsers.IsDeleted.isDeleted(dbUser.getIsDeleted())) {
             throw new VmUsersException("getUserBasicInfo user is not exits! userId is : " + userId,
@@ -115,7 +112,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Transactional
     public VmUsersDto updateOnlineUserBasicInfo(VmUsersDto user) throws Exception {
         //user是否存在
-        VmUsers dbUser = vmUsersMapper.select(user.getId());
+        VmUsers dbUser = this.getUsableUserById(user.getId());
 
         if (isNullObject(dbUser) || VmUsers.IsDeleted.isDeleted(dbUser.getIsDeleted())) {
             throw new VmUsersException("updateOnlineUserBasicInfo dbUser is not exits ! user is : " + user,
@@ -123,7 +120,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         }
 
 
-        vmUsersMapper.update(user.getId(),makeUpdateOnlineVmUsers(user));
+        vmUsersMapper.update(user.getId(), makeUpdateOnlineVmUsers(user));
 
         return makeVmUsersDto(vmUsersMapper.select(user.getId()));
     }
@@ -190,7 +187,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     public VmUsersDto userRegist(VmUsersDto user) throws Exception {
 
         //是否存在username相同的账户
-        if (!isNullObject(getUserByUsername(user.getUsername()))) {
+        if (!isNullObject(this.getUserByUsername(user.getUsername()))) {
 
             throw new VmUsersException("userRegist username is exits ! user is :  " + user,
                     VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
@@ -247,21 +244,25 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         VmUsers vmUsers = new VmUsers();
         vmUsers.setId(onlineUserId);
         vmUsers.setImgUrl(imgUrl);
-        vmUsersMapper.update(vmUsers.getId(),vmUsers);
+        vmUsersMapper.update(vmUsers.getId(), vmUsers);
 
 
         //get new user
-        vmUsers = vmUsersMapper.select(onlineUserId);
-        vmUsers = (vmUsers == null || BasePo.IsDeleted.isDeleted(vmUsers.getIsDeleted())) ? null : vmUsers;
+        vmUsers = this.getUsableUserById(vmUsers.getId());
 
         return vmUsers == null ? null : makeVmUsersDto(vmUsers);
 
     }
 
+    private VmUsers getUsableUserById(Long userId) {
+        VmUsers vmUsers = vmUsersMapper.select(userId);
+        return (vmUsers == null || BasePo.IsDeleted.isDeleted(vmUsers.getIsDeleted()) || !BasePo.Status.isNormal(vmUsers.getStatus())) ? null : vmUsers;
+    }
+
     @Override
     public void userLogout(String token) throws Exception {
 
-        Long userId = (Long) SessionManager.getOnlineUserId(token);
+//        Long userId = (Long) SessionManager.getOnlineUserId(token);
 
         SessionManager.userLogout(token);
 
@@ -278,7 +279,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         if (null == userId) {
             return null;
         }
-        VmUsers vmUsers = vmUsersMapper.select(userId);
+        VmUsers vmUsers = this.getUsableUserById(userId);
         if (null == vmUsers) {
             return null;
         }
