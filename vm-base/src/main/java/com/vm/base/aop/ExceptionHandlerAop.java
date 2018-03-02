@@ -20,7 +20,7 @@ import java.util.Map;
 public class ExceptionHandlerAop extends CommonUtil {
     private final Logger logger = LoggerFactory.getLogger(ExceptionHandlerAop.class);
 
-    @Pointcut("execution(* com.vm...*.controller..*.*(..))")
+    @Pointcut("execution(* com.vm..controller..*.*(..))")
     public void declareJoinPointExpression() {
     }
 
