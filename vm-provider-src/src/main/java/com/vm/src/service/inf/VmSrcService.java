@@ -18,4 +18,6 @@ public interface VmSrcService {
     Long cutUploadedImgFile(VmFilesDto vmFilesDto);
 
     void batchUpdate();
+
+    Long uploadAndCut(VmFilesDto vmFilesDto);
 }

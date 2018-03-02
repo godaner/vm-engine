@@ -39,7 +39,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         InputStream input = null;
         OutputStream output = null;
         try {
-            VmFiles file = vmFilesMapper.select(fileId);
+            VmFiles file = this.getUsableVmFilesById(fileId);
             String movieSrcPath = vmConfig.getSrcVideoPath();
 
             String movieSrcName = null;
@@ -74,25 +74,25 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         Long fileId = vmFilesDto.getFileId();
         Integer width = vmFilesDto.getWidth();
         //获取图片id信息
-        VmFiles file = vmFilesMapper.select(fileId);
+        VmFiles file = this.getUsableVmFilesById(fileId);;
         String imgPath = vmConfig.getSrcImgPath();
         String imgName = null;
         String contentType = "image/png";
         String imgPathName = null;
         if (null == file) {//if db have not this file record
             imgPathName = imgPath + vmConfig.getSrcImgDefault();
-            sendFileToHttpResponse(imgPathName,contentType,response);
+            sendFileToHttpResponse(imgPathName, contentType, response);
             return;
         }
         imgName = file.getFilename();
         contentType = file.getContentType();
-        if(null ==width){
+        if (null == width) {
             imgPathName = imgPath + imgName;
-            sendFileToHttpResponse(imgPathName,contentType,response);
+            sendFileToHttpResponse(imgPathName, contentType, response);
             return;
         }
         imgPathName = imgPath + File.separator + width + "_" + imgName;
-        sendFileToHttpResponse(imgPathName,contentType,response);
+        sendFileToHttpResponse(imgPathName, contentType, response);
 
     }
 
@@ -154,6 +154,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             vmFiles.setCreateTime(now);
             vmFiles.setFileSize(size);
             vmFiles.setStatus(BasePo.Status.NORMAL.getCode());
+            vmFiles.setIsDeleted(BasePo.IsDeleted.NO.getCode());
             vmFiles.setOriginalName(originalFilename);
             vmFiles.setFilename(targetImgName);
             vmFiles.setContentType(contentType);
@@ -170,7 +171,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
 
     @Override
     public Long cutUploadedImgFile(VmFilesDto vmFilesDto) {
-        VmFiles vmFiles = vmFilesMapper.select(vmFilesDto.getFileId());
+        VmFiles vmFiles = this.getUsableVmFilesById(vmFilesDto.getFileId());
 
         String filePath = vmConfig.getSrcImgPath();
         String fileName = vmFiles.getFilename();
@@ -200,11 +201,11 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     @Override
     public void batchUpdate() {
         List<VmFiles> files = Lists.newArrayList();
-        for(int i = 0;i<10;i++){
+        for (int i = 0; i < 10; i++) {
             VmFiles f = new VmFiles();
-            f.setContentType(i+"");
-            f.setFilename(""+i);
-            f.setOriginalName(""+i);
+            f.setContentType(i + "");
+            f.setFilename("" + i);
+            f.setOriginalName("" + i);
             f.setFileSize(Long.valueOf(i));
             f.setCreateTime(DateUtil.unixTime().intValue());
             f.setUpdateTime(DateUtil.unixTime().intValue());
@@ -214,23 +215,41 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         }
         int ij = vmFilesMapper.batchInsert(files);
 
-        vmFilesMapper.update(412l,ImmutableMap.of(
-                "filename","0"
+        vmFilesMapper.update(412l, ImmutableMap.of(
+                "filename", "0"
         ));
 
         vmFilesMapper.batchUpdate(ImmutableMap.of(
-                "filename","0"
-        ),ImmutableMap.of(
-                "filename","110"
+                "filename", "0"
+        ), ImmutableMap.of(
+                "filename", "110"
         ));
 
         VmFiles filename = vmFilesMapper.selectOneBy(ImmutableMap.of(
                 "filename", "0"
         ));
         ij = vmFilesMapper.deleteBy(ImmutableMap.of(
-                "filename","0"
+                "filename", "0"
         ));
         System.out.println(ij);
     }
 
+    @Override
+    public Long uploadAndCut(VmFilesDto vmFilesDto) {
+
+        Long fileId = this.saveImg(vmFilesDto);
+
+        vmFilesDto.setFileId(fileId);
+
+        this.cutUploadedImgFile(vmFilesDto);
+
+        return fileId;
+    }
+
+
+
+    private VmFiles getUsableVmFilesById(Long fileId) {
+        VmFiles files = vmFilesMapper.select(fileId);
+        return (files != null && BasePo.Status.isNormal(files.getStatus()) && !BasePo.IsDeleted.isDeleted(files.getIsDeleted())) ? files : null;
+    }
 }

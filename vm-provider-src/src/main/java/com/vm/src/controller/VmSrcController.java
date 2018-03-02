@@ -71,7 +71,19 @@ public class VmSrcController extends ServiceController<VmSrcService> {
         return response.putData("imgUrl", vmConfig.getSrcImgUrl() + "?fileId=" + fileId).putData("fileId", fileId);
     }
 
-
+    /**
+     * 上传并且剪切的文件图片
+     *
+     * @param vmFilesDto
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/img/uploadAndCut", method = RequestMethod.POST)
+    @ResponseBody
+    public Object uploadAndCut(VmFilesDto vmFilesDto) throws Exception {
+        Long fileId = service.uploadAndCut(vmFilesDto);
+        return response.putData("imgUrl", vmConfig.getSrcImgUrl() + "?fileId=" + fileId).putData("fileId", fileId);
+    }
     @RequestMapping(value = "/img/batchUpdate")
     @ResponseBody
     public Object batchUpdate( ) throws Exception {
