@@ -56,18 +56,27 @@
 			id = #{id}
 	</delete>
 
-<update id="update" parameterType="com.vm.admin.dao.po.VmAdmins" >
+<delete id="deleteBy">
+		DELETE
+		FROM
+			vm_admins
+		<include refid="queryCondition" />
+	</delete>
+
+<update id="update" >
 UPDATE
 		vm_admins
-<set>
-<if test="username != null">username=#{username},</if>
-<if test="password != null">password=#{password},</if>
-<if test="status != null">status=#{status},</if>
-<if test="createTime != null">create_time=#{createTime},</if>
-<if test="updateTime != null">update_time=#{updateTime}</if>
-</set>
+<include refid="setFields" />
 WHERE
 id=#{id}
+</update>
+
+
+<update id="batchUpdate">
+UPDATE
+		vm_admins
+<include refid="setFields" />
+<include refid="queryCondition" />
 </update>
 
 
@@ -114,6 +123,19 @@ id=#{id}
 </if>
 </if>
 </trim>
+</sql>
+
+
+<sql id="setFields">
+<set>
+<trim suffix="" suffixOverrides=",">
+<if test="newObj.username != null">username=#{newObj.username},</if>
+<if test="newObj.password != null">password=#{newObj.password},</if>
+<if test="newObj.status != null">status=#{newObj.status},</if>
+<if test="newObj.createTime != null">create_time=#{newObj.createTime},</if>
+<if test="newObj.updateTime != null">update_time=#{newObj.updateTime}</if>
+</trim>
+</set>
 </sql>
 
 

@@ -80,26 +80,27 @@
 			id = #{id}
 	</delete>
 
-<update id="update" parameterType="com.vm.admin.dao.po.VmAdminsLoginLogs" >
+<delete id="deleteBy">
+		DELETE
+		FROM
+			vm_admins_login_logs
+		<include refid="queryCondition" />
+	</delete>
+
+<update id="update" >
 UPDATE
 		vm_admins_login_logs
-<set>
-<if test="adminId != null">admin_id=#{adminId},</if>
-<if test="loginIp != null">login_ip=#{loginIp},</if>
-<if test="system != null">system=#{system},</if>
-<if test="dpi != null">dpi=#{dpi},</if>
-<if test="brower != null">brower=#{brower},</if>
-<if test="country != null">country=#{country},</if>
-<if test="province != null">province=#{province},</if>
-<if test="city != null">city=#{city},</if>
-<if test="loginTime != null">login_time=#{loginTime},</if>
-<if test="result != null">result=#{result},</if>
-<if test="status != null">status=#{status},</if>
-<if test="createTime != null">create_time=#{createTime},</if>
-<if test="updateTime != null">update_time=#{updateTime}</if>
-</set>
+<include refid="setFields" />
 WHERE
 id=#{id}
+</update>
+
+
+<update id="batchUpdate">
+UPDATE
+		vm_admins_login_logs
+<include refid="setFields" />
+<include refid="queryCondition" />
 </update>
 
 
@@ -170,6 +171,27 @@ id=#{id}
 </if>
 </if>
 </trim>
+</sql>
+
+
+<sql id="setFields">
+<set>
+<trim suffix="" suffixOverrides=",">
+<if test="newObj.adminId != null">admin_id=#{newObj.adminId},</if>
+<if test="newObj.loginIp != null">login_ip=#{newObj.loginIp},</if>
+<if test="newObj.system != null">system=#{newObj.system},</if>
+<if test="newObj.dpi != null">dpi=#{newObj.dpi},</if>
+<if test="newObj.brower != null">brower=#{newObj.brower},</if>
+<if test="newObj.country != null">country=#{newObj.country},</if>
+<if test="newObj.province != null">province=#{newObj.province},</if>
+<if test="newObj.city != null">city=#{newObj.city},</if>
+<if test="newObj.loginTime != null">login_time=#{newObj.loginTime},</if>
+<if test="newObj.result != null">result=#{newObj.result},</if>
+<if test="newObj.status != null">status=#{newObj.status},</if>
+<if test="newObj.createTime != null">create_time=#{newObj.createTime},</if>
+<if test="newObj.updateTime != null">update_time=#{newObj.updateTime}</if>
+</trim>
+</set>
 </sql>
 
 

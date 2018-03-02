@@ -68,22 +68,27 @@
 			id = #{id}
 	</delete>
 
-<update id="update" parameterType="com.vm.user.dao.po.VmUsers" >
+<delete id="deleteBy">
+		DELETE
+		FROM
+			vm_users
+		<include refid="queryCondition" />
+	</delete>
+
+<update id="update" >
 UPDATE
 		vm_users
-<set>
-<if test="username != null">username=#{username},</if>
-<if test="password != null">password=#{password},</if>
-<if test="sex != null">sex=#{sex},</if>
-<if test="birthday != null">birthday=#{birthday},</if>
-<if test="description != null">description=#{description},</if>
-<if test="status != null">status=#{status},</if>
-<if test="createTime != null">create_time=#{createTime},</if>
-<if test="updateTime != null">update_time=#{updateTime},</if>
-<if test="imgUrl != null">img_url=#{imgUrl}</if>
-</set>
+<include refid="setFields" />
 WHERE
 id=#{id}
+</update>
+
+
+<update id="batchUpdate">
+UPDATE
+		vm_users
+<include refid="setFields" />
+<include refid="queryCondition" />
 </update>
 
 
@@ -142,6 +147,23 @@ id=#{id}
 </if>
 </if>
 </trim>
+</sql>
+
+
+<sql id="setFields">
+<set>
+<trim suffix="" suffixOverrides=",">
+<if test="newObj.username != null">username=#{newObj.username},</if>
+<if test="newObj.password != null">password=#{newObj.password},</if>
+<if test="newObj.sex != null">sex=#{newObj.sex},</if>
+<if test="newObj.birthday != null">birthday=#{newObj.birthday},</if>
+<if test="newObj.description != null">description=#{newObj.description},</if>
+<if test="newObj.status != null">status=#{newObj.status},</if>
+<if test="newObj.createTime != null">create_time=#{newObj.createTime},</if>
+<if test="newObj.updateTime != null">update_time=#{newObj.updateTime},</if>
+<if test="newObj.imgUrl != null">img_url=#{newObj.imgUrl}</if>
+</trim>
+</set>
 </sql>
 
 

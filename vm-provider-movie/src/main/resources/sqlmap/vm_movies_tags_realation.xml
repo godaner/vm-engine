@@ -56,18 +56,27 @@
 			id = #{id}
 	</delete>
 
-<update id="update" parameterType="com.vm.movie.dao.po.VmMoviesTagsRealation" >
+<delete id="deleteBy">
+		DELETE
+		FROM
+			vm_movies_tags_realation
+		<include refid="queryCondition" />
+	</delete>
+
+<update id="update" >
 UPDATE
 		vm_movies_tags_realation
-<set>
-<if test="movieId != null">movie_id=#{movieId},</if>
-<if test="tagId != null">tag_id=#{tagId},</if>
-<if test="status != null">status=#{status},</if>
-<if test="createTime != null">create_time=#{createTime},</if>
-<if test="updateTime != null">update_time=#{updateTime}</if>
-</set>
+<include refid="setFields" />
 WHERE
 id=#{id}
+</update>
+
+
+<update id="batchUpdate">
+UPDATE
+		vm_movies_tags_realation
+<include refid="setFields" />
+<include refid="queryCondition" />
 </update>
 
 
@@ -114,6 +123,19 @@ id=#{id}
 </if>
 </if>
 </trim>
+</sql>
+
+
+<sql id="setFields">
+<set>
+<trim suffix="" suffixOverrides=",">
+<if test="newObj.movieId != null">movie_id=#{newObj.movieId},</if>
+<if test="newObj.tagId != null">tag_id=#{newObj.tagId},</if>
+<if test="newObj.status != null">status=#{newObj.status},</if>
+<if test="newObj.createTime != null">create_time=#{newObj.createTime},</if>
+<if test="newObj.updateTime != null">update_time=#{newObj.updateTime}</if>
+</trim>
+</set>
 </sql>
 
 

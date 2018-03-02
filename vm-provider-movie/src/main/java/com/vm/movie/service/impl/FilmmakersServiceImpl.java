@@ -75,7 +75,7 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
     public VmFilmmakersDto getFilmmakerBasicInfo(Long filmmakerId) throws Exception {
 
         VmFilmmakers filmmaker = vmFilmmakersMapper.select(filmmakerId);
-        if (filmmaker != null && BasePo.Status.isDeleted(filmmaker.getStatus())) {
+        if (filmmaker != null && BasePo.IsDeleted.isDeleted(filmmaker.getIsDeleted())) {
             return null;
         }
         return makeBasicFilmmakerDto(filmmaker);

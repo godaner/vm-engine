@@ -101,7 +101,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     private VmMovies validateMovie(Long movieId) {
         //获取电影
         VmMovies vmMovies = vmMoviesMapper.select(movieId);
-        if (vmMovies == null || BasePo.Status.isDeleted(vmMovies.getStatus())) {
+        if (vmMovies == null || BasePo.IsDeleted.isDeleted(vmMovies.getIsDeleted())) {
             return null;
         } else {
             return vmMovies;

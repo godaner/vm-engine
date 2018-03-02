@@ -101,7 +101,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         //获取指定id的user
         VmUsers dbUser = vmUsersMapper.select(userId);
 
-        if (isNullObject(dbUser) || VmUsers.Status.isDeleted(dbUser.getStatus())) {
+        if (isNullObject(dbUser) || VmUsers.IsDeleted.isDeleted(dbUser.getIsDeleted())) {
             throw new VmUsersException("getUserBasicInfo user is not exits! userId is : " + userId,
                     VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
@@ -117,13 +117,13 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         //user是否存在
         VmUsers dbUser = vmUsersMapper.select(user.getId());
 
-        if (isNullObject(dbUser) || VmUsers.Status.isDeleted(dbUser.getStatus())) {
+        if (isNullObject(dbUser) || VmUsers.IsDeleted.isDeleted(dbUser.getIsDeleted())) {
             throw new VmUsersException("updateOnlineUserBasicInfo dbUser is not exits ! user is : " + user,
                     VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 
 
-        vmUsersMapper.update(makeUpdateOnlineVmUsers(user));
+        vmUsersMapper.update(user.getId(),makeUpdateOnlineVmUsers(user));
 
         return makeVmUsersDto(vmUsersMapper.select(user.getId()));
     }
@@ -247,12 +247,12 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         VmUsers vmUsers = new VmUsers();
         vmUsers.setId(onlineUserId);
         vmUsers.setImgUrl(imgUrl);
-        vmUsersMapper.update(vmUsers);
+        vmUsersMapper.update(vmUsers.getId(),vmUsers);
 
 
         //get new user
         vmUsers = vmUsersMapper.select(onlineUserId);
-        vmUsers = (vmUsers == null || BasePo.Status.isDeleted(vmUsers.getStatus())) ? null : vmUsers;
+        vmUsers = (vmUsers == null || BasePo.IsDeleted.isDeleted(vmUsers.getIsDeleted())) ? null : vmUsers;
 
         return vmUsers == null ? null : makeVmUsersDto(vmUsers);
 
