@@ -214,9 +214,8 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         }
         int ij = vmFilesMapper.batchInsert(files);
 
-        vmFilesMapper.update(ImmutableMap.of(
-                "filename","0",
-                "id",412
+        vmFilesMapper.update(412l,ImmutableMap.of(
+                "filename","0"
         ));
 
         vmFilesMapper.batchUpdate(ImmutableMap.of(

@@ -147,14 +147,14 @@ UPDATE
 <sql id="setFields">
 <set>
 <trim suffix="" suffixOverrides=",">
-<if test="filename != null">filename=#{filename},</if>
-<if test="originalName != null">original_name=#{originalName},</if>
-<if test="fileSize != null">file_size=#{fileSize},</if>
-<if test="isDeleted != null">is_deleted=#{isDeleted},</if>
-<if test="status != null">status=#{status},</if>
-<if test="createTime != null">create_time=#{createTime},</if>
-<if test="updateTime != null">update_time=#{updateTime},</if>
-<if test="contentType != null">content_type=#{contentType}</if>
+<if test="newObj.filename != null">filename=#{newObj.filename},</if>
+<if test="newObj.originalName != null">original_name=#{newObj.originalName},</if>
+<if test="newObj.fileSize != null">file_size=#{newObj.fileSize},</if>
+<if test="newObj.isDeleted != null">is_deleted=#{newObj.isDeleted},</if>
+<if test="newObj.status != null">status=#{newObj.status},</if>
+<if test="newObj.createTime != null">create_time=#{newObj.createTime},</if>
+<if test="newObj.updateTime != null">update_time=#{newObj.updateTime},</if>
+<if test="newObj.contentType != null">content_type=#{newObj.contentType}</if>
 </trim>
 </set>
 </sql>
