@@ -5,13 +5,14 @@
 <mapper namespace="com.vm.movie.dao.mapper.VmMoviesSrcVersionMapper">
 <resultMap type="com.vm.movie.dao.po.VmMoviesSrcVersion"  id="VmMoviesSrcVersionMap">
   <id column="id" property="id"/>
-  <result column="status" property="status"/>
   <result column="create_time" property="createTime"/>
   <result column="update_time" property="updateTime"/>
   <result column="sharpness" property="sharpness"/>
   <result column="movie_id" property="movieId"/>
   <result column="weight" property="weight"/>
   <result column="src_url" property="srcUrl"/>
+  <result column="is_deleted" property="isDeleted"/>
+  <result column="status" property="status"/>
 </resultMap>
 
     <sql id="BASE_ALL_CLOUM">
@@ -20,13 +21,14 @@
     </sql>
 
 	<sql id="BASE_COLUM_WITHOUT_ID">
-		status,
 		create_time,
 		update_time,
 		sharpness,
 		movie_id,
 		weight,
-		src_url
+		src_url,
+		is_deleted,
+		status
 	</sql>
 
 
@@ -44,13 +46,14 @@
         <include refid="BASE_COLUM_WITHOUT_ID"/>
         )
         VALUES (
-#{status},
 #{createTime},
 #{updateTime},
 #{sharpness},
 #{movieId},
 #{weight},
-#{srcUrl}
+#{srcUrl},
+#{isDeleted},
+#{status}
        )
 				 </insert>
 
@@ -112,9 +115,6 @@ UPDATE
 <sql id="queryCondition">
 <trim prefix="where" prefixOverrides="and">
 <if test="query != null">
-<if test="query.status != null ">
-		and status=#{query.status}
-</if>
 <if test="query.createTime != null ">
 		and create_time=#{query.createTime}
 </if>
@@ -133,6 +133,12 @@ UPDATE
 <if test="query.srcUrl != null ">
 		and src_url=#{query.srcUrl}
 </if>
+<if test="query.isDeleted != null ">
+		and is_deleted=#{query.isDeleted}
+</if>
+<if test="query.status != null ">
+		and status=#{query.status}
+</if>
 </if>
 </trim>
 </sql>
@@ -141,13 +147,14 @@ UPDATE
 <sql id="setFields">
 <set>
 <trim suffix="" suffixOverrides=",">
-<if test="newObj.status != null">status=#{newObj.status},</if>
 <if test="newObj.createTime != null">create_time=#{newObj.createTime},</if>
 <if test="newObj.updateTime != null">update_time=#{newObj.updateTime},</if>
 <if test="newObj.sharpness != null">sharpness=#{newObj.sharpness},</if>
 <if test="newObj.movieId != null">movie_id=#{newObj.movieId},</if>
 <if test="newObj.weight != null">weight=#{newObj.weight},</if>
-<if test="newObj.srcUrl != null">src_url=#{newObj.srcUrl}</if>
+<if test="newObj.srcUrl != null">src_url=#{newObj.srcUrl},</if>
+<if test="newObj.isDeleted != null">is_deleted=#{newObj.isDeleted},</if>
+<if test="newObj.status != null">status=#{newObj.status}</if>
 </trim>
 </set>
 </sql>
@@ -159,13 +166,14 @@ UPDATE
 )        VALUES 
    <foreach collection ="list" item ="item" index ="index" separator =","> 
 (
-#{item.status},
 #{item.createTime},
 #{item.updateTime},
 #{item.sharpness},
 #{item.movieId},
 #{item.weight},
-#{item.srcUrl}
+#{item.srcUrl},
+#{item.isDeleted},
+#{item.status}
 )
 </foreach> 
 </insert>

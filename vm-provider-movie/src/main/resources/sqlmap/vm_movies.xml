@@ -15,9 +15,10 @@
   <result column="movie_time" property="movieTime"/>
   <result column="poster_url" property="posterUrl"/>
   <result column="img_url" property="imgUrl"/>
-  <result column="status" property="status"/>
   <result column="create_time" property="createTime"/>
   <result column="update_time" property="updateTime"/>
+  <result column="is_deleted" property="isDeleted"/>
+  <result column="status" property="status"/>
 </resultMap>
 
     <sql id="BASE_ALL_CLOUM">
@@ -36,9 +37,10 @@
 		movie_time,
 		poster_url,
 		img_url,
-		status,
 		create_time,
-		update_time
+		update_time,
+		is_deleted,
+		status
 	</sql>
 
 
@@ -66,9 +68,10 @@
 #{movieTime},
 #{posterUrl},
 #{imgUrl},
-#{status},
 #{createTime},
-#{updateTime}
+#{updateTime},
+#{isDeleted},
+#{status}
        )
 				 </insert>
 
@@ -160,14 +163,17 @@ UPDATE
 <if test="query.imgUrl != null ">
 		and img_url=#{query.imgUrl}
 </if>
-<if test="query.status != null ">
-		and status=#{query.status}
-</if>
 <if test="query.createTime != null ">
 		and create_time=#{query.createTime}
 </if>
 <if test="query.updateTime != null ">
 		and update_time=#{query.updateTime}
+</if>
+<if test="query.isDeleted != null ">
+		and is_deleted=#{query.isDeleted}
+</if>
+<if test="query.status != null ">
+		and status=#{query.status}
 </if>
 </if>
 </trim>
@@ -187,9 +193,10 @@ UPDATE
 <if test="newObj.movieTime != null">movie_time=#{newObj.movieTime},</if>
 <if test="newObj.posterUrl != null">poster_url=#{newObj.posterUrl},</if>
 <if test="newObj.imgUrl != null">img_url=#{newObj.imgUrl},</if>
-<if test="newObj.status != null">status=#{newObj.status},</if>
 <if test="newObj.createTime != null">create_time=#{newObj.createTime},</if>
-<if test="newObj.updateTime != null">update_time=#{newObj.updateTime}</if>
+<if test="newObj.updateTime != null">update_time=#{newObj.updateTime},</if>
+<if test="newObj.isDeleted != null">is_deleted=#{newObj.isDeleted},</if>
+<if test="newObj.status != null">status=#{newObj.status}</if>
 </trim>
 </set>
 </sql>
@@ -211,9 +218,10 @@ UPDATE
 #{item.movieTime},
 #{item.posterUrl},
 #{item.imgUrl},
-#{item.status},
 #{item.createTime},
-#{item.updateTime}
+#{item.updateTime},
+#{item.isDeleted},
+#{item.status}
 )
 </foreach> 
 </insert>

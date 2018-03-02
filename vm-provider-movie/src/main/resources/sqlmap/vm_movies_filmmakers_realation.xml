@@ -7,9 +7,10 @@
   <id column="id" property="id"/>
   <result column="movie_id" property="movieId"/>
   <result column="filmmaker_id" property="filmmakerId"/>
-  <result column="status" property="status"/>
   <result column="create_time" property="createTime"/>
   <result column="update_time" property="updateTime"/>
+  <result column="is_deleted" property="isDeleted"/>
+  <result column="status" property="status"/>
 </resultMap>
 
     <sql id="BASE_ALL_CLOUM">
@@ -20,9 +21,10 @@
 	<sql id="BASE_COLUM_WITHOUT_ID">
 		movie_id,
 		filmmaker_id,
-		status,
 		create_time,
-		update_time
+		update_time,
+		is_deleted,
+		status
 	</sql>
 
 
@@ -42,9 +44,10 @@
         VALUES (
 #{movieId},
 #{filmmakerId},
-#{status},
 #{createTime},
-#{updateTime}
+#{updateTime},
+#{isDeleted},
+#{status}
        )
 				 </insert>
 
@@ -112,14 +115,17 @@ UPDATE
 <if test="query.filmmakerId != null ">
 		and filmmaker_id=#{query.filmmakerId}
 </if>
-<if test="query.status != null ">
-		and status=#{query.status}
-</if>
 <if test="query.createTime != null ">
 		and create_time=#{query.createTime}
 </if>
 <if test="query.updateTime != null ">
 		and update_time=#{query.updateTime}
+</if>
+<if test="query.isDeleted != null ">
+		and is_deleted=#{query.isDeleted}
+</if>
+<if test="query.status != null ">
+		and status=#{query.status}
 </if>
 </if>
 </trim>
@@ -131,9 +137,10 @@ UPDATE
 <trim suffix="" suffixOverrides=",">
 <if test="newObj.movieId != null">movie_id=#{newObj.movieId},</if>
 <if test="newObj.filmmakerId != null">filmmaker_id=#{newObj.filmmakerId},</if>
-<if test="newObj.status != null">status=#{newObj.status},</if>
 <if test="newObj.createTime != null">create_time=#{newObj.createTime},</if>
-<if test="newObj.updateTime != null">update_time=#{newObj.updateTime}</if>
+<if test="newObj.updateTime != null">update_time=#{newObj.updateTime},</if>
+<if test="newObj.isDeleted != null">is_deleted=#{newObj.isDeleted},</if>
+<if test="newObj.status != null">status=#{newObj.status}</if>
 </trim>
 </set>
 </sql>
@@ -147,9 +154,10 @@ UPDATE
 (
 #{item.movieId},
 #{item.filmmakerId},
-#{item.status},
 #{item.createTime},
-#{item.updateTime}
+#{item.updateTime},
+#{item.isDeleted},
+#{item.status}
 )
 </foreach> 
 </insert>

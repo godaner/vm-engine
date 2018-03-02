@@ -8,9 +8,10 @@
   <result column="code" property="code"/>
   <result column="name_chinese" property="nameChinese"/>
   <result column="name_english" property="nameEnglish"/>
-  <result column="status" property="status"/>
   <result column="create_time" property="createTime"/>
   <result column="update_time" property="updateTime"/>
+  <result column="is_deleted" property="isDeleted"/>
+  <result column="status" property="status"/>
 </resultMap>
 
     <sql id="BASE_ALL_CLOUM">
@@ -22,9 +23,10 @@
 		code,
 		name_chinese,
 		name_english,
-		status,
 		create_time,
-		update_time
+		update_time,
+		is_deleted,
+		status
 	</sql>
 
 
@@ -45,9 +47,10 @@
 #{code},
 #{nameChinese},
 #{nameEnglish},
-#{status},
 #{createTime},
-#{updateTime}
+#{updateTime},
+#{isDeleted},
+#{status}
        )
 				 </insert>
 
@@ -118,14 +121,17 @@ UPDATE
 <if test="query.nameEnglish != null ">
 		and name_english=#{query.nameEnglish}
 </if>
-<if test="query.status != null ">
-		and status=#{query.status}
-</if>
 <if test="query.createTime != null ">
 		and create_time=#{query.createTime}
 </if>
 <if test="query.updateTime != null ">
 		and update_time=#{query.updateTime}
+</if>
+<if test="query.isDeleted != null ">
+		and is_deleted=#{query.isDeleted}
+</if>
+<if test="query.status != null ">
+		and status=#{query.status}
 </if>
 </if>
 </trim>
@@ -138,9 +144,10 @@ UPDATE
 <if test="newObj.code != null">code=#{newObj.code},</if>
 <if test="newObj.nameChinese != null">name_chinese=#{newObj.nameChinese},</if>
 <if test="newObj.nameEnglish != null">name_english=#{newObj.nameEnglish},</if>
-<if test="newObj.status != null">status=#{newObj.status},</if>
 <if test="newObj.createTime != null">create_time=#{newObj.createTime},</if>
-<if test="newObj.updateTime != null">update_time=#{newObj.updateTime}</if>
+<if test="newObj.updateTime != null">update_time=#{newObj.updateTime},</if>
+<if test="newObj.isDeleted != null">is_deleted=#{newObj.isDeleted},</if>
+<if test="newObj.status != null">status=#{newObj.status}</if>
 </trim>
 </set>
 </sql>
@@ -155,9 +162,10 @@ UPDATE
 #{item.code},
 #{item.nameChinese},
 #{item.nameEnglish},
-#{item.status},
 #{item.createTime},
-#{item.updateTime}
+#{item.updateTime},
+#{item.isDeleted},
+#{item.status}
 )
 </foreach> 
 </insert>
