@@ -10,9 +10,9 @@ public interface BaseCrudMapper<T> {
 
     Integer batchInsert(List<T> list);
 
-    int batchUpdate(@Param("query") Object query, @Param("newObj") Object newObj);
+    int batchUpdate(@Param("query") Object query, Object newObj);
 
-    int update(@Param("newObj") Object newObj);
+    int update(Object newObj);
 
     int delete(Object id);
 

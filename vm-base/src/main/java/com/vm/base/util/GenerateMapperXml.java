@@ -480,8 +480,8 @@ public class GenerateMapperXml {
                 if ("id".equals(column)) {
                     continue;
                 }
-                buffer.append("<if test=\"newObj." + convertColumnToFiledName(column) + " != null\">");
-                buffer.append(column + "=#{newObj."
+                buffer.append("<if test=\"" + convertColumnToFiledName(column) + " != null\">");
+                buffer.append(column + "=#{"
                         + convertColumnToFiledName(column) + "}"
                         + (index < count ? "," : ""));
                 buffer.append("</if>\n");
