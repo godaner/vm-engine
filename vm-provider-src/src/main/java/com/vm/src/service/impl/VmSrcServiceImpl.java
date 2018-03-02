@@ -69,48 +69,48 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
 
     @Override
     public void sendImgSrc(VmFilesDto vmFilesDto, HttpServletResponse response) {
+        Long fileId = vmFilesDto.getFileId();
+        Integer width = vmFilesDto.getWidth();
+        //获取图片id信息
+        VmFiles file = vmFilesMapper.select(fileId);
+        String imgPath = vmConfig.getSrcImgPath();
+        String imgName = null;
+        String contentType = "image/png";
+        File f = null;
+        String imgPathName = null;
+        if (null == file) {//if db have not this file record
+            imgPathName = imgPath + vmConfig.getSrcImgDefault();
+            sendFileToHttpResponse(imgPathName,contentType,response);
+            return;
+        }
+        imgName = file.getFilename();
+        contentType = file.getContentType();
+        if(null ==width){
+            imgPathName = imgPath + imgName;
+            sendFileToHttpResponse(imgPathName,contentType,response);
+            return;
+        }
+        imgPathName = imgPath + File.separator + width + "_" + imgName;
+        sendFileToHttpResponse(imgPathName,contentType,response);
+
+    }
+
+    private void sendFileToHttpResponse(String filePathName, String contentType, HttpServletResponse httpServletResponse) {
+
         FileInputStream input = null;
         ServletOutputStream output = null;
         try {
-            Long fileId = vmFilesDto.getFileId();
-            Integer width = vmFilesDto.getWidth();
-            //获取图片id信息
-            VmFiles file = vmFilesMapper.select(fileId);
-            String imgPath = vmConfig.getSrcImgPath();
-            String imgName = null;
-//            String contentType = null;
-            File f = null;
-            String imgPathName = null;
-            if (null == file || null == width) {//if db have not this file record
-                imgPathName = imgPath + vmConfig.getSrcImgDefault();
-            } else {
-//                contentType = file.getContentType();
-                imgName = file.getFilename();
-                imgPathName = imgPath + File.separator + width + "_" + imgName;
-
-            }
-            //img path name
-//            String imgPathName = imgPath + File.separator + width + "_" + imgName;
-//            if(null == width){
-//                imgPathName = imgPath + File.separator +  imgName;
-//            }
-
-            f = new File(imgPathName);
-            // not exits
-            if (!f.exists()) {
-                f = new File(imgPath + vmConfig.getSrcImgDefault());
-            }
-            input = new FileInputStream(f);
-            output = response.getOutputStream();
+            input = new FileInputStream(filePathName);
+            output = httpServletResponse.getOutputStream();
             //设置响应的媒体类型
-// ");
-//            response.setContentType(contentType); // 设置返回的文件类型
+            httpServletResponse.setContentType(contentType); // 设置返回的文件类型
             IOUtils.copy(input, output);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             closeStream(input, output);
         }
+
     }
 
     @Override
