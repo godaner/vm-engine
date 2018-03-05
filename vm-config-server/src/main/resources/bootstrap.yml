@@ -14,7 +14,10 @@ spring:
           basedir:
             target/config  #git的配置文件会加载到本地的目录
     #label: master
-
+#springboot 1.5.X 以上默认开通了安全认证，所以需要在配置文件application.properties添加以下配置，以post请求的方式来访问http://localhost:8081/refresh 就会更新修改后的配置文件
+management:
+  security:
+    enabled: false
 
 server:
   port: 0
