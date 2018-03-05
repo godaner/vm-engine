@@ -5,7 +5,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/godaner/vm-config.git
+          uri: https://github.com/godaner/vm-config/
           searchPaths: config
           username:
           password:
