@@ -4,7 +4,7 @@ spring:
     name: vm-provider-src
   cloud:
     config:
-      label: dev #branch
+      label: master #branch
       profile: dev
       discovery:
         enabled: true

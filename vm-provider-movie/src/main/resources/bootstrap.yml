@@ -4,8 +4,8 @@ spring:
     name: vm-provider-movie
   cloud:
     config:
-      label: dev #branch
-      profile: @profileActive@
+      label: master #branch
+      profile: dev
       discovery:
         enabled: true
         serviceId: vm-config-server

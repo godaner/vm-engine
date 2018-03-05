@@ -11,11 +11,11 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>vm-base</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.vm</groupId>-->
+            <!--<artifactId>vm-base</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
 
         <!--config start-->
         <dependency>

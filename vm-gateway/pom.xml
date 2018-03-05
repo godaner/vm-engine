@@ -8,16 +8,16 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>vm-gateway</artifactId>
     <dependencies>
-        <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>vm-base</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!--config start-->
         <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-config</artifactId>-->
+            <!--<groupId>com.vm</groupId>-->
+            <!--<artifactId>vm-base</artifactId>-->
+            <!--<version>${project.version}</version>-->
         <!--</dependency>-->
+        <!--config start-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
         <!--config end-->
 
         <!--zuul start-->
