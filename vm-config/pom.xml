@@ -11,6 +11,10 @@
     <dependencies>
 
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-server</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.vm</groupId>
             <artifactId>vm-base</artifactId>
             <version>${project.version}</version>
@@ -21,15 +25,11 @@
         <!--<version>${project.version}</version>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>com.vm</groupId>-->
-            <!--<artifactId>vm-redis</artifactId>-->
-            <!--<version>${project.version}</version>-->
+        <!--<groupId>com.vm</groupId>-->
+        <!--<artifactId>vm-redis</artifactId>-->
+        <!--<version>${project.version}</version>-->
         <!--</dependency>-->
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-config-server</artifactId>
-        </dependency>
 
 
         <!--eureka start-->
