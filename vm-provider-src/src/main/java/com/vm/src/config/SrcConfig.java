@@ -25,16 +25,6 @@ public class SrcConfig {
     private String srcVideoDefault;
     @Value("${vm.src.video.url}")
     private String srcVideoUrl;
-    @Value("${vm.src.img.versions}")
-    private String srcImgVersions;
-
-    public String getSrcImgVersions() {
-        return srcImgVersions;
-    }
-
-    public void setSrcImgVersions(String srcImgVersions) {
-        this.srcImgVersions = srcImgVersions;
-    }
 
     public String getSrcImgAllowSuffix() {
         return srcImgAllowSuffix;

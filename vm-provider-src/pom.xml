@@ -16,9 +16,9 @@
             <version>${project.version}</version>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>com.vm</groupId>-->
-            <!--<artifactId>vm-dao</artifactId>-->
-            <!--<version>${project.version}</version>-->
+        <!--<groupId>com.vm</groupId>-->
+        <!--<artifactId>vm-dao</artifactId>-->
+        <!--<version>${project.version}</version>-->
         <!--</dependency>-->
         <dependency>
             <groupId>com.vm</groupId>
@@ -72,6 +72,7 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 

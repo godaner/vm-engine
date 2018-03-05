@@ -1,14 +1,18 @@
 spring:
   application:
     name: vm-config-server
+  profiles:
+    active: git
   cloud:
     config:
       server:
         git:
-          uri: https://github.com/godaner/vm-config/
+          uri: https://github.com/godaner/vm-config.git
           searchPaths: config
-          username:
-          password:
+          username: godaner
+          password: Zk19951217.
+          basedir:
+            target/config  #git的配置文件会加载到本地的目录
     #label: master
 
 

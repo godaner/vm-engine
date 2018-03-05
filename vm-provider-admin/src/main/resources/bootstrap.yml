@@ -2,14 +2,6 @@
 spring:
   application:
     name: vm-provider-admin
-  cloud:
-    config:
-      label: master #branch
-      profile: dev
-      discovery:
-        enabled: true
-        serviceId: vm-config-server
-
 
 
 server:
@@ -17,7 +9,13 @@ server:
 ---
 spring:
   profiles: dev
-
+  cloud:
+    config:
+      label: master #branch
+      profile: dev
+      discovery:
+        enabled: true
+        serviceId: vm-config-server
 eureka:
   client:
       #eureka client刷新本地缓存时间
@@ -46,7 +44,13 @@ eureka:
 ---
 spring:
   profiles: prod
-
+  cloud:
+    config:
+      label: master #branch
+      profile: dev
+      discovery:
+        enabled: true
+        serviceId: vm-config-server
 eureka:
   client:
       #eureka client刷新本地缓存时间

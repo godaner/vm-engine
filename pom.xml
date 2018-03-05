@@ -169,6 +169,7 @@
             <!--thymeleaf不严格检查html end-->
         </dependencies>
     </dependencyManagement>
+
     <!--<profiles>-->
         <!--<profile>-->
             <!--<id>dev</id>-->
@@ -192,5 +193,32 @@
             <!--</properties>-->
         <!--</profile>-->
     <!--</profiles>-->
+    <!--<profiles>-->
+        <!--<profile>-->
+            <!--<id>dev</id>-->
+            <!--<activation>-->
+                <!--<activeByDefault>true</activeByDefault>-->
+            <!--</activation>-->
+            <!--<properties>-->
+                <!--<spring.cloud.config.label>master</spring.cloud.config.label>-->
+                <!--<spring.cloud.config.profile>dev</spring.cloud.config.profile>-->
+                <!--<eureka.client.registry-fetch-interval-seconds>5</eureka.client.registry-fetch-interval-seconds>-->
+                <!--<eureka.client.registerWithEureka>true</eureka.client.registerWithEureka>-->
+                <!--<eureka.client.fetchRegistry>true</eureka.client.fetchRegistry>-->
+                <!--<eureka.client.instance-info-replication-interval-seconds>15</eureka.client.instance-info-replication-interval-seconds>-->
+                <!--<eureka.client.eureka-service-url-poll-interval-seconds>20</eureka.client.eureka-service-url-poll-interval-seconds>-->
+                <!--<eureka.client.initial-instance-info-replication-interval-seconds>150</eureka.client.initial-instance-info-replication-interval-seconds>-->
+                <!--<eureka.client.service-url.defaultZone>http://server01:1111/eureka/,http://server02:1112/eureka/</eureka.client.service-url.defaultZone>-->
+                <!--<eureka.instance.lease-expiration-duration-in-seconds>5</eureka.instance.lease-expiration-duration-in-seconds>-->
+                <!--<eureka.instance.lease-renewal-interval-in-seconds>5</eureka.instance.lease-renewal-interval-in-seconds>-->
 
+            <!--</properties>-->
+        <!--</profile>-->
+        <!--<profile>-->
+            <!--<id>prod</id>-->
+            <!--<properties>-->
+                <!--<profileActive>prod</profileActive>-->
+            <!--</properties>-->
+        <!--</profile>-->
+    <!--</profiles>-->
 </project>

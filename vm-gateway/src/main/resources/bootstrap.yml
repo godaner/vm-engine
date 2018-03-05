@@ -3,10 +3,10 @@ spring:
   application:
     name: vm-gateway
 
-# gateway profiles,gateway00为测试环境，gateway01-s0n为正式环境
+# gateway profiles,devxx为测试环境，prodxx为正式环境
 ---
 spring:
-  profiles: gateway00
+  profiles: dev00
   cloud:
     config:
       label: master #branch

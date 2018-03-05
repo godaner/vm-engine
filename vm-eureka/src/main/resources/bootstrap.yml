@@ -3,10 +3,10 @@ spring:
   application:
     name: vm-eureka
 
-# eureka profiles,eureka00为测试环境，eureka01-eureka0n为正式环境
+# eureka profiles,devxx为测试环境，prodxx为正式环境
 ---
 spring:
-  profiles: eureka00
+  profiles: dev00
 server:
   port: 1111
 #eureka:
@@ -51,7 +51,7 @@ eureka:
 
 ---
 spring:
-  profiles: eureka01
+  profiles: prod00
 server:
   port: 1111
 #eureka:
@@ -96,7 +96,7 @@ eureka:
 
 ---
 spring:
-  profiles: eureka02
+  profiles: prod01
 server:
   port: 1112
 #eureka:
