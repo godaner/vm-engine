@@ -54,7 +54,11 @@ public class ApplicationRefreshedListener implements ApplicationListener<Context
     private void checkAndCreateDir(String dirPath) {
         File dir = new File(dirPath);
         if (!dir.exists()) {
+            logger.info("ApplicationRefreshedListener {} is creating !!",dirPath);
             dir.mkdirs();
+            logger.info("ApplicationRefreshedListener {} is created !!",dirPath);
+        }else{
+            logger.info("ApplicationRefreshedListener {} is exits !!",dirPath);
         }
     }
 

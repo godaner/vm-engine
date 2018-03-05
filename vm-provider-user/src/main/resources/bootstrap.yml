@@ -46,7 +46,7 @@ spring:
   cloud:
     config:
       label: master #branch
-      profile: dev
+      profile: prod
       discovery:
         enabled: true
         serviceId: vm-config-server

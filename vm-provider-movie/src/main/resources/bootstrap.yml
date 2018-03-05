@@ -2,6 +2,13 @@
 spring:
   application:
     name: vm-provider-movie
+
+
+server:
+  port: 0
+---
+spring:
+  profiles: dev
   cloud:
     config:
       label: master #branch
@@ -9,13 +16,6 @@ spring:
       discovery:
         enabled: true
         serviceId: vm-config-server
-
-server:
-  port: 0
----
-spring:
-  profiles: dev
-
 
 eureka:
   client:
@@ -46,7 +46,13 @@ server:
 ---
 spring:
   profiles: prod
-
+  cloud:
+    config:
+      label: master #branch
+      profile: prod
+      discovery:
+        enabled: true
+        serviceId: vm-config-server
 
 eureka:
   client:
