@@ -8,7 +8,6 @@
     <version>${project.version}</version>
     <modules>
         <module>vm-base</module>
-        <module>vm-config</module>
         <module>vm-redis</module>
         <module>vm-eureka</module>
         <module>vm-gateway</module>

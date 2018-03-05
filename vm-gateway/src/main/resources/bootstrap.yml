@@ -2,67 +2,11 @@
 spring:
   application:
     name: vm-gateway
-#  cloud:
-#    config:
-#      label: zk_spring_cloud
-#      profile: dev
-#      discovery:
-#        enabled: true
-#        serviceId: vm-config
+  cloud:
+    config:
+      label: dev
+      profile: dev
+      discovery:
+        enabled: true
+        serviceId: vm-config
 #spring.cloud.config.uri= http://localhost:8888/
-
-logging:
-  level:
-    com.netflix: INFO
-zuul:
-  info:
-    request: true
-  host:
-    connect-timeout-millis: 6000000
-    socket-timeout-millis: 6000000
-  routes:
-      user:
-        path: /user/**
-        serviceId: vm-provider-user
-        stripPrefix: false
-      src:
-        path: /src/**
-        serviceId: vm-provider-src
-        stripPrefix: false
-      filmmaker:
-        path: /filmmaker/**
-        serviceId: vm-provider-movie
-        stripPrefix: false
-      movie:
-        path: /movie/**
-        serviceId: vm-provider-movie
-        stripPrefix: false
-      tagGroup:
-        path: /tagGroup/**
-        serviceId: vm-provider-movie
-        stripPrefix: false
-      tag:
-        path: /tag/**
-        serviceId: vm-provider-movie
-        stripPrefix: false
-feign:
-  hystrix:
-    enabled: true
-
-
-ribbon:
-  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
-  ReadTimeout: 6000000
-  ConnectTimeout: 6000000
-  ServerListRefreshInterval: 5000 #eureka客户端ribbon刷新时间,默认30s
-
-
-
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 6000000
-

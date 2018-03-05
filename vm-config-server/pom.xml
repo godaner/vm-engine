@@ -13,7 +13,7 @@
 
         <dependency>
             <groupId>com.vm</groupId>
-            <artifactId>vm-redis</artifactId>
+            <artifactId>vm-base</artifactId>
             <version>${project.version}</version>
         </dependency>
 
