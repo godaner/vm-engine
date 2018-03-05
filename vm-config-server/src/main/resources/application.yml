@@ -9,7 +9,7 @@ spring:
           searchPaths: config
           username:
           password:
-    label: master
+    #label: master
 
 
 server:
