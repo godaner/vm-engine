@@ -15,6 +15,7 @@
         <module>vm-provider-movie</module>
         <module>vm-provider-src</module>
         <module>vm-provider-admin</module>
+        <module>vm-config</module>
     </modules>
 
     <parent>
