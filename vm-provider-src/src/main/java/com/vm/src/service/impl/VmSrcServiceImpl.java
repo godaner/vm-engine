@@ -2,11 +2,11 @@ package com.vm.src.service.impl;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.vm.base.config.VmConfig;
 import com.vm.base.util.BasePo;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.DateUtil;
 import com.vm.base.util.ImageUtil;
+import com.vm.src.config.SrcConfig;
 import com.vm.src.dao.mapper.VmFilesMapper;
 import com.vm.src.dao.po.VmFiles;
 import com.vm.src.service.dto.VmFilesDto;
@@ -30,7 +30,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     @Autowired
     private VmFilesMapper vmFilesMapper;
     @Autowired
-    private VmConfig vmConfig;
+    private SrcConfig srcConfig;
 
     @Override
     public void sendVideoSrc(VmFilesDto vmFilesDto, HttpServletResponse response) {
@@ -40,7 +40,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         OutputStream output = null;
         try {
             VmFiles file = this.getUsableVmFilesById(fileId);
-            String movieSrcPath = vmConfig.getSrcVideoPath();
+            String movieSrcPath = srcConfig.getSrcVideoPath();
 
             String movieSrcName = null;
             String contentType = null;
@@ -51,7 +51,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             File f = new File(movieSrcPath + File.separator + movieSrcName);
             //不存在，返回默认图片
             if (!f.exists()) {
-                movieSrcName = vmConfig.getSrcVideoDefault();
+                movieSrcName = srcConfig.getSrcVideoDefault();
                 f = new File(movieSrcPath + File.separator + movieSrcName);
             }
             input = new FileInputStream(f);
@@ -75,12 +75,12 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         Integer width = vmFilesDto.getWidth();
         //获取图片id信息
         VmFiles file = this.getUsableVmFilesById(fileId);;
-        String imgPath = vmConfig.getSrcImgPath();
+        String imgPath = srcConfig.getSrcImgPath();
         String imgName = null;
         String contentType = "image/png";
         String imgPathName = null;
         if (null == file) {//if db have not this file record
-            imgPathName = imgPath + vmConfig.getSrcImgDefault();
+            imgPathName = imgPath + srcConfig.getSrcImgDefault();
             sendFileToHttpResponse(imgPathName, contentType, response);
             return;
         }
@@ -127,7 +127,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             //uuid
             String uuid = uuid();
             //targetPath
-            String targetPath = vmConfig.getSrcImgPath();
+            String targetPath = srcConfig.getSrcImgPath();
             //contentType
             String contentType = imgFile.getContentType();
             //originalFilename
@@ -173,7 +173,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     public Long cutUploadedImgFile(VmFilesDto vmFilesDto) {
         VmFiles vmFiles = this.getUsableVmFilesById(vmFilesDto.getFileId());
 
-        String filePath = vmConfig.getSrcImgPath();
+        String filePath = srcConfig.getSrcImgPath();
         String fileName = vmFiles.getFilename();
         String filePathName = filePath + fileName;
 

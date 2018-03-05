@@ -4,8 +4,8 @@ package com.vm.user.util;
 import com.google.common.collect.Lists;
 import com.vm.base.util.CommonUtil;
 import com.vm.base.util.DateUtil;
-import com.vm.base.config.VmConfig;
 import com.vm.redis.repository.RedisRepository;
+import com.vm.user.config.UserConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +20,8 @@ import java.io.Serializable;
 public class SessionManager extends CommonUtil {
 
     @Autowired
-    private VmConfig vmConfig;
-    private static VmConfig vmConfigCache;
+    private UserConfig userConfig;
+    private static UserConfig userConfigCache;
 
     private static Long timeout = null;
 
@@ -34,8 +34,8 @@ public class SessionManager extends CommonUtil {
     public void init() {
 
         this.redisRepositoryCache = this.redisRepository;
-        this.vmConfigCache = this.vmConfig;
-        this.timeout = this.vmConfigCache.getUserSessionLifetime();
+        this.userConfigCache = this.userConfig;
+        this.timeout = this.userConfigCache.getUserSessionLifetime();
     }
 
 

@@ -23,3 +23,50 @@ spring:
 logging:
   level:
     com.vm.src.dao.mapper: debug
+
+
+server:
+  port: 0
+
+
+
+vm:
+  src:
+    img:
+      url: /src/img
+      default: default.png
+      maxSize: 2097152
+      allowSuffix: jpg,png
+      path: d:/vm/src/img/
+    video:
+      url: /src/video
+      default: default.mp4
+      path: d:/vm/src/video/
+eureka:
+  client:
+      #eureka client刷新本地缓存时间
+      #默认30s
+      registry-fetch-interval-seconds: 5
+      registerWithEureka: true #实例是否在eureka服务器上注册自己的信息以供其他服务发现，默认为true
+      fetchRegistry: true #此客户端是否获取eureka服务器注册表上的注册信息，默认为true
+      instance-info-replication-interval-seconds: 15 #复制实例变化信息到eureka服务器所需要的时间间隔（s），默认为30秒
+      eureka-service-url-poll-interval-seconds: 20 #最初复制实例信息到eureka服务器所需的时间（s），默认为40秒
+      initial-instance-info-replication-interval-seconds: 150 #询问Eureka服务url信息变化的时间间隔（s），默认为300秒
+      service-url:
+            defaultZone:
+              http://server01:1111/eureka/,http://server02:1112/eureka/
+  instance:
+    #服务过期时间配置,超过这个时间没有接收到心跳EurekaServer就会将这个实例剔除
+    #注意，EurekaServer一定要设置eureka.server.eviction-interval-timer-in-ms否则这个配置无效，这个配置一般为服务刷新时间配置的三倍
+    #默认90s
+    lease-expiration-duration-in-seconds: 5
+    #服务刷新时间配置，每隔这个时间会主动心跳一次
+    #默认30s
+    lease-renewal-interval-in-seconds: 5
+    prefer-ip-address: true #在eureka页面显示ip而不是linux主机名，微服务使用这里展示的进行调用，如果是使用主机名，那么可能无法调用
+    instance-id: ${spring.cloud.client.ipAddress}:${random.int(0,10000)} #实例的id
+
+
+
+
+

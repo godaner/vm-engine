@@ -1,16 +1,14 @@
-package com.vm.base.config;
+package com.vm.src.config;
 
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 /**
  * Created by ZhangKe on 2018/2/28.
  */
 @Component
-public class VmConfig {
+public class SrcConfig {
     @Value("${vm.src.img.allowSuffix}")
     private String srcImgAllowSuffix;
     @Value("${vm.src.img.url}")
@@ -27,8 +25,6 @@ public class VmConfig {
     private String srcVideoDefault;
     @Value("${vm.src.video.url}")
     private String srcVideoUrl;
-    @Value("${vm.user.session.lifetime}")
-    private Long userSessionLifetime;
     @Value("${vm.src.img.versions}")
     private String srcImgVersions;
 
@@ -38,14 +34,6 @@ public class VmConfig {
 
     public void setSrcImgVersions(String srcImgVersions) {
         this.srcImgVersions = srcImgVersions;
-    }
-
-    public Long getUserSessionLifetime() {
-        return userSessionLifetime;
-    }
-
-    public void setUserSessionLifetime(Long userSessionLifetime) {
-        this.userSessionLifetime = userSessionLifetime;
     }
 
     public String getSrcImgAllowSuffix() {

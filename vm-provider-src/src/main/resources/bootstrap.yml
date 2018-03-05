@@ -4,8 +4,8 @@ spring:
     name: vm-provider-src
   cloud:
     config:
-      label: dev
+      label: dev #branch
       profile: dev
       discovery:
         enabled: true
-        serviceId: vm-config
+        serviceId: vm-config-server

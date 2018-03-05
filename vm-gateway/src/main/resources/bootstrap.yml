@@ -4,9 +4,9 @@ spring:
     name: vm-gateway
   cloud:
     config:
-      label: dev
-      profile: dev
+      label: dev #branch
+      profile: @profileActive@
       discovery:
         enabled: true
-        serviceId: vm-config
+        serviceId: vm-config-server
 #spring.cloud.config.uri= http://localhost:8888/

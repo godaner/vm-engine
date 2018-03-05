@@ -1,8 +1,8 @@
 package com.vm.user.service.impl;
 
 import com.google.common.collect.ImmutableMap;
-import com.vm.base.config.VmConfig;
 import com.vm.base.util.*;
+import com.vm.user.config.UserConfig;
 import com.vm.user.dao.mapper.VmUsersMapper;
 import com.vm.user.dao.po.VmUsers;
 import com.vm.user.feign.service.SrcServiceClient;
@@ -28,7 +28,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Autowired
     private SrcServiceClient srcServiceClient;
     @Autowired
-    private VmConfig vmConfig;
+    private UserConfig userConfig;
 
     /**
      * 通过username获取user
@@ -231,7 +231,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Transactional
     public VmUsersDto updateUserHeadImg(Long onlineUserId, UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
         //set versions
-        updateHeadImgInfo.setVersions(vmConfig.getSrcImgVersions());
+        updateHeadImgInfo.setVersions(userConfig.getUserImgVersions());
 
         //feign
         String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
@@ -297,7 +297,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         vmUsers.setCreateTime(DateUtil.unixTime().intValue());
         vmUsers.setStatus(VmUsers.Status.NORMAL.getCode());
         vmUsers.setSex(VmUsers.Sex.UNKNOWN.getCode());
-        vmUsers.setImgUrl(vmConfig.getSrcImgUrl() + "?fileId=" + uuid());//暂时搁置
+        vmUsers.setImgUrl(VmUsers.DEFAULT_IMG_URL);//暂时搁置
         return vmUsers;
     }
 

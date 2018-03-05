@@ -4,8 +4,8 @@ spring:
     name: vm-provider-admin
   cloud:
     config:
-      label: dev
-      profile: dev
+      label: dev #branch
+      profile: @profileActive@
       discovery:
         enabled: true
-        serviceId: vm-config
+        serviceId: vm-config-server

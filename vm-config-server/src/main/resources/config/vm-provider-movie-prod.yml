@@ -3,7 +3,7 @@ spring:
   #db connection
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://120.78.191.94:3306/vm_user?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true&amp;autoReconnect=true
+    url: jdbc:mysql://120.78.191.94:3306/vm_movie?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true&amp;autoReconnect=true
     username: root
     password: 123
     # for initial,min,max
@@ -22,21 +22,10 @@ spring:
 
 logging:
   level:
-    com.vm.user.dao.mapper: debug
-
-
-
+    com.vm.movie.dao.mapper: debug
 
 server:
   port: 0
-
-
-vm:
-  user:
-    session:
-      lifetime: 60000 #秒
-    img:
-      versions: 50,80,300
 
 eureka:
   client:
@@ -61,7 +50,6 @@ eureka:
     lease-renewal-interval-in-seconds: 5
     prefer-ip-address: true #在eureka页面显示ip而不是linux主机名，微服务使用这里展示的进行调用，如果是使用主机名，那么可能无法调用
     instance-id: ${spring.cloud.client.ipAddress}:${random.int(0,10000)} #实例的id
-
 
 
 

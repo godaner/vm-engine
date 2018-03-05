@@ -1,3 +1,4 @@
+
 spring:
   application:
     name: vm-eureka
@@ -14,3 +15,33 @@ eureka:
     #清理无效节点的时间间隔,启用主动失效，并且每次主动失效检测间隔为3s
     #默认为60000ms
     eviction-interval-timer-in-ms: 3000
+#==================== eureka ====================
+
+# eureka profiles,s00为测试环境，s01-s0n为正式环境
+---
+spring:
+  profiles: eureka00
+server:
+  port: 1111
+#eureka:
+#  instance:
+#    hostname: server01 #与此实例相关联的主机名，是其他实例可以用来进行请求的准确名称
+
+---
+spring:
+  profiles: eureka01
+server:
+  port: 1111
+#eureka:
+#  instance:
+#    hostname: server01 #与此实例相关联的主机名，是其他实例可以用来进行请求的准确名称
+
+---
+spring:
+  profiles: eureka02
+server:
+  port: 1112
+#eureka:
+#  instance:
+#    hostname: server02 #与此实例相关联的主机名，是其他实例可以用来进行请求的准确名称
+
