@@ -8,6 +8,7 @@
     <version>${project.version}</version>
     <modules>
         <module>vm-base</module>
+        <module>vm-config</module>
         <module>vm-redis</module>
         <module>vm-eureka</module>
         <module>vm-gateway</module>
@@ -15,7 +16,8 @@
         <module>vm-provider-movie</module>
         <module>vm-provider-src</module>
         <module>vm-provider-admin</module>
-        <module>vm-config</module>
+        <module>config-server</module>
+        <module>vm-config-server</module>
     </modules>
 
     <parent>
@@ -169,28 +171,28 @@
             <!--thymeleaf不严格检查html end-->
         </dependencies>
     </dependencyManagement>
-    <!--<profiles>-->
-        <!--<profile>-->
-            <!--<id>dev</id>-->
-            <!--<activation>-->
-                <!--<activeByDefault>true</activeByDefault>-->
-            <!--</activation>-->
-            <!--<properties>-->
-                <!--<profileActive>dev</profileActive>-->
-            <!--</properties>-->
-        <!--</profile>-->
-        <!--<profile>-->
-            <!--<id>prod</id>-->
-            <!--<properties>-->
-                <!--<profileActive>prod</profileActive>-->
-            <!--</properties>-->
-        <!--</profile>-->
-        <!--<profile>-->
-            <!--<id>bugfix</id>-->
-            <!--<properties>-->
-                <!--<profileActive>bugfix</profileActive>-->
-            <!--</properties>-->
-        <!--</profile>-->
-    <!--</profiles>-->
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <profileActive>dev</profileActive>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profileActive>prod</profileActive>
+            </properties>
+        </profile>
+        <profile>
+            <id>bugfix</id>
+            <properties>
+                <profileActive>bugfix</profileActive>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
