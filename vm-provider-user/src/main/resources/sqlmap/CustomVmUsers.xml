@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vm.user.dao.mapper.custom.CustomVmUsersMapper">
+    <select id="getUserList" resultMap="com.vm.user.dao.mapper.VmUsersMapper.VmUsersMap">
+        SELECT *
+        FROM vm_users
+        where username LIKE concat('%',#{query.keyword},'%')
+        <if test="page.orderBy != null and page.orderType != null">
+            order by ${page.orderBy} ${page.orderType}
+        </if>
+        <if test="page.start != null and page.size != null">
+            limit #{page.start},#{page.size}
+        </if>
+    </select>
+    <select id="getUserListTotal" resultType="long">
+		SELECT count(id)
+		FROM vm_users
+		where username LIKE concat('%',#{query.keyword},'%')
+
+	</select>
+</mapper>

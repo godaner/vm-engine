@@ -1,5 +1,7 @@
 package com.vm.user.controller;
 
+import com.vm.base.util.BaseQueryBean;
+import com.vm.base.util.PageBean;
 import com.vm.base.util.ServiceController;
 import com.vm.user.aop.IgnoreExtendSessionLife;
 import com.vm.user.aop.RequiredLogin;
@@ -11,6 +13,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 /**
  * Created by ZhangKe on 2017/12/28.
@@ -19,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 @Scope("prototype")
 public class VmUsersController extends ServiceController<VmUsersService> {
-
+    /*********************************用户端****************************/
 
     @RequestMapping(value = "/login", method = RequestMethod.PUT)
     @ResponseBody
@@ -46,6 +50,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
     /**
      * 试探用户是否在线;在线返回user，不在线抛出异常；未登录可以访问
+     *
      * @param onlineUser
      * @return
      * @throws Exception
@@ -59,11 +64,12 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         if (onlineUser == null || onlineUser.getId() == null) {
             online = false;
         }
-        return response.putData("online", online).putData("user",onlineUser);
+        return response.putData("online", online).putData("user", onlineUser);
     }
 
     /**
      * 客户端获取在线用户；未登录不能访问
+     *
      * @param onlineUser
      * @return
      * @throws Exception
@@ -180,5 +186,15 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 //
 //        return response;
 //    }
+
+    /*********************************管理端****************************/
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public Object userList(BaseQueryBean query, PageBean page) throws Exception {
+
+        List<VmUsersDto> list = service.userList(query, page);
+        Long total = service.userListTotal(query, page);
+        return response.putData("list", list).putData("total", total);
+    }
 }
 

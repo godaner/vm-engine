@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.vm.base.util.*;
 import com.vm.user.config.UserConfig;
 import com.vm.user.dao.mapper.VmUsersMapper;
+import com.vm.user.dao.mapper.custom.CustomVmUsersMapper;
 import com.vm.user.dao.po.VmUsers;
 import com.vm.user.feign.service.SrcServiceClient;
 import com.vm.user.service.dto.UpdateHeadImgInfo;
@@ -16,6 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by ZhangKe on 2017/12/28.
@@ -24,6 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Autowired
     private VmUsersMapper vmUsersMapper;
+    @Autowired
+    private CustomVmUsersMapper customVmUsersMapper;
 
     @Autowired
     private SrcServiceClient srcServiceClient;
@@ -287,6 +293,33 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         VmUsersDto dbUser = makeVmUsersDto(vmUsers, token);
 
         return dbUser;
+    }
+
+    @Override
+    public List<VmUsersDto> userList(BaseQueryBean query, PageBean page) {
+        return customVmUsersMapper.getUserList(query, page).stream().parallel().map(vmUsers -> {
+            return makeBackendVmUsersDto(vmUsers);
+        }).collect(toList());
+    }
+
+    private VmUsersDto makeBackendVmUsersDto(VmUsers vmUsers) {
+        VmUsersDto vmUsersDto = new VmUsersDto();
+        vmUsersDto.setUsername(vmUsers.getUsername());
+        vmUsersDto.setId(vmUsers.getId());
+        vmUsersDto.setBirthday(vmUsers.getBirthday());
+        vmUsersDto.setDescription(vmUsers.getDescription());
+        vmUsersDto.setSex(vmUsers.getSex());
+        vmUsersDto.setImgUrl(vmUsers.getImgUrl());
+        vmUsersDto.setPassword(vmUsers.getPassword());
+        vmUsersDto.setCreateTime(vmUsers.getCreateTime());
+        vmUsersDto.setUpdateTime(vmUsers.getUpdateTime());
+        vmUsersDto.setStatus(vmUsers.getStatus());
+        return vmUsersDto;
+    }
+
+    @Override
+    public Long userListTotal(BaseQueryBean query, PageBean page) {
+        return customVmUsersMapper.getUserListTotal(query, page);
     }
 
     private VmUsers makeRegistVmUserPo(VmUsersDto user) {
