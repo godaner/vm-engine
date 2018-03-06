@@ -3,6 +3,7 @@ package com.vm.user.service.inf;
 
 import com.vm.base.util.BaseQueryBean;
 import com.vm.base.util.PageBean;
+import com.vm.user.dao.qo.VmUserQueryBean;
 import com.vm.user.service.dto.UpdateHeadImgInfo;
 import com.vm.user.service.dto.VmUsersDto;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,7 +35,7 @@ public interface VmUsersService {
 
     VmUsersDto getOnlineUser(String token) throws Exception;
 
-    List<VmUsersDto> userList(BaseQueryBean query, PageBean page);
+    List<VmUsersDto> userList(VmUserQueryBean query, PageBean page);
 
-    Long userListTotal(BaseQueryBean query, PageBean page);
+    Long userListTotal(VmUserQueryBean query, PageBean page);
 }

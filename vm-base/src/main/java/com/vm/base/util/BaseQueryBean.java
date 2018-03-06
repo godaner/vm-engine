@@ -6,6 +6,15 @@ package com.vm.base.util;
  */
 public class BaseQueryBean {
     private String keyword;
+    private Byte isDeleted = BasePo.IsDeleted.NO.getCode();
+
+    public Byte getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Byte isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 
     public String getKeyword() {
         return keyword;

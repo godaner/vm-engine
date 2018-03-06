@@ -6,6 +6,7 @@ import com.vm.user.config.UserConfig;
 import com.vm.user.dao.mapper.VmUsersMapper;
 import com.vm.user.dao.mapper.custom.CustomVmUsersMapper;
 import com.vm.user.dao.po.VmUsers;
+import com.vm.user.dao.qo.VmUserQueryBean;
 import com.vm.user.feign.service.SrcServiceClient;
 import com.vm.user.service.dto.UpdateHeadImgInfo;
 import com.vm.user.service.dto.VmUsersDto;
@@ -296,7 +297,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     }
 
     @Override
-    public List<VmUsersDto> userList(BaseQueryBean query, PageBean page) {
+    public List<VmUsersDto> userList(VmUserQueryBean query, PageBean page) {
         return customVmUsersMapper.getUserList(query, page).stream().parallel().map(vmUsers -> {
             return makeBackendVmUsersDto(vmUsers);
         }).collect(toList());
@@ -318,7 +319,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     }
 
     @Override
-    public Long userListTotal(BaseQueryBean query, PageBean page) {
+    public Long userListTotal(VmUserQueryBean query, PageBean page) {
         return customVmUsersMapper.getUserListTotal(query, page);
     }
 

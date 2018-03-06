@@ -5,6 +5,7 @@ import com.vm.base.util.PageBean;
 import com.vm.base.util.ServiceController;
 import com.vm.user.aop.IgnoreExtendSessionLife;
 import com.vm.user.aop.RequiredLogin;
+import com.vm.user.dao.qo.VmUserQueryBean;
 import com.vm.user.resolver.OnlineUser;
 import com.vm.user.service.dto.UpdateHeadImgInfo;
 import com.vm.user.service.dto.VmUsersDto;
@@ -190,7 +191,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     /*********************************管理端****************************/
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public Object userList(BaseQueryBean query, PageBean page) throws Exception {
+    public Object userList(VmUserQueryBean query, PageBean page) throws Exception {
 
         List<VmUsersDto> list = service.userList(query, page);
         Long total = service.userListTotal(query, page);

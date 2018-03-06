@@ -6,8 +6,12 @@
     <select id="getUserList" resultMap="com.vm.user.dao.mapper.VmUsersMapper.VmUsersMap">
         SELECT *
         FROM vm_users
-        where username LIKE concat('%',#{query.keyword},'%')
-        <if test="page.orderBy != null and page.orderType != null">
+        where
+        is_deleted = #{query.isDeleted}
+        <if test="query.usernameQuery != null and query.usernameQuery != ''">
+            and username LIKE concat('%',#{query.usernameQuery},'%')
+        </if>
+        <if test="page.orderBy != null and page.orderBy!='' and page.orderType != null and page.orderType!=''">
             order by ${page.orderBy} ${page.orderType}
         </if>
         <if test="page.start != null and page.size != null">
@@ -15,9 +19,12 @@
         </if>
     </select>
     <select id="getUserListTotal" resultType="long">
-		SELECT count(id)
-		FROM vm_users
-		where username LIKE concat('%',#{query.keyword},'%')
+        SELECT count(id)
+        FROM vm_users
+        where is_deleted = #{query.isDeleted}
+        <if test="query.usernameQuery != null and query.usernameQuery != ''">
+            and username LIKE concat('%',#{query.usernameQuery},'%')
+        </if>
 
-	</select>
+    </select>
 </mapper>
