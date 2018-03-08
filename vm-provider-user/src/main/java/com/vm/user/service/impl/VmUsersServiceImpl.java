@@ -399,6 +399,8 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             throw new VmUsersException("editUser vmUsersMapper#update is fail !! vmUsersDto is :" + vmUsersDto);
         }
 
+        //get new user
+        vmUsers = this.getUsableUserById(vmUsers.getId(),BasePo.IsDeleted.NO.getCode());
         return makeBackendVmUsersDto(vmUsers);
     }
 
