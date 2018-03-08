@@ -34,24 +34,18 @@ public class ExtendSessionLife extends CommonUtil {
 
 
     @Around("declareJoinPointExpression()")
-    public Object doAroundAdvice(ProceedingJoinPoint joinPoint) throws Exception {
+    public Object doAroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
         Object data = null;
-        try {
-            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-            HttpServletRequest request = attributes.getRequest();
-            String token = request.getHeader(OnlineConstants.KEY_OF_ACCESS_TOKEN);
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        String token = request.getHeader(OnlineConstants.KEY_OF_ACCESS_TOKEN);
 
-            //延长其生命周期
-            SessionManager.extendSessionLife(token);
+        //延长其生命周期
+        SessionManager.extendSessionLife(token);
 
-            //execute
-            data = joinPoint.proceed();
+        //execute
+        data = joinPoint.proceed();
 
-
-        } catch (Throwable e) {
-            e.printStackTrace();
-            logger.error("ERROR ==>  {}", e.toString());
-        }
         return data;
 
     }

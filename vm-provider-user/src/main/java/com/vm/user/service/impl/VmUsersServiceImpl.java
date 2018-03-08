@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -43,10 +44,10 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
      * @param username
      * @return
      */
-    private VmUsers getUserByUsername(String username) {
+    private VmUsers getUserByUsername(String username, Byte status) {
         //是否存在此username的user
         return vmUsersMapper.selectOneBy(ImmutableMap.of(
-                "status", BasePo.Status.NORMAL.getCode(),
+                "status", status,
                 "username", username,
                 "isDeleted", BasePo.IsDeleted.NO.getCode()
         ));
@@ -79,7 +80,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     public VmUsersDto userLogin(VmUsersDto vmUsersDto) throws Exception {
 
         //user是否存在
-        VmUsers dbUser = this.getUserByUsername(vmUsersDto.getUsername());
+        VmUsers dbUser = this.getUserByUsername(vmUsersDto.getUsername(), BasePo.Status.NORMAL.getCode());
 
         if (isNullObject(dbUser)) {
             throw new VmUsersException("userLogin dbUser is not exits ! user is : " + vmUsersDto,
@@ -194,7 +195,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     public VmUsersDto userRegist(VmUsersDto user) throws Exception {
 
         //是否存在username相同的账户
-        if (!isNullObject(this.getUserByUsername(user.getUsername()))) {
+        if (!isNullObject(this.getUserByUsername(user.getUsername(), BasePo.Status.NORMAL.getCode()))) {
 
             throw new VmUsersException("userRegist username is exits ! user is :  " + user,
                     VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
@@ -202,7 +203,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         vmUsersMapper.insert(makeRegistVmUserPo(user));
 
-        VmUsers vmUsers = getUserByUsername(user.getUsername());
+        VmUsers vmUsers = getUserByUsername(user.getUsername(), BasePo.Status.NORMAL.getCode());
 
 
         //login in session
@@ -323,6 +324,42 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         return customVmUsersMapper.getUserListTotal(query, page);
     }
 
+    @Override
+    public VmUsersDto addUser(VmUsersDto vmUsersDto) {
+        VmUsers normalUser = this.getUserByUsername(vmUsersDto.getUsername(), BasePo.Status.NORMAL.getCode());
+        VmUsers frozenUser = this.getUserByUsername(vmUsersDto.getUsername(), BasePo.Status.FROZEN.getCode());
+        if (!isNullObject(normalUser) || !isNullObject(frozenUser)) {
+            throw new VmUsersException("addUser username is exits !! vmUsersDto is :" + vmUsersDto,
+                    VmUsersException.ErrorCode.USERNAME_IS_EXITS.getCode(),
+                    VmUsersException.ErrorCode.USERNAME_IS_EXITS.getMsg());
+        }
+        String imgUrl = VmUsers.DEFAULT_IMG_URL;
+
+        VmUsers vmUsers = makeAddUser(vmUsersDto,imgUrl);
+
+        if (1 != vmUsersMapper.insert(vmUsers)) {
+            throw new VmUsersException("addUser vmUsersMapper#insert is fail !! vmUsersDto is :" + vmUsersDto);
+        }
+
+        return makeBackendVmUsersDto(vmUsers);
+    }
+
+    private VmUsers makeAddUser(VmUsersDto vmUsersDto,String imgUrl) {
+        Integer now = DateUtil.unixTime().intValue();
+        VmUsers vmUsers = new VmUsers();
+        vmUsers.setBirthday(vmUsersDto.getBirthday());
+        vmUsers.setDescription(vmUsersDto.getDescription());
+        vmUsers.setImgUrl(imgUrl);
+        vmUsers.setPassword(vmUsersDto.getPassword());
+        vmUsers.setSex(vmUsersDto.getSex());
+        vmUsers.setStatus(vmUsersDto.getStatus());
+        vmUsers.setUsername(vmUsersDto.getUsername());
+        vmUsers.setIsDeleted(BasePo.IsDeleted.NO.getCode());
+        vmUsers.setCreateTime(now);
+        vmUsers.setUpdateTime(now);
+        return vmUsers;
+    }
+
     private VmUsers makeRegistVmUserPo(VmUsersDto user) {
         VmUsers vmUsers = new VmUsers();
         vmUsers.setUsername(user.getUsername());
@@ -337,3 +374,4 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
 
 }
+

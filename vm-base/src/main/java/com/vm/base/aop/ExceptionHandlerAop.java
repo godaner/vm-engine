@@ -27,7 +27,7 @@ public class ExceptionHandlerAop extends CommonUtil {
 
     @Around("declareJoinPointExpression()")
     public Object doAroundAdvice(ProceedingJoinPoint joinPoint) throws Exception {
-        Response response = null;
+        Response response = new Response();
         Object data = null;
 
         try {
@@ -42,7 +42,6 @@ public class ExceptionHandlerAop extends CommonUtil {
 
             //如果返回值为Map或者Response的实例，代表采用ajax方式
             if (data instanceof Map) {
-                response = new Response();
                 response.setData((Map<Object, Object>) data);
             } else if (data instanceof Response) {
                 response = (Response) data;

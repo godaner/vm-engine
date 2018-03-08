@@ -197,5 +197,11 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         Long total = service.userListTotal(query, page);
         return response.putData("list", list).putData("total", total);
     }
+
+    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    @ResponseBody
+    public Object addUser(VmUsersDto vmUsersDto) throws Exception {
+        return response.putData("user", service.addUser(vmUsersDto));
+    }
 }
 

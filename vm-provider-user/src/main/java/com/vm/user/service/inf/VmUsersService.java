@@ -35,7 +35,9 @@ public interface VmUsersService {
 
     VmUsersDto getOnlineUser(String token) throws Exception;
 
-    List<VmUsersDto> userList(VmUserQueryBean query, PageBean page);
+    List<VmUsersDto> userList(VmUserQueryBean query, PageBean page) throws Exception;
 
-    Long userListTotal(VmUserQueryBean query, PageBean page);
+    Long userListTotal(VmUserQueryBean query, PageBean page) throws Exception;
+
+    VmUsersDto addUser(VmUsersDto vmUsersDto) throws Exception;
 }
