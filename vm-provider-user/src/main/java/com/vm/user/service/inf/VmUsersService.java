@@ -40,4 +40,6 @@ public interface VmUsersService {
     Long userListTotal(VmUserQueryBean query, PageBean page) throws Exception;
 
     VmUsersDto addUser(VmUsersDto vmUsersDto) throws Exception;
+
+    VmUsersDto editUser(VmUsersDto vmUsersDto);
 }

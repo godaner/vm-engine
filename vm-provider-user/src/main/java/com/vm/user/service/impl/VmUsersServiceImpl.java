@@ -344,6 +344,40 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         return makeBackendVmUsersDto(vmUsers);
     }
 
+    @Override
+    public VmUsersDto editUser(VmUsersDto vmUsersDto) {
+        VmUsers normalUser = this.getUserByUsername(vmUsersDto.getUsername(), BasePo.Status.NORMAL.getCode());
+        VmUsers frozenUser = this.getUserByUsername(vmUsersDto.getUsername(), BasePo.Status.FROZEN.getCode());
+        if (!isNullObject(normalUser) || !isNullObject(frozenUser)) {
+            throw new VmUsersException("editUser username is exits !! vmUsersDto is :" + vmUsersDto,
+                    VmUsersException.ErrorCode.USERNAME_IS_EXITS.getCode(),
+                    VmUsersException.ErrorCode.USERNAME_IS_EXITS.getMsg());
+        }
+
+        String imgUrl = VmUsers.DEFAULT_IMG_URL;
+        VmUsers vmUsers = makeEditUser(vmUsersDto,imgUrl);
+
+        if (1 != vmUsersMapper.update(vmUsers.getId(),vmUsers)) {
+            throw new VmUsersException("editUser vmUsersMapper#update is fail !! vmUsersDto is :" + vmUsersDto);
+        }
+
+        return makeBackendVmUsersDto(vmUsers);
+    }
+
+    private VmUsers makeEditUser(VmUsersDto vmUsersDto, String imgUrl) {
+        Integer now = DateUtil.unixTime().intValue();
+        VmUsers vmUsers = new VmUsers();
+        vmUsers.setBirthday(vmUsersDto.getBirthday());
+        vmUsers.setDescription(vmUsersDto.getDescription());
+        vmUsers.setImgUrl(imgUrl);
+        vmUsers.setPassword(vmUsersDto.getPassword());
+        vmUsers.setSex(vmUsersDto.getSex());
+        vmUsers.setStatus(vmUsersDto.getStatus());
+        vmUsers.setUsername(vmUsersDto.getUsername());
+        vmUsers.setUpdateTime(now);
+        return vmUsers;
+    }
+
     private VmUsers makeAddUser(VmUsersDto vmUsersDto,String imgUrl) {
         Integer now = DateUtil.unixTime().intValue();
         VmUsers vmUsers = new VmUsers();
