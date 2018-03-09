@@ -35,6 +35,8 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     @Override
     public void sendVideoSrc(VmFilesDto vmFilesDto, HttpServletResponse response) {
 
+        logger.info("sendVideoSrc vmFilesDto is : {} , response is : {} !", vmFilesDto, response);
+
         Long fileId = vmFilesDto.getFileId();
         InputStream input = null;
         OutputStream output = null;
@@ -71,10 +73,12 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
 
     @Override
     public void sendImgSrc(VmFilesDto vmFilesDto, HttpServletResponse response) {
+        logger.info("sendImgSrc vmFilesDto is : {} , response is : {} !", vmFilesDto, response);
         Long fileId = vmFilesDto.getFileId();
         Integer width = vmFilesDto.getWidth();
         //获取图片id信息
-        VmFiles file = this.getUsableVmFilesById(fileId);;
+        VmFiles file = this.getUsableVmFilesById(fileId);
+        ;
         String imgPath = srcConfig.getSrcImgPath();
         String imgName = null;
         String contentType = "image/png";
@@ -116,6 +120,9 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
 
     @Override
     public Long saveImg(VmFilesDto vmFilesDto) {
+
+        logger.info("saveImg vmFilesDto is : {}", vmFilesDto);
+
         InputStream inputStream = null;
         OutputStream outputStream = null;
         String targetImgName = null;
@@ -171,6 +178,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
 
     @Override
     public Long cutUploadedImgFile(VmFilesDto vmFilesDto) {
+        logger.info("sendImgSrc vmFilesDto is : {} !", vmFilesDto);
         VmFiles vmFiles = this.getUsableVmFilesById(vmFilesDto.getFileId());
 
         String filePath = srcConfig.getSrcImgPath();
@@ -236,6 +244,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
 
     @Override
     public Long uploadAndCut(VmFilesDto vmFilesDto) {
+        logger.info("uploadAndCut vmFilesDto is : {} !", vmFilesDto);
 
         Long fileId = this.saveImg(vmFilesDto);
 
@@ -245,7 +254,6 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
 
         return fileId;
     }
-
 
 
     private VmFiles getUsableVmFilesById(Long fileId) {

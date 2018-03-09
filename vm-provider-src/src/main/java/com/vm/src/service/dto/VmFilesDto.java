@@ -97,4 +97,20 @@ public class VmFilesDto {
     public void setScaleY(Integer scaleY) {
         this.scaleY = scaleY;
     }
+
+    @Override
+    public String toString() {
+        return "VmFilesDto{" +
+                "fileId=" + fileId +
+                ", x=" + x +
+                ", y=" + y +
+                ", height=" + height +
+                ", width=" + width +
+                ", rotate=" + rotate +
+                ", scaleX=" + scaleX +
+                ", scaleY=" + scaleY +
+                ", versions='" + versions + '\'' +
+                ", file=" + file +
+                '}';
+    }
 }

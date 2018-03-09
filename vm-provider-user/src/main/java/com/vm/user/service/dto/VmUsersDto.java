@@ -1,5 +1,7 @@
 package com.vm.user.service.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 /**
  * Created by ZhangKe on 2018/1/10.
  */
@@ -25,6 +27,16 @@ public class VmUsersDto {
     private Integer updateTime;
 
     private Byte status;
+
+    private MultipartFile file;
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
 
     public Byte getStatus() {
         return status;

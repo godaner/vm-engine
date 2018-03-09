@@ -1,7 +1,7 @@
 package com.vm.base.util;
 
 
-public class PageBean {
+public class PageBean extends CommonUtil {
     private Integer start;
     private Integer size;
     private String orderBy;
@@ -28,7 +28,8 @@ public class PageBean {
     }
 
     public void setOrderBy(String orderBy) {
-        this.orderBy = orderBy;
+
+        this.orderBy = isEmptyString(orderBy) ? "create_time" : orderBy;
     }
 
     public String getOrderType() {
@@ -36,7 +37,8 @@ public class PageBean {
     }
 
     public void setOrderType(String orderType) {
-        this.orderType = orderType;
+
+        this.orderType = isEmptyString(orderType) ? "desc" : orderType;
     }
 
     public PageBean() {
