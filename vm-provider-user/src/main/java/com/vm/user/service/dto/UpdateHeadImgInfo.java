@@ -14,6 +14,15 @@ public class UpdateHeadImgInfo {
     private Integer scaleX;
     private Integer scaleY;
     private String versions;
+    private Long id;//userId
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getVersions() {
         return versions;

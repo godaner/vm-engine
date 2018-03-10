@@ -379,7 +379,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
 
         //get new user
-        vmUsers = this.getUsableUserById(vmUsers.getId(),BasePo.IsDeleted.NO.getCode());
+        vmUsers = this.getUsableUserById(vmUsers.getId(), BasePo.IsDeleted.NO.getCode());
 
         return makeBackendVmUsersDto(vmUsers);
     }
@@ -404,8 +404,33 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         }
 
         //get new user
-        vmUsers = this.getUsableUserById(vmUsers.getId(),BasePo.IsDeleted.NO.getCode());
+        vmUsers = this.getUsableUserById(vmUsers.getId(), BasePo.IsDeleted.NO.getCode());
         return makeBackendVmUsersDto(vmUsers);
+    }
+
+    @Override
+    public VmUsersDto updateUserHeadImg(UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
+        //set versions
+        updateHeadImgInfo.setVersions(userConfig.getUserImgVersions());
+
+        //feign
+        String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
+        Response response = Response.parseJSON(res);
+        if (response.isFailure()) {
+            throw new VmUsersException("updateUserHeadImg srcServiceClient#cutUploadedImgFile is fail !! updateHeadImgInfo is :" + updateHeadImgInfo);
+        }
+        String imgUrl = (String) response.getData("imgUrl");
+        //update user
+        VmUsers vmUsers = new VmUsers();
+        vmUsers.setId(updateHeadImgInfo.getId());
+        vmUsers.setImgUrl(imgUrl);
+        vmUsersMapper.update(vmUsers.getId(), vmUsers);
+
+
+        //get new user
+        vmUsers = this.getUsableUserById(vmUsers.getId(), BasePo.IsDeleted.NO.getCode());
+
+        return vmUsers == null ? null : makeVmUsersDto(vmUsers);
     }
 
     private VmUsers makeEditUser(VmUsersDto vmUsersDto, String imgUrl) {

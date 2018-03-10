@@ -203,10 +203,25 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     public Object addUser(VmUsersDto vmUsersDto) throws Exception {
         return response.putData("user", service.addUser(vmUsersDto));
     }
+
     @RequestMapping(value = "/info", method = RequestMethod.PUT)
     @ResponseBody
     public Object editUser(VmUsersDto vmUsersDto) throws Exception {
         return response.putData("user", service.editUser(vmUsersDto));
+    }
+
+    /**
+     * 更具已缓存图片更新用户头像<br/>
+     *
+     * @return
+     */
+    @RequiredLogin
+    @RequestMapping(value = "/img/v2", method = RequestMethod.PUT)
+    @ResponseBody
+    public Object updateUserHeadImg(@RequestBody UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
+        VmUsersDto usersDto = service.updateUserHeadImg(updateHeadImgInfo);
+        return response.putData("user", usersDto).
+                putData("newImgUrl", usersDto.getImgUrl() + "&width=300");
     }
 }
 

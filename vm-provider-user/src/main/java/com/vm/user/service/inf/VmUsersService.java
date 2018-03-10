@@ -41,5 +41,7 @@ public interface VmUsersService {
 
     VmUsersDto addUser(VmUsersDto vmUsersDto) throws Exception;
 
-    VmUsersDto editUser(VmUsersDto vmUsersDto);
+    VmUsersDto editUser(VmUsersDto vmUsersDto) throws Exception;
+
+    VmUsersDto updateUserHeadImg(UpdateHeadImgInfo updateHeadImgInfo) throws Exception;
 }
