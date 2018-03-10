@@ -10,6 +10,7 @@ import com.vm.src.config.SrcConfig;
 import com.vm.src.dao.mapper.VmFilesMapper;
 import com.vm.src.dao.po.VmFiles;
 import com.vm.src.service.dto.VmFilesDto;
+import com.vm.src.service.exception.VmSrcException;
 import com.vm.src.service.inf.VmSrcService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,10 +95,22 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         contentType = file.getContentType();
         if (null == width) {
             imgPathName = imgPath + imgName;
+            if (!new File(imgPathName).exists()) {
+                logger.error("sendImgSrc file :{} is not exits ! imgPathName is : {} ！" + imgPathName);
+                imgPathName = imgPath + srcConfig.getSrcImgDefault();
+            }
             sendFileToHttpResponse(imgPathName, contentType, response);
             return;
         }
         imgPathName = imgPath + File.separator + width + "_" + imgName;
+        if (!new File(imgPathName).exists()) {
+            logger.error("sendImgSrc file :{} is not exits ! imgPathName is : {} ！" + imgPathName);
+            imgPathName = imgPath + imgName;
+            if (!new File(imgPathName).exists()) {
+                logger.error("sendImgSrc file :{} is not exits ! imgPathName is : {} ！" + imgPathName);
+                imgPathName = imgPath + srcConfig.getSrcImgDefault();
+            }
+        }
         sendFileToHttpResponse(imgPathName, contentType, response);
 
     }

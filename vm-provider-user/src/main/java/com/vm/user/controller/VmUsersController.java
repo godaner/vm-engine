@@ -162,12 +162,12 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 //    }
 
     /**
-     * 更具已缓存图片更新用户头像<br/>
+     * 更具已缓存图片更新在线用户头像<br/>
      *
      * @return
      */
     @RequiredLogin
-    @RequestMapping(value = "/img", method = RequestMethod.PUT)
+    @RequestMapping(value = "/online/img", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateUserHeadImg(@OnlineUser VmUsersDto onlineUser,
                                     @RequestBody UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
@@ -215,10 +215,9 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @return
      */
-    @RequiredLogin
-    @RequestMapping(value = "/img/v2", method = RequestMethod.PUT)
+    @RequestMapping(value = "/img", method = RequestMethod.PUT)
     @ResponseBody
-    public Object updateUserHeadImg(@RequestBody UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
+    public Object updateUserHeadImg(UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
         VmUsersDto usersDto = service.updateUserHeadImg(updateHeadImgInfo);
         return response.putData("user", usersDto).
                 putData("newImgUrl", usersDto.getImgUrl() + "&width=300");
