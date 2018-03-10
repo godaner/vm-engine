@@ -438,7 +438,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         VmUsers vmUsers = new VmUsers();
         vmUsers.setBirthday(vmUsersDto.getBirthday());
         vmUsers.setDescription(vmUsersDto.getDescription());
-        vmUsers.setImgUrl(imgUrl);
+//        vmUsers.setImgUrl(imgUrl);
         vmUsers.setPassword(vmUsersDto.getPassword());
         vmUsers.setSex(vmUsersDto.getSex());
         vmUsers.setStatus(vmUsersDto.getStatus());
