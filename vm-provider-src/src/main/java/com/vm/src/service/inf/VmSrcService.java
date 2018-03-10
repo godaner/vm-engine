@@ -4,20 +4,20 @@ import com.vm.src.service.dto.VmFilesDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by ZhangKe on 2018/2/3.
  */
 public interface VmSrcService {
-    void sendVideoSrc(VmFilesDto vmFilesDto, HttpServletResponse response);
+    void sendVideoSrc(VmFilesDto vmFilesDto, HttpServletResponse response) throws Exception;
 
-    void sendImgSrc(VmFilesDto vmFilesDto, HttpServletResponse response);
+    void sendImgSrc(VmFilesDto vmFilesDto, HttpServletResponse response) throws Exception;
 
-    Long saveImg(VmFilesDto vmFilesDto);
+    Long saveImg(VmFilesDto vmFilesDto) throws Exception;
 
     Long cutUploadedImgFile(VmFilesDto vmFilesDto);
 
-    void batchUpdate();
-
-    Long uploadAndCut(VmFilesDto vmFilesDto);
+    Long uploadAndCut(VmFilesDto vmFilesDto) throws Exception;
 }

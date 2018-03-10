@@ -20,6 +20,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     private SrcConfig srcConfig;
 
     @Override
-    public void sendVideoSrc(VmFilesDto vmFilesDto, HttpServletResponse response) {
+    public void sendVideoSrc(VmFilesDto vmFilesDto, HttpServletResponse response) throws IOException, NoSuchAlgorithmException {
 
         logger.info("sendVideoSrc vmFilesDto is : {} , response is : {} !", vmFilesDto, response);
 
@@ -66,13 +67,14 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             limitedWriter(response.getOutputStream(), input, 1024 * 1024l, System.currentTimeMillis(), MessageDigest.getInstance("MD5"));
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         } finally {
             closeStream(input, output);
         }
     }
 
     @Override
-    public void sendImgSrc(VmFilesDto vmFilesDto, HttpServletResponse response) {
+    public void sendImgSrc(VmFilesDto vmFilesDto, HttpServletResponse response) throws IOException {
         logger.info("sendImgSrc vmFilesDto is : {} , response is : {} !", vmFilesDto, response);
         Long fileId = vmFilesDto.getFileId();
         Integer width = vmFilesDto.getWidth();
@@ -100,7 +102,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
 
     }
 
-    private void sendFileToHttpResponse(String filePathName, String contentType, HttpServletResponse httpServletResponse) {
+    private void sendFileToHttpResponse(String filePathName, String contentType, HttpServletResponse httpServletResponse) throws IOException {
 
         FileInputStream input = null;
         ServletOutputStream output = null;
@@ -112,6 +114,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             IOUtils.copy(input, output);
         } catch (IOException e) {
             e.printStackTrace();
+            throw e;
         } finally {
             closeStream(input, output);
         }
@@ -119,7 +122,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     }
 
     @Override
-    public Long saveImg(VmFilesDto vmFilesDto) {
+    public Long saveImg(VmFilesDto vmFilesDto) throws IOException {
 
         logger.info("saveImg vmFilesDto is : {}", vmFilesDto);
 
@@ -170,6 +173,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         } catch (Exception e) {
             e.printStackTrace();
             deleteFiles(targetImgName);
+            throw e;
         } finally {
             closeStream(inputStream, outputStream);
         }
@@ -207,43 +211,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     }
 
     @Override
-    public void batchUpdate() {
-        List<VmFiles> files = Lists.newArrayList();
-        for (int i = 0; i < 10; i++) {
-            VmFiles f = new VmFiles();
-            f.setContentType(i + "");
-            f.setFilename("" + i);
-            f.setOriginalName("" + i);
-            f.setFileSize(Long.valueOf(i));
-            f.setCreateTime(DateUtil.unixTime().intValue());
-            f.setUpdateTime(DateUtil.unixTime().intValue());
-            f.setStatus(BasePo.Status.NORMAL.getCode());
-            f.setIsDeleted(BasePo.IsDeleted.NO.getCode());
-            files.add(f);
-        }
-        int ij = vmFilesMapper.batchInsert(files);
-
-        vmFilesMapper.update(412l, ImmutableMap.of(
-                "filename", "0"
-        ));
-
-        vmFilesMapper.batchUpdate(ImmutableMap.of(
-                "filename", "0"
-        ), ImmutableMap.of(
-                "filename", "110"
-        ));
-
-        VmFiles filename = vmFilesMapper.selectOneBy(ImmutableMap.of(
-                "filename", "0"
-        ));
-        ij = vmFilesMapper.deleteBy(ImmutableMap.of(
-                "filename", "0"
-        ));
-        System.out.println(ij);
-    }
-
-    @Override
-    public Long uploadAndCut(VmFilesDto vmFilesDto) {
+    public Long uploadAndCut(VmFilesDto vmFilesDto) throws IOException {
         logger.info("uploadAndCut vmFilesDto is : {} !", vmFilesDto);
 
         Long fileId = this.saveImg(vmFilesDto);
