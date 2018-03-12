@@ -32,8 +32,6 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
         VmUsersDto loginUser = service.userLogin(vmUsersDto);
 
-//        setSessionAttr(KEY_OF_ONLINE_USER, loginUser);
-
         return response.putData("user", loginUser).setMsg("登录成功");
     }
 
@@ -43,8 +41,6 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     public Object userRegist(VmUsersDto user) throws Exception {
 
         VmUsersDto loginUser = service.userRegist(user);
-
-//        getSession().setAttribute(KEY_OF_ONLINE_USER, loginUser);
 
         return response.putData("user", loginUser);
     }

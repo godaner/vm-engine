@@ -3,9 +3,11 @@ package com.vm.user.service.impl;
 import com.google.common.collect.ImmutableMap;
 import com.vm.base.util.*;
 import com.vm.user.config.UserConfig;
+import com.vm.user.dao.mapper.VmUsersLoginLogsMapper;
 import com.vm.user.dao.mapper.VmUsersMapper;
 import com.vm.user.dao.mapper.custom.CustomVmUsersMapper;
 import com.vm.user.dao.po.VmUsers;
+import com.vm.user.dao.po.VmUsersLoginLogs;
 import com.vm.user.dao.qo.VmUserQueryBean;
 import com.vm.user.feign.service.SrcServiceClient;
 import com.vm.user.service.dto.UpdateHeadImgInfo;
@@ -30,6 +32,8 @@ import static java.util.stream.Collectors.toList;
 public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Autowired
     private VmUsersMapper vmUsersMapper;
+    @Autowired
+    private VmUsersLoginLogsMapper vmUsersLoginLogsMapper;
     @Autowired
     private CustomVmUsersMapper customVmUsersMapper;
 
@@ -62,18 +66,25 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     }
 
     @Override
+    @Transactional
     public VmUsersDto userLogin(VmUsersDto vmUsersDto) throws Exception {
 
-        //user是否存在
+        //username is right?
         VmUsers dbUser = this.getUserByUsername(vmUsersDto.getUsername(), BasePo.Status.NORMAL.getCode(), BasePo.IsDeleted.NO.getCode());
 
         if (isNullObject(dbUser)) {
             throw new VmUsersException("userLogin dbUser is not exits ! user is : " + vmUsersDto,
                     VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
+        //password is right?
         if (!dbUser.getPassword().equals(vmUsersDto.getPassword())) {
             throw new VmUsersException("userLogin password is error ! user is :  " + vmUsersDto,
                     VmUsersException.ErrorCode.PASSWORD_ERROR.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
+        }
+
+        //write login record to db
+        if (1 != vmUsersLoginLogsMapper.insert(makeUserLogins(vmUsersDto, dbUser.getId()))) {
+            throw new VmUsersException("userLogin vmUsersLoginLogsMapper#insert is fail ! user is :  " + vmUsersDto);
         }
 
         //login in session
@@ -83,6 +94,26 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         String token = SessionManager.userLogin(userInfo);
 
         return makeVmUsersDto(dbUser, token);
+    }
+
+    private VmUsersLoginLogs makeUserLogins(VmUsersDto vmUsersDto, Long userId) {
+        Integer now = DateUtil.unixTime().intValue();
+        VmUsersLoginLogs vmUsersLoginLogs = new VmUsersLoginLogs();
+        vmUsersLoginLogs.setBrower(vmUsersDto.getBrowser());
+        vmUsersLoginLogs.setCity(vmUsersDto.getCity());
+        vmUsersLoginLogs.setCountry(vmUsersDto.getCountry());
+        vmUsersLoginLogs.setDpi(vmUsersDto.getDpi());
+        vmUsersLoginLogs.setLoginIp(vmUsersDto.getIp());
+        vmUsersLoginLogs.setProvince(vmUsersDto.getProvince());
+        vmUsersLoginLogs.setSystem(vmUsersDto.getSystem());
+        vmUsersLoginLogs.setUserId(userId);
+        vmUsersLoginLogs.setResult(VmUsersLoginLogs.Result.SUCCESS.getCode());
+        vmUsersLoginLogs.setLoginTime(now);
+        vmUsersLoginLogs.setCreateTime(now);
+        vmUsersLoginLogs.setUpdateTime(now);
+        vmUsersLoginLogs.setIsDeleted(BasePo.IsDeleted.NO.getCode());
+        vmUsersLoginLogs.setStatus(BasePo.Status.NORMAL.getCode());
+        return vmUsersLoginLogs;
     }
 
     @Override

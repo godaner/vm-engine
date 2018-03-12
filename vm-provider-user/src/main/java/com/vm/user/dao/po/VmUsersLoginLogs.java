@@ -1,8 +1,9 @@
 package com.vm.user.dao.po;
 
 import com.vm.base.util.BasePo;
+import com.vm.base.util.ByteConstantVar;
 
-public class VmUsersLoginLogs  extends BasePo {
+public class VmUsersLoginLogs extends BasePo {
 
     private Long userId;
 
@@ -104,4 +105,38 @@ public class VmUsersLoginLogs  extends BasePo {
         this.result = result;
     }
 
+    /**
+     * 是否登录成功
+     */
+    public enum Result {
+        SUCCESS(ByteConstantVar.ONE, "成功"),
+        FAILURE(ByteConstantVar.TWO, "失败");
+
+        Byte code;
+
+        String msg;
+
+        Result(Byte code, String msg) {
+            this.code = code;
+            this.msg = msg;
+        }
+
+        public Byte getCode() {
+            return code;
+        }
+
+        public void setCode(Byte code) {
+            this.code = code;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+
+
+    }
 }
