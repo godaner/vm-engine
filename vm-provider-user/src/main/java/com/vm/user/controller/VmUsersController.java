@@ -205,6 +205,12 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     public Object editUser(VmUsersDto vmUsersDto) throws Exception {
         return response.putData("user", service.editUser(vmUsersDto));
     }
+    @RequestMapping(value = "/info", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Object deleteUser(VmUsersDto vmUsersDto) throws Exception {
+        service.deleteUser(vmUsersDto);
+        return response;
+    }
 
     /**
      * 更具已缓存图片更新用户头像<br/>

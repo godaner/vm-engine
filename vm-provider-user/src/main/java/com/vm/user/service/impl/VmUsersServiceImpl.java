@@ -464,6 +464,11 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         return vmUsers == null ? null : makeBackendVmUsersDto(vmUsers);
     }
 
+    @Override
+    public void deleteUser(VmUsersDto vmUsersDto) {
+        
+    }
+
     private VmUsers makeEditUser(VmUsersDto vmUsersDto, String imgUrl) {
         Integer now = DateUtil.unixTime().intValue();
         VmUsers vmUsers = new VmUsers();

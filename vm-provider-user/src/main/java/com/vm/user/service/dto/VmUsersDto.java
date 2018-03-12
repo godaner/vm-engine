@@ -2,6 +2,8 @@ package com.vm.user.service.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * Created by ZhangKe on 2018/1/10.
  */
@@ -30,7 +32,10 @@ public class VmUsersDto {
 
     private MultipartFile file;
 
-    //登录记录
+    private List<Long> deleteUserIds;
+
+
+    //登录记录信息
     private String browser;
     private String city;
     private String country;
@@ -42,6 +47,13 @@ public class VmUsersDto {
     private String province;
     private String system;
     private String title;
+    public List<Long> getDeleteUserIds() {
+        return deleteUserIds;
+    }
+
+    public void setDeleteUserIds(List<Long> deleteUserIds) {
+        this.deleteUserIds = deleteUserIds;
+    }
 
     public String getBrowser() {
         return browser;
