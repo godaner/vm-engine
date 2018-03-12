@@ -173,8 +173,12 @@ public class GenerateMapperXml {
         stringBuffer.append(generateInsertString(tableName) + "\n\n");
         stringBuffer.append(generateDeleteString(tableName) + "\n\n");
         stringBuffer.append(generateDeleteBy(tableName) + "\n\n");
+        stringBuffer.append(generateDeleteInIds(cls, tableName) + "\n\n");
+        
         stringBuffer.append(generateUpdateString(cls, tableName) + "\n\n");
         stringBuffer.append(generateBatchUpdate(cls, tableName) + "\n\n");
+        stringBuffer.append(generateUpdateInIds(cls, tableName) + "\n\n");
+
 
         stringBuffer.append(generateListSql(cls, tableName) + "\n\n");
         stringBuffer.append(generateOrdeByListSql(cls, tableName) + "\n\n");
@@ -194,6 +198,32 @@ public class GenerateMapperXml {
 
         return stringBuffer.toString();
 
+    }
+
+    private static String generateUpdateInIds(Class cls, String tableName) {
+        return "    <update id=\"updateInIds\">\n" +
+                "        update \n" +
+                "        " + tableName + "\n" +
+                "       <include refid=\"setFields\" />"+
+                "        WHERE id IN\n" +
+                "        <foreach item=\"item\" index=\"index\" collection=\"idList\" open=\"(\" separator=\",\" close=\")\">\n" +
+                "            #{item}\n" +
+                "        </foreach>\n" +
+                "\n" +
+                "    </update>";
+    }
+
+    private static String generateDeleteInIds(Class cls, String tableName) {
+        return "    <delete id=\"deleteInIds\" >\n" +
+                "        delete\n" +
+                "        FROM\n" +
+                "        " + tableName + "\n" +
+                "        WHERE id IN\n" +
+                "        <foreach item=\"item\" index=\"index\" collection=\"idList\" open=\"(\" separator=\",\" close=\")\">\n" +
+                "            #{item}\n" +
+                "        </foreach>\n" +
+                "\n" +
+                "    </delete>";
     }
 
     public static void printString(Class cls, String tableName) {

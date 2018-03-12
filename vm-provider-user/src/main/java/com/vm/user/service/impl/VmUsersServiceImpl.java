@@ -15,6 +15,7 @@ import com.vm.user.service.dto.VmUsersDto;
 import com.vm.user.service.exception.VmUsersException;
 import com.vm.user.service.inf.VmUsersService;
 import com.vm.user.util.SessionManager;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -466,7 +467,23 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     @Override
     public void deleteUser(VmUsersDto vmUsersDto) {
+        String deleteIdsStr = vmUsersDto.getDeleteUserIds();
+        if (isEmptyString(deleteIdsStr)) {
+            throw new VmUsersException("deleteUser deleteIdsStr is empty ! deleteIdsStr is : " + deleteIdsStr);
+        }
+
         
+        List<Long> deleteIds = Lists.newArrayList(deleteIdsStr.split(",")).stream().parallel().map(idStr -> {
+            return Long.valueOf(idStr);
+        }).collect(toList());
+        if (isEmptyList(deleteIds)) {
+            throw new VmUsersException("deleteUser deleteIds is empty ! deleteIds is : " + deleteIds);
+        }
+        if (deleteIds.size() != vmUsersMapper.updateInIds(deleteIds, ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.YES.getCode()
+        ))) {
+            throw new VmUsersException("deleteUser is fail ! deleteIds is : " + deleteIds);
+        }
     }
 
     private VmUsers makeEditUser(VmUsersDto vmUsersDto, String imgUrl) {

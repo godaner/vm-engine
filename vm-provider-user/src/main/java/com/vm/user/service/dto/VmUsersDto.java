@@ -32,7 +32,7 @@ public class VmUsersDto {
 
     private MultipartFile file;
 
-    private List<Long> deleteUserIds;
+    private String deleteUserIds;
 
 
     //登录记录信息
@@ -47,11 +47,12 @@ public class VmUsersDto {
     private String province;
     private String system;
     private String title;
-    public List<Long> getDeleteUserIds() {
+
+    public String getDeleteUserIds() {
         return deleteUserIds;
     }
 
-    public void setDeleteUserIds(List<Long> deleteUserIds) {
+    public void setDeleteUserIds(String deleteUserIds) {
         this.deleteUserIds = deleteUserIds;
     }
 
