@@ -467,22 +467,22 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     @Override
     public void deleteUser(VmUsersDto vmUsersDto) {
-        String deleteIdsStr = vmUsersDto.getDeleteUserIds();
-        if (isEmptyString(deleteIdsStr)) {
-            throw new VmUsersException("deleteUser deleteIdsStr is empty ! deleteIdsStr is : " + deleteIdsStr);
+        String deletedIdsStr = vmUsersDto.getDeletedIds();
+        if (isEmptyString(deletedIdsStr)) {
+            throw new VmUsersException("deleteUser deleteIdsStr is empty ! deleteIdsStr is : " + deletedIdsStr);
         }
 
-        
-        List<Long> deleteIds = Lists.newArrayList(deleteIdsStr.split(",")).stream().parallel().map(idStr -> {
+
+        List<Long> deletedIds = Lists.newArrayList(deletedIdsStr.split(",")).stream().parallel().map(idStr -> {
             return Long.valueOf(idStr);
         }).collect(toList());
-        if (isEmptyList(deleteIds)) {
-            throw new VmUsersException("deleteUser deleteIds is empty ! deleteIds is : " + deleteIds);
+        if (isEmptyList(deletedIds)) {
+            throw new VmUsersException("deleteUser deleteIds is empty ! deleteIds is : " + deletedIds);
         }
-        if (deleteIds.size() != vmUsersMapper.updateInIds(deleteIds, ImmutableMap.of(
+        if (deletedIds.size() != vmUsersMapper.updateInIds(deletedIds, ImmutableMap.of(
                 "isDeleted", BasePo.IsDeleted.YES.getCode()
         ))) {
-            throw new VmUsersException("deleteUser is fail ! deleteIds is : " + deleteIds);
+            throw new VmUsersException("deleteUser is fail ! deleteIds is : " + deletedIds);
         }
     }
 

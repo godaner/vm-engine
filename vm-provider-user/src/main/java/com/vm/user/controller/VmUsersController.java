@@ -185,7 +185,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 //    }
 
     /*********************************管理端****************************/
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/info/list", method = RequestMethod.GET)
     @ResponseBody
     public Object userList(VmUserQueryBean query, PageBean page) throws Exception {
 
@@ -205,9 +205,10 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     public Object editUser(VmUsersDto vmUsersDto) throws Exception {
         return response.putData("user", service.editUser(vmUsersDto));
     }
+
     @RequestMapping(value = "/info", method = RequestMethod.DELETE)
     @ResponseBody
-    public Object deleteUser(VmUsersDto vmUsersDto) throws Exception {
+    public Object deleteUser(@RequestBody VmUsersDto vmUsersDto) throws Exception {
         service.deleteUser(vmUsersDto);
         return response;
     }
