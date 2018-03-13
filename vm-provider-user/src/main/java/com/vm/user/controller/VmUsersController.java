@@ -21,12 +21,12 @@ import java.util.List;
  * Created by ZhangKe on 2017/12/28.
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/")
 @Scope("prototype")
 public class VmUsersController extends ServiceController<VmUsersService> {
     /*********************************用户端****************************/
 
-    @RequestMapping(value = "/login", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/login", method = RequestMethod.PUT)
     @ResponseBody
     public Object userLogin(@RequestBody VmUsersDto vmUsersDto) throws Exception {
 
@@ -36,7 +36,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     }
 
 
-    @RequestMapping(value = "/regist", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/regist", method = RequestMethod.PUT)
     @ResponseBody
     public Object userRegist(VmUsersDto user) throws Exception {
 
@@ -53,7 +53,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      * @throws Exception
      */
     @IgnoreExtendSessionLife
-    @RequestMapping(value = "/feelerOnlineUser", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/feelerOnlineUser", method = RequestMethod.GET)
     @ResponseBody
     public Object feelerOnlineUser(@OnlineUser VmUsersDto onlineUser) throws Exception {
         boolean online = true;
@@ -72,7 +72,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      * @throws Exception
      */
     @RequiredLogin
-    @RequestMapping(value = "/online", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/online", method = RequestMethod.GET)
     @ResponseBody
     public Object getOnlineUser(@OnlineUser VmUsersDto onlineUser) throws Exception {
 
@@ -81,7 +81,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
 
     @RequiredLogin
-    @RequestMapping(value = "/logout", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/logout", method = RequestMethod.PUT)
     @ResponseBody
     public Object userLogout(@OnlineUser VmUsersDto onlineUser) throws Exception {
 
@@ -91,7 +91,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
     }
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
     @ResponseBody
     public Object getUserBasicInfo(@PathVariable("userId") Long userId) throws Exception {
 
@@ -100,7 +100,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
 
     @RequiredLogin
-    @RequestMapping(value = "/online", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/online", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateOnlineUserBasicInfo(@OnlineUser VmUsersDto onlineUser,
                                             @RequestBody VmUsersDto user) throws Exception {
@@ -163,7 +163,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      * @return
      */
     @RequiredLogin
-    @RequestMapping(value = "/online/img", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/online/img", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateUserHeadImg(@OnlineUser VmUsersDto onlineUser,
                                     @RequestBody UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
@@ -185,7 +185,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 //    }
 
     /*********************************管理端****************************/
-    @RequestMapping(value = "/info/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/info/list", method = RequestMethod.GET)
     @ResponseBody
     public Object userList(VmUserQueryBean query, PageBean page) throws Exception {
 
@@ -194,19 +194,19 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response.putData("list", list).putData("total", total);
     }
 
-    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/info", method = RequestMethod.POST)
     @ResponseBody
     public Object addUser(VmUsersDto vmUsersDto) throws Exception {
         return response.putData("user", service.addUser(vmUsersDto));
     }
 
-    @RequestMapping(value = "/info", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/info", method = RequestMethod.PUT)
     @ResponseBody
     public Object editUser(VmUsersDto vmUsersDto) throws Exception {
         return response.putData("user", service.editUser(vmUsersDto));
     }
 
-    @RequestMapping(value = "/info", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/user/info", method = RequestMethod.DELETE)
     @ResponseBody
     public Object deleteUser(@RequestBody VmUsersDto vmUsersDto) throws Exception {
         service.deleteUser(vmUsersDto);
@@ -218,7 +218,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @return
      */
-    @RequestMapping(value = "/img", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/img", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateUserHeadImg(UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
         VmUsersDto usersDto = service.updateUserHeadImg(updateHeadImgInfo);

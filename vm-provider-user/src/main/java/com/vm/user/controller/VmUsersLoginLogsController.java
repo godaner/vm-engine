@@ -22,7 +22,7 @@ import java.util.List;
  * Created by ZhangKe on 2018/3/13.
  */
 @Controller
-@RequestMapping("/user/login/logs")
+@RequestMapping("/")
 @Scope("prototype")
 public class VmUsersLoginLogsController extends ServiceController<VmUsersLoginLogsService> {
     /**
@@ -30,7 +30,7 @@ public class VmUsersLoginLogsController extends ServiceController<VmUsersLoginLo
      *
      * @return
      */
-    @RequestMapping(value = "/login/logs", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/login/logs", method = RequestMethod.GET)
     @ResponseBody
     public Object getUserLoginLogs(VmUsersLoginLogsQueryBean query, PageBean page) throws Exception {
         return response.putData("list", service.getUserLoginLogs(query,page)).

@@ -3,9 +3,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.vm.user.dao.mapper.custom.CustomVmUsersLoginLogsMapper">
-    <select id="getUserLoginLogs" resultMap="com.vm.user.dao.mapper.VmUsersMapper.VmUsersLoginLogsMap">
+    <select id="getUserLoginLogs" resultMap="com.vm.user.dao.mapper.VmUsersLoginLogsMapper.VmUsersLoginLogsMap">
         SELECT *
-        FROM vm_users
+        FROM vm_users_login_logs
         where
         is_deleted = #{query.isDeleted}
         <if test="query != null and query.username != null and query.username != ''">
@@ -23,7 +23,7 @@
     </select>
     <select id="getUserLoginLogsTotal" resultType="long">
         SELECT count(id)
-        FROM vm_users
+        FROM vm_users_login_logs
         where is_deleted = #{query.isDeleted}
         <if test="query != null and query.username != null and query.username != ''">
             and username LIKE concat('%',#{query.username},'%')
