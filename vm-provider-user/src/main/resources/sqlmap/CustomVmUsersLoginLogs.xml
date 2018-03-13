@@ -23,19 +23,23 @@
         <result column="username" property="username"/>
     </resultMap>
     <select id="getUserLoginLogs" resultMap="CustomVmUsersLoginLogsMap">
-        SELECT a.*,b.username
-        FROM vm_users_login_logs a,vm_users b
-        where
-        a.is_deleted = #{query.isDeleted}
-        and a.user_id=b.id
-        <if test="query != null and query.username != null and query.username != ''">
-            and b.username LIKE concat('%',#{query.username},'%')
-        </if>
-        <if test="query != null and query.userId != null and query.userId != ''">
-            and a.userId = #{query.userId}
-        </if>
+
+        select *
+        from (
+            SELECT a.*,b.username
+            FROM vm_users_login_logs a,vm_users b
+            where
+            a.is_deleted = #{query.isDeleted}
+            and a.user_id=b.id
+            <if test="query != null and query.username != null and query.username != ''">
+                and b.username LIKE concat('%',#{query.username},'%')
+            </if>
+            <if test="query != null and query.userId != null and query.userId != ''">
+                and a.userId = #{query.userId}
+            </if>
+        ) c
         <if test="page != null and page.orderBy != null and page.orderBy!='' and page.orderType != null and page.orderType!=''">
-            order by a.${page.orderBy} ${page.orderType}
+            order by c.${page.orderBy} ${page.orderType}
         </if>
         <if test="page != null and page.start != null and page.size != null">
             limit #{page.start},#{page.size}
