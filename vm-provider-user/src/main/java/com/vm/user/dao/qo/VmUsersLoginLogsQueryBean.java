@@ -5,9 +5,9 @@ import com.vm.base.util.BaseQueryBean;
 /**
  * Created by ZhangKe on 2018/3/13.
  */
-public class VmUsersLoginLogsQueryBean extends BaseQueryBean{
+public class VmUsersLoginLogsQueryBean extends BaseQueryBean {
     private String username;
-    private String wellMatchedUsername;
+    private Long userId;
 
     public String getUsername() {
         return username;
@@ -17,11 +17,11 @@ public class VmUsersLoginLogsQueryBean extends BaseQueryBean{
         this.username = username;
     }
 
-    public String getWellMatchedUsername() {
-        return wellMatchedUsername;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setWellMatchedUsername(String wellMatchedUsername) {
-        this.wellMatchedUsername = wellMatchedUsername;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

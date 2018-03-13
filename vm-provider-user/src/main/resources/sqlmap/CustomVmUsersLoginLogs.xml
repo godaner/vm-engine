@@ -31,8 +31,8 @@
         <if test="query != null and query.username != null and query.username != ''">
             and b.username LIKE concat('%',#{query.username},'%')
         </if>
-        <if test="query != null and query.wellMatchedUsername != null and query.wellMatchedUsername != ''">
-            and b.username = #{query.wellMatchedUsername}
+        <if test="query != null and query.userId != null and query.userId != ''">
+            and a.userId = #{query.userId}
         </if>
         <if test="page != null and page.orderBy != null and page.orderBy!='' and page.orderType != null and page.orderType!=''">
             order by a.${page.orderBy} ${page.orderType}
@@ -50,8 +50,8 @@
         <if test="query != null and query.username != null and query.username != ''">
             and b.username LIKE concat('%',#{query.username},'%')
         </if>
-        <if test="query != null and query.wellMatchedUsername != null and query.wellMatchedUsername != ''">
-            and b.username = #{query.wellMatchedUsername}
+        <if test="query != null and query.userId != null and query.userId != ''">
+            and a.userId = #{query.userId}
         </if>
 
     </select>
