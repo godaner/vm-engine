@@ -3,33 +3,55 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.vm.user.dao.mapper.custom.CustomVmUsersLoginLogsMapper">
-    <select id="getUserLoginLogs" resultMap="com.vm.user.dao.mapper.VmUsersLoginLogsMapper.VmUsersLoginLogsMap">
-        SELECT *
-        FROM vm_users_login_logs
+
+    <resultMap id="CustomVmUsersLoginLogsMap" type="com.vm.user.dao.po.custom.CustomVmUsersLoginLogs">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="login_ip" property="loginIp"/>
+        <result column="system" property="system"/>
+        <result column="dpi" property="dpi"/>
+        <result column="brower" property="brower"/>
+        <result column="country" property="country"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="login_time" property="loginTime"/>
+        <result column="result" property="result"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="status" property="status"/>
+        <result column="username" property="username"/>
+    </resultMap>
+    <select id="getUserLoginLogs" resultMap="CustomVmUsersLoginLogsMap">
+        SELECT a.*,b.username
+        FROM vm_users_login_logs a,vm_users b
         where
-        is_deleted = #{query.isDeleted}
+        a.is_deleted = #{query.isDeleted}
+        and a.user_id=b.id
         <if test="query != null and query.username != null and query.username != ''">
-            and username LIKE concat('%',#{query.username},'%')
+            and b.username LIKE concat('%',#{query.username},'%')
         </if>
         <if test="query != null and query.wellMatchedUsername != null and query.wellMatchedUsername != ''">
-            and username = #{query.wellMatchedUsername}
+            and b.username = #{query.wellMatchedUsername}
         </if>
         <if test="page != null and page.orderBy != null and page.orderBy!='' and page.orderType != null and page.orderType!=''">
-            order by ${page.orderBy} ${page.orderType}
+            order by a.${page.orderBy} ${page.orderType}
         </if>
         <if test="page != null and page.start != null and page.size != null">
             limit #{page.start},#{page.size}
         </if>
     </select>
     <select id="getUserLoginLogsTotal" resultType="long">
-        SELECT count(id)
-        FROM vm_users_login_logs
-        where is_deleted = #{query.isDeleted}
+        SELECT count(a.id)
+        FROM vm_users_login_logs a,vm_users b
+        where
+        a.is_deleted = #{query.isDeleted}
+        and a.user_id=b.id
         <if test="query != null and query.username != null and query.username != ''">
-            and username LIKE concat('%',#{query.username},'%')
+            and b.username LIKE concat('%',#{query.username},'%')
         </if>
         <if test="query != null and query.wellMatchedUsername != null and query.wellMatchedUsername != ''">
-            and username = #{query.wellMatchedUsername}
+            and b.username = #{query.wellMatchedUsername}
         </if>
 
     </select>
