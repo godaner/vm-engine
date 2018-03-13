@@ -44,6 +44,7 @@ public class VmUsersLoginLogsServiceImpl extends BaseService implements VmUsersL
         vmUsersLoginLogsDto.setResult(customVmUsersLoginLogs.getResult());
         vmUsersLoginLogsDto.setUsername(customVmUsersLoginLogs.getUsername());
         vmUsersLoginLogsDto.setSystem(customVmUsersLoginLogs.getSystem());
+        vmUsersLoginLogsDto.setId(customVmUsersLoginLogs.getId());
         return vmUsersLoginLogsDto;
     }
 
