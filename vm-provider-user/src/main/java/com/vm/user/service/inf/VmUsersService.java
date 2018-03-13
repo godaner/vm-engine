@@ -46,4 +46,5 @@ public interface VmUsersService {
     VmUsersDto updateUserHeadImg(UpdateHeadImgInfo updateHeadImgInfo) throws Exception;
 
     void deleteUser(VmUsersDto vmUsersDto);
+
 }

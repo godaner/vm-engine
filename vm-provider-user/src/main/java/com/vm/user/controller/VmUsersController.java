@@ -225,5 +225,6 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response.putData("user", usersDto).
                 putData("newImgUrl", usersDto.getImgUrl() + "&width=300");
     }
+
 }
 
