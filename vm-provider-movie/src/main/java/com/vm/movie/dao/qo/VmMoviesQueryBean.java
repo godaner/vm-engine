@@ -8,7 +8,6 @@ import java.util.List;
  * Created by ZhangKe on 2017/12/12.
  */
 public class VmMoviesQueryBean extends BaseQueryBean{
-    private String keyword;
 
     private List<Long> tagIds;
 
@@ -56,14 +55,6 @@ public class VmMoviesQueryBean extends BaseQueryBean{
         this.tagIdsLength = tagIdsLength;
     }
 
-    public String getKeyword() {
-        return keyword;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
-
     public List<Long> getTagIds() {
         return tagIds;
     }
@@ -75,11 +66,11 @@ public class VmMoviesQueryBean extends BaseQueryBean{
     @Override
     public String toString() {
         return "VmMoviesQueryBean{" +
-                "keyword='" + keyword + '\'' +
-                ", tagIds=" + tagIds +
+                "tagIds=" + tagIds +
                 ", filmmakerIds=" + filmmakerIds +
                 ", excludeMovieId=" + excludeMovieId +
+                ", name='" + name + '\'' +
                 ", tagIdsLength=" + tagIdsLength +
-                '}';
+                "} " + super.toString();
     }
 }

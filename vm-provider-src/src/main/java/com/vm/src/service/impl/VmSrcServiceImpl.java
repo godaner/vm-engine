@@ -1,6 +1,5 @@
 package com.vm.src.service.impl;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.vm.base.util.BasePo;
 import com.vm.base.util.BaseService;
@@ -10,7 +9,6 @@ import com.vm.src.config.SrcConfig;
 import com.vm.src.dao.mapper.VmFilesMapper;
 import com.vm.src.dao.po.VmFiles;
 import com.vm.src.service.dto.VmFilesDto;
-import com.vm.src.service.exception.VmSrcException;
 import com.vm.src.service.inf.VmSrcService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 /**
  * Created by ZhangKe on 2018/2/3.
@@ -238,7 +235,6 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
 
 
     private VmFiles getUsableVmFilesById(Long fileId) {
-        VmFiles files = vmFilesMapper.select(fileId);
-        return (files != null && BasePo.Status.isNormal(files.getStatus()) && !BasePo.IsDeleted.isDeleted(files.getIsDeleted())) ? files : null;
+        return this.getObjectById(vmFilesMapper,fileId,BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
     }
 }

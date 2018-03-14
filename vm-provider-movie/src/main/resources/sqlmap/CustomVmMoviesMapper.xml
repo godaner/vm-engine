@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.vm.movie.dao.mapper.custom.CustomVmMoviesMapper">
 
-    <!--**************************** 自定义mapper start ****************************-->
+    <!--**************************** 用户端mapper end ****************************-->
     <resultMap id="CustomVmMoviesMap" type="com.vm.movie.dao.po.custom.CustomVmMovies">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
@@ -51,7 +51,8 @@
             FROM
             vm_movies_tags_realation r
             WHERE
-            r.`status` = 1
+            r.`status` = #{query.status}
+            and r.is_deleted = #{query.isDeleted}
             AND r.tag_id IN
             <foreach collection="query.tagIds" item="item" open="(" separator="," close=")">
                 #{item}
@@ -76,7 +77,8 @@
         FROM
         vm_movies m
         WHERE
-        m.`status` = 1
+        m.`status` = #{query.status}
+        and m.is_deleted = #{query.isDeleted}
         <if test="query.keyword!=null">
             AND m.name LIKE concat('%',#{query.keyword},'%')
         </if>
@@ -87,7 +89,8 @@
             FROM
             vm_movies_tags_realation r
             WHERE
-            r.`status` = 1
+            r.`status` = #{query.status}
+            and r.is_deleted = #{query.isDeleted}
             AND r.tag_id IN
             <foreach collection="query.tagIds" item="item" open="(" separator="," close=")">
                 #{item}
@@ -116,7 +119,8 @@
         m.img_url
         FROM vm_movies m
         where m.id = #{movieId}
-        and m.status = 1
+            and m.`status` = 1
+            and m.is_deleted = 1
     </select>
 
 
@@ -137,8 +141,10 @@
         vm_movies m,
         vm_movies_tags_realation tr
         WHERE
-        m.`status` = 1
-        AND tr.`status` = 1
+        m.`status` = #{query.status}
+        and m.is_deleted = #{query.isDeleted}
+        AND tr.`status` = #{query.status}
+        AND tr.is_deleted = #{query.isDeleted}
         AND tr.movie_id = m.id
         AND m.id !=#{query.excludeMovieId}
         AND tr.tag_id IN
@@ -169,8 +175,10 @@
         vm_movies m,
         vm_movies_filmmakers_realation mfr
         WHERE
-        m.`status` = 1
-        AND mfr.`status` = 1
+        m.`status` = #{query.status}
+        and m.is_deleted = #{query.isDeleted}
+        AND mfr.`status` = #{query.status}
+        and mfr.is_deleted = #{query.isDeleted}
         AND mfr.movie_id = m.id
         <if test="query.excludeMovieId != null">
             AND m.id !=#{query.excludeMovieId}
@@ -187,12 +195,15 @@
         </if>
     </select>
 
+    <!--**************************** 管理端mapper end ****************************-->
     <select id="getBackendMovies" resultMap="com.vm.movie.dao.mapper.VmMoviesMapper.VmMoviesMap">
         SELECT
         m.*
         FROM vm_movies m
+        where
+        m.is_deleted = #{query.isDeleted}
         <if test="query != null and query.name != null and query.name != ''">
-            where m.`name` like concat('%',#{query.name},'%')
+             m.`name` like concat('%',#{query.name},'%')
         </if>
         <if test="page != null and page.orderBy != null and page.orderBy!='' and page.orderType != null and page.orderType!=''">
             order by ${page.orderBy} ${page.orderType}
@@ -205,11 +216,12 @@
         SELECT
         count(m.id)
         FROM vm_movies m
+        where
+        m.is_deleted = #{query.isDeleted}
         <if test="query != null and query.name != null and query.name != ''">
-            where m.`name` like concat('%',#{query.name},'%')
+             m.`name` like concat('%',#{query.name},'%')
         </if>
     </select>
 
-    <!--**************************** 自定义mapper end ****************************-->
 
 </mapper>

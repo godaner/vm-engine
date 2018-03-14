@@ -270,12 +270,12 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     }
 
     private VmMovies getVmMoviesById(Long id, BasePo.IsDeleted isDeleted) {
-        return this.getUsableObjectById(vmMoviesMapper, id, isDeleted);
+        return this.getObjectById(vmMoviesMapper, id, isDeleted);
 
     }
 
     private VmMovies getVmMoviesById(Long id, BasePo.Status status, BasePo.IsDeleted isDeleted) {
-        return this.getUsableObjectById(vmMoviesMapper, id, status, isDeleted);
+        return this.getObjectById(vmMoviesMapper, id, status, isDeleted);
 
     }
 

@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -71,7 +70,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     public VmUsersDto userLogin(VmUsersDto vmUsersDto) throws Exception {
 
         //username is right?
-        VmUsers dbUser = this.getUserByUsername(vmUsersDto.getUsername(), BasePo.Status.NORMAL.getCode(), BasePo.IsDeleted.NO.getCode());
+        VmUsers dbUser = this.getUserByUsername(vmUsersDto.getUsername(), BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
 
         if (isNullObject(dbUser)) {
             throw new VmUsersException("userLogin dbUser is not exits ! user is : " + vmUsersDto,
@@ -121,7 +120,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     public VmUsersDto getUserBasicInfo(Long userId) {
 
         //获取指定id的user
-        VmUsers dbUser = this.getUsableUserById(userId, BasePo.Status.NORMAL.getCode(), BasePo.IsDeleted.NO.getCode());
+        VmUsers dbUser = this.getUsableUserById(userId, BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
 
         if (isNullObject(dbUser) || VmUsers.IsDeleted.isDeleted(dbUser.getIsDeleted())) {
             throw new VmUsersException("getUserBasicInfo user is not exits! userId is : " + userId,
@@ -137,7 +136,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Transactional
     public VmUsersDto updateOnlineUserBasicInfo(VmUsersDto user) throws Exception {
         //user是否存在
-        VmUsers dbUser = this.getUsableUserById(user.getId(), BasePo.Status.NORMAL.getCode(), BasePo.IsDeleted.NO.getCode());
+        VmUsers dbUser = this.getUsableUserById(user.getId(), BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
 
         if (isNullObject(dbUser) || VmUsers.IsDeleted.isDeleted(dbUser.getIsDeleted())) {
             throw new VmUsersException("updateOnlineUserBasicInfo dbUser is not exits ! user is : " + user,
@@ -212,7 +211,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     public VmUsersDto userRegist(VmUsersDto user) throws Exception {
 
         //是否存在username相同的账户
-        if (!isNullObject(this.getUserByUsername(user.getUsername(), BasePo.Status.NORMAL.getCode(), BasePo.IsDeleted.NO.getCode()))) {
+        if (!isNullObject(this.getUserByUsername(user.getUsername(), BasePo.Status.NORMAL, BasePo.IsDeleted.NO))) {
 
             throw new VmUsersException("userRegist username is exits ! user is :  " + user,
                     VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
@@ -220,7 +219,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         vmUsersMapper.insert(makeRegistVmUserPo(user));
 
-        VmUsers vmUsers = getUserByUsername(user.getUsername(), BasePo.Status.NORMAL.getCode(), BasePo.IsDeleted.NO.getCode());
+        VmUsers vmUsers = getUserByUsername(user.getUsername(), BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
 
 
         //login in session
@@ -273,7 +272,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
 
         //get new user
-        vmUsers = this.getUsableUserById(vmUsers.getId(), BasePo.Status.NORMAL.getCode(), BasePo.IsDeleted.NO.getCode());
+        vmUsers = this.getUsableUserById(vmUsers.getId(), BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
 
         return vmUsers == null ? null : makeVmUsersDto(vmUsers);
 
@@ -286,12 +285,11 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
      * @param username
      * @return
      */
-    private VmUsers getUserByUsername(String username, Byte status, Byte isDeleted) {
+    private VmUsers getUserByUsername(String username, BasePo.IsDeleted isDeleted) {
         //是否存在此username的user
         return vmUsersMapper.selectOneBy(ImmutableMap.of(
-                "status", status,
                 "username", username,
-                "isDeleted", isDeleted
+                "isDeleted", isDeleted.getCode()
         ));
     }
 
@@ -301,38 +299,23 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
      * @param username
      * @return
      */
-    private VmUsers getUserByUsername(String username, Byte isDeleted) {
+    private VmUsers getUserByUsername(String username, BasePo.Status status, BasePo.IsDeleted isDeleted) {
         //是否存在此username的user
         return vmUsersMapper.selectOneBy(ImmutableMap.of(
                 "username", username,
-                "isDeleted", isDeleted
+                "isDeleted", isDeleted.getCode(),
+                "status", status.getCode()
         ));
     }
 
-    private VmUsers getUsableUserById(Long userId, Byte status, Byte isDeleted) {
-        VmUsers vmUsers = vmUsersMapper.select(userId);
-        if (vmUsers == null) {
-            return null;
-        }
-        if (isDeleted != vmUsers.getIsDeleted()) {
-            return null;
-        }
-        if (status != vmUsers.getStatus()) {
-            return null;
-        }
-        return vmUsers;
+    private VmUsers getUsableUserById(Long userId, BasePo.Status status, BasePo.IsDeleted isDeleted) {
+
+        return this.getObjectById(vmUsersMapper, userId, status, isDeleted);
     }
 
-    private VmUsers getUsableUserById(Long userId, Byte isDeleted) {
-        VmUsers vmUsers = vmUsersMapper.select(userId);
-        if (vmUsers == null) {
-            return null;
-        }
-        if (isDeleted != vmUsers.getIsDeleted()) {
-            return null;
-        }
+    private VmUsers getUsableUserById(Long userId, BasePo.IsDeleted isDeleted) {
 
-        return vmUsers;
+        return this.getObjectById(vmUsersMapper, userId, isDeleted);
     }
 
     @Override
@@ -355,7 +338,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         if (null == userId) {
             return null;
         }
-        VmUsers vmUsers = this.getUsableUserById(userId, BasePo.Status.NORMAL.getCode(), BasePo.IsDeleted.NO.getCode());
+        VmUsers vmUsers = this.getUsableUserById(userId, BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
         if (null == vmUsers) {
             return null;
         }
@@ -394,7 +377,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     @Override
     public VmUsersDto addUser(VmUsersDto vmUsersDto) {
-        VmUsers dbUser = this.getUserByUsername(vmUsersDto.getUsername(), BasePo.IsDeleted.NO.getCode());
+        VmUsers dbUser = this.getUserByUsername(vmUsersDto.getUsername(), BasePo.IsDeleted.NO);
 
         if (!isNullObject(dbUser)) {
             throw new VmUsersException("addUser username is exits !! vmUsersDto is :" + vmUsersDto,
@@ -411,16 +394,16 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
 
         //get new user
-        vmUsers = this.getUsableUserById(vmUsers.getId(), BasePo.IsDeleted.NO.getCode());
+        vmUsers = this.getUsableUserById(vmUsers.getId(), BasePo.IsDeleted.NO);
 
         return makeBackendVmUsersDto(vmUsers);
     }
 
     @Override
     public VmUsersDto editUser(VmUsersDto vmUsersDto) {
-        VmUsers dbUser = this.getUsableUserById(vmUsersDto.getId(), BasePo.IsDeleted.NO.getCode());
+        VmUsers dbUser = this.getUsableUserById(vmUsersDto.getId(), BasePo.IsDeleted.NO);
         if (!dbUser.getUsername().equals(vmUsersDto.getUsername())) {//if change username
-            dbUser = this.getUserByUsername(vmUsersDto.getUsername(), BasePo.IsDeleted.NO.getCode());
+            dbUser = this.getUserByUsername(vmUsersDto.getUsername(), BasePo.IsDeleted.NO);
             if (!isNullObject(dbUser)) {
                 throw new VmUsersException("editUser username is exits !! vmUsersDto is :" + vmUsersDto,
                         VmUsersException.ErrorCode.USERNAME_IS_EXITS.getCode(),
@@ -436,7 +419,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         }
 
         //get new user
-        vmUsers = this.getUsableUserById(vmUsers.getId(), BasePo.IsDeleted.NO.getCode());
+        vmUsers = this.getUsableUserById(vmUsers.getId(), BasePo.IsDeleted.NO);
         return makeBackendVmUsersDto(vmUsers);
     }
 
@@ -460,7 +443,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
 
         //get new user
-        vmUsers = this.getUsableUserById(vmUsers.getId(), BasePo.IsDeleted.NO.getCode());
+        vmUsers = this.getUsableUserById(vmUsers.getId(), BasePo.IsDeleted.NO);
 
         return vmUsers == null ? null : makeBackendVmUsersDto(vmUsers);
     }

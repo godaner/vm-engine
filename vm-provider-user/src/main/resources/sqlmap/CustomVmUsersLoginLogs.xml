@@ -30,6 +30,7 @@
             FROM vm_users_login_logs a,vm_users b
             where
             a.is_deleted = #{query.isDeleted}
+            and a.`status` = #{query.status}
             and a.user_id=b.id
             <if test="query != null and query.username != null and query.username != ''">
                 and b.username LIKE concat('%',#{query.username},'%')
@@ -50,6 +51,7 @@
         FROM vm_users_login_logs a,vm_users b
         where
         a.is_deleted = #{query.isDeleted}
+        and a.`status` = #{query.status}
         and a.user_id=b.id
         <if test="query != null and query.username != null and query.username != ''">
             and b.username LIKE concat('%',#{query.username},'%')

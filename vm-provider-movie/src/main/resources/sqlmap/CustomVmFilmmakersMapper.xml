@@ -18,6 +18,9 @@
         AND m.`status` = 1
         AND r.`status` = 1
         AND fm.`status` = 1
+        AND m.is_deleted = 1
+        AND r.is_deleted = 1
+        AND fm.is_deleted = 1
 
       </select>
     <select id="selectActorsIdAndNameByMovieId" resultMap="com.vm.movie.dao.mapper.VmFilmmakersMapper.VmFilmmakersMap">
@@ -34,6 +37,9 @@
       AND m.`status` = 1
       AND r.`status` = 1
       AND fm.`status` = 1
+        AND m.is_deleted = 1
+        AND r.is_deleted = 1
+        AND fm.is_deleted = 1
 
     </select>
     <select id="selectDirectorIdAndNameByDirectorId" resultMap="com.vm.movie.dao.mapper.VmFilmmakersMapper.VmFilmmakersMap">
@@ -42,6 +48,7 @@
         from vm_filmmakers f
         where id = #{directorId}
         AND f.`status` = 1
+        AND f.is_deleted = 1
 
     </select>
     <!--**************************** 自定义mapper end ****************************-->

@@ -7,6 +7,7 @@ package com.vm.base.util;
 public class BaseQueryBean {
     private String keyword;
     private Byte isDeleted = BasePo.IsDeleted.NO.getCode();
+    private Byte status = BasePo.Status.NORMAL.getCode();
 
     public Byte getIsDeleted() {
         return isDeleted;
@@ -22,5 +23,13 @@ public class BaseQueryBean {
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 }
