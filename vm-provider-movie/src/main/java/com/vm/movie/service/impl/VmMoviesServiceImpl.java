@@ -237,6 +237,38 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         return makeMoviesWithDirectorAndActors(customVmMoviesMapper.getAboutFilmmakersMovies(page, query));
     }
 
+    @Override
+    public List<VmMoviesDto> getBackendMovies(VmMoviesQueryBean query, PageBean page) {
+        return customVmMoviesMapper.getBackendMovies(query,page).stream().parallel().map(vmMovies -> {
+            return makeBackendMoviesDto(vmMovies);
+        }).collect(toList());
+    }
+
+    private VmMoviesDto makeBackendMoviesDto(VmMovies vmMovies) {
+        VmMoviesDto vmMoviesDto = new VmMoviesDto();
+        vmMoviesDto.setAlias(vmMovies.getAlias());
+        vmMoviesDto.setDescription(vmMovies.getDescription());
+        vmMoviesDto.setDirectorId(vmMovies.getDirectorId());
+        vmMoviesDto.setId(vmMovies.getId());
+        vmMoviesDto.setImgUrl(vmMovies.getImgUrl());
+        vmMoviesDto.setMovieTime(vmMovies.getMovieTime());
+        vmMoviesDto.setName(vmMovies.getName());
+        vmMoviesDto.setPosterUrl(vmMovies.getPosterUrl());
+        vmMoviesDto.setReleaseTime(vmMovies.getReleaseTime());
+        vmMoviesDto.setWatchNum(vmMovies.getWatchNum());
+        vmMoviesDto.setScore(vmMovies.getScore());
+        vmMoviesDto.setCreateTime(vmMovies.getCreateTime());
+        vmMoviesDto.setUpdateTime(vmMovies.getUpdateTime());
+        vmMoviesDto.setStatus(vmMovies.getStatus());
+        vmMoviesDto.setDescription(vmMovies.getDescription());
+        return vmMoviesDto;
+    }
+
+    @Override
+    public Long getBackendMoviesTotal(VmMoviesQueryBean query, PageBean page) {
+        return customVmMoviesMapper.getBackendMoviesTotal(query,page);
+    }
+
 
     @Override
     public VmMoviesDto getMovie(Long movieId) {

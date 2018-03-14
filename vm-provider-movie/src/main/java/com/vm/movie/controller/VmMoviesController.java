@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Scope("prototype")
 public class VmMoviesController extends ServiceController<VmMoviesService> {
 
+    /*********************************用户端****************************/
     /**
      * 获取所有的tags分组及其下面的tags
      *
@@ -129,6 +130,18 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
         return response.putData("movies", service.getAboutFilmmakersMovies(page, query));
     }
 
-
+    /*********************************管理端****************************/
+    /**
+     * 获取电影列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/info/list", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getBackEndMoviesInfo(VmMoviesQueryBean query,
+                            PageBean page) throws Exception {
+        return response.putData("list", service.getBackendMovies(query,page )).
+                putData("total", service.getBackendMoviesTotal(query, page));
+    }
 }
 

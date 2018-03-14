@@ -3,7 +3,7 @@
 <mapper namespace="com.vm.movie.dao.mapper.custom.CustomVmMoviesMapper">
 
     <!--**************************** 自定义mapper start ****************************-->
-    <resultMap id="GetMoviesMap" type="com.vm.movie.dao.po.custom.CustomVmMovies">
+    <resultMap id="CustomVmMoviesMap" type="com.vm.movie.dao.po.custom.CustomVmMovies">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="alias" jdbcType="VARCHAR" property="alias"/>
@@ -24,7 +24,7 @@
 
     </resultMap>
     <!--获取movie列表-->
-    <select id="getMovies" resultMap="GetMoviesMap">
+    <select id="getMovies" resultMap="CustomVmMoviesMap">
 
         SELECT
         m.id,
@@ -102,7 +102,7 @@
     </select>
 
     <!--获取单个movie-->
-    <select id="getMovie" resultMap="GetMoviesMap">
+    <select id="getMovie" resultMap="CustomVmMoviesMap">
         SELECT
         m.id,
         m.name,
@@ -120,7 +120,7 @@
     </select>
 
 
-    <select id="getAboutTagsMovies" resultMap="GetMoviesMap">
+    <select id="getAboutTagsMovies" resultMap="CustomVmMoviesMap">
         SELECT
         DISTINCT
         m.id,
@@ -152,7 +152,7 @@
             limit #{page.start},#{page.size}
         </if>
     </select>
-    <select id="getAboutFilmmakersMovies" resultMap="GetMoviesMap">
+    <select id="getAboutFilmmakersMovies" resultMap="CustomVmMoviesMap">
         SELECT
         DISTINCT
         m.id,
@@ -186,6 +186,30 @@
             limit #{page.start},#{page.size}
         </if>
     </select>
+
+    <select id="getBackendMovies" resultMap="com.vm.movie.dao.mapper.VmMoviesMapper.VmMoviesMap">
+        SELECT
+        m.*
+        FROM vm_movies m
+        <if test="query != null and query.name != null and query.name != ''">
+            where m.`name` like concat('%',#{query.name},'%')
+        </if>
+        <if test="page != null and page.orderBy != null and page.orderBy!='' and page.orderType != null and page.orderType!=''">
+            order by ${page.orderBy} ${page.orderType}
+        </if>
+        <if test="page != null and page.start != null and page.size != null">
+            limit #{page.start},#{page.size}
+        </if>
+    </select>
+    <select id="getBackendMoviesTotal" resultType="long">
+        SELECT
+        count(m.id)
+        FROM vm_movies m
+        <if test="query != null and query.name != null and query.name != ''">
+            where m.`name` like concat('%',#{query.name},'%')
+        </if>
+    </select>
+
     <!--**************************** 自定义mapper end ****************************-->
 
 </mapper>

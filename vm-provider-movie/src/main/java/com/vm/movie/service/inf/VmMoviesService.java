@@ -31,4 +31,8 @@ public interface VmMoviesService {
     List<VmMoviesDto> getAboutTagsMovies(PageBean page, VmMoviesQueryBean query) throws Exception;
 
     List<VmMoviesDto> getAboutFilmmakersMovies(PageBean page, VmMoviesQueryBean query);
+
+    List<VmMoviesDto> getBackendMovies(VmMoviesQueryBean query, PageBean page);
+
+    Long getBackendMoviesTotal(VmMoviesQueryBean query, PageBean page);
 }

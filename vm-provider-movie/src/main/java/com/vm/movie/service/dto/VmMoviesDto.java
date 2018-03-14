@@ -32,10 +32,39 @@ public class VmMoviesDto {
 
     private String imgUrl;
 
+    private Integer createTime;
+
+    private Integer updateTime;
+
+    private Byte status;
     //附加属性
     private List<VmFilmmakers> actors;
     private VmFilmmakers director;
     private List<VmTags> tags;
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
+    public Integer getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Integer createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Integer updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public List<VmFilmmakers> getActors() {
         return actors;
