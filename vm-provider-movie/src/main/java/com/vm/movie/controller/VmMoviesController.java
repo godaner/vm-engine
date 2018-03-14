@@ -3,6 +3,7 @@ package com.vm.movie.controller;
 import com.vm.base.util.PageBean;
 import com.vm.base.util.ServiceController;
 import com.vm.movie.dao.qo.VmMoviesQueryBean;
+import com.vm.movie.service.dto.VmMoviesDto;
 import com.vm.movie.service.inf.VmMoviesService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -142,6 +143,16 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
                             PageBean page) throws Exception {
         return response.putData("list", service.getBackendMovies(query,page )).
                 putData("total", service.getBackendMoviesTotal(query, page));
+    }
+    /**
+     * 更新电影
+     *
+     * @return
+     */
+    @RequestMapping(value = "/info", method = RequestMethod.PUT)
+    @ResponseBody
+    public Object updateBackEndMoviesInfo(VmMoviesDto vmMoviesDto) throws Exception {
+        return response.putData("movie", service.updateBackEndMoviesInfo(vmMoviesDto));
     }
 }
 

@@ -118,8 +118,8 @@ public class BasePo {
      * 是否删除枚举
      */
     public enum IsDeleted {
-        YES(ByteConstantVar.ONE, "删除"),
-        NO(ByteConstantVar.TWO, "未删除");
+        NO(ByteConstantVar.ONE, "未删除"),
+        YES(ByteConstantVar.TWO, "删除");
 
         Byte code;
 

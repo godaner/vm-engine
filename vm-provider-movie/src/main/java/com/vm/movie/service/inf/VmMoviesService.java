@@ -35,4 +35,6 @@ public interface VmMoviesService {
     List<VmMoviesDto> getBackendMovies(VmMoviesQueryBean query, PageBean page);
 
     Long getBackendMoviesTotal(VmMoviesQueryBean query, PageBean page);
+
+    VmMoviesDto updateBackEndMoviesInfo(VmMoviesDto vmMoviesDto);
 }

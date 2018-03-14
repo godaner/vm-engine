@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.vm.base.util.BasePo;
 import com.vm.base.util.BaseService;
+import com.vm.base.util.DateUtil;
 import com.vm.base.util.PageBean;
 import com.vm.movie.dao.mapper.*;
 import com.vm.movie.dao.mapper.custom.*;
@@ -18,6 +19,7 @@ import com.vm.movie.service.exception.VmMoviesException;
 import com.vm.movie.service.inf.VmMoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -92,22 +94,6 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         }).collect(toList());
     }
 
-    /**
-     * 验证movie是否存在
-     *
-     * @param movieId
-     * @return
-     */
-    private VmMovies validateMovie(Long movieId) {
-        //获取电影
-        VmMovies vmMovies = vmMoviesMapper.select(movieId);
-        if (vmMovies == null || BasePo.IsDeleted.isDeleted(vmMovies.getIsDeleted())) {
-            return null;
-        } else {
-            return vmMovies;
-        }
-
-    }
 
     @Override
     public List<VmMoviesDto> getMovies(PageBean page, VmMoviesQueryBean query) {
@@ -144,8 +130,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     @Override
     public List<VmFilmmakersDto> getMovieFilmmakers(Long movieId) {
 
-        VmMovies vmMovies = validateMovie(movieId);
-
+        VmMovies vmMovies = this.getVmMoviesById(movieId, BasePo.IsDeleted.NO);
 
         if (isNullObject(vmMovies)) {
 
@@ -168,11 +153,11 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             filmmakers.add(director);
         }
 
-        return makeFilmmakerBos(filmmakers);
+        return makeFilmmakerDtos(filmmakers);
     }
 
 
-    private List<VmFilmmakersDto> makeFilmmakerBos(List<VmFilmmakers> filmmakers) {
+    private List<VmFilmmakersDto> makeFilmmakerDtos(List<VmFilmmakers> filmmakers) {
         //去除list的重复filmmaker
         if (isEmptyList(filmmakers)) {
             return Lists.newArrayList();
@@ -194,7 +179,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     @Override
     public List<VmMoviesSrcVersionDto> getMovieSrcVersions(Long movieId) throws Exception {
 
-        VmMovies vmMovies = validateMovie(movieId);
+        VmMovies vmMovies = this.getVmMoviesById(movieId, BasePo.IsDeleted.NO);
 
         if (isNullObject(vmMovies)) {
             throw new VmMoviesException("getMovieFilmmakers vmMovies is not exist ! movieId is : " + movieId,
@@ -214,7 +199,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
     @Override
     public String getMoviePosterUrl(Long movieId) throws Exception {
-        VmMovies vmMovies = validateMovie(movieId);
+        VmMovies vmMovies = this.getVmMoviesById(movieId, BasePo.IsDeleted.NO);
 
         if (isNullObject(vmMovies)) {
             throw new VmMoviesException("getMovieFilmmakers vmMovies is not exist ! movieId is : " + movieId,
@@ -239,7 +224,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
     @Override
     public List<VmMoviesDto> getBackendMovies(VmMoviesQueryBean query, PageBean page) {
-        return customVmMoviesMapper.getBackendMovies(query,page).stream().parallel().map(vmMovies -> {
+        return customVmMoviesMapper.getBackendMovies(query, page).stream().parallel().map(vmMovies -> {
             return makeBackendMoviesDto(vmMovies);
         }).collect(toList());
     }
@@ -266,7 +251,47 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
     @Override
     public Long getBackendMoviesTotal(VmMoviesQueryBean query, PageBean page) {
-        return customVmMoviesMapper.getBackendMoviesTotal(query,page);
+        return customVmMoviesMapper.getBackendMoviesTotal(query, page);
+    }
+
+    @Override
+    @Transactional
+    public VmMoviesDto updateBackEndMoviesInfo(VmMoviesDto vmMoviesDto) {
+        VmMovies vmMovies = this.getVmMoviesById(vmMoviesDto.getId(), BasePo.IsDeleted.NO);
+        if (isNullObject(vmMovies)) {
+            throw new VmMoviesException("updateBackEndMoviesInfo movie is not exits ! ",
+                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getCode(),
+                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getMsg());
+        }
+        if (1 != vmMoviesMapper.update(vmMovies.getId(), vmMovies)) {
+            throw new VmMoviesException("updateBackEndMoviesInfo vmMoviesMapper#update is fail ! ");
+        }
+        return makeBackendMoviesDto(this.getVmMoviesById(vmMoviesDto.getId(), BasePo.IsDeleted.NO));
+    }
+
+    private VmMovies getVmMoviesById(Long id, BasePo.IsDeleted isDeleted) {
+        return this.getUsableObjectById(vmMoviesMapper, id, isDeleted);
+
+    }
+
+    private VmMovies getVmMoviesById(Long id, BasePo.Status status, BasePo.IsDeleted isDeleted) {
+        return this.getUsableObjectById(vmMoviesMapper, id, status, isDeleted);
+
+    }
+
+
+    private VmMovies makeUpdateVmMovies(VmMoviesDto vmMoviesDto) {
+        VmMovies vmMovies = new VmMovies();
+        Integer now = DateUtil.unixTime().intValue();
+        vmMovies.setUpdateTime(now);
+        vmMovies.setAlias(vmMoviesDto.getAlias());
+        vmMovies.setDescription(vmMoviesDto.getDescription());
+        vmMovies.setMovieTime(vmMoviesDto.getMovieTime());
+        vmMovies.setName(vmMoviesDto.getName());
+        vmMovies.setReleaseTime(vmMoviesDto.getReleaseTime());
+        vmMovies.setId(vmMoviesDto.getId());
+        vmMovies.setStatus(vmMoviesDto.getStatus());
+        return vmMovies;
     }
 
 
@@ -275,9 +300,6 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
         return makeBasicMovieDto(customVmMoviesMapper.getMovie(movieId));
     }
-
-
-
 
 
 }
