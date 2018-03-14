@@ -63,6 +63,17 @@
 		<include refid="queryCondition" />
 	</delete>
 
+    <delete id="deleteInIds" >
+        delete
+        FROM
+        vm_tags_groups
+        WHERE id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </delete>
+
 <update id="update" >
 UPDATE
 		vm_tags_groups
@@ -79,6 +90,16 @@ UPDATE
 <include refid="queryCondition" />
 </update>
 
+
+    <update id="updateInIds">
+        update 
+        vm_tags_groups
+       <include refid="setFields" />        WHERE id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </update>
 
 	<select id="selectList" resultMap="VmTagsGroupsMap">
 		SELECT

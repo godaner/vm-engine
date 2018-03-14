@@ -66,6 +66,17 @@
 		<include refid="queryCondition" />
 	</delete>
 
+    <delete id="deleteInIds" >
+        delete
+        FROM
+        vm_movies_filmmakers_realation
+        WHERE id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </delete>
+
 <update id="update" >
 UPDATE
 		vm_movies_filmmakers_realation
@@ -82,6 +93,16 @@ UPDATE
 <include refid="queryCondition" />
 </update>
 
+
+    <update id="updateInIds">
+        update 
+        vm_movies_filmmakers_realation
+       <include refid="setFields" />        WHERE id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </update>
 
 	<select id="selectList" resultMap="VmMoviesFilmmakersRealationMap">
 		SELECT
