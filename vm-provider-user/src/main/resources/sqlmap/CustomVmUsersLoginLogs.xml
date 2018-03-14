@@ -35,7 +35,7 @@
                 and b.username LIKE concat('%',#{query.username},'%')
             </if>
             <if test="query != null and query.userId != null and query.userId != ''">
-                and a.userId = #{query.userId}
+                and a.user_id = #{query.userId}
             </if>
         ) c
         <if test="page != null and page.orderBy != null and page.orderBy!='' and page.orderType != null and page.orderType!=''">
@@ -55,7 +55,7 @@
             and b.username LIKE concat('%',#{query.username},'%')
         </if>
         <if test="query != null and query.userId != null and query.userId != ''">
-            and a.userId = #{query.userId}
+            and a.user_id = #{query.userId}
         </if>
 
     </select>
