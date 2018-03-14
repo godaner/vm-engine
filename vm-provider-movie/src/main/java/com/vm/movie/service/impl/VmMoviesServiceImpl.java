@@ -263,7 +263,8 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
                     VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getCode(),
                     VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getMsg());
         }
-        if (1 != vmMoviesMapper.update(vmMovies.getId(), vmMovies)) {
+        vmMovies = makeUpdateVmMovies(vmMoviesDto);
+        if (1 != vmMoviesMapper.update(vmMovies.getId(),vmMovies )) {
             throw new VmMoviesException("updateBackEndMoviesInfo vmMoviesMapper#update is fail ! ");
         }
         return makeBackendMoviesDto(this.getVmMoviesById(vmMoviesDto.getId(), BasePo.IsDeleted.NO));
