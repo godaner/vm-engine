@@ -5,6 +5,7 @@ import com.vm.dao.util.BasePo;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.DateUtil;
 import com.vm.base.util.ImageUtil;
+import com.vm.dao.util.QuickSelectOne;
 import com.vm.src.config.SrcConfig;
 import com.vm.src.dao.mapper.VmFilesMapper;
 import com.vm.src.dao.po.VmFiles;
@@ -235,6 +236,6 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
 
 
     private VmFiles getUsableVmFilesById(Long fileId) {
-        return this.getObjectById(vmFilesMapper,fileId,BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
+        return QuickSelectOne.getObjectById(vmFilesMapper,fileId,BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
     }
 }

@@ -3,6 +3,9 @@ package com.vm.user.service.impl;
 import com.google.common.collect.ImmutableMap;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.*;
+import com.vm.dao.util.BasePo;
+import com.vm.dao.util.PageBean;
+import com.vm.dao.util.QuickSelectOne;
 import com.vm.user.config.UserConfig;
 import com.vm.user.dao.mapper.VmUsersLoginLogsMapper;
 import com.vm.user.dao.mapper.VmUsersMapper;
@@ -310,12 +313,12 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     private VmUsers getUsableUserById(Long userId, BasePo.Status status, BasePo.IsDeleted isDeleted) {
 
-        return this.getObjectById(vmUsersMapper, userId, status, isDeleted);
+        return QuickSelectOne.getObjectById(vmUsersMapper, userId, status, isDeleted);
     }
 
     private VmUsers getUsableUserById(Long userId, BasePo.IsDeleted isDeleted) {
 
-        return this.getObjectById(vmUsersMapper, userId, isDeleted);
+        return QuickSelectOne.getObjectById(vmUsersMapper, userId, isDeleted);
     }
 
     @Override

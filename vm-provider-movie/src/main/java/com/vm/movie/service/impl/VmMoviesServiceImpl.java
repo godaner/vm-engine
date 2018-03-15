@@ -4,6 +4,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.*;
+import com.vm.dao.util.BasePo;
+import com.vm.dao.util.PageBean;
+import com.vm.dao.util.QuickSelectOne;
 import com.vm.movie.config.MovieConfig;
 import com.vm.movie.dao.mapper.*;
 import com.vm.movie.dao.mapper.custom.*;
@@ -299,12 +302,12 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     }
 
     private VmMovies getVmMoviesById(Long id, BasePo.IsDeleted isDeleted) {
-        return this.getObjectById(vmMoviesMapper, id, isDeleted);
+        return QuickSelectOne.getObjectById(vmMoviesMapper, id, isDeleted);
 
     }
 
     private VmMovies getVmMoviesById(Long id, BasePo.Status status, BasePo.IsDeleted isDeleted) {
-        return this.getObjectById(vmMoviesMapper, id, status, isDeleted);
+        return QuickSelectOne.getObjectById(vmMoviesMapper, id, status, isDeleted);
 
     }
 
