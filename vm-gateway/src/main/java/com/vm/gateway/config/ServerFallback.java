@@ -1,4 +1,4 @@
-package com.vm;
+package com.vm.gateway.config;
 
 import com.alibaba.fastjson.JSONObject;
 import com.vm.base.util.Response;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * 向用户管理api-user-server路由发起请求失败时的回滚处理
+ * 向服务提供者发起请求失败时的回滚处理
  * hystrix的回滚能力
  *
  * @author Jfei

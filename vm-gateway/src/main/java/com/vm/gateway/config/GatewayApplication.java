@@ -1,7 +1,5 @@
-package com.vm;
+package com.vm.gateway.config;
 
-import com.vm.gateway.configuration.ConsoleLogConfig;
-import com.vm.gateway.configuration.CorsConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;

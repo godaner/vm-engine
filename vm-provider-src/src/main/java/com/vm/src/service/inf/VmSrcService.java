@@ -17,7 +17,7 @@ public interface VmSrcService {
 
     Long saveImg(VmFilesDto vmFilesDto) throws Exception;
 
-    Long cutUploadedImgFile(VmFilesDto vmFilesDto);
+    Long cutUploadedImgFile(VmFilesDto vmFilesDto) throws Exception;
 
     Long uploadAndCut(VmFilesDto vmFilesDto) throws Exception;
 }

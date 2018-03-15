@@ -1,4 +1,4 @@
-package com.vm.gateway.configuration;
+package com.vm.gateway.config;
 
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;

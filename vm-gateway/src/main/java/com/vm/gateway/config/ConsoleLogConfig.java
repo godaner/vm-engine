@@ -1,4 +1,4 @@
-package com.vm.gateway.configuration;
+package com.vm.gateway.config;
 
 import javax.servlet.http.HttpServletRequest;
 

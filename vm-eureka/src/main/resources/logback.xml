@@ -1,4 +1,4 @@
-<!-- Logback configuration. See http://logback.qos.ch/manual/index.html -->
+<!-- Logbconfigtion. See http://logback.qos.ch/manual/index.html -->
 <configuration scan="true" scanPeriod="10 seconds">
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder charset="UTF-8"

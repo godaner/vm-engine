@@ -46,7 +46,7 @@ public class IOUtil {
         new File(filePathName).mkdirs();
     }
 
-    public final static void deleteFile(File file) throws Exception {
+    private final static void deleteFile(File file) throws Exception {
 
         try {
             if (file == null) {
@@ -261,6 +261,9 @@ public class IOUtil {
         } finally {
             closeStream(in, out);
         }
+    }
+    public final static File createFile(String filePathName){
+        return new File(filePathName);
     }
 
 }

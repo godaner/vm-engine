@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
@@ -127,6 +128,8 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             //设置响应的媒体类型
             httpServletResponse.setContentType(contentType); // 设置返回的文件类型
             IOUtils.copy(input, output);
+
+            logger.error("sendImgSrc#sendFileToHttpResponse send file : {} success ！", filePathName);
         } catch (IOException e) {
             e.printStackTrace();
             throw e;
@@ -196,27 +199,42 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     }
 
     @Override
-    public Long cutUploadedImgFile(VmFilesDto vmFilesDto) {
+    @Transactional
+    public Long cutUploadedImgFile(VmFilesDto vmFilesDto) throws Exception {
         logger.info("sendImgSrc vmFilesDto is : {} !", vmFilesDto);
         VmFiles vmFiles = this.getUsableVmFilesById(vmFilesDto.getFileId());
 
         String filePath = srcConfig.getSrcImgPath();
         String fileName = vmFiles.getFilename();
-        String filePathName = filePath + fileName;
-
+//        String filePathName = filePath + fileName;
+        String sourceFilePathName = filePath + fileName;
+        String cutTargetFilePathName = filePath +"cut_"+ fileName;
 
 //        String ext = getFileNameExt(fileName);
         String[] versions = vmFilesDto.getVersions().split(",");
-        Lists.newArrayList(versions).stream().parallel().forEach((version) -> {
-            String targetFilePath = filePath + version + "_" + fileName;
-            try {
-                ImageUtil.crop(filePathName,
-                        targetFilePath,
-                        vmFilesDto.getX(),
-                        vmFilesDto.getY(),
-                        vmFilesDto.getWidth(),
-                        vmFilesDto.getHeight());
 
+        //cut img
+        try {
+            ImageUtil.crop(sourceFilePathName,
+                    cutTargetFilePathName,
+                    vmFilesDto.getX(),
+                    vmFilesDto.getY(),
+                    vmFilesDto.getWidth(),
+                    vmFilesDto.getHeight());
+            IOUtil.deleteFiles(sourceFilePathName);
+        } catch (Exception e){
+            throw e;
+        }
+
+        //zoom img
+        int originalWidth = vmFilesDto.getWidth();
+                int originalHeight = vmFilesDto.getHeight();
+        Lists.newArrayList(versions).stream().parallel().forEach((version) -> {
+            int intVersion = Integer.valueOf(version);//width
+            String targetFilePathName = filePath + version + "_" + fileName;
+            try {
+                int height = (originalHeight/originalWidth)*intVersion;
+                ImageUtil.resize(cutTargetFilePathName,targetFilePathName,intVersion,height);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -226,7 +244,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     }
 
     @Override
-    public Long uploadAndCut(VmFilesDto vmFilesDto) throws IOException {
+    public Long uploadAndCut(VmFilesDto vmFilesDto) throws Exception {
         logger.info("uploadAndCut vmFilesDto is : {} !", vmFilesDto);
 
         Long fileId = this.saveImg(vmFilesDto);
