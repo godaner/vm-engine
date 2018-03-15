@@ -1,11 +1,10 @@
 package com.vm.movie.dao.mapper.custom;
 
-import com.vm.base.util.PageBean;
+import com.vm.dao.util.PageBean;
 import com.vm.movie.dao.po.VmMovies;
 import com.vm.movie.dao.po.VmTags;
 import com.vm.movie.dao.po.custom.CustomVmMovies;
 import com.vm.movie.dao.qo.VmMoviesQueryBean;
-import com.vm.movie.service.dto.VmMoviesDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

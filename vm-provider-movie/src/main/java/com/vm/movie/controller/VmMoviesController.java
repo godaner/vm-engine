@@ -1,7 +1,7 @@
 package com.vm.movie.controller;
 
 import com.vm.base.service.dto.UpdateHeadImgInfo;
-import com.vm.base.util.PageBean;
+import com.vm.dao.util.PageBean;
 import com.vm.base.util.ServiceController;
 import com.vm.movie.dao.qo.VmMoviesQueryBean;
 import com.vm.movie.service.dto.VmMoviesDto;

@@ -1,6 +1,6 @@
 package com.vm.user.controller;
 
-import com.vm.base.util.PageBean;
+import com.vm.dao.util.PageBean;
 import com.vm.base.util.ServiceController;
 import com.vm.user.dao.qo.VmUsersLoginLogsQueryBean;
 import com.vm.user.service.inf.VmUsersLoginLogsService;

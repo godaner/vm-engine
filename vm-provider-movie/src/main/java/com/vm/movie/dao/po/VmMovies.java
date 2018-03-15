@@ -1,6 +1,6 @@
 package com.vm.movie.dao.po;
 
-import com.vm.base.util.BasePo;
+import com.vm.dao.util.BasePo;
 
 public class VmMovies extends BasePo {
 

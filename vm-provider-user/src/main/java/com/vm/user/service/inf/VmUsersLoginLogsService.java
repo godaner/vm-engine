@@ -1,6 +1,6 @@
 package com.vm.user.service.inf;
 
-import com.vm.base.util.PageBean;
+import com.vm.dao.util.PageBean;
 import com.vm.user.dao.qo.VmUsersLoginLogsQueryBean;
 import com.vm.user.service.dto.VmUsersLoginLogsDto;
 

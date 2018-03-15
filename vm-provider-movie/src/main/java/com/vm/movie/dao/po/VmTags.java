@@ -1,5 +1,5 @@
 package com.vm.movie.dao.po;
-import com.vm.base.util.BasePo;
+import com.vm.dao.util.BasePo;
 public class VmTags extends BasePo {
 
     private String name;

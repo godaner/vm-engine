@@ -1,6 +1,6 @@
 package com.vm.movie.dao.qo;
 
-import com.vm.base.util.BaseQueryBean;
+import com.vm.dao.util.BaseQueryBean;
 
 import java.util.List;
 

@@ -1,5 +1,7 @@
-package com.vm.base.util;
+package com.vm.dao.util;
 
+
+import com.vm.base.util.ByteConstantVar;
 
 /**
  * Created by ZhangKe on 2017/12/11.

@@ -1,7 +1,7 @@
 package com.vm.src.service.impl;
 
 import com.google.common.collect.Lists;
-import com.vm.base.util.BasePo;
+import com.vm.dao.util.BasePo;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.DateUtil;
 import com.vm.base.util.ImageUtil;

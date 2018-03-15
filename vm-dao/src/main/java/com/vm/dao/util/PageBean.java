@@ -1,5 +1,7 @@
-package com.vm.base.util;
+package com.vm.dao.util;
 
+
+import com.vm.base.util.CommonUtil;
 
 public class PageBean extends CommonUtil {
     private Integer start;
@@ -29,7 +31,7 @@ public class PageBean extends CommonUtil {
 
     public void setOrderBy(String orderBy) {
 
-        this.orderBy = isEmptyString(orderBy) ? "create_time" : orderBy;
+        this.orderBy = CommonUtil.isEmptyString(orderBy) ? "create_time" : orderBy;
     }
 
     public String getOrderType() {
@@ -38,7 +40,7 @@ public class PageBean extends CommonUtil {
 
     public void setOrderType(String orderType) {
 
-        this.orderType = isEmptyString(orderType) ? "desc" : orderType;
+        this.orderType = CommonUtil.isEmptyString(orderType) ? "desc" : orderType;
     }
 
     public PageBean() {

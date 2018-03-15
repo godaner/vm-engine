@@ -9,6 +9,7 @@
     <artifactId>vm-dao</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.vm</groupId>
             <artifactId>vm-base</artifactId>
@@ -51,8 +52,6 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <!--mysql-connector-java end-->
-
-
     </dependencies>
 
 </project>

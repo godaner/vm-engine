@@ -1,6 +1,6 @@
 package com.vm.movie.service.impl;
 
-import com.vm.base.util.BasePo;
+import com.vm.dao.util.BasePo;
 import com.vm.base.util.BaseService;
 import com.vm.movie.dao.mapper.VmFilmmakersMapper;
 import com.vm.movie.dao.po.VmFilmmakers;

@@ -2,7 +2,7 @@ package com.vm.user.service.inf;
 
 
 import com.vm.base.service.dto.UpdateHeadImgInfo;
-import com.vm.base.util.PageBean;
+import com.vm.dao.util.PageBean;
 import com.vm.user.dao.qo.VmUserQueryBean;
 import com.vm.user.service.dto.VmUsersDto;
 

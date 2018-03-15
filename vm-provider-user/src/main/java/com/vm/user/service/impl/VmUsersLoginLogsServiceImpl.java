@@ -1,10 +1,8 @@
 package com.vm.user.service.impl;
 
 import com.vm.base.util.BaseService;
-import com.vm.base.util.PageBean;
-import com.vm.user.dao.mapper.VmUsersLoginLogsMapper;
+import com.vm.dao.util.PageBean;
 import com.vm.user.dao.mapper.custom.CustomVmUsersLoginLogsMapper;
-import com.vm.user.dao.po.VmUsersLoginLogs;
 import com.vm.user.dao.po.custom.CustomVmUsersLoginLogs;
 import com.vm.user.dao.qo.VmUsersLoginLogsQueryBean;
 import com.vm.user.service.dto.VmUsersLoginLogsDto;

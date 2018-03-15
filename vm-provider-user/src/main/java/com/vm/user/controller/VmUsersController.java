@@ -1,8 +1,9 @@
 package com.vm.user.controller;
 
 import com.vm.base.service.dto.UpdateHeadImgInfo;
-import com.vm.base.util.PageBean;
+
 import com.vm.base.util.ServiceController;
+import com.vm.dao.util.PageBean;
 import com.vm.user.aop.IgnoreExtendSessionLife;
 import com.vm.user.aop.RequiredLogin;
 import com.vm.user.dao.qo.VmUserQueryBean;

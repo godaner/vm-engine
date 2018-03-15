@@ -1,11 +1,8 @@
 package com.vm.user.dao.mapper.custom;
 
-import com.vm.base.util.PageBean;
-import com.vm.user.dao.po.VmUsersLoginLogs;
+import com.vm.dao.util.PageBean;
 import com.vm.user.dao.po.custom.CustomVmUsersLoginLogs;
-import com.vm.user.dao.qo.VmUserQueryBean;
 import com.vm.user.dao.qo.VmUsersLoginLogsQueryBean;
-import com.vm.user.service.dto.VmUsersLoginLogsDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

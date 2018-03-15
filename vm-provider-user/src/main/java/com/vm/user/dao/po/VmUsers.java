@@ -1,6 +1,6 @@
 package com.vm.user.dao.po;
 
-import com.vm.base.util.BasePo;
+import com.vm.dao.util.BasePo;
 import com.vm.base.util.ByteConstantVar;
 
 public class VmUsers extends BasePo {

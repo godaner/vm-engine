@@ -1,6 +1,6 @@
 package com.vm.admin.dao.po;
 
-import com.vm.base.util.BasePo;
+import com.vm.dao.util.BasePo;
 
 public class VmAdminsLoginLogs extends BasePo {
 
