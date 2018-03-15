@@ -1,10 +1,11 @@
 package com.vm.src.service.impl;
 
 import com.google.common.collect.Lists;
-import com.vm.dao.util.BasePo;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.DateUtil;
+import com.vm.base.util.IOUtil;
 import com.vm.base.util.ImageUtil;
+import com.vm.dao.util.BasePo;
 import com.vm.dao.util.QuickSelectOne;
 import com.vm.src.config.SrcConfig;
 import com.vm.src.dao.mapper.VmFilesMapper;
@@ -12,6 +13,8 @@ import com.vm.src.dao.po.VmFiles;
 import com.vm.src.service.dto.VmFilesDto;
 import com.vm.src.service.inf.VmSrcService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +30,7 @@ import java.security.NoSuchAlgorithmException;
  */
 @Service
 public class VmSrcServiceImpl extends BaseService implements VmSrcService {
+    private Logger logger = LoggerFactory.getLogger(VmSrcServiceImpl.class);
     @Autowired
     private VmFilesMapper vmFilesMapper;
     @Autowired
@@ -68,13 +72,13 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             e.printStackTrace();
             throw e;
         } finally {
-            closeStream(input, output);
+            IOUtil.closeStream(input, output);
         }
     }
 
     @Override
     public void sendImgSrc(VmFilesDto vmFilesDto, HttpServletResponse response) throws IOException {
-        logger.info("sendImgSrc vmFilesDto is : {} , response is : {} !", vmFilesDto, response);
+        logger.info("sendImgSrc vmFilesDto is : {} !", vmFilesDto);
         Long fileId = vmFilesDto.getFileId();
         Integer width = vmFilesDto.getWidth();
         //获取图片id信息
@@ -94,7 +98,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         if (null == width) {
             imgPathName = imgPath + imgName;
             if (!new File(imgPathName).exists()) {
-                logger.error("sendImgSrc file :{} is not exits ! imgPathName is : {} ！" + imgPathName);
+                logger.error("sendImgSrc file :{} is not exits ！", imgPathName);
                 imgPathName = imgPath + srcConfig.getSrcImgDefault();
             }
             sendFileToHttpResponse(imgPathName, contentType, response);
@@ -102,10 +106,10 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         }
         imgPathName = imgPath + File.separator + width + "_" + imgName;
         if (!new File(imgPathName).exists()) {
-            logger.error("sendImgSrc file :{} is not exits ! imgPathName is : {} ！" + imgPathName);
+            logger.error("sendImgSrc file :{} is not exits ！", imgPathName);
             imgPathName = imgPath + imgName;
             if (!new File(imgPathName).exists()) {
-                logger.error("sendImgSrc file :{} is not exits ! imgPathName is : {} ！" + imgPathName);
+                logger.error("sendImgSrc file :{} is not exits ！", imgPathName);
                 imgPathName = imgPath + srcConfig.getSrcImgDefault();
             }
         }
@@ -127,7 +131,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             e.printStackTrace();
             throw e;
         } finally {
-            closeStream(input, output);
+            IOUtil.closeStream(input, output);
         }
 
     }
@@ -154,7 +158,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             //originalFilename
             String originalFilename = imgFile.getOriginalFilename();
             //get ext
-            String ext = getFileNameExt(originalFilename);
+            String ext = IOUtil.getFileNameExt(originalFilename);
             //get size
             Long size = imgFile.getSize();
             //now
@@ -183,10 +187,10 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
 
         } catch (Exception e) {
             e.printStackTrace();
-            deleteFiles(targetImgName);
+            IOUtil.deleteFiles(targetImgName);
             throw e;
         } finally {
-            closeStream(inputStream, outputStream);
+            IOUtil.closeStream(inputStream, outputStream);
         }
         return vmFiles.getId();
     }
@@ -201,19 +205,19 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         String filePathName = filePath + fileName;
 
 
-        String ext = getFileNameExt(fileName);
+//        String ext = getFileNameExt(fileName);
         String[] versions = vmFilesDto.getVersions().split(",");
         Lists.newArrayList(versions).stream().parallel().forEach((version) -> {
             String targetFilePath = filePath + version + "_" + fileName;
             try {
-                ImageUtil.cutImage(filePathName,
+                ImageUtil.crop(filePathName,
                         targetFilePath,
                         vmFilesDto.getX(),
                         vmFilesDto.getY(),
                         vmFilesDto.getWidth(),
-                        vmFilesDto.getHeight(),
-                        ext);
-            } catch (IOException e) {
+                        vmFilesDto.getHeight());
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -236,6 +240,6 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
 
 
     private VmFiles getUsableVmFilesById(Long fileId) {
-        return QuickSelectOne.getObjectById(vmFilesMapper,fileId,BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
+        return QuickSelectOne.getObjectById(vmFilesMapper, fileId, BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
     }
 }

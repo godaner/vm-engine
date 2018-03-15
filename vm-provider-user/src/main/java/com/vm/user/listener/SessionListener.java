@@ -1,6 +1,8 @@
 package com.vm.user.listener;
 
 import com.vm.base.util.CommonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
@@ -12,7 +14,7 @@ import javax.servlet.http.HttpSessionListener;
 @WebListener
 public class SessionListener extends CommonUtil implements HttpSessionListener {
 
-
+    private Logger logger = LoggerFactory.getLogger(SessionListener.class);
     @Override
     public void sessionCreated(HttpSessionEvent se) {
 
