@@ -1,4 +1,4 @@
-package com.vm.base.util;
+package com.vm.dao.util;
 
 import org.junit.Test;
 import org.mybatis.generator.api.MyBatisGenerator;
@@ -12,7 +12,7 @@ import java.util.List;
 
 
 /**
- * Title:com.vm.base.util.GeneratorConfig
+ * Title:com.vm.dao.util.GeneratorConfig
  * <p>
  * Description:mybatis逆向生成mapper接口,mapperxml,bean
  * <p>
@@ -32,7 +32,7 @@ public class GeneratorConfig {
     public void mybatisGenerator() throws Exception {
         List<String> warnings = new ArrayList<String>();
         boolean overwrite = true;
-//        String path = com.vm.base.util.GeneratorConfig.class.getResource("").getPath() + "generatorConfig.xml";
+//        String path = com.vm.dao.util.GeneratorConfig.class.getResource("").getPath() + "generatorConfig.xml";
 
         String path = GeneratorConfig.class.getClassLoader().getResource("./").getPath() + "/generatorConfig.xml";
         // 指定逆向工程配置文件

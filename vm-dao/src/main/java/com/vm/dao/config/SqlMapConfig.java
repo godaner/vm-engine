@@ -1,4 +1,4 @@
-package com.vm.base.config;
+package com.vm.dao.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;

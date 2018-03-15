@@ -1,4 +1,4 @@
-package com.vm.base.util;
+package com.vm.dao.util;
 
 import java.io.File;
 import java.io.FileInputStream;

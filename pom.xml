@@ -16,6 +16,7 @@
         <module>vm-provider-src</module>
         <module>vm-provider-admin</module>
         <module>vm-config-server</module>
+        <module>vm-dao</module>
     </modules>
 
     <parent>
