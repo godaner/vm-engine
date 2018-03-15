@@ -1,13 +1,12 @@
 package com.vm.user.controller;
 
-import com.vm.base.util.BaseQueryBean;
+import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.PageBean;
 import com.vm.base.util.ServiceController;
 import com.vm.user.aop.IgnoreExtendSessionLife;
 import com.vm.user.aop.RequiredLogin;
 import com.vm.user.dao.qo.VmUserQueryBean;
 import com.vm.user.resolver.OnlineUser;
-import com.vm.user.service.dto.UpdateHeadImgInfo;
 import com.vm.user.service.dto.VmUsersDto;
 import com.vm.user.service.inf.VmUsersService;
 import org.springframework.context.annotation.Scope;

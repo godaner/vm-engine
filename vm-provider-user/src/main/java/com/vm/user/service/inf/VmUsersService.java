@@ -1,16 +1,13 @@
 package com.vm.user.service.inf;
 
 
-import com.vm.base.util.BaseQueryBean;
+import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.PageBean;
 import com.vm.user.dao.qo.VmUserQueryBean;
-import com.vm.user.service.dto.UpdateHeadImgInfo;
 import com.vm.user.service.dto.VmUsersDto;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by ZhangKe on 2017/12/18.

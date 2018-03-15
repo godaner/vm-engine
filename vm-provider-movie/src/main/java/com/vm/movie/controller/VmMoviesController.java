@@ -1,5 +1,6 @@
 package com.vm.movie.controller;
 
+import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.PageBean;
 import com.vm.base.util.ServiceController;
 import com.vm.movie.dao.qo.VmMoviesQueryBean;
@@ -153,6 +154,18 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
     @ResponseBody
     public Object updateBackEndMoviesInfo(VmMoviesDto vmMoviesDto) throws Exception {
         return response.putData("movie", service.updateBackEndMoviesInfo(vmMoviesDto));
+    }
+    /**
+     * 更具已缓存图片更新用户头像<br/>
+     *
+     * @return
+     */
+    @RequestMapping(value = "/img", method = RequestMethod.PUT)
+    @ResponseBody
+    public Object updateImg(UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
+        VmMoviesDto vmMoviesDto = service.updateImg(updateHeadImgInfo);
+        return response.putData("movie", vmMoviesDto).
+                putData("newImgUrl", vmMoviesDto.getImgUrl() + "&width=300");
     }
 }
 

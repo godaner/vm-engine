@@ -1,9 +1,6 @@
 package com.vm.movie.service.exception;
 
-import com.vm.base.exception.VmRuntimeException;
-import com.vm.base.util.Response;
-
-import java.util.Map;
+import com.vm.base.service.exception.VmRuntimeException;
 
 /**
  * Created by ZhangKe on 2018/1/9.

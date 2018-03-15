@@ -1,6 +1,6 @@
 package com.vm.src.service.exception;
 
-import com.vm.base.exception.VmRuntimeException;
+import com.vm.base.service.exception.VmRuntimeException;
 
 /**
  * Created by ZhangKe on 2018/1/9.

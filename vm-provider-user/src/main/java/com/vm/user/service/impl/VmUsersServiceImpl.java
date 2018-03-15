@@ -1,6 +1,7 @@
 package com.vm.user.service.impl;
 
 import com.google.common.collect.ImmutableMap;
+import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.*;
 import com.vm.user.config.UserConfig;
 import com.vm.user.dao.mapper.VmUsersLoginLogsMapper;
@@ -10,7 +11,6 @@ import com.vm.user.dao.po.VmUsers;
 import com.vm.user.dao.po.VmUsersLoginLogs;
 import com.vm.user.dao.qo.VmUserQueryBean;
 import com.vm.user.feign.service.SrcServiceClient;
-import com.vm.user.service.dto.UpdateHeadImgInfo;
 import com.vm.user.service.dto.VmUsersDto;
 import com.vm.user.service.exception.VmUsersException;
 import com.vm.user.service.inf.VmUsersService;

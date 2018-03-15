@@ -1,6 +1,6 @@
 package com.vm.base.aop;
 
-import com.vm.base.exception.VmRuntimeException;
+import com.vm.base.service.exception.VmRuntimeException;
 import com.vm.base.util.CommonUtil;
 import com.vm.base.util.Response;
 import org.aspectj.lang.ProceedingJoinPoint;

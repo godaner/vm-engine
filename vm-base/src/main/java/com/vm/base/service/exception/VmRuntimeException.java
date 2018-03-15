@@ -1,9 +1,7 @@
-package com.vm.base.exception;
+package com.vm.base.service.exception;
 
 
 import com.vm.base.util.Response;
-
-import java.util.Map;
 
 /**
  * <b>Title:</b>

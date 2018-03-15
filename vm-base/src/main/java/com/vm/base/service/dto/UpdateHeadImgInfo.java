@@ -1,8 +1,8 @@
-package com.vm.user.service.dto;
+package com.vm.base.service.dto;
 
 /**
  * Created by ZhangKe on 2018/1/12.
- * 上传头像参数信息
+ * 上传图片参数信息
  */
 public class UpdateHeadImgInfo {
     private Long fileId;

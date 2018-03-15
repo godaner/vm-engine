@@ -2,15 +2,15 @@ package com.vm.movie.service.impl;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.vm.base.util.BasePo;
-import com.vm.base.util.BaseService;
-import com.vm.base.util.DateUtil;
-import com.vm.base.util.PageBean;
+import com.vm.base.service.dto.UpdateHeadImgInfo;
+import com.vm.base.util.*;
+import com.vm.movie.config.MovieConfig;
 import com.vm.movie.dao.mapper.*;
 import com.vm.movie.dao.mapper.custom.*;
 import com.vm.movie.dao.po.*;
 import com.vm.movie.dao.po.custom.*;
 import com.vm.movie.dao.qo.*;
+import com.vm.movie.feign.service.SrcServiceClient;
 import com.vm.movie.service.dto.VmFilmmakersDto;
 import com.vm.movie.service.dto.VmMoviesDto;
 import com.vm.movie.service.dto.VmMoviesSrcVersionDto;
@@ -45,7 +45,10 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     private VmMoviesSrcVersionMapper vmMoviesSrcVersionMapper;
     @Autowired
     private CustomVmMoviesSrcVersionMapper customVmMoviesSrcVersionMapper;
-
+    @Autowired
+    private MovieConfig movieConfig;
+    @Autowired
+    private SrcServiceClient srcServiceClient;
     /**
      * 构建含有基本电影信息的dto
      *
@@ -268,6 +271,31 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
             throw new VmMoviesException("updateBackEndMoviesInfo vmMoviesMapper#update is fail ! ");
         }
         return makeBackendMoviesDto(this.getVmMoviesById(vmMoviesDto.getId(), BasePo.IsDeleted.NO));
+    }
+
+    @Override
+    public VmMoviesDto updateImg(UpdateHeadImgInfo updateHeadImgInfo) {
+        //set versions
+        updateHeadImgInfo.setVersions(movieConfig.getMovieImgVersions());
+
+        //feign
+        String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
+        Response response = Response.parseJSON(res);
+        if (response.isFailure()) {
+            throw new VmMoviesException("updateUserHeadImg srcServiceClient#cutUploadedImgFile is fail !! updateHeadImgInfo is :" + updateHeadImgInfo);
+        }
+        String imgUrl = (String) response.getData("imgUrl");
+        //update user
+        VmMovies vmUsers = new VmMovies();
+        vmUsers.setId(updateHeadImgInfo.getId());
+        vmUsers.setImgUrl(imgUrl);
+        vmMoviesMapper.update(vmUsers.getId(), vmUsers);
+
+
+        //get new user
+        vmUsers = this.getVmMoviesById(vmUsers.getId(), BasePo.IsDeleted.NO);
+
+        return vmUsers == null ? null : makeBackendMoviesDto(vmUsers);
     }
 
     private VmMovies getVmMoviesById(Long id, BasePo.IsDeleted isDeleted) {
