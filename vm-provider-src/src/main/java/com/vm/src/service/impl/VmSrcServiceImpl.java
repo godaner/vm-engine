@@ -208,7 +208,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         String fileName = vmFiles.getFilename();
 //        String filePathName = filePath + fileName;
         String sourceFilePathName = filePath + fileName;
-        String cutTargetFilePathName = filePath +"cut_"+ fileName;
+        String cutTargetFilePathName = filePath + "cut_" + fileName;
 
 //        String ext = getFileNameExt(fileName);
         String[] versions = vmFilesDto.getVersions().split(",");
@@ -221,24 +221,27 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
                     vmFilesDto.getY(),
                     vmFilesDto.getWidth(),
                     vmFilesDto.getHeight());
-            IOUtil.deleteFiles(sourceFilePathName);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
 
         //zoom img
         int originalWidth = vmFilesDto.getWidth();
-                int originalHeight = vmFilesDto.getHeight();
+        int originalHeight = vmFilesDto.getHeight();
         Lists.newArrayList(versions).stream().parallel().forEach((version) -> {
             int intVersion = Integer.valueOf(version);//width
             String targetFilePathName = filePath + version + "_" + fileName;
             try {
-                int height = (originalHeight/originalWidth)*intVersion;
-                ImageUtil.resize(cutTargetFilePathName,targetFilePathName,intVersion,height);
+                //get zoom
+                Double zoom = originalHeight*1.0 / originalWidth*1.0;
+                int height = (int)(zoom * intVersion);
+                ImageUtil.resize(cutTargetFilePathName, targetFilePathName, intVersion, height);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
+
+        IOUtil.deleteFiles(sourceFilePathName);
 
         return vmFiles.getId();
     }
