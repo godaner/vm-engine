@@ -40,4 +40,6 @@ public interface VmMoviesService {
     VmMoviesDto updateBackEndMoviesInfo(VmMoviesDto vmMoviesDto);
 
     VmMoviesDto updateImg(UpdateHeadImgInfo updateHeadImgInfo);
+
+    VmMoviesDto updatePoster(UpdateHeadImgInfo updateHeadImgInfo);
 }

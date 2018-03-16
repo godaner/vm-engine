@@ -156,7 +156,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
         return response.putData("movie", service.updateBackEndMoviesInfo(vmMoviesDto));
     }
     /**
-     * 更具已缓存图片更新用户头像<br/>
+     * 更具已缓存图片更新电影img<br/>
      *
      * @return
      */
@@ -164,6 +164,18 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
     @ResponseBody
     public Object updateImg(UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
         VmMoviesDto vmMoviesDto = service.updateImg(updateHeadImgInfo);
+        return response.putData("movie", vmMoviesDto).
+                putData("newImgUrl", vmMoviesDto.getImgUrl() + "&width=300");
+    }
+    /**
+     * 更具已缓存图片更新电影poster<br/>
+     *
+     * @return
+     */
+    @RequestMapping(value = "/poster", method = RequestMethod.PUT)
+    @ResponseBody
+    public Object updatePoster(UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
+        VmMoviesDto vmMoviesDto = service.updatePoster(updateHeadImgInfo);
         return response.putData("movie", vmMoviesDto).
                 putData("newImgUrl", vmMoviesDto.getImgUrl() + "&width=300");
     }

@@ -52,6 +52,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     private MovieConfig movieConfig;
     @Autowired
     private SrcServiceClient srcServiceClient;
+
     /**
      * 构建含有基本电影信息的dto
      *
@@ -270,7 +271,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
                     VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getMsg());
         }
         vmMovies = makeUpdateVmMovies(vmMoviesDto);
-        if (1 != vmMoviesMapper.update(vmMovies.getId(),vmMovies )) {
+        if (1 != vmMoviesMapper.update(vmMovies.getId(), vmMovies)) {
             throw new VmMoviesException("updateBackEndMoviesInfo vmMoviesMapper#update is fail ! ");
         }
         return makeBackendMoviesDto(this.getVmMoviesById(vmMoviesDto.getId(), BasePo.IsDeleted.NO));
@@ -292,6 +293,31 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         VmMovies vmUsers = new VmMovies();
         vmUsers.setId(updateHeadImgInfo.getId());
         vmUsers.setImgUrl(imgUrl);
+        vmMoviesMapper.update(vmUsers.getId(), vmUsers);
+
+
+        //get new user
+        vmUsers = this.getVmMoviesById(vmUsers.getId(), BasePo.IsDeleted.NO);
+
+        return vmUsers == null ? null : makeBackendMoviesDto(vmUsers);
+    }
+
+    @Override
+    public VmMoviesDto updatePoster(UpdateHeadImgInfo updateHeadImgInfo) {
+        //set versions
+        updateHeadImgInfo.setVersions(movieConfig.getMovieImgVersions());
+
+        //feign
+        String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
+        Response response = Response.parseJSON(res);
+        if (response.isFailure()) {
+            throw new VmMoviesException("updatePoster srcServiceClient#cutUploadedImgFile is fail !! updateHeadImgInfo is :" + updateHeadImgInfo);
+        }
+        String imgUrl = (String) response.getData("imgUrl");
+        //update user
+        VmMovies vmUsers = new VmMovies();
+        vmUsers.setId(updateHeadImgInfo.getId());
+        vmUsers.setPosterUrl(imgUrl);
         vmMoviesMapper.update(vmUsers.getId(), vmUsers);
 
 
