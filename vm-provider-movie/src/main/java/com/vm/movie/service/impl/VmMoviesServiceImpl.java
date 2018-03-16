@@ -61,7 +61,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
      */
     private VmMoviesDto makeBasicMovieDto(CustomVmMovies customVmMovies) {
         VmMoviesDto vmMoviesDto = new VmMoviesDto();
-        vmMoviesDto.setDescription(customVmMovies.getAlias());
+        vmMoviesDto.setDescription(customVmMovies.getDescription());
         vmMoviesDto.setDirectorId(customVmMovies.getDirectorId());
         vmMoviesDto.setId(customVmMovies.getId());
         vmMoviesDto.setImgUrl(customVmMovies.getImgUrl());
@@ -72,6 +72,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         vmMoviesDto.setScore(customVmMovies.getScore());
         vmMoviesDto.setWatchNum(customVmMovies.getWatchNum());
         vmMoviesDto.setReleaseTime(customVmMovies.getReleaseTime());
+        vmMoviesDto.setAlias(customVmMovies.getAlias());
         return vmMoviesDto;
     }
 
