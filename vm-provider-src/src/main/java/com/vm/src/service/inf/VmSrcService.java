@@ -13,9 +13,12 @@ import java.security.NoSuchAlgorithmException;
 public interface VmSrcService {
     void sendVideoSrc(VmFilesDto vmFilesDto, HttpServletResponse response) throws Exception;
 
-    void sendImgSrc(VmFilesDto vmFilesDto, HttpServletResponse response) throws Exception;
+    void sendImgSrc(Long fileId, Integer width, HttpServletResponse response) throws Exception;
 
-    Long saveImg(VmFilesDto vmFilesDto) throws Exception;
+    void sendImgSrc(Long fileId, HttpServletResponse response) throws Exception;
+
+
+    Long saveImg(MultipartFile file) throws Exception;
 
     Long cutUploadedImgFile(VmFilesDto vmFilesDto) throws Exception;
 

@@ -78,10 +78,8 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     }
 
     @Override
-    public void sendImgSrc(VmFilesDto vmFilesDto, HttpServletResponse response) throws IOException {
-        logger.info("sendImgSrc vmFilesDto is : {} !", vmFilesDto);
-        Long fileId = vmFilesDto.getFileId();
-        Integer width = vmFilesDto.getWidth();
+    public void sendImgSrc(Long fileId, Integer width, HttpServletResponse response) throws IOException {
+        logger.info("sendImgSrc fileId is : {} width is : {} !", fileId, width);
         //获取图片id信息
         VmFiles file = this.getUsableVmFilesById(fileId);
         ;
@@ -96,26 +94,34 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         }
         imgName = file.getFilename();
         contentType = file.getContentType();
-        if (null == width) {
-            imgPathName = imgPath + imgName;
-            if (!new File(imgPathName).exists()) {
-                logger.error("sendImgSrc file :{} is not exits ！", imgPathName);
-                imgPathName = imgPath + srcConfig.getSrcImgDefault();
-            }
+
+        imgPathName = imgPath + File.separator + width + "_" + imgName;
+
+        sendFileToHttpResponse(imgPathName, contentType, response);
+
+    }
+
+    @Override
+    public void sendImgSrc(Long fileId, HttpServletResponse response) throws Exception {
+        logger.info("sendImgSrc fileId  is : {} !", fileId);
+        //获取图片id信息
+        VmFiles file = this.getUsableVmFilesById(fileId);
+        ;
+        String imgPath = srcConfig.getSrcImgPath();
+        String imgName = null;
+        String contentType = "image/png";
+        String imgPathName = null;
+        if (null == file) {//if db have not this file record
+            imgPathName = imgPath + srcConfig.getSrcImgDefault();
             sendFileToHttpResponse(imgPathName, contentType, response);
             return;
         }
-        imgPathName = imgPath + File.separator + width + "_" + imgName;
-        if (!new File(imgPathName).exists()) {
-            logger.error("sendImgSrc file :{} is not exits ！", imgPathName);
-            imgPathName = imgPath + imgName;
-            if (!new File(imgPathName).exists()) {
-                logger.error("sendImgSrc file :{} is not exits ！", imgPathName);
-                imgPathName = imgPath + srcConfig.getSrcImgDefault();
-            }
-        }
-        sendFileToHttpResponse(imgPathName, contentType, response);
+        imgName = file.getFilename();
+        contentType = file.getContentType();
 
+        imgPathName = imgPath + File.separator + imgName;
+
+        sendFileToHttpResponse(imgPathName, contentType, response);
     }
 
     private void sendFileToHttpResponse(String filePathName, String contentType, HttpServletResponse httpServletResponse) throws IOException {
@@ -140,9 +146,9 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     }
 
     @Override
-    public Long saveImg(VmFilesDto vmFilesDto) throws IOException {
+    public Long saveImg(MultipartFile file) throws IOException {
 
-        logger.info("saveImg vmFilesDto is : {}", vmFilesDto);
+        logger.info("saveImg file is : {} !", file.getOriginalFilename());
 
         InputStream inputStream = null;
         OutputStream outputStream = null;
@@ -151,7 +157,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         VmFiles vmFiles = null;
         try {
             //file
-            MultipartFile imgFile = vmFilesDto.getFile();
+            MultipartFile imgFile = file;
             //uuid
             String uuid = uuid();
             //targetPath
@@ -233,8 +239,8 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             String targetFilePathName = filePath + version + "_" + fileName;
             try {
                 //get zoom
-                Double zoom = originalHeight*1.0 / originalWidth*1.0;
-                int height = (int)(zoom * intVersion);
+                Double zoom = originalHeight * 1.0 / originalWidth * 1.0;
+                int height = (int) (zoom * intVersion);
                 ImageUtil.resize(cutTargetFilePathName, targetFilePathName, intVersion, height);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -250,7 +256,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     public Long uploadAndCut(VmFilesDto vmFilesDto) throws Exception {
         logger.info("uploadAndCut vmFilesDto is : {} !", vmFilesDto);
 
-        Long fileId = this.saveImg(vmFilesDto);
+        Long fileId = this.saveImg(vmFilesDto.getFile());
 
         vmFilesDto.setFileId(fileId);
 
