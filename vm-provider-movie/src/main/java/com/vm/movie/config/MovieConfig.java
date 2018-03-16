@@ -12,6 +12,16 @@ public class MovieConfig {
 
     @Value("${vm.movie.img.versions}")
     private String movieImgVersions;
+    @Value("${vm.movie.poster.versions}")
+    private String moviePosterVersions;
+
+    public String getMoviePosterVersions() {
+        return moviePosterVersions;
+    }
+
+    public void setMoviePosterVersions(String moviePosterVersions) {
+        this.moviePosterVersions = moviePosterVersions;
+    }
 
     public String getMovieImgVersions() {
         return movieImgVersions;

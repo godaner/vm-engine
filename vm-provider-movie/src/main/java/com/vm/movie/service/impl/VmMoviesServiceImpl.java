@@ -305,7 +305,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     @Override
     public VmMoviesDto updatePoster(UpdateHeadImgInfo updateHeadImgInfo) {
         //set versions
-        updateHeadImgInfo.setVersions(movieConfig.getMovieImgVersions());
+        updateHeadImgInfo.setVersions(movieConfig.getMoviePosterVersions());
 
         //feign
         String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));

@@ -4,17 +4,21 @@
 
     <!--**************************** 用户端mapper end ****************************-->
     <resultMap id="CustomVmMoviesMap" type="com.vm.movie.dao.po.custom.CustomVmMovies">
-        <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="alias" jdbcType="VARCHAR" property="alias"/>
-        <result column="description" jdbcType="VARCHAR" property="description"/>
-        <result column="director_id" jdbcType="BIGINT" property="directorId"/>
-        <result column="release_time" jdbcType="INTEGER" property="releaseTime"/>
-        <result column="score" jdbcType="REAL" property="score"/>
-        <result column="watch_num" jdbcType="BIGINT" property="watchNum"/>
-        <result column="movie_time" jdbcType="INTEGER" property="movieTime"/>
-        <result column="src_url" jdbcType="VARCHAR" property="srcUrl"/>
-        <result column="img_url" jdbcType="VARCHAR" property="imgUrl"/>
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="alias" property="alias"/>
+        <result column="description" property="description"/>
+        <result column="director_id" property="directorId"/>
+        <result column="release_time" property="releaseTime"/>
+        <result column="score" property="score"/>
+        <result column="watch_num" property="watchNum"/>
+        <result column="movie_time" property="movieTime"/>
+        <result column="poster_url" property="posterUrl"/>
+        <result column="img_url" property="imgUrl"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="status" property="status"/>
         <association property="director" column="director_id"
                      select="com.vm.movie.dao.mapper.custom.CustomVmFilmmakersMapper.selectDirectorIdAndNameByDirectorId">
         </association>
@@ -107,16 +111,7 @@
     <!--获取单个movie-->
     <select id="getMovie" resultMap="CustomVmMoviesMap">
         SELECT
-        m.id,
-        m.name,
-        m.alias,
-        m.description,
-        m.director_id,
-        m.release_time,
-        m.score,
-        m.watch_num,
-        m.movie_time,
-        m.img_url
+        m.*
         FROM vm_movies m
         where m.id = #{movieId}
             and m.`status` = 1
