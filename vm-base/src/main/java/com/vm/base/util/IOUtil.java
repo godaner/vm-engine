@@ -42,6 +42,7 @@ public class IOUtil {
             }
         }
     }
+
     public final static void mkdirs(String filePathName) {
         new File(filePathName).mkdirs();
     }
@@ -71,6 +72,7 @@ public class IOUtil {
             }
         });
     }
+
     public final static void deleteFiles(File... files) {
 
         Lists.newArrayList(files).stream().parallel().forEach((file) -> {
@@ -81,6 +83,7 @@ public class IOUtil {
             }
         });
     }
+
     /**
      * Title:writeFileToOS
      * <p>
@@ -237,7 +240,7 @@ public class IOUtil {
      * @param src ：源文件
      * @param dst ：目标文件
      */
-    public final static void copyFiles(File src, File dst) {
+    public final static void copyFile(File src, File dst) {
         final int BUFFER_SIZE = 2 * 1024;
         InputStream in = null;
         OutputStream out = null;
@@ -262,7 +265,13 @@ public class IOUtil {
             closeStream(in, out);
         }
     }
-    public final static File createFile(String filePathName){
+
+    public final static void copyFile(String src, String dst) {
+        IOUtil.copyFile(new File(src), new File(dst));
+
+    }
+
+    public final static File createFile(String filePathName) {
         return new File(filePathName);
     }
 

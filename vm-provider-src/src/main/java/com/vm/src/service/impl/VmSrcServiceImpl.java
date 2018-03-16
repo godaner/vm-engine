@@ -78,7 +78,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
 
     @Override
     public void sendImgSrc(Long fileId, Integer width, HttpServletResponse response) throws IOException {
-        logger.info("sendImgSrc fileId is : {} width is : {} !", fileId, width);
+        logger.info("sendImgSrc fileId is : {} , width is : {} !", fileId, width);
         //获取图片id信息
         VmFiles file = this.getUsableVmFilesById(fileId);
         ;
@@ -95,7 +95,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         contentType = file.getContentType();
 
         imgPathName = imgPath + File.separator + width + "_" + imgName;
-
+        logger.info("sendImgSrc file is : {} !", imgPathName);
         sendFileToHttpResponse(imgPathName, contentType, response);
 
     }
@@ -120,6 +120,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
 
         imgPathName = imgPath + File.separator + imgName;
 
+        logger.info("sendImgSrc file is : {} !", imgPathName);
         sendFileToHttpResponse(imgPathName, contentType, response);
     }
 
@@ -152,7 +153,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         InputStream inputStream = null;
         OutputStream outputStream = null;
         String targetImgName = null;
-        String targetHeadImgPathName = null;
+        String targetImgPathName = null;
         VmFiles vmFiles = null;
         try {
             //file
@@ -173,10 +174,10 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             Integer now = DateUtil.unixTime().intValue();
 
             targetImgName = uuid + "." + ext;
-            targetHeadImgPathName = targetPath + targetImgName;
+            targetImgPathName = targetPath + targetImgName;
             //save head Img
             inputStream = imgFile.getInputStream();
-            outputStream = new FileOutputStream(targetHeadImgPathName);
+            outputStream = new FileOutputStream(targetImgPathName);
             org.apache.commons.io.IOUtils.copy(inputStream, outputStream);
 
 
@@ -193,6 +194,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             vmFiles.setContentType(contentType);
             vmFilesMapper.insert(vmFiles);
 
+            logger.info("saveImg save as is : {} !", targetImgPathName);
         } catch (Exception e) {
             e.printStackTrace();
             IOUtil.deleteFiles(targetImgName);
@@ -206,31 +208,36 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     @Override
     @Transactional
     public Long cutUploadedImgFile(VmFilesDto vmFilesDto) throws Exception {
-        logger.info("sendImgSrc vmFilesDto is : {} !", vmFilesDto);
+        logger.info("cutUploadedImgFile vmFilesDto is : {} !", vmFilesDto);
         VmFiles vmFiles = this.getUsableVmFilesById(vmFilesDto.getFileId());
 
+        //delete temp file
         String filePath = srcConfig.getSrcImgPath();
         String fileName = vmFiles.getFilename();
-//        String filePathName = filePath + fileName;
-        String sourceFilePathName = filePath + fileName;
-        String cutTargetFilePathName = filePath + "cut_" + fileName;
 
-//        String ext = getFileNameExt(fileName);
-        String[] versions = vmFilesDto.getVersions().split(",");
+        final String canNotChangePathName = filePath + fileName;
+
+        String copyFilePathName = filePath + "copy_" + fileName;
+
+        IOUtil.copyFile(canNotChangePathName, copyFilePathName);
+        IOUtil.deleteFiles(canNotChangePathName);
+
 
         //cut img
         try {
-            ImageUtil.crop(sourceFilePathName,
-                    cutTargetFilePathName,
+            ImageUtil.crop(copyFilePathName,
+                    canNotChangePathName,
                     vmFilesDto.getX(),
                     vmFilesDto.getY(),
                     vmFilesDto.getWidth(),
                     vmFilesDto.getHeight());
+            logger.info("cutUploadedImgFile crop file is : {} !", canNotChangePathName);
         } catch (Exception e) {
             throw e;
         }
 
         //zoom img
+        String[] versions = vmFilesDto.getVersions().split(",");
         int originalWidth = vmFilesDto.getWidth();
         int originalHeight = vmFilesDto.getHeight();
         Lists.newArrayList(versions).stream().parallel().forEach((version) -> {
@@ -240,13 +247,12 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
                 //get zoom
                 Double zoom = originalHeight * 1.0 / originalWidth * 1.0;
                 int height = (int) (zoom * intVersion);
-                ImageUtil.resize(cutTargetFilePathName, targetFilePathName, intVersion, height);
+                ImageUtil.resize(canNotChangePathName, targetFilePathName, intVersion, height);
+                logger.info("cutUploadedImgFile resize file is : {} !", targetFilePathName);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
-
-        IOUtil.deleteFiles(sourceFilePathName);
 
         return vmFiles.getId();
     }

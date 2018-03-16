@@ -223,7 +223,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     public Object updateUserHeadImg(UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
         VmUsersDto usersDto = service.updateUserHeadImg(updateHeadImgInfo);
         return response.putData("user", usersDto).
-                putData("newImgUrl", usersDto.getImgUrl() + "&width=300");
+                putData("imgUrl", usersDto.getImgUrl());
     }
 
 }
