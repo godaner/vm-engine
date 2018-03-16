@@ -25,22 +25,11 @@ public class VmSrcController extends ServiceController<VmSrcService> {
      *
      * @return
      */
-    @RequestMapping(value = "/video", method = RequestMethod.GET)
-    public void getVideoSrc(VmFilesDto vmFilesDto) throws Exception {
-        service.sendVideoSrc(vmFilesDto, getResponse());
+    @RequestMapping(value = "/video/{fileId}", method = RequestMethod.GET)
+    public void getVideoSrc(@PathVariable("fileId") Long fileId) throws Exception {
+        service.sendVideoSrc(fileId, getResponse());
     }
-//
-//    /**
-//     * 获取图片资源
-//     *
-//     * @return
-//     */
-//
-//    @RequestMapping(value = "/img", method = RequestMethod.GET)
-//    public void getImgSrc(VmFilesDto vmFilesDto) throws Exception {
-//        service.sendImgSrc(vmFilesDto, getResponse());
-//
-//    }
+
 
     /**
      * 获取图片资源

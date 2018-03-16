@@ -11,7 +11,7 @@ import java.security.NoSuchAlgorithmException;
  * Created by ZhangKe on 2018/2/3.
  */
 public interface VmSrcService {
-    void sendVideoSrc(VmFilesDto vmFilesDto, HttpServletResponse response) throws Exception;
+    void sendVideoSrc(Long fileId, HttpServletResponse response) throws Exception;
 
     void sendImgSrc(Long fileId, Integer width, HttpServletResponse response) throws Exception;
 

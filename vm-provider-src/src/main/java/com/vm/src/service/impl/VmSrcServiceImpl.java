@@ -38,11 +38,10 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     private SrcConfig srcConfig;
 
     @Override
-    public void sendVideoSrc(VmFilesDto vmFilesDto, HttpServletResponse response) throws IOException, NoSuchAlgorithmException {
+    public void sendVideoSrc(Long fileId, HttpServletResponse response) throws IOException, NoSuchAlgorithmException {
 
-        logger.info("sendVideoSrc vmFilesDto is : {} , response is : {} !", vmFilesDto, response);
+        logger.info("sendVideoSrc fileId is : {} !", fileId);
 
-        Long fileId = vmFilesDto.getFileId();
         InputStream input = null;
         OutputStream output = null;
         try {
