@@ -4,7 +4,7 @@ import com.vm.dao.util.BasePo;
 import com.vm.base.util.ByteConstantVar;
 
 public class VmUsers extends BasePo {
-    
+
     public final static String DEFAULT_IMG_URL = null;
 
     private String username;
