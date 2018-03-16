@@ -328,6 +328,40 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         return vmUsers == null ? null : makeBackendMoviesDto(vmUsers);
     }
 
+    @Override
+    @Transactional
+    public VmMoviesDto addBackEndMoviesInfo(VmMoviesDto vmMoviesDto) {
+
+        VmMovies vmMovies = makeAddVmMovie(vmMoviesDto);
+
+        if (1 != vmMoviesMapper.insert(vmMovies)) {
+            throw new VmMoviesException("addBackEndMoviesInfo vmMoviesMapper#insert is fail ! vmMoviesDto is : " + vmMoviesDto);
+        }
+        vmMovies = this.getVmMoviesById(vmMovies.getId(), BasePo.IsDeleted.NO);
+
+        return makeBackendMoviesDto(vmMovies);
+    }
+
+    private VmMovies makeAddVmMovie(VmMoviesDto vmMoviesDto) {
+        Integer now = now();
+        VmMovies vmMovies = new VmMovies();
+        vmMovies.setStatus(vmMoviesDto.getStatus());
+        vmMovies.setReleaseTime(vmMoviesDto.getReleaseTime());
+        vmMovies.setCreateTime(now);
+        vmMovies.setUpdateTime(now);
+        vmMovies.setName(vmMoviesDto.getName());
+        vmMovies.setDescription(vmMoviesDto.getDescription());
+        vmMovies.setMovieTime(vmMoviesDto.getMovieTime());
+        vmMovies.setAlias(vmMoviesDto.getAlias());
+        vmMovies.setIsDeleted(BasePo.IsDeleted.NO.getCode());
+        vmMovies.setScore(VmMovies.DEFAULT_SCORE);
+        vmMovies.setWatchNum(VmMovies.DEFAULT_WATCH_NUM);
+        vmMovies.setPosterUrl(VmMovies.DEFAULT_POSTER_URL);
+        vmMovies.setImgUrl(VmMovies.DEFAULT_IMG_URL);
+        vmMovies.setDirectorId(VmMovies.DEFAULT_DIRECTOR_ID);
+        return vmMovies;
+    }
+
     private VmMovies getVmMoviesById(Long id, BasePo.IsDeleted isDeleted) {
         return QuickSelectOne.getObjectById(vmMoviesMapper, id, isDeleted);
 
@@ -350,6 +384,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         vmMovies.setReleaseTime(vmMoviesDto.getReleaseTime());
         vmMovies.setId(vmMoviesDto.getId());
         vmMovies.setStatus(vmMoviesDto.getStatus());
+        vmMovies.setUpdateTime(now);
         return vmMovies;
     }
 

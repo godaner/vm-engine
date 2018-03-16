@@ -4,6 +4,16 @@ import com.vm.dao.util.BasePo;
 
 public class VmMovies extends BasePo {
 
+    public static final Float DEFAULT_SCORE = 10F;
+
+    public static final Long DEFAULT_WATCH_NUM = 0l;
+
+    public static final String DEFAULT_POSTER_URL = null;
+
+    public static final String DEFAULT_IMG_URL = null;
+
+    public static final Long DEFAULT_DIRECTOR_ID = null;
+
     private String name;
 
     private String alias;

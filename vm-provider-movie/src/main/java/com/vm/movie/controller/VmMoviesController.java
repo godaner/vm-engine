@@ -156,6 +156,16 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
         return response.putData("movie", service.updateBackEndMoviesInfo(vmMoviesDto));
     }
     /**
+     * 更新电影
+     *
+     * @return
+     */
+    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    @ResponseBody
+    public Object addBackEndMoviesInfo(VmMoviesDto vmMoviesDto) throws Exception {
+        return response.putData("movie", service.addBackEndMoviesInfo(vmMoviesDto));
+    }
+    /**
      * 更具已缓存图片更新电影img<br/>
      *
      * @return
