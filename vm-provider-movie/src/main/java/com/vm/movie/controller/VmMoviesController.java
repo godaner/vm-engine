@@ -177,7 +177,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
     public Object updatePoster(UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
         VmMoviesDto vmMoviesDto = service.updatePoster(updateHeadImgInfo);
         return response.putData("movie", vmMoviesDto).
-                putData("imgUrl", vmMoviesDto.getImgUrl());
+                putData("imgUrl", vmMoviesDto.getPosterUrl());
     }
 }
 

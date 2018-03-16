@@ -286,7 +286,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
         Response response = Response.parseJSON(res);
         if (response.isFailure()) {
-            throw new VmMoviesException("updateUserHeadImg srcServiceClient#cutUploadedImgFile is fail !! updateHeadImgInfo is :" + updateHeadImgInfo);
+            throw new VmMoviesException("updateImg srcServiceClient#cutUploadedImgFile is fail !! updateHeadImgInfo is :" + updateHeadImgInfo);
         }
         String imgUrl = (String) response.getData("imgUrl");
         //update user
