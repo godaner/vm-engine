@@ -169,7 +169,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
                                     @RequestBody UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
         onlineUser = service.updateUserHeadImg(onlineUser.getId(), updateHeadImgInfo);
         return response.putData("user", onlineUser).
-                putData("newImgUrl", onlineUser.getImgUrl() + "&width=300");
+                putData("newImgUrl", onlineUser.getImgUrl());
     }
 //
 //    @RequestMapping(value = "/update", method = RequestMethod.PUT)
