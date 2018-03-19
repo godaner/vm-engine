@@ -9,7 +9,6 @@
   <result column="alias" property="alias"/>
   <result column="profession" property="profession"/>
   <result column="blood_type" property="bloodType"/>
-  <result column="constellation" property="constellation"/>
   <result column="sex" property="sex"/>
   <result column="birthday" property="birthday"/>
   <result column="country" property="country"/>
@@ -31,7 +30,6 @@
 		alias,
 		profession,
 		blood_type,
-		constellation,
 		sex,
 		birthday,
 		country,
@@ -62,7 +60,6 @@
 #{alias},
 #{profession},
 #{bloodType},
-#{constellation},
 #{sex},
 #{birthday},
 #{country},
@@ -166,9 +163,6 @@ UPDATE
 <if test="query.bloodType != null ">
 		and blood_type=#{query.bloodType}
 </if>
-<if test="query.constellation != null ">
-		and constellation=#{query.constellation}
-</if>
 <if test="query.sex != null ">
 		and sex=#{query.sex}
 </if>
@@ -208,7 +202,6 @@ UPDATE
 <if test="newObj.alias != null">alias=#{newObj.alias},</if>
 <if test="newObj.profession != null">profession=#{newObj.profession},</if>
 <if test="newObj.bloodType != null">blood_type=#{newObj.bloodType},</if>
-<if test="newObj.constellation != null">constellation=#{newObj.constellation},</if>
 <if test="newObj.sex != null">sex=#{newObj.sex},</if>
 <if test="newObj.birthday != null">birthday=#{newObj.birthday},</if>
 <if test="newObj.country != null">country=#{newObj.country},</if>
@@ -233,7 +226,6 @@ UPDATE
 #{item.alias},
 #{item.profession},
 #{item.bloodType},
-#{item.constellation},
 #{item.sex},
 #{item.birthday},
 #{item.country},

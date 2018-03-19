@@ -3,6 +3,7 @@ package com.vm.movie.controller;
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
 import com.vm.movie.dao.qo.VmFilmmakerQueryBean;
+import com.vm.movie.service.dto.VmFilmmakersDto;
 import com.vm.movie.service.inf.FilmmakersService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -51,6 +52,16 @@ public class VmFilmmakersController extends ServiceController<FilmmakersService>
     public Object getFilmmakers(PageBean page,VmFilmmakerQueryBean query) throws Exception {
         return response.putData("list", service.getFilmmakers(page,query))
                 .putData("total", service.getFilmmakersTotal(page,query));
+    }
+    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    @ResponseBody
+    public Object addFilmmaker(VmFilmmakersDto vmFilmmakersDto) throws Exception {
+        return response.putData("filmmaker", service.addFilmmaker(vmFilmmakersDto));
+    }
+    @RequestMapping(value = "/info", method = RequestMethod.PUT)
+    @ResponseBody
+    public Object editFilmmaker(VmFilmmakersDto vmFilmmakersDto) throws Exception {
+        return response.putData("filmmaker", service.editFilmmaker(vmFilmmakersDto));
     }
 }
 

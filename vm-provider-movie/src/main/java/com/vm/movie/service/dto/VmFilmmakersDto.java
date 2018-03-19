@@ -14,8 +14,6 @@ public class VmFilmmakersDto {
 
     private Byte bloodType;
 
-    private Byte constellation;
-
     private Byte sex;
 
     private Integer birthday;
@@ -94,14 +92,6 @@ public class VmFilmmakersDto {
 
     public void setBloodType(Byte bloodType) {
         this.bloodType = bloodType;
-    }
-
-    public Byte getConstellation() {
-        return constellation;
-    }
-
-    public void setConstellation(Byte constellation) {
-        this.constellation = constellation;
     }
 
     public Byte getSex() {

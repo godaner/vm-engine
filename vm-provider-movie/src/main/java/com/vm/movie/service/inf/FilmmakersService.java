@@ -19,4 +19,8 @@ public interface FilmmakersService {
     List<VmFilmmakersDto> getFilmmakers(PageBean page, VmFilmmakerQueryBean query);
 
     Long getFilmmakersTotal(PageBean page, VmFilmmakerQueryBean query);
+
+    VmFilmmakersDto addFilmmaker(VmFilmmakersDto vmFilmmakersDto);
+
+    VmFilmmakersDto editFilmmaker(VmFilmmakersDto vmFilmmakersDto);
 }

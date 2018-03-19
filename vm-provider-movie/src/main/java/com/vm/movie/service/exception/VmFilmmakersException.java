@@ -21,7 +21,7 @@ public class VmFilmmakersException extends VmRuntimeException {
     }
 
     public enum ErrorCode {
-        ;
+        FILMMAKER_IS_NOT_EXITS(-1,"电影人不存在");
         int code;
         String msg;
 

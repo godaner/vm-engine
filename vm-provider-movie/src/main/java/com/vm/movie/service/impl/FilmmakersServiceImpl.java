@@ -9,6 +9,8 @@ import com.vm.movie.dao.mapper.custom.CustomVmFilmmakersMapper;
 import com.vm.movie.dao.po.VmFilmmakers;
 import com.vm.movie.dao.qo.VmFilmmakerQueryBean;
 import com.vm.movie.service.dto.VmFilmmakersDto;
+import com.vm.movie.service.exception.VmFilmmakersException;
+import com.vm.movie.service.exception.VmMoviesException;
 import com.vm.movie.service.inf.FilmmakersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +38,6 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
         vmFilmmakersDto.setAlias(filmmaker.getAlias());
         vmFilmmakersDto.setBirthday(filmmaker.getBirthday());
         vmFilmmakersDto.setBloodType(filmmaker.getBloodType());
-        vmFilmmakersDto.setConstellation(filmmaker.getConstellation());
         vmFilmmakersDto.setCountry(filmmaker.getCountry());
         vmFilmmakersDto.setDescription(filmmaker.getDescription());
         vmFilmmakersDto.setId(filmmaker.getId());
@@ -85,7 +86,7 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
     public VmFilmmakersDto getFilmmakerBasicInfo(Long filmmakerId) throws Exception {
 
         VmFilmmakers filmmaker = this.getFilmmakerById(filmmakerId, BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
-        return filmmaker == null?null:makeBasicFilmmakerDto(filmmaker);
+        return filmmaker == null ? null : makeBasicFilmmakerDto(filmmaker);
     }
 
     private VmFilmmakers getFilmmakerById(Long filmmakerId, BasePo.IsDeleted isDeleted) {
@@ -98,7 +99,7 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
 
     @Override
     public List<VmFilmmakersDto> getFilmmakers(PageBean page, VmFilmmakerQueryBean query) {
-        return customVmFilmmakersMapper.getFilmmakers(page,query).stream().parallel().map(vmFilmmakers -> {
+        return customVmFilmmakersMapper.getFilmmakers(page, query).stream().parallel().map(vmFilmmakers -> {
             return makeBackendFilmmakerDto(vmFilmmakers);
         }).collect(toList());
     }
@@ -108,7 +109,6 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
         vmFilmmakersDto.setAlias(vmFilmmakers.getAlias());
         vmFilmmakersDto.setBirthday(vmFilmmakers.getBirthday());
         vmFilmmakersDto.setBloodType(vmFilmmakers.getBloodType());
-        vmFilmmakersDto.setConstellation(vmFilmmakers.getConstellation());
         vmFilmmakersDto.setCountry(vmFilmmakers.getCountry());
         vmFilmmakersDto.setDescription(vmFilmmakers.getDescription());
         vmFilmmakersDto.setId(vmFilmmakers.getId());
@@ -124,7 +124,77 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
 
     @Override
     public Long getFilmmakersTotal(PageBean page, VmFilmmakerQueryBean query) {
-        return customVmFilmmakersMapper.getFilmmakersTotal(page,query);
+        return customVmFilmmakersMapper.getFilmmakersTotal(page, query);
+    }
+
+    @Override
+    public VmFilmmakersDto addFilmmaker(VmFilmmakersDto vmFilmmakersDto) {
+
+        VmFilmmakers vmFilmmakers = makeAddVmFilmmaker(vmFilmmakersDto);
+        if (1 != vmFilmmakersMapper.insert(vmFilmmakers)) {
+            throw new VmFilmmakersException("addFilmmaker vmFilmmakersMapper#insert is fail ! vmFilmmakersDto is : " + vmFilmmakersDto);
+        }
+
+        return makeBackendFilmmakerDto(this.getFilmmakerById(vmFilmmakers.getId(), BasePo.IsDeleted.NO));
+    }
+
+    @Override
+    public VmFilmmakersDto editFilmmaker(VmFilmmakersDto vmFilmmakersDto) {
+
+        VmFilmmakers vmFilmmakers = this.getFilmmakerById(vmFilmmakersDto.getId(), BasePo.IsDeleted.NO);
+        if (isNullObject(vmFilmmakers)) {
+            throw new VmFilmmakersException("editFilmmaker vmFilmmakers is not exits ! vmFilmmakersDto is : " + vmFilmmakersDto,
+                    VmFilmmakersException.ErrorCode.FILMMAKER_IS_NOT_EXITS.getCode(),
+                    VmFilmmakersException.ErrorCode.FILMMAKER_IS_NOT_EXITS.getMsg());
+        }
+
+        //update
+
+        vmFilmmakers = makeUpdateFilmmaker(vmFilmmakersDto);
+
+        if (1 != vmFilmmakersMapper.update(vmFilmmakers.getId(), vmFilmmakers)) {
+            throw new VmFilmmakersException("editFilmmaker vmFilmmakersMapper#update is fail ! vmFilmmakersDto is : " + vmFilmmakersDto);
+        }
+
+
+        return makeBackendFilmmakerDto(this.getFilmmakerById(vmFilmmakers.getId(), BasePo.IsDeleted.NO));
+    }
+
+    private VmFilmmakers makeUpdateFilmmaker(VmFilmmakersDto vmFilmmakersDto) {
+        VmFilmmakers vmFilmmakers = new VmFilmmakers();
+        Integer now = now();
+        vmFilmmakers.setId(vmFilmmakersDto.getId());
+        vmFilmmakers.setName(vmFilmmakersDto.getName());
+        vmFilmmakers.setAlias(vmFilmmakersDto.getAlias());
+        vmFilmmakers.setBirthday(vmFilmmakersDto.getBirthday());
+        vmFilmmakers.setBloodType(vmFilmmakersDto.getBloodType());
+        vmFilmmakers.setCountry(vmFilmmakersDto.getCountry());
+        vmFilmmakers.setDescription(vmFilmmakersDto.getDescription());
+        vmFilmmakers.setProfession(vmFilmmakersDto.getProfession());
+        vmFilmmakers.setSex(vmFilmmakersDto.getSex());
+        vmFilmmakers.setStatus(vmFilmmakersDto.getStatus());
+        vmFilmmakers.setUpdateTime(now);
+        return vmFilmmakers;
+    }
+
+    private VmFilmmakers makeAddVmFilmmaker(VmFilmmakersDto vmFilmmakersDto) {
+        VmFilmmakers vmFilmmakers = new VmFilmmakers();
+        Integer now = now();
+        vmFilmmakers.setId(vmFilmmakersDto.getId());
+        vmFilmmakers.setName(vmFilmmakersDto.getName());
+        vmFilmmakers.setAlias(vmFilmmakersDto.getAlias());
+        vmFilmmakers.setBirthday(vmFilmmakersDto.getBirthday());
+        vmFilmmakers.setBloodType(vmFilmmakersDto.getBloodType());
+        vmFilmmakers.setCountry(vmFilmmakersDto.getCountry());
+        vmFilmmakers.setDescription(vmFilmmakersDto.getDescription());
+        vmFilmmakers.setProfession(vmFilmmakersDto.getProfession());
+        vmFilmmakers.setSex(vmFilmmakersDto.getSex());
+        vmFilmmakers.setStatus(vmFilmmakersDto.getStatus());
+        vmFilmmakers.setIsDeleted(BasePo.IsDeleted.NO.getCode());
+        vmFilmmakers.setCreateTime(now);
+        vmFilmmakers.setUpdateTime(now);
+        vmFilmmakers.setImgUrl(VmFilmmakers.DEFAULT_IMG_URL);
+        return vmFilmmakers;
     }
 
 
