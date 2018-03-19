@@ -1,5 +1,6 @@
 package com.vm.movie.service.inf;
 
+import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.dao.util.PageBean;
 import com.vm.movie.dao.po.VmFilmmakers;
 import com.vm.movie.dao.qo.VmFilmmakerQueryBean;
@@ -23,4 +24,6 @@ public interface FilmmakersService {
     VmFilmmakersDto addFilmmaker(VmFilmmakersDto vmFilmmakersDto);
 
     VmFilmmakersDto editFilmmaker(VmFilmmakersDto vmFilmmakersDto);
+
+    VmFilmmakersDto updateImg(UpdateHeadImgInfo updateHeadImgInfo);
 }

@@ -291,16 +291,16 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         }
         String imgUrl = (String) response.getData("imgUrl");
         //update user
-        VmMovies vmUsers = new VmMovies();
-        vmUsers.setId(updateHeadImgInfo.getId());
-        vmUsers.setImgUrl(imgUrl);
-        vmMoviesMapper.update(vmUsers.getId(), vmUsers);
+        VmMovies vmMovies = new VmMovies();
+        vmMovies.setId(updateHeadImgInfo.getId());
+        vmMovies.setImgUrl(imgUrl);
+        vmMoviesMapper.update(vmMovies.getId(), vmMovies);
 
 
         //get new user
-        vmUsers = this.getVmMoviesById(vmUsers.getId(), BasePo.IsDeleted.NO);
+        vmMovies = this.getVmMoviesById(vmMovies.getId(), BasePo.IsDeleted.NO);
 
-        return vmUsers == null ? null : makeBackendMoviesDto(vmUsers);
+        return vmMovies == null ? null : makeBackendMoviesDto(vmMovies);
     }
 
     @Override

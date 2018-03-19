@@ -1,9 +1,11 @@
 package com.vm.movie.controller;
 
+import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
 import com.vm.movie.dao.qo.VmFilmmakerQueryBean;
 import com.vm.movie.service.dto.VmFilmmakersDto;
+import com.vm.movie.service.dto.VmMoviesDto;
 import com.vm.movie.service.inf.FilmmakersService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -62,6 +64,18 @@ public class VmFilmmakersController extends ServiceController<FilmmakersService>
     @ResponseBody
     public Object editFilmmaker(VmFilmmakersDto vmFilmmakersDto) throws Exception {
         return response.putData("filmmaker", service.editFilmmaker(vmFilmmakersDto));
+    }
+    /**
+     * 更具已缓存图片更新电影人img<br/>
+     *
+     * @return
+     */
+    @RequestMapping(value = "/img", method = RequestMethod.PUT)
+    @ResponseBody
+    public Object updateImg(UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
+        VmFilmmakersDto vmFilmmakersDto = service.updateImg(updateHeadImgInfo);
+        return response.putData("filmmaker", vmFilmmakersDto).
+                putData("imgUrl", vmFilmmakersDto.getImgUrl());
     }
 }
 

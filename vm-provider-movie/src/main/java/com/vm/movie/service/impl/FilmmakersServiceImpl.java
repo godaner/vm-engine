@@ -1,13 +1,19 @@
 package com.vm.movie.service.impl;
 
+import com.vm.base.service.dto.UpdateHeadImgInfo;
+import com.vm.base.util.BeanMapUtil;
+import com.vm.base.util.Response;
 import com.vm.dao.util.BasePo;
 import com.vm.base.util.BaseService;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
+import com.vm.movie.config.FilmmakerConfig;
 import com.vm.movie.dao.mapper.VmFilmmakersMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmFilmmakersMapper;
 import com.vm.movie.dao.po.VmFilmmakers;
+import com.vm.movie.dao.po.VmMovies;
 import com.vm.movie.dao.qo.VmFilmmakerQueryBean;
+import com.vm.movie.feign.service.SrcServiceClient;
 import com.vm.movie.service.dto.VmFilmmakersDto;
 import com.vm.movie.service.exception.VmFilmmakersException;
 import com.vm.movie.service.exception.VmMoviesException;
@@ -32,6 +38,12 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
 
     @Autowired
     private CustomVmFilmmakersMapper customVmFilmmakersMapper;
+
+    @Autowired
+    private SrcServiceClient srcServiceClient;
+
+    @Autowired
+    private FilmmakerConfig filmmakerConfig;
 
     private VmFilmmakersDto makeBasicFilmmakerDto(VmFilmmakers filmmaker) {
         VmFilmmakersDto vmFilmmakersDto = new VmFilmmakersDto();
@@ -158,6 +170,31 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
 
 
         return makeBackendFilmmakerDto(this.getFilmmakerById(vmFilmmakers.getId(), BasePo.IsDeleted.NO));
+    }
+
+    @Override
+    public VmFilmmakersDto updateImg(UpdateHeadImgInfo updateHeadImgInfo) {
+        //set versions
+        updateHeadImgInfo.setVersions(filmmakerConfig.getFilmmakerImgVersions());
+
+        //feign
+        String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
+        Response response = Response.parseJSON(res);
+        if (response.isFailure()) {
+            throw new VmMoviesException("updateImg srcServiceClient#cutUploadedImgFile is fail !! updateHeadImgInfo is :" + updateHeadImgInfo);
+        }
+        String imgUrl = (String) response.getData("imgUrl");
+        //update user
+        VmFilmmakers vmFilmmakers = new VmFilmmakers();
+        vmFilmmakers.setId(updateHeadImgInfo.getId());
+        vmFilmmakers.setImgUrl(imgUrl);
+        vmFilmmakersMapper.update(vmFilmmakers.getId(), vmFilmmakers);
+
+
+        //get new info
+        vmFilmmakers = this.getFilmmakerById(vmFilmmakers.getId(), BasePo.IsDeleted.NO);
+
+        return vmFilmmakers == null ? null : makeBackendFilmmakerDto(vmFilmmakers);
     }
 
     private VmFilmmakers makeUpdateFilmmaker(VmFilmmakersDto vmFilmmakersDto) {
