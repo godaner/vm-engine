@@ -61,7 +61,7 @@
          f.`status` = #{query.status}
         AND f.is_deleted = #{query.isDeleted}
         <if test="query != null and query.name != null and query.name != ''">
-            f.`name` like concat('%',#{query.name},'%')
+            and f.`name` like concat('%',#{query.name},'%')
         </if>
         <if test="page != null and page.orderBy != null and page.orderBy!='' and page.orderType != null and page.orderType!=''">
             order by ${page.orderBy} ${page.orderType}
@@ -78,7 +78,7 @@
         f.`status` = #{query.status}
         AND f.is_deleted = #{query.isDeleted}
         <if test="query != null and query.name != null and query.name != ''">
-            f.`name` like concat('%',#{query.name},'%')
+            and f.`name` like concat('%',#{query.name},'%')
         </if>
 
     </select>
