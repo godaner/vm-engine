@@ -58,8 +58,7 @@
         *
         from vm_filmmakers f
         where
-         f.`status` = #{query.status}
-        AND f.is_deleted = #{query.isDeleted}
+        f.is_deleted = #{query.isDeleted}
         <if test="query != null and query.name != null and query.name != ''">
             and f.`name` like concat('%',#{query.name},'%')
         </if>
@@ -75,8 +74,7 @@
         count(f.id)
         from vm_filmmakers f
         where
-        f.`status` = #{query.status}
-        AND f.is_deleted = #{query.isDeleted}
+        f.is_deleted = #{query.isDeleted}
         <if test="query != null and query.name != null and query.name != ''">
             and f.`name` like concat('%',#{query.name},'%')
         </if>
