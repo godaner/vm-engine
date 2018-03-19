@@ -1,6 +1,8 @@
 package com.vm.movie.controller;
 
 import com.vm.base.util.ServiceController;
+import com.vm.dao.util.PageBean;
+import com.vm.movie.dao.qo.VmFilmmakerQueryBean;
 import com.vm.movie.service.inf.FilmmakersService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @Scope("prototype")
 public class VmFilmmakersController extends ServiceController<FilmmakersService> {
 
+    /*********************************用户端****************************/
     /**
      * 获取电影图片
      *
@@ -41,5 +44,13 @@ public class VmFilmmakersController extends ServiceController<FilmmakersService>
     }
 
 
+    /*********************************管理端****************************/
+
+    @RequestMapping(value = "/info/list", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getFilmmakers(PageBean page,VmFilmmakerQueryBean query) throws Exception {
+        return response.putData("list", service.getFilmmakers(page,query))
+                .putData("total", service.getFilmmakersTotal(page,query));
+    }
 }
 

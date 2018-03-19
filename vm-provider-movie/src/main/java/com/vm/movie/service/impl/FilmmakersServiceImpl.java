@@ -2,8 +2,12 @@ package com.vm.movie.service.impl;
 
 import com.vm.dao.util.BasePo;
 import com.vm.base.util.BaseService;
+import com.vm.dao.util.PageBean;
+import com.vm.dao.util.QuickSelectOne;
 import com.vm.movie.dao.mapper.VmFilmmakersMapper;
+import com.vm.movie.dao.mapper.custom.CustomVmFilmmakersMapper;
 import com.vm.movie.dao.po.VmFilmmakers;
+import com.vm.movie.dao.qo.VmFilmmakerQueryBean;
 import com.vm.movie.service.dto.VmFilmmakersDto;
 import com.vm.movie.service.inf.FilmmakersService;
 
@@ -11,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by ZhangKe on 2017/12/26.
@@ -20,6 +27,9 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
 
     @Autowired
     private VmFilmmakersMapper vmFilmmakersMapper;
+
+    @Autowired
+    private CustomVmFilmmakersMapper customVmFilmmakersMapper;
 
     private VmFilmmakersDto makeBasicFilmmakerDto(VmFilmmakers filmmaker) {
         VmFilmmakersDto vmFilmmakersDto = new VmFilmmakersDto();
@@ -37,8 +47,8 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
         return vmFilmmakersDto;
     }
 
-    @Override
-    public void sendFilmmakerImg(Long filmmakerId, Integer width, HttpServletResponse response) throws Exception {
+//    @Override
+//    public void sendFilmmakerImg(Long filmmakerId, Integer width, HttpServletResponse response) throws Exception {
 //        FileInputStream input = null;
 //        ServletOutputStream output = null;
 //        try {
@@ -69,16 +79,52 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
 //        } finally {
 //            closeStream(input, output);
 //        }
-    }
+//    }
 
     @Override
     public VmFilmmakersDto getFilmmakerBasicInfo(Long filmmakerId) throws Exception {
 
-        VmFilmmakers filmmaker = vmFilmmakersMapper.select(filmmakerId);
-        if (filmmaker != null && BasePo.IsDeleted.isDeleted(filmmaker.getIsDeleted())) {
-            return null;
-        }
-        return makeBasicFilmmakerDto(filmmaker);
+        VmFilmmakers filmmaker = this.getFilmmakerById(filmmakerId, BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
+        return filmmaker == null?null:makeBasicFilmmakerDto(filmmaker);
+    }
+
+    private VmFilmmakers getFilmmakerById(Long filmmakerId, BasePo.IsDeleted isDeleted) {
+        return QuickSelectOne.getObjectById(vmFilmmakersMapper, filmmakerId, isDeleted);
+    }
+
+    private VmFilmmakers getFilmmakerById(Long filmmakerId, BasePo.Status status, BasePo.IsDeleted isDeleted) {
+        return QuickSelectOne.getObjectById(vmFilmmakersMapper, filmmakerId, status, isDeleted);
+    }
+
+    @Override
+    public List<VmFilmmakersDto> getFilmmakers(PageBean page, VmFilmmakerQueryBean query) {
+        return customVmFilmmakersMapper.getFilmmakers(page,query).stream().parallel().map(vmFilmmakers -> {
+            return makeBackendFilmmakerDto(vmFilmmakers);
+        }).collect(toList());
+    }
+
+    private VmFilmmakersDto makeBackendFilmmakerDto(VmFilmmakers vmFilmmakers) {
+        VmFilmmakersDto vmFilmmakersDto = new VmFilmmakersDto();
+        vmFilmmakersDto.setAlias(vmFilmmakers.getAlias());
+        vmFilmmakersDto.setBirthday(vmFilmmakers.getBirthday());
+        vmFilmmakersDto.setBloodType(vmFilmmakers.getBloodType());
+        vmFilmmakersDto.setConstellation(vmFilmmakers.getConstellation());
+        vmFilmmakersDto.setCountry(vmFilmmakers.getCountry());
+        vmFilmmakersDto.setDescription(vmFilmmakers.getDescription());
+        vmFilmmakersDto.setId(vmFilmmakers.getId());
+        vmFilmmakersDto.setImgUrl(vmFilmmakers.getImgUrl());
+        vmFilmmakersDto.setProfession(vmFilmmakers.getProfession());
+        vmFilmmakersDto.setSex(vmFilmmakers.getSex());
+        vmFilmmakersDto.setName(vmFilmmakers.getName());
+        vmFilmmakersDto.setUpdateTime(vmFilmmakers.getUpdateTime());
+        vmFilmmakersDto.setCreateTime(vmFilmmakers.getCreateTime());
+        vmFilmmakersDto.setStatus(vmFilmmakers.getStatus());
+        return vmFilmmakersDto;
+    }
+
+    @Override
+    public Long getFilmmakersTotal(PageBean page, VmFilmmakerQueryBean query) {
+        return customVmFilmmakersMapper.getFilmmakersTotal(page,query);
     }
 
 
