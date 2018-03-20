@@ -87,7 +87,7 @@
         from vm_movies_filmmakers_realation r
         where
         r.is_deleted = #{query.isDeleted}
-
+        and movie_id = ${query.movieId}
     </select>
 
 </mapper>

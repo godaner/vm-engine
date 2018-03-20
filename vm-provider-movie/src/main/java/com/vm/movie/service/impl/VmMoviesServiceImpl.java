@@ -1,5 +1,6 @@
 package com.vm.movie.service.impl;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
@@ -280,9 +281,24 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         }
         //get now obj
         vmMovies = this.getVmMoviesById(vmMoviesDto.getId(), BasePo.IsDeleted.NO);
+        //delete old realation
+        int cnt = vmMoviesFilmmakersRealationMapper.batchUpdate(
+                ImmutableMap.of(
+                        "movieId", vmMovies.getId()
+                ), ImmutableMap.of(
+                        "isDeleted", BasePo.IsDeleted.YES.getCode()
+                ));
+        if (cnt < 0) {
+            throw new VmMoviesException("updateBackEndMoviesInfo vmMoviesFilmmakersRealationMapper#deleteBy is fail ! vmMoviesDto is : " + vmMoviesDto);
+        }
 
-        //insert realation
-        List<Long> actorIds = Lists.newArrayList(vmMoviesDto.getActorIds().split(",")).stream().parallel().map(idStr -> {
+
+        //insert new realation
+        String actorIdsStr = vmMoviesDto.getActorIds();
+        if (isEmptyString(actorIdsStr)) {//without new realation
+            return makeBackendMoviesDto(vmMovies);
+        }
+        List<Long> actorIds = Lists.newArrayList(actorIdsStr.split(",")).stream().parallel().map(idStr -> {
             return Long.valueOf(idStr);
         }).collect(toList());
         List<VmMoviesFilmmakersRealation> vmMoviesFilmmakersRealations = makeVmMoviesFilmmakersRealations(vmMovies, actorIds);
