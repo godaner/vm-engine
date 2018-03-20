@@ -10,9 +10,14 @@ import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
 import com.vm.movie.config.FilmmakerConfig;
 import com.vm.movie.dao.mapper.VmFilmmakersMapper;
+import com.vm.movie.dao.mapper.VmMoviesFilmmakersRealationMapper;
+import com.vm.movie.dao.mapper.VmMoviesMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmFilmmakersMapper;
+import com.vm.movie.dao.mapper.custom.CustomVmMoviesFilmmakersRealationMapper;
+import com.vm.movie.dao.mapper.custom.CustomVmMoviesMapper;
 import com.vm.movie.dao.po.VmFilmmakers;
 import com.vm.movie.dao.po.VmMovies;
+import com.vm.movie.dao.po.VmMoviesFilmmakersRealation;
 import com.vm.movie.dao.qo.VmFilmmakerQueryBean;
 import com.vm.movie.feign.service.SrcServiceClient;
 import com.vm.movie.service.dto.VmFilmmakersDto;
@@ -38,6 +43,20 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
 
     @Autowired
     private VmFilmmakersMapper vmFilmmakersMapper;
+
+    @Autowired
+    private VmMoviesMapper vmMoviesMapper;
+
+
+    @Autowired
+    private CustomVmMoviesMapper customVmMoviesMapper;
+
+    @Autowired
+    private CustomVmMoviesFilmmakersRealationMapper customVmMoviesFilmmakersRealationMapper;
+
+
+    @Autowired
+    private VmMoviesFilmmakersRealationMapper vmMoviesFilmmakersRealationMapper;
 
     @Autowired
     private CustomVmFilmmakersMapper customVmFilmmakersMapper;
@@ -203,23 +222,49 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
     @Override
     @Transactional
     public void deleteFilmmaker(VmFilmmakersDto vmFilmmakersDto) {
+        int cnt = 0;
         String deletedIdsStr = vmFilmmakersDto.getDeletedIds();
         if (isEmptyString(deletedIdsStr)) {
             throw new VmFilmmakersException("deleteFilmmaker deleteIdsStr is empty ! deleteIdsStr is : " + deletedIdsStr);
         }
-
-
         List<Long> deletedIds = Lists.newArrayList(deletedIdsStr.split(",")).stream().parallel().map(idStr -> {
             return Long.valueOf(idStr);
         }).collect(toList());
         if (isEmptyList(deletedIds)) {
             throw new VmFilmmakersException("deleteFilmmaker deleteIds is empty ! deleteIds is : " + deletedIds);
         }
-        if (deletedIds.size() != vmFilmmakersMapper.updateInIds(deletedIds, ImmutableMap.of(
-                "isDeleted", BasePo.IsDeleted.YES.getCode()
-        ))) {
-            throw new VmFilmmakersException("deleteFilmmaker is fail ! deleteIds is : " + deletedIds);
+
+
+        //delete actors realations
+        List<Long> willBeDeletedRealationIds = customVmMoviesFilmmakersRealationMapper.selectRealationIdsByfilmmakerIds(ImmutableMap.of(
+                "isDeleted",BasePo.IsDeleted.NO.getCode(),
+                "deletedIds", deletedIds
+        ));
+        if (!isEmptyList(willBeDeletedRealationIds)) {
+            cnt = vmMoviesFilmmakersRealationMapper.updateInIds(willBeDeletedRealationIds, ImmutableMap.of(
+                    "isDeleted", BasePo.IsDeleted.YES.getCode()
+            ));
+            if (cnt < 0) {
+
+                throw new VmFilmmakersException("deleteFilmmaker vmMoviesFilmmakersRealationMapper#updateInIds is fail ! willBeDeletedRealationIds is : " + willBeDeletedRealationIds);
+            }
         }
+        //delete direcot_id of vm_movie table
+        cnt = customVmMoviesMapper.emptyDirectorIdByFilmmakerIds(ImmutableMap.of(
+                "deletedIds", deletedIds
+        ));
+        if (cnt < 0) {
+            throw new VmFilmmakersException("deleteFilmmaker customVmMoviesMapper#emptyDirectorIdByFilmmakerIds is fail ! deleteIds is : " + deletedIds);
+        }
+
+        //delete filmmakers
+        cnt = vmFilmmakersMapper.updateInIds(deletedIds, ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.YES.getCode()
+        ));
+        if (deletedIds.size() != cnt) {
+            throw new VmFilmmakersException("deleteFilmmaker vmFilmmakersMapper#updateInIds is fail ! deleteIds is : " + deletedIds);
+        }
+
     }
 
     @Override

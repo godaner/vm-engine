@@ -434,6 +434,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         vmMovies.setReleaseTime(vmMoviesDto.getReleaseTime());
         vmMovies.setId(vmMoviesDto.getId());
         vmMovies.setStatus(vmMoviesDto.getStatus());
+        vmMovies.setDirectorId(vmMoviesDto.getDirectorId());
         vmMovies.setUpdateTime(now);
         return vmMovies;
     }

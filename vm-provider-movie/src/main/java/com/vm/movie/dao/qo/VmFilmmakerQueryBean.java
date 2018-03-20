@@ -2,6 +2,8 @@ package com.vm.movie.dao.qo;
 
 import com.vm.dao.util.BaseQueryBean;
 
+import java.util.List;
+
 /**
  * Created by ZhangKe on 2018/3/19.
  */

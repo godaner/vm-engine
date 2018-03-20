@@ -217,6 +217,13 @@
              m.`name` like concat('%',#{query.name},'%')
         </if>
     </select>
-
+    <update id="emptyDirectorIdByFilmmakerIds">
+        update vm_movies
+        set director_id = NULL
+        where director_id in
+        <foreach collection="query.deletedIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
 
 </mapper>

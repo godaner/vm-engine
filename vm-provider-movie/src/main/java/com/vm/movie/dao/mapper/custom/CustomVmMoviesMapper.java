@@ -4,6 +4,7 @@ import com.vm.dao.util.PageBean;
 import com.vm.movie.dao.po.VmMovies;
 import com.vm.movie.dao.po.VmTags;
 import com.vm.movie.dao.po.custom.CustomVmMovies;
+import com.vm.movie.dao.qo.VmFilmmakerQueryBean;
 import com.vm.movie.dao.qo.VmMoviesQueryBean;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,4 +27,6 @@ public interface CustomVmMoviesMapper {
     List<VmMovies> getBackendMovies(@Param("query") VmMoviesQueryBean query, @Param("page") PageBean page);
 
     Long getBackendMoviesTotal(@Param("query") VmMoviesQueryBean query, @Param("page") PageBean page);
+
+    int emptyDirectorIdByFilmmakerIds(@Param("query") Object query);
 }
