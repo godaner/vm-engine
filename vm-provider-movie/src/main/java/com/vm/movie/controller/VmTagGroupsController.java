@@ -1,7 +1,9 @@
 package com.vm.movie.controller;
 
 import com.vm.base.util.ServiceController;
-import com.vm.movie.service.inf.VmTagsService;
+import com.vm.dao.util.PageBean;
+import com.vm.movie.dao.qo.VmTagGroupsQueryBean;
+import com.vm.movie.service.inf.VmTagGroupsService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/tagGroup")
 @Scope("prototype")
-public class VmTagGroupsController extends ServiceController<VmTagsService> {
+public class VmTagGroupsController extends ServiceController<VmTagGroupsService> {
 
+    /*********************************用户端****************************/
     /**
      * 获取所有的tags分组及其下面的tags
      *
@@ -28,6 +31,12 @@ public class VmTagGroupsController extends ServiceController<VmTagsService> {
         return response.putData("list", service.getTagsGroupsWithTags());
     }
 
-
+    /*********************************管理端****************************/
+    @RequestMapping(value = "/info/list", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getTagGroups(VmTagGroupsQueryBean query, PageBean page) throws Exception {
+        return response.putData("list", service.getTagGroups(query, page))
+                .putData("total", service.getTagGroupsTotal(query, page));
+    }
 }
 

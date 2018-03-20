@@ -13,10 +13,40 @@ public class VmTagsGroupsDto {
 
     private String name;
 
+    private Byte status;
+
+    private Integer createTime;
+
+    private Integer updateTime;
+
     private List<VmTags> items;
 
     public List<VmTags> getItems() {
         return items;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
+    public Integer getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Integer createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Integer updateTime) {
+        this.updateTime = updateTime;
     }
 
     public void setItems(List<VmTags> items) {
