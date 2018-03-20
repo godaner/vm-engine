@@ -452,6 +452,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(VmUsersDto vmUsersDto) {
         String deletedIdsStr = vmUsersDto.getDeletedIds();
         if (isEmptyString(deletedIdsStr)) {

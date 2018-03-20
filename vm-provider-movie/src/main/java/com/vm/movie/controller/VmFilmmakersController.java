@@ -65,6 +65,13 @@ public class VmFilmmakersController extends ServiceController<FilmmakersService>
     public Object editFilmmaker(VmFilmmakersDto vmFilmmakersDto) throws Exception {
         return response.putData("filmmaker", service.editFilmmaker(vmFilmmakersDto));
     }
+
+    @RequestMapping(value = "/info", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Object deleteFilmmaker(@RequestBody VmFilmmakersDto vmFilmmakersDto) throws Exception {
+        service.deleteFilmmaker(vmFilmmakersDto);
+        return response;
+    }
     /**
      * 更具已缓存图片更新电影人img<br/>
      *
@@ -77,5 +84,6 @@ public class VmFilmmakersController extends ServiceController<FilmmakersService>
         return response.putData("filmmaker", vmFilmmakersDto).
                 putData("imgUrl", vmFilmmakersDto.getImgUrl());
     }
+
 }
 

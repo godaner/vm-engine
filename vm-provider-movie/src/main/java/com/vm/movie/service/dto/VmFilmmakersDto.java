@@ -30,6 +30,16 @@ public class VmFilmmakersDto {
 
     private Integer updateTime;
 
+    private String deletedIds;;
+
+    public String getDeletedIds() {
+        return deletedIds;
+    }
+
+    public void setDeletedIds(String deletedIds) {
+        this.deletedIds = deletedIds;
+    }
+
     public Byte getStatus() {
         return status;
     }

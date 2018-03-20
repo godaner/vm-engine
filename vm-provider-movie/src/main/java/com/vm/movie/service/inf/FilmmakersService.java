@@ -26,4 +26,6 @@ public interface FilmmakersService {
     VmFilmmakersDto editFilmmaker(VmFilmmakersDto vmFilmmakersDto);
 
     VmFilmmakersDto updateImg(UpdateHeadImgInfo updateHeadImgInfo);
+
+    void deleteFilmmaker(VmFilmmakersDto vmFilmmakersDto);
 }

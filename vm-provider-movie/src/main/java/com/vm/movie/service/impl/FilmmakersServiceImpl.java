@@ -1,5 +1,6 @@
 package com.vm.movie.service.impl;
 
+import com.google.common.collect.ImmutableMap;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.BeanMapUtil;
 import com.vm.base.util.Response;
@@ -19,8 +20,10 @@ import com.vm.movie.service.exception.VmFilmmakersException;
 import com.vm.movie.service.exception.VmMoviesException;
 import com.vm.movie.service.inf.FilmmakersService;
 
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -195,6 +198,28 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
         vmFilmmakers = this.getFilmmakerById(vmFilmmakers.getId(), BasePo.IsDeleted.NO);
 
         return vmFilmmakers == null ? null : makeBackendFilmmakerDto(vmFilmmakers);
+    }
+
+    @Override
+    @Transactional
+    public void deleteFilmmaker(VmFilmmakersDto vmFilmmakersDto) {
+        String deletedIdsStr = vmFilmmakersDto.getDeletedIds();
+        if (isEmptyString(deletedIdsStr)) {
+            throw new VmFilmmakersException("deleteFilmmaker deleteIdsStr is empty ! deleteIdsStr is : " + deletedIdsStr);
+        }
+
+
+        List<Long> deletedIds = Lists.newArrayList(deletedIdsStr.split(",")).stream().parallel().map(idStr -> {
+            return Long.valueOf(idStr);
+        }).collect(toList());
+        if (isEmptyList(deletedIds)) {
+            throw new VmFilmmakersException("deleteFilmmaker deleteIds is empty ! deleteIds is : " + deletedIds);
+        }
+        if (deletedIds.size() != vmFilmmakersMapper.updateInIds(deletedIds, ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.YES.getCode()
+        ))) {
+            throw new VmFilmmakersException("deleteFilmmaker is fail ! deleteIds is : " + deletedIds);
+        }
     }
 
     private VmFilmmakers makeUpdateFilmmaker(VmFilmmakersDto vmFilmmakersDto) {
