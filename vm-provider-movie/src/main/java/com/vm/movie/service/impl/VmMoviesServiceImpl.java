@@ -384,10 +384,26 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
         VmMovies vmMovies = makeAddVmMovie(vmMoviesDto);
 
+        //add movie
         if (1 != vmMoviesMapper.insert(vmMovies)) {
             throw new VmMoviesException("addBackEndMoviesInfo vmMoviesMapper#insert is fail ! vmMoviesDto is : " + vmMoviesDto);
         }
+
         vmMovies = this.getVmMoviesById(vmMovies.getId(), BasePo.IsDeleted.NO);
+
+        //add realation
+        String actorIdsStr = vmMoviesDto.getActorIds();
+        if (isEmptyString(actorIdsStr)) {//without new realation
+            return makeBackendMoviesDto(vmMovies);
+        }
+        List<Long> actorIds = Lists.newArrayList(actorIdsStr.split(",")).stream().parallel().map(idStr -> {
+            return Long.valueOf(idStr);
+        }).collect(toList());
+        List<VmMoviesFilmmakersRealation> vmMoviesFilmmakersRealations = makeVmMoviesFilmmakersRealations(vmMovies, actorIds);
+
+        if (vmMoviesFilmmakersRealations.size() != vmMoviesFilmmakersRealationMapper.batchInsert(vmMoviesFilmmakersRealations)) {
+            throw new VmMoviesException("addBackEndMoviesInfo vmMoviesFilmmakersRealationMapper#batchInsert is fail ! vmMoviesFilmmakersRealations is : " + vmMoviesFilmmakersRealations);
+        }
 
         return makeBackendMoviesDto(vmMovies);
     }
@@ -408,7 +424,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         vmMovies.setWatchNum(VmMovies.DEFAULT_WATCH_NUM);
         vmMovies.setPosterUrl(VmMovies.DEFAULT_POSTER_URL);
         vmMovies.setImgUrl(VmMovies.DEFAULT_IMG_URL);
-        vmMovies.setDirectorId(VmMovies.DEFAULT_DIRECTOR_ID);
+        vmMovies.setDirectorId(vmMoviesDto.getDirectorId());
         return vmMovies;
     }
 
