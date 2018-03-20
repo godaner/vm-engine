@@ -163,7 +163,7 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
                     VmFilmmakersException.ErrorCode.FILMMAKER_IS_NOT_EXITS.getMsg());
         }
 
-        //update
+        //update vmFilmmakers
 
         vmFilmmakers = makeUpdateFilmmaker(vmFilmmakersDto);
 
@@ -220,6 +220,13 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
         ))) {
             throw new VmFilmmakersException("deleteFilmmaker is fail ! deleteIds is : " + deletedIds);
         }
+    }
+
+    @Override
+    public List<Long> getActorIds(Long movieId) {
+        VmFilmmakerQueryBean query = new VmFilmmakerQueryBean();
+        query.setMovieId(movieId);
+        return customVmFilmmakersMapper.getActorIds(query);
     }
 
     private VmFilmmakers makeUpdateFilmmaker(VmFilmmakersDto vmFilmmakersDto) {

@@ -85,5 +85,10 @@ public class VmFilmmakersController extends ServiceController<FilmmakersService>
                 putData("imgUrl", vmFilmmakersDto.getImgUrl());
     }
 
+    @RequestMapping(value = "/id/list/{movieId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getActorIds(@PathVariable("movieId")Long movieId) throws Exception {
+        return response.putData("list", service.getActorIds(movieId));
+    }
 }
 

@@ -28,4 +28,6 @@ public interface FilmmakersService {
     VmFilmmakersDto updateImg(UpdateHeadImgInfo updateHeadImgInfo);
 
     void deleteFilmmaker(VmFilmmakersDto vmFilmmakersDto);
+
+    List<Long> getActorIds(Long movieId);
 }

@@ -8,6 +8,16 @@ import com.vm.dao.util.BaseQueryBean;
 public class VmFilmmakerQueryBean extends BaseQueryBean {
     private String name;
 
+    private Long movieId;
+
+    public Long getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(Long movieId) {
+        this.movieId = movieId;
+    }
+
     public String getName() {
         return name;
     }

@@ -42,7 +42,8 @@
         AND fm.is_deleted = 1
 
     </select>
-    <select id="selectDirectorIdAndNameByDirectorId" resultMap="com.vm.movie.dao.mapper.VmFilmmakersMapper.VmFilmmakersMap">
+    <select id="selectDirectorIdAndNameByDirectorId"
+            resultMap="com.vm.movie.dao.mapper.VmFilmmakersMapper.VmFilmmakersMap">
         select
         f.id,f.name
         from vm_filmmakers f
@@ -80,4 +81,13 @@
         </if>
 
     </select>
+    <select id="getActorIds" resultType="long">
+        select
+        DISTINCT  r.filmmaker_id
+        from vm_movies_filmmakers_realation r
+        where
+        r.is_deleted = #{query.isDeleted}
+
+    </select>
+
 </mapper>

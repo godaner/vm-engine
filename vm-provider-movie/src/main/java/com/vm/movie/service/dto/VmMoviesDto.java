@@ -42,6 +42,16 @@ public class VmMoviesDto {
     private VmFilmmakers director;
     private List<VmTags> tags;
 
+    private String actorIds;
+
+    public String getActorIds() {
+        return actorIds;
+    }
+
+    public void setActorIds(String actorIds) {
+        this.actorIds = actorIds;
+    }
+
     public Byte getStatus() {
         return status;
     }

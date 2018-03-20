@@ -18,4 +18,6 @@ public interface CustomVmFilmmakersMapper {
     List<VmFilmmakers> getFilmmakers(@Param("page") PageBean page, @Param("query") VmFilmmakerQueryBean query);
 
     Long getFilmmakersTotal(@Param("page") PageBean page, @Param("query") VmFilmmakerQueryBean query);
+
+    List<Long> getActorIds(@Param("query") VmFilmmakerQueryBean query);
 }
