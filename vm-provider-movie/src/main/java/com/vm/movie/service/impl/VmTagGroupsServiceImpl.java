@@ -65,6 +65,30 @@ public class VmTagGroupsServiceImpl extends BaseService implements VmTagGroupsSe
         return makeBackendTagGroupDto(vmTagsGroups);
     }
 
+
+    @Override
+    public VmTagsGroupsDto addTagGroup(VmTagsGroupsDto vmTagsGroupsDto) {
+
+        VmTagsGroups vmTagsGroups = makeAddTagGroup(vmTagsGroupsDto);
+        if (1 != vmTagsGroupsMapper.insert(vmTagsGroups)) {
+            throw new VmTagGroupsException("addTagGroup vmTagsGroupsMapper#insert is fail ! vmTagsGroupsDto is : " + vmTagsGroupsDto);
+        }
+        vmTagsGroups = this.getTagGroupById(vmTagsGroups.getId(), BasePo.IsDeleted.NO);
+        return makeBackendTagGroupDto(vmTagsGroups);
+    }
+
+    private VmTagsGroups makeAddTagGroup(VmTagsGroupsDto vmTagsGroupsDto) {
+        VmTagsGroups vmTagsGroups = new VmTagsGroups();
+        Integer now = now();
+        vmTagsGroups.setName(vmTagsGroupsDto.getName());
+        vmTagsGroups.setId(vmTagsGroupsDto.getId());
+        vmTagsGroups.setStatus(vmTagsGroupsDto.getStatus());
+        vmTagsGroups.setUpdateTime(now);
+        vmTagsGroups.setCreateTime(now);
+        vmTagsGroups.setIsDeleted(BasePo.IsDeleted.NO.getCode());
+        return vmTagsGroups;
+    }
+
     private VmTagsGroups makeEditTagGroup(VmTagsGroupsDto vmTagsGroupsDto) {
         VmTagsGroups vmTagsGroups = new VmTagsGroups();
         Integer now = now();
@@ -81,11 +105,6 @@ public class VmTagGroupsServiceImpl extends BaseService implements VmTagGroupsSe
 
     private VmTagsGroups getTagGroupById(Long id, BasePo.Status status, BasePo.IsDeleted isDeleted) {
         return QuickSelectOne.getObjectById(vmTagsGroupsMapper, id, status, isDeleted);
-    }
-
-    @Override
-    public VmTagsGroupsDto addTagGroup(VmTagsGroupsDto vmTagsGroupsDto) {
-        return null;
     }
 
 
