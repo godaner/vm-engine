@@ -3,6 +3,7 @@ package com.vm.movie.controller;
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
 import com.vm.movie.dao.qo.VmTagGroupsQueryBean;
+import com.vm.movie.service.dto.VmTagsGroupsDto;
 import com.vm.movie.service.inf.VmTagGroupsService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -37,6 +38,16 @@ public class VmTagGroupsController extends ServiceController<VmTagGroupsService>
     public Object getTagGroups(VmTagGroupsQueryBean query, PageBean page) throws Exception {
         return response.putData("list", service.getTagGroups(query, page))
                 .putData("total", service.getTagGroupsTotal(query, page));
+    }
+    @RequestMapping(value = "/info", method = RequestMethod.PUT)
+    @ResponseBody
+    public Object editTagGroup(VmTagsGroupsDto vmTagsGroupsDto) throws Exception {
+        return response.putData("tagGroup", service.editTagGroup(vmTagsGroupsDto));
+    }
+    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    @ResponseBody
+    public Object addTagGroup(VmTagsGroupsDto vmTagsGroupsDto) throws Exception {
+        return response.putData("tagGroup", service.addTagGroup(vmTagsGroupsDto));
     }
 }
 

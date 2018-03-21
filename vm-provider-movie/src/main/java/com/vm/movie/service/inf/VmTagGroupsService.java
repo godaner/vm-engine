@@ -17,4 +17,7 @@ public interface VmTagGroupsService {
 
     Long getTagGroupsTotal(VmTagGroupsQueryBean query, PageBean page);
 
+    VmTagsGroupsDto editTagGroup(VmTagsGroupsDto vmTagsGroupsDto);
+
+    VmTagsGroupsDto addTagGroup(VmTagsGroupsDto vmTagsGroupsDto);
 }

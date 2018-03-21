@@ -1,13 +1,16 @@
 package com.vm.movie.service.impl;
 
 import com.vm.base.util.BaseService;
+import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
+import com.vm.dao.util.QuickSelectOne;
 import com.vm.movie.dao.mapper.VmTagsGroupsMapper;
 import com.vm.movie.dao.mapper.VmTagsMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmTagsGroupsMapper;
 import com.vm.movie.dao.po.VmTagsGroups;
 import com.vm.movie.dao.qo.VmTagGroupsQueryBean;
 import com.vm.movie.service.dto.VmTagsGroupsDto;
+import com.vm.movie.service.exception.VmTagGroupsException;
 import com.vm.movie.service.inf.VmTagGroupsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +53,39 @@ public class VmTagGroupsServiceImpl extends BaseService implements VmTagGroupsSe
     @Override
     public Long getTagGroupsTotal(VmTagGroupsQueryBean query, PageBean page) {
         return customVmTagsGroupsMapper.getTagGroupsTotal(query, page);
+    }
+
+    @Override
+    public VmTagsGroupsDto editTagGroup(VmTagsGroupsDto vmTagsGroupsDto) {
+        VmTagsGroups vmTagsGroups = makeEditTagGroup(vmTagsGroupsDto);
+        if (1 != vmTagsGroupsMapper.update(vmTagsGroups.getId(), vmTagsGroups)) {
+            throw new VmTagGroupsException("editTagGroup vmTagsGroupsMapper#update is fail ! vmTagsGroupsDto is : " + vmTagsGroupsDto);
+        }
+        vmTagsGroups = this.getTagGroupById(vmTagsGroups.getId(), BasePo.IsDeleted.NO);
+        return makeBackendTagGroupDto(vmTagsGroups);
+    }
+
+    private VmTagsGroups makeEditTagGroup(VmTagsGroupsDto vmTagsGroupsDto) {
+        VmTagsGroups vmTagsGroups = new VmTagsGroups();
+        Integer now = now();
+        vmTagsGroups.setName(vmTagsGroupsDto.getName());
+        vmTagsGroups.setId(vmTagsGroupsDto.getId());
+        vmTagsGroups.setStatus(vmTagsGroupsDto.getStatus());
+        vmTagsGroups.setUpdateTime(now);
+        return vmTagsGroups;
+    }
+
+    private VmTagsGroups getTagGroupById(Long id, BasePo.IsDeleted isDeleted) {
+        return QuickSelectOne.getObjectById(vmTagsGroupsMapper, id, isDeleted);
+    }
+
+    private VmTagsGroups getTagGroupById(Long id, BasePo.Status status, BasePo.IsDeleted isDeleted) {
+        return QuickSelectOne.getObjectById(vmTagsGroupsMapper, id, status, isDeleted);
+    }
+
+    @Override
+    public VmTagsGroupsDto addTagGroup(VmTagsGroupsDto vmTagsGroupsDto) {
+        return null;
     }
 
 
