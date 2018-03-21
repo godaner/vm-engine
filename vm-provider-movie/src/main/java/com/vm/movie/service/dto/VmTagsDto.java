@@ -14,6 +14,16 @@ public class VmTagsDto {
 
     private Integer updateTime;
 
+    private Long tagGroupId;
+
+    public Long getTagGroupId() {
+        return tagGroupId;
+    }
+
+    public void setTagGroupId(Long tagGroupId) {
+        this.tagGroupId = tagGroupId;
+    }
+
     public Byte getStatus() {
         return status;
     }

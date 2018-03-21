@@ -1,6 +1,8 @@
 package com.vm.movie.controller;
 
 import com.vm.base.util.ServiceController;
+import com.vm.movie.dao.po.VmTags;
+import com.vm.movie.service.dto.VmTagsDto;
 import com.vm.movie.service.inf.VmTagsService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -36,6 +38,11 @@ public class VmTagsController extends ServiceController<VmTagsService> {
     @ResponseBody
     public Object getTagsByTagGroupId(@PathVariable("tagGroupId") Long tagGroupId) throws Exception {
         return response.putData("list", service.getTagsByTagGroupId(tagGroupId));
+    }
+    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    @ResponseBody
+    public Object addTag(VmTagsDto vmTagsDto) throws Exception {
+        return response.putData("tag", service.addTag(vmTagsDto));
     }
 
 }

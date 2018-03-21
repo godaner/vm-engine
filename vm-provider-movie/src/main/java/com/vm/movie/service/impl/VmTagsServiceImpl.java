@@ -3,11 +3,13 @@ package com.vm.movie.service.impl;
 import com.google.common.collect.ImmutableMap;
 import com.vm.base.util.BaseService;
 import com.vm.dao.util.BasePo;
+import com.vm.dao.util.QuickSelectOne;
 import com.vm.movie.dao.mapper.VmTagsGroupsMapper;
 import com.vm.movie.dao.mapper.VmTagsMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmTagsGroupsMapper;
 import com.vm.movie.dao.po.VmTags;
 import com.vm.movie.service.dto.VmTagsDto;
+import com.vm.movie.service.exception.VmTagsException;
 import com.vm.movie.service.inf.VmTagsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +54,43 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
             return makeBackendTagDto(vmTags);
         }).collect(toList());
     }
+
+    @Override
+    public VmTagsDto addTag(VmTagsDto vmTagsDto) {
+
+        VmTags vmTags = makeAddVmTag(vmTagsDto);
+
+        if (1 != vmTagsMapper.insert(vmTags)) {
+            throw new VmTagsException("addTag vmTagsMapper#insert is fail ! vmTagsDto is : " + vmTagsDto);
+        }
+
+        vmTags = this.getTagById(vmTags.getId(), BasePo.IsDeleted.NO);
+
+        return makeBackendTagDto(vmTags);
+    }
+
+    private VmTags getTagById(Long id, BasePo.IsDeleted isDeleted) {
+        return QuickSelectOne.getObjectById(vmTagsMapper, id, isDeleted);
+    }
+
+    private VmTags getTagById(Long id, BasePo.Status status, BasePo.IsDeleted isDeleted) {
+        return QuickSelectOne.getObjectById(vmTagsMapper, id, status, isDeleted);
+    }
+
+
+    private VmTags makeAddVmTag(VmTagsDto vmTagsDto) {
+        VmTags vmTags = new VmTags();
+        Integer now = now();
+        vmTags.setName(vmTagsDto.getName());
+        vmTags.setIsDeleted(BasePo.IsDeleted.NO.getCode());
+        vmTags.setStatus(vmTagsDto.getStatus());
+        vmTags.setTagGroupId(vmTagsDto.getTagGroupId());
+        vmTags.setName(vmTagsDto.getName());
+        vmTags.setCreateTime(now);
+        vmTags.setUpdateTime(now);
+        return vmTags;
+    }
+
 
     private VmTagsDto makeBackendTagDto(VmTags vmTags) {
         VmTagsDto vmTagsDto = new VmTagsDto();
