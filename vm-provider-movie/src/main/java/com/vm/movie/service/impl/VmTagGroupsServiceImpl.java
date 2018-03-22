@@ -1,5 +1,6 @@
 package com.vm.movie.service.impl;
 
+import com.google.common.collect.ImmutableMap;
 import com.vm.base.util.BaseService;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
@@ -57,7 +58,30 @@ public class VmTagGroupsServiceImpl extends BaseService implements VmTagGroupsSe
 
     @Override
     public VmTagsGroupsDto editTagGroup(VmTagsGroupsDto vmTagsGroupsDto) {
-        VmTagsGroups vmTagsGroups = makeEditTagGroup(vmTagsGroupsDto);
+        VmTagsGroups vmTagsGroups = this.getTagGroupById(vmTagsGroupsDto.getId(), BasePo.IsDeleted.NO);
+
+        // exits ?
+        if (isNullObject(vmTagsGroups)) {
+            throw new VmTagGroupsException("editTagGroup tag group is not exits ! vmTagsGroupsDto is : " + vmTagsGroupsDto,
+                    VmTagGroupsException.ErrorCode.TAG_GROUP_IS_NOT_EXITS.getCode(),
+                    VmTagGroupsException.ErrorCode.TAG_GROUP_IS_NOT_EXITS.getMsg());
+        }
+        //have same name ?
+        if (!vmTagsGroupsDto.getName().equals(vmTagsGroups.getName())) {
+            vmTagsGroups = vmTagsGroupsMapper.selectOneBy(ImmutableMap.of(
+                    "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                    "name", vmTagsGroupsDto.getName()
+            ));
+            if (!isNullObject(vmTagsGroups)) {
+                throw new VmTagGroupsException("editTagGroup tag group name is exits ! vmTagsGroupsDto is : " + vmTagsGroupsDto,
+                        VmTagGroupsException.ErrorCode.TAG_GROUP_NAME_IS_EXITS.getCode(),
+                        VmTagGroupsException.ErrorCode.TAG_GROUP_NAME_IS_EXITS.getMsg());
+            }
+
+        }
+
+        //update
+        vmTagsGroups = makeEditTagGroup(vmTagsGroupsDto);
         if (1 != vmTagsGroupsMapper.update(vmTagsGroups.getId(), vmTagsGroups)) {
             throw new VmTagGroupsException("editTagGroup vmTagsGroupsMapper#update is fail ! vmTagsGroupsDto is : " + vmTagsGroupsDto);
         }
@@ -68,8 +92,17 @@ public class VmTagGroupsServiceImpl extends BaseService implements VmTagGroupsSe
 
     @Override
     public VmTagsGroupsDto addTagGroup(VmTagsGroupsDto vmTagsGroupsDto) {
+        VmTagsGroups vmTagsGroups = vmTagsGroupsMapper.selectOneBy(ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                "name", vmTagsGroupsDto.getName()
+        ));
+        if (!isNullObject(vmTagsGroups)) {
+            throw new VmTagGroupsException("addTagGroup tag group name is exits ! vmTagsGroupsDto is : " + vmTagsGroupsDto,
+                    VmTagGroupsException.ErrorCode.TAG_GROUP_NAME_IS_EXITS.getCode(),
+                    VmTagGroupsException.ErrorCode.TAG_GROUP_NAME_IS_EXITS.getMsg());
+        }
 
-        VmTagsGroups vmTagsGroups = makeAddTagGroup(vmTagsGroupsDto);
+        vmTagsGroups = makeAddTagGroup(vmTagsGroupsDto);
         if (1 != vmTagsGroupsMapper.insert(vmTagsGroups)) {
             throw new VmTagGroupsException("addTagGroup vmTagsGroupsMapper#insert is fail ! vmTagsGroupsDto is : " + vmTagsGroupsDto);
         }
