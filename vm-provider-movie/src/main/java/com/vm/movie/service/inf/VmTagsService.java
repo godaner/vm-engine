@@ -1,10 +1,6 @@
 package com.vm.movie.service.inf;
 
-import com.vm.dao.util.PageBean;
-import com.vm.movie.dao.po.VmTags;
-import com.vm.movie.dao.qo.VmTagGroupsQueryBean;
 import com.vm.movie.service.dto.VmTagsDto;
-import com.vm.movie.service.dto.VmTagsGroupsDto;
 
 import java.util.List;
 
@@ -20,4 +16,6 @@ public interface VmTagsService {
     VmTagsDto addTag(VmTagsDto vmTagsDto);
 
     VmTagsDto editTag(VmTagsDto vmTagsDto);
+
+    void deleteTags(VmTagsDto vmTagsDto);
 }

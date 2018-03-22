@@ -9,8 +9,10 @@ import com.vm.movie.dao.mapper.VmTagsMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmTagsGroupsMapper;
 import com.vm.movie.dao.po.VmTags;
 import com.vm.movie.service.dto.VmTagsDto;
+import com.vm.movie.service.exception.VmFilmmakersException;
 import com.vm.movie.service.exception.VmTagsException;
 import com.vm.movie.service.inf.VmTagsService;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,7 +76,9 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
 
         VmTags vmTags = this.getTagById(vmTagsDto.getId(), BasePo.IsDeleted.NO);
         if (isNullObject(vmTags)) {
-            throw new VmTagsException("editTag vmTags is not exits ! vmTagsDto is : " + vmTagsDto);
+            throw new VmTagsException("editTag vmTags is not exits ! vmTagsDto is : " + vmTagsDto,
+                    VmTagsException.ErrorCode.TAG_IS_NOT_EXITS.getCode(),
+                    VmTagsException.ErrorCode.TAG_IS_NOT_EXITS.getMsg());
         }
 
         vmTags = makeEditTag(vmTagsDto);
@@ -84,6 +88,27 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
 
         vmTags = this.getTagById(vmTags.getId(), BasePo.IsDeleted.NO);
         return makeBackendTagDto(vmTags);
+    }
+
+    @Override
+    public void deleteTags(VmTagsDto vmTagsDto) {
+        int cnt = 0;
+        String deletedIdsStr = vmTagsDto.getDeletedIds();
+        if (isEmptyString(deletedIdsStr)) {
+            throw new VmFilmmakersException("deleteTags deleteIdsStr is empty ! deleteIdsStr is : " + deletedIdsStr);
+        }
+        List<Long> deletedIds = Lists.newArrayList(deletedIdsStr.split(",")).stream().parallel().map(idStr -> {
+            return Long.valueOf(idStr);
+        }).collect(toList());
+
+        //delete tags
+        cnt = vmTagsMapper.updateInIds(deletedIds, ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.YES.getCode()
+        ));
+        if (cnt != deletedIds.size()) {
+            throw new VmFilmmakersException("deleteTags vmTagsMapper#updateInIds is fail ! deleteIds is : " + deletedIds);
+        }
+
     }
 
     private VmTags makeEditTag(VmTagsDto vmTagsDto) {

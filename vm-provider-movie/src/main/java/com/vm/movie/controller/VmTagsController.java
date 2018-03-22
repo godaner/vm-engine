@@ -1,15 +1,11 @@
 package com.vm.movie.controller;
 
 import com.vm.base.util.ServiceController;
-import com.vm.movie.dao.po.VmTags;
 import com.vm.movie.service.dto.VmTagsDto;
 import com.vm.movie.service.inf.VmTagsService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -39,15 +35,24 @@ public class VmTagsController extends ServiceController<VmTagsService> {
     public Object getTagsByTagGroupId(@PathVariable("tagGroupId") Long tagGroupId) throws Exception {
         return response.putData("list", service.getTagsByTagGroupId(tagGroupId));
     }
+
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ResponseBody
     public Object addTag(VmTagsDto vmTagsDto) throws Exception {
         return response.putData("tag", service.addTag(vmTagsDto));
     }
+
     @RequestMapping(value = "/info", method = RequestMethod.PUT)
     @ResponseBody
     public Object editTag(VmTagsDto vmTagsDto) throws Exception {
         return response.putData("tag", service.editTag(vmTagsDto));
+    }
+
+    @RequestMapping(value = "/info", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Object deleteTags(@RequestBody VmTagsDto vmTagsDto) throws Exception {
+        service.deleteTags(vmTagsDto);
+        return response;
     }
 }
 

@@ -156,7 +156,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
         return response.putData("movie", service.updateBackEndMoviesInfo(vmMoviesDto));
     }
     /**
-     * 更新电影
+     * 添加电影
      *
      * @return
      */

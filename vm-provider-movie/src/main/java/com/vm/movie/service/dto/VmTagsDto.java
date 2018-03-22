@@ -16,6 +16,16 @@ public class VmTagsDto {
 
     private Long tagGroupId;
 
+    private String deletedIds;
+
+    public String getDeletedIds() {
+        return deletedIds;
+    }
+
+    public void setDeletedIds(String deletedIds) {
+        this.deletedIds = deletedIds;
+    }
+
     public Long getTagGroupId() {
         return tagGroupId;
     }

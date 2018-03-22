@@ -21,7 +21,7 @@ public class VmTagsException extends VmRuntimeException {
     }
 
     public enum ErrorCode {
-        ;
+        TAG_IS_NOT_EXITS(-1, "标签不存在");
         int code;
         String msg;
 
