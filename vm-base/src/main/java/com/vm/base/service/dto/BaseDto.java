@@ -1,27 +1,9 @@
 package com.vm.base.service.dto;
 
-import org.assertj.core.util.Lists;
-
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
-
 /**
  * Created by ZhangKe on 2018/3/22.
  */
 public class BaseDto {
-
-    private List<Long> deletedIdsList;
-
-    public List<Long> getDeletedIdsList() {
-        if (deletedIdsList != null) {
-            return deletedIdsList;
-        }
-        deletedIdsList = Lists.newArrayList(getDeletedIds().split(",")).stream().parallel().map(idStr -> {
-            return Long.valueOf(idStr);
-        }).collect(toList());
-        return deletedIdsList;
-    }
 
     private Long id;
 
@@ -32,7 +14,6 @@ public class BaseDto {
     private Integer updateTime;
 
     private String deletedIds;
-
 
     public String getDeletedIds() {
         return deletedIds;

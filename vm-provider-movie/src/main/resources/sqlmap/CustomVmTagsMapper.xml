@@ -36,7 +36,7 @@
         WHERE
         is_deleted = #{query.isDeleted}
         and tag_group_id in
-        <foreach collection="tagGroupIds" separator="," item="item" open="(" close=")">
+        <foreach collection="query.tagGroupIds" separator="," item="item" open="(" close=")">
             #{item}
         </foreach>
     </select>

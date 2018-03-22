@@ -23,6 +23,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.stream.Collectors.toList;
+
 /**
  * Title:CommonUtil
  * <p>
@@ -37,6 +39,17 @@ public class CommonUtil {
 
 
     public final static ValidateCode validateCode = new ValidateCode(160, 40, 5, 150);
+
+    public final static List<Long> parseStringIds(Object... args) {
+        String stringArray = args[0].toString();
+        String splitString = ",";
+        if (args.length != 1 && args[1] != null) {
+            splitString = args[1].toString();
+        }
+        return org.assertj.core.util.Lists.newArrayList(stringArray.split(splitString)).stream().parallel().map(idStr -> {
+            return Long.valueOf(idStr);
+        }).collect(toList());
+    }
 
     /**
      * 限速写入,误差10%
@@ -175,13 +188,9 @@ public class CommonUtil {
     }
 
 
-
-
     public static Integer now() {
         return DateUtil.unixTime().intValue();
     }
-
-
 
 
     public static String uuid() {

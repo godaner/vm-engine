@@ -227,9 +227,7 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
         if (isEmptyString(deletedIdsStr)) {
             throw new VmFilmmakersException("deleteFilmmaker deleteIdsStr is empty ! deleteIdsStr is : " + deletedIdsStr);
         }
-        List<Long> deletedIds = Lists.newArrayList(deletedIdsStr.split(",")).stream().parallel().map(idStr -> {
-            return Long.valueOf(idStr);
-        }).collect(toList());
+        List<Long> deletedIds = parseStringIds(vmFilmmakersDto.getDeletedIds());
         if (isEmptyList(deletedIds)) {
             throw new VmFilmmakersException("deleteFilmmaker deleteIds is empty ! deleteIds is : " + deletedIds);
         }
