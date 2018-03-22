@@ -28,7 +28,7 @@
 
 
     <!--**************************** 管理端mapper end ****************************-->
-    <select id="getTagIdsByTagGroupIds" resultMap="com.vm.movie.dao.mapper.VmTagsMapper.VmTagsMap">
+    <select id="getTagIdsByTagGroupIds" resultType="long">
         SELECT
         id
         FROM
