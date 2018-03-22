@@ -44,6 +44,10 @@ public class VmTagsController extends ServiceController<VmTagsService> {
     public Object addTag(VmTagsDto vmTagsDto) throws Exception {
         return response.putData("tag", service.addTag(vmTagsDto));
     }
-
+    @RequestMapping(value = "/info", method = RequestMethod.PUT)
+    @ResponseBody
+    public Object editTag(VmTagsDto vmTagsDto) throws Exception {
+        return response.putData("tag", service.editTag(vmTagsDto));
+    }
 }
 

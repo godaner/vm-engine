@@ -69,6 +69,33 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
         return makeBackendTagDto(vmTags);
     }
 
+    @Override
+    public VmTagsDto editTag(VmTagsDto vmTagsDto) {
+
+        VmTags vmTags = this.getTagById(vmTagsDto.getId(), BasePo.IsDeleted.NO);
+        if (isNullObject(vmTags)) {
+            throw new VmTagsException("editTag vmTags is not exits ! vmTagsDto is : " + vmTagsDto);
+        }
+
+        vmTags = makeEditTag(vmTagsDto);
+        if (1 != vmTagsMapper.update(vmTags.getId(), vmTags)) {
+            throw new VmTagsException("editTag vmTagsMapper#update is fail ! vmTagsDto is : " + vmTagsDto);
+        }
+
+        vmTags = this.getTagById(vmTags.getId(), BasePo.IsDeleted.NO);
+        return makeBackendTagDto(vmTags);
+    }
+
+    private VmTags makeEditTag(VmTagsDto vmTagsDto) {
+        VmTags vmTags = new VmTags();
+        Integer now = now();
+        vmTags.setId(vmTagsDto.getId());
+        vmTags.setStatus(vmTagsDto.getStatus());
+        vmTags.setName(vmTagsDto.getName());
+        vmTags.setUpdateTime(now);
+        return vmTags;
+    }
+
     private VmTags getTagById(Long id, BasePo.IsDeleted isDeleted) {
         return QuickSelectOne.getObjectById(vmTagsMapper, id, isDeleted);
     }

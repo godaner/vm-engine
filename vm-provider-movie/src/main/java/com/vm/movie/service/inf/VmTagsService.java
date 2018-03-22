@@ -18,4 +18,6 @@ public interface VmTagsService {
     List<VmTagsDto> getTagsByTagGroupId(Long tagGroupId);
 
     VmTagsDto addTag(VmTagsDto vmTagsDto);
+
+    VmTagsDto editTag(VmTagsDto vmTagsDto);
 }
