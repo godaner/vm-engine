@@ -13,4 +13,5 @@ public interface CustomVmTagsMapper {
     List<VmTags> getTagsIdAndNameOfMovie(@Param("movieId") Long movieId);
 
 
+    List<Long> getTagIdsByTagGroupIds(@Param("query") Object query);
 }

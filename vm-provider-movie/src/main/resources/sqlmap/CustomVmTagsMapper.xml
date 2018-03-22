@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.vm.movie.dao.mapper.custom.CustomVmTagsMapper">
 
-    <!--**************************** 自定义mapper start ****************************-->
+    <!--**************************** 用户端mapper start ****************************-->
 
     <select id="selectTagsIdAndNameByTagGroupId" resultMap="com.vm.movie.dao.mapper.VmTagsMapper.VmTagsMap">
         SELECT
@@ -27,5 +27,18 @@
     </select>
 
 
-    <!--**************************** 自定义mapper end ****************************-->
+    <!--**************************** 管理端mapper end ****************************-->
+    <select id="getTagIdsByTagGroupIds" resultMap="com.vm.movie.dao.mapper.VmTagsMapper.VmTagsMap">
+        SELECT
+        id
+        FROM
+        vm_tags
+        WHERE
+        is_deleted = #{query.isDeleted}
+        and tag_group_id in
+        <foreach collection="tagGroupIds" separator="," item="item" open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
 </mapper>

@@ -1,6 +1,7 @@
 package com.vm.movie.service.dto;
 
 
+import com.vm.base.service.dto.BaseDto;
 import com.vm.movie.dao.po.VmFilmmakers;
 import com.vm.movie.dao.po.VmTags;
 
@@ -9,8 +10,7 @@ import java.util.List;
 /**
  * Created by ZhangKe on 2018/1/10.
  */
-public class VmMoviesDto {
-    private Long id;
+public class VmMoviesDto extends BaseDto{
 
     private String name;
 
@@ -32,81 +32,12 @@ public class VmMoviesDto {
 
     private String imgUrl;
 
-    private Integer createTime;
-
-    private Integer updateTime;
-
-    private Byte status;
     //附加属性
     private List<VmFilmmakers> actors;
     private VmFilmmakers director;
     private List<VmTags> tags;
 
     private String actorIds;
-
-    public String getActorIds() {
-        return actorIds;
-    }
-
-    public void setActorIds(String actorIds) {
-        this.actorIds = actorIds;
-    }
-
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Integer getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Integer createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Integer updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public List<VmFilmmakers> getActors() {
-        return actors;
-    }
-
-    public void setActors(List<VmFilmmakers> actors) {
-        this.actors = actors;
-    }
-
-    public VmFilmmakers getDirector() {
-        return director;
-    }
-
-    public void setDirector(VmFilmmakers director) {
-        this.director = director;
-    }
-
-    public List<VmTags> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<VmTags> tags) {
-        this.tags = tags;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -186,5 +117,37 @@ public class VmMoviesDto {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public List<VmFilmmakers> getActors() {
+        return actors;
+    }
+
+    public void setActors(List<VmFilmmakers> actors) {
+        this.actors = actors;
+    }
+
+    public VmFilmmakers getDirector() {
+        return director;
+    }
+
+    public void setDirector(VmFilmmakers director) {
+        this.director = director;
+    }
+
+    public List<VmTags> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<VmTags> tags) {
+        this.tags = tags;
+    }
+
+    public String getActorIds() {
+        return actorIds;
+    }
+
+    public void setActorIds(String actorIds) {
+        this.actorIds = actorIds;
     }
 }

@@ -1,22 +1,15 @@
 package com.vm.movie.service.dto;
 
+import com.vm.base.service.dto.BaseDto;
+
 /**
  * Created by ZhangKe on 2018/1/10.
  */
-public class VmMoviesSrcVersionDto {
-    private Long id;
+public class VmMoviesSrcVersionDto extends BaseDto {
 
     private Byte sharpness;
 
     private String srcUrl;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Byte getSharpness() {
         return sharpness;

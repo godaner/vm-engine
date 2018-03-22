@@ -1,10 +1,11 @@
 package com.vm.user.service.dto;
 
+import com.vm.base.service.dto.BaseDto;
+
 /**
  * Created by ZhangKe on 2018/3/13.
  */
-public class VmUsersLoginLogsDto {
-    private Long id;
+public class VmUsersLoginLogsDto extends BaseDto{
 
     private Long userId;
 
@@ -27,14 +28,6 @@ public class VmUsersLoginLogsDto {
     private Integer loginTime;
 
     private Byte result;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getUserId() {
         return userId;

@@ -1,10 +1,11 @@
 package com.vm.movie.service.dto;
 
+import com.vm.base.service.dto.BaseDto;
+
 /**
  * Created by ZhangKe on 2018/1/10.
  */
-public class VmFilmmakersDto {
-    private Long id;
+public class VmFilmmakersDto extends BaseDto {
 
     private String name;
 
@@ -23,54 +24,6 @@ public class VmFilmmakersDto {
     private String description;
 
     private String imgUrl;
-
-    private Byte status;
-
-    private Integer createTime;
-
-    private Integer updateTime;
-
-    private String deletedIds;;
-
-    public String getDeletedIds() {
-        return deletedIds;
-    }
-
-    public void setDeletedIds(String deletedIds) {
-        this.deletedIds = deletedIds;
-    }
-
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public Integer getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Integer createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Integer updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

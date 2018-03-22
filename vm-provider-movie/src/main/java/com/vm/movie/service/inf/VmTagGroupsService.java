@@ -20,4 +20,6 @@ public interface VmTagGroupsService {
     VmTagsGroupsDto editTagGroup(VmTagsGroupsDto vmTagsGroupsDto);
 
     VmTagsGroupsDto addTagGroup(VmTagsGroupsDto vmTagsGroupsDto);
+
+    void deleteTagGroups(VmTagsGroupsDto vmTagsGroupsDto);
 }

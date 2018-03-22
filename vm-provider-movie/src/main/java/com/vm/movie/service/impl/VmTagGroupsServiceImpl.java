@@ -8,11 +8,14 @@ import com.vm.dao.util.QuickSelectOne;
 import com.vm.movie.dao.mapper.VmTagsGroupsMapper;
 import com.vm.movie.dao.mapper.VmTagsMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmTagsGroupsMapper;
+import com.vm.movie.dao.mapper.custom.CustomVmTagsMapper;
 import com.vm.movie.dao.po.VmTagsGroups;
 import com.vm.movie.dao.qo.VmTagGroupsQueryBean;
 import com.vm.movie.service.dto.VmTagsGroupsDto;
+import com.vm.movie.service.exception.VmFilmmakersException;
 import com.vm.movie.service.exception.VmTagGroupsException;
 import com.vm.movie.service.inf.VmTagGroupsService;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +30,8 @@ import static java.util.stream.Collectors.toList;
 public class VmTagGroupsServiceImpl extends BaseService implements VmTagGroupsService {
     @Autowired
     private VmTagsMapper vmTagsMapper;
+    @Autowired
+    private CustomVmTagsMapper customVmTagsMapper;
     @Autowired
     private VmTagsGroupsMapper vmTagsGroupsMapper;
     @Autowired
@@ -108,6 +113,37 @@ public class VmTagGroupsServiceImpl extends BaseService implements VmTagGroupsSe
         }
         vmTagsGroups = this.getTagGroupById(vmTagsGroups.getId(), BasePo.IsDeleted.NO);
         return makeBackendTagGroupDto(vmTagsGroups);
+    }
+
+    @Override
+    public void deleteTagGroups(VmTagsGroupsDto vmTagsGroupsDto) {
+        int cnt = 0;
+        String deletedIdsStr = vmTagsGroupsDto.getDeletedIds();
+        if (isEmptyString(deletedIdsStr)) {
+            throw new VmFilmmakersException("deleteTagGroups deleteIdsStr is empty ! deleteIdsStr is : " + deletedIdsStr);
+        }
+        List<Long> deletedIds = vmTagsGroupsDto.getDeletedIdsList();
+
+        //delete tags
+        List<Long> willBeDeletedTagIds = customVmTagsMapper.getTagIdsByTagGroupIds(ImmutableMap.of(
+                "tagGroupIds", deletedIds,
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
+        ));
+        cnt = vmTagsMapper.updateInIds(willBeDeletedTagIds, ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.YES.getCode()
+        ));
+        if (cnt != willBeDeletedTagIds.size()) {
+            throw new VmFilmmakersException("deleteTagGroups vmTagsMapper#updateInIds is fail ! willBeDeletedTagIds is : " + willBeDeletedTagIds);
+        }
+
+        //delete tag group
+        cnt = vmTagsGroupsMapper.updateInIds(deletedIds, ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.YES.getCode()
+        ));
+        if (cnt != deletedIds.size()) {
+            throw new VmFilmmakersException("deleteTagGroups vmTagsGroupsMapper#updateInIds is fail ! deleteIds is : " + deletedIds);
+        }
+
     }
 
     private VmTagsGroups makeAddTagGroup(VmTagsGroupsDto vmTagsGroupsDto) {

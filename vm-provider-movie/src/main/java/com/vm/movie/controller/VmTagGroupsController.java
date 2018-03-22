@@ -7,6 +7,7 @@ import com.vm.movie.service.dto.VmTagsGroupsDto;
 import com.vm.movie.service.inf.VmTagGroupsService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,6 +49,12 @@ public class VmTagGroupsController extends ServiceController<VmTagGroupsService>
     @ResponseBody
     public Object addTagGroup(VmTagsGroupsDto vmTagsGroupsDto) throws Exception {
         return response.putData("tagGroup", service.addTagGroup(vmTagsGroupsDto));
+    }
+    @RequestMapping(value = "/info", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Object deleteTagGroups(@RequestBody VmTagsGroupsDto vmTagsGroupsDto) throws Exception {
+        service.deleteTagGroups(vmTagsGroupsDto);
+        return response;
     }
 }
 
