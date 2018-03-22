@@ -15,6 +15,7 @@ import com.vm.movie.service.inf.VmTagsService;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.misc.VM;
 
 import java.util.List;
 
@@ -59,8 +60,19 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
 
     @Override
     public VmTagsDto addTag(VmTagsDto vmTagsDto) {
+        VmTags vmTags = vmTagsMapper.selectOneBy(ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                "name", vmTagsDto.getName()
+        ));
 
-        VmTags vmTags = makeAddVmTag(vmTagsDto);
+        if (!isNullObject(vmTags)) {
+            throw new VmTagsException("addTag tag name is exits ! vmTagsDto is : " + vmTagsDto,
+                    VmTagsException.ErrorCode.TAG_NAME_IS_NOT_EXITS.getCode(),
+                    VmTagsException.ErrorCode.TAG_NAME_IS_NOT_EXITS.getMsg());
+        }
+
+
+        vmTags = makeAddVmTag(vmTagsDto);
 
         if (1 != vmTagsMapper.insert(vmTags)) {
             throw new VmTagsException("addTag vmTagsMapper#insert is fail ! vmTagsDto is : " + vmTagsDto);
@@ -73,13 +85,26 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
 
     @Override
     public VmTagsDto editTag(VmTagsDto vmTagsDto) {
-
+        //exits ?
         VmTags vmTags = this.getTagById(vmTagsDto.getId(), BasePo.IsDeleted.NO);
         if (isNullObject(vmTags)) {
             throw new VmTagsException("editTag vmTags is not exits ! vmTagsDto is : " + vmTagsDto,
                     VmTagsException.ErrorCode.TAG_IS_NOT_EXITS.getCode(),
                     VmTagsException.ErrorCode.TAG_IS_NOT_EXITS.getMsg());
         }
+        //have same name ?
+        if (!vmTagsDto.getName().equals(vmTags.getName())) {
+            vmTags = vmTagsMapper.selectOneBy(ImmutableMap.of(
+                    "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                    "name", vmTagsDto.getName()
+            ));
+            if (!isNullObject(vmTags)) {
+                throw new VmTagsException("addTag tag name is exits ! vmTagsDto is : " + vmTagsDto,
+                        VmTagsException.ErrorCode.TAG_NAME_IS_NOT_EXITS.getCode(),
+                        VmTagsException.ErrorCode.TAG_NAME_IS_NOT_EXITS.getMsg());
+            }
+        }
+
 
         vmTags = makeEditTag(vmTagsDto);
         if (1 != vmTagsMapper.update(vmTags.getId(), vmTags)) {
