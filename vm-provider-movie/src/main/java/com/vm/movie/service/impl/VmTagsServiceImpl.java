@@ -99,6 +99,7 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
         vmTagsDto.setCreateTime(vmTags.getCreateTime());
         vmTagsDto.setUpdateTime(vmTags.getUpdateTime());
         vmTagsDto.setStatus(vmTags.getStatus());
+        vmTagsDto.setTagGroupId(vmTags.getTagGroupId());
         return vmTagsDto;
     }
 
