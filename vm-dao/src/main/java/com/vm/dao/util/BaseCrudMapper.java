@@ -14,7 +14,6 @@ public interface BaseCrudMapper<T> {
 
     int updateInIds(@Param("idList") List<Long> idList, @Param("newObj") Object newObj);
 
-    //不要在newObj中设置id
     int update(@Param("id") Long id,@Param("newObj") Object newObj);
 
     int delete(Object id);

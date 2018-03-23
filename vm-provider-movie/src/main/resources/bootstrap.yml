@@ -3,7 +3,6 @@ spring:
   application:
     name: vm-provider-movie
 
-
 server:
   port: 0
 ---
