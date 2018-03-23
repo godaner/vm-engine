@@ -45,7 +45,7 @@ eureka:
 
 ---
 spring:
-  profiles: prod01
+  profiles: prod00
   cloud:
     config:
       label: master #branch
@@ -84,7 +84,7 @@ eureka:
 
 ---
 spring:
-  profiles: prod02
+  profiles: prod01
   cloud:
     config:
       label: master #branch
