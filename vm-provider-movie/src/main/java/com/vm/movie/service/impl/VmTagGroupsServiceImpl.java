@@ -160,7 +160,11 @@ public class VmTagGroupsServiceImpl extends BaseService implements VmTagGroupsSe
                 "isDeleted", BasePo.IsDeleted.NO.getCode()
         ));
         //delete movie tag realations
-        List<Long> realationIds = customVmMoviesTagsRealationMapper.getRealationIdsByTagIds(willBeDeletedTagIds);
+        List<Long> realationIds = customVmMoviesTagsRealationMapper.getRealationIdsByTagIds(ImmutableMap.of(
+                "tagIds", willBeDeletedTagIds,
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
+
+        ));
         if (!isEmptyList(realationIds)) {
             cnt = vmMoviesTagsRealationMapper.updateInIds(realationIds, ImmutableMap.of(
                     "isDeleted", BasePo.IsDeleted.YES.getCode()
