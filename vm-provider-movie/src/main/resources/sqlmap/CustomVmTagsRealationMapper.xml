@@ -7,7 +7,7 @@
     <!--**************************** 管理端mapper start ****************************-->
     <select id="getTagIdsByMovieId" resultType="long">
         SELECT
-        tag_id
+        DISTINCT tag_id
         FROM
         vm_movies_tags_realation
         WHERE
