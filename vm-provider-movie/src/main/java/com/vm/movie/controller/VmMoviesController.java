@@ -194,9 +194,8 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      */
     @RequestMapping(value = "/video", method = RequestMethod.POST)
     @ResponseBody
-    public Object uploadVideo(@RequestParam("file") MultipartFile file,
-                              @RequestParam("movieId") Long movieId) throws Exception {
-        service.uploadVideo(movieId,file);
+    public Object uploadVideo(VmMoviesDto vmMoviesDto) throws Exception {
+        service.uploadVideo(vmMoviesDto.getId(),vmMoviesDto.getFile());
         return response;
     }
 }
