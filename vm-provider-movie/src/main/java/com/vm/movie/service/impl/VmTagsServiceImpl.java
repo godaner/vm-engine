@@ -6,9 +6,11 @@ import com.vm.dao.util.BasePo;
 import com.vm.dao.util.QuickSelectOne;
 import com.vm.movie.dao.mapper.VmTagsGroupsMapper;
 import com.vm.movie.dao.mapper.VmTagsMapper;
+import com.vm.movie.dao.mapper.custom.CustomVmMoviesTagsRealationMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmTagsGroupsMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmTagsMapper;
 import com.vm.movie.dao.po.VmTags;
+import com.vm.movie.dao.po.custom.CustomVmTags;
 import com.vm.movie.service.dto.VmTagsDto;
 import com.vm.movie.service.exception.VmFilmmakersException;
 import com.vm.movie.service.exception.VmTagsException;
@@ -34,6 +36,9 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
 
     @Autowired
     private CustomVmTagsMapper customVmTagsMapper;
+
+    @Autowired
+    private CustomVmMoviesTagsRealationMapper customVmMoviesTagsRealationMapper;
 
     @Override
     public List<VmTagsDto> getTags() throws Exception {
@@ -137,7 +142,7 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
 
     @Override
     public List<Long> getTagIdsByMovieId(Long movieId) {
-        return customVmTagsMapper.getTagIdsByMovieId(ImmutableMap.of(
+        return customVmMoviesTagsRealationMapper.getTagIdsByMovieId(ImmutableMap.of(
                 "movieId", movieId,
                 "isDeleted", BasePo.IsDeleted.NO.getCode()
         ));

@@ -40,14 +40,6 @@
             #{item}
         </foreach>
     </select>
-    <select id="getTagIdsByMovieId" resultType="long">
-        SELECT
-        id
-        FROM
-        vm_tags
-        WHERE
-        is_deleted = #{query.isDeleted}
-        and movie_id =#{query.movieId}
-    </select>
+
 
 </mapper>
