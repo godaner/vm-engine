@@ -44,7 +44,7 @@
         FROM
         vm_movies m
         WHERE
-        m.`status` = 1
+        m.`status` = #{query.status}
         <if test="query.keyword!=null">
             AND m.name LIKE concat('%',#{query.keyword},'%')
         </if>
