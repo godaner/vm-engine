@@ -37,7 +37,16 @@ public class VmMoviesDto extends BaseDto{
     private VmFilmmakers director;
     private List<VmTags> tags;
 
+    private String tagIds;
     private String actorIds;
+
+    public String getTagIds() {
+        return tagIds;
+    }
+
+    public void setTagIds(String tagIds) {
+        this.tagIds = tagIds;
+    }
 
     public String getName() {
         return name;

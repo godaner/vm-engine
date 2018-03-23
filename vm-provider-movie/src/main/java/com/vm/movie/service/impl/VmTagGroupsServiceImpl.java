@@ -131,12 +131,15 @@ public class VmTagGroupsServiceImpl extends BaseService implements VmTagGroupsSe
                 "tagGroupIds", deletedIds,
                 "isDeleted", BasePo.IsDeleted.NO.getCode()
         ));
-        cnt = vmTagsMapper.updateInIds(willBeDeletedTagIds, ImmutableMap.of(
-                "isDeleted", BasePo.IsDeleted.YES.getCode()
-        ));
-        if (cnt != willBeDeletedTagIds.size()) {
-            throw new VmFilmmakersException("deleteTagGroups vmTagsMapper#updateInIds is fail ! willBeDeletedTagIds is : " + willBeDeletedTagIds);
+        if (!isEmptyList(willBeDeletedTagIds)) {
+            cnt = vmTagsMapper.updateInIds(willBeDeletedTagIds, ImmutableMap.of(
+                    "isDeleted", BasePo.IsDeleted.YES.getCode()
+            ));
+            if (cnt != willBeDeletedTagIds.size()) {
+                throw new VmFilmmakersException("deleteTagGroups vmTagsMapper#updateInIds is fail ! willBeDeletedTagIds is : " + willBeDeletedTagIds);
+            }
         }
+
 
         //delete tag group
         cnt = vmTagsGroupsMapper.updateInIds(deletedIds, ImmutableMap.of(
