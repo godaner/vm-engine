@@ -54,5 +54,10 @@ public class VmTagsController extends ServiceController<VmTagsService> {
         service.deleteTags(vmTagsDto);
         return response;
     }
+    @RequestMapping(value = "/id/list/{movieId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getTagIdsByMovieId(@PathVariable("movieId")Long movieId) throws Exception {
+        return response.putData("list",service.getTagIdsByMovieId(movieId));
+    }
 }
 

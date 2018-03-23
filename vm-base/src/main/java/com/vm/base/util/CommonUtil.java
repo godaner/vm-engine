@@ -15,6 +15,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
@@ -41,16 +42,28 @@ public class CommonUtil {
     public final static ValidateCode validateCode = new ValidateCode(160, 40, 5, 150);
 
 
-    public final static <T> List<T> parseStringArray(String stringArray, String splitString) {
+    private final static String DEFAULT_SPLIT_STRING = ",";
+
+    public final static List<Long> parseStringArray2Long(String stringArray) {
+        return parseStringArray(stringArray, Long.class);
+    }
+    public final static <T> List<T> parseStringArray(String stringArray, Class<T> targetCls) {
+        String splitString = DEFAULT_SPLIT_STRING;
+        return parseStringArray(stringArray, splitString, targetCls);
+    }
+
+    public final static <T> List<T> parseStringArray(String stringArray, String splitString, Class<T> targetCls) {
         return org.assertj.core.util.Lists.newArrayList(stringArray.split(splitString)).stream().parallel().map(s -> {
-            return (T) s;
+            T obj = null;
+            try {
+                obj = targetCls.getConstructor(String.class).newInstance(s);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return obj;
         }).collect(toList());
     }
 
-    public final static <T> List<T> parseStringArray(String stringArray) {
-        String splitString = ",";
-        return parseStringArray(stringArray, splitString);
-    }
 
     /**
      * 限速写入,误差10%

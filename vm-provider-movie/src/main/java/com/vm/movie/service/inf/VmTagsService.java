@@ -18,4 +18,6 @@ public interface VmTagsService {
     VmTagsDto editTag(VmTagsDto vmTagsDto);
 
     void deleteTags(VmTagsDto vmTagsDto);
+
+    List<Long> getTagIdsByMovieId(Long movieId);
 }

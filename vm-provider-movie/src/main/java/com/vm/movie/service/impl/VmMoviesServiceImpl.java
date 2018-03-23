@@ -298,9 +298,11 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         int cnt = vmMoviesFilmmakersRealationMapper.batchUpdate(
                 ImmutableMap.of(
                         "movieId", vmMovies.getId()
-                ), ImmutableMap.of(
+                ),
+                ImmutableMap.of(
                         "isDeleted", BasePo.IsDeleted.YES.getCode()
-                ));
+                )
+        );
         if (cnt < 0) {
             throw new VmMoviesException("updateBackEndMoviesInfo vmMoviesFilmmakersRealationMapper#deleteBy is fail ! vmMoviesDto is : " + vmMoviesDto);
         }
@@ -309,7 +311,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         //insert new filmmaker realation
         String actorIdsStr = vmMoviesDto.getActorIds();
         if (!isEmptyString(actorIdsStr)) {//without new realation
-            List<Long> actorIds = parseStringArray(actorIdsStr);
+            List<Long> actorIds = parseStringArray2Long(actorIdsStr);
             List<VmMoviesFilmmakersRealation> vmMoviesFilmmakersRealations = makeVmMoviesFilmmakersRealations(vmMovies, actorIds);
 
             if (vmMoviesFilmmakersRealations.size() != vmMoviesFilmmakersRealationMapper.batchInsert(vmMoviesFilmmakersRealations)) {
@@ -332,7 +334,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         //insert new tag realation
         String tagIdsStr = vmMoviesDto.getTagIds();
         if (!isEmptyString(tagIdsStr)) {//without new realation
-            List<Long> tagIds = parseStringArray(tagIdsStr);
+            List<Long> tagIds = parseStringArray2Long(tagIdsStr);
             List<VmMoviesTagsRealation> vmMoviesTagsRealations = makeVmMoviesTagsRealations(vmMovies, tagIds);
 
             if (vmMoviesTagsRealations.size() != vmMoviesTagsRealationMapper.batchInsert(vmMoviesTagsRealations)) {
@@ -446,7 +448,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         //add filmmaker realation
         String actorIdsStr = vmMoviesDto.getActorIds();
         if (!isEmptyString(actorIdsStr)) {//without new realation
-            List<Long> actorIds = parseStringArray(actorIdsStr);
+            List<Long> actorIds = parseStringArray2Long(actorIdsStr);
 
             List<VmMoviesFilmmakersRealation> vmMoviesFilmmakersRealations = makeVmMoviesFilmmakersRealations(vmMovies, actorIds);
 
@@ -458,7 +460,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         //add tag realation
         String tagIdsStr = vmMoviesDto.getTagIds();
         if (!isEmptyString(tagIdsStr)) {//without new realation
-            List<Long> tagIds = parseStringArray(tagIdsStr);
+            List<Long> tagIds = parseStringArray2Long(tagIdsStr);
 
             List<VmMoviesTagsRealation> vmMoviesTagsRealations = makeVmMoviesTagsRealations(vmMovies, tagIds);
 

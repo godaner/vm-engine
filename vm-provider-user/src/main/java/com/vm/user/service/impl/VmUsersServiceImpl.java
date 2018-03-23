@@ -460,7 +460,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         }
 
 
-        List<Long> deletedIds = parseStringArray(vmUsersDto.getDeletedIds());
+        List<Long> deletedIds = parseStringArray2Long(vmUsersDto.getDeletedIds());
         if (isEmptyList(deletedIds)) {
             throw new VmUsersException("deleteUser deleteIds is empty ! deleteIds is : " + deletedIds);
         }

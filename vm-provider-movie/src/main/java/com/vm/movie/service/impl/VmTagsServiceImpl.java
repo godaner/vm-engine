@@ -7,15 +7,14 @@ import com.vm.dao.util.QuickSelectOne;
 import com.vm.movie.dao.mapper.VmTagsGroupsMapper;
 import com.vm.movie.dao.mapper.VmTagsMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmTagsGroupsMapper;
+import com.vm.movie.dao.mapper.custom.CustomVmTagsMapper;
 import com.vm.movie.dao.po.VmTags;
 import com.vm.movie.service.dto.VmTagsDto;
 import com.vm.movie.service.exception.VmFilmmakersException;
 import com.vm.movie.service.exception.VmTagsException;
 import com.vm.movie.service.inf.VmTagsService;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.misc.VM;
 
 import java.util.List;
 
@@ -33,6 +32,8 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
     @Autowired
     private CustomVmTagsGroupsMapper customVmTagsGroupsMapper;
 
+    @Autowired
+    private CustomVmTagsMapper customVmTagsMapper;
 
     @Override
     public List<VmTagsDto> getTags() throws Exception {
@@ -122,7 +123,7 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
         if (isEmptyString(deletedIdsStr)) {
             throw new VmFilmmakersException("deleteTags deleteIdsStr is empty ! deleteIdsStr is : " + deletedIdsStr);
         }
-        List<Long> deletedIds = parseStringArray(vmTagsDto.getDeletedIds());
+        List<Long> deletedIds = parseStringArray2Long(vmTagsDto.getDeletedIds());
 
         //delete tags
         cnt = vmTagsMapper.updateInIds(deletedIds, ImmutableMap.of(
@@ -132,6 +133,14 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
             throw new VmFilmmakersException("deleteTags vmTagsMapper#updateInIds is fail ! deleteIds is : " + deletedIds);
         }
 
+    }
+
+    @Override
+    public List<Long> getTagIdsByMovieId(Long movieId) {
+        return customVmTagsMapper.getTagIdsByMovieId(ImmutableMap.of(
+                "movieId", movieId,
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
+        ));
     }
 
     private VmTags makeEditTag(VmTagsDto vmTagsDto) {
