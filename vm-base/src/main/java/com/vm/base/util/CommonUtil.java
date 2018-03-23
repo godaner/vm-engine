@@ -40,15 +40,16 @@ public class CommonUtil {
 
     public final static ValidateCode validateCode = new ValidateCode(160, 40, 5, 150);
 
-    public final static List<Long> parseStringIds(Object... args) {
-        String stringArray = args[0].toString();
-        String splitString = ",";
-        if (args.length != 1 && args[1] != null) {
-            splitString = args[1].toString();
-        }
-        return org.assertj.core.util.Lists.newArrayList(stringArray.split(splitString)).stream().parallel().map(idStr -> {
-            return Long.valueOf(idStr);
+
+    public final static <T> List<T> parseStringArray(String stringArray, String splitString) {
+        return org.assertj.core.util.Lists.newArrayList(stringArray.split(splitString)).stream().parallel().map(s -> {
+            return (T) s;
         }).collect(toList());
+    }
+
+    public final static <T> List<T> parseStringArray(String stringArray) {
+        String splitString = ",";
+        return parseStringArray(stringArray, splitString);
     }
 
     /**

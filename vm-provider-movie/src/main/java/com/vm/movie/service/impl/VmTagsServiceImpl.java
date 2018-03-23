@@ -122,7 +122,7 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
         if (isEmptyString(deletedIdsStr)) {
             throw new VmFilmmakersException("deleteTags deleteIdsStr is empty ! deleteIdsStr is : " + deletedIdsStr);
         }
-        List<Long> deletedIds = parseStringIds(vmTagsDto.getDeletedIds());
+        List<Long> deletedIds = parseStringArray(vmTagsDto.getDeletedIds());
 
         //delete tags
         cnt = vmTagsMapper.updateInIds(deletedIds, ImmutableMap.of(

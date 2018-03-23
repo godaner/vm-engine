@@ -124,7 +124,7 @@ public class VmTagGroupsServiceImpl extends BaseService implements VmTagGroupsSe
         if (isEmptyString(deletedIdsStr)) {
             throw new VmFilmmakersException("deleteTagGroups deleteIdsStr is empty ! deleteIdsStr is : " + deletedIdsStr);
         }
-        List<Long> deletedIds = parseStringIds(vmTagsGroupsDto.getDeletedIds());
+        List<Long> deletedIds = parseStringArray(vmTagsGroupsDto.getDeletedIds());
 
         //delete tags
         List<Long> willBeDeletedTagIds = customVmTagsMapper.getTagIdsByTagGroupIds(ImmutableMap.of(

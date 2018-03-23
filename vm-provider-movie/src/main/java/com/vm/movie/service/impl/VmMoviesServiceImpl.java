@@ -4,16 +4,25 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
-import com.vm.base.util.*;
+import com.vm.base.util.BaseService;
+import com.vm.base.util.BeanMapUtil;
+import com.vm.base.util.DateUtil;
+import com.vm.base.util.Response;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
 import com.vm.movie.config.MovieConfig;
 import com.vm.movie.dao.mapper.*;
-import com.vm.movie.dao.mapper.custom.*;
-import com.vm.movie.dao.po.*;
-import com.vm.movie.dao.po.custom.*;
-import com.vm.movie.dao.qo.*;
+import com.vm.movie.dao.mapper.custom.CustomVmFilmmakersMapper;
+import com.vm.movie.dao.mapper.custom.CustomVmMoviesMapper;
+import com.vm.movie.dao.mapper.custom.CustomVmMoviesSrcVersionMapper;
+import com.vm.movie.dao.mapper.custom.CustomVmTagsMapper;
+import com.vm.movie.dao.po.VmFilmmakers;
+import com.vm.movie.dao.po.VmMovies;
+import com.vm.movie.dao.po.VmMoviesFilmmakersRealation;
+import com.vm.movie.dao.po.VmMoviesTagsRealation;
+import com.vm.movie.dao.po.custom.CustomVmMovies;
+import com.vm.movie.dao.qo.VmMoviesQueryBean;
 import com.vm.movie.feign.service.SrcServiceClient;
 import com.vm.movie.service.dto.VmFilmmakersDto;
 import com.vm.movie.service.dto.VmMoviesDto;
@@ -42,6 +51,8 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     @Autowired
     private CustomVmTagsMapper customVmTagsMapper;
     @Autowired
+    private VmTagsMapper vmTagsMapper;
+    @Autowired
     private VmFilmmakersMapper vmFilmmakersMapper;
     @Autowired
     private CustomVmFilmmakersMapper customVmFilmmakersMapper;
@@ -51,6 +62,8 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     private CustomVmMoviesSrcVersionMapper customVmMoviesSrcVersionMapper;
     @Autowired
     private VmMoviesFilmmakersRealationMapper vmMoviesFilmmakersRealationMapper;
+    @Autowired
+    private VmMoviesTagsRealationMapper vmMoviesTagsRealationMapper;
     @Autowired
     private MovieConfig movieConfig;
     @Autowired
@@ -281,7 +294,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         }
         //get now obj
         vmMovies = this.getVmMoviesById(vmMoviesDto.getId(), BasePo.IsDeleted.NO);
-        //delete old realation
+        //delete old filmmaker realation
         int cnt = vmMoviesFilmmakersRealationMapper.batchUpdate(
                 ImmutableMap.of(
                         "movieId", vmMovies.getId()
@@ -293,21 +306,60 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         }
 
 
-        //insert new realation
+        //insert new filmmaker realation
         String actorIdsStr = vmMoviesDto.getActorIds();
-        if (isEmptyString(actorIdsStr)) {//without new realation
-            return makeBackendMoviesDto(vmMovies);
-        }
-        List<Long> actorIds = Lists.newArrayList(actorIdsStr.split(",")).stream().parallel().map(idStr -> {
-            return Long.valueOf(idStr);
-        }).collect(toList());
-        List<VmMoviesFilmmakersRealation> vmMoviesFilmmakersRealations = makeVmMoviesFilmmakersRealations(vmMovies, actorIds);
+        if (!isEmptyString(actorIdsStr)) {//without new realation
+            List<Long> actorIds = parseStringArray(actorIdsStr);
+            List<VmMoviesFilmmakersRealation> vmMoviesFilmmakersRealations = makeVmMoviesFilmmakersRealations(vmMovies, actorIds);
 
-        if (vmMoviesFilmmakersRealations.size() != vmMoviesFilmmakersRealationMapper.batchInsert(vmMoviesFilmmakersRealations)) {
-            throw new VmMoviesException("updateBackEndMoviesInfo vmMoviesFilmmakersRealationMapper#batchInsert is fail ! vmMoviesFilmmakersRealations is : " + vmMoviesFilmmakersRealations);
+            if (vmMoviesFilmmakersRealations.size() != vmMoviesFilmmakersRealationMapper.batchInsert(vmMoviesFilmmakersRealations)) {
+                throw new VmMoviesException("updateBackEndMoviesInfo vmMoviesFilmmakersRealationMapper#batchInsert is fail ! vmMoviesFilmmakersRealations is : " + vmMoviesFilmmakersRealations);
+            }
         }
+
+        //delete old tag realation
+        cnt = vmTagsMapper.batchUpdate(
+                ImmutableMap.of(
+                        "movieId", vmMovies.getId()
+                ), ImmutableMap.of(
+                        "isDeleted", BasePo.IsDeleted.YES.getCode()
+                ));
+        if (cnt < 0) {
+            throw new VmMoviesException("updateBackEndMoviesInfo vmTagsMapper#deleteBy is fail ! vmMoviesDto is : " + vmMoviesDto);
+        }
+
+
+        //insert new tag realation
+        String tagIdsStr = vmMoviesDto.getTagIds();
+        if (!isEmptyString(tagIdsStr)) {//without new realation
+            List<Long> tagIds = parseStringArray(tagIdsStr);
+            List<VmMoviesTagsRealation> vmMoviesTagsRealations = makeVmMoviesTagsRealations(vmMovies, tagIds);
+
+            if (vmMoviesTagsRealations.size() != vmMoviesTagsRealationMapper.batchInsert(vmMoviesTagsRealations)) {
+                throw new VmMoviesException("updateBackEndMoviesInfo vmMoviesTagsRealationMapper#batchInsert is fail ! vmMoviesTagsRealations is : " + vmMoviesTagsRealations);
+            }
+        }
+
 
         return makeBackendMoviesDto(vmMovies);
+    }
+
+    private List<VmMoviesTagsRealation> makeVmMoviesTagsRealations(VmMovies vmMovies, List<Long> tagIds) {
+        return tagIds.stream().parallel().map(tagId -> {
+            return makeVmMoviesTagsRealation(vmMovies, tagId);
+        }).collect(toList());
+    }
+
+    private VmMoviesTagsRealation makeVmMoviesTagsRealation(VmMovies vmMovies, Long tagId) {
+        VmMoviesTagsRealation vmMoviesTagsRealation = new VmMoviesTagsRealation();
+        Integer now = now();
+        vmMoviesTagsRealation.setTagId(tagId);
+        vmMoviesTagsRealation.setMovieId(vmMovies.getId());
+        vmMoviesTagsRealation.setCreateTime(now);
+        vmMoviesTagsRealation.setUpdateTime(now);
+        vmMoviesTagsRealation.setIsDeleted(BasePo.IsDeleted.NO.getCode());
+        vmMoviesTagsRealation.setStatus(BasePo.Status.NORMAL.getCode());
+        return vmMoviesTagsRealation;
     }
 
     private List<VmMoviesFilmmakersRealation> makeVmMoviesFilmmakersRealations(VmMovies vmMovies, List<Long> actorIds) {
@@ -391,19 +443,30 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
         vmMovies = this.getVmMoviesById(vmMovies.getId(), BasePo.IsDeleted.NO);
 
-        //add realation
+        //add filmmaker realation
         String actorIdsStr = vmMoviesDto.getActorIds();
-        if (isEmptyString(actorIdsStr)) {//without new realation
-            return makeBackendMoviesDto(vmMovies);
-        }
-        List<Long> actorIds = Lists.newArrayList(actorIdsStr.split(",")).stream().parallel().map(idStr -> {
-            return Long.valueOf(idStr);
-        }).collect(toList());
-        List<VmMoviesFilmmakersRealation> vmMoviesFilmmakersRealations = makeVmMoviesFilmmakersRealations(vmMovies, actorIds);
+        if (!isEmptyString(actorIdsStr)) {//without new realation
+            List<Long> actorIds = parseStringArray(actorIdsStr);
 
-        if (vmMoviesFilmmakersRealations.size() != vmMoviesFilmmakersRealationMapper.batchInsert(vmMoviesFilmmakersRealations)) {
-            throw new VmMoviesException("addBackEndMoviesInfo vmMoviesFilmmakersRealationMapper#batchInsert is fail ! vmMoviesFilmmakersRealations is : " + vmMoviesFilmmakersRealations);
+            List<VmMoviesFilmmakersRealation> vmMoviesFilmmakersRealations = makeVmMoviesFilmmakersRealations(vmMovies, actorIds);
+
+            if (vmMoviesFilmmakersRealations.size() != vmMoviesFilmmakersRealationMapper.batchInsert(vmMoviesFilmmakersRealations)) {
+                throw new VmMoviesException("addBackEndMoviesInfo vmMoviesFilmmakersRealationMapper#batchInsert is fail ! vmMoviesFilmmakersRealations is : " + vmMoviesFilmmakersRealations);
+            }
         }
+
+        //add tag realation
+        String tagIdsStr = vmMoviesDto.getTagIds();
+        if (!isEmptyString(tagIdsStr)) {//without new realation
+            List<Long> tagIds = parseStringArray(tagIdsStr);
+
+            List<VmMoviesTagsRealation> vmMoviesTagsRealations = makeVmMoviesTagsRealations(vmMovies, tagIds);
+
+            if (vmMoviesTagsRealations.size() != vmMoviesTagsRealationMapper.batchInsert(vmMoviesTagsRealations)) {
+                throw new VmMoviesException("addBackEndMoviesInfo vmMoviesTagsRealationMapper#batchInsert is fail ! vmMoviesTagsRealations is : " + vmMoviesTagsRealations);
+            }
+        }
+
 
         return makeBackendMoviesDto(vmMovies);
     }
