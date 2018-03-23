@@ -17,10 +17,7 @@ import com.vm.movie.dao.mapper.custom.CustomVmFilmmakersMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmMoviesMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmMoviesSrcVersionMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmTagsMapper;
-import com.vm.movie.dao.po.VmFilmmakers;
-import com.vm.movie.dao.po.VmMovies;
-import com.vm.movie.dao.po.VmMoviesFilmmakersRealation;
-import com.vm.movie.dao.po.VmMoviesTagsRealation;
+import com.vm.movie.dao.po.*;
 import com.vm.movie.dao.po.custom.CustomVmMovies;
 import com.vm.movie.dao.qo.VmMoviesQueryBean;
 import com.vm.movie.feign.service.SrcServiceClient;
@@ -35,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -412,6 +408,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     }
 
     @Override
+    @Transactional
     public VmMoviesDto updatePoster(UpdateHeadImgInfo updateHeadImgInfo) {
         //set versions
         updateHeadImgInfo.setVersions(movieConfig.getMoviePosterVersions());
@@ -478,8 +475,37 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     }
 
     @Override
+    @Transactional
     public void uploadVideo(VmMoviesDto vmMoviesDto) {
         logger.info("uploadVideo");
+        String res = srcServiceClient.uploadVideo(vmMoviesDto.getFile());
+        Response response = Response.parseJSON(res);
+        if (response.isFailure()) {
+            throw new VmMoviesException("uploadVideo srcServiceClient#uploadVideo is fail !! vmMoviesDto is :" + vmMoviesDto);
+        }
+
+        String videoUrl = (String) response.getData("videoUrl");
+        //update user
+        VmMoviesSrcVersion vmMoviesSrcVersion =  makeVmMovieSrcVersion(videoUrl,vmMoviesDto.getMovieId());
+        if(1!=vmMoviesSrcVersionMapper.insert(vmMoviesSrcVersion)){
+            throw new VmMoviesException("uploadVideo vmMoviesSrcVersionMapper#insert is fail !! vmMoviesDto is : "+vmMoviesDto);
+        }
+
+    }
+
+    private VmMoviesSrcVersion makeVmMovieSrcVersion(String videoUrl,Long movieId) {
+        VmMoviesSrcVersion vmMoviesSrcVersion = new VmMoviesSrcVersion();
+        Integer now = now();
+        vmMoviesSrcVersion.setMovieId(movieId);
+        vmMoviesSrcVersion.setStatus(BasePo.Status.NORMAL.getCode());
+        vmMoviesSrcVersion.setIsDeleted(BasePo.IsDeleted.NO.getCode());
+        vmMoviesSrcVersion.setSrcUrl(videoUrl);
+        vmMoviesSrcVersion.setWeight((byte) 1);
+        vmMoviesSrcVersion.setSharpness((byte) 1);
+        vmMoviesSrcVersion.setPlayerSpeed(2);
+        vmMoviesSrcVersion.setCreateTime(now);
+        vmMoviesSrcVersion.setUpdateTime(now);
+        return vmMoviesSrcVersion;
     }
 
     private VmMovies makeAddVmMovie(VmMoviesDto vmMoviesDto) {

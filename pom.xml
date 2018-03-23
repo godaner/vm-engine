@@ -43,6 +43,19 @@
             </dependency>
             <!--spring cloud end-->
 
+            <!--feign-form start-->
+            <dependency>
+                <groupId>io.github.openfeign.form</groupId>
+                <artifactId>feign-form</artifactId>
+                <version>2.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.openfeign.form</groupId>
+                <artifactId>feign-form-spring</artifactId>
+                <version>2.1.0</version>
+            </dependency>
+            <!--feign-form end-->
+
             <!--mybatis start-->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>

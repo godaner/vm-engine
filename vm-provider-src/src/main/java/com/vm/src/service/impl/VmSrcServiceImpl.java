@@ -152,8 +152,8 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
 
         InputStream inputStream = null;
         OutputStream outputStream = null;
-        String targetImgName = null;
-        String targetImgPathName = null;
+        String targetFileName = null;
+        String targetPathName = null;
         VmFiles vmFiles = null;
         try {
             //file
@@ -173,31 +173,24 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             //now
             Integer now = DateUtil.unixTime().intValue();
 
-            targetImgName = uuid + "." + ext;
-            targetImgPathName = targetPath + targetImgName;
+            targetFileName = uuid + "." + ext;
+            targetPathName = targetPath + targetFileName;
             //save head Img
             inputStream = imgFile.getInputStream();
-            outputStream = new FileOutputStream(targetImgPathName);
+            outputStream = new FileOutputStream(targetPathName);
             org.apache.commons.io.IOUtils.copy(inputStream, outputStream);
 
 
             //写入数据库
-            vmFiles = new VmFiles();
+            vmFiles = makeVmFiles(size,originalFilename,targetFileName,contentType);
 
-            vmFiles.setUpdateTime(now);
-            vmFiles.setCreateTime(now);
-            vmFiles.setFileSize(size);
-            vmFiles.setStatus(BasePo.Status.NORMAL.getCode());
-            vmFiles.setIsDeleted(BasePo.IsDeleted.NO.getCode());
-            vmFiles.setOriginalName(originalFilename);
-            vmFiles.setFilename(targetImgName);
-            vmFiles.setContentType(contentType);
+
             vmFilesMapper.insert(vmFiles);
 
-            logger.info("saveImg save as is : {} !", targetImgPathName);
+            logger.info("saveImg save as is : {} !", targetPathName);
         } catch (Exception e) {
             e.printStackTrace();
-            IOUtil.deleteFiles(targetImgName);
+            IOUtil.deleteFiles(targetFileName);
             throw e;
         } finally {
             IOUtil.closeStream(inputStream, outputStream);
@@ -268,6 +261,69 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         this.cutUploadedImgFile(vmFilesDto);
 
         return fileId;
+    }
+
+    @Override
+    public Long uploadVideo(MultipartFile file) throws Exception{
+        logger.info("uploadVideo start !!");
+
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        String targetFileName = null;
+        String targetFilePathName = null;
+        VmFiles vmFiles = null;
+        try {
+            //uuid
+            String uuid = uuid();
+            //targetPath
+            String targetPath = srcConfig.getSrcVideoPath();
+            //contentType
+            String contentType = file.getContentType();
+            //originalFilename
+            String originalFilename = file.getOriginalFilename();
+            //get ext
+            String ext = IOUtil.getFileNameExt(originalFilename);
+            //get size
+            Long size = file.getSize();
+
+            targetFileName = uuid + "." + ext;
+            targetFilePathName = targetPath + targetFileName;
+            //save head Img
+            inputStream = file.getInputStream();
+            outputStream = new FileOutputStream(targetFilePathName);
+            org.apache.commons.io.IOUtils.copy(inputStream, outputStream);
+
+            //写入数据库
+            vmFiles = makeVmFiles(size,originalFilename,targetFileName,contentType);
+
+            vmFilesMapper.insert(vmFiles);
+
+            logger.info("uploadVideo save as is : {} !", targetFilePathName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            IOUtil.deleteFiles(targetFileName);
+            throw e;
+        } finally {
+            IOUtil.closeStream(inputStream, outputStream);
+        }
+
+        logger.info("uploadVideo end !!");
+        return vmFiles.getId();
+    }
+
+    private VmFiles makeVmFiles(Long size,String originalFilename,String targetFileName,String contentType) {
+        VmFiles vmFiles = new VmFiles();
+        Integer now = DateUtil.unixTime().intValue();
+
+        vmFiles.setUpdateTime(now);
+        vmFiles.setCreateTime(now);
+        vmFiles.setFileSize(size);
+        vmFiles.setStatus(BasePo.Status.NORMAL.getCode());
+        vmFiles.setIsDeleted(BasePo.IsDeleted.NO.getCode());
+        vmFiles.setOriginalName(originalFilename);
+        vmFiles.setFilename(targetFileName);
+        vmFiles.setContentType(contentType);
+        return vmFiles;
     }
 
 

@@ -23,4 +23,6 @@ public interface VmSrcService {
     Long cutUploadedImgFile(VmFilesDto vmFilesDto) throws Exception;
 
     Long uploadAndCut(VmFilesDto vmFilesDto) throws Exception;
+
+    Long uploadVideo(MultipartFile file) throws Exception;
 }

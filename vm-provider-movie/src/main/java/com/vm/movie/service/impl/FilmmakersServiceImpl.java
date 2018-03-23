@@ -2,10 +2,10 @@ package com.vm.movie.service.impl;
 
 import com.google.common.collect.ImmutableMap;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
+import com.vm.base.util.BaseService;
 import com.vm.base.util.BeanMapUtil;
 import com.vm.base.util.Response;
 import com.vm.dao.util.BasePo;
-import com.vm.base.util.BaseService;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
 import com.vm.movie.config.FilmmakerConfig;
@@ -16,21 +16,16 @@ import com.vm.movie.dao.mapper.custom.CustomVmFilmmakersMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmMoviesFilmmakersRealationMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmMoviesMapper;
 import com.vm.movie.dao.po.VmFilmmakers;
-import com.vm.movie.dao.po.VmMovies;
-import com.vm.movie.dao.po.VmMoviesFilmmakersRealation;
 import com.vm.movie.dao.qo.VmFilmmakerQueryBean;
 import com.vm.movie.feign.service.SrcServiceClient;
 import com.vm.movie.service.dto.VmFilmmakersDto;
 import com.vm.movie.service.exception.VmFilmmakersException;
 import com.vm.movie.service.exception.VmMoviesException;
 import com.vm.movie.service.inf.FilmmakersService;
-
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;

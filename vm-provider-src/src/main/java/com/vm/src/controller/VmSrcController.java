@@ -19,7 +19,17 @@ import org.springframework.web.multipart.MultipartFile;
 public class VmSrcController extends ServiceController<VmSrcService> {
     @Autowired
     private SrcConfig srcConfig;
-
+    /**
+     * 获取视频资源
+     *
+     * @return
+     */
+    @RequestMapping(value = "/video", method = RequestMethod.POST)
+    @ResponseBody
+    public Object uploadVideo(@RequestParam("file") MultipartFile file) throws Exception {
+        Long fileId = service.uploadVideo(file);
+        return response.putData("videoUrl", srcConfig.getSrcVideoUrl() + "/" + fileId).putData("fileId", fileId);
+    }
     /**
      * 获取视频资源
      *
