@@ -289,7 +289,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         }
         //update movie
         vmMovies = makeUpdateVmMovies(vmMoviesDto);
-        if (1 != vmMoviesMapper.update(vmMovies.getId(), vmMovies)) {
+        if (1 != vmMoviesMapper.update(vmMoviesDto.getId(), vmMovies)) {
             throw new VmMoviesException("updateBackEndMoviesInfo vmMoviesMapper#update is fail ! vmMovies is : " + vmMovies);
         }
         //get now obj
@@ -513,7 +513,6 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         vmMovies.setMovieTime(vmMoviesDto.getMovieTime());
         vmMovies.setName(vmMoviesDto.getName());
         vmMovies.setReleaseTime(vmMoviesDto.getReleaseTime());
-        vmMovies.setId(vmMoviesDto.getId());
         vmMovies.setStatus(vmMoviesDto.getStatus());
         vmMovies.setDirectorId(vmMoviesDto.getDirectorId());
         vmMovies.setUpdateTime(now);
