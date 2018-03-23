@@ -11,7 +11,7 @@ import java.util.List;
  * Created by ZhangKe on 2017/12/11.
  */
 public interface VmTagGroupsService {
-    List<VmTagsGroupsDto> getTagsGroupsWithTags() throws Exception;
+    List<VmTagsGroupsDto> getAllTagsGroupsWithTags() throws Exception;
 
     List<VmTagsGroupsDto> getTagGroups(VmTagGroupsQueryBean query, PageBean page);
 
@@ -22,4 +22,6 @@ public interface VmTagGroupsService {
     VmTagsGroupsDto addTagGroup(VmTagsGroupsDto vmTagsGroupsDto);
 
     void deleteTagGroups(VmTagsGroupsDto vmTagsGroupsDto);
+
+    List<VmTagsGroupsDto> getBackendAllTagsGroupsWithTags();
 }

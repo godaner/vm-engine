@@ -13,13 +13,13 @@ public class VmTagsGroupsDto extends BaseDto {
 
     private String name;
 
-    private List<VmTags> items;
+    private List<VmTagsDto> items;
 
-    public List<VmTags> getItems() {
+    public List<VmTagsDto> getItems() {
         return items;
     }
 
-    public void setItems(List<VmTags> items) {
+    public void setItems(List<VmTagsDto> items) {
         this.items = items;
     }
 

@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface CustomVmTagsGroupsMapper {
 
-    List<CustomVmTagsGroups> getTagsGroupsWithTags();
+    List<CustomVmTagsGroups> getAllTagsGroupsWithTags(@Param("query") Object query);
 
     List<VmTagsGroups> getTagGroups(@Param("query") VmTagGroupsQueryBean query, @Param("page") PageBean page);
 

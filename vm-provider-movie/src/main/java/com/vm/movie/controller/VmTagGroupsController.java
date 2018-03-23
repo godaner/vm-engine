@@ -1,6 +1,7 @@
 package com.vm.movie.controller;
 
 import com.vm.base.util.ServiceController;
+import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.movie.dao.qo.VmTagGroupsQueryBean;
 import com.vm.movie.service.dto.VmTagsGroupsDto;
@@ -29,8 +30,9 @@ public class VmTagGroupsController extends ServiceController<VmTagGroupsService>
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public Object getTagsGroupsWithTags() throws Exception {
-        return response.putData("list", service.getTagsGroupsWithTags());
+    public Object getAllTagsGroupsWithTags() throws Exception {
+        VmTagGroupsQueryBean query = new VmTagGroupsQueryBean();
+        return response.putData("list", service.getAllTagsGroupsWithTags());
     }
 
     /*********************************管理端****************************/
@@ -55,6 +57,16 @@ public class VmTagGroupsController extends ServiceController<VmTagGroupsService>
     public Object deleteTagGroups(@RequestBody VmTagsGroupsDto vmTagsGroupsDto) throws Exception {
         service.deleteTagGroups(vmTagsGroupsDto);
         return response;
+    }
+    /**
+     * 获取所有的tags分组及其下面的tags
+     *
+     * @return
+     */
+    @RequestMapping(value = "/tag/list", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getBackendAllTagsGroupsWithTags() throws Exception {
+        return response.putData("list", service.getBackendAllTagsGroupsWithTags());
     }
 }
 
