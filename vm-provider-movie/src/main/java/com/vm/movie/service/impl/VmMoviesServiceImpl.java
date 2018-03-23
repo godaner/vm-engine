@@ -478,10 +478,9 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     }
 
     @Override
-    public void uploadVideo(Long movieId, MultipartFile file) {
+    public void uploadVideo(VmMoviesDto vmMoviesDto) {
         logger.info("uploadVideo");
     }
-
 
     private VmMovies makeAddVmMovie(VmMoviesDto vmMoviesDto) {
         Integer now = now();

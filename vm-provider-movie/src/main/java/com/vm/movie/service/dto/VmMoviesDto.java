@@ -43,6 +43,15 @@ public class VmMoviesDto extends BaseDto{
     private String actorIds;
 
     private MultipartFile file;
+    private Long movieId;
+
+    public Long getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(Long movieId) {
+        this.movieId = movieId;
+    }
 
     public MultipartFile getFile() {
         return file;

@@ -46,5 +46,5 @@ public interface VmMoviesService {
 
     VmMoviesDto addBackEndMoviesInfo(VmMoviesDto vmMoviesDto);
 
-    void uploadVideo(Long movieId,MultipartFile file);
+    void uploadVideo(VmMoviesDto vmMoviesDto);
 }
