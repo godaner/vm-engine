@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.vm.base.util.BaseService;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.QuickSelectOne;
+import com.vm.movie.dao.mapper.VmMoviesTagsRealationMapper;
 import com.vm.movie.dao.mapper.VmTagsGroupsMapper;
 import com.vm.movie.dao.mapper.VmTagsMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmMoviesTagsRealationMapper;
@@ -39,6 +40,8 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
 
     @Autowired
     private CustomVmMoviesTagsRealationMapper customVmMoviesTagsRealationMapper;
+    @Autowired
+    private VmMoviesTagsRealationMapper vmMoviesTagsRealationMapper;
 
     @Override
     public List<VmTagsDto> getTags() throws Exception {
@@ -130,6 +133,21 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
         }
         List<Long> deletedIds = parseStringArray2Long(vmTagsDto.getDeletedIds());
 
+
+        //delete movie tag realations
+        List<Long> realationIds = customVmMoviesTagsRealationMapper.getRealationIdsByTagIds(ImmutableMap.of(
+                "tagIds", deletedIds,
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
+
+        ));
+        if (!isEmptyList(realationIds)) {
+            cnt = vmMoviesTagsRealationMapper.updateInIds(realationIds, ImmutableMap.of(
+                    "isDeleted", BasePo.IsDeleted.YES.getCode()
+            ));
+            if (cnt != realationIds.size()) {
+                throw new VmFilmmakersException("deleteTags vmMoviesTagsRealationMapper#updateInIds is fail ! realationIds is : " + realationIds);
+            }
+        }
         //delete tags
         cnt = vmTagsMapper.updateInIds(deletedIds, ImmutableMap.of(
                 "isDeleted", BasePo.IsDeleted.YES.getCode()

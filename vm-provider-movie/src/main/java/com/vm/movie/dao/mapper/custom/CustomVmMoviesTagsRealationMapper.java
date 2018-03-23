@@ -7,4 +7,6 @@ import java.util.List;
 public interface CustomVmMoviesTagsRealationMapper {
 
     List<Long> getTagIdsByMovieId(@Param("query") Object query);
+
+    List<Long> getRealationIdsByTagIds(@Param("query") Object query);
 }

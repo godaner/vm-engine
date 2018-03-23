@@ -5,8 +5,10 @@ import com.vm.base.util.BaseService;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
+import com.vm.movie.dao.mapper.VmMoviesTagsRealationMapper;
 import com.vm.movie.dao.mapper.VmTagsGroupsMapper;
 import com.vm.movie.dao.mapper.VmTagsMapper;
+import com.vm.movie.dao.mapper.custom.CustomVmMoviesTagsRealationMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmTagsGroupsMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmTagsMapper;
 import com.vm.movie.dao.po.VmTags;
@@ -39,7 +41,10 @@ public class VmTagGroupsServiceImpl extends BaseService implements VmTagGroupsSe
     private VmTagsGroupsMapper vmTagsGroupsMapper;
     @Autowired
     private CustomVmTagsGroupsMapper customVmTagsGroupsMapper;
-
+    @Autowired
+    CustomVmMoviesTagsRealationMapper customVmMoviesTagsRealationMapper;
+    @Autowired
+    VmMoviesTagsRealationMapper vmMoviesTagsRealationMapper;
     @Override
     public List<VmTagsGroupsDto> getAllTagsGroupsWithTags() {
 
@@ -149,11 +154,24 @@ public class VmTagGroupsServiceImpl extends BaseService implements VmTagGroupsSe
         }
         List<Long> deletedIds = parseStringArray2Long(vmTagsGroupsDto.getDeletedIds());
 
-        //delete tags
+
         List<Long> willBeDeletedTagIds = customVmTagsMapper.getTagIdsByTagGroupIds(ImmutableMap.of(
                 "tagGroupIds", deletedIds,
                 "isDeleted", BasePo.IsDeleted.NO.getCode()
         ));
+        //delete movie tag realations
+        List<Long> realationIds = customVmMoviesTagsRealationMapper.getRealationIdsByTagIds(willBeDeletedTagIds);
+        if (!isEmptyList(realationIds)) {
+            cnt = vmMoviesTagsRealationMapper.updateInIds(realationIds, ImmutableMap.of(
+                    "isDeleted", BasePo.IsDeleted.YES.getCode()
+            ));
+            if (cnt != realationIds.size()) {
+                throw new VmFilmmakersException("deleteTagGroups vmMoviesTagsRealationMapper#updateInIds is fail ! realationIds is : " + realationIds);
+            }
+        }
+
+
+        //delete tags
         if (!isEmptyList(willBeDeletedTagIds)) {
             cnt = vmTagsMapper.updateInIds(willBeDeletedTagIds, ImmutableMap.of(
                     "isDeleted", BasePo.IsDeleted.YES.getCode()
