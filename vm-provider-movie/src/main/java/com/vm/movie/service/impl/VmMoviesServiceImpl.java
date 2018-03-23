@@ -320,7 +320,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         }
 
         //delete old tag realation
-        cnt = vmTagsMapper.batchUpdate(
+        cnt = vmMoviesTagsRealationMapper.batchUpdate(
                 ImmutableMap.of(
                         "movieId", vmMovies.getId()
                 ), ImmutableMap.of(
