@@ -8,6 +8,7 @@ import com.vm.movie.service.dto.VmFilmmakersDto;
 import com.vm.movie.service.dto.VmMoviesDto;
 import com.vm.movie.service.dto.VmMoviesSrcVersionDto;
 import com.vm.movie.service.dto.VmTagsDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -44,4 +45,6 @@ public interface VmMoviesService {
     VmMoviesDto updatePoster(UpdateHeadImgInfo updateHeadImgInfo);
 
     VmMoviesDto addBackEndMoviesInfo(VmMoviesDto vmMoviesDto);
+
+    void uploadVideo(Long movieId,MultipartFile file);
 }

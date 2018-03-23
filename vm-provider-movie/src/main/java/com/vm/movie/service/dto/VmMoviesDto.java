@@ -4,6 +4,7 @@ package com.vm.movie.service.dto;
 import com.vm.base.service.dto.BaseDto;
 import com.vm.movie.dao.po.VmFilmmakers;
 import com.vm.movie.dao.po.VmTags;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class VmMoviesDto extends BaseDto{
 
     private String imgUrl;
 
+
     //附加属性
     private List<VmFilmmakers> actors;
     private VmFilmmakers director;
@@ -39,6 +41,16 @@ public class VmMoviesDto extends BaseDto{
 
     private String tagIds;
     private String actorIds;
+
+    private MultipartFile file;
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
 
     public String getTagIds() {
         return tagIds;

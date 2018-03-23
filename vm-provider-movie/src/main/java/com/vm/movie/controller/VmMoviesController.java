@@ -8,10 +8,8 @@ import com.vm.movie.service.dto.VmMoviesDto;
 import com.vm.movie.service.inf.VmMoviesService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -188,6 +186,18 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
         VmMoviesDto vmMoviesDto = service.updatePoster(updateHeadImgInfo);
         return response.putData("movie", vmMoviesDto).
                 putData("imgUrl", vmMoviesDto.getPosterUrl());
+    }
+    /**
+     * 更具已缓存图片更新电影poster<br/>
+     *
+     * @return
+     */
+    @RequestMapping(value = "/video", method = RequestMethod.POST)
+    @ResponseBody
+    public Object uploadVideo(@RequestParam("file") MultipartFile file,
+                              @RequestParam("movieId") Long movieId) throws Exception {
+        service.uploadVideo(movieId,file);
+        return response;
     }
 }
 

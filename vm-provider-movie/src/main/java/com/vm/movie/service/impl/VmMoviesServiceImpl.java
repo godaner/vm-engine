@@ -30,9 +30,12 @@ import com.vm.movie.service.dto.VmMoviesSrcVersionDto;
 import com.vm.movie.service.dto.VmTagsDto;
 import com.vm.movie.service.exception.VmMoviesException;
 import com.vm.movie.service.inf.VmMoviesService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -44,6 +47,7 @@ import static java.util.stream.Collectors.toList;
  */
 @Service
 public class VmMoviesServiceImpl extends BaseService implements VmMoviesService {
+    private Logger logger = LoggerFactory.getLogger(VmMoviesServiceImpl.class);
     @Autowired
     private CustomVmMoviesMapper customVmMoviesMapper;
     @Autowired
@@ -472,6 +476,12 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
         return makeBackendMoviesDto(vmMovies);
     }
+
+    @Override
+    public void uploadVideo(Long movieId, MultipartFile file) {
+        logger.info("uploadVideo");
+    }
+
 
     private VmMovies makeAddVmMovie(VmMoviesDto vmMoviesDto) {
         Integer now = now();
