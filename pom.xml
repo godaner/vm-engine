@@ -43,6 +43,14 @@
             </dependency>
             <!--spring cloud end-->
 
+            <!--xuggle start-->
+            <dependency>
+                <groupId>org.openimaj</groupId>
+                <artifactId>xuggle-video</artifactId>
+                <version>1.3.6</version>
+            </dependency>
+            <!--xuggle end-->
+
             <!--feign-form start-->
             <dependency>
                 <groupId>io.github.openfeign.form</groupId>

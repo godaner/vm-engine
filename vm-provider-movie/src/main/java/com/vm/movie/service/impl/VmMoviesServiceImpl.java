@@ -200,26 +200,6 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         }).collect(toList());
     }
 
-    @Override
-    public List<VmMoviesSrcVersionDto> getMovieSrcVersions(Long movieId) throws Exception {
-
-        VmMovies vmMovies = this.getVmMoviesById(movieId, BasePo.IsDeleted.NO);
-
-        if (isNullObject(vmMovies)) {
-            throw new VmMoviesException("getMovieFilmmakers vmMovies is not exist ! movieId is : " + movieId,
-                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getCode(),
-                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getMsg());
-        }
-
-        return customVmMoviesSrcVersionMapper.selectMovieSrcVersionsByMovieId(movieId).stream().map((vmMoviesSrcVersion) -> {
-            VmMoviesSrcVersionDto vmMoviesSrcVersionBo = new VmMoviesSrcVersionDto();
-            vmMoviesSrcVersionBo.setId(vmMoviesSrcVersion.getId());
-            vmMoviesSrcVersionBo.setSrcUrl(vmMoviesSrcVersion.getSrcUrl());
-            vmMoviesSrcVersionBo.setSharpness(vmMoviesSrcVersion.getSharpness());
-            return vmMoviesSrcVersionBo;
-        }).collect(toList());
-    }
-
 
     @Override
     public String getMoviePosterUrl(Long movieId) throws Exception {
@@ -474,39 +454,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         return makeBackendMoviesDto(vmMovies);
     }
 
-    @Override
-    @Transactional
-    public void uploadVideo(VmMoviesDto vmMoviesDto) {
-        logger.info("uploadVideo");
-        String res = srcServiceClient.uploadVideo(vmMoviesDto.getFile());
-        Response response = Response.parseJSON(res);
-        if (response.isFailure()) {
-            throw new VmMoviesException("uploadVideo srcServiceClient#uploadVideo is fail !! vmMoviesDto is :" + vmMoviesDto);
-        }
 
-        String videoUrl = (String) response.getData("videoUrl");
-        //update user
-        VmMoviesSrcVersion vmMoviesSrcVersion =  makeVmMovieSrcVersion(videoUrl,vmMoviesDto.getMovieId());
-        if(1!=vmMoviesSrcVersionMapper.insert(vmMoviesSrcVersion)){
-            throw new VmMoviesException("uploadVideo vmMoviesSrcVersionMapper#insert is fail !! vmMoviesDto is : "+vmMoviesDto);
-        }
-
-    }
-
-    private VmMoviesSrcVersion makeVmMovieSrcVersion(String videoUrl,Long movieId) {
-        VmMoviesSrcVersion vmMoviesSrcVersion = new VmMoviesSrcVersion();
-        Integer now = now();
-        vmMoviesSrcVersion.setMovieId(movieId);
-        vmMoviesSrcVersion.setStatus(BasePo.Status.NORMAL.getCode());
-        vmMoviesSrcVersion.setIsDeleted(BasePo.IsDeleted.NO.getCode());
-        vmMoviesSrcVersion.setSrcUrl(videoUrl);
-        vmMoviesSrcVersion.setWeight((byte) 1);
-        vmMoviesSrcVersion.setSharpness((byte) 1);
-        vmMoviesSrcVersion.setPlayerSpeed(2);
-        vmMoviesSrcVersion.setCreateTime(now);
-        vmMoviesSrcVersion.setUpdateTime(now);
-        return vmMoviesSrcVersion;
-    }
 
     private VmMovies makeAddVmMovie(VmMoviesDto vmMoviesDto) {
         Integer now = now();

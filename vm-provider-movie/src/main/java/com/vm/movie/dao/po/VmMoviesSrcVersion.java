@@ -4,6 +4,10 @@ import com.vm.base.util.ByteConstantVar;
 
 public class VmMoviesSrcVersion extends BasePo {
 
+    public static final Byte DEFAULT_WEIGHT = (byte)1;
+
+    public static final Integer DEFAULT_PLAYER_SPEED = 0;
+
     private Byte sharpness;
 
     private Long movieId;

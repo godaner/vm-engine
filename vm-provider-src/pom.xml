@@ -10,6 +10,7 @@
     <packaging>jar</packaging>
     <dependencies>
 
+
         <dependency>
             <groupId>com.vm</groupId>
             <artifactId>vm-base</artifactId>
@@ -24,6 +25,13 @@
             <groupId>com.vm</groupId>
             <artifactId>vm-redis</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>org.openimaj</groupId>
+            <artifactId>xuggle-video</artifactId>
         </dependency>
 
         <!--config start-->

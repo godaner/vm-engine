@@ -93,18 +93,6 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
         return response.putData("filmmakers", service.getMovieFilmmakers(movieId));
     }
 
-    /**
-     * 获取电影版本:例如高清，超清
-     *
-     * @return
-     */
-    @RequestMapping(value = "/version/{movieId}", method = RequestMethod.GET)
-    @ResponseBody
-    public Object getMovieSrcVersions(@PathVariable("movieId") Long movieId) throws Exception {
-
-        return response.putData("versions", service.getMovieSrcVersions(movieId))
-                .putData("posterUrl", service.getMoviePosterUrl(movieId));
-    }
 
     /**
      * 获取与标签相关的电影列表
@@ -187,16 +175,6 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
         return response.putData("movie", vmMoviesDto).
                 putData("imgUrl", vmMoviesDto.getPosterUrl());
     }
-    /**
-     * 更具已缓存图片更新电影poster<br/>
-     *
-     * @return
-     */
-    @RequestMapping(value = "/video", method = RequestMethod.POST)
-    @ResponseBody
-    public Object uploadVideo(VmMoviesDto vmMoviesDto) throws Exception {
-        service.uploadVideo(vmMoviesDto);
-        return response;
-    }
+
 }
 
