@@ -24,7 +24,7 @@
         AND mtr.`status` = #{query.status}
         AND t.is_deleted = #{query.isDeleted}
         AND mtr.is_deleted = #{query.isDeleted}
-        AND mtr.movie_id = #{movieId}
+        AND mtr.movie_id = #{query.movieId}
         AND mtr.tag_id = t.id
     </select>
 
