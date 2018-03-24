@@ -34,8 +34,7 @@ public class VmMovieSrcVersionsController extends ServiceController<VmMovieSrcVe
     @ResponseBody
     public Object getMovieSrcVersions(@PathVariable("movieId") Long movieId) throws Exception {
 
-        return response.putData("versions", service.getMovieSrcVersions(movieId))
-                .putData("posterUrl", service.getMoviePosterUrl(movieId));
+        return response.putData("versions", service.getMovieSrcVersions(movieId));
     }
 
     /*********************************管理端****************************/
