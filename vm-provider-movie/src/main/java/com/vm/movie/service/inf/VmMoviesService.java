@@ -2,7 +2,9 @@ package com.vm.movie.service.inf;
 
 
 import com.vm.base.service.dto.UpdateHeadImgInfo;
+import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
+import com.vm.movie.dao.po.VmMovies;
 import com.vm.movie.dao.qo.VmMoviesQueryBean;
 import com.vm.movie.service.dto.VmFilmmakersDto;
 import com.vm.movie.service.dto.VmMoviesDto;
@@ -24,8 +26,6 @@ public interface VmMoviesService {
 
     List<VmTagsDto> getTagsOfMovie(Long movieId) throws Exception;
 
-    List<VmFilmmakersDto> getMovieFilmmakers(Long movieId);
-
     String getMoviePosterUrl(Long movieId) throws Exception;
 
     List<VmMoviesDto> getAboutTagsMovies(PageBean page, VmMoviesQueryBean query) throws Exception;
@@ -44,4 +44,7 @@ public interface VmMoviesService {
 
     VmMoviesDto addBackEndMoviesInfo(VmMoviesDto vmMoviesDto);
 
+    VmMovies getVmMoviesById(Long id, BasePo.Status status, BasePo.IsDeleted isDeleted);
+
+    VmMovies getVmMoviesById(Long id, BasePo.IsDeleted isDeleted);
 }

@@ -81,17 +81,6 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
 //        service.sendMovieSrc(fileId, getResponse());
 //    }
 
-    /**
-     * 获取电影相关电影人:包括导演,演员
-     *
-     * @return
-     */
-    @RequestMapping(value = "/filmmaker/{movieId}", method = RequestMethod.GET)
-    @ResponseBody
-    public Object getMovieFilmmakers(@PathVariable("movieId") Long movieId) throws Exception {
-
-        return response.putData("filmmakers", service.getMovieFilmmakers(movieId));
-    }
 
 
     /**

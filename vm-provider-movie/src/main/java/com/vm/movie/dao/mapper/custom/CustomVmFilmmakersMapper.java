@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface CustomVmFilmmakersMapper {
-    List<VmFilmmakers> selectActorsByMovieId(@Param("movieId") Long movieId);
+    List<VmFilmmakers> selectActorsByMovieId(@Param("query") Object query);
 
     List<VmFilmmakers> selectActorsIdAndNameByMovieId(@Param("movieId") Long movieId);
 

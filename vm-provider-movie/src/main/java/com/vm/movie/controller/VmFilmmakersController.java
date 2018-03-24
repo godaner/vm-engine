@@ -5,8 +5,7 @@ import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
 import com.vm.movie.dao.qo.VmFilmmakerQueryBean;
 import com.vm.movie.service.dto.VmFilmmakersDto;
-import com.vm.movie.service.dto.VmMoviesDto;
-import com.vm.movie.service.inf.FilmmakersService;
+import com.vm.movie.service.inf.VmFilmmakersService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/filmmaker")
 @Scope("prototype")
-public class VmFilmmakersController extends ServiceController<FilmmakersService> {
+public class VmFilmmakersController extends ServiceController<VmFilmmakersService> {
 
     /*********************************用户端****************************/
     /**
@@ -45,7 +44,17 @@ public class VmFilmmakersController extends ServiceController<FilmmakersService>
     public Object getFilmmakerBasicInfo(@PathVariable("filmmakerId") Long filmmakerId) throws Exception {
         return response.putData("filmmaker", service.getFilmmakerBasicInfo(filmmakerId));
     }
+    /**
+     * 获取电影相关电影人:包括导演,演员
+     *
+     * @return
+     */
+    @RequestMapping(value = "/{movieId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getMovieFilmmakers(@PathVariable("movieId") Long movieId) throws Exception {
 
+        return response.putData("filmmakers", service.getMovieFilmmakers(movieId));
+    }
 
     /*********************************管理端****************************/
 

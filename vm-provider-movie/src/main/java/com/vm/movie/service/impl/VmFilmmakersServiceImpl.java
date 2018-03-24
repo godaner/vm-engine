@@ -1,6 +1,8 @@
 package com.vm.movie.service.impl;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.BeanMapUtil;
@@ -16,17 +18,20 @@ import com.vm.movie.dao.mapper.custom.CustomVmFilmmakersMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmMoviesFilmmakersRealationMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmMoviesMapper;
 import com.vm.movie.dao.po.VmFilmmakers;
+import com.vm.movie.dao.po.VmMovies;
 import com.vm.movie.dao.qo.VmFilmmakerQueryBean;
 import com.vm.movie.feign.service.SrcServiceClient;
 import com.vm.movie.service.dto.VmFilmmakersDto;
 import com.vm.movie.service.exception.VmFilmmakersException;
 import com.vm.movie.service.exception.VmMoviesException;
-import com.vm.movie.service.inf.FilmmakersService;
+import com.vm.movie.service.inf.VmFilmmakersService;
+import com.vm.movie.service.inf.VmMoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 
@@ -34,7 +39,7 @@ import static java.util.stream.Collectors.toList;
  * Created by ZhangKe on 2017/12/26.
  */
 @Service
-public class FilmmakersServiceImpl extends BaseService implements FilmmakersService {
+public class VmFilmmakersServiceImpl extends BaseService implements VmFilmmakersService {
 
     @Autowired
     private VmFilmmakersMapper vmFilmmakersMapper;
@@ -61,6 +66,65 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
 
     @Autowired
     private FilmmakerConfig filmmakerConfig;
+
+    @Autowired
+    private VmMoviesService vmMoviesService;
+
+    @Override
+    public List<VmFilmmakersDto> getMovieFilmmakers(Long movieId) {
+
+        VmMovies vmMovies = vmMoviesService.getVmMoviesById(movieId, BasePo.IsDeleted.NO);
+
+        if (isNullObject(vmMovies)) {
+
+            throw new VmMoviesException("getMovieFilmmakers vmMovies is not exist ! movieId is : " + movieId,
+                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getCode(),
+                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getMsg());
+        }
+
+        //返回集
+        List<VmFilmmakers> filmmakers = Lists.newArrayList();
+
+        //获取演员
+        List<VmFilmmakers> actors = customVmFilmmakersMapper.selectActorsByMovieId(ImmutableMap.of(
+                "movieId", movieId,
+                "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                "status", BasePo.Status.NORMAL.getCode()
+        ));
+
+        filmmakers.addAll(actors);
+        //获取导演
+        Long directorId = vmMovies.getDirectorId();
+        if (!isNullObject(directorId)) {
+            VmFilmmakers director = this.getFilmmakerById(directorId, BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
+            if (!isNullObject(director)) {
+                filmmakers.add(director);
+            }
+        }
+
+        return makeFilmmakerDtos(filmmakers);
+    }
+
+
+    private List<VmFilmmakersDto> makeFilmmakerDtos(List<VmFilmmakers> filmmakers) {
+        //去除list的重复filmmaker
+        if (isEmptyList(filmmakers)) {
+            return Lists.newArrayList();
+        }
+        Map<Long, VmFilmmakers> map = Maps.newHashMap();
+        for (VmFilmmakers filmmaker : filmmakers) {
+            map.put(filmmaker.getId(), filmmaker);
+        }
+        //to dto
+        return Lists.newArrayList(map.values()).stream().map((filmmaker) -> {
+            VmFilmmakersDto vmFilmmakersDto = new VmFilmmakersDto();
+            vmFilmmakersDto.setName(filmmaker.getName());
+            vmFilmmakersDto.setId(filmmaker.getId());
+            vmFilmmakersDto.setImgUrl(filmmaker.getImgUrl());
+            return vmFilmmakersDto;
+        }).collect(toList());
+    }
+
 
     private VmFilmmakersDto makeBasicFilmmakerDto(VmFilmmakers filmmaker) {
         VmFilmmakersDto vmFilmmakersDto = new VmFilmmakersDto();
@@ -230,7 +294,7 @@ public class FilmmakersServiceImpl extends BaseService implements FilmmakersServ
 
         //delete actors realations
         List<Long> willBeDeletedRealationIds = customVmMoviesFilmmakersRealationMapper.selectRealationIdsByfilmmakerIds(ImmutableMap.of(
-                "isDeleted",BasePo.IsDeleted.NO.getCode(),
+                "isDeleted", BasePo.IsDeleted.NO.getCode(),
                 "deletedIds", deletedIds
         ));
         if (!isEmptyList(willBeDeletedRealationIds)) {

@@ -38,7 +38,12 @@ public class VmMovieSrcVersionsController extends ServiceController<VmMovieSrcVe
     }
 
     /*********************************管理端****************************/
-
+    /**
+     * 保存电影版本:例如高清，超清
+     * @param vmMoviesSrcVersionDto
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/video", method = RequestMethod.POST)
     @ResponseBody
     public Object uploadVideo(VmMoviesSrcVersionDto vmMoviesSrcVersionDto) throws Exception {

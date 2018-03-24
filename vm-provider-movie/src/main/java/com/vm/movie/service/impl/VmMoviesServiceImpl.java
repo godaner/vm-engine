@@ -152,56 +152,6 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
 
     @Override
-    public List<VmFilmmakersDto> getMovieFilmmakers(Long movieId) {
-
-        VmMovies vmMovies = this.getVmMoviesById(movieId, BasePo.IsDeleted.NO);
-
-        if (isNullObject(vmMovies)) {
-
-            throw new VmMoviesException("getMovieFilmmakers vmMovies is not exist ! movieId is : " + movieId,
-                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getCode(),
-                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getMsg());
-        }
-
-        //返回集
-        List<VmFilmmakers> filmmakers = Lists.newArrayList();
-
-        //获取演员
-        List<VmFilmmakers> actors = customVmFilmmakersMapper.selectActorsByMovieId(movieId);
-
-        filmmakers.addAll(actors);
-        //获取导演
-        Long directorId = vmMovies.getDirectorId();
-        if (!isNullObject(directorId)) {
-            VmFilmmakers director = vmFilmmakersMapper.select(directorId);
-            filmmakers.add(director);
-        }
-
-        return makeFilmmakerDtos(filmmakers);
-    }
-
-
-    private List<VmFilmmakersDto> makeFilmmakerDtos(List<VmFilmmakers> filmmakers) {
-        //去除list的重复filmmaker
-        if (isEmptyList(filmmakers)) {
-            return Lists.newArrayList();
-        }
-        Map<Long, VmFilmmakers> map = Maps.newHashMap();
-        for (VmFilmmakers filmmaker : filmmakers) {
-            map.put(filmmaker.getId(), filmmaker);
-        }
-        //to dto
-        return Lists.newArrayList(map.values()).stream().map((filmmaker) -> {
-            VmFilmmakersDto vmFilmmakersDto = new VmFilmmakersDto();
-            vmFilmmakersDto.setName(filmmaker.getName());
-            vmFilmmakersDto.setId(filmmaker.getId());
-            vmFilmmakersDto.setImgUrl(filmmaker.getImgUrl());
-            return vmFilmmakersDto;
-        }).collect(toList());
-    }
-
-
-    @Override
     public String getMoviePosterUrl(Long movieId) throws Exception {
         VmMovies vmMovies = this.getVmMoviesById(movieId, BasePo.IsDeleted.NO);
 
@@ -476,12 +426,14 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         return vmMovies;
     }
 
-    private VmMovies getVmMoviesById(Long id, BasePo.IsDeleted isDeleted) {
+    @Override
+    public VmMovies getVmMoviesById(Long id, BasePo.IsDeleted isDeleted) {
         return QuickSelectOne.getObjectById(vmMoviesMapper, id, isDeleted);
 
     }
 
-    private VmMovies getVmMoviesById(Long id, BasePo.Status status, BasePo.IsDeleted isDeleted) {
+    @Override
+    public VmMovies getVmMoviesById(Long id, BasePo.Status status, BasePo.IsDeleted isDeleted) {
         return QuickSelectOne.getObjectById(vmMoviesMapper, id, status, isDeleted);
 
     }

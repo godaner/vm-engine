@@ -12,8 +12,10 @@ import java.util.List;
 /**
  * Created by ZhangKe on 2017/12/26.
  */
-public interface FilmmakersService {
+public interface VmFilmmakersService {
 //    void sendFilmmakerImg(Long filmmakerId, Integer width, HttpServletResponse response) throws Exception;
+
+    List<VmFilmmakersDto> getMovieFilmmakers(Long movieId);
 
     VmFilmmakersDto getFilmmakerBasicInfo(Long filmmakerId) throws Exception;
 

@@ -14,14 +14,13 @@
         WHERE
         m.id = r.movie_id
         AND fm.id = r.filmmaker_id
-        AND m.id = #{movieId}
-        AND m.`status` = 1
-        AND r.`status` = 1
-        AND fm.`status` = 1
-        AND m.is_deleted = 1
-        AND r.is_deleted = 1
-        AND fm.is_deleted = 1
-
+        AND m.id = #{query.movieId}
+        AND m.`status` = #{query.status}
+        AND r.`status` =  #{query.status}
+        AND fm.`status` =  #{query.status}
+        AND m.is_deleted = #{query.isDeleted}
+        AND r.is_deleted = #{query.isDeleted}
+        AND fm.is_deleted = #{query.isDeleted}
       </select>
     <select id="selectActorsIdAndNameByMovieId" resultMap="com.vm.movie.dao.mapper.VmFilmmakersMapper.VmFilmmakersMap">
       SELECT
