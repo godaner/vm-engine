@@ -1,5 +1,6 @@
 package com.vm.movie.service.impl;
 
+import com.google.common.collect.ImmutableMap;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.Response;
 import com.vm.dao.util.BasePo;
@@ -92,6 +93,35 @@ public class VmMovieSrcVersionsServiceImpl extends BaseService implements VmMovi
         if (1 != vmMoviesSrcVersionMapper.insert(vmMoviesSrcVersion)) {
             throw new VmMoviesSrcVersionsException("uploadVideo vmMoviesSrcVersionMapper#insert is fail !! vmMoviesDto is : " + vmMoviesSrcVersionDto);
         }
+    }
+
+    @Override
+    public List<VmMoviesSrcVersionDto> getAllVersionsByMovieId(Long movieId) {
+
+        List<VmMoviesSrcVersion> vmMoviesSrcVersions = vmMoviesSrcVersionMapper.selectBy(ImmutableMap.of(
+                "movieId", movieId,
+                "status", BasePo.Status.NORMAL.getCode(),
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
+        ));
+
+        return makeVmMoviesSrcVersionsDtos(vmMoviesSrcVersions);
+    }
+
+    private List<VmMoviesSrcVersionDto> makeVmMoviesSrcVersionsDtos(List<VmMoviesSrcVersion> vmMoviesSrcVersions) {
+        return vmMoviesSrcVersions.stream().parallel().map(vmMoviesSrcVersion -> {
+            return makeVmMoviesSrcVersionsDto(vmMoviesSrcVersion);
+        }).collect(toList());
+    }
+
+    private VmMoviesSrcVersionDto makeVmMoviesSrcVersionsDto(VmMoviesSrcVersion vmMoviesSrcVersion) {
+        VmMoviesSrcVersionDto vmMoviesSrcVersionDto = new VmMoviesSrcVersionDto();
+        vmMoviesSrcVersionDto.setSharpness(vmMoviesSrcVersion.getSharpness());
+        vmMoviesSrcVersionDto.setCreateTime(vmMoviesSrcVersion.getCreateTime());
+        vmMoviesSrcVersionDto.setId(vmMoviesSrcVersion.getId());
+        vmMoviesSrcVersionDto.setUpdateTime(vmMoviesSrcVersion.getUpdateTime());
+        vmMoviesSrcVersionDto.setStatus(vmMoviesSrcVersion.getStatus());
+        return vmMoviesSrcVersionDto;
+
     }
 
     private VmMoviesSrcVersion makeVmMovieSrcVersion(String videoUrl, Long movieId, Byte sharpness) {

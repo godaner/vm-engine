@@ -13,4 +13,6 @@ public interface VmMovieSrcVersionsService {
     List<VmMoviesSrcVersionDto> getMovieSrcVersions(Long movieId) throws Exception;
 
     void uploadVideo(VmMoviesSrcVersionDto vmMoviesSrcVersionDto);
+
+    List<VmMoviesSrcVersionDto> getAllVersionsByMovieId(Long movieId);
 }

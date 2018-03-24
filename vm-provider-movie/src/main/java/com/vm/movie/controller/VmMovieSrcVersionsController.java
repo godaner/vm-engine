@@ -50,5 +50,18 @@ public class VmMovieSrcVersionsController extends ServiceController<VmMovieSrcVe
         service.uploadVideo(vmMoviesSrcVersionDto);
         return response;
     }
+    /**
+     * 通过电影id获取所有的电影版本
+     * @param movieId
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/info/list/ByMovieId/{movieId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getAllVersionsByMovieId(@PathVariable("movieId") Long movieId) throws Exception {
+        ;
+        return response.putData("list",service.getAllVersionsByMovieId(movieId));
+    }
+
 }
 
