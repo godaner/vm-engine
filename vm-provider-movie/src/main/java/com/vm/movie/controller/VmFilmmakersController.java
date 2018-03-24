@@ -49,7 +49,7 @@ public class VmFilmmakersController extends ServiceController<VmFilmmakersServic
      *
      * @return
      */
-    @RequestMapping(value = "/{movieId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/byMovieId/{movieId}", method = RequestMethod.GET)
     @ResponseBody
     public Object getMovieFilmmakers(@PathVariable("movieId") Long movieId) throws Exception {
 
