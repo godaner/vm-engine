@@ -47,8 +47,7 @@ public class VmMovieSrcVersionsController extends ServiceController<VmMovieSrcVe
     @RequestMapping(value = "/video", method = RequestMethod.POST)
     @ResponseBody
     public Object uploadVideo(VmMoviesSrcVersionDto vmMoviesSrcVersionDto) throws Exception {
-        service.uploadVideo(vmMoviesSrcVersionDto);
-        return response;
+        return response.putData("video",service.uploadVideo(vmMoviesSrcVersionDto));
     }
     /**
      * 通过电影id获取所有的电影版本

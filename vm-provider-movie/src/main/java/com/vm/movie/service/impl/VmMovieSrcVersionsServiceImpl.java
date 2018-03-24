@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.Response;
 import com.vm.dao.util.BasePo;
+import com.vm.dao.util.QuickSelectOne;
 import com.vm.movie.config.MovieConfig;
 import com.vm.movie.dao.mapper.*;
 import com.vm.movie.dao.mapper.custom.CustomVmFilmmakersMapper;
@@ -79,7 +80,7 @@ public class VmMovieSrcVersionsServiceImpl extends BaseService implements VmMovi
 
     @Override
     @Transactional
-    public void uploadVideo(VmMoviesSrcVersionDto vmMoviesSrcVersionDto) {
+    public VmMoviesSrcVersionDto uploadVideo(VmMoviesSrcVersionDto vmMoviesSrcVersionDto) {
         logger.info("uploadVideo");
         String res = srcServiceClient.uploadVideo(vmMoviesSrcVersionDto.getFile());
         Response response = Response.parseJSON(res);
@@ -93,6 +94,21 @@ public class VmMovieSrcVersionsServiceImpl extends BaseService implements VmMovi
         if (1 != vmMoviesSrcVersionMapper.insert(vmMoviesSrcVersion)) {
             throw new VmMoviesSrcVersionsException("uploadVideo vmMoviesSrcVersionMapper#insert is fail !! vmMoviesDto is : " + vmMoviesSrcVersionDto);
         }
+        vmMoviesSrcVersion = this.getVmMovieSrcVersionById(vmMoviesSrcVersion.getId(), BasePo.IsDeleted.NO);
+
+        return makeVmMoviesSrcVersionsDto(vmMoviesSrcVersion);
+    }
+
+    @Override
+    public VmMoviesSrcVersion getVmMovieSrcVersionById(Long id, BasePo.IsDeleted isDeleted) {
+        return QuickSelectOne.getObjectById(vmMoviesSrcVersionMapper, id, isDeleted);
+
+    }
+
+    @Override
+    public VmMoviesSrcVersion getVmMovieSrcVersionById(Long id, BasePo.Status status, BasePo.IsDeleted isDeleted) {
+        return QuickSelectOne.getObjectById(vmMoviesSrcVersionMapper, id, status, isDeleted);
+
     }
 
     @Override
@@ -120,11 +136,12 @@ public class VmMovieSrcVersionsServiceImpl extends BaseService implements VmMovi
         vmMoviesSrcVersionDto.setId(vmMoviesSrcVersion.getId());
         vmMoviesSrcVersionDto.setUpdateTime(vmMoviesSrcVersion.getUpdateTime());
         vmMoviesSrcVersionDto.setStatus(vmMoviesSrcVersion.getStatus());
+        vmMoviesSrcVersionDto.setMovieId(vmMoviesSrcVersion.getMovieId());
         return vmMoviesSrcVersionDto;
 
     }
 
-    private VmMoviesSrcVersion makeVmMovieSrcVersion(String videoUrl,VmMoviesSrcVersionDto vmMoviesSrcVersionDto) {
+    private VmMoviesSrcVersion makeVmMovieSrcVersion(String videoUrl, VmMoviesSrcVersionDto vmMoviesSrcVersionDto) {
         VmMoviesSrcVersion vmMoviesSrcVersion = new VmMoviesSrcVersion();
         Integer now = now();
         vmMoviesSrcVersion.setMovieId(vmMoviesSrcVersionDto.getMovieId());
