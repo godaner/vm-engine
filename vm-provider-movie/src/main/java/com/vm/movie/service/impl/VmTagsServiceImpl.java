@@ -58,6 +58,21 @@ public class VmTagsServiceImpl extends BaseService implements VmTagsService {
 
 
     @Override
+    public List<VmTagsDto> getTagsOfMovie(Long movieId) throws Exception {
+        return customVmTagsMapper.getTagsIdAndNameOfMovie(ImmutableMap.of(
+                "movieId", movieId,
+                "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                "status", BasePo.Status.NORMAL.getCode()
+        )).stream().map((tag) -> {
+            VmTagsDto vmTagsBo = new VmTagsDto();
+            vmTagsBo.setId(tag.getId());
+            vmTagsBo.setName(tag.getName());
+            return vmTagsBo;
+        }).collect(toList());
+    }
+
+
+    @Override
     public List<VmTagsDto> getTagsByTagGroupId(Long tagGroupId) {
         return vmTagsMapper.selectBy(ImmutableMap.of(
                 "isDeleted", BasePo.IsDeleted.NO.getCode(),

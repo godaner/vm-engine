@@ -27,7 +27,17 @@ public class VmTagsController extends ServiceController<VmTagsService> {
     public Object getTags() throws Exception {
         return response.putData("list", service.getTags());
     }
+    /**
+     * 获取某个电影的的tags
+     *
+     * @return
+     */
+    @RequestMapping(value = "/byMovieId/{movieId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getTagsOfMovie(@PathVariable("movieId") Long movieId) throws Exception {
 
+        return response.putData("list", service.getTagsOfMovie(movieId));
+    }
     /*********************************管理端****************************/
 
     @RequestMapping(value = "/info/{tagGroupId}", method = RequestMethod.GET)

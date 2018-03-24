@@ -20,4 +20,6 @@ public interface VmTagsService {
     void deleteTags(VmTagsDto vmTagsDto);
 
     List<Long> getTagIdsByMovieId(Long movieId);
+
+    List<VmTagsDto> getTagsOfMovie(Long movieId) throws Exception;
 }

@@ -20,8 +20,10 @@
             vm_tags t,
             vm_movies_tags_realation mtr
         WHERE
-            t.`status` = 1
-        AND mtr.`status` = 1
+            t.`status` = #{query.status}
+        AND mtr.`status` = #{query.status}
+        AND t.is_deleted = #{query.isDeleted}
+        AND mtr.is_deleted = #{query.isDeleted}
         AND mtr.movie_id = #{movieId}
         AND mtr.tag_id = t.id
     </select>

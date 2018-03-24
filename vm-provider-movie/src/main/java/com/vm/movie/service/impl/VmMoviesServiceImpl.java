@@ -141,17 +141,6 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     }
 
     @Override
-    public List<VmTagsDto> getTagsOfMovie(Long movieId) throws Exception {
-        return customVmTagsMapper.getTagsIdAndNameOfMovie(movieId).stream().map((tag) -> {
-            VmTagsDto vmTagsBo = new VmTagsDto();
-            vmTagsBo.setId(tag.getId());
-            vmTagsBo.setName(tag.getName());
-            return vmTagsBo;
-        }).collect(toList());
-    }
-
-
-    @Override
     public String getMoviePosterUrl(Long movieId) throws Exception {
         VmMovies vmMovies = this.getVmMoviesById(movieId, BasePo.IsDeleted.NO);
 

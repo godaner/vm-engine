@@ -24,8 +24,6 @@ public interface VmMoviesService {
 
     VmMoviesDto getMovie(Long movieId) throws Exception;
 
-    List<VmTagsDto> getTagsOfMovie(Long movieId) throws Exception;
-
     String getMoviePosterUrl(Long movieId) throws Exception;
 
     List<VmMoviesDto> getAboutTagsMovies(PageBean page, VmMoviesQueryBean query) throws Exception;
