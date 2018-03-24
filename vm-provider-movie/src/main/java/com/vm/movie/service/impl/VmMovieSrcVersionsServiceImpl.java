@@ -89,7 +89,7 @@ public class VmMovieSrcVersionsServiceImpl extends BaseService implements VmMovi
 
         String videoUrl = (String) response.getData("videoUrl");
         //update user
-        VmMoviesSrcVersion vmMoviesSrcVersion = makeVmMovieSrcVersion(videoUrl, vmMoviesSrcVersionDto.getMovieId(), vmMoviesSrcVersionDto.getSharpness());
+        VmMoviesSrcVersion vmMoviesSrcVersion = makeVmMovieSrcVersion(videoUrl, vmMoviesSrcVersionDto);
         if (1 != vmMoviesSrcVersionMapper.insert(vmMoviesSrcVersion)) {
             throw new VmMoviesSrcVersionsException("uploadVideo vmMoviesSrcVersionMapper#insert is fail !! vmMoviesDto is : " + vmMoviesSrcVersionDto);
         }
@@ -124,15 +124,15 @@ public class VmMovieSrcVersionsServiceImpl extends BaseService implements VmMovi
 
     }
 
-    private VmMoviesSrcVersion makeVmMovieSrcVersion(String videoUrl, Long movieId, Byte sharpness) {
+    private VmMoviesSrcVersion makeVmMovieSrcVersion(String videoUrl,VmMoviesSrcVersionDto vmMoviesSrcVersionDto) {
         VmMoviesSrcVersion vmMoviesSrcVersion = new VmMoviesSrcVersion();
         Integer now = now();
-        vmMoviesSrcVersion.setMovieId(movieId);
+        vmMoviesSrcVersion.setMovieId(vmMoviesSrcVersionDto.getMovieId());
         vmMoviesSrcVersion.setStatus(BasePo.Status.NORMAL.getCode());
         vmMoviesSrcVersion.setIsDeleted(BasePo.IsDeleted.NO.getCode());
         vmMoviesSrcVersion.setSrcUrl(videoUrl);
         vmMoviesSrcVersion.setWeight(VmMoviesSrcVersion.DEFAULT_WEIGHT);
-        vmMoviesSrcVersion.setSharpness(sharpness);
+        vmMoviesSrcVersion.setSharpness(vmMoviesSrcVersionDto.getSharpness());
         vmMoviesSrcVersion.setPlayerSpeed(VmMoviesSrcVersion.DEFAULT_PLAYER_SPEED);
         vmMoviesSrcVersion.setCreateTime(now);
         vmMoviesSrcVersion.setUpdateTime(now);
