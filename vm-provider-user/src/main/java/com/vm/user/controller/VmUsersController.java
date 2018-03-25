@@ -26,6 +26,7 @@ import java.util.List;
 public class VmUsersController extends ServiceController<VmUsersService> {
     /*********************************用户端****************************/
 
+    @IgnoreExtendSessionLife
     @RequestMapping(value = "/user/login", method = RequestMethod.PUT)
     @ResponseBody
     public Object userLogin(@RequestBody VmUsersDto vmUsersDto) throws Exception {

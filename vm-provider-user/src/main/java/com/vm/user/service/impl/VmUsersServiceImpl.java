@@ -91,10 +91,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         }
 
         //login in session
-        SessionManager.UserInfo userInfo = new SessionManager.UserInfo();
-        userInfo.setId(dbUser.getId());
-        userInfo.setUsername(dbUser.getUsername());
-        String token = SessionManager.userLogin(userInfo);
+        String token = SessionManager.userLogin(dbUser.getId());
 
         return makeVmUsersDto(dbUser, token);
     }
@@ -226,10 +223,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
 
         //login in session
-        SessionManager.UserInfo userInfo = new SessionManager.UserInfo();
-        userInfo.setId(vmUsers.getId());
-        userInfo.setUsername(vmUsers.getUsername());
-        String token = SessionManager.userLogin(userInfo);
+        String token = SessionManager.userLogin(vmUsers.getId());
 
         return makeVmUsersDto(vmUsers, token);
     }
@@ -336,7 +330,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         if (null == token) {
             return null;
         }
-        Long userId = (Long) SessionManager.getOnlineUserId(token);
+        Long userId = SessionManager.getOnlineUserId(token);
 
         if (null == userId) {
             return null;
