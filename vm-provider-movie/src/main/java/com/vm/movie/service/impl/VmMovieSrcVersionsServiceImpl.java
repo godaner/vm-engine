@@ -69,8 +69,12 @@ public class VmMovieSrcVersionsServiceImpl extends BaseService implements VmMovi
 //                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getCode(),
 //                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getMsg());
 //        }
-
-        return customVmMoviesSrcVersionMapper.selectMovieSrcVersionsByMovieId(movieId).stream().map((vmMoviesSrcVersion) -> {
+        List<VmMoviesSrcVersion> vmMoviesSrcVersions = vmMoviesSrcVersionMapper.selectBy(ImmutableMap.of(
+                "movieId", movieId,
+                "status", BasePo.Status.NORMAL.getCode(),
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
+        ));
+        return vmMoviesSrcVersions.stream().map((vmMoviesSrcVersion) -> {
             VmMoviesSrcVersionDto vmMoviesSrcVersionBo = new VmMoviesSrcVersionDto();
             vmMoviesSrcVersionBo.setId(vmMoviesSrcVersion.getId());
             vmMoviesSrcVersionBo.setSrcUrl(vmMoviesSrcVersion.getSrcUrl());

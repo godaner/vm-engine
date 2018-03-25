@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface CustomVmMoviesSrcVersionMapper {
 
-    List<VmMoviesSrcVersion> selectMovieSrcVersionsByMovieId(@Param("movieId") Long movieId);
+//    List<VmMoviesSrcVersion> selectMovieSrcVersionsByMovieId(@Param("movieId") Long movieId);
 }
