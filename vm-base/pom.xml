@@ -10,7 +10,11 @@
 
     <dependencies>
 
-
+        <dependency>
+            <groupId>com.vm</groupId>
+            <artifactId>vm-redis</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!--websocket end-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

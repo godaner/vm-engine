@@ -4,7 +4,7 @@ import com.vm.base.service.dto.UpdateHeadImgInfo;
 
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
-import com.vm.user.aop.IgnoreExtendSessionLife;
+import com.vm.base.aop.IgnoreUserExtendSessionLife;
 import com.vm.user.aop.RequiredLogin;
 import com.vm.user.dao.qo.VmUserQueryBean;
 import com.vm.user.resolver.OnlineUser;
@@ -26,7 +26,7 @@ import java.util.List;
 public class VmUsersController extends ServiceController<VmUsersService> {
     /*********************************用户端****************************/
 
-    @IgnoreExtendSessionLife
+    @IgnoreUserExtendSessionLife
     @RequestMapping(value = "/user/login", method = RequestMethod.PUT)
     @ResponseBody
     public Object userLogin(@RequestBody VmUsersDto vmUsersDto) throws Exception {
@@ -53,7 +53,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      * @return
      * @throws Exception
      */
-    @IgnoreExtendSessionLife
+    @IgnoreUserExtendSessionLife
     @RequestMapping(value = "/user/feelerOnlineUser", method = RequestMethod.GET)
     @ResponseBody
     public Object feelerOnlineUser(@OnlineUser VmUsersDto onlineUser) throws Exception {

@@ -9,11 +9,11 @@
     <artifactId>vm-redis</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>vm-base</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.vm</groupId>-->
+            <!--<artifactId>vm-base</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
         <!--spring-boot-starter-data-redis start-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

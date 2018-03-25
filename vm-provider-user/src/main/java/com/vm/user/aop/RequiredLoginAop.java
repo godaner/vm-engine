@@ -1,10 +1,10 @@
 package com.vm.user.aop;
 
 import com.vm.base.util.CommonUtil;
-import com.vm.user.resolver.OnlineConstants;
+import com.vm.base.aop.OnlineConstants;
 import com.vm.user.resolver.OnlineUserMethodArgumentResolver;
 import com.vm.user.service.exception.VmUsersException;
-import com.vm.user.util.SessionManager;
+import com.vm.base.aop.SessionManager;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

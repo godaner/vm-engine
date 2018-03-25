@@ -1,9 +1,7 @@
-package com.vm.user.aop;
+package com.vm.base.aop;
 
 
 import com.vm.base.util.CommonUtil;
-import com.vm.user.resolver.OnlineConstants;
-import com.vm.user.util.SessionManager;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -17,18 +15,21 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
+//import com.vm.user.resolver.OnlineConstants;
+//import com.vm.user.util.SessionManager;
+
 /**
  * 延长session生命时间
  */
 @Component
 @Aspect
 @Order(3)
-public class ExtendSessionLife extends CommonUtil {
+public class ExtendUserSessionLifeAop extends CommonUtil {
 
-    private final Logger logger = LoggerFactory.getLogger(ExtendSessionLife.class);
+    private final Logger logger = LoggerFactory.getLogger(ExtendUserSessionLifeAop.class);
 
 
-    @Pointcut("execution(* com.vm..*.controller..*.*(..))&&!@annotation(IgnoreExtendSessionLife)")
+    @Pointcut("execution(* com.vm..*.controller..*.*(..))&&!@annotation(com.vm.base.aop.IgnoreUserExtendSessionLife)")
     public void declareJoinPointExpression() {
     }
 

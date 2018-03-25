@@ -1,4 +1,4 @@
-package com.vm.user.resolver;
+package com.vm.base.aop;
 
 /**
  * 在线用户变量

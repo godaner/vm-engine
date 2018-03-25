@@ -1,10 +1,9 @@
-package com.vm.user.util;
+package com.vm.base.aop;
 
 
 import com.google.common.collect.Lists;
 import com.vm.base.util.CommonUtil;
 import com.vm.redis.repository.RedisRepository;
-import com.vm.user.config.UserConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,13 +16,9 @@ import javax.annotation.PostConstruct;
 @Component
 public class SessionManager extends CommonUtil {
 
-    private final static String LOGIN_USER_KEY_PREFIX = "login_user_";
+    public final static String sessionManagerUniqueId = uuid();
 
-    @Autowired
-    private UserConfig userConfig;
-    private static UserConfig userConfigCache;
-
-    private static Long timeout = null;
+    public static Long timeout = 60l;//default (s)
 
     @Autowired
     private RedisRepository redisRepository;
@@ -34,17 +29,18 @@ public class SessionManager extends CommonUtil {
     public void init() {
 
         this.redisRepositoryCache = this.redisRepository;
-        this.userConfigCache = this.userConfig;
-        this.timeout = this.userConfigCache.getUserSessionLifetime();
     }
-
 
     private static String generateToken() {
         return CommonUtil.uuid();
     }
 
+    private static String generateTokenKey(String token) {
+        return sessionManagerUniqueId + "_" + CommonUtil.uuid();
+    }
+
     private static String generateUserIdKey(Long userId) {
-        return LOGIN_USER_KEY_PREFIX + userId;
+        return sessionManagerUniqueId + "_" + userId;
     }
 
     /**
@@ -57,9 +53,10 @@ public class SessionManager extends CommonUtil {
         if (null == token) {
             return true;
         }
-        Long userId = getOnlineUserId(token);
+        String tokenKey = generateTokenKey(token);
+        Long userId = getOnlineUserId(tokenKey);
 
-        //clear userId
+        //clear userIdKey
         String userIdKey = generateUserIdKey(userId);
 
 
@@ -67,10 +64,10 @@ public class SessionManager extends CommonUtil {
         redisRepositoryCache.set(userIdKey, null);
         redisRepositoryCache.del(Lists.newArrayList(userIdKey).toString());
 
-        //clear token
-        redisRepositoryCache.expire(token, 0);
-        redisRepositoryCache.set(token, null);
-        redisRepositoryCache.del(Lists.newArrayList(token).toString());
+        //clear tokenKey
+        redisRepositoryCache.expire(tokenKey, 0);
+        redisRepositoryCache.set(tokenKey, null);
+        redisRepositoryCache.del(Lists.newArrayList(tokenKey).toString());
         return true;
     }
 
@@ -84,18 +81,19 @@ public class SessionManager extends CommonUtil {
         if (null == token) {
             return;
         }
-        Object userId = redisRepositoryCache.get(token);
+        String tokenKey = generateTokenKey(token);
+        Object userId = redisRepositoryCache.get(tokenKey);
         if (userId == null) {
             return;
         }
 
-        //extend token
-        redisRepositoryCache.expire(token, timeout);
+        //extend tokenKey
+        redisRepositoryCache.expire(tokenKey, timeout);
 
-        //extend userId
-        Long userIdLong = (Long) userId;
+        //extend userIdKey
+        String userIdKey = generateUserIdKey((Long) userId);
 
-        redisRepositoryCache.expire(generateUserIdKey(userIdLong), timeout);
+        redisRepositoryCache.expire(userIdKey, timeout);
     }
 
 
@@ -109,7 +107,9 @@ public class SessionManager extends CommonUtil {
         if (null == token) {
             return null;
         }
-        Object userId = redisRepositoryCache.get(token);
+        String tokenKey = generateTokenKey(token);
+
+        Object userId = redisRepositoryCache.get(tokenKey);
         if (null == userId) {
             return null;
         }
@@ -143,13 +143,16 @@ public class SessionManager extends CommonUtil {
             throw new Exception("SessionManager token info is null ! userId is : " + userId);
         }
 
-        //save token
         String token = generateToken();
-        redisRepositoryCache.set(token, userId, timeout);
+        //save tokenKey
+
+        String tokenKey = generateTokenKey(token);
+        redisRepositoryCache.set(tokenKey, userId, timeout);
 
 
-        //save userId
-        redisRepositoryCache.set(generateUserIdKey(userId), token, timeout);
+        //save userIdKey
+        String userIdKey = generateUserIdKey(userId);
+        redisRepositoryCache.set(userIdKey, token, timeout);
 
         return token;
     }
@@ -166,4 +169,12 @@ public class SessionManager extends CommonUtil {
                 SessionManager.clearSession(token);
     }
 
+    /**
+     * 设置配置
+     *
+     * @param userSessionLifetime
+     */
+    public static void set(Long userSessionLifetime) {
+        SessionManager.timeout = userSessionLifetime;
+    }
 }
