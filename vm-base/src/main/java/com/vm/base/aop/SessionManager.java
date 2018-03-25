@@ -16,9 +16,9 @@ import javax.annotation.PostConstruct;
 @Component
 public class SessionManager extends CommonUtil {
 
-    public final static String sessionManagerUniqueId = uuid();
+    private static String sessionManagerUniqueId = uuid();
 
-    public static Long timeout = 60l;//default (s)
+    private static Long timeout = 60l;//default (s)
 
     @Autowired
     private RedisRepository redisRepository;
@@ -36,7 +36,7 @@ public class SessionManager extends CommonUtil {
     }
 
     private static String generateTokenKey(String token) {
-        return sessionManagerUniqueId + "_" + CommonUtil.uuid();
+        return sessionManagerUniqueId + "_" + token;
     }
 
     private static String generateUserIdKey(Long userId) {
@@ -174,7 +174,8 @@ public class SessionManager extends CommonUtil {
      *
      * @param userSessionLifetime
      */
-    public static void set(Long userSessionLifetime) {
+    public static void set(Long userSessionLifetime,String sessionManagerUniqueId) {
         SessionManager.timeout = userSessionLifetime;
+        SessionManager.sessionManagerUniqueId = sessionManagerUniqueId;
     }
 }

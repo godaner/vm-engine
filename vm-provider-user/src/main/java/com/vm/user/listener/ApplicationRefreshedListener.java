@@ -18,13 +18,15 @@ public class ApplicationRefreshedListener implements ApplicationListener<Context
 
     private Logger logger = LoggerFactory.getLogger(ApplicationRefreshedListener.class);
 
+    private final String sessionManagerUniqueId = "userSessionManager";
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         try {
             logger.info("ApplicationRefreshedListener starting !");
             userConfig = event.getApplicationContext().getBean(UserConfig.class);
 
-            SessionManager.set(userConfig.getUserSessionLifetime());
+            SessionManager.set(userConfig.getUserSessionLifetime(), sessionManagerUniqueId);
 
             logger.info("ApplicationRefreshedListener start successful !");
         } catch (Exception e) {
