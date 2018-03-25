@@ -21,4 +21,8 @@ public interface VmMovieSrcVersionsService {
     VmMoviesSrcVersion getVmMovieSrcVersionById(Long id, BasePo.Status status, BasePo.IsDeleted isDeleted);
 
     List<VmMoviesSrcVersionDto> getAllVersionsByMovieId(Long movieId);
+
+    VmMoviesSrcVersionDto updateMovieSrcVersion(VmMoviesSrcVersionDto vmMoviesSrcVersionDto);
+
+    void deleteMovieSrcVersions(VmMoviesSrcVersionDto vmMoviesSrcVersionDto);
 }

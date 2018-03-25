@@ -21,7 +21,7 @@ public class VmMoviesSrcVersionsException extends VmRuntimeException {
     }
 
     public enum ErrorCode {
-        ;
+        VERSION_IS_NOT_EXITS(-1,"资源不存在");
         int code;
         String msg;
 

@@ -14,6 +14,7 @@ import com.vm.movie.dao.mapper.custom.CustomVmTagsMapper;
 import com.vm.movie.dao.po.VmMoviesSrcVersion;
 import com.vm.movie.feign.service.SrcServiceClient;
 import com.vm.movie.service.dto.VmMoviesSrcVersionDto;
+import com.vm.movie.service.exception.VmFilmmakersException;
 import com.vm.movie.service.exception.VmMoviesSrcVersionsException;
 import com.vm.movie.service.inf.VmMovieSrcVersionsService;
 import org.slf4j.Logger;
@@ -121,6 +122,51 @@ public class VmMovieSrcVersionsServiceImpl extends BaseService implements VmMovi
         ));
 
         return makeVmMoviesSrcVersionsDtos(vmMoviesSrcVersions);
+    }
+
+    @Override
+    public VmMoviesSrcVersionDto updateMovieSrcVersion(VmMoviesSrcVersionDto vmMoviesSrcVersionDto) {
+
+        VmMoviesSrcVersion vmMovieSrcVersion = this.getVmMovieSrcVersionById(vmMoviesSrcVersionDto.getId(), BasePo.IsDeleted.NO);
+        if (isNullObject(vmMovieSrcVersion)) {
+            throw new VmMoviesSrcVersionsException("updateMovieSrcVersion version is not exits !! vmMoviesSrcVersionDto is : " + vmMoviesSrcVersionDto,
+                    VmMoviesSrcVersionsException.ErrorCode.VERSION_IS_NOT_EXITS.getCode(),
+                    VmMoviesSrcVersionsException.ErrorCode.VERSION_IS_NOT_EXITS.getMsg());
+        }
+        vmMovieSrcVersion = makeUpdateVmMoviesSrcVersion(vmMoviesSrcVersionDto);
+        return null;
+
+    }
+
+    @Override
+    public void deleteMovieSrcVersions(VmMoviesSrcVersionDto vmMoviesSrcVersionDto) {
+        int cnt = 0;
+        String deletedIdsStr = vmMoviesSrcVersionDto.getDeletedIds();
+        if (isEmptyString(deletedIdsStr)) {
+            throw new VmFilmmakersException("deleteMovieSrcVersions deleteIdsStr is empty ! deleteIdsStr is : " + deletedIdsStr);
+        }
+        List<Long> deletedIds = parseStringArray2Long(vmMoviesSrcVersionDto.getDeletedIds());
+
+        if (!isEmptyList(deletedIds)) {
+            cnt = vmMoviesSrcVersionMapper.updateInIds(deletedIds, ImmutableMap.of(
+                    "isDeleted", BasePo.IsDeleted.YES.getCode()
+            ));
+            if (cnt != deletedIds.size()) {
+                throw new VmFilmmakersException("deleteMovieSrcVersions vmMoviesSrcVersionMapper#updateInIds is fail ! deleteIds is : " + deletedIds);
+            }
+
+        }
+
+
+    }
+
+    private VmMoviesSrcVersion makeUpdateVmMoviesSrcVersion(VmMoviesSrcVersionDto vmMoviesSrcVersionDto) {
+        VmMoviesSrcVersion vmMoviesSrcVersion = new VmMoviesSrcVersion();
+        Integer now = now();
+        vmMoviesSrcVersion.setStatus(vmMoviesSrcVersionDto.getStatus());
+        vmMoviesSrcVersion.setSharpness(vmMoviesSrcVersionDto.getSharpness());
+        vmMoviesSrcVersion.setUpdateTime(now);
+        return vmMoviesSrcVersion;
     }
 
     private List<VmMoviesSrcVersionDto> makeVmMoviesSrcVersionsDtos(List<VmMoviesSrcVersion> vmMoviesSrcVersions) {

@@ -3,6 +3,7 @@ package com.vm.movie.controller;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
+import com.vm.movie.dao.po.VmMoviesSrcVersion;
 import com.vm.movie.dao.qo.VmMoviesQueryBean;
 import com.vm.movie.service.dto.VmMoviesDto;
 import com.vm.movie.service.dto.VmMoviesSrcVersionDto;
@@ -10,10 +11,7 @@ import com.vm.movie.service.inf.VmMovieSrcVersionsService;
 import com.vm.movie.service.inf.VmMoviesService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -60,6 +58,30 @@ public class VmMovieSrcVersionsController extends ServiceController<VmMovieSrcVe
     public Object getAllVersionsByMovieId(@PathVariable("movieId") Long movieId) throws Exception {
         ;
         return response.putData("list",service.getAllVersionsByMovieId(movieId));
+    }
+    /**
+     * 更新
+     * @param vmMoviesSrcVersionDto
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/info", method = RequestMethod.PUT)
+    @ResponseBody
+    public Object updateMovieSrcVersion(VmMoviesSrcVersionDto vmMoviesSrcVersionDto) throws Exception {
+        ;
+        return response.putData("version",service.updateMovieSrcVersion(vmMoviesSrcVersionDto));
+    }
+    /**
+     * 删除
+     * @param vmMoviesSrcVersionDto
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/info", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Object deleteMovieSrcVersions(@RequestBody VmMoviesSrcVersionDto vmMoviesSrcVersionDto) throws Exception {
+        service.deleteMovieSrcVersions(vmMoviesSrcVersionDto);
+        return response;
     }
 
 }
