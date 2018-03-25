@@ -14,7 +14,7 @@ public interface VmMovieSrcVersionsService {
 
     List<VmMoviesSrcVersionDto> getMovieSrcVersions(Long movieId) throws Exception;
 
-    VmMoviesSrcVersionDto uploadVideo(VmMoviesSrcVersionDto vmMoviesSrcVersionDto);
+    VmMoviesSrcVersionDto addMovieSrcVersion(VmMoviesSrcVersionDto vmMoviesSrcVersionDto);
 
     VmMoviesSrcVersion getVmMovieSrcVersionById(Long id, BasePo.IsDeleted isDeleted);
 

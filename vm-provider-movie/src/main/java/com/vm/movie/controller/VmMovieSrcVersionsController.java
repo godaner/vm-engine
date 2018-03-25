@@ -1,14 +1,8 @@
 package com.vm.movie.controller;
 
-import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.ServiceController;
-import com.vm.dao.util.PageBean;
-import com.vm.movie.dao.po.VmMoviesSrcVersion;
-import com.vm.movie.dao.qo.VmMoviesQueryBean;
-import com.vm.movie.service.dto.VmMoviesDto;
 import com.vm.movie.service.dto.VmMoviesSrcVersionDto;
 import com.vm.movie.service.inf.VmMovieSrcVersionsService;
-import com.vm.movie.service.inf.VmMoviesService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -42,10 +36,10 @@ public class VmMovieSrcVersionsController extends ServiceController<VmMovieSrcVe
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/video", method = RequestMethod.POST)
+    @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ResponseBody
-    public Object uploadVideo(VmMoviesSrcVersionDto vmMoviesSrcVersionDto) throws Exception {
-        return response.putData("video",service.uploadVideo(vmMoviesSrcVersionDto));
+    public Object addMovieSrcVersion(VmMoviesSrcVersionDto vmMoviesSrcVersionDto) throws Exception {
+        return response.putData("video",service.addMovieSrcVersion(vmMoviesSrcVersionDto));
     }
     /**
      * 通过电影id获取所有的电影版本

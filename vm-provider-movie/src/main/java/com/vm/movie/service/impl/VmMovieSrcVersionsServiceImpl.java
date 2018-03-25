@@ -81,19 +81,19 @@ public class VmMovieSrcVersionsServiceImpl extends BaseService implements VmMovi
 
     @Override
     @Transactional
-    public VmMoviesSrcVersionDto uploadVideo(VmMoviesSrcVersionDto vmMoviesSrcVersionDto) {
-        logger.info("uploadVideo");
+    public VmMoviesSrcVersionDto addMovieSrcVersion(VmMoviesSrcVersionDto vmMoviesSrcVersionDto) {
+        logger.info("addMovieSrcVersion");
         String res = srcServiceClient.uploadVideo(vmMoviesSrcVersionDto.getFile());
         Response response = Response.parseJSON(res);
         if (response.isFailure()) {
-            throw new VmMoviesSrcVersionsException("uploadVideo srcServiceClient#uploadVideo is fail !! vmMoviesSrcVersionDto is :" + vmMoviesSrcVersionDto);
+            throw new VmMoviesSrcVersionsException("addMovieSrcVersion srcServiceClient#addMovieSrcVersion is fail !! vmMoviesSrcVersionDto is :" + vmMoviesSrcVersionDto);
         }
 
         String videoUrl = (String) response.getData("videoUrl");
         //update user
         VmMoviesSrcVersion vmMoviesSrcVersion = makeVmMovieSrcVersion(videoUrl, vmMoviesSrcVersionDto);
         if (1 != vmMoviesSrcVersionMapper.insert(vmMoviesSrcVersion)) {
-            throw new VmMoviesSrcVersionsException("uploadVideo vmMoviesSrcVersionMapper#insert is fail !! vmMoviesDto is : " + vmMoviesSrcVersionDto);
+            throw new VmMoviesSrcVersionsException("addMovieSrcVersion vmMoviesSrcVersionMapper#insert is fail !! vmMoviesDto is : " + vmMoviesSrcVersionDto);
         }
         vmMoviesSrcVersion = this.getVmMovieSrcVersionById(vmMoviesSrcVersion.getId(), BasePo.IsDeleted.NO);
 
@@ -134,7 +134,12 @@ public class VmMovieSrcVersionsServiceImpl extends BaseService implements VmMovi
                     VmMoviesSrcVersionsException.ErrorCode.VERSION_IS_NOT_EXITS.getMsg());
         }
         vmMovieSrcVersion = makeUpdateVmMoviesSrcVersion(vmMoviesSrcVersionDto);
-        return null;
+        if (1 != vmMoviesSrcVersionMapper.update(vmMoviesSrcVersionDto.getId(), vmMovieSrcVersion)) {
+            throw new VmMoviesSrcVersionsException("updateMovieSrcVersion vmMoviesSrcVersionMapper#update is fail !! vmMoviesSrcVersionDto is : " + vmMoviesSrcVersionDto);
+        }
+
+        vmMovieSrcVersion = this.getVmMovieSrcVersionById(vmMoviesSrcVersionDto.getId(), BasePo.IsDeleted.NO);
+        return makeVmMoviesSrcVersionsDto(vmMovieSrcVersion);
 
     }
 
