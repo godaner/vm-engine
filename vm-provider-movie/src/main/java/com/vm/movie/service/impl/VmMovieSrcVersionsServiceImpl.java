@@ -117,7 +117,7 @@ public class VmMovieSrcVersionsServiceImpl extends BaseService implements VmMovi
 
         List<VmMoviesSrcVersion> vmMoviesSrcVersions = vmMoviesSrcVersionMapper.selectBy(ImmutableMap.of(
                 "movieId", movieId,
-                "status", BasePo.Status.NORMAL.getCode(),
+//                "status", BasePo.Status.NORMAL.getCode(),
                 "isDeleted", BasePo.IsDeleted.NO.getCode()
         ));
 
