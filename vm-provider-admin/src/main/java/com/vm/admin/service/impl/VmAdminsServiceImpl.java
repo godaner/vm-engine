@@ -106,7 +106,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
             throw new VmAdminException("addAdmin vmAdminsMapper#update is fail !! vmAdminsDto is : " + vmAdminsDto);
         }
 
-        vmAdmins = this.getAdminById(vmAdmins.getId(), BasePo.IsDeleted.NO);
+        vmAdmins = this.getAdminById(vmAdminsDto.getId(), BasePo.IsDeleted.NO);
 
         return makeBackendAdminsDto(vmAdmins);
     }
