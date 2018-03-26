@@ -115,11 +115,11 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         VmAdmins vmAdmins = new VmAdmins();
         Integer now = now();
         vmAdmins.setDescription(vmAdminsDto.getDescription());
-        vmAdmins.setImmutable(vmAdminsDto.getImmutable());
         vmAdmins.setPassword(vmAdminsDto.getPassword());
         vmAdmins.setUsername(vmAdminsDto.getUsername());
         vmAdmins.setStatus(vmAdminsDto.getStatus());
         vmAdmins.setIsDeleted(BasePo.IsDeleted.NO.getCode());
+        vmAdmins.setImmutable(BasePo.Immutable.NO.getCode());
         vmAdmins.setUpdateTime(now);
         vmAdmins.setCreateTime(now);
         return vmAdmins;
@@ -129,7 +129,6 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         VmAdmins vmAdmins = new VmAdmins();
         Integer now = now();
         vmAdmins.setDescription(vmAdminsDto.getDescription());
-        vmAdmins.setImmutable(vmAdminsDto.getImmutable());
         vmAdmins.setPassword(vmAdminsDto.getPassword());
         vmAdmins.setUsername(vmAdminsDto.getUsername());
         vmAdmins.setStatus(vmAdminsDto.getStatus());
