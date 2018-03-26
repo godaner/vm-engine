@@ -7,7 +7,7 @@
         SELECT
         *
         FROM
-        vm_auth_menus
+        vm_menus
         WHERE
         is_deleted=#{query.isDeleted}
         and status=#{query.status}
