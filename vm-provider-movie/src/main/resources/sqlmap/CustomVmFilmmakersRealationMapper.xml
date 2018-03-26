@@ -14,4 +14,14 @@
             #{item}
         </foreach>
     </select>
+    <select id="getRealationIdsByMovieIds" resultType="long">
+        select id
+        from vm_movies_filmmakers_realation
+        where is_deleted=#{query.isDeleted}
+        and movie_id in
+        <foreach open="(" close=")" item="item" separator="," collection="query.movieIds">
+            #{item}
+        </foreach>
+    </select>
+
 </mapper>

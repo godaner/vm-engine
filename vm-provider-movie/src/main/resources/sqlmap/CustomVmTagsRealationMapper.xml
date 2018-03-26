@@ -26,5 +26,17 @@
             #{item}
         </foreach>
     </select>
+    <select id="getRealationIdsByMovieIds" resultType="long">
+        SELECT
+        id
+        FROM
+        vm_movies_tags_realation
+        WHERE
+        is_deleted = #{query.isDeleted}
+        and movie_id in
+        <foreach collection="query.movieIds" separator="," item="item" open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
 
 </mapper>

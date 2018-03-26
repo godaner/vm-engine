@@ -13,10 +13,7 @@ import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
 import com.vm.movie.config.MovieConfig;
 import com.vm.movie.dao.mapper.*;
-import com.vm.movie.dao.mapper.custom.CustomVmFilmmakersMapper;
-import com.vm.movie.dao.mapper.custom.CustomVmMoviesMapper;
-import com.vm.movie.dao.mapper.custom.CustomVmMoviesSrcVersionMapper;
-import com.vm.movie.dao.mapper.custom.CustomVmTagsMapper;
+import com.vm.movie.dao.mapper.custom.*;
 import com.vm.movie.dao.po.*;
 import com.vm.movie.dao.po.custom.CustomVmMovies;
 import com.vm.movie.dao.qo.VmMoviesQueryBean;
@@ -64,6 +61,10 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     private VmMoviesFilmmakersRealationMapper vmMoviesFilmmakersRealationMapper;
     @Autowired
     private VmMoviesTagsRealationMapper vmMoviesTagsRealationMapper;
+    @Autowired
+    CustomVmMoviesFilmmakersRealationMapper customVmMoviesFilmmakersRealationMapper;
+    @Autowired
+    CustomVmMoviesTagsRealationMapper customVmMoviesTagsRealationMapper;
     @Autowired
     private MovieConfig movieConfig;
     @Autowired
@@ -418,6 +419,48 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     @Override
     public VmMovies getVmMoviesById(Long id, BasePo.IsDeleted isDeleted) {
         return QuickSelectOne.getObjectById(vmMoviesMapper, id, isDeleted);
+
+    }
+
+    @Override
+    public void deleteMovies(VmMoviesDto vmMoviesDto) {
+        int cnt = 0;
+        String deletedIdsStr = vmMoviesDto.getDeletedIds();
+        if (isEmptyString(deletedIdsStr)) {
+            throw new VmMoviesException("deleteMovies deleteIdsStr is empty ! deleteIdsStr is : " + deletedIdsStr);
+        }
+        List<Long> deletedIds = parseStringArray2Long(vmMoviesDto.getDeletedIds());
+
+
+        //delete movie tag realations
+        List<Long> realationIds = customVmMoviesTagsRealationMapper.getRealationIdsByMovieIds(ImmutableMap.of(
+                "movieIds",deletedIds ,
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
+
+        ));
+        if (!isEmptyList(realationIds)) {
+            cnt = vmMoviesTagsRealationMapper.updateInIds(realationIds, ImmutableMap.of(
+                    "isDeleted", BasePo.IsDeleted.YES.getCode()
+            ));
+            if (cnt != realationIds.size()) {
+                throw new VmMoviesException("deleteMovies vmMoviesTagsRealationMapper#updateInIds is fail ! realationIds is : " + realationIds);
+            }
+        }
+        //delete movie filmmaker realations
+        realationIds = customVmMoviesFilmmakersRealationMapper.getRealationIdsByMovieIds(ImmutableMap.of(
+                "movieIds",deletedIds ,
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
+
+        ));
+        if (!isEmptyList(realationIds)) {
+            cnt = vmMoviesFilmmakersRealationMapper.updateInIds(realationIds, ImmutableMap.of(
+                    "isDeleted", BasePo.IsDeleted.YES.getCode()
+            ));
+            if (cnt != realationIds.size()) {
+                throw new VmMoviesException("deleteMovies vmMoviesFilmmakersRealationMapper#updateInIds is fail ! realationIds is : " + realationIds);
+            }
+        }
+
 
     }
 

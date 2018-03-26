@@ -9,4 +9,6 @@ public interface CustomVmMoviesTagsRealationMapper {
     List<Long> getTagIdsByMovieId(@Param("query") Object query);
 
     List<Long> getRealationIdsByTagIds(@Param("query") Object query);
+
+    List<Long> getRealationIdsByMovieIds(@Param("query") Object query);
 }

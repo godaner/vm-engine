@@ -154,6 +154,16 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
         return response.putData("movie", vmMoviesDto).
                 putData("imgUrl", vmMoviesDto.getPosterUrl());
     }
-
+    /**
+     * 删除
+     *
+     * @return
+     */
+    @RequestMapping(value = "/info", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Object deleteMovies(@RequestBody VmMoviesDto vmMoviesDto) throws Exception {
+        service.deleteMovies(vmMoviesDto);
+        return response;
+    }
 }
 

@@ -45,4 +45,6 @@ public interface VmMoviesService {
     VmMovies getVmMoviesById(Long id, BasePo.Status status, BasePo.IsDeleted isDeleted);
 
     VmMovies getVmMoviesById(Long id, BasePo.IsDeleted isDeleted);
+
+    void deleteMovies(VmMoviesDto vmMoviesDto);
 }
