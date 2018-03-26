@@ -1,6 +1,6 @@
-package com.vm.user.configuration;
+package com.vm.admin.config;
 
-import com.vm.user.resolver.OnlineUserMethodArgumentResolver;
+import com.vm.admin.resolver.OnlineAdminMethodArgumentResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -15,7 +15,7 @@ import java.util.List;
 public class ResolverConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
-    private  OnlineUserMethodArgumentResolver onlineUserMethodArgumentResolver;
+    private OnlineAdminMethodArgumentResolver onlineUserMethodArgumentResolver;
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 //        super.addArgumentResolvers(argumentResolvers);
