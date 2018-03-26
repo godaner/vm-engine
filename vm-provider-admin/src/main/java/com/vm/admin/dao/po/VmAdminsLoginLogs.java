@@ -1,5 +1,6 @@
 package com.vm.admin.dao.po;
 
+import com.vm.base.util.ByteConstantVar;
 import com.vm.dao.util.BasePo;
 
 public class VmAdminsLoginLogs extends BasePo {
@@ -104,5 +105,38 @@ public class VmAdminsLoginLogs extends BasePo {
     public void setResult(Byte result) {
         this.result = result;
     }
+    /**
+     * 是否登录成功
+     */
+    public enum Result {
+        SUCCESS(ByteConstantVar.ONE, "成功"),
+        FAILURE(ByteConstantVar.TWO, "失败");
 
+        Byte code;
+
+        String msg;
+
+        Result(Byte code, String msg) {
+            this.code = code;
+            this.msg = msg;
+        }
+
+        public Byte getCode() {
+            return code;
+        }
+
+        public void setCode(Byte code) {
+            this.code = code;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+
+
+    }
 }

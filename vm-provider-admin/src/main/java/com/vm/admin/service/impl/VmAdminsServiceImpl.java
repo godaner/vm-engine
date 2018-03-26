@@ -1,14 +1,18 @@
 package com.vm.admin.service.impl;
 
 import com.google.common.collect.ImmutableMap;
+import com.vm.admin.dao.mapper.VmAdminsLoginLogsMapper;
 import com.vm.admin.dao.mapper.VmAdminsMapper;
 import com.vm.admin.dao.mapper.custom.CustomVmAdminsMapper;
 import com.vm.admin.dao.po.VmAdmins;
+import com.vm.admin.dao.po.VmAdminsLoginLogs;
 import com.vm.admin.dao.qo.VmAdminsQueryBean;
 import com.vm.admin.service.dto.VmAdminsDto;
 import com.vm.admin.service.exception.VmAdminException;
 import com.vm.admin.service.inf.VmAdminsService;
+import com.vm.base.aop.SessionManager;
 import com.vm.base.util.BaseService;
+import com.vm.base.util.DateUtil;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
@@ -28,6 +32,8 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     VmAdminsMapper vmAdminsMapper;
     @Autowired
     CustomVmAdminsMapper customVmAdminsMapper;
+    @Autowired
+    VmAdminsLoginLogsMapper vmAdminsLoginLogsMapper;
 
     @Override
     public List<VmAdminsDto> getAdmins(PageBean page, VmAdminsQueryBean query) {
@@ -88,7 +94,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     public VmAdminsDto editAdmin(VmAdminsDto vmAdminsDto) {
         VmAdmins vmAdmins = this.getAdminById(vmAdminsDto.getId(), BasePo.IsDeleted.NO);
 
-        if(BasePo.Immutable.isImmutable(vmAdmins.getImmutable())){
+        if (BasePo.Immutable.isImmutable(vmAdmins.getImmutable())) {
             throw new VmAdminException("addAdmin can not operate immutable obj !! vmAdminsDto is : " + vmAdminsDto,
                     VmAdminException.ErrorCode.CAN_NOT_OPERATE_IMMUTABLE.getCode(),
                     VmAdminException.ErrorCode.CAN_NOT_OPERATE_IMMUTABLE.getMsg());
@@ -153,5 +159,96 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     public VmAdmins getAdminById(Long userId, BasePo.IsDeleted isDeleted) {
 
         return QuickSelectOne.getObjectById(vmAdminsMapper, userId, isDeleted);
+    }
+
+    @Override
+    public VmAdminsDto adminLogin(VmAdminsDto vmAdminsDto) throws Exception {
+
+        //username is right?
+        VmAdmins vmAdmins = vmAdminsMapper.selectOneBy(ImmutableMap.of(
+                "username", vmAdminsDto.getUsername(),
+                "status", BasePo.Status.NORMAL,
+                "isDeleted", BasePo.IsDeleted.NO
+        ));
+
+
+        if (isNullObject(vmAdmins)) {
+            throw new VmAdminException("adminLogin admin username is not exits ! admin is : " + vmAdminsDto,
+                    VmAdminException.ErrorCode.USERNAME_IS_NOT_EXITS.getCode(),
+                    VmAdminException.ErrorCode.USERNAME_IS_NOT_EXITS.getMsg());
+        }
+        //password is right?
+        if (!vmAdmins.getPassword().equals(vmAdminsDto.getPassword())) {
+            throw new VmAdminException("adminLogin password is error ! admin is :  " + vmAdminsDto,
+                    VmAdminException.ErrorCode.PASSWORD_ERROR.getCode(),
+                    VmAdminException.ErrorCode.PASSWORD_ERROR.getMsg());
+        }
+
+        //write adminLogin record to db
+        if (1 != vmAdminsLoginLogsMapper.insert(makeAdminLogins(vmAdminsDto, vmAdmins.getId()))) {
+            throw new VmAdminException("adminLogin vmAdminsLoginLogsMapper#insert is fail ! user is :  " + vmAdminsDto);
+        }
+
+        //adminLogin in session
+        String token = SessionManager.userLogin(vmAdmins.getId());
+
+        return makeTokenVmAdminDto(vmAdmins, token);
+    }
+
+    @Override
+    public VmAdminsDto getOnlineAdmin(String token) {
+
+
+        if (null == token) {
+            return null;
+        }
+        Long adminId = SessionManager.getOnlineUserId(token);
+
+        if (null == adminId) {
+            return null;
+        }
+        VmAdmins vmAdmins = this.getAdminById(adminId, BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
+        if (null == vmAdmins) {
+            return null;
+        }
+        //get db use
+        VmAdminsDto vmAdminsDto = makeTokenVmAdminDto(vmAdmins, token);
+
+        return vmAdminsDto;
+    }
+
+    @Override
+    public void adminLogout(String token) {
+        SessionManager.userLogout(token);
+    }
+
+
+    private VmAdminsLoginLogs makeAdminLogins(VmAdminsDto vmAdminsDto, Long adminId) {
+        Integer now = DateUtil.unixTime().intValue();
+        VmAdminsLoginLogs vmAdminsLoginLogs = new VmAdminsLoginLogs();
+        vmAdminsLoginLogs.setBrower(vmAdminsDto.getBrowser());
+        vmAdminsLoginLogs.setCity(vmAdminsDto.getCity());
+        vmAdminsLoginLogs.setCountry(vmAdminsDto.getCountry());
+        vmAdminsLoginLogs.setDpi(vmAdminsDto.getDpi());
+        vmAdminsLoginLogs.setLoginIp(vmAdminsDto.getIp());
+        vmAdminsLoginLogs.setProvince(vmAdminsDto.getProvince());
+        vmAdminsLoginLogs.setSystem(vmAdminsDto.getSystem());
+        vmAdminsLoginLogs.setAdminId(adminId);
+        vmAdminsLoginLogs.setResult(VmAdminsLoginLogs.Result.SUCCESS.getCode());
+        vmAdminsLoginLogs.setLoginTime(now);
+        vmAdminsLoginLogs.setCreateTime(now);
+        vmAdminsLoginLogs.setUpdateTime(now);
+        vmAdminsLoginLogs.setIsDeleted(BasePo.IsDeleted.NO.getCode());
+        vmAdminsLoginLogs.setStatus(BasePo.Status.NORMAL.getCode());
+        return vmAdminsLoginLogs;
+    }
+
+    private VmAdminsDto makeTokenVmAdminDto(VmAdmins vmAdmins, String token) {
+        VmAdminsDto vmAdminsDto = new VmAdminsDto();
+        vmAdminsDto.setUsername(vmAdmins.getUsername());
+        vmAdminsDto.setId(vmAdmins.getId());
+        vmAdminsDto.setDescription(vmAdmins.getDescription());
+        vmAdminsDto.setToken(token);
+        return vmAdminsDto;
     }
 }

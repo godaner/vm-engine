@@ -1,7 +1,7 @@
 package com.vm.admin.controller;
 
-import com.vm.admin.dao.po.VmAdmins;
 import com.vm.admin.dao.qo.VmAdminsQueryBean;
+import com.vm.admin.resolver.OnlineAdmin;
 import com.vm.admin.service.dto.VmAdminsDto;
 import com.vm.admin.service.inf.VmAdminsService;
 import com.vm.base.util.ServiceController;
@@ -19,6 +19,43 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/admin")
 @Scope("prototype")
 public class VmAdminsController extends ServiceController<VmAdminsService> {
+    /**
+     * 登录
+     *
+     * @return
+     */
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseBody
+    public Object adminLogin(VmAdminsDto vmAdminsDto) throws Exception {
+
+        VmAdminsDto admin = service.adminLogin(vmAdminsDto);
+
+        return response.putData("admin", admin).setMsg("登录成功");
+    }
+    /**
+     * 登出
+     *
+     * @return
+     */
+    @RequestMapping(value = "/logout", method = RequestMethod.PUT)
+    @ResponseBody
+    public Object adminLogout(@OnlineAdmin VmAdminsDto onlineAdmin) throws Exception {
+
+        service.adminLogout(onlineAdmin.getToken());
+
+        return response;
+    }
+    /**
+     * 获取在线用户
+     *
+     * @return
+     */
+    @RequestMapping(value = "/online", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getOnlineAdmin(@OnlineAdmin VmAdminsDto onlineAdmin) throws Exception {
+
+        return response.putData("admin",onlineAdmin);
+    }
     /**
      * 获取列表
      *

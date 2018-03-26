@@ -1,5 +1,6 @@
 package com.vm;
 
+import com.vm.admin.listener.ApplicationRefreshedListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -18,6 +19,7 @@ public class ProviderAdminApplication {
     public static void main(String[] args) {
 
         SpringApplication springApplication = new SpringApplication(ProviderAdminApplication.class);
+        springApplication.addListeners(new ApplicationRefreshedListener());
         springApplication.run(args);
 
     }

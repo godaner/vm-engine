@@ -23,4 +23,10 @@ public interface VmAdminsService {
     VmAdmins getAdminById(Long userId, BasePo.Status status, BasePo.IsDeleted isDeleted);
 
     VmAdmins getAdminById(Long userId, BasePo.IsDeleted isDeleted);
+
+    VmAdminsDto adminLogin(VmAdminsDto vmAdminsDto) throws Exception;
+
+    VmAdminsDto getOnlineAdmin(String token);
+
+    void adminLogout(String token);
 }

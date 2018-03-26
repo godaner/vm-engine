@@ -19,7 +19,8 @@ public class VmAdminException extends VmRuntimeException {
     }
     public enum ErrorCode {
         USERNAME_IS_EXITS(-1,"用户名已存在"),
-        CAN_NOT_OPERATE_IMMUTABLE(-2,"不可操作内置对象");
+        CAN_NOT_OPERATE_IMMUTABLE(-2,"不可操作内置对象"),
+        USERNAME_IS_NOT_EXITS(-3,"用户名不存在"), PASSWORD_ERROR(-4,"密码错误" );
 
         int code;
         String msg;
