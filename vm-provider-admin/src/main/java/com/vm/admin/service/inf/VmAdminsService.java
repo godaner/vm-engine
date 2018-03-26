@@ -16,17 +16,6 @@ import java.util.List;
  */
 public interface VmAdminsService {
 
-    List<VmAuthMenusDto> getAdminMenusByRoleIds(List<Long> roleIds);
-
-    List<VmAuthMenusDto> getAdminMenusByAdminId(Long adminId);
-
-    List<VmAuthsDto> getAdminAuthsByRoleIds(List<Long> roleIds);
-
-    List<Long> getRoleIdsByAdminId(Long adminId);
-
-    List<VmAuthsDto> getAdminAuthsByAdminId(Long adminId);
-
-    List<VmRolesDto> getRolesByAdminId(Long adminId);
 
     List<VmAdminsDto> getAdmins(PageBean page, VmAdminsQueryBean query);
 
@@ -42,9 +31,10 @@ public interface VmAdminsService {
 
     VmAdminsDto adminLogin(VmAdminsDto vmAdminsDto) throws Exception;
 
-    VmAdminsDto getOnlineAdmin(String token);
+    VmAdminsDto getOnlineAdminBasicInfo(String token);
 
     void adminLogout(String token);
 
     VmAdminsDto makeVmAdminDto(VmAdmins vmAdmins, String token, List<VmAuthMenusDto> vmAuthMenusDtos);
+    VmAdminsDto makeVmAdminDto(VmAdmins vmAdmins, String token);
 }

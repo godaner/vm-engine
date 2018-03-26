@@ -11,6 +11,8 @@ import com.vm.admin.service.dto.VmAuthsDto;
 import com.vm.admin.service.dto.VmRolesDto;
 import com.vm.admin.service.exception.VmAdminException;
 import com.vm.admin.service.inf.VmAdminsService;
+import com.vm.admin.service.inf.VmAuthMenusService;
+import com.vm.admin.service.inf.VmRolesService;
 import com.vm.base.aop.SessionManager;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.DateUtil;
@@ -53,89 +55,11 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     @Autowired
     CustomVmAuthsMapper customVmAuthsMapper;
 
-    @Override
-    public List<VmAuthMenusDto> getAdminMenusByRoleIds(List<Long> roleIds) {
-        List<Long> menuIds = customVmRolesMenusRealationMapper.getMenuIdsByRoleIds(ImmutableMap.of(
-                "roleIds", roleIds,
-                "isDeleted", BasePo.IsDeleted.NO.getCode(),
-                "status", BasePo.Status.NORMAL.getCode()
-        ));
-        List<VmAuthMenus> vmAuthMenus = customVmAuthMenusMapper.getMenusByIds(ImmutableMap.of(
-                "menuIds", menuIds,
-                "isDeleted", BasePo.IsDeleted.NO.getCode(),
-                "status", BasePo.Status.NORMAL.getCode()
-        ));
-        return makeVmAuthMenusDtos(vmAuthMenus);
-    }
+    @Autowired
+    VmRolesService vmRolesService;
+    @Autowired
+    VmAuthMenusService vmAuthMenusService;
 
-    @Override
-    public List<VmAuthMenusDto> getAdminMenusByAdminId(Long adminId) {
-        List<Long> roleIds = this.getRoleIdsByAdminId(adminId);
-        return this.getAdminMenusByRoleIds(roleIds);
-    }
-
-
-    @Override
-    public List<VmAuthsDto> getAdminAuthsByRoleIds(List<Long> roleIds) {
-
-        List<Long> authIds = customVmRolesAuthsRealationMapper.getAuthIdsByRoleIds(ImmutableMap.of(
-                "roleIds", roleIds,
-                "isDeleted", BasePo.IsDeleted.NO.getCode(),
-                "status", BasePo.Status.NORMAL.getCode()
-        ));
-        List<VmAuths> vmAuths = customVmAuthsMapper.getAuthsByIds(ImmutableMap.of(
-                "authIds", authIds,
-                "isDeleted", BasePo.IsDeleted.NO.getCode(),
-                "status", BasePo.Status.NORMAL.getCode()
-        ));
-
-        return makeVmAuthsDtos(vmAuths);
-    }
-
-    @Override
-    public List<VmAuthsDto> getAdminAuthsByAdminId(Long adminId) {
-        List<Long> roleIds = this.getRoleIdsByAdminId(adminId);
-
-        return this.getAdminAuthsByRoleIds(roleIds);
-    }
-
-
-    @Override
-    public List<VmRolesDto> getRolesByAdminId(Long adminId) {
-
-        List<Long> roleIds = this.getRoleIdsByAdminId(adminId);
-        List<VmRoles> roles = customVmRolesMapper.getRolesByRoleIds(ImmutableMap.of(
-                "roleIds", roleIds,
-                "isDeleted", BasePo.IsDeleted.NO.getCode(),
-                "status", BasePo.Status.NORMAL.getCode()
-        ));
-        return makeRolesDtos(roles);
-    }
-
-    @Override
-    public List<Long> getRoleIdsByAdminId(Long adminId) {
-
-        List<Long> vmRoleIds = vmAdminsRolesRealationMapper.selectIdList(ImmutableMap.of(
-                "adminId", adminId,
-                "isDeleted", BasePo.IsDeleted.NO.getCode(),
-                "status", BasePo.Status.NORMAL.getCode()
-        ));
-        return vmRoleIds;
-    }
-
-    private List<VmAuthMenusDto> makeVmAuthMenusDtos(List<VmAuthMenus> vmAuthMenus) {
-
-        return null;
-    }
-
-    private List<VmRolesDto> makeRolesDtos(List<VmRoles> vmRoles) {
-        return null;
-    }
-
-    private List<VmAuthsDto> makeVmAuthsDtos(List<VmAuths> vmAuths) {
-        return null;
-
-    }
 
     @Override
     public List<VmAdminsDto> getAdmins(PageBean page, VmAdminsQueryBean query) {
@@ -293,7 +217,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         }
 
         //get menus
-        List<VmAuthMenusDto> menus = this.getAdminMenusByAdminId(vmAdmins.getId());
+        List<VmAuthMenusDto> menus = vmAuthMenusService.getAdminMenusByAdminId(vmAdmins.getId());
 
         //adminLogin in session
         String token = SessionManager.userLogin(vmAdmins.getId());
@@ -303,7 +227,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     }
 
     @Override
-    public VmAdminsDto getOnlineAdmin(String token) {
+    public VmAdminsDto getOnlineAdminBasicInfo(String token) {
 
 
         if (null == token) {
@@ -319,9 +243,8 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
             return null;
         }
         //get db use
-        List<VmAuthMenusDto> menus = this.getAdminMenusByAdminId(vmAdmins.getId());
 
-        VmAdminsDto vmAdminsDto = makeVmAdminDto(vmAdmins, token, menus);
+        VmAdminsDto vmAdminsDto = makeVmAdminDto(vmAdmins, token);
 
         return vmAdminsDto;
     }
@@ -360,6 +283,15 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         vmAdminsDto.setDescription(vmAdmins.getDescription());
         vmAdminsDto.setToken(token);
         vmAdminsDto.setMenus(menus);
+        return vmAdminsDto;
+    }
+    @Override
+    public VmAdminsDto makeVmAdminDto(VmAdmins vmAdmins, String token) {
+        VmAdminsDto vmAdminsDto = new VmAdminsDto();
+        vmAdminsDto.setUsername(vmAdmins.getUsername());
+        vmAdminsDto.setId(vmAdmins.getId());
+        vmAdminsDto.setDescription(vmAdmins.getDescription());
+        vmAdminsDto.setToken(token);
         return vmAdminsDto;
     }
 }
