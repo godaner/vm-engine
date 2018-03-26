@@ -1,8 +1,6 @@
 package com.vm.movie.service.impl;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.BeanMapUtil;
@@ -14,14 +12,13 @@ import com.vm.dao.util.QuickSelectOne;
 import com.vm.movie.config.MovieConfig;
 import com.vm.movie.dao.mapper.*;
 import com.vm.movie.dao.mapper.custom.*;
-import com.vm.movie.dao.po.*;
+import com.vm.movie.dao.po.VmMovies;
+import com.vm.movie.dao.po.VmMoviesFilmmakersRealation;
+import com.vm.movie.dao.po.VmMoviesTagsRealation;
 import com.vm.movie.dao.po.custom.CustomVmMovies;
 import com.vm.movie.dao.qo.VmMoviesQueryBean;
 import com.vm.movie.feign.service.SrcServiceClient;
-import com.vm.movie.service.dto.VmFilmmakersDto;
 import com.vm.movie.service.dto.VmMoviesDto;
-import com.vm.movie.service.dto.VmMoviesSrcVersionDto;
-import com.vm.movie.service.dto.VmTagsDto;
 import com.vm.movie.service.exception.VmMoviesException;
 import com.vm.movie.service.inf.VmMoviesService;
 import org.slf4j.Logger;
@@ -31,7 +28,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 
@@ -395,7 +391,6 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     }
 
 
-
     private VmMovies makeAddVmMovie(VmMoviesDto vmMoviesDto) {
         Integer now = now();
         VmMovies vmMovies = new VmMovies();
@@ -434,7 +429,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
         //delete movie tag realations
         List<Long> realationIds = customVmMoviesTagsRealationMapper.getRealationIdsByMovieIds(ImmutableMap.of(
-                "movieIds",deletedIds ,
+                "movieIds", deletedIds,
                 "isDeleted", BasePo.IsDeleted.NO.getCode()
 
         ));
@@ -448,7 +443,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         }
         //delete movie filmmaker realations
         realationIds = customVmMoviesFilmmakersRealationMapper.getRealationIdsByMovieIds(ImmutableMap.of(
-                "movieIds",deletedIds ,
+                "movieIds", deletedIds,
                 "isDeleted", BasePo.IsDeleted.NO.getCode()
 
         ));
@@ -462,7 +457,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         }
         //delete movie src versions
         List<Long> srcVersionIds = customVmMoviesSrcVersionMapper.getMovieSrcVersionIdsByMovieIds(ImmutableMap.of(
-                "movieIds",deletedIds ,
+                "movieIds", deletedIds,
                 "isDeleted", BasePo.IsDeleted.NO.getCode()
 
         ));

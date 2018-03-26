@@ -161,4 +161,39 @@ public class BasePo {
         }
 
     }
+    /**
+     * 是否为内置不可变对象
+     */
+    public enum Immutable {
+        YES(ByteConstantVar.ONE, "内置对象"),
+        NO(ByteConstantVar.TWO, "可变对象");
+
+        Byte code;
+
+        String msg;
+
+        Immutable(Byte code, String msg) {
+            this.code = code;
+            this.msg = msg;
+        }
+
+        public Byte getCode() {
+            return code;
+        }
+
+        public void setCode(Byte code) {
+            this.code = code;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+
+
+
+    }
 }

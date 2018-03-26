@@ -7,6 +7,26 @@ public class VmAdmins extends BasePo {
 
     private String password;
 
+    private Byte immutable;
+
+    private String description;
+
+    public Byte getImmutable() {
+        return immutable;
+    }
+
+    public void setImmutable(Byte immutable) {
+        this.immutable = immutable;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getUsername() {
         return username;
     }
