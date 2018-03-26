@@ -87,6 +87,13 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     @Override
     public VmAdminsDto editAdmin(VmAdminsDto vmAdminsDto) {
         VmAdmins vmAdmins = this.getAdminById(vmAdminsDto.getId(), BasePo.IsDeleted.NO);
+
+        if(BasePo.Immutable.isImmutable(vmAdmins.getImmutable())){
+            throw new VmAdminException("addAdmin can not operate immutable obj !! vmAdminsDto is : " + vmAdminsDto,
+                    VmAdminException.ErrorCode.CAN_NOT_OPERATE_IMMUTABLE.getCode(),
+                    VmAdminException.ErrorCode.CAN_NOT_OPERATE_IMMUTABLE.getMsg());
+        }
+
         if (!vmAdmins.getUsername().equals(vmAdminsDto.getUsername())) {
             vmAdmins = vmAdminsMapper.selectOneBy(ImmutableMap.of(
                     "isDeleted", BasePo.IsDeleted.NO.getCode(),

@@ -161,6 +161,7 @@ public class BasePo {
         }
 
     }
+
     /**
      * 是否为内置不可变对象
      */
@@ -193,6 +194,17 @@ public class BasePo {
             this.msg = msg;
         }
 
+        /**
+         * 是否有为内置对象
+         * @param immutable
+         * @return
+         */
+        public static boolean isImmutable(Byte immutable) {
+            if (immutable.equals(Immutable.YES.getCode())) {
+                return true;
+            }
+            return false;
+        }
 
 
     }
