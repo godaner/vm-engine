@@ -1,6 +1,6 @@
 package com.vm.movie.dao.po;
 import com.vm.dao.util.BasePo;
-import com.vm.base.util.ByteConstantVar;
+import com.vm.base.util.ByteConstant;
 
 public class VmMoviesSrcVersion extends BasePo {
 
@@ -23,9 +23,9 @@ public class VmMoviesSrcVersion extends BasePo {
      * 清晰度
      */
     public enum Sharpness {
-        NORMAL(ByteConstantVar.ONE, "标清"),
-        HIGH(ByteConstantVar.TWO, "高清"),
-        SUPER_HIGH(ByteConstantVar.THREE, "超清");
+        NORMAL(ByteConstant.ONE, "标清"),
+        HIGH(ByteConstant.TWO, "高清"),
+        SUPER_HIGH(ByteConstant.THREE, "超清");
 
         Byte code;
 

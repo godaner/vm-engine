@@ -1,6 +1,6 @@
 package com.vm.admin.dao.po;
 
-import com.vm.base.util.ByteConstantVar;
+import com.vm.base.util.ByteConstant;
 import com.vm.dao.util.BasePo;
 
 public class VmAuthMenus extends BasePo {
@@ -53,8 +53,8 @@ public class VmAuthMenus extends BasePo {
      * 是否为叶子节点
      */
     public enum IsLeaf {
-        YES(ByteConstantVar.ONE, "叶子节点"),
-        NO(ByteConstantVar.TWO, "非叶子节点");
+        YES(ByteConstant.ONE, "叶子节点"),
+        NO(ByteConstant.TWO, "非叶子节点");
 
         Byte code;
 

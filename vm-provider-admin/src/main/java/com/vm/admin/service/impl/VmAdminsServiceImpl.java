@@ -167,8 +167,8 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         //username is right?
         VmAdmins vmAdmins = vmAdminsMapper.selectOneBy(ImmutableMap.of(
                 "username", vmAdminsDto.getUsername(),
-                "status", BasePo.Status.NORMAL,
-                "isDeleted", BasePo.IsDeleted.NO
+                "status", BasePo.Status.NORMAL.getCode(),
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
         ));
 
 

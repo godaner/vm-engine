@@ -4,7 +4,7 @@ package com.vm.base.util;
  * Created by ZhangKe on 2017/11/30.
  * 提供byte的常用值
  */
-public class ByteConstantVar {
+public class ByteConstant {
     public final static byte ONE = 1;
     public final static byte TWO = 2;
     public final static byte THREE = 3;

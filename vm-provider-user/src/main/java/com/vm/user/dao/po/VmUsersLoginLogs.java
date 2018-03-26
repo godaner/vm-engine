@@ -1,7 +1,7 @@
 package com.vm.user.dao.po;
 
 import com.vm.dao.util.BasePo;
-import com.vm.base.util.ByteConstantVar;
+import com.vm.base.util.ByteConstant;
 
 public class VmUsersLoginLogs extends BasePo {
 
@@ -109,8 +109,8 @@ public class VmUsersLoginLogs extends BasePo {
      * 是否登录成功
      */
     public enum Result {
-        SUCCESS(ByteConstantVar.ONE, "成功"),
-        FAILURE(ByteConstantVar.TWO, "失败");
+        SUCCESS(ByteConstant.ONE, "成功"),
+        FAILURE(ByteConstant.TWO, "失败");
 
         Byte code;
 

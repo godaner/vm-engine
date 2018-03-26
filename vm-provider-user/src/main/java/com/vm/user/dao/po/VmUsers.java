@@ -1,7 +1,7 @@
 package com.vm.user.dao.po;
 
 import com.vm.dao.util.BasePo;
-import com.vm.base.util.ByteConstantVar;
+import com.vm.base.util.ByteConstant;
 
 public class VmUsers extends BasePo {
 
@@ -24,9 +24,9 @@ public class VmUsers extends BasePo {
      */
     public enum Sex {
         //性别，1为男，1为女，3未设置
-        MEN(ByteConstantVar.ONE, "男"),
-        WOMEN(ByteConstantVar.TWO, "女"),
-        UNKNOWN(ByteConstantVar.THREE, "未设置");
+        MEN(ByteConstant.ONE, "男"),
+        WOMEN(ByteConstant.TWO, "女"),
+        UNKNOWN(ByteConstant.THREE, "未设置");
 
         Byte code;
 

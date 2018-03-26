@@ -1,7 +1,7 @@
 package com.vm.dao.util;
 
 
-import com.vm.base.util.ByteConstantVar;
+import com.vm.base.util.ByteConstant;
 
 /**
  * Created by ZhangKe on 2017/12/11.
@@ -62,8 +62,8 @@ public class BasePo {
      * 状态
      */
     public enum Status {
-        NORMAL(ByteConstantVar.ONE, "正常"),
-        FROZEN(ByteConstantVar.TWO, "冻结");
+        NORMAL(ByteConstant.ONE, "正常"),
+        FROZEN(ByteConstant.TWO, "冻结");
 
         Byte code;
 
@@ -120,8 +120,8 @@ public class BasePo {
      * 是否删除枚举
      */
     public enum IsDeleted {
-        NO(ByteConstantVar.ONE, "未删除"),
-        YES(ByteConstantVar.TWO, "删除");
+        NO(ByteConstant.ONE, "未删除"),
+        YES(ByteConstant.TWO, "删除");
 
         Byte code;
 
@@ -166,8 +166,8 @@ public class BasePo {
      * 是否为内置不可变对象
      */
     public enum Immutable {
-        YES(ByteConstantVar.ONE, "内置对象"),
-        NO(ByteConstantVar.TWO, "可变对象");
+        YES(ByteConstant.ONE, "内置对象"),
+        NO(ByteConstant.TWO, "可变对象");
 
         Byte code;
 
