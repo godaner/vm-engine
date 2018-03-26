@@ -460,6 +460,31 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
                 throw new VmMoviesException("deleteMovies vmMoviesFilmmakersRealationMapper#updateInIds is fail ! realationIds is : " + realationIds);
             }
         }
+        //delete movie src versions
+        List<Long> srcVersionIds = customVmMoviesSrcVersionMapper.getMovieSrcVersionIdsByMovieIds(ImmutableMap.of(
+                "movieIds",deletedIds ,
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
+
+        ));
+        if (!isEmptyList(srcVersionIds)) {
+            cnt = vmMoviesSrcVersionMapper.updateInIds(srcVersionIds, ImmutableMap.of(
+                    "isDeleted", BasePo.IsDeleted.YES.getCode()
+            ));
+            if (cnt != srcVersionIds.size()) {
+                throw new VmMoviesException("deleteMovies vmMoviesSrcVersionMapper#updateInIds is fail ! srcVersionIds is : " + srcVersionIds);
+            }
+        }
+
+
+        //delete movies
+        if (!isEmptyList(deletedIds)) {
+            cnt = vmMoviesMapper.updateInIds(deletedIds, ImmutableMap.of(
+                    "isDeleted", BasePo.IsDeleted.YES.getCode()
+            ));
+            if (cnt != deletedIds.size()) {
+                throw new VmMoviesException("deleteMovies vmMoviesMapper#updateInIds is fail ! deletedIds is : " + deletedIds);
+            }
+        }
 
 
     }

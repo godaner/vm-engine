@@ -5,4 +5,14 @@
 
 
   <!--**************************** 管理端mapper end ****************************-->
+
+  <select id="getMovieSrcVersionIdsByMovieIds" resultType="long">
+    select id
+    from vm_movies_src_version
+    where is_deleted=#{query.isDeleted}
+    and movie_id in
+    <foreach open="(" close=")" item="item" separator="," collection="query.movieIds">
+      #{item}
+    </foreach>
+  </select>
 </mapper>
