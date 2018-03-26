@@ -1,6 +1,6 @@
 package com.vm.admin.service.impl;
 
-import com.vm.admin.service.dto.VmMenusDto;
+import com.vm.admin.service.dto.VmAuthMenusDto;
 import com.vm.admin.service.inf.VmMenusService;
 import com.vm.base.util.BaseService;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class VmMenusServiceImpl extends BaseService implements VmMenusService {
 
 
     @Override
-    public List<VmMenusDto> getMenuByAdminId(Long adminId) {
+    public List<VmAuthMenusDto> getMenuByAdminId(Long adminId) {
         return null;
     }
 }

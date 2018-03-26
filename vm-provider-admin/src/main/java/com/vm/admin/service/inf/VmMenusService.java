@@ -1,6 +1,6 @@
 package com.vm.admin.service.inf;
 
-import com.vm.admin.service.dto.VmMenusDto;
+import com.vm.admin.service.dto.VmAuthMenusDto;
 
 import java.util.List;
 
@@ -8,5 +8,5 @@ import java.util.List;
  * Created by ZhangKe on 2018/3/26.
  */
 public interface VmMenusService {
-    List<VmMenusDto> getMenuByAdminId(Long adminId);
+    List<VmAuthMenusDto> getMenuByAdminId(Long adminId);
 }

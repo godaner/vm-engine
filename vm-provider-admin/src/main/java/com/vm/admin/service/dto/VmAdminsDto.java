@@ -1,6 +1,9 @@
 package com.vm.admin.service.dto;
 
+import com.vm.admin.dao.po.VmAuthMenus;
 import com.vm.base.service.dto.BaseDto;
+
+import java.util.List;
 
 /**
  * Created by ZhangKe on 2018/3/26.
@@ -16,6 +19,8 @@ public class VmAdminsDto extends BaseDto{
 
     private String token;
 
+    private List<VmAuthMenusDto> menus;
+
     //登录记录信息
     private String browser;
     private String city;
@@ -28,6 +33,14 @@ public class VmAdminsDto extends BaseDto{
     private String province;
     private String system;
     private String title;
+
+    public List<VmAuthMenusDto> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<VmAuthMenusDto> menus) {
+        this.menus = menus;
+    }
 
     public String getToken() {
         return token;
