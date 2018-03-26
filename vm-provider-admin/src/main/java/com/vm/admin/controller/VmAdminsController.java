@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Created by ZhangKe on 2018/3/26.
  */
 @Controller
-@RequestMapping("/admin/info")
+@RequestMapping("/admin")
 @Scope("prototype")
 public class VmAdminsController extends ServiceController<VmAdminsService> {
     /**
@@ -22,7 +22,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
      *
      * @return
      */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/info/list", method = RequestMethod.GET)
     @ResponseBody
     public Object getAdmins(PageBean page, VmAdminsQueryBean query) throws Exception {
 

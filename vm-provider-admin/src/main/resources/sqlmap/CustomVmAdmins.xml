@@ -6,6 +6,7 @@
 	<select id="getAdmins" resultMap="com.vm.admin.dao.mapper.VmAdminsMapper.VmAdminsMap">
 		select *
 		from vm_admins
+		WHERE
 		is_deleted = #{query.isDeleted}
 		<if test="query != null">
 			<if test="query.username != null and query.username != ''">
@@ -25,6 +26,7 @@
 	<select id="getAdminsTotal" resultType="long">
 		select count(id)
 		from vm_admins
+		WHERE
 		is_deleted = #{query.isDeleted}
 		<if test="query != null">
 			<if test="query.username != null and query.username != ''">
