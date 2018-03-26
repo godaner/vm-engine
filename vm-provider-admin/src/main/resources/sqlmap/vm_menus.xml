@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.vm.admin.dao.mapper.VmAuthMenusMapper">
-<resultMap type="com.vm.admin.dao.po.VmAuthMenus"  id="VmAuthMenusMap">
+<mapper namespace="com.vm.admin.dao.mapper.VmMenusMapper">
+<resultMap type="com.vm.admin.dao.po.VmMenus"  id="VmMenusMap">
   <id column="id" property="id"/>
   <result column="menu_name" property="menuName"/>
   <result column="description" property="description"/>
@@ -11,9 +11,10 @@
   <result column="update_time" property="updateTime"/>
   <result column="is_deleted" property="isDeleted"/>
   <result column="status" property="status"/>
-  <result column="path" property="path"/>
+  <result column="key" property="key"/>
   <result column="pid" property="pid"/>
   <result column="is_leaf" property="isLeaf"/>
+  <result column="icon" property="icon"/>
 </resultMap>
 
     <sql id="BASE_ALL_CLOUM">
@@ -28,9 +29,10 @@
 		update_time,
 		is_deleted,
 		status,
-		path,
+		key,
 		pid,
-		is_leaf
+		is_leaf,
+		icon
 	</sql>
 
 
@@ -39,12 +41,12 @@
 		SELECT 
 			count(1)
 		FROM
-		vm_auth_menus
+		vm_menus
 		<include refid="queryCondition" />
 	</select>
 
 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO vm_auth_menus(
+        INSERT INTO vm_menus(
         <include refid="BASE_COLUM_WITHOUT_ID"/>
         )
         VALUES (
@@ -54,16 +56,17 @@
 #{updateTime},
 #{isDeleted},
 #{status},
-#{path},
+#{key},
 #{pid},
-#{isLeaf}
+#{isLeaf},
+#{icon}
        )
 				 </insert>
 
 <delete id="delete">
 		DELETE
 		FROM
-			vm_auth_menus
+			vm_menus
 		WHERE
 			id = #{id}
 	</delete>
@@ -71,14 +74,14 @@
 <delete id="deleteBy">
 		DELETE
 		FROM
-			vm_auth_menus
+			vm_menus
 		<include refid="queryCondition" />
 	</delete>
 
     <delete id="deleteInIds" >
         delete
         FROM
-        vm_auth_menus
+        vm_menus
         WHERE id IN
         <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
             #{item}
@@ -88,7 +91,7 @@
 
 <update id="update" >
 UPDATE
-		vm_auth_menus
+		vm_menus
 <include refid="setFields" />
 WHERE
 id=#{id}
@@ -97,7 +100,7 @@ id=#{id}
 
 <update id="batchUpdate">
 UPDATE
-		vm_auth_menus
+		vm_menus
 <include refid="setFields" />
 <include refid="queryCondition" />
 </update>
@@ -105,7 +108,7 @@ UPDATE
 
     <update id="updateInIds">
         update 
-        vm_auth_menus
+        vm_menus
        <include refid="setFields" />        WHERE id IN
         <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
             #{item}
@@ -113,21 +116,21 @@ UPDATE
 
     </update>
 
-	<select id="selectList" resultMap="VmAuthMenusMap">
+	<select id="selectList" resultMap="VmMenusMap">
 		SELECT
 			<include refid="BASE_ALL_CLOUM"/>
 		FROM
-		vm_auth_menus
+		vm_menus
 		<include refid="queryCondition" />
 		LIMIT #{start},#{size}
 
 	</select>
 
-	<select id="selectListOrderBy" resultMap="VmAuthMenusMap">
+	<select id="selectListOrderBy" resultMap="VmMenusMap">
 		SELECT
 			<include refid="BASE_ALL_CLOUM"/>
 		FROM
-		vm_auth_menus
+		vm_menus
 		<include refid="queryCondition" />
 	<if test="orderBy != null and orderType != null">
 			order by ${orderBy} ${orderType}
@@ -157,14 +160,17 @@ UPDATE
 <if test="query.status != null ">
 		and status=#{query.status}
 </if>
-<if test="query.path != null ">
-		and path=#{query.path}
+<if test="query.key != null ">
+		and key=#{query.key}
 </if>
 <if test="query.pid != null ">
 		and pid=#{query.pid}
 </if>
 <if test="query.isLeaf != null ">
 		and is_leaf=#{query.isLeaf}
+</if>
+<if test="query.icon != null ">
+		and icon=#{query.icon}
 </if>
 </if>
 </trim>
@@ -180,16 +186,17 @@ UPDATE
 <if test="newObj.updateTime != null">update_time=#{newObj.updateTime},</if>
 <if test="newObj.isDeleted != null">is_deleted=#{newObj.isDeleted},</if>
 <if test="newObj.status != null">status=#{newObj.status},</if>
-<if test="newObj.path != null">path=#{newObj.path},</if>
+<if test="newObj.key != null">key=#{newObj.key},</if>
 <if test="newObj.pid != null">pid=#{newObj.pid},</if>
-<if test="newObj.isLeaf != null">is_leaf=#{newObj.isLeaf}</if>
+<if test="newObj.isLeaf != null">is_leaf=#{newObj.isLeaf},</if>
+<if test="newObj.icon != null">icon=#{newObj.icon}</if>
 </trim>
 </set>
 </sql>
 
 
 <insert id="batchInsert"  useGeneratedKeys="true" parameterType="java.util.List" keyProperty="id">
-        INSERT INTO vm_auth_menus(
+        INSERT INTO vm_menus(
         <include refid="BASE_COLUM_WITHOUT_ID"/>
 )        VALUES 
    <foreach collection ="list" item ="item" index ="index" separator =","> 
@@ -200,24 +207,25 @@ UPDATE
 #{item.updateTime},
 #{item.isDeleted},
 #{item.status},
-#{item.path},
+#{item.key},
 #{item.pid},
-#{item.isLeaf}
+#{item.isLeaf},
+#{item.icon}
 )
 </foreach> 
 </insert>
 
 
-    <select id="select" resultMap="VmAuthMenusMap">
-        SELECT * FROM vm_auth_menus WHERE id = #{id}
+    <select id="select" resultMap="VmMenusMap">
+        SELECT * FROM vm_menus WHERE id = #{id}
     </select>
 
 
-    <select id="selectInIds" resultMap="VmAuthMenusMap">
+    <select id="selectInIds" resultMap="VmMenusMap">
         SELECT
         <include refid="BASE_ALL_CLOUM"/>
         FROM
-        vm_auth_menus
+        vm_menus
         WHERE id IN
         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
             #{item}
@@ -229,24 +237,24 @@ UPDATE
         SELECT
  		 id 
         FROM
-        vm_auth_menus
+        vm_menus
         <include refid="queryCondition" />
 
     </select>
 
 
-	<select id="selectBy" resultMap="VmAuthMenusMap">
+	<select id="selectBy" resultMap="VmMenusMap">
 		SELECT * 
 		FROM
-		vm_auth_menus
+		vm_menus
 		<include refid="queryCondition" />
 	</select>
 
 
-	<select id="selectOneBy" resultMap="VmAuthMenusMap">
+	<select id="selectOneBy" resultMap="VmMenusMap">
 		SELECT * 
 		FROM
-		vm_auth_menus
+		vm_menus
 		<include refid="queryCondition" />
 		LIMIT 1 
 	</select>

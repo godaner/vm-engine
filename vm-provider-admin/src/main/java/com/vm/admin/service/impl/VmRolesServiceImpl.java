@@ -24,7 +24,7 @@ public class VmRolesServiceImpl  implements VmRolesService{
     @Autowired
     VmAdminsLoginLogsMapper vmAdminsLoginLogsMapper;
     @Autowired
-    VmAuthMenusMapper vmAuthMenusMapper;
+    VmMenusMapper vmAuthMenusMapper;
     @Autowired
     CustomVmRolesMenusRealationMapper customVmRolesMenusRealationMapper;
     @Autowired
@@ -36,7 +36,7 @@ public class VmRolesServiceImpl  implements VmRolesService{
     @Autowired
     CustomVmRolesMapper customVmRolesMapper;
     @Autowired
-    CustomVmAuthMenusMapper customVmAuthMenusMapper;
+    CustomVmMenusMapper customVmAuthMenusMapper;
     @Autowired
     CustomVmAuthsMapper customVmAuthsMapper;
     @Override

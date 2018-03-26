@@ -4,9 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.vm.admin.dao.mapper.*;
 import com.vm.admin.dao.mapper.custom.*;
 import com.vm.admin.dao.po.VmAuths;
-import com.vm.admin.dao.po.VmRoles;
 import com.vm.admin.service.dto.VmAuthsDto;
-import com.vm.admin.service.dto.VmRolesDto;
 import com.vm.admin.service.inf.VmAuthsService;
 import com.vm.admin.service.inf.VmRolesService;
 import com.vm.dao.util.BasePo;
@@ -25,7 +23,7 @@ public class VmAuthsServiceImpl implements VmAuthsService {
     @Autowired
     VmAdminsLoginLogsMapper vmAdminsLoginLogsMapper;
     @Autowired
-    VmAuthMenusMapper vmAuthMenusMapper;
+    VmMenusMapper vmAuthMenusMapper;
     @Autowired
     CustomVmRolesMenusRealationMapper customVmRolesMenusRealationMapper;
     @Autowired
@@ -37,7 +35,7 @@ public class VmAuthsServiceImpl implements VmAuthsService {
     @Autowired
     CustomVmRolesMapper customVmRolesMapper;
     @Autowired
-    CustomVmAuthMenusMapper customVmAuthMenusMapper;
+    CustomVmMenusMapper customVmAuthMenusMapper;
     @Autowired
     CustomVmAuthsMapper customVmAuthsMapper;
     @Autowired

@@ -3,12 +3,13 @@ package com.vm.admin.dao.po;
 import com.vm.base.util.ByteConstant;
 import com.vm.dao.util.BasePo;
 
-public class VmAuthMenus extends BasePo {
+public class VmMenus extends BasePo {
     private String menuName;
-    private String path;
+    private String key;
     private Long pid;
     private Byte isLeaf;
     private String description;
+    private String icon;
 
     public String getDescription() {
         return description;
@@ -26,12 +27,20 @@ public class VmAuthMenus extends BasePo {
         this.menuName = menuName;
     }
 
-    public String getPath() {
-        return path;
+    public String getKey() {
+        return key;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public Long getPid() {

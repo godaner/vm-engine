@@ -3,7 +3,7 @@ package com.vm.admin.resolver;
 import com.vm.admin.service.dto.VmAdminsDto;
 import com.vm.admin.service.dto.VmAuthMenusDto;
 import com.vm.admin.service.inf.VmAdminsService;
-import com.vm.admin.service.inf.VmAuthMenusService;
+import com.vm.admin.service.inf.VmMenusService;
 import com.vm.base.aop.OnlineConstants;
 import com.vm.base.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class OnlineAdminMethodArgumentResolver extends CommonUtil implements Han
     @Autowired
     private VmAdminsService vmAdminsService;
     @Autowired
-    VmAuthMenusService vmAuthMenusService;
+    VmMenusService vmMenusService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -45,7 +45,7 @@ public class OnlineAdminMethodArgumentResolver extends CommonUtil implements Han
         try {
             vmAdminsDto = vmAdminsService.getOnlineAdminBasicInfo(token);
             if(!isNullObject(vmAdminsDto)){
-                List<VmAuthMenusDto> menus = vmAuthMenusService.getAdminMenusByAdminId(vmAdminsDto.getId());
+                List<VmAuthMenusDto> menus = vmMenusService.getAdminMenusByAdminId(vmAdminsDto.getId());
                 vmAdminsDto.setMenus(menus);
             }
         } catch (Exception e) {

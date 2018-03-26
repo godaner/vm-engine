@@ -7,11 +7,9 @@ import com.vm.admin.dao.po.*;
 import com.vm.admin.dao.qo.VmAdminsQueryBean;
 import com.vm.admin.service.dto.VmAdminsDto;
 import com.vm.admin.service.dto.VmAuthMenusDto;
-import com.vm.admin.service.dto.VmAuthsDto;
-import com.vm.admin.service.dto.VmRolesDto;
 import com.vm.admin.service.exception.VmAdminException;
 import com.vm.admin.service.inf.VmAdminsService;
-import com.vm.admin.service.inf.VmAuthMenusService;
+import com.vm.admin.service.inf.VmMenusService;
 import com.vm.admin.service.inf.VmRolesService;
 import com.vm.base.aop.SessionManager;
 import com.vm.base.util.BaseService;
@@ -39,7 +37,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     @Autowired
     VmAdminsLoginLogsMapper vmAdminsLoginLogsMapper;
     @Autowired
-    VmAuthMenusMapper vmAuthMenusMapper;
+    VmMenusMapper vmAuthMenusMapper;
     @Autowired
     CustomVmRolesMenusRealationMapper customVmRolesMenusRealationMapper;
     @Autowired
@@ -51,14 +49,14 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     @Autowired
     CustomVmRolesMapper customVmRolesMapper;
     @Autowired
-    CustomVmAuthMenusMapper customVmAuthMenusMapper;
+    CustomVmMenusMapper customVmAuthMenusMapper;
     @Autowired
     CustomVmAuthsMapper customVmAuthsMapper;
 
     @Autowired
     VmRolesService vmRolesService;
     @Autowired
-    VmAuthMenusService vmAuthMenusService;
+    VmMenusService vmMenusService;
 
 
     @Override
@@ -217,7 +215,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         }
 
         //get menus
-        List<VmAuthMenusDto> menus = vmAuthMenusService.getAdminMenusByAdminId(vmAdmins.getId());
+        List<VmAuthMenusDto> menus = vmMenusService.getAdminMenusByAdminId(vmAdmins.getId());
 
         //adminLogin in session
         String token = SessionManager.userLogin(vmAdmins.getId());

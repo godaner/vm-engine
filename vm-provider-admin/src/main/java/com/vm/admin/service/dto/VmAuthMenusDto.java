@@ -9,11 +9,28 @@ import java.util.List;
  */
 public class VmAuthMenusDto extends BaseDto {
     private String menuName;
-    private String path;
+    private String key;
     private Long pid;
     private Byte isLeaf;
     private String description;
+    private String icon;
     private List<VmAuthMenusDto> child;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     public List<VmAuthMenusDto> getChild() {
         return child;
@@ -29,14 +46,6 @@ public class VmAuthMenusDto extends BaseDto {
 
     public void setMenuName(String menuName) {
         this.menuName = menuName;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 
     public Long getPid() {

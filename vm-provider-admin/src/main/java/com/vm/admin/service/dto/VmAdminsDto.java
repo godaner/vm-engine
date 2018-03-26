@@ -1,6 +1,5 @@
 package com.vm.admin.service.dto;
 
-import com.vm.admin.dao.po.VmAuthMenus;
 import com.vm.base.service.dto.BaseDto;
 
 import java.util.List;
