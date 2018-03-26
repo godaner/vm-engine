@@ -2,6 +2,8 @@ package com.vm.admin.service.dto;
 
 import com.vm.base.service.dto.BaseDto;
 
+import java.util.List;
+
 /**
  * Created by ZhangKe on 2018/3/26.
  */
@@ -11,6 +13,15 @@ public class VmAuthMenusDto extends BaseDto {
     private Long pid;
     private Byte isLeaf;
     private String description;
+    private List<VmAuthMenusDto> child;
+
+    public List<VmAuthMenusDto> getChild() {
+        return child;
+    }
+
+    public void setChild(List<VmAuthMenusDto> child) {
+        this.child = child;
+    }
 
     public String getMenuName() {
         return menuName;
