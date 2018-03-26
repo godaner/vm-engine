@@ -75,15 +75,22 @@ public class VmAuthMenusServiceImpl extends BaseService implements VmAuthMenusSe
         int i = 0;
         while (i < vmAuthMenus.size()) {
             VmAuthMenus node = vmAuthMenus.get(i);
-            VmAuthMenusDto nodeDto = makeVmAuthMenusDto(node);
-            if (nodeDto.getPid() == null) {
+            if (isNullObject(node.getPid())) {
+                VmAuthMenusDto nodeDto = makeVmAuthMenusDto(node);
                 root.add(nodeDto);
-            } else {
+            }
+            i++;
+        }
+        i = 0;
+        while (i < vmAuthMenus.size()) {
+            VmAuthMenus node = vmAuthMenus.get(i);
+            if (!isNullObject(node.getPid())) {
                 for (VmAuthMenusDto r : root) {
-                    if (r.getId().equals(nodeDto.getPid())) {
-                        if(isEmptyList(r.getChild() )){
+                    if (r.getPid().equals(node.getId())) {
+                        if (isEmptyList(r.getChild())) {
                             r.setChild(Lists.newArrayList());
                         }
+                        VmAuthMenusDto nodeDto = makeVmAuthMenusDto(node);
                         r.getChild().add(nodeDto);
                     }
                 }
