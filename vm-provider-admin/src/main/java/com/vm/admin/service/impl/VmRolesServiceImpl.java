@@ -87,8 +87,7 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
     public VmRolesDto addRole(VmRolesDto vmRolesDto) {
         VmRoles vmRoles = vmRolesMapper.selectOneBy(ImmutableMap.of(
                 "roleName", vmRolesDto.getRoleName(),
-                "isDeleted", BasePo.IsDeleted.NO.getCode(),
-                "status", BasePo.Status.NORMAL.getCode()
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
         ));
 
         if (!isNullObject(vmRoles)) {
@@ -110,8 +109,44 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
         return makeRolesDto(vmRoles);
     }
 
+    @Override
+    public VmRolesDto editRole(VmRolesDto vmRolesDto) {
+        VmRoles vmRoles = this.getRoleById(vmRolesDto.getId(), BasePo.IsDeleted.NO);
+        if (!vmRoles.getRoleName().equals(vmRolesDto.getRoleName())) {//if change username
+            vmRoles = vmRolesMapper.selectOneBy(ImmutableMap.of(
+                    "roleName", vmRolesDto.getRoleName(),
+                    "isDeleted", BasePo.IsDeleted.NO.getCode()
+            ));
+            if (!isNullObject(vmRoles)) {
+                throw new VmRolesException("editRole role name is exits !! vmRolesDto is :" + vmRolesDto,
+                        VmRolesException.ErrorCode.ROLE_NAME_IS_EXITS.getCode(),
+                        VmRolesException.ErrorCode.ROLE_NAME_IS_EXITS.getMsg());
+            }
+        }
+
+        vmRoles= makeEditRole(vmRolesDto);
+
+        if (1 != vmRolesMapper.update(vmRolesDto.getId(), vmRoles)) {
+            throw new VmRolesException("editRole vmRolesMapper#update is fail !! vmRolesDto is :" + vmRolesDto);
+        }
+
+        //get new user
+        vmRoles = this.getRoleById(vmRolesDto.getId(), BasePo.IsDeleted.NO);
+        return makeRolesDto(vmRoles);
+    }
+
+    private VmRoles makeEditRole(VmRolesDto vmRolesDto) {
+        Integer now = now();
+        VmRoles vmRoles = new VmRoles();
+        vmRoles.setDescription(vmRolesDto.getDescription());
+        vmRoles.setRoleName(vmRolesDto.getRoleName());
+        vmRoles.setStatus(vmRolesDto.getStatus());
+        vmRoles.setUpdateTime(now);
+        return vmRoles;
+    }
+
     private VmRoles makeAddRole(VmRolesDto vmRolesDto) {
-        Integer now =now();
+        Integer now = now();
         VmRoles vmRoles = new VmRoles();
         vmRoles.setDescription(vmRolesDto.getDescription());
         vmRoles.setImmutable(BasePo.Immutable.NO.getCode());

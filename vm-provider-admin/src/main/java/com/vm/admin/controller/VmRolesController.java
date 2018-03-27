@@ -44,4 +44,15 @@ public class VmRolesController extends ServiceController<VmRolesService> {
 
         return response.putData("role", service.addRole(vmRolesDto));
     }
+    /**
+     * 更新
+     *
+     * @return
+     */
+    @RequestMapping(value = "/info", method = RequestMethod.PUT)
+    @ResponseBody
+    public Object editRole(VmRolesDto vmRolesDto) throws Exception {
+
+        return response.putData("role", service.editRole(vmRolesDto));
+    }
 }
