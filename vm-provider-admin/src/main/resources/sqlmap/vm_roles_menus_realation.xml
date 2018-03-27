@@ -127,29 +127,6 @@ UPDATE
 
 	</select>
 
-	<select id="selectPageList" resultMap="VmRolesMenusRealationMap">
-		SELECT
-			<include refid="BASE_ALL_CLOUM"/>
-		FROM
-		vm_roles_menus_realation
-		<include refid="queryCondition" />
-	<if test="page.orderBy != null and page.orderType != null">
-			order by ${page.orderBy} ${page.orderType}
-		</if>
-	<if test="page.start != null and page.size != null">
-		limit #{page.start},#{page.size}
-		</if>
-
-	</select>
-
-	<select id="selectTotal" resultType="long">
-		SELECT
-			count(id)
-		FROM
-		vm_roles_menus_realation
-		<include refid="queryCondition" />
-	</select>
-
 <sql id="queryCondition">
 <trim prefix="where" prefixOverrides="and">
 <if test="query != null">

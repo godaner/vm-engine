@@ -71,13 +71,13 @@ public class VmRolesServiceImpl implements VmRolesService {
 
     @Override
     public List<VmRolesDto> getRoles(PageBean page, VmRolesQueryBean query) {
-        List<VmRoles> vmRoles = vmRolesMapper.selectPageList(page, query);
+        List<VmRoles> vmRoles = customVmRolesMapper.getRoles(page, query);
         return makeRolesDtos(vmRoles);
     }
 
     @Override
     public Long getRolesTotal(PageBean page, VmRolesQueryBean query) {
-        return null;
+        return customVmRolesMapper.getRolesTotal(page, query);
     }
 
     private List<VmRolesDto> makeRolesDtos(List<VmRoles> vmRoles) {

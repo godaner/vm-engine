@@ -180,8 +180,6 @@ public class GenerateMapperXml {
 
         stringBuffer.append(generateListSql(cls, tableName) + "\n\n");
         stringBuffer.append(generateOrdeByListSql(cls, tableName) + "\n\n");
-        stringBuffer.append(generatePageListSql(cls, tableName) + "\n\n");
-        stringBuffer.append(selectTotal(cls, tableName) + "\n\n");
 
         stringBuffer.append(generateQueryCondition(cls, tableName) + "\n\n");
         stringBuffer.append(generateSetFields(tableName) + "\n\n");
@@ -420,41 +418,6 @@ public class GenerateMapperXml {
 
     }
 
-    public static String generatePageListSql(Class cls, String tableName) {
-        String orderSql = "\t<if test=\"page.orderBy != null and page.orderType != null\">\n" +
-                "\t\t\torder by ${page.orderBy} ${page.orderType}\n" +
-                "\t\t</if>\n";
-        String limitSql = "\t<if test=\"page.start != null and page.size != null\">\n" +
-                "\t\tlimit #{page.start},#{page.size}\n" +
-                "\t\t</if>\n";
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("\t<select id=\"selectPageList\" resultMap=\"" + cls.getSimpleName() + "Map" + "\">\n" +
-                "\t\tSELECT\n" +
-                "\t\t\t<include refid=\"BASE_ALL_CLOUM\"/>\n" +
-                "\t\tFROM\n" +
-                "\t\t" + tableName + "\n" +
-                "\t\t<include refid=\"queryCondition\" />\n" +
-                orderSql +
-                limitSql +
-                "\n" +
-                "\t</select>");
-        return buffer.toString();
-
-    }
-    public static String selectTotal(Class cls, String tableName) {
-
-
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("\t<select id=\"selectTotal\" resultType=\"long\">\n" +
-                "\t\tSELECT\n" +
-                "\t\t\tcount(id)\n" +
-                "\t\tFROM\n" +
-                "\t\t" + tableName + "\n" +
-                "\t\t<include refid=\"queryCondition\" />\n" +
-                "\t</select>");
-        return buffer.toString();
-
-    }
 
     public static String generateListSql(Class cls, String tableName) {
 

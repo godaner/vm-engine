@@ -44,8 +44,4 @@ public interface BaseCrudMapper<T> {
                               @Param("orderType") String orderType,
                               @Param("query") Object query);
 
-    List<T> selectPageList(@Param("page") Object page,
-                           @Param("query") Object query);
-
-    List<Long> selectTotal(@Param("query") Object query);
 }

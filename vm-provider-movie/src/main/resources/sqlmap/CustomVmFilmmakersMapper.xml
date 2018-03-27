@@ -66,7 +66,7 @@
             order by ${page.orderBy} ${page.orderType}
         </if>
         <if test="page != null and page.start != null and page.size != null">
-
+            limit #{page.start},#{page.size}
         </if>
     </select>
     <select id="getFilmmakersTotal" resultType="long">
