@@ -17,15 +17,18 @@
         </foreach>
     </select>
     <select id="getLeafMenuIdsByRoleId" resultType="long">
-        select menu_id
-        from vm_roles_menus_realation
+        select DISTINCT  m.id
+        from vm_roles_menus_realation r, vm_menus m
         WHERE
-        is_deleted = #{query.isDeleted}
-        and is_leaf = #{query.isLeaf}
+        r.menu_id = m.id
+        and r.is_deleted = #{query.isDeleted}
+        and m.is_deleted = #{query.isDeleted}
+        and m.is_leaf = #{query.isLeaf}
         <if test="query.status!=null">
-            and status = #{query.status}
+            and r.status = #{query.status}
+            and m.status = #{query.status}
         </if>
-        and role_id = #{query.roleId}
+        and r.role_id = #{query.roleId}
     </select>
 
 </mapper>
