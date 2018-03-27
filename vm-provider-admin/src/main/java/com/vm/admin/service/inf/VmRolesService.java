@@ -17,4 +17,6 @@ public interface VmRolesService {
     List<VmRolesDto> getRoles(PageBean page, VmRolesQueryBean query);
 
     Long getRolesTotal(PageBean page, VmRolesQueryBean query);
+
+    VmRolesDto addRole(VmRolesDto vmRolesDto);
 }

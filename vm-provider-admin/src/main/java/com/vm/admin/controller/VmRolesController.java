@@ -2,6 +2,7 @@ package com.vm.admin.controller;
 
 import com.vm.admin.dao.qo.VmAdminsQueryBean;
 import com.vm.admin.dao.qo.VmRolesQueryBean;
+import com.vm.admin.service.dto.VmRolesDto;
 import com.vm.admin.service.inf.VmMenusService;
 import com.vm.admin.service.inf.VmRolesService;
 import com.vm.base.util.ServiceController;
@@ -32,5 +33,15 @@ public class VmRolesController extends ServiceController<VmRolesService> {
 
         return response.putData("list", service.getRoles(page, query)).putData("total", service.getRolesTotal(page, query));
     }
+    /**
+     * 添加
+     *
+     * @return
+     */
+    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    @ResponseBody
+    public Object addRole(VmRolesDto vmRolesDto) throws Exception {
 
+        return response.putData("role", service.addRole(vmRolesDto));
+    }
 }
