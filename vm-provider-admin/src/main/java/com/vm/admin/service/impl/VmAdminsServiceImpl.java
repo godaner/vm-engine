@@ -106,6 +106,15 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         }
 
         vmAdmins = this.getAdminById(vmAdmins.getId(), BasePo.IsDeleted.NO);
+        //insert admin role realations
+        String roleIdsStr = vmAdminsDto.getRoleIds();
+        if (!isEmptyString(roleIdsStr)) {
+            List<Long> roleIds = parseStringArray2Long(roleIdsStr);
+            List<VmAdminsRolesRealation> vmAdminsRolesRealations = makeVmAdminsRolesRealations(vmAdmins.getId(), roleIds);
+            if (0 > vmAdminsRolesRealationMapper.batchInsert(vmAdminsRolesRealations)) {
+                throw new VmAdminException("addAdmin vmAdminsRolesRealationMapper#batchInsert is fail !! vmAdminsDto is : " + vmAdminsDto);
+            }
+        }
 
         return makeBackendAdminsDto(vmAdmins);
     }
