@@ -16,4 +16,6 @@ public interface VmAuthsService {
     List<String> getAuthCodesByAdminId(Long adminId);
 
     List<VmAuthsDto> getAllAuths();
+
+    List<Long> getAuthIdsByRoleId(Long roleId);
 }

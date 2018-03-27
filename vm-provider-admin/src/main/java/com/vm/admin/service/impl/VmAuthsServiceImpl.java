@@ -8,6 +8,7 @@ import com.vm.admin.service.dto.VmAuthsDto;
 import com.vm.admin.service.inf.VmAuthsService;
 import com.vm.admin.service.inf.VmRolesService;
 import com.vm.dao.util.BasePo;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -94,6 +95,16 @@ public class VmAuthsServiceImpl implements VmAuthsService {
                 "status", BasePo.Status.NORMAL.getCode(),
                 "isDeleted", BasePo.IsDeleted.NO.getCode()
         )));
+    }
+
+    @Override
+    public List<Long> getAuthIdsByRoleId(Long roleId) {
+
+        return customVmRolesAuthsRealationMapper.getAuthIdsByRoleIds(ImmutableMap.of(
+                "roleIds", Lists.newArrayList(roleId),
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
+        ));
+
     }
 
     private List<VmAuthsDto> makeVmAuthsDtos(List<VmAuths> vmAuths) {
