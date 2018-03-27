@@ -14,6 +14,16 @@ public class VmRolesDto extends BaseDto {
 
     private String authIds;
 
+    private String menuIds;
+
+    public String getMenuIds() {
+        return menuIds;
+    }
+
+    public void setMenuIds(String menuIds) {
+        this.menuIds = menuIds;
+    }
+
     public String getAuthIds() {
         return authIds;
     }

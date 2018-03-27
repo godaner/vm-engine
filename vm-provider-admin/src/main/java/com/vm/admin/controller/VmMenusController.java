@@ -45,11 +45,11 @@ public class VmMenusController extends ServiceController<VmMenusService> {
      *
      * @return
      */
-    @RequestMapping(value = "/id/list/byRoleId/{roleId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/leaf/id/list/byRoleId/{roleId}", method = RequestMethod.GET)
     @ResponseBody
-    public Object getMenuIdsByRoleId(@PathVariable("roleId") Long roleId) throws Exception {
+    public Object getLeafMenuIdsByRoleId(@PathVariable("roleId") Long roleId) throws Exception {
 
-        return response.putData("tree", service.getMenuIdsByRoleId(roleId));
+        return response.putData("list", service.getLeafMenuIdsByRoleId(roleId));
     }
 
 }

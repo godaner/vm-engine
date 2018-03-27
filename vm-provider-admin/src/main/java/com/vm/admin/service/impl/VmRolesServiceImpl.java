@@ -5,16 +5,15 @@ import com.vm.admin.dao.mapper.*;
 import com.vm.admin.dao.mapper.custom.*;
 import com.vm.admin.dao.po.VmRoles;
 import com.vm.admin.dao.po.VmRolesAuthsRealation;
+import com.vm.admin.dao.po.VmRolesMenusRealation;
 import com.vm.admin.dao.qo.VmRolesQueryBean;
 import com.vm.admin.service.dto.VmRolesDto;
 import com.vm.admin.service.exception.VmRolesException;
-import com.vm.admin.service.inf.VmAuthsService;
 import com.vm.admin.service.inf.VmRolesService;
 import com.vm.base.util.BaseService;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +55,8 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
     VmRolesMapper vmRolesMapper;
     @Autowired
     CustomVmAdminsRolesRealationMapper customVmAdminsRolesRealationMapper;
-
+    @Autowired
+    VmRolesMenusRealationMapper vmRolesMenusRealationMapper;
 
     @Override
     public List<VmRolesDto> getRoles(PageBean page, VmRolesQueryBean query) {
@@ -140,7 +140,30 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
             }
         }
 
+        //delete menu realation
 
+        realationIds = vmRolesMenusRealationMapper.selectIdList(ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                "roleId", roleId
+        ));
+
+        if (!isEmptyList(realationIds)) {
+            if (0 > vmRolesMenusRealationMapper.updateInIds(realationIds, ImmutableMap.of(
+                    "isDeleted", BasePo.IsDeleted.YES.getCode()
+            ))) {
+                throw new VmRolesException("editRole vmRolesMenusRealationMapper#updateInIds is fail ! vmRolesDto is : " + vmRolesDto);
+            }
+        }
+        //insert new auth,authIds
+        String menuIdsStr = vmRolesDto.getMenuIds();
+        if (!isEmptyString(menuIdsStr)) {
+            List<Long> menuIds = parseStringArray2Long(menuIdsStr);
+            List<VmRolesMenusRealation> newRealations = makeVmRolesMenusRealations(roleId, menuIds);
+
+            if (newRealations.size() != vmRolesMenusRealationMapper.batchInsert(newRealations)) {
+                throw new VmRolesException("editRole vmRolesMenusRealationMapper#batchInsert is fail ! vmRolesDto is : " + vmRolesDto);
+            }
+        }
         //update role
         vmRoles = makeEditRole(vmRolesDto);
 
@@ -151,6 +174,24 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
         //get new obj
         vmRoles = this.getRoleById(roleId, BasePo.IsDeleted.NO);
         return makeRolesDto(vmRoles);
+    }
+
+    private List<VmRolesMenusRealation> makeVmRolesMenusRealations(Long roleId, List<Long> menuIds) {
+        return menuIds.stream().parallel().map(menuId -> {
+            return makeVmRolesMenusRealation(roleId, menuId);
+        }).collect(toList());
+    }
+
+    private VmRolesMenusRealation makeVmRolesMenusRealation(Long roleId, Long menuId) {
+        Integer now = now();
+        VmRolesMenusRealation vmRolesMenusRealation = new VmRolesMenusRealation();
+        vmRolesMenusRealation.setMenuId(menuId);
+        vmRolesMenusRealation.setRoleId(roleId);
+        vmRolesMenusRealation.setIsDeleted(BasePo.IsDeleted.NO.getCode());
+        vmRolesMenusRealation.setStatus(BasePo.Status.NORMAL.getCode());
+        vmRolesMenusRealation.setCreateTime(now);
+        vmRolesMenusRealation.setUpdateTime(now);
+        return vmRolesMenusRealation;
     }
 
     private List<VmRolesAuthsRealation> makeVmRolesAuthsRealations(Long roleId, List<Long> authIds) {

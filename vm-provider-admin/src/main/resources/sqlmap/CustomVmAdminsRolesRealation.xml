@@ -12,7 +12,7 @@
         <if test="query.status!=null">
             and status = #{query.status}
         </if>
-        and admin_id =#{adminId}
+        and admin_id =#{query.adminId}
     </select>
 
 </mapper>

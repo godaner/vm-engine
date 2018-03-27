@@ -15,5 +15,5 @@ public interface VmMenusService {
 
     List<VmMenusDto> getAllMenusTree(VmMenusDto vmMenusDto);
 
-    List<Long> getMenuIdsByRoleId(Long roleId);
+    List<Long> getLeafMenuIdsByRoleId(Long roleId);
 }
