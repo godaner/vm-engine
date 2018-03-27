@@ -80,12 +80,12 @@ public class VmMenusServiceImpl extends BaseService implements VmMenusService {
 
     @Override
     public List<Long> getLeafMenuIdsByRoleId(Long roleId) {
-        List<Long> vmRoleIds = customVmRolesMenusRealationMapper.getMenuIdsByRoleIds(ImmutableMap.of(
-                "roleIds", Lists.newArrayList(roleId),
+        List<Long> menuIds = customVmRolesMenusRealationMapper.getLeafMenuIdsByRoleId(ImmutableMap.of(
+                "roleId", roleId,
                 "isLeaf", VmMenus.IsLeaf.YES.getCode(),
                 "isDeleted", BasePo.IsDeleted.NO.getCode()
         ));
-        return vmRoleIds;
+        return menuIds;
     }
 
     //二级树

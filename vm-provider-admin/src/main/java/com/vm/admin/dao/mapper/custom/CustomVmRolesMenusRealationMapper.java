@@ -12,4 +12,5 @@ public interface CustomVmRolesMenusRealationMapper {
 
     List<Long> getMenuIdsByRoleIds(@Param("query") Object query);
 
+    List<Long> getLeafMenuIdsByRoleId(@Param("query") Object query);
 }
