@@ -20,6 +20,7 @@ public class VmAdminsDto extends BaseDto{
 
     private List<VmAuthMenusDto> menus;
 
+
     //登录记录信息
     private String browser;
     private String city;
@@ -32,6 +33,7 @@ public class VmAdminsDto extends BaseDto{
     private String province;
     private String system;
     private String title;
+
 
     public List<VmAuthMenusDto> getMenus() {
         return menus;

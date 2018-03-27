@@ -4,9 +4,11 @@ import com.google.common.collect.ImmutableMap;
 import com.vm.admin.dao.mapper.*;
 import com.vm.admin.dao.mapper.custom.*;
 import com.vm.admin.dao.po.VmRoles;
+import com.vm.admin.dao.po.VmRolesAuthsRealation;
 import com.vm.admin.dao.qo.VmRolesQueryBean;
 import com.vm.admin.service.dto.VmRolesDto;
 import com.vm.admin.service.exception.VmRolesException;
+import com.vm.admin.service.inf.VmAuthsService;
 import com.vm.admin.service.inf.VmRolesService;
 import com.vm.base.util.BaseService;
 import com.vm.dao.util.BasePo;
@@ -39,6 +41,8 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
     @Autowired
     CustomVmRolesAuthsRealationMapper customVmRolesAuthsRealationMapper;
     @Autowired
+    VmRolesAuthsRealationMapper vmRolesAuthsRealationMapper;
+    @Autowired
     VmAdminsRolesRealationMapper vmAdminsRolesRealationMapper;
     @Autowired
     CustomVmRolesMapper customVmRolesMapper;
@@ -48,6 +52,8 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
     CustomVmAuthsMapper customVmAuthsMapper;
     @Autowired
     VmRolesMapper vmRolesMapper;
+    @Autowired
+    VmAuthsService vmAuthsService;
 
     @Override
     public List<Long> getRoleIdsByAdminId(Long adminId) {
@@ -111,7 +117,11 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
 
     @Override
     public VmRolesDto editRole(VmRolesDto vmRolesDto) {
-        VmRoles vmRoles = this.getRoleById(vmRolesDto.getId(), BasePo.IsDeleted.NO);
+        Long roleId = vmRolesDto.getId();
+
+        VmRoles vmRoles = this.getRoleById(roleId, BasePo.IsDeleted.NO);
+
+
         if (!vmRoles.getRoleName().equals(vmRolesDto.getRoleName())) {//if change username
             vmRoles = vmRolesMapper.selectOneBy(ImmutableMap.of(
                     "roleName", vmRolesDto.getRoleName(),
@@ -124,16 +134,59 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
             }
         }
 
-        vmRoles= makeEditRole(vmRolesDto);
+        //delete auth realation
 
-        if (1 != vmRolesMapper.update(vmRolesDto.getId(), vmRoles)) {
+        List<Long> realationIds = vmRolesAuthsRealationMapper.selectIdList(ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                "roleId", roleId
+        ));
+
+        if (!isEmptyList(realationIds)) {
+            if (1 != vmRolesAuthsRealationMapper.updateInIds(realationIds, ImmutableMap.of(
+                    "isDeleted", BasePo.IsDeleted.YES.getCode()
+            ))) {
+                throw new VmRolesException("editRole vmRolesAuthsRealationMapper#updateInIds is fail ! vmRolesDto is : " + vmRolesDto);
+            }
+        }
+        //insert new auth,authIds
+        List<Long> authIds = parseStringArray2Long(vmRolesDto.getAuthIds());
+        List<VmRolesAuthsRealation> newRealations = makeVmRolesAuthsRealations(roleId, authIds);
+
+        if (newRealations.size() != vmRolesAuthsRealationMapper.batchInsert(newRealations)) {
+            throw new VmRolesException("editRole vmRolesAuthsRealationMapper#batchInsert is fail ! vmRolesDto is : " + vmRolesDto);
+        }
+
+
+        //update role
+        vmRoles = makeEditRole(vmRolesDto);
+
+        if (1 != vmRolesMapper.update(roleId, vmRoles)) {
             throw new VmRolesException("editRole vmRolesMapper#update is fail !! vmRolesDto is :" + vmRolesDto);
         }
 
-        //get new user
-        vmRoles = this.getRoleById(vmRolesDto.getId(), BasePo.IsDeleted.NO);
+        //get new obj
+        vmRoles = this.getRoleById(roleId, BasePo.IsDeleted.NO);
         return makeRolesDto(vmRoles);
     }
+
+    private List<VmRolesAuthsRealation> makeVmRolesAuthsRealations(Long roleId, List<Long> authIds) {
+        return authIds.stream().parallel().map(authId -> {
+            return makeVmRolesAuthsRealation(roleId, authId);
+        }).collect(toList());
+    }
+
+    private VmRolesAuthsRealation makeVmRolesAuthsRealation(Long roleId, Long authId) {
+        Integer now = now();
+        VmRolesAuthsRealation vmRolesAuthsRealation = new VmRolesAuthsRealation();
+        vmRolesAuthsRealation.setAuthId(authId);
+        vmRolesAuthsRealation.setRoleId(roleId);
+        vmRolesAuthsRealation.setIsDeleted(BasePo.IsDeleted.NO.getCode());
+        vmRolesAuthsRealation.setStatus(BasePo.Status.NORMAL.getCode());
+        vmRolesAuthsRealation.setCreateTime(now);
+        vmRolesAuthsRealation.setUpdateTime(now);
+        return vmRolesAuthsRealation;
+    }
+
 
     private VmRoles makeEditRole(VmRolesDto vmRolesDto) {
         Integer now = now();

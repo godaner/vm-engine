@@ -8,13 +8,15 @@ import java.util.List;
  * Created by ZhangKe on 2018/3/26.
  */
 public interface VmAuthsService {
+    /******************** status****************************/
 
-    List<VmAuthsDto> getAuthsByRoleIds(List<Long> roleIds);
+    List<VmAuthsDto> getUseableAuthsByRoleIds(List<Long> roleIds);
 
-    List<VmAuthsDto> getAuthsByAdminId(Long adminId);
+    List<VmAuthsDto> getUseableAuthsByAdminId(Long adminId);
 
-    List<String> getAuthCodesByAdminId(Long adminId);
+    List<String> getUseableAuthCodesByAdminId(Long adminId);
 
+    /******************** unStatus****************************/
     List<VmAuthsDto> getAllAuths();
 
     List<Long> getAuthIdsByRoleId(Long roleId);

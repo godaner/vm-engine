@@ -47,7 +47,7 @@ public class VmAuthsServiceImpl implements VmAuthsService {
     VmRolesService vmRolesService;
 
     @Override
-    public List<VmAuthsDto> getAuthsByRoleIds(List<Long> roleIds) {
+    public List<VmAuthsDto> getUseableAuthsByRoleIds(List<Long> roleIds) {
 
         List<Long> authIds = this.getAuthIdsByRoleIds(roleIds);
 
@@ -68,14 +68,14 @@ public class VmAuthsServiceImpl implements VmAuthsService {
     }
 
     @Override
-    public List<VmAuthsDto> getAuthsByAdminId(Long adminId) {
+    public List<VmAuthsDto> getUseableAuthsByAdminId(Long adminId) {
         List<Long> roleIds = vmRolesService.getRoleIdsByAdminId(adminId);
 
-        return this.getAuthsByRoleIds(roleIds);
+        return this.getUseableAuthsByRoleIds(roleIds);
     }
 
     @Override
-    public List<String> getAuthCodesByAdminId(Long adminId) {
+    public List<String> getUseableAuthCodesByAdminId(Long adminId) {
 
         List<Long> roleIds = vmRolesService.getRoleIdsByAdminId(adminId);
 
@@ -92,7 +92,6 @@ public class VmAuthsServiceImpl implements VmAuthsService {
     @Override
     public List<VmAuthsDto> getAllAuths() {
         return makeVmAuthsDtos(vmAuthsMapper.selectBy(ImmutableMap.of(
-                "status", BasePo.Status.NORMAL.getCode(),
                 "isDeleted", BasePo.IsDeleted.NO.getCode()
         )));
     }
