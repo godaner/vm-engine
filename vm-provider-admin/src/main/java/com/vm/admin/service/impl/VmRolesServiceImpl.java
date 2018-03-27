@@ -16,6 +16,7 @@ import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -116,6 +117,7 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
     }
 
     @Override
+    @Transactional
     public VmRolesDto editRole(VmRolesDto vmRolesDto) {
         Long roleId = vmRolesDto.getId();
 
@@ -142,7 +144,7 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
         ));
 
         if (!isEmptyList(realationIds)) {
-            if (1 != vmRolesAuthsRealationMapper.updateInIds(realationIds, ImmutableMap.of(
+            if (0 > vmRolesAuthsRealationMapper.updateInIds(realationIds, ImmutableMap.of(
                     "isDeleted", BasePo.IsDeleted.YES.getCode()
             ))) {
                 throw new VmRolesException("editRole vmRolesAuthsRealationMapper#updateInIds is fail ! vmRolesDto is : " + vmRolesDto);
