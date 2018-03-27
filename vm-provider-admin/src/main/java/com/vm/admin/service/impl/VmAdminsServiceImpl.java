@@ -214,14 +214,11 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
             throw new VmAdminException("adminLogin vmAdminsLoginLogsMapper#insert is fail ! user is :  " + vmAdminsDto);
         }
 
-        //get menus
-        List<VmAuthMenusDto> menus = vmMenusService.getAdminMenusByAdminId(vmAdmins.getId());
-
         //adminLogin in session
         String token = SessionManager.userLogin(vmAdmins.getId());
 
 
-        return makeVmAdminDto(vmAdmins, token, menus);
+        return makeVmAdminDto(vmAdmins, token);
     }
 
     @Override
@@ -271,17 +268,6 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         vmAdminsLoginLogs.setIsDeleted(BasePo.IsDeleted.NO.getCode());
         vmAdminsLoginLogs.setStatus(BasePo.Status.NORMAL.getCode());
         return vmAdminsLoginLogs;
-    }
-
-    @Override
-    public VmAdminsDto makeVmAdminDto(VmAdmins vmAdmins, String token, List<VmAuthMenusDto> menus) {
-        VmAdminsDto vmAdminsDto = new VmAdminsDto();
-        vmAdminsDto.setUsername(vmAdmins.getUsername());
-        vmAdminsDto.setId(vmAdmins.getId());
-        vmAdminsDto.setDescription(vmAdmins.getDescription());
-        vmAdminsDto.setToken(token);
-        vmAdminsDto.setMenus(menus);
-        return vmAdminsDto;
     }
     @Override
     public VmAdminsDto makeVmAdminDto(VmAdmins vmAdmins, String token) {

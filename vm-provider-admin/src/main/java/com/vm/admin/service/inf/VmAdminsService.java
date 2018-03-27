@@ -35,6 +35,6 @@ public interface VmAdminsService {
 
     void adminLogout(String token);
 
-    VmAdminsDto makeVmAdminDto(VmAdmins vmAdmins, String token, List<VmAuthMenusDto> vmAuthMenusDtos);
     VmAdminsDto makeVmAdminDto(VmAdmins vmAdmins, String token);
+
 }

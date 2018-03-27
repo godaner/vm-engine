@@ -26,8 +26,6 @@ public class OnlineAdminMethodArgumentResolver extends CommonUtil implements Han
 
     @Autowired
     private VmAdminsService vmAdminsService;
-    @Autowired
-    VmMenusService vmMenusService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -44,10 +42,7 @@ public class OnlineAdminMethodArgumentResolver extends CommonUtil implements Han
         VmAdminsDto vmAdminsDto = null;
         try {
             vmAdminsDto = vmAdminsService.getOnlineAdminBasicInfo(token);
-            if(!isNullObject(vmAdminsDto)){
-                List<VmAuthMenusDto> menus = vmMenusService.getAdminMenusByAdminId(vmAdminsDto.getId());
-                vmAdminsDto.setMenus(menus);
-            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
