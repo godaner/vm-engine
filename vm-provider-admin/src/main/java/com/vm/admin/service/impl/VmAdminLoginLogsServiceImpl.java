@@ -6,6 +6,8 @@ import com.vm.admin.dao.qo.VmAdminLoginLogsQueryBean;
 import com.vm.admin.service.dto.VmAdminLoginLogsDto;
 import com.vm.admin.service.inf.VmAdminLoginLogsService;
 import com.vm.dao.util.PageBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -14,7 +16,9 @@ import static java.util.stream.Collectors.toList;
 /**
  * Created by ZhangKe on 2018/3/27.
  */
+@Service
 public class VmAdminLoginLogsServiceImpl implements VmAdminLoginLogsService {
+    @Autowired
     CustomVmAdminsLoginLogsMapper customVmAdminsLoginLogsMapper;
 
     @Override
