@@ -7,14 +7,14 @@ import java.util.List;
 /**
  * Created by ZhangKe on 2018/3/26.
  */
-public class VmAuthMenusDto extends BaseDto {
+public class VmMenusDto extends BaseDto {
     private String menuName;
     private String keyProp;
     private Long pid;
     private Byte isLeaf;
     private String description;
     private String icon;
-    private List<VmAuthMenusDto> child;
+    private List<VmMenusDto> child;
 
     public String getKeyProp() {
         return keyProp;
@@ -32,11 +32,11 @@ public class VmAuthMenusDto extends BaseDto {
         this.icon = icon;
     }
 
-    public List<VmAuthMenusDto> getChild() {
+    public List<VmMenusDto> getChild() {
         return child;
     }
 
-    public void setChild(List<VmAuthMenusDto> child) {
+    public void setChild(List<VmMenusDto> child) {
         this.child = child;
     }
 

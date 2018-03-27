@@ -18,7 +18,7 @@ public class VmAdminsDto extends BaseDto{
 
     private String token;
 
-    private List<VmAuthMenusDto> menus;
+    private List<VmMenusDto> menus;
 
 
     //登录记录信息
@@ -35,11 +35,11 @@ public class VmAdminsDto extends BaseDto{
     private String title;
 
 
-    public List<VmAuthMenusDto> getMenus() {
+    public List<VmMenusDto> getMenus() {
         return menus;
     }
 
-    public void setMenus(List<VmAuthMenusDto> menus) {
+    public void setMenus(List<VmMenusDto> menus) {
         this.menus = menus;
     }
 

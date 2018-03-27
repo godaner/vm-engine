@@ -8,7 +8,9 @@
         from vm_roles_menus_realation
         WHERE
         is_deleted = #{query.isDeleted}
-        and status = #{query.status}
+        <if test="query.status!=null">
+            and status = #{query.status}
+        </if>
         and role_id in
         <foreach item="item" index="index" collection="query.roleIds" open="(" separator="," close=")">
             #{item}

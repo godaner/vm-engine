@@ -14,6 +14,7 @@ import com.vm.base.util.BaseService;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,30 +55,8 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
     @Autowired
     VmRolesMapper vmRolesMapper;
     @Autowired
-    VmAuthsService vmAuthsService;
+    CustomVmAdminsRolesRealationMapper customVmAdminsRolesRealationMapper;
 
-    @Override
-    public List<Long> getRoleIdsByAdminId(Long adminId) {
-
-        List<Long> vmRoleIds = vmAdminsRolesRealationMapper.selectIdList(ImmutableMap.of(
-                "adminId", adminId,
-                "isDeleted", BasePo.IsDeleted.NO.getCode(),
-                "status", BasePo.Status.NORMAL.getCode()
-        ));
-        return vmRoleIds;
-    }
-
-    @Override
-    public List<VmRolesDto> getRolesByAdminId(Long adminId) {
-
-        List<Long> roleIds = this.getRoleIdsByAdminId(adminId);
-        List<VmRoles> roles = vmRolesMapper.selectByAndInIds(roleIds, ImmutableMap.of(
-                "isDeleted", BasePo.IsDeleted.NO.getCode(),
-                "status", BasePo.Status.NORMAL.getCode()
-                )
-        );
-        return makeRolesDtos(roles);
-    }
 
     @Override
     public List<VmRolesDto> getRoles(PageBean page, VmRolesQueryBean query) {

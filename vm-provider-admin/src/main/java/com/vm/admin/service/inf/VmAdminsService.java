@@ -3,9 +3,6 @@ package com.vm.admin.service.inf;
 import com.vm.admin.dao.po.VmAdmins;
 import com.vm.admin.dao.qo.VmAdminsQueryBean;
 import com.vm.admin.service.dto.VmAdminsDto;
-import com.vm.admin.service.dto.VmAuthMenusDto;
-import com.vm.admin.service.dto.VmAuthsDto;
-import com.vm.admin.service.dto.VmRolesDto;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 

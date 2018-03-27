@@ -1,5 +1,6 @@
 package com.vm.admin.dao.mapper.custom;
 
+import com.google.common.collect.ImmutableMap;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -10,4 +11,5 @@ import java.util.List;
 public interface CustomVmRolesMenusRealationMapper {
 
     List<Long> getMenuIdsByRoleIds(@Param("query") Object query);
+
 }

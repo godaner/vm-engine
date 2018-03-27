@@ -6,7 +6,6 @@ import com.vm.admin.dao.mapper.custom.*;
 import com.vm.admin.dao.po.*;
 import com.vm.admin.dao.qo.VmAdminsQueryBean;
 import com.vm.admin.service.dto.VmAdminsDto;
-import com.vm.admin.service.dto.VmAuthMenusDto;
 import com.vm.admin.service.exception.VmAdminException;
 import com.vm.admin.service.inf.VmAdminsService;
 import com.vm.admin.service.inf.VmMenusService;
@@ -54,9 +53,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     CustomVmAuthsMapper customVmAuthsMapper;
 
     @Autowired
-    VmRolesService vmRolesService;
-    @Autowired
-    VmMenusService vmMenusService;
+    CustomVmAdminsRolesRealationMapper customVmAdminsRolesRealationMapper;
 
 
     @Override

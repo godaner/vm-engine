@@ -1,5 +1,6 @@
 package com.vm.admin.controller;
 
+import com.vm.admin.service.dto.VmMenusDto;
 import com.vm.admin.service.inf.VmMenusService;
 import com.vm.base.util.ServiceController;
 import org.springframework.context.annotation.Scope;
@@ -27,6 +28,28 @@ public class VmMenusController extends ServiceController<VmMenusService> {
     public Object getMenusTreeByAdminId(@PathVariable("adminId") Long adminId) throws Exception {
 
         return response.putData("tree", service.getMenusTreeByAdminId(adminId)).setMsg("获取菜单成功");
+    }
+    /**
+     * 获取所有列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/tree/all", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getAllMenusTree(VmMenusDto vmMenusDto) throws Exception {
+
+        return response.putData("tree", service.getAllMenusTree(vmMenusDto));
+    }
+    /**
+     * 获取列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/id/list/byRoleId/{roleId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getMenuIdsByRoleId(@PathVariable("roleId") Long roleId) throws Exception {
+
+        return response.putData("tree", service.getMenuIdsByRoleId(roleId));
     }
 
 }

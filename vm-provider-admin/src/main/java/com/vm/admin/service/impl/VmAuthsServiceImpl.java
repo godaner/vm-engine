@@ -43,21 +43,9 @@ public class VmAuthsServiceImpl implements VmAuthsService {
     CustomVmMenusMapper customVmMenusMapper;
     @Autowired
     CustomVmAuthsMapper customVmAuthsMapper;
+
     @Autowired
-    VmRolesService vmRolesService;
-
-    @Override
-    public List<VmAuthsDto> getUseableAuthsByRoleIds(List<Long> roleIds) {
-
-        List<Long> authIds = this.getAuthIdsByRoleIds(roleIds);
-
-        List<VmAuths> vmAuths = vmAuthsMapper.selectByAndInIds(authIds, ImmutableMap.of(
-                "isDeleted", BasePo.IsDeleted.NO.getCode(),
-                "status", BasePo.Status.NORMAL.getCode()
-        ));
-
-        return makeVmAuthsDtos(vmAuths);
-    }
+    CustomVmAdminsRolesRealationMapper customVmAdminsRolesRealationMapper;
 
     private List<Long> getAuthIdsByRoleIds(List<Long> roleIds) {
         return customVmRolesAuthsRealationMapper.getAuthIdsByRoleIds(ImmutableMap.of(
@@ -67,17 +55,11 @@ public class VmAuthsServiceImpl implements VmAuthsService {
         ));
     }
 
-    @Override
-    public List<VmAuthsDto> getUseableAuthsByAdminId(Long adminId) {
-        List<Long> roleIds = vmRolesService.getRoleIdsByAdminId(adminId);
-
-        return this.getUseableAuthsByRoleIds(roleIds);
-    }
 
     @Override
     public List<String> getUseableAuthCodesByAdminId(Long adminId) {
 
-        List<Long> roleIds = vmRolesService.getRoleIdsByAdminId(adminId);
+        List<Long> roleIds = customVmAdminsRolesRealationMapper.getRoleIdsByAdminId(adminId);
 
         List<Long> authIds = this.getAuthIdsByRoleIds(roleIds);
 

@@ -4,9 +4,8 @@ import com.google.common.collect.ImmutableMap;
 import com.vm.admin.dao.mapper.*;
 import com.vm.admin.dao.mapper.custom.*;
 import com.vm.admin.dao.po.VmMenus;
-import com.vm.admin.service.dto.VmAuthMenusDto;
+import com.vm.admin.service.dto.VmMenusDto;
 import com.vm.admin.service.inf.VmMenusService;
-import com.vm.admin.service.inf.VmRolesService;
 import com.vm.base.util.BaseService;
 import com.vm.dao.util.BasePo;
 import org.assertj.core.util.Lists;
@@ -35,48 +34,68 @@ public class VmMenusServiceImpl extends BaseService implements VmMenusService {
     @Autowired
     CustomVmRolesAuthsRealationMapper customVmRolesAuthsRealationMapper;
     @Autowired
+    CustomVmAdminsRolesRealationMapper customVmAdminsRolesRealationMapper;
+    @Autowired
     VmAdminsRolesRealationMapper vmAdminsRolesRealationMapper;
+    @Autowired
+    VmRolesMenusRealationMapper vmRolesMenusRealationMapper;
     @Autowired
     CustomVmRolesMapper customVmRolesMapper;
     @Autowired
     CustomVmMenusMapper customVmMenusMapper;
     @Autowired
     CustomVmAuthsMapper customVmAuthsMapper;
-    @Autowired
-    VmRolesService vmRolesService;
+
 
     @Override
-    public List<VmAuthMenusDto> getMenusTreeByRoleIds(List<Long> roleIds) {
+    public List<VmMenusDto> getMenusTreeByAdminId(Long adminId) {
+
+
+        List<Long> roleIds = customVmAdminsRolesRealationMapper.getRoleIdsByAdminId(ImmutableMap.of(
+                "adminId", adminId,
+                "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                "status", BasePo.Status.NORMAL.getCode()
+        ));
         List<Long> menuIds = customVmRolesMenusRealationMapper.getMenuIdsByRoleIds(ImmutableMap.of(
                 "roleIds", roleIds,
                 "isDeleted", BasePo.IsDeleted.NO.getCode(),
                 "status", BasePo.Status.NORMAL.getCode()
         ));
 
-        List<VmMenus> vmAuthMenus = vmMenusMapper.selectByAndInIds(menuIds,ImmutableMap.of(
+        List<VmMenus> menus = vmMenusMapper.selectByAndInIds(menuIds, ImmutableMap.of(
                 "isDeleted", BasePo.IsDeleted.NO.getCode(),
                 "status", BasePo.Status.NORMAL.getCode()
         ));
 
-        return makeTreeMenusDtos(vmAuthMenus);
+        return makeTreeMenusDtos(menus);
+    }
+
+    @Override
+    public List<VmMenusDto> getAllMenusTree(VmMenusDto vmMenusDto) {
+        return makeTreeMenusDtos(vmMenusMapper.selectBy(ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
+        )));
     }
 
 
     @Override
-    public List<VmAuthMenusDto> getMenusTreeByAdminId(Long adminId) {
-        List<Long> roleIds = vmRolesService.getRoleIdsByAdminId(adminId);
-        return this.getMenusTreeByRoleIds(roleIds);
+    public List<Long> getMenuIdsByRoleId(Long roleId) {
+        List<Long> vmRoleIds = customVmRolesMenusRealationMapper.getMenuIdsByRoleIds(ImmutableMap.of(
+                "roleIds", Lists.newArrayList(roleId),
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
+        ));
+        return vmRoleIds;
     }
 
     //二级树
-    private List<VmAuthMenusDto> makeTreeMenusDtos(List<VmMenus> vmAuthMenus) {
-        List<VmAuthMenusDto> root = Lists.newArrayList();
+    private List<VmMenusDto> makeTreeMenusDtos(List<VmMenus> vmAuthMenus) {
+        List<VmMenusDto> root = Lists.newArrayList();
 
         int i = 0;
         while (i < vmAuthMenus.size()) {
             VmMenus node = vmAuthMenus.get(i);
             if (isNullObject(node.getPid())) {
-                VmAuthMenusDto nodeDto = makeVmAuthMenusDto(node);
+                VmMenusDto nodeDto = makeVmAuthMenusDto(node);
                 root.add(nodeDto);
             }
             i++;
@@ -85,12 +104,12 @@ public class VmMenusServiceImpl extends BaseService implements VmMenusService {
         while (i < vmAuthMenus.size()) {
             VmMenus node = vmAuthMenus.get(i);
             if (!isNullObject(node.getPid())) {
-                for (VmAuthMenusDto r : root) {
+                for (VmMenusDto r : root) {
                     if (r.getId().equals(node.getPid())) {
                         if (isEmptyList(r.getChild())) {
                             r.setChild(Lists.newArrayList());
                         }
-                        VmAuthMenusDto nodeDto = makeVmAuthMenusDto(node);
+                        VmMenusDto nodeDto = makeVmAuthMenusDto(node);
                         r.getChild().add(nodeDto);
                     }
                 }
@@ -100,8 +119,8 @@ public class VmMenusServiceImpl extends BaseService implements VmMenusService {
         return root;
     }
 
-    private VmAuthMenusDto makeVmAuthMenusDto(VmMenus vmAuthMenus) {
-        VmAuthMenusDto vmAuthMenusDto = new VmAuthMenusDto();
+    private VmMenusDto makeVmAuthMenusDto(VmMenus vmAuthMenus) {
+        VmMenusDto vmAuthMenusDto = new VmMenusDto();
         vmAuthMenusDto.setId(vmAuthMenus.getId());
         vmAuthMenusDto.setDescription(vmAuthMenus.getDescription());
         vmAuthMenusDto.setIsLeaf(vmAuthMenus.getIsLeaf());

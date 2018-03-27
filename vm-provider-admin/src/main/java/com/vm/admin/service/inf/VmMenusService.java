@@ -1,6 +1,6 @@
 package com.vm.admin.service.inf;
 
-import com.vm.admin.service.dto.VmAuthMenusDto;
+import com.vm.admin.service.dto.VmMenusDto;
 
 import java.util.List;
 
@@ -8,8 +8,12 @@ import java.util.List;
  * Created by ZhangKe on 2018/3/26.
  */
 public interface VmMenusService {
-    List<VmAuthMenusDto> getMenusTreeByRoleIds(List<Long> roleIds);
+    /*************** status ******************/
 
-    List<VmAuthMenusDto> getMenusTreeByAdminId(Long adminId);
+    /*************** unStatus ******************/
+    List<VmMenusDto> getMenusTreeByAdminId(Long adminId);
 
+    List<VmMenusDto> getAllMenusTree(VmMenusDto vmMenusDto);
+
+    List<Long> getMenuIdsByRoleId(Long roleId);
 }
