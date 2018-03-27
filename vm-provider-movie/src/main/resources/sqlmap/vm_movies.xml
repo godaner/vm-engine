@@ -151,6 +151,21 @@ UPDATE
 
 	</select>
 
+	<select id="selectPageList" resultMap="VmMoviesMap">
+		SELECT
+			<include refid="BASE_ALL_CLOUM"/>
+		FROM
+		vm_movies
+		<include refid="queryCondition" />
+	<if test="page.orderBy != null and page.orderType != null">
+			order by ${page.orderBy} ${page.orderType}
+		</if>
+	<if test="page.start != null and page.size != null">
+		limit #{page.start},#{page.size}
+		</if>
+
+	</select>
+
 <sql id="queryCondition">
 <trim prefix="where" prefixOverrides="and">
 <if test="query != null">
@@ -260,6 +275,19 @@ UPDATE
         vm_movies
         WHERE id IN
         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <select id="selectByAndInIds" resultMap="VmMoviesMap">
+        SELECT
+        <include refid="BASE_ALL_CLOUM"/>
+        FROM
+        vm_movies
+        <include refid="queryCondition" />
+        and id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
             #{item}
         </foreach>
     </select>

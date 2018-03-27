@@ -130,6 +130,21 @@ UPDATE
 
 	</select>
 
+	<select id="selectPageList" resultMap="VmCountrysMap">
+		SELECT
+			<include refid="BASE_ALL_CLOUM"/>
+		FROM
+		vm_countrys
+		<include refid="queryCondition" />
+	<if test="page.orderBy != null and page.orderType != null">
+			order by ${page.orderBy} ${page.orderType}
+		</if>
+	<if test="page.start != null and page.size != null">
+		limit #{page.start},#{page.size}
+		</if>
+
+	</select>
+
 <sql id="queryCondition">
 <trim prefix="where" prefixOverrides="and">
 <if test="query != null">
@@ -204,6 +219,19 @@ UPDATE
         vm_countrys
         WHERE id IN
         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <select id="selectByAndInIds" resultMap="VmCountrysMap">
+        SELECT
+        <include refid="BASE_ALL_CLOUM"/>
+        FROM
+        vm_countrys
+        <include refid="queryCondition" />
+        and id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
             #{item}
         </foreach>
     </select>

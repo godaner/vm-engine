@@ -39,8 +39,6 @@ public class GenerateMapperXml {
     private static String mapperNamespaceClassTemple = null;
 
 
-
-
     //根据properties文件初始化变量
     static {
 
@@ -174,7 +172,7 @@ public class GenerateMapperXml {
         stringBuffer.append(generateDeleteString(tableName) + "\n\n");
         stringBuffer.append(generateDeleteBy(tableName) + "\n\n");
         stringBuffer.append(generateDeleteInIds(cls, tableName) + "\n\n");
-        
+
         stringBuffer.append(generateUpdateString(cls, tableName) + "\n\n");
         stringBuffer.append(generateBatchUpdate(cls, tableName) + "\n\n");
         stringBuffer.append(generateUpdateInIds(cls, tableName) + "\n\n");
@@ -182,6 +180,7 @@ public class GenerateMapperXml {
 
         stringBuffer.append(generateListSql(cls, tableName) + "\n\n");
         stringBuffer.append(generateOrdeByListSql(cls, tableName) + "\n\n");
+        stringBuffer.append(generatePageListSql(cls, tableName) + "\n\n");
 
         stringBuffer.append(generateQueryCondition(cls, tableName) + "\n\n");
         stringBuffer.append(generateSetFields(tableName) + "\n\n");
@@ -205,7 +204,7 @@ public class GenerateMapperXml {
         return "    <update id=\"updateInIds\">\n" +
                 "        update \n" +
                 "        " + tableName + "\n" +
-                "       <include refid=\"setFields\" />"+
+                "       <include refid=\"setFields\" />" +
                 "        WHERE id IN\n" +
                 "        <foreach item=\"item\" index=\"index\" collection=\"idList\" open=\"(\" separator=\",\" close=\")\">\n" +
                 "            #{item}\n" +
@@ -317,6 +316,7 @@ public class GenerateMapperXml {
                 "    </select>\n";
 
     }
+
     public static String generateSelectInIdsWithQuery(Class cls, String tableName) {
         return "    <select id=\"selectByAndInIds\" resultMap=\"" + generateClsMap(cls) + "\">\n" +
                 "        SELECT\n" +
@@ -413,6 +413,28 @@ public class GenerateMapperXml {
                 "\t\t" + tableName + "\n" +
                 "\t\t<include refid=\"queryCondition\" />\n" + orderSql +
                 "\t\tlimit #{start},#{size}\n" +
+                "\n" +
+                "\t</select>");
+        return buffer.toString();
+
+    }
+
+    public static String generatePageListSql(Class cls, String tableName) {
+        String orderSql = "\t<if test=\"page.orderBy != null and page.orderType != null\">\n" +
+                "\t\t\torder by ${page.orderBy} ${page.orderType}\n" +
+                "\t\t</if>\n";
+        String limitSql = "\t<if test=\"page.start != null and page.size != null\">\n" +
+                "\t\tlimit #{page.start},#{page.size}\n" +
+                "\t\t</if>\n";
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("\t<select id=\"selectPageList\" resultMap=\"" + cls.getSimpleName() + "Map" + "\">\n" +
+                "\t\tSELECT\n" +
+                "\t\t\t<include refid=\"BASE_ALL_CLOUM\"/>\n" +
+                "\t\tFROM\n" +
+                "\t\t" + tableName + "\n" +
+                "\t\t<include refid=\"queryCondition\" />\n" +
+                orderSql +
+                limitSql +
                 "\n" +
                 "\t</select>");
         return buffer.toString();
