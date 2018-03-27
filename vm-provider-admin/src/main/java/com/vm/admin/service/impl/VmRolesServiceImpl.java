@@ -14,6 +14,7 @@ import com.vm.base.util.BaseService;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,7 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
     @Autowired
     VmAdminsLoginLogsMapper vmAdminsLoginLogsMapper;
     @Autowired
-    VmMenusMapper vmAuthMenusMapper;
+    VmMenusMapper vmMenusMapper;
     @Autowired
     CustomVmRolesMenusRealationMapper customVmRolesMenusRealationMapper;
     @Autowired
@@ -154,10 +155,19 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
                 throw new VmRolesException("editRole vmRolesMenusRealationMapper#updateInIds is fail ! vmRolesDto is : " + vmRolesDto);
             }
         }
-        //insert new auth,authIds
+        //insert new menu,authIds
         String menuIdsStr = vmRolesDto.getMenuIds();
         if (!isEmptyString(menuIdsStr)) {
             List<Long> menuIds = parseStringArray2Long(menuIdsStr);
+
+            //find parent
+            List<Long> parentMenuIds = vmMenusMapper.getMenuParentIdsByMenuIds(ImmutableMap.of(
+                    "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                    "menuIds", menuIds
+            ));
+            menuIds.addAll(parentMenuIds);
+
+            //insert
             List<VmRolesMenusRealation> newRealations = makeVmRolesMenusRealations(roleId, menuIds);
 
             if (newRealations.size() != vmRolesMenusRealationMapper.batchInsert(newRealations)) {

@@ -10,10 +10,29 @@
         vm_menus
         WHERE
         is_deleted=#{query.isDeleted}
-        and status=#{query.status}
+        <if test="query.status !=null">
+
+            and status=#{query.status}
+        </if>
         and id IN
         <foreach item="item" index="index" collection="query.menuIds" open="(" separator="," close=")">
             #{item}
         </foreach>
     </select>
+    <select id="getMenuParentIdsByMenuIds" resultType="long">
+        SELECT
+        pid
+        FROM
+        vm_menus
+        WHERE
+        is_deleted=#{query.isDeleted}
+        <if test="query.status !=null">
+            and status=#{query.status}
+        </if>
+        and id IN
+        <foreach item="item" index="index" collection="query.menuIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
 </mapper>
