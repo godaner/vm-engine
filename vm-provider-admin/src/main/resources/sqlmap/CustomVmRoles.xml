@@ -8,6 +8,7 @@
         *
         FROM
         vm_roles
+        where
         is_deleted = #{query.isDeleted}
         <if test="query != null">
             <if test="query.roleName != null and query.roleName != ''">
@@ -28,6 +29,7 @@
         count(id)
         FROM
         vm_roles
+        where
         is_deleted = #{query.isDeleted}
         <if test="query != null">
             <if test="query.roleName != null and query.roleName != ''">

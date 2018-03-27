@@ -26,7 +26,7 @@ public class VmMenusController extends ServiceController<VmMenusService> {
     @ResponseBody
     public Object getMenusTreeByAdminId(@PathVariable("adminId") Long adminId) throws Exception {
 
-        return response.putData("tree", service.getMenusTreeByAdminId(adminId));
+        return response.putData("tree", service.getMenusTreeByAdminId(adminId)).setMsg("获取菜单成功");
     }
 
 }

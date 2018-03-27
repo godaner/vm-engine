@@ -88,6 +88,7 @@ public class VmRolesServiceImpl implements VmRolesService {
 
     private VmRolesDto makeRolesDto(VmRoles vmRoles) {
         VmRolesDto vmRolesDto = new VmRolesDto();
+        vmRolesDto.setId(vmRoles.getId());
         vmRolesDto.setDescription(vmRoles.getDescription());
         vmRolesDto.setImmutable(vmRoles.getImmutable());
         vmRolesDto.setRoleName(vmRoles.getRoleName());
