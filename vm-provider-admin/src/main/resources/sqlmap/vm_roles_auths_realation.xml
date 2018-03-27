@@ -208,7 +208,7 @@ UPDATE
         vm_roles_auths_realation
         <include refid="queryCondition" />
         and id IN
-        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
             #{item}
         </foreach>
     </select>

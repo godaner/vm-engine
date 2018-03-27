@@ -325,7 +325,7 @@ public class GenerateMapperXml {
                 "        " + tableName + "\n" +
                 "        <include refid=\"queryCondition\" />\n" +
                 "        and id IN\n" +
-                "        <foreach item=\"item\" index=\"index\" collection=\"list\" open=\"(\" separator=\",\" close=\")\">\n" +
+                "        <foreach item=\"item\" index=\"index\" collection=\"idList\" open=\"(\" separator=\",\" close=\")\">\n" +
                 "            #{item}\n" +
                 "        </foreach>\n" +
                 "    </select>\n";
