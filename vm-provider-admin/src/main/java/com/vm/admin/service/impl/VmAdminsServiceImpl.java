@@ -3,13 +3,13 @@ package com.vm.admin.service.impl;
 import com.google.common.collect.ImmutableMap;
 import com.vm.admin.dao.mapper.*;
 import com.vm.admin.dao.mapper.custom.*;
-import com.vm.admin.dao.po.*;
+import com.vm.admin.dao.po.VmAdmins;
+import com.vm.admin.dao.po.VmAdminsLoginLogs;
+import com.vm.admin.dao.po.VmAdminsRolesRealation;
 import com.vm.admin.dao.qo.VmAdminsQueryBean;
 import com.vm.admin.service.dto.VmAdminsDto;
 import com.vm.admin.service.exception.VmAdminException;
 import com.vm.admin.service.inf.VmAdminsService;
-import com.vm.admin.service.inf.VmMenusService;
-import com.vm.admin.service.inf.VmRolesService;
 import com.vm.base.aop.SessionManager;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.DateUtil;
@@ -112,8 +112,10 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
 
 
     @Override
+    @Transactional
     public VmAdminsDto editAdmin(VmAdminsDto vmAdminsDto) {
-        VmAdmins vmAdmins = this.getAdminById(vmAdminsDto.getId(), BasePo.IsDeleted.NO);
+        Long adminId = vmAdminsDto.getId();
+        VmAdmins vmAdmins = this.getAdminById(adminId, BasePo.IsDeleted.NO);
 
         if (BasePo.Immutable.isImmutable(vmAdmins.getImmutable())) {
             throw new VmAdminException("addAdmin can not operate immutable obj !! vmAdminsDto is : " + vmAdminsDto,
@@ -133,16 +135,44 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
             }
         }
 
-
+        //update obj
         vmAdmins = makeEditAdmin(vmAdminsDto);
 
-        if (1 != vmAdminsMapper.update(vmAdminsDto.getId(), vmAdmins)) {
+        if (1 != vmAdminsMapper.update(adminId, vmAdmins)) {
             throw new VmAdminException("addAdmin vmAdminsMapper#update is fail !! vmAdminsDto is : " + vmAdminsDto);
         }
 
-        vmAdmins = this.getAdminById(vmAdminsDto.getId(), BasePo.IsDeleted.NO);
+        vmAdmins = this.getAdminById(adminId, BasePo.IsDeleted.NO);
+
+        //insert admin role realations
+        String roleIdsStr = vmAdminsDto.getRoleIds();
+        if (!isEmptyString(roleIdsStr)) {
+            List<Long> roleIds = parseStringArray2Long(roleIdsStr);
+            List<VmAdminsRolesRealation> vmAdminsRolesRealations = makeVmAdminsRolesRealations(adminId, roleIds);
+            if (0 > vmAdminsRolesRealationMapper.batchInsert(vmAdminsRolesRealations)) {
+                throw new VmAdminException("addAdmin vmAdminsRolesRealationMapper#batchInsert is fail !! vmAdminsDto is : " + vmAdminsDto);
+            }
+        }
 
         return makeBackendAdminsDto(vmAdmins);
+    }
+
+    private List<VmAdminsRolesRealation> makeVmAdminsRolesRealations(Long adminId, List<Long> roleIds) {
+        return roleIds.stream().parallel().map(roleId -> {
+            return makeVmAdminsRolesRealation(adminId, roleId);
+        }).collect(toList());
+    }
+
+    private VmAdminsRolesRealation makeVmAdminsRolesRealation(Long adminId, Long roleId) {
+        Integer now = now();
+        VmAdminsRolesRealation vmAdminsRolesRealation = new VmAdminsRolesRealation();
+        vmAdminsRolesRealation.setAdminId(adminId);
+        vmAdminsRolesRealation.setRoleId(roleId);
+        vmAdminsRolesRealation.setIsDeleted(BasePo.IsDeleted.NO.getCode());
+        vmAdminsRolesRealation.setStatus(BasePo.Status.NORMAL.getCode());
+        vmAdminsRolesRealation.setCreateTime(now);
+        vmAdminsRolesRealation.setUpdateTime(now);
+        return vmAdminsRolesRealation;
     }
 
     private VmAdmins makeAddAdmin(VmAdminsDto vmAdminsDto) {
@@ -266,6 +296,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         vmAdminsLoginLogs.setStatus(BasePo.Status.NORMAL.getCode());
         return vmAdminsLoginLogs;
     }
+
     @Override
     public VmAdminsDto makeVmAdminDto(VmAdmins vmAdmins, String token) {
         VmAdminsDto vmAdminsDto = new VmAdminsDto();

@@ -20,6 +20,8 @@ public class VmAdminsDto extends BaseDto{
 
     private List<VmMenusDto> menus;
 
+    private String roleIds;
+
 
     //登录记录信息
     private String browser;
@@ -34,6 +36,13 @@ public class VmAdminsDto extends BaseDto{
     private String system;
     private String title;
 
+    public String getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(String roleIds) {
+        this.roleIds = roleIds;
+    }
 
     public List<VmMenusDto> getMenus() {
         return menus;
