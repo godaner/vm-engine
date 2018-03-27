@@ -5,7 +5,7 @@
 <mapper namespace="com.vm.admin.dao.mapper.custom.CustomVmAuthsMapper">
     <select id="getAuthCodesByAuthIds" resultType="string">
         select
-        auth_code
+        DISTINCT auth_code
         from
         vm_auths
         where
