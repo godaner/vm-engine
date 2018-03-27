@@ -14,7 +14,6 @@ import com.vm.base.util.BaseService;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -219,6 +218,20 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
         //get new obj
         vmRoles = this.getRoleById(roleId, BasePo.IsDeleted.NO);
         return makeRolesDto(vmRoles);
+    }
+
+    @Override
+    public List<VmRolesDto> getAllRoles() {
+        List<VmRoles> vmRoles = vmRolesMapper.selectBy(null);
+        return makeRolesDtos(vmRoles);
+    }
+
+    @Override
+    public List<Long> getRoleIdsByAdminId(Long adminId) {
+        return customVmAdminsRolesRealationMapper.getRoleIdsByAdminId(ImmutableMap.of(
+                "adminId", adminId,
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
+        ));
     }
 
     private List<VmRolesMenusRealation> makeVmRolesMenusRealations(Long roleId, List<Long> menuIds) {

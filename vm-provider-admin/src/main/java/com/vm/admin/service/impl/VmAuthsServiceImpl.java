@@ -59,7 +59,12 @@ public class VmAuthsServiceImpl implements VmAuthsService {
     @Override
     public List<String> getUseableAuthCodesByAdminId(Long adminId) {
 
-        List<Long> roleIds = customVmAdminsRolesRealationMapper.getRoleIdsByAdminId(adminId);
+        List<Long> roleIds = customVmAdminsRolesRealationMapper.getRoleIdsByAdminId(ImmutableMap.of(
+                "adminId", adminId,
+                "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                "status", BasePo.Status.NORMAL.getCode()
+
+        ));
 
         List<Long> authIds = this.getAuthIdsByRoleIds(roleIds);
 

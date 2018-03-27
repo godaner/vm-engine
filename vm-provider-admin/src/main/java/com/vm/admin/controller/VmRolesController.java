@@ -1,9 +1,7 @@
 package com.vm.admin.controller;
 
-import com.vm.admin.dao.qo.VmAdminsQueryBean;
 import com.vm.admin.dao.qo.VmRolesQueryBean;
 import com.vm.admin.service.dto.VmRolesDto;
-import com.vm.admin.service.inf.VmMenusService;
 import com.vm.admin.service.inf.VmRolesService;
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
@@ -33,6 +31,31 @@ public class VmRolesController extends ServiceController<VmRolesService> {
 
         return response.putData("list", service.getRoles(page, query)).putData("total", service.getRolesTotal(page, query));
     }
+
+    /**
+     * 获取所有
+     *
+     * @return
+     */
+    @RequestMapping(value = "/info/all", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getAllRoles() throws Exception {
+
+        return response.putData("list", service.getAllRoles());
+    }
+
+    /**
+     * 获取列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/id/list/byAdminId/{adminId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getRoleIdsByAdminId(@PathVariable("adminId") Long adminId) throws Exception {
+
+        return response.putData("list", service.getRoleIdsByAdminId(adminId));
+    }
+
     /**
      * 添加
      *
@@ -44,6 +67,7 @@ public class VmRolesController extends ServiceController<VmRolesService> {
 
         return response.putData("role", service.addRole(vmRolesDto));
     }
+
     /**
      * 更新
      *

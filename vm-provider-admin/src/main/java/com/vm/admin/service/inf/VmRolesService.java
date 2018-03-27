@@ -19,4 +19,7 @@ public interface VmRolesService {
 
     VmRolesDto editRole(VmRolesDto vmRolesDto);
 
+    List<VmRolesDto> getAllRoles();
+
+    List<Long> getRoleIdsByAdminId(Long adminId);
 }
