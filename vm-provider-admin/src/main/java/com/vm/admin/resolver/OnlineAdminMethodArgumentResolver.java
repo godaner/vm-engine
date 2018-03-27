@@ -42,7 +42,7 @@ public class OnlineAdminMethodArgumentResolver extends CommonUtil implements Han
         VmAdminsDto vmAdminsDto = null;
         try {
             vmAdminsDto = vmAdminsService.getOnlineAdminBasicInfo(token);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
