@@ -73,7 +73,9 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
     }
 
     @Override
+    @Transactional
     public VmRolesDto addRole(VmRolesDto vmRolesDto) {
+
         VmRoles vmRoles = vmRolesMapper.selectOneBy(ImmutableMap.of(
                 "roleName", vmRolesDto.getRoleName(),
                 "isDeleted", BasePo.IsDeleted.NO.getCode()
@@ -94,6 +96,37 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
 
         //get new obj
         vmRoles = this.getRoleById(vmRoles.getId(), BasePo.IsDeleted.NO);
+        Long roleId = vmRoles.getId();
+        //insert role auth realations,authIds
+
+        String authIdsStr = vmRolesDto.getAuthIds();
+        if (!isEmptyString(authIdsStr)) {
+            List<Long> authIds = parseStringArray2Long(authIdsStr);
+            List<VmRolesAuthsRealation> newRealations = makeVmRolesAuthsRealations(roleId, authIds);
+
+            if (newRealations.size() != vmRolesAuthsRealationMapper.batchInsert(newRealations)) {
+                throw new VmRolesException("addRole vmRolesAuthsRealationMapper#batchInsert is fail ! vmRolesDto is : " + vmRolesDto);
+            }
+        }
+        //insert role menu realations,menuIds
+        String menuIdsStr = vmRolesDto.getMenuIds();
+        if (!isEmptyString(menuIdsStr)) {
+            List<Long> menuIds = parseStringArray2Long(menuIdsStr);
+
+            //find parent menu
+            List<Long> parentMenuIds = customVmMenusMapper.getMenuParentIdsByMenuIds(ImmutableMap.of(
+                    "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                    "menuIds", menuIds
+            ));
+            menuIds.addAll(parentMenuIds);
+
+            //insert
+            List<VmRolesMenusRealation> newRealations = makeVmRolesMenusRealations(roleId, menuIds);
+
+            if (newRealations.size() != vmRolesMenusRealationMapper.batchInsert(newRealations)) {
+                throw new VmRolesException("addRole vmRolesMenusRealationMapper#batchInsert is fail ! vmRolesDto is : " + vmRolesDto);
+            }
+        }
 
         return makeRolesDto(vmRoles);
     }
@@ -157,7 +190,7 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
                 throw new VmRolesException("editRole vmRolesMenusRealationMapper#updateInIds is fail ! vmRolesDto is : " + vmRolesDto);
             }
         }
-        //insert new menu,authIds
+        //insert new menu,menuIds
         String menuIdsStr = vmRolesDto.getMenuIds();
         if (!isEmptyString(menuIdsStr)) {
             List<Long> menuIds = parseStringArray2Long(menuIdsStr);
