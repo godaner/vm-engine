@@ -68,7 +68,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
         return response.putData("list", service.getAdmins(page, query)).putData("total", service.getAdminsTotal(page, query));
     }
     /**
-     * 更新列表
+     * 更新
      *
      * @return
      */
@@ -79,7 +79,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
         return response.putData("admin", service.editAdmin(vmAdminsDto));
     }
     /**
-     * 添加列表
+     * 添加
      *
      * @return
      */

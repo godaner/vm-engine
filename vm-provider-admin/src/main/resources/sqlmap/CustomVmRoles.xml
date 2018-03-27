@@ -3,17 +3,5 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.vm.admin.dao.mapper.custom.CustomVmRolesMapper">
-    <select id="getRolesByRoleIds" resultMap="com.vm.admin.dao.mapper.VmRolesMapper.VmRolesMap">
-        SELECT
-        *
-        FROM
-        vm_roles
-        WHERE
-        is_deleted=#{query.isDeleted}
-        and status=#{query.status}
-        and id IN
-        <foreach item="item" index="index" collection="query.roleIds" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-    </select>
+
 </mapper>

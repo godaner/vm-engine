@@ -23,4 +23,12 @@ public class VmRoles extends BasePo {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Byte getImmutable() {
+        return immutable;
+    }
+
+    public void setImmutable(Byte immutable) {
+        this.immutable = immutable;
+    }
 }

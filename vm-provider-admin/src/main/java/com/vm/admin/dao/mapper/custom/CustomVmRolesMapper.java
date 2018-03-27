@@ -10,5 +10,4 @@ import java.util.List;
  */
 public interface CustomVmRolesMapper {
 
-    List<VmRoles> getRolesByRoleIds(@Param("query") Object query);
 }
