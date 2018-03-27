@@ -1,5 +1,6 @@
 package com.vm.admin.dao.mapper.custom;
 
+import com.google.common.collect.ImmutableMap;
 import com.vm.admin.dao.po.VmMenus;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,5 +11,6 @@ import java.util.List;
  */
 public interface CustomVmMenusMapper {
 
-    List<VmMenus> getMenusByIds(@Param("query") Object query);
+
+    List<Long> getMenuParentIdsByMenuIds(@Param("query") Object query);
 }

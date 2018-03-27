@@ -58,6 +58,8 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
     CustomVmAdminsRolesRealationMapper customVmAdminsRolesRealationMapper;
     @Autowired
     VmRolesMenusRealationMapper vmRolesMenusRealationMapper;
+    @Autowired
+    CustomVmMenusMapper customVmMenusMapper;
 
     @Override
     public List<VmRolesDto> getRoles(PageBean page, VmRolesQueryBean query) {
@@ -161,7 +163,7 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
             List<Long> menuIds = parseStringArray2Long(menuIdsStr);
 
             //find parent menu
-            List<Long> parentMenuIds = vmMenusMapper.getMenuParentIdsByMenuIds(ImmutableMap.of(
+            List<Long> parentMenuIds = customVmMenusMapper.getMenuParentIdsByMenuIds(ImmutableMap.of(
                     "isDeleted", BasePo.IsDeleted.NO.getCode(),
                     "menuIds", menuIds
             ));

@@ -9,5 +9,4 @@ import java.util.List;
 
 public interface VmMenusMapper extends BaseCrudMapper<VmMenus> {
 
-    List<Long> getMenuParentIdsByMenuIds(@Param("query") Object query);
 }
