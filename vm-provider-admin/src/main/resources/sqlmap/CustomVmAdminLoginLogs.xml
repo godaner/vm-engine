@@ -49,7 +49,7 @@
 	</select>
 	<select id="getLoginLogsTotal" resultType="long">
 		SELECT count(a.id)
-		FROM vm_admin_login_logs a,vm_admins b
+		FROM vm_admins_login_logs a,vm_admins b
 		where
 		a.is_deleted = #{query.isDeleted}
 		and a.`status` = #{query.status}
