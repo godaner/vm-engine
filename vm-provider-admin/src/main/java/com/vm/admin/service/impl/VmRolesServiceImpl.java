@@ -160,7 +160,7 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
         if (!isEmptyString(menuIdsStr)) {
             List<Long> menuIds = parseStringArray2Long(menuIdsStr);
 
-            //find parent
+            //find parent menu
             List<Long> parentMenuIds = vmMenusMapper.getMenuParentIdsByMenuIds(ImmutableMap.of(
                     "isDeleted", BasePo.IsDeleted.NO.getCode(),
                     "menuIds", menuIds

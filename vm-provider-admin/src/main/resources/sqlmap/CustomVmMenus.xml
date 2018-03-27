@@ -21,7 +21,7 @@
     </select>
     <select id="getMenuParentIdsByMenuIds" resultType="long">
         SELECT
-        pid
+        DISTINCT pid
         FROM
         vm_menus
         WHERE
