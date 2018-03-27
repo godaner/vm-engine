@@ -8,8 +8,8 @@ import java.util.List;
  * Created by ZhangKe on 2018/3/26.
  */
 public interface VmMenusService {
-    List<VmAuthMenusDto> getMenusByRoleIds(List<Long> roleIds);
+    List<VmAuthMenusDto> getMenusTreeByRoleIds(List<Long> roleIds);
 
-    List<VmAuthMenusDto> getMenusByAdminId(Long adminId);
+    List<VmAuthMenusDto> getMenusTreeByAdminId(Long adminId);
 
 }

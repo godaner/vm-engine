@@ -22,11 +22,11 @@ public class VmMenusController extends ServiceController<VmMenusService> {
      *
      * @return
      */
-    @RequestMapping(value = "/info/byAdminId/{adminId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/tree/byAdminId/{adminId}", method = RequestMethod.GET)
     @ResponseBody
-    public Object getMenusByAdminId(@PathVariable("adminId") Long adminId) throws Exception {
+    public Object getMenusTreeByAdminId(@PathVariable("adminId") Long adminId) throws Exception {
 
-        return response.putData("list", service.getMenusByAdminId(adminId));
+        return response.putData("list", service.getMenusTreeByAdminId(adminId));
     }
 
 }
