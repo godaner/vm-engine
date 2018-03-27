@@ -201,6 +201,19 @@ UPDATE
     </select>
 
 
+    <select id="selectByAndInIds" resultMap="VmRolesMenusRealationMap">
+        SELECT
+        <include refid="BASE_ALL_CLOUM"/>
+        FROM
+        vm_roles_menus_realation
+        <include refid="queryCondition" />
+        and id IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
     <select id="selectIdList" resultType="java.lang.Long">
         SELECT
  		 id 

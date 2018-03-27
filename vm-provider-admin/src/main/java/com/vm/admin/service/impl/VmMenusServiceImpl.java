@@ -27,7 +27,7 @@ public class VmMenusServiceImpl extends BaseService implements VmMenusService {
     @Autowired
     VmAdminsLoginLogsMapper vmAdminsLoginLogsMapper;
     @Autowired
-    VmMenusMapper vmAuthMenusMapper;
+    VmMenusMapper vmMenusMapper;
     @Autowired
     CustomVmRolesMenusRealationMapper customVmRolesMenusRealationMapper;
     @Autowired
@@ -39,7 +39,7 @@ public class VmMenusServiceImpl extends BaseService implements VmMenusService {
     @Autowired
     CustomVmRolesMapper customVmRolesMapper;
     @Autowired
-    CustomVmMenusMapper customVmAuthMenusMapper;
+    CustomVmMenusMapper customVmMenusMapper;
     @Autowired
     CustomVmAuthsMapper customVmAuthsMapper;
     @Autowired
@@ -52,8 +52,8 @@ public class VmMenusServiceImpl extends BaseService implements VmMenusService {
                 "isDeleted", BasePo.IsDeleted.NO.getCode(),
                 "status", BasePo.Status.NORMAL.getCode()
         ));
-        List<VmMenus> vmAuthMenus = customVmAuthMenusMapper.getMenusByIds(ImmutableMap.of(
-                "menuIds", menuIds,
+
+        List<VmMenus> vmAuthMenus = vmMenusMapper.selectByAndInIds(menuIds,ImmutableMap.of(
                 "isDeleted", BasePo.IsDeleted.NO.getCode(),
                 "status", BasePo.Status.NORMAL.getCode()
         ));
@@ -106,7 +106,7 @@ public class VmMenusServiceImpl extends BaseService implements VmMenusService {
         vmAuthMenusDto.setDescription(vmAuthMenus.getDescription());
         vmAuthMenusDto.setIsLeaf(vmAuthMenus.getIsLeaf());
         vmAuthMenusDto.setMenuName(vmAuthMenus.getMenuName());
-        vmAuthMenusDto.setKey(vmAuthMenus.getKey());
+        vmAuthMenusDto.setKeyProp(vmAuthMenus.getKeyProp());
         vmAuthMenusDto.setIcon(vmAuthMenus.getIcon());
         vmAuthMenusDto.setPid(vmAuthMenus.getPid());
         vmAuthMenusDto.setStatus(vmAuthMenus.getStatus());

@@ -5,7 +5,7 @@ import com.vm.dao.util.BasePo;
 
 public class VmMenus extends BasePo {
     private String menuName;
-    private String key;
+    private String keyProp;
     private Long pid;
     private Byte isLeaf;
     private String description;
@@ -27,12 +27,12 @@ public class VmMenus extends BasePo {
         this.menuName = menuName;
     }
 
-    public String getKey() {
-        return key;
+    public String getKeyProp() {
+        return keyProp;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setKeyProp(String keyProp) {
+        this.keyProp = keyProp;
     }
 
     public String getIcon() {

@@ -14,7 +14,7 @@ public interface BaseCrudMapper<T> {
 
     int updateInIds(@Param("idList") List<Long> idList, @Param("newObj") Object newObj);
 
-    int update(@Param("id") Long id,@Param("newObj") Object newObj);
+    int update(@Param("id") Long id, @Param("newObj") Object newObj);
 
     int delete(Object id);
 
@@ -29,6 +29,8 @@ public interface BaseCrudMapper<T> {
     List<Long> selectIdList(@Param("query") Object query);
 
     List<T> selectInIds(List<Long> idList);
+
+    List<T> selectByAndInIds(@Param("idList") List<Long> idList, @Param("query") Object query);
 
     List<T> selectBy(@Param("query") Object query);
 

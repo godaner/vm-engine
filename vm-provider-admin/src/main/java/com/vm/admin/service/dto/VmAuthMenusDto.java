@@ -9,19 +9,19 @@ import java.util.List;
  */
 public class VmAuthMenusDto extends BaseDto {
     private String menuName;
-    private String key;
+    private String keyProp;
     private Long pid;
     private Byte isLeaf;
     private String description;
     private String icon;
     private List<VmAuthMenusDto> child;
 
-    public String getKey() {
-        return key;
+    public String getKeyProp() {
+        return keyProp;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setKeyProp(String keyProp) {
+        this.keyProp = keyProp;
     }
 
     public String getIcon() {

@@ -11,7 +11,7 @@
   <result column="update_time" property="updateTime"/>
   <result column="is_deleted" property="isDeleted"/>
   <result column="status" property="status"/>
-  <result column="key" property="key"/>
+  <result column="key_prop" property="keyProp"/>
   <result column="pid" property="pid"/>
   <result column="is_leaf" property="isLeaf"/>
   <result column="icon" property="icon"/>
@@ -29,7 +29,7 @@
 		update_time,
 		is_deleted,
 		status,
-		key,
+		key_prop,
 		pid,
 		is_leaf,
 		icon
@@ -56,7 +56,7 @@
 #{updateTime},
 #{isDeleted},
 #{status},
-#{key},
+#{keyProp},
 #{pid},
 #{isLeaf},
 #{icon}
@@ -160,8 +160,8 @@ UPDATE
 <if test="query.status != null ">
 		and status=#{query.status}
 </if>
-<if test="query.key != null ">
-		and key=#{query.key}
+<if test="query.keyProp != null ">
+		and key_prop=#{query.keyProp}
 </if>
 <if test="query.pid != null ">
 		and pid=#{query.pid}
@@ -186,7 +186,7 @@ UPDATE
 <if test="newObj.updateTime != null">update_time=#{newObj.updateTime},</if>
 <if test="newObj.isDeleted != null">is_deleted=#{newObj.isDeleted},</if>
 <if test="newObj.status != null">status=#{newObj.status},</if>
-<if test="newObj.key != null">key=#{newObj.key},</if>
+<if test="newObj.keyProp != null">key_prop=#{newObj.keyProp},</if>
 <if test="newObj.pid != null">pid=#{newObj.pid},</if>
 <if test="newObj.isLeaf != null">is_leaf=#{newObj.isLeaf},</if>
 <if test="newObj.icon != null">icon=#{newObj.icon}</if>
@@ -207,7 +207,7 @@ UPDATE
 #{item.updateTime},
 #{item.isDeleted},
 #{item.status},
-#{item.key},
+#{item.keyProp},
 #{item.pid},
 #{item.isLeaf},
 #{item.icon}
@@ -227,6 +227,19 @@ UPDATE
         FROM
         vm_menus
         WHERE id IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <select id="selectByAndInIds" resultMap="VmMenusMap">
+        SELECT
+        <include refid="BASE_ALL_CLOUM"/>
+        FROM
+        vm_menus
+        <include refid="queryCondition" />
+        and id IN
         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
             #{item}
         </foreach>

@@ -189,6 +189,7 @@ public class GenerateMapperXml {
         stringBuffer.append(generateBatchInsert(cls, tableName) + "\n\n");
         stringBuffer.append(generateSelectByIdSql(cls, tableName) + "\n\n");
         stringBuffer.append(generateSelectInIds(cls, tableName) + "\n\n");
+        stringBuffer.append(generateSelectInIdsWithQuery(cls, tableName) + "\n\n");
         stringBuffer.append(generateSelectIdList(cls, tableName) + "\n\n");
         stringBuffer.append(generateSelectBy(cls, tableName) + "\n\n");
         stringBuffer.append(generateSelectOneBy(cls, tableName) + "\n\n");
@@ -310,6 +311,20 @@ public class GenerateMapperXml {
                 "        FROM\n" +
                 "        " + tableName + "\n" +
                 "        WHERE id IN\n" +
+                "        <foreach item=\"item\" index=\"index\" collection=\"list\" open=\"(\" separator=\",\" close=\")\">\n" +
+                "            #{item}\n" +
+                "        </foreach>\n" +
+                "    </select>\n";
+
+    }
+    public static String generateSelectInIdsWithQuery(Class cls, String tableName) {
+        return "    <select id=\"selectByAndInIds\" resultMap=\"" + generateClsMap(cls) + "\">\n" +
+                "        SELECT\n" +
+                "        <include refid=\"BASE_ALL_CLOUM\"/>\n" +
+                "        FROM\n" +
+                "        " + tableName + "\n" +
+                "        <include refid=\"queryCondition\" />\n" +
+                "        and id IN\n" +
                 "        <foreach item=\"item\" index=\"index\" collection=\"list\" open=\"(\" separator=\",\" close=\")\">\n" +
                 "            #{item}\n" +
                 "        </foreach>\n" +
