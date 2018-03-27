@@ -117,6 +117,7 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
         vmRoles.setImmutable(BasePo.Immutable.NO.getCode());
         vmRoles.setRoleName(vmRolesDto.getRoleName());
         vmRoles.setStatus(vmRolesDto.getStatus());
+        vmRoles.setIsDeleted(BasePo.IsDeleted.NO.getCode());
         vmRoles.setCreateTime(now);
         vmRoles.setUpdateTime(now);
         return vmRoles;
