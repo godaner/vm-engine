@@ -9,7 +9,11 @@ import java.util.List;
  */
 public interface VmAuthsService {
 
-    List<VmAuthsDto> getAdminAuthsByRoleIds(List<Long> roleIds);
+    List<VmAuthsDto> getAuthsByRoleIds(List<Long> roleIds);
 
-    List<VmAuthsDto> getAdminAuthsByAdminId(Long adminId);
+    List<VmAuthsDto> getAuthsByAdminId(Long adminId);
+
+    List<String> getAuthCodesByAdminId(Long adminId);
+
+    List<VmAuthsDto> getAllAuths();
 }

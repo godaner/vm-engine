@@ -21,4 +21,5 @@ public interface VmRolesService {
     VmRolesDto addRole(VmRolesDto vmRolesDto);
 
     VmRolesDto editRole(VmRolesDto vmRolesDto);
+
 }

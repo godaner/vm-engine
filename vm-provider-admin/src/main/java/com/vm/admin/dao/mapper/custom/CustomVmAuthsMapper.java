@@ -1,6 +1,5 @@
 package com.vm.admin.dao.mapper.custom;
 
-import com.vm.admin.dao.po.VmAuths;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -10,5 +9,5 @@ import java.util.List;
  */
 public interface CustomVmAuthsMapper {
 
-    List<VmAuths> getAuthsByIds(@Param("query") Object query);
+    List<String> getAuthCodesByAuthIds(@Param("query") Object query);
 }
