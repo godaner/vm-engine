@@ -181,6 +181,7 @@ public class GenerateMapperXml {
         stringBuffer.append(generateListSql(cls, tableName) + "\n\n");
         stringBuffer.append(generateOrdeByListSql(cls, tableName) + "\n\n");
         stringBuffer.append(generatePageListSql(cls, tableName) + "\n\n");
+        stringBuffer.append(selectTotal(cls, tableName) + "\n\n");
 
         stringBuffer.append(generateQueryCondition(cls, tableName) + "\n\n");
         stringBuffer.append(generateSetFields(tableName) + "\n\n");
@@ -436,6 +437,20 @@ public class GenerateMapperXml {
                 orderSql +
                 limitSql +
                 "\n" +
+                "\t</select>");
+        return buffer.toString();
+
+    }
+    public static String selectTotal(Class cls, String tableName) {
+
+
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("\t<select id=\"selectTotal\" resultType=\"long\">\n" +
+                "\t\tSELECT\n" +
+                "\t\t\tcount(id)\n" +
+                "\t\tFROM\n" +
+                "\t\t" + tableName + "\n" +
+                "\t\t<include refid=\"queryCondition\" />\n" +
                 "\t</select>");
         return buffer.toString();
 

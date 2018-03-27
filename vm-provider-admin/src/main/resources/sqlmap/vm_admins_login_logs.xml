@@ -166,6 +166,14 @@ UPDATE
 
 	</select>
 
+	<select id="selectTotal" resultType="long">
+		SELECT
+			count(id)
+		FROM
+		vm_admins_login_logs
+		<include refid="queryCondition" />
+	</select>
+
 <sql id="queryCondition">
 <trim prefix="where" prefixOverrides="and">
 <if test="query != null">

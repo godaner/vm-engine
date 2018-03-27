@@ -46,4 +46,6 @@ public interface BaseCrudMapper<T> {
 
     List<T> selectPageList(@Param("page") Object page,
                            @Param("query") Object query);
+
+    List<Long> selectTotal(@Param("query") Object query);
 }
