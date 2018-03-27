@@ -149,11 +149,14 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
             }
         }
         //insert new auth,authIds
-        List<Long> authIds = parseStringArray2Long(vmRolesDto.getAuthIds());
-        List<VmRolesAuthsRealation> newRealations = makeVmRolesAuthsRealations(roleId, authIds);
+        String authIdsStr = vmRolesDto.getAuthIds();
+        if (!isEmptyString(authIdsStr)) {
+            List<Long> authIds = parseStringArray2Long(authIdsStr);
+            List<VmRolesAuthsRealation> newRealations = makeVmRolesAuthsRealations(roleId, authIds);
 
-        if (newRealations.size() != vmRolesAuthsRealationMapper.batchInsert(newRealations)) {
-            throw new VmRolesException("editRole vmRolesAuthsRealationMapper#batchInsert is fail ! vmRolesDto is : " + vmRolesDto);
+            if (newRealations.size() != vmRolesAuthsRealationMapper.batchInsert(newRealations)) {
+                throw new VmRolesException("editRole vmRolesAuthsRealationMapper#batchInsert is fail ! vmRolesDto is : " + vmRolesDto);
+            }
         }
 
 
