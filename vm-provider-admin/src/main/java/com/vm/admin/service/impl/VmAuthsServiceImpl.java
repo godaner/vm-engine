@@ -6,7 +6,7 @@ import com.vm.admin.dao.mapper.custom.*;
 import com.vm.admin.dao.po.VmAuths;
 import com.vm.admin.service.dto.VmAuthsDto;
 import com.vm.admin.service.inf.VmAuthsService;
-import com.vm.admin.service.inf.VmRolesService;
+import com.vm.base.util.BaseService;
 import com.vm.dao.util.BasePo;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import static java.util.stream.Collectors.toList;
  * Created by ZhangKe on 2018/3/26.
  */
 @Service
-public class VmAuthsServiceImpl implements VmAuthsService {
+public class VmAuthsServiceImpl extends BaseService implements VmAuthsService {
     @Autowired
     VmAdminsMapper vmAdminsMapper;
     @Autowired
@@ -47,34 +47,37 @@ public class VmAuthsServiceImpl implements VmAuthsService {
     @Autowired
     CustomVmAdminsRolesRealationMapper customVmAdminsRolesRealationMapper;
 
-    private List<Long> getAuthIdsByRoleIds(List<Long> roleIds) {
-        return customVmRolesAuthsRealationMapper.getAuthIdsByRoleIds(ImmutableMap.of(
-                "roleIds", roleIds,
+
+    @Override
+    public List<String> getUseableAuthCodesByAdminId(Long adminId) {
+
+
+        List<String> authCodes = null;
+        List<Long> roleIds = customVmAdminsRolesRealationMapper.getRoleIdsByAdminId(ImmutableMap.of(
+                "adminId", adminId,
                 "isDeleted", BasePo.IsDeleted.NO.getCode(),
                 "status", BasePo.Status.NORMAL.getCode()
+
         ));
+        if (!isEmptyList(roleIds)) {
+            List<Long> authIds = customVmRolesAuthsRealationMapper.getAuthIdsByRoleIds(ImmutableMap.of(
+                    "roleIds", roleIds,
+                    "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                    "status", BasePo.Status.NORMAL.getCode()
+            ));
+            if (!isEmptyList(authIds)) {
+                authCodes = customVmAuthsMapper.getAuthCodesByAuthIds(ImmutableMap.of(
+                        "authIds", authIds,
+                        "status", BasePo.Status.NORMAL.getCode(),
+                        "isDeleted", BasePo.IsDeleted.NO.getCode()
+                ));
+            }
+        }
+        if (isNullObject(authCodes)) {
+            authCodes = Lists.newArrayList();
+        }
+        return authCodes;
     }
-
-
-//    @Override
-//    public List<String> getUseableAuthCodesByAdminId(Long adminId) {
-//
-//        List<Long> roleIds = customVmAdminsRolesRealationMapper.getRoleIdsByAdminId(ImmutableMap.of(
-//                "adminId", adminId,
-//                "isDeleted", BasePo.IsDeleted.NO.getCode(),
-//                "status", BasePo.Status.NORMAL.getCode()
-//
-//        ));
-//
-//        List<Long> authIds = this.getAuthIdsByRoleIds(roleIds);
-//
-//
-//        return customVmAuthsMapper.getAuthCodesByAuthIds(ImmutableMap.of(
-//                "authIds", authIds,
-//                "status", BasePo.Status.NORMAL.getCode(),
-//                "isDeleted", BasePo.IsDeleted.NO.getCode()
-//        ));
-//    }
 
     @Override
     public List<VmAuthsDto> getAllAuths() {

@@ -14,5 +14,16 @@
         </if>
         and admin_id =#{query.adminId}
     </select>
+    <select id="getAdminIdsByRoleId" resultType="long">
+        SELECT
+        DISTINCT admin_id
+        from vm_admins_roles_realation
+        WHERE
+        is_deleted = #{query.isDeleted}
+        <if test="query.status!=null">
+            and status = #{query.status}
+        </if>
+        and role_id =#{query.roleId}
+    </select>
 
 </mapper>

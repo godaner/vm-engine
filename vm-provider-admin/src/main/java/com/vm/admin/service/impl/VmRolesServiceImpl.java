@@ -9,11 +9,15 @@ import com.vm.admin.dao.po.VmRolesMenusRealation;
 import com.vm.admin.dao.qo.VmRolesQueryBean;
 import com.vm.admin.service.dto.VmRolesDto;
 import com.vm.admin.service.exception.VmRolesException;
+import com.vm.admin.service.inf.VmAuthsService;
 import com.vm.admin.service.inf.VmRolesService;
+import com.vm.base.util.AuthCacheManager;
 import com.vm.base.util.BaseService;
+import com.vm.base.util.SessionCacheManager;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,6 +63,12 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
     VmRolesMenusRealationMapper vmRolesMenusRealationMapper;
     @Autowired
     CustomVmMenusMapper customVmMenusMapper;
+
+
+
+    //service
+    @Autowired
+    VmAuthsService vmAuthsService;
 
     @Override
     public List<VmRolesDto> getRoles(PageBean page, VmRolesQueryBean query) {
@@ -217,8 +227,29 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
 
         //get new obj
         vmRoles = this.getRoleById(roleId, BasePo.IsDeleted.NO);
+
+
+
+        //if admin online ,update admin auth codes in cache
+        List<Long> adminIds = customVmAdminsRolesRealationMapper.getAdminIdsByRoleId(ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                "roleId",roleId
+        ));
+
+        for(Long adminId :adminIds){
+            String accessToken = SessionCacheManager.getOnlineUserToken(adminId);
+            if(!isEmptyString(accessToken)){//online ?
+
+                List<String> authCodes = vmAuthsService.getUseableAuthCodesByAdminId(adminId);
+
+                AuthCacheManager.saveAuthCodes(accessToken, authCodes);
+            }
+        }
+
+
         return makeRolesDto(vmRoles);
     }
+
 
     @Override
     public List<VmRolesDto> getAllRoles() {

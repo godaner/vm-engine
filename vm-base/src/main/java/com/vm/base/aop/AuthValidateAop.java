@@ -43,6 +43,9 @@ public class AuthValidateAop extends CommonUtil {
         String token = request.getHeader(OnlineConstants.KEY_OF_ACCESS_TOKEN);
         List<String> haveAuthCodes = AuthCacheManager.getAuthCodes(token);
 
+        if (isNullObject(haveAuthCodes)) {
+            haveAuthCodes = Lists.newArrayList();
+        }
 
         boolean haveAuth = true;
         for (String requiredAuthCode : requiredAuthCodes) {
@@ -54,7 +57,7 @@ public class AuthValidateAop extends CommonUtil {
         }
 
         if (!haveAuth) {
-            throw new VmRuntimeException("AuthValidateAop accessToken : " + token + " is have not auth ! ",
+            throw new VmRuntimeException("AuthValidateAop admin accessToken : " + token + " is have not auth ! required auth codes is : " + requiredAuthCodes + " , admin have auth codes is : " + haveAuthCodes,
                     -555, "您没有权限进行此操作");
         }
 

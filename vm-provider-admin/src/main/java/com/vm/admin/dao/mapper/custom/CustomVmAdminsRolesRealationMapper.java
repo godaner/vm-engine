@@ -8,5 +8,7 @@ import java.util.List;
  * Created by ZhangKe on 2018/3/27.
  */
 public interface CustomVmAdminsRolesRealationMapper {
-     List<Long> getRoleIdsByAdminId(@Param("query") Object query);
+    List<Long> getRoleIdsByAdminId(@Param("query") Object query);
+
+    List<Long> getAdminIdsByRoleId(@Param("query") Object query);
 }

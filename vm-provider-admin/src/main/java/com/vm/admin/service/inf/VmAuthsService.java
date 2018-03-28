@@ -10,7 +10,7 @@ import java.util.List;
 public interface VmAuthsService {
     /******************** status****************************/
 
-//    List<String> getUseableAuthCodesByAdminId(Long adminId);
+    List<String> getUseableAuthCodesByAdminId(Long adminId);
 
     /******************** unStatus****************************/
     List<VmAuthsDto> getAllAuths();

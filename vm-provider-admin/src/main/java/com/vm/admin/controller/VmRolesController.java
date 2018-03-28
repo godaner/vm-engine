@@ -3,6 +3,7 @@ package com.vm.admin.controller;
 import com.vm.admin.dao.qo.VmRolesQueryBean;
 import com.vm.admin.service.dto.VmRolesDto;
 import com.vm.admin.service.inf.VmRolesService;
+import com.vm.base.aop.RequiredAuth;
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
 import org.springframework.context.annotation.Scope;
@@ -25,6 +26,7 @@ public class VmRolesController extends ServiceController<VmRolesService> {
      *
      * @return
      */
+    @RequiredAuth(auths = {"role:select"})
     @RequestMapping(value = "/info/list", method = RequestMethod.GET)
     @ResponseBody
     public Object getRoles(PageBean page, VmRolesQueryBean query) throws Exception {

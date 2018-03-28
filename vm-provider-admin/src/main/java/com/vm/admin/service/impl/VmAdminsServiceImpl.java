@@ -10,6 +10,7 @@ import com.vm.admin.dao.qo.VmAdminsQueryBean;
 import com.vm.admin.service.dto.VmAdminsDto;
 import com.vm.admin.service.exception.VmAdminException;
 import com.vm.admin.service.inf.VmAdminsService;
+import com.vm.admin.service.inf.VmAuthsService;
 import com.vm.base.util.AuthCacheManager;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.DateUtil;
@@ -17,6 +18,7 @@ import com.vm.base.util.SessionCacheManager;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,6 +59,9 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     CustomVmAdminsRolesRealationMapper customVmAdminsRolesRealationMapper;
 
 
+    //service
+    @Autowired
+    VmAuthsService vmAuthsService;
     @Override
     public List<VmAdminsDto> getAdmins(PageBean page, VmAdminsQueryBean query) {
         List<VmAdmins> admins = customVmAdminsMapper.getAdmins(page, query);
@@ -266,30 +271,14 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         String token = SessionCacheManager.userLogin(vmAdmins.getId());
 
         //save admin auths
-
-        List<Long> roleIds = customVmAdminsRolesRealationMapper.getRoleIdsByAdminId(ImmutableMap.of(
-                "adminId", vmAdmins.getId(),
-                "isDeleted", BasePo.IsDeleted.NO.getCode(),
-                "status", BasePo.Status.NORMAL.getCode()
-
-        ));
-
-        List<Long> authIds = customVmRolesAuthsRealationMapper.getAuthIdsByRoleIds(ImmutableMap.of(
-                "roleIds", roleIds,
-                "isDeleted", BasePo.IsDeleted.NO.getCode()
-        ));
-
-
-        List<String> authCodes = customVmAuthsMapper.getAuthCodesByAuthIds(ImmutableMap.of(
-                "authIds", authIds,
-                "status", BasePo.Status.NORMAL.getCode(),
-                "isDeleted", BasePo.IsDeleted.NO.getCode()
-        ));
+        List<String> authCodes = vmAuthsService.getUseableAuthCodesByAdminId(vmAdmins.getId());
 
         AuthCacheManager.saveAuthCodes(token, authCodes);
 
         return makeVmAdminDto(vmAdmins, token);
     }
+
+
 
     @Override
     public VmAdminsDto getOnlineAdminBasicInfo(String token) {
