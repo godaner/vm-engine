@@ -11,7 +11,7 @@
  Target Server Version : 50633
  File Encoding         : 65001
 
- Date: 28/03/2018 21:37:12
+ Date: 28/03/2018 22:08:55
 */
 
 SET NAMES utf8mb4;
@@ -197,7 +197,7 @@ CREATE TABLE `vm_auths`  (
   `is_deleted` tinyint(5) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态,1为no，2为yes',
   `status` tinyint(5) UNSIGNED NOT NULL DEFAULT 1 COMMENT '状态,1为正常，2为冻结',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vm_auths
@@ -216,6 +216,26 @@ INSERT INTO `vm_auths` VALUES (11, '用户删除', 'user:delete', '用户删除'
 INSERT INTO `vm_auths` VALUES (12, '用户查询', 'user:select', '用户查询', 1522050494, 1522050494, 1, 1);
 INSERT INTO `vm_auths` VALUES (13, '用户修改', 'user:edit', '用户修改', 1522050494, 1522050494, 1, 1);
 INSERT INTO `vm_auths` VALUES (14, '用户登录记录查询', 'userLoginLogs:select', '用户登录记录查询', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (15, '电影人添加', 'filmmaker:add', '电影人添加', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (16, '电影人删除', 'filmmaker:delete', '电影人删除', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (17, '电影人查询', 'filmmaker:select', '电影人查询', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (18, '电影人修改', 'filmmaker:edit', '电影人修改', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (19, '电影添加', 'movie:add', '电影添加', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (20, '电影删除', 'movie:delete', '电影删除', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (21, '电影查询', 'movie:select', '电影查询', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (22, '电影修改', 'movie:edit', '电影修改', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (23, '电影资源添加', 'movieVersion:add', '电影资源添加', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (24, '电影资源删除', 'movieVersion:delete', '电影资源删除', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (25, '电影资源查询', 'movieVersion:select', '电影资源查询', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (26, '电影资源修改', 'movieVersion:edit', '电影资源修改', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (27, '标签分组添加', 'tagGroup:add', '标签分组添加', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (28, '标签分组删除', 'tagGroup:delete', '标签分组删除', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (29, '标签分组查询', 'tagGroup:select', '标签分组查询', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (30, '标签分组修改', 'tagGroup:edit', '标签分组修改', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (31, '标签查询', 'tag:add', '标签查询', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (32, '标签查询', 'tag:delete', '标签查询', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (33, '标签查询', 'tag:select', '标签查询', 1522050494, 1522050494, 1, 1);
+INSERT INTO `vm_auths` VALUES (34, '标签修改', 'tag:edit', '标签修改', 1522050494, 1522050494, 1, 1);
 
 -- ----------------------------
 -- Table structure for vm_menus
@@ -271,7 +291,7 @@ CREATE TABLE `vm_roles`  (
 -- Records of vm_roles
 -- ----------------------------
 INSERT INTO `vm_roles` VALUES (1, '超级管理员组', '超级管理员组', 1522050494, 1522050494, 1, 1, 1);
-INSERT INTO `vm_roles` VALUES (2, 'admin', 'aaaaaaaaaaaaaaaaaaaaaa', 1522050494, 1522244243, 1, 1, 2);
+INSERT INTO `vm_roles` VALUES (2, 'admin', 'aaaaaaaaaaaaaaaaaaaaaa', 1522050494, 1522245096, 1, 1, 2);
 INSERT INTO `vm_roles` VALUES (3, 'admin01', 'admin', 1522050494, 1522050494, 1, 1, 2);
 
 -- ----------------------------
@@ -287,7 +307,7 @@ CREATE TABLE `vm_roles_auths_realation`  (
   `role_id` bigint(20) NOT NULL COMMENT '角色id',
   `auth_id` bigint(20) NOT NULL COMMENT '权限id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 65 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 67 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vm_roles_auths_realation
@@ -308,7 +328,9 @@ INSERT INTO `vm_roles_auths_realation` VALUES (13, 1522050494, 1522050494, 1, 1,
 INSERT INTO `vm_roles_auths_realation` VALUES (14, 1522050494, 1522050494, 1, 1, 1, 14);
 INSERT INTO `vm_roles_auths_realation` VALUES (62, 1522243747, 1522243747, 2, 1, 2, 1);
 INSERT INTO `vm_roles_auths_realation` VALUES (63, 1522243769, 1522243769, 2, 1, 2, 3);
-INSERT INTO `vm_roles_auths_realation` VALUES (64, 1522244243, 1522244243, 1, 1, 2, 3);
+INSERT INTO `vm_roles_auths_realation` VALUES (64, 1522244243, 1522244243, 2, 1, 2, 3);
+INSERT INTO `vm_roles_auths_realation` VALUES (65, 1522244360, 1522244360, 2, 1, 2, 3);
+INSERT INTO `vm_roles_auths_realation` VALUES (66, 1522245095, 1522245095, 1, 1, 2, 3);
 
 -- ----------------------------
 -- Table structure for vm_roles_menus_realation
@@ -323,7 +345,7 @@ CREATE TABLE `vm_roles_menus_realation`  (
   `role_id` bigint(20) NOT NULL COMMENT '角色id',
   `menu_id` bigint(20) NOT NULL COMMENT '菜单id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 109 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vm_roles_menus_realation
@@ -413,9 +435,17 @@ INSERT INTO `vm_roles_menus_realation` VALUES (93, 1522243769, 1522243769, 2, 1,
 INSERT INTO `vm_roles_menus_realation` VALUES (94, 1522243769, 1522243769, 2, 1, 2, 14);
 INSERT INTO `vm_roles_menus_realation` VALUES (95, 1522243769, 1522243769, 2, 1, 2, 15);
 INSERT INTO `vm_roles_menus_realation` VALUES (96, 1522243769, 1522243769, 2, 1, 2, 12);
-INSERT INTO `vm_roles_menus_realation` VALUES (97, 1522244243, 1522244243, 1, 1, 2, 13);
-INSERT INTO `vm_roles_menus_realation` VALUES (98, 1522244243, 1522244243, 1, 1, 2, 14);
-INSERT INTO `vm_roles_menus_realation` VALUES (99, 1522244243, 1522244243, 1, 1, 2, 15);
-INSERT INTO `vm_roles_menus_realation` VALUES (100, 1522244243, 1522244243, 1, 1, 2, 12);
+INSERT INTO `vm_roles_menus_realation` VALUES (97, 1522244243, 1522244243, 2, 1, 2, 13);
+INSERT INTO `vm_roles_menus_realation` VALUES (98, 1522244243, 1522244243, 2, 1, 2, 14);
+INSERT INTO `vm_roles_menus_realation` VALUES (99, 1522244243, 1522244243, 2, 1, 2, 15);
+INSERT INTO `vm_roles_menus_realation` VALUES (100, 1522244243, 1522244243, 2, 1, 2, 12);
+INSERT INTO `vm_roles_menus_realation` VALUES (101, 1522244360, 1522244360, 2, 1, 2, 13);
+INSERT INTO `vm_roles_menus_realation` VALUES (102, 1522244360, 1522244360, 2, 1, 2, 14);
+INSERT INTO `vm_roles_menus_realation` VALUES (103, 1522244360, 1522244360, 2, 1, 2, 15);
+INSERT INTO `vm_roles_menus_realation` VALUES (104, 1522244360, 1522244360, 2, 1, 2, 12);
+INSERT INTO `vm_roles_menus_realation` VALUES (105, 1522245096, 1522245096, 1, 1, 2, 13);
+INSERT INTO `vm_roles_menus_realation` VALUES (106, 1522245096, 1522245096, 1, 1, 2, 14);
+INSERT INTO `vm_roles_menus_realation` VALUES (107, 1522245096, 1522245096, 1, 1, 2, 15);
+INSERT INTO `vm_roles_menus_realation` VALUES (108, 1522245096, 1522245096, 1, 1, 2, 12);
 
 SET FOREIGN_KEY_CHECKS = 1;
