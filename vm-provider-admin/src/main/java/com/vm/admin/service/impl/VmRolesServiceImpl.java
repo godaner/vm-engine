@@ -96,7 +96,7 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
         //get new obj
         vmRoles = this.getRoleById(vmRoles.getId(), BasePo.IsDeleted.NO);
         Long roleId = vmRoles.getId();
-        //insert role auth realations,authIds
+        //insert role auths realations,authIds
 
         String authIdsStr = vmRolesDto.getAuthIds();
         if (!isEmptyString(authIdsStr)) {
@@ -150,7 +150,7 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
             }
         }
 
-        //delete auth realation
+        //delete auths realation
 
         List<Long> realationIds = vmRolesAuthsRealationMapper.selectIdList(ImmutableMap.of(
                 "isDeleted", BasePo.IsDeleted.NO.getCode(),
@@ -164,7 +164,7 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
                 throw new VmRolesException("editRole vmRolesAuthsRealationMapper#updateInIds is fail ! vmRolesDto is : " + vmRolesDto);
             }
         }
-        //insert new auth,authIds
+        //insert new auths,authIds
         String authIdsStr = vmRolesDto.getAuthIds();
         if (!isEmptyString(authIdsStr)) {
             List<Long> authIds = parseStringArray2Long(authIdsStr);

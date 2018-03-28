@@ -56,25 +56,25 @@ public class VmAuthsServiceImpl implements VmAuthsService {
     }
 
 
-    @Override
-    public List<String> getUseableAuthCodesByAdminId(Long adminId) {
-
-        List<Long> roleIds = customVmAdminsRolesRealationMapper.getRoleIdsByAdminId(ImmutableMap.of(
-                "adminId", adminId,
-                "isDeleted", BasePo.IsDeleted.NO.getCode(),
-                "status", BasePo.Status.NORMAL.getCode()
-
-        ));
-
-        List<Long> authIds = this.getAuthIdsByRoleIds(roleIds);
-
-
-        return customVmAuthsMapper.getAuthCodesByAuthIds(ImmutableMap.of(
-                "authIds", authIds,
-                "status", BasePo.Status.NORMAL.getCode(),
-                "isDeleted", BasePo.IsDeleted.NO.getCode()
-        ));
-    }
+//    @Override
+//    public List<String> getUseableAuthCodesByAdminId(Long adminId) {
+//
+//        List<Long> roleIds = customVmAdminsRolesRealationMapper.getRoleIdsByAdminId(ImmutableMap.of(
+//                "adminId", adminId,
+//                "isDeleted", BasePo.IsDeleted.NO.getCode(),
+//                "status", BasePo.Status.NORMAL.getCode()
+//
+//        ));
+//
+//        List<Long> authIds = this.getAuthIdsByRoleIds(roleIds);
+//
+//
+//        return customVmAuthsMapper.getAuthCodesByAuthIds(ImmutableMap.of(
+//                "authIds", authIds,
+//                "status", BasePo.Status.NORMAL.getCode(),
+//                "isDeleted", BasePo.IsDeleted.NO.getCode()
+//        ));
+//    }
 
     @Override
     public List<VmAuthsDto> getAllAuths() {

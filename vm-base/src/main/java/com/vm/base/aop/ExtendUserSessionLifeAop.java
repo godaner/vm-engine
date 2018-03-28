@@ -2,6 +2,7 @@ package com.vm.base.aop;
 
 
 import com.vm.base.util.CommonUtil;
+import com.vm.base.util.SessionCacheManager;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -42,7 +43,7 @@ public class ExtendUserSessionLifeAop extends CommonUtil {
         String token = request.getHeader(OnlineConstants.KEY_OF_ACCESS_TOKEN);
 
         //延长其生命周期
-        SessionManager.extendSessionLife(token);
+        SessionCacheManager.extendSessionLife(token);
 
         //execute
         data = joinPoint.proceed();

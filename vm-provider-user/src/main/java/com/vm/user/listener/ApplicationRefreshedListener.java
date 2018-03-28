@@ -1,6 +1,6 @@
 package com.vm.user.listener;
 
-import com.vm.base.aop.SessionManager;
+import com.vm.base.util.SessionCacheManager;
 import com.vm.user.config.UserConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ public class ApplicationRefreshedListener implements ApplicationListener<Context
             logger.info("ApplicationRefreshedListener starting !");
             userConfig = event.getApplicationContext().getBean(UserConfig.class);
 
-            SessionManager.set(userConfig.getUserSessionLifetime(), sessionManagerUniqueId);
+            SessionCacheManager.set(userConfig.getUserSessionLifetime(), sessionManagerUniqueId);
 
             logger.info("ApplicationRefreshedListener start successful !");
         } catch (Exception e) {

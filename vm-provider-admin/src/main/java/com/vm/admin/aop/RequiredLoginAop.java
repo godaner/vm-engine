@@ -1,9 +1,8 @@
-package com.vm.user.aop;
+package com.vm.admin.aop;
 
-import com.vm.base.util.CommonUtil;
+import com.vm.admin.service.exception.VmAdminException;
 import com.vm.base.aop.OnlineConstants;
-import com.vm.user.resolver.OnlineUserMethodArgumentResolver;
-import com.vm.user.service.exception.VmUsersException;
+import com.vm.base.util.CommonUtil;
 import com.vm.base.util.SessionCacheManager;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -29,7 +28,7 @@ public class RequiredLoginAop extends CommonUtil {
     private final Logger logger = LoggerFactory.getLogger(RequiredLoginAop.class);
 
 
-    @Pointcut("execution(* com.vm.user.controller..*.*(..))")
+    @Pointcut("execution(* com.vm.admin.controller..*.*(..))")
     public void declareJoinPointExpression() {
     }
 
@@ -43,12 +42,12 @@ public class RequiredLoginAop extends CommonUtil {
 
         Long userId = (Long) SessionCacheManager.getOnlineUserId(token);
         if (userId == null) {
-            throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_OFFLINE.getCode(),
-                    VmUsersException.ErrorCode.USER_IS_OFFLINE.getMsg());
+            throw new VmAdminException(VmAdminException.ErrorCode.ADMIN_IS_OFFLINE.getCode(),
+                    VmAdminException.ErrorCode.ADMIN_IS_OFFLINE.getMsg());
         }
 
         /**
-         * 接下来会执行{@link OnlineUserMethodArgumentResolver}
+         * 接下来会执行{@link com.vm.admin.resolver.OnlineAdminMethodArgumentResolver}
          */
 
         //执行方法

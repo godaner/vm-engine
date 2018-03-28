@@ -10,9 +10,10 @@ import com.vm.admin.dao.qo.VmAdminsQueryBean;
 import com.vm.admin.service.dto.VmAdminsDto;
 import com.vm.admin.service.exception.VmAdminException;
 import com.vm.admin.service.inf.VmAdminsService;
-import com.vm.base.aop.SessionManager;
+import com.vm.base.util.AuthCacheManager;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.DateUtil;
+import com.vm.base.util.SessionCacheManager;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
@@ -262,8 +263,30 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         }
 
         //adminLogin in session
-        String token = SessionManager.userLogin(vmAdmins.getId());
+        String token = SessionCacheManager.userLogin(vmAdmins.getId());
 
+        //save admin auths
+
+        List<Long> roleIds = customVmAdminsRolesRealationMapper.getRoleIdsByAdminId(ImmutableMap.of(
+                "adminId", vmAdmins.getId(),
+                "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                "status", BasePo.Status.NORMAL.getCode()
+
+        ));
+
+        List<Long> authIds = customVmRolesAuthsRealationMapper.getAuthIdsByRoleIds(ImmutableMap.of(
+                "roleIds", roleIds,
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
+        ));
+
+
+        List<String> authCodes = customVmAuthsMapper.getAuthCodesByAuthIds(ImmutableMap.of(
+                "authIds", authIds,
+                "status", BasePo.Status.NORMAL.getCode(),
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
+        ));
+
+        AuthCacheManager.saveAuthCodes(token, authCodes);
 
         return makeVmAdminDto(vmAdmins, token);
     }
@@ -275,7 +298,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         if (null == token) {
             return null;
         }
-        Long adminId = SessionManager.getOnlineUserId(token);
+        Long adminId = SessionCacheManager.getOnlineUserId(token);
 
         if (null == adminId) {
             return null;
@@ -293,7 +316,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
 
     @Override
     public void adminLogout(String token) {
-        SessionManager.userLogout(token);
+        SessionCacheManager.userLogout(token);
     }
 
 

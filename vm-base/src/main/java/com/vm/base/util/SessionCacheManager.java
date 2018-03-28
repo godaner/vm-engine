@@ -1,8 +1,7 @@
-package com.vm.base.aop;
+package com.vm.base.util;
 
 
 import com.google.common.collect.Lists;
-import com.vm.base.util.CommonUtil;
 import com.vm.redis.repository.RedisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,7 @@ import javax.annotation.PostConstruct;
  * 记录<token,userId>的键值对,token被记录则代表在线
  */
 @Component
-public class SessionManager extends CommonUtil {
+public class SessionCacheManager extends CommonUtil {
 
     private static String sessionManagerUniqueId = uuid();
 
@@ -166,7 +165,7 @@ public class SessionManager extends CommonUtil {
      */
     public static boolean userLogout(String token) {
         return (boolean)
-                SessionManager.clearSession(token);
+                SessionCacheManager.clearSession(token);
     }
 
     /**
@@ -175,7 +174,7 @@ public class SessionManager extends CommonUtil {
      * @param userSessionLifetime
      */
     public static void set(Long userSessionLifetime,String sessionManagerUniqueId) {
-        SessionManager.timeout = userSessionLifetime;
-        SessionManager.sessionManagerUniqueId = sessionManagerUniqueId;
+        SessionCacheManager.timeout = userSessionLifetime;
+        SessionCacheManager.sessionManagerUniqueId = sessionManagerUniqueId;
     }
 }

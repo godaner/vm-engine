@@ -17,7 +17,7 @@ import com.vm.user.feign.service.SrcServiceClient;
 import com.vm.user.service.dto.VmUsersDto;
 import com.vm.user.service.exception.VmUsersException;
 import com.vm.user.service.inf.VmUsersService;
-import com.vm.base.aop.SessionManager;
+import com.vm.base.util.SessionCacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,7 +90,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         }
 
         //login in session
-        String token = SessionManager.userLogin(dbUser.getId());
+        String token = SessionCacheManager.userLogin(dbUser.getId());
 
         return makeVmUsersDto(dbUser, token);
     }
@@ -222,7 +222,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
 
         //login in session
-        String token = SessionManager.userLogin(vmUsers.getId());
+        String token = SessionCacheManager.userLogin(vmUsers.getId());
 
         return makeVmUsersDto(vmUsers, token);
     }
@@ -319,7 +319,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
 //        Long userId = (Long) SessionManager.getOnlineUserId(token);
 
-        SessionManager.userLogout(token);
+        SessionCacheManager.userLogout(token);
 
     }
 
@@ -329,7 +329,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         if (null == token) {
             return null;
         }
-        Long userId = SessionManager.getOnlineUserId(token);
+        Long userId = SessionCacheManager.getOnlineUserId(token);
 
         if (null == userId) {
             return null;
