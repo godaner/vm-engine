@@ -153,6 +153,17 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
 
         vmAdmins = this.getAdminById(adminId, BasePo.IsDeleted.NO);
 
+        //delete admin role realations
+        List<Long> realationIds = vmAdminsRolesRealationMapper.selectIdList(ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                "adminId", adminId
+        ));
+        if (0 > vmAdminsRolesRealationMapper.updateInIds(realationIds, ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.YES.getCode()
+        ))) {
+            throw new VmAdminException("addAdmin vmAdminsRolesRealationMapper#updateInIds is fail !! vmAdminsDto is : " + vmAdminsDto);
+        }
+
         //insert admin role realations
         String roleIdsStr = vmAdminsDto.getRoleIds();
         if (!isEmptyString(roleIdsStr)) {
