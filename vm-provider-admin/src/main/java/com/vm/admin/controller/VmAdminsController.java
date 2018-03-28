@@ -4,6 +4,7 @@ import com.vm.admin.dao.qo.VmAdminsQueryBean;
 import com.vm.admin.resolver.OnlineAdmin;
 import com.vm.admin.service.dto.VmAdminsDto;
 import com.vm.admin.service.inf.VmAdminsService;
+import com.vm.base.aop.RequiredAuth;
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
 import org.springframework.context.annotation.Scope;
@@ -61,6 +62,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
      *
      * @return
      */
+    @RequiredAuth(auths = {"admin:select"})
     @RequestMapping(value = "/info/list", method = RequestMethod.GET)
     @ResponseBody
     public Object getAdmins(PageBean page, VmAdminsQueryBean query) throws Exception {
@@ -72,6 +74,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
      *
      * @return
      */
+    @RequiredAuth(auths = {"admin:edit"})
     @RequestMapping(value = "/info", method = RequestMethod.PUT)
     @ResponseBody
     public Object editAdmin(VmAdminsDto vmAdminsDto) throws Exception {
@@ -83,6 +86,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
      *
      * @return
      */
+    @RequiredAuth(auths = {"admin:add"})
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ResponseBody
     public Object addAdmin(VmAdminsDto vmAdminsDto) throws Exception {

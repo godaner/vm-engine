@@ -1,5 +1,6 @@
 package com.vm.movie.controller;
 
+import com.vm.base.aop.RequiredAuth;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
@@ -58,23 +59,27 @@ public class VmFilmmakersController extends ServiceController<VmFilmmakersServic
 
     /*********************************管理端****************************/
 
+    @RequiredAuth(auths = {"filmmaker:select"})
     @RequestMapping(value = "/info/list", method = RequestMethod.GET)
     @ResponseBody
     public Object getFilmmakers(PageBean page,VmFilmmakerQueryBean query) throws Exception {
         return response.putData("list", service.getFilmmakers(page,query))
                 .putData("total", service.getFilmmakersTotal(page,query));
     }
+    @RequiredAuth(auths = {"filmmaker:add"})
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ResponseBody
     public Object addFilmmaker(VmFilmmakersDto vmFilmmakersDto) throws Exception {
         return response.putData("filmmaker", service.addFilmmaker(vmFilmmakersDto));
     }
+    @RequiredAuth(auths = {"filmmaker:edit"})
     @RequestMapping(value = "/info", method = RequestMethod.PUT)
     @ResponseBody
     public Object editFilmmaker(VmFilmmakersDto vmFilmmakersDto) throws Exception {
         return response.putData("filmmaker", service.editFilmmaker(vmFilmmakersDto));
     }
 
+    @RequiredAuth(auths = {"filmmaker:delete"})
     @RequestMapping(value = "/info", method = RequestMethod.DELETE)
     @ResponseBody
     public Object deleteFilmmaker(@RequestBody VmFilmmakersDto vmFilmmakersDto) throws Exception {
@@ -86,6 +91,7 @@ public class VmFilmmakersController extends ServiceController<VmFilmmakersServic
      *
      * @return
      */
+    @RequiredAuth(auths = {"filmmaker:edit"})
     @RequestMapping(value = "/img", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateImg(UpdateHeadImgInfo updateHeadImgInfo) throws Exception {

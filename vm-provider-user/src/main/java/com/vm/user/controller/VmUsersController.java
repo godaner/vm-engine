@@ -1,5 +1,6 @@
 package com.vm.user.controller;
 
+import com.vm.base.aop.RequiredAuth;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 
 import com.vm.base.util.ServiceController;
@@ -186,6 +187,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 //    }
 
     /*********************************管理端****************************/
+    @RequiredAuth(auths = {"user:select"})
     @RequestMapping(value = "/user/info/list", method = RequestMethod.GET)
     @ResponseBody
     public Object userList(VmUserQueryBean query, PageBean page) throws Exception {
@@ -195,18 +197,21 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response.putData("list", list).putData("total", total);
     }
 
+    @RequiredAuth(auths = {"user:add"})
     @RequestMapping(value = "/user/info", method = RequestMethod.POST)
     @ResponseBody
     public Object addUser(VmUsersDto vmUsersDto) throws Exception {
         return response.putData("user", service.addUser(vmUsersDto));
     }
 
+    @RequiredAuth(auths = {"user:edit"})
     @RequestMapping(value = "/user/info", method = RequestMethod.PUT)
     @ResponseBody
     public Object editUser(VmUsersDto vmUsersDto) throws Exception {
         return response.putData("user", service.editUser(vmUsersDto));
     }
 
+    @RequiredAuth(auths = {"user:delete"})
     @RequestMapping(value = "/user/info", method = RequestMethod.DELETE)
     @ResponseBody
     public Object deleteUser(@RequestBody VmUsersDto vmUsersDto) throws Exception {

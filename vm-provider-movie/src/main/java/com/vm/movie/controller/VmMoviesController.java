@@ -1,5 +1,6 @@
 package com.vm.movie.controller;
 
+import com.vm.base.aop.RequiredAuth;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.dao.util.PageBean;
 import com.vm.base.util.ServiceController;
@@ -103,6 +104,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      *
      * @return
      */
+    @RequiredAuth(auths = {"movie:select"})
     @RequestMapping(value = "/info/list", method = RequestMethod.GET)
     @ResponseBody
     public Object getBackEndMoviesInfo(VmMoviesQueryBean query,
@@ -115,6 +117,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      *
      * @return
      */
+    @RequiredAuth(auths = {"movie:edit"})
     @RequestMapping(value = "/info", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateBackEndMoviesInfo(VmMoviesDto vmMoviesDto) throws Exception {
@@ -125,6 +128,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      *
      * @return
      */
+    @RequiredAuth(auths = {"movie:add"})
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ResponseBody
     public Object addBackEndMoviesInfo(VmMoviesDto vmMoviesDto) throws Exception {
@@ -135,6 +139,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      *
      * @return
      */
+    @RequiredAuth(auths = {"movie:edit"})
     @RequestMapping(value = "/img", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateImg(UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
@@ -147,6 +152,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      *
      * @return
      */
+    @RequiredAuth(auths = {"movie:edit"})
     @RequestMapping(value = "/poster", method = RequestMethod.PUT)
     @ResponseBody
     public Object updatePoster(UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
@@ -159,6 +165,7 @@ public class VmMoviesController extends ServiceController<VmMoviesService> {
      *
      * @return
      */
+    @RequiredAuth(auths = {"movie:delete"})
     @RequestMapping(value = "/info", method = RequestMethod.DELETE)
     @ResponseBody
     public Object deleteMovies(@RequestBody VmMoviesDto vmMoviesDto) throws Exception {

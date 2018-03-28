@@ -1,5 +1,6 @@
 package com.vm.movie.controller;
 
+import com.vm.base.aop.RequiredAuth;
 import com.vm.base.util.ServiceController;
 import com.vm.movie.service.dto.VmMoviesSrcVersionDto;
 import com.vm.movie.service.inf.VmMovieSrcVersionsService;
@@ -36,6 +37,7 @@ public class VmMovieSrcVersionsController extends ServiceController<VmMovieSrcVe
      * @return
      * @throws Exception
      */
+    @RequiredAuth(auths = {"movieVersion:add"})
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ResponseBody
     public Object addMovieSrcVersion(VmMoviesSrcVersionDto vmMoviesSrcVersionDto) throws Exception {
@@ -47,6 +49,7 @@ public class VmMovieSrcVersionsController extends ServiceController<VmMovieSrcVe
      * @return
      * @throws Exception
      */
+    @RequiredAuth(auths = {"movieVersion:select"})
     @RequestMapping(value = "/info/list/ByMovieId/{movieId}", method = RequestMethod.GET)
     @ResponseBody
     public Object getAllVersionsByMovieId(@PathVariable("movieId") Long movieId) throws Exception {
@@ -59,6 +62,7 @@ public class VmMovieSrcVersionsController extends ServiceController<VmMovieSrcVe
      * @return
      * @throws Exception
      */
+    @RequiredAuth(auths = {"movieVersion:edit"})
     @RequestMapping(value = "/info", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateMovieSrcVersion(VmMoviesSrcVersionDto vmMoviesSrcVersionDto) throws Exception {
@@ -71,6 +75,7 @@ public class VmMovieSrcVersionsController extends ServiceController<VmMovieSrcVe
      * @return
      * @throws Exception
      */
+    @RequiredAuth(auths = {"movieVersion:delete"})
     @RequestMapping(value = "/info", method = RequestMethod.DELETE)
     @ResponseBody
     public Object deleteMovieSrcVersions(@RequestBody VmMoviesSrcVersionDto vmMoviesSrcVersionDto) throws Exception {

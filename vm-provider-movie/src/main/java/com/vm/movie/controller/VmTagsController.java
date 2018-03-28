@@ -1,5 +1,6 @@
 package com.vm.movie.controller;
 
+import com.vm.base.aop.RequiredAuth;
 import com.vm.base.util.ServiceController;
 import com.vm.movie.service.dto.VmTagsDto;
 import com.vm.movie.service.inf.VmTagsService;
@@ -40,24 +41,28 @@ public class VmTagsController extends ServiceController<VmTagsService> {
     }
     /*********************************管理端****************************/
 
+    @RequiredAuth(auths = {"tag:select"})
     @RequestMapping(value = "/info/{tagGroupId}", method = RequestMethod.GET)
     @ResponseBody
     public Object getTagsByTagGroupId(@PathVariable("tagGroupId") Long tagGroupId) throws Exception {
         return response.putData("list", service.getTagsByTagGroupId(tagGroupId));
     }
 
+    @RequiredAuth(auths = {"tag:add"})
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ResponseBody
     public Object addTag(VmTagsDto vmTagsDto) throws Exception {
         return response.putData("tag", service.addTag(vmTagsDto));
     }
 
+    @RequiredAuth(auths = {"tag:edit"})
     @RequestMapping(value = "/info", method = RequestMethod.PUT)
     @ResponseBody
     public Object editTag(VmTagsDto vmTagsDto) throws Exception {
         return response.putData("tag", service.editTag(vmTagsDto));
     }
 
+    @RequiredAuth(auths = {"tag:edit"})
     @RequestMapping(value = "/info", method = RequestMethod.DELETE)
     @ResponseBody
     public Object deleteTags(@RequestBody VmTagsDto vmTagsDto) throws Exception {

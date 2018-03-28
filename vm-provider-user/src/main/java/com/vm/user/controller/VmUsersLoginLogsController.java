@@ -1,5 +1,6 @@
 package com.vm.user.controller;
 
+import com.vm.base.aop.RequiredAuth;
 import com.vm.dao.util.PageBean;
 import com.vm.base.util.ServiceController;
 import com.vm.user.dao.qo.VmUsersLoginLogsQueryBean;
@@ -21,6 +22,7 @@ public class VmUsersLoginLogsController extends ServiceController<VmUsersLoginLo
      *
      * @return
      */
+    @RequiredAuth(auths = {"user:userLoginLogs"})
     @RequestMapping(value = "/user/login/logs", method = RequestMethod.GET)
     @ResponseBody
     public Object getUserLoginLogs(VmUsersLoginLogsQueryBean query, PageBean page) throws Exception {

@@ -63,6 +63,7 @@ public class VmRolesController extends ServiceController<VmRolesService> {
      *
      * @return
      */
+    @RequiredAuth(auths = {"role:add"})
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ResponseBody
     public Object addRole(VmRolesDto vmRolesDto) throws Exception {
@@ -75,6 +76,7 @@ public class VmRolesController extends ServiceController<VmRolesService> {
      *
      * @return
      */
+    @RequiredAuth(auths = {"admin:edit"})
     @RequestMapping(value = "/info", method = RequestMethod.PUT)
     @ResponseBody
     public Object editRole(VmRolesDto vmRolesDto) throws Exception {
