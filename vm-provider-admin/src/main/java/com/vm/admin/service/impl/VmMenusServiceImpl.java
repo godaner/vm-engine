@@ -56,12 +56,17 @@ public class VmMenusServiceImpl extends BaseService implements VmMenusService {
                 "isDeleted", BasePo.IsDeleted.NO.getCode(),
                 "status", BasePo.Status.NORMAL.getCode()
         ));
+        if (isEmptyList(roleIds)) {
+            return Lists.newArrayList();
+        }
         List<Long> menuIds = customVmRolesMenusRealationMapper.getMenuIdsByRoleIds(ImmutableMap.of(
                 "roleIds", roleIds,
                 "isDeleted", BasePo.IsDeleted.NO.getCode(),
                 "status", BasePo.Status.NORMAL.getCode()
         ));
-
+        if (isEmptyList(menuIds)) {
+            return Lists.newArrayList();
+        }
         List<VmMenus> menus = vmMenusMapper.selectByAndInIds(menuIds, ImmutableMap.of(
                 "isDeleted", BasePo.IsDeleted.NO.getCode(),
                 "status", BasePo.Status.NORMAL.getCode()
