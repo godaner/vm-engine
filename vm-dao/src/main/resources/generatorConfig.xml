@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://www.mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="testTables" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+        <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+            connectionURL="jdbc:mysql://120.78.191.94:3306/vm?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true&amp;autoReconnect=true"
+            userId="root"
+            password="123">
+        </jdbcConnection>
+        <!-- <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+            connectionURL="jdbc:mysql://120.25.162.238:3306/mybatis001?characterEncoding=utf-8" 
+            userId="root"
+            password="123">
+        </jdbcConnection> -->
+
+        <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和 
+            NUMERIC 类型解析为java.math.BigDecimal -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!-- targetProject:生成PO类的位置 -->
+        <javaModelGenerator targetPackage="com.vm.dao.po"
+            targetProject=".\src\main\java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false" />
+            <!-- 从数据库返回的值被清理前后的空格 -->
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        <!-- targetProject:mapper映射文件生成的位置 -->
+        <sqlMapGenerator targetPackage="sqlmap"
+            targetProject=".\src\main\resources">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator>
+        <!-- targetPackage：mapper接口生成的位置 -->
+        <javaClientGenerator type="XMLMAPPER"
+            targetPackage="com.vm.dao.mapper"
+            targetProject=".\src\main\java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false" />
+        </javaClientGenerator>
+        <!-- 指定数据库表 -->
+        <!--<table tableName="vm_movies_filmmakers_realation"></table>-->
+        <!--<table tableName="vm_files"></table>-->
+        <!--<table tableName="vm_movies_src_version"></table>-->
+        <!--<table tableName="vm_admins"></table>-->
+        <!--<table tableName="vm_admins_login_logs"></table>-->
+        <!--<table tableName="vm_countrys"></table>-->
+        <!--<table tableName="vm_filmmakers"></table>-->
+        <!--<table tableName="vm_movies"></table>-->
+        <!--<table tableName="vm_movies_tags_realation"></table>-->
+        <!--<table tableName="vm_tags"></table>-->
+        <!--<table tableName="vm_tags_groups"></table>-->
+        <!--<table tableName="vm_users"></table>-->
+        <!--<table tableName="vm_users_login_logs"></table>-->
+
+
+        <!-- 
+        <table tableName="files"></table>
+        <table tableName="goods"></table>
+        <table tableName="goods_clazzs"></table>
+        <table tableName="goods_imgs"></table>
+        
+        <table tableName="permissions"></table>
+        
+        <table tableName="roles"></table>
+        <table tableName="roles_permissions"></table>
+        <table tableName="admins_roles"></table>
+        <table tableName="admins"></table>
+        <table tableName="users_login_log"></table>
+        <table tableName="admins_login_log"></table> 
+        <table tableName="clazzs"></table>
+        <table tableName="wander_log"></table>-->
+        
+		<!-- <table schema="sht" tableName="users">
+        	<columnOverride column="id" javaType="java.lang.String" jdbcType="CHAR" />
+        	<columnOverride column="username" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="email" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="password" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="salt" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="headimg" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="sex" javaType="java.lang.Short"  jdbcType="CHAR"/>
+			<columnOverride column="birthday" javaType="java.util.Date"  jdbcType="DATE"/>
+        	<columnOverride column="description" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="score" javaType="java.lang.Double"  jdbcType="CHAR"/>
+        	<columnOverride column="registtime" javaType="java.sql.Timestamp"  jdbcType="DATE"/>
+        	<columnOverride column="status" javaType="java.lang.Short" jdbcType="SMALLINT"/>
+        	<columnOverride column="money" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+        	
+        </table> 
+        <table schema="sht" tableName="admins">
+        	<columnOverride column="id" javaType="java.lang.String" jdbcType="CHAR" />
+        	<columnOverride column="username" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="email" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="password" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="salt" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="createtime" javaType="java.sql.Timestamp"  jdbcType="TIMESTAMP"/>
+        	<columnOverride column="status" javaType="java.lang.Short" jdbcType="SMALLINT"/>
+        	<columnOverride column="theme" javaType="java.lang.String" jdbcType="CHAR"/>
+        	<columnOverride column="creator" javaType="java.lang.String" jdbcType="CHAR"/>
+        </table>
+        <table schema="sht" tableName="clazzs">
+        	<columnOverride column="id" javaType="java.lang.String" jdbcType="CHAR" />
+        	<columnOverride column="text" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="num" javaType="java.lang.Double"  jdbcType="DOUBLE"/>
+        </table>
+         
+         
+         <table schema="sht" tableName="goods_imgs">
+        	<columnOverride column="id" javaType="java.lang.String" jdbcType="CHAR" />
+        	<columnOverride column="owner" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="img" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="main" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+        </table>
+       
+      
+       
+        <table schema="sht" tableName="files">
+        	<columnOverride column="id" javaType="java.lang.String" jdbcType="CHAR" />
+        	<columnOverride column="path" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="name" javaType="java.lang.String"  jdbcType="CHAR"/>
+        </table>
+        <table schema="sht" tableName="goods">
+        	<columnOverride column="id" javaType="java.lang.String" jdbcType="CHAR" />
+        	<columnOverride column="title" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="description" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="sprice" javaType="java.lang.Double"  jdbcType="DOUBLE"/>
+        	<columnOverride column="price" javaType="java.lang.Double"  jdbcType="DOUBLE"/>
+        	<columnOverride column="condition" javaType="java.lang.Short"  jdbcType="SMALLINT"/>
+        	<columnOverride column="region" javaType="java.lang.Double"  jdbcType="DOUBLE"/>
+			<columnOverride column="status" javaType="java.lang.Short"  jdbcType="SMALLINT"/>
+        	<columnOverride column="createtime" javaType="java.sql.Timestamp"  jdbcType="TIMESTAMP"/>
+        	<columnOverride column="owner" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="buyer" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="browsenumber" javaType="java.lang.Double"  jdbcType="DOUBLE"/>
+        	<columnOverride column="lastupdatetime" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        	<columnOverride column="buytime" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        	<columnOverride column="finishtime" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        </table>
+        
+        
+       <table schema="sht" tableName="region">
+        	<columnOverride column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+        	<columnOverride column="code" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="name" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="pid" javaType="java.lang.Integer"  jdbcType="INTEGER"/>
+        	<columnOverride column="LEVE" javaType="java.lang.Integer"  jdbcType="INTEGER"/>
+        	<columnOverride column="ORDE" javaType="java.lang.Integer"  jdbcType="INTEGER"/>
+        	<columnOverride column="ENNAME" javaType="java.lang.String"  jdbcType="CHAR"/>
+			<columnOverride column="ENSHORTNAME" javaType="java.lang.String"  jdbcType="CHAR"/>
+        </table>
+        
+        <table tableName="addrs">
+			<columnOverride column="id" javaType="java.lang.String" jdbcType="CHAR" />
+			<columnOverride column="master" javaType="java.lang.String" jdbcType="CHAR" />
+			<columnOverride column="region" javaType="java.lang.Double"  jdbcType="DOUBLE"/>
+			<columnOverride column="detail" javaType="java.lang.String" jdbcType="CHAR" />
+			<columnOverride column="phone" javaType="java.lang.String" jdbcType="CHAR" />
+			<columnOverride column="realname" javaType="java.lang.String" jdbcType="CHAR" />
+			<columnOverride column="isdefault" javaType="java.lang.Short"  jdbcType="SMALLINT"/>
+			<columnOverride column="postcode" javaType="java.lang.String" jdbcType="CHAR" />
+		</table>
+        
+        
+          <table schema="sht" tableName="goods">
+        	<columnOverride column="id" javaType="java.lang.String" jdbcType="CHAR" />
+        	<columnOverride column="title" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="description" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="sprice" javaType="java.lang.Double"  jdbcType="DOUBLE"/>
+        	<columnOverride column="price" javaType="java.lang.Double"  jdbcType="DOUBLE"/>
+        	<columnOverride column="condition" javaType="java.lang.Short"  jdbcType="SMALLINT"/>
+        	<columnOverride column="region" javaType="java.lang.Double"  jdbcType="DOUBLE"/>
+			<columnOverride column="status" javaType="java.lang.Short"  jdbcType="SMALLINT"/>
+        	<columnOverride column="createtime" javaType="java.sql.Timestamp"  jdbcType="TIMESTAMP"/>
+        	<columnOverride column="owner" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="buyer" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="browsenumber" javaType="java.lang.Double"  jdbcType="DOUBLE"/>
+        	<columnOverride column="lastupdatetime" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        	<columnOverride column="buytime" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        	<columnOverride column="finishtime" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        	<columnOverride column="toprovince" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="tocity" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="tocounty" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="todetail" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="phone" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="torealname" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="postcode" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="refusereturnmoneybill" javaType="java.lang.String"  jdbcType="CHAR"/>
+        </table>
+ 			-->
+ 			
+		<!--<table tableName="messages">
+			<columnOverride column="id" javaType="java.lang.String" jdbcType="CHAR" />
+        	<columnOverride column="text" javaType="java.lang.String"  jdbcType="CHAR"/>
+        	<columnOverride column="createtime" javaType="java.sql.Timestamp"  jdbcType="TIMESTAMP"/>
+        	<columnOverride column="status" javaType="java.lang.Short"  jdbcType="SMALLINT"/>
+        	<columnOverride column="users" javaType="java.lang.String" jdbcType="CHAR" />
+        	<columnOverride column="message" javaType="java.lang.String" jdbcType="CHAR" />
+        	<columnOverride column="goods" javaType="java.lang.String" jdbcType="CHAR" />
+		</table>-->
+		
+        <!-- <table schema="" tableName="sys_user"></table>
+        <table schema="" tableName="sys_role"></table>
+        <table schema="" tableName="sys_permission"></table>
+        <table schema="" tableName="sys_user_role"></table>
+        <table schema="" tableName="sys_role_permission"></table> -->
+
+        <!-- 有些表的字段需要指定java类型
+         <table schema="ssm" tableName="items">
+            <columnOverride column="id" javaType="java.lang.String" />
+        </table> 
+        -->
+    </context>
+</generatorConfiguration>

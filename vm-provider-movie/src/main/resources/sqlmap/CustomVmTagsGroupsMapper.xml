@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vm.movie.dao.mapper.custom.CustomVmTagsGroupsMapper">
+
+    <!--**************************** 用户端mapper start ****************************-->
+    <resultMap id="TagsGroupsWithTagsMap" type="com.vm.movie.dao.po.custom.CustomVmTagsGroups">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="create_time" jdbcType="INTEGER" property="createTime"/>
+        <result column="update_time" jdbcType="INTEGER" property="updateTime"/>
+        <!--<collection property="items" column="id" select="com.vm.movie.dao.mapper.custom.CustomVmTagsMapper.selectTagsIdAndNameByTagGroupId">-->
+
+        <!--</collection>-->
+        <collection property="items" ofType="com.vm.movie.dao.po.VmTags">
+            <id column="tag_id" jdbcType="BIGINT" property="id"/>
+            <result column="tag_name" jdbcType="VARCHAR" property="name"/>
+            <result column="tag_status" jdbcType="TINYINT" property="status"/>
+            <result column="tag_create_time" jdbcType="INTEGER" property="createTime"/>
+            <result column="tag_update_time" jdbcType="INTEGER" property="updateTime"/>
+        </collection>
+    </resultMap>
+    <select id="getAllTagsGroupsWithTags" resultMap="TagsGroupsWithTagsMap">
+        SELECT
+        g.*,
+        t.id as tag_id,
+        t.name as tag_name,
+        t.status as tag_status,
+        t.create_time as tag_create_time,
+        t.update_time as tag_update_time
+        FROM
+        vm_tags_groups g ,vm_tags t
+        WHERE
+        t.tag_group_id = g.id
+        and g.is_deleted = ${query.isDeleted}
+        and t.is_deleted = ${query.isDeleted}
+        <if test="query != null">
+            <if test="query.status != null and query.status != ''">
+                and t.`status` = ${query.status}
+                and g.`status` = ${query.status}
+            </if>
+        </if>
+
+    </select>
+    <!--**************************** 管理端mapper end ****************************-->
+    <select id="getTagGroups" resultMap="com.vm.movie.dao.mapper.VmTagsGroupsMapper.VmTagsGroupsMap">
+        SELECT
+        *
+        FROM
+        vm_tags_groups
+        WHERE
+        is_deleted = #{query.isDeleted}
+        <if test="query != null and query.name != null and query.name != ''">
+            `name` like concat('%',#{query.name},'%')
+        </if>
+        <if test="page != null and page.orderBy != null and page.orderBy!='' and page.orderType != null and page.orderType!=''">
+            order by ${page.orderBy} ${page.orderType}
+        </if>
+        <if test="page != null and page.start != null and page.size != null">
+            limit #{page.start},#{page.size}
+        </if>
+    </select>
+    <select id="getTagGroupsTotal" resultType="long">
+        SELECT
+        count(id)
+        FROM
+        vm_tags_groups
+        WHERE
+        is_deleted = #{query.isDeleted}
+        <if test="query != null and query.name != null and query.name != ''">
+            `name` like concat('%',#{query.name},'%')
+        </if>
+
+    </select>
+
+</mapper>

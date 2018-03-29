@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vm.admin.dao.mapper.custom.CustomVmAdminsLoginLogsMapper">
+	<resultMap id="CustomVmAdminsLoginLogsMap" type="com.vm.admin.dao.po.custom.CustomVmAdminsLoginLogs">
+		<id column="id" property="id"/>
+		<result column="admin_id" property="adminId"/>
+		<result column="login_ip" property="loginIp"/>
+		<result column="system" property="system"/>
+		<result column="dpi" property="dpi"/>
+		<result column="brower" property="brower"/>
+		<result column="country" property="country"/>
+		<result column="province" property="province"/>
+		<result column="city" property="city"/>
+		<result column="login_time" property="loginTime"/>
+		<result column="result" property="result"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="is_deleted" property="isDeleted"/>
+		<result column="status" property="status"/>
+		<result column="username" property="username"/>
+	</resultMap>
+	<select id="getLoginLogs" resultMap="CustomVmAdminsLoginLogsMap">
+
+		select *
+		from (
+		SELECT a.*,b.username
+		FROM vm_admins_login_logs a,vm_admins b
+		where
+		a.is_deleted = #{query.isDeleted}
+		and a.`status` = #{query.status}
+		and b.is_deleted = #{query.isDeleted}
+		and b.`status` = #{query.status}
+		and a.admin_id=b.id
+		<if test="query != null and query.username != null and query.username != ''">
+			and b.username LIKE concat('%',#{query.username},'%')
+		</if>
+		<if test="query != null and query.adminId != null and query.adminId != ''">
+			and a.admin_id = #{query.adminId}
+		</if>
+		) c
+		<if test="page != null and page.orderBy != null and page.orderBy!='' and page.orderType != null and page.orderType!=''">
+			order by c.${page.orderBy} ${page.orderType}
+		</if>
+		<if test="page != null and page.start != null and page.size != null">
+			limit #{page.start},#{page.size}
+		</if>
+	</select>
+	<select id="getLoginLogsTotal" resultType="long">
+		SELECT count(a.id)
+		FROM vm_admins_login_logs a,vm_admins b
+		where
+		a.is_deleted = #{query.isDeleted}
+		and a.`status` = #{query.status}
+		and b.is_deleted = #{query.isDeleted}
+		and b.`status` = #{query.status}
+		and a.admin_id=b.id
+		<if test="query != null and query.username != null and query.username != ''">
+			and b.username LIKE concat('%',#{query.username},'%')
+		</if>
+		<if test="query != null and query.adminId != null and query.adminId != ''">
+			and a.admin_id = #{query.adminId}
+		</if>
+
+	</select>
+</mapper>

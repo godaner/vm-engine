@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vm.movie.dao.mapper.custom.CustomVmMoviesSrcVersionMapper">
+  <!--**************************** 用户端mapper start ****************************-->
+
+
+  <!--**************************** 管理端mapper end ****************************-->
+
+  <select id="getMovieSrcVersionIdsByMovieIds" resultType="long">
+    select id
+    from vm_movies_src_version
+    where is_deleted=#{query.isDeleted}
+    and movie_id in
+    <foreach open="(" close=")" item="item" separator="," collection="query.movieIds">
+      #{item}
+    </foreach>
+  </select>
+</mapper>

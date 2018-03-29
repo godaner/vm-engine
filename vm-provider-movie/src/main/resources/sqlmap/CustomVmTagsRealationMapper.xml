@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vm.movie.dao.mapper.custom.CustomVmMoviesTagsRealationMapper">
+
+    <!--**************************** 用户端mapper start ****************************-->
+
+    <!--**************************** 管理端mapper start ****************************-->
+    <select id="getTagIdsByMovieId" resultType="long">
+        SELECT
+        DISTINCT tag_id
+        FROM
+        vm_movies_tags_realation
+        WHERE
+        is_deleted = #{query.isDeleted}
+        and movie_id =#{query.movieId}
+    </select>
+    <select id="getRealationIdsByTagIds" resultType="long">
+        SELECT
+        id
+        FROM
+        vm_movies_tags_realation
+        WHERE
+        is_deleted = #{query.isDeleted}
+        and tag_id in
+        <foreach collection="query.tagIds" separator="," item="item" open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="getRealationIdsByMovieIds" resultType="long">
+        SELECT
+        id
+        FROM
+        vm_movies_tags_realation
+        WHERE
+        is_deleted = #{query.isDeleted}
+        and movie_id in
+        <foreach collection="query.movieIds" separator="," item="item" open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

@@ -1,0 +1,1330 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="Lei Shi">
+  <meta http-equiv="Cache-Control" content="o-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="csrf-token" content="1483780974##87f89328c5616669f00302a263fe9061bb852818">
+	
+		
+        <title>课程 - 黑马</title>
+		
+	
+
+    
+<meta content="实验楼课程分为基础课和项目课，内容涵盖了Linux、Python、Java、C语言、Ruby、Android、IOS开发、大数据、信息安全等IT技术领域。" name="description">
+<meta content="实验楼课程,IT培训课程,IT实训课程,IT在线课程,all" name="keywords">
+
+    <meta content="" name="author">
+
+	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="stylesheet" href="../static/font-awesome//4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/highlight.js/9.8.0/monokai-sublime.min.css">
+    <link rel="stylesheet" href="../app/css/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../app/css/libs/katex/0.6.0/katex.min.css">
+    <link rel="stylesheet" href="../app/css/libs/videojs/5.11.7/video-js.min.css">
+	<link rel="stylesheet" href="../app/css/dest/styles.css?=2016121272249">
+
+	<style>
+		@font-face {
+			font-family: "lantingxihei";
+			src: url("../fonts/FZLTCXHJW.TTF");
+		}
+
+        /* modal 模态框*/
+        #invite-user .modal-body {
+            overflow: hidden;
+        }
+		#invite-user .modal-body .form-label {
+			margin-bottom: 16px;
+			font-size:14px;
+		}
+		#invite-user .modal-body .form-invite {
+			width: 80%;
+			padding: 6px 12px;
+			background-color: #eeeeee;
+			border: 1px solid #cccccc;
+			border-radius: 5px;
+			float: left;
+			margin-right: 10px;
+		}
+		#invite-user .modal-body .msg-modal-style {
+			background-color: #7dd383;
+			margin-top: 10px;
+			padding: 6px 0;
+			text-align: center;
+			width: 100%;
+		}
+		#invite-user .modal-body .modal-flash {
+			position: absolute;
+			top: 53px;
+			right: 74px;
+			z-index: 999;
+		}
+		/* end modal */
+
+        .en-footer {
+            padding: 30px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+	
+    
+
+	
+    
+</head>
+
+<body>
+	
+        
+        
+            
+
+
+
+
+
+
+<nav class="navbar navbar-default navbar-fixed-top header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navbar-collapse" aria-expanded="false">
+                <span class="sr-only">黑马</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../index.html">
+                <img src="../img/黑马logo.png">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="header-navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown active">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                        课程
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="active" href="../courses/index.html" >全部课程</a></li>
+                        <li><a class="" href="../courses/index.html?status=preview" >即将上线</a></li>
+                        <li><a class="" href="../developer/index.html">开发者</a></li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="../paths/index.html">学习路线图</a>
+                </li>
+                <li class="">
+                    <a href="../questions/index.html">技术社区</a>
+                </li>
+                <!--
+                	<li class=" bootcamp new-nav logo-1111">
+                    <a href="../bootcamp/index.html">训练营</a>
+                    
+                </li>
+                <li class=" new-nav logo-1111">
+                    <a href="../vip/index.html">会员</a>
+                    
+                </li>
+                
+                -->
+                
+            </ul>
+
+            
+            <div class="navbar-right btns">
+                <a class="btn btn-default navbar-btn sign-in" data-sign="signin" href="#sign-modal" data-toggle="modal">登录</a>
+                <a class="btn btn-default navbar-btn sign-up" data-sign="signup" href="#sign-modal" data-toggle="modal">注册</a>
+            </div>
+            
+
+            <form class="navbar-form navbar-right" action="../search" method="get" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="search" autocomplete="off" placeholder="搜索 课程">
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+        
+	
+
+
+
+	
+	
+
+	
+
+
+<div class="container layout layout-margin-top">
+    
+    
+    <div class="row">
+        <div class="col-md-12 layout-body">
+            
+    <div class="content">
+        <div class="row course-cates">
+            <div class="col-md-1 course-cates-title">类别：</div>
+            <div class="col-md-11 course-cates-content">
+                <a class="active" href="/courses/?course_type=all&amp;tag=all">毕设</a>
+                <a class="" href="/courses/?course_type=all&amp;tag=all&amp;fee=free">Java</a><!-- 免费-->
+                <a class="" href="/courses/?course_type=all&amp;tag=all&amp;fee=limited">.net</a><!-- 限免-->
+                <a class="" href="/courses/?course_type=all&amp;tag=all&amp;fee=member">PHP</a><!-- 会员-->
+                <a class="" href="/courses/?course_type=all&amp;tag=all&amp;fee=member">C++</a><!-- 自己添上的-->
+            </div>
+        </div>
+        <div class="row course-cates">
+            <div class="col-md-1 course-cates-title">标签：</div>
+            <div class="col-md-11 course-cates-content">
+                <a class="active" href="/courses/?course_type=all&amp;fee=all">学科</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=Python&amp;fee=all">Python</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=C%2FC%2B%2B&amp;fee=all">C/C++</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=Linux&amp;fee=all">Linux</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=Web&amp;fee=all">Web</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8&amp;fee=all">信息安全</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=PHP&amp;fee=all">PHP</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=Java&amp;fee=all">Java</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=NodeJS&amp;fee=all">NodeJS</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=Android&amp;fee=all">Android</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=GO&amp;fee=all">GO</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=Spark&amp;fee=all">Spark</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%93%E4%B8%9A%E8%AF%BE&amp;fee=all">计算机专业课</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=Hadoop&amp;fee=all">Hadoop</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=HTML5&amp;fee=all">HTML5</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=Scala&amp;fee=all">Scala</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=Ruby&amp;fee=all">Ruby</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=R&amp;fee=all">R</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=%E7%BD%91%E7%BB%9C&amp;fee=all">网络</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=Git&amp;fee=all">Git</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=SQL&amp;fee=all">SQL</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=NoSQL&amp;fee=all">NoSQL</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=%E7%AE%97%E6%B3%95&amp;fee=all">算法</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=Docker&amp;fee=all">Docker</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=Swift&amp;fee=all">Swift</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=%E6%B1%87%E7%BC%96&amp;fee=all">汇编</a>
+                
+                    <a class="" href="/courses/?course_type=all&amp;tag=Windows&amp;fee=all">Windows</a>
+                
+            </div>
+        </div>
+    </div>
+   
+    <div class="content position-relative">
+        <ul class="nav nav-tabs" role="tablist">
+        	
+        	<li class="active"><a href="/courses/?course_type=all&amp;tag=all&amp;fee=all">全部</a></li>
+        	<li class="dropdown ">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                        课程类型
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="active" href="../courses/index.html" >全部课程</a></li>
+                        <li><a class="" href="../courses/index.html?status=preview" >知识精讲</a></li>
+                        <li><a class="" href="../developer/index.html">项目实战</a></li>
+                        <li><a class="" href="../developer/index.html">就业指导</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown ">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                        难度等级
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="active" href="../courses/index.html" >全部课程</a></li>
+                        <li><a class="" href="../courses/index.html?status=preview" >初级</a></li>
+                        <li><a class="" href="../developer/index.html">中级</a></li>
+                        <li><a class="" href="../developer/index.html">高级</a></li>
+                    </ul>
+                </li>
+        	
+            <!--
+            <li class="active"><a href="/courses/?course_type=all&amp;tag=all&amp;fee=all">已上线</a></li>
+            <li class=""><a href="/courses/?status=preview" class="stat-event" data-stat="preview_course">即将上线</a></li>
+            -->
+        </ul>
+        <div class="clearfix"></div>
+        <div class="courses-sort">
+            <a  href="/courses/?course_type=all&amp;tag=all&amp;fee=all&amp;order=latest">最新</a>
+            /
+            <a  href="/courses/?course_type=all&amp;tag=all&amp;fee=all&amp;order=hotest">最热</a>
+        </div>
+        <div class="search-result"></div>
+        <div class="row">
+        
+            
+            
+
+
+<div class="col-md-3 col-sm-6  course">
+    <a class="course-box" href="show.html">
+        <div class="sign-box">
+            
+            
+            
+            <i class="fa fa-star-o course-follow pull-right"
+                data-follow-url="/courses/63/follow"
+                data-unfollow-url="/courses/63/unfollow"  style="display:none"  ></i>
+            
+        </div>
+        <div class="course-img">
+            
+            <img alt="JavaScript全面深入教程" src="../img/JS全面教程.png">
+            
+        </div>
+        
+        <div class="course-body">
+            <span class="course-title" data-toggle="tooltip" data-placement="bottom" title="JavaScript全面深入教程">JavaScript全面深入教程</span>
+        </div>
+        <div class="course-footer">
+			<span class="course-per-num pull-left">
+                <i class="fa fa-users"></i>
+                
+                下载量1342
+                
+			</span>
+			 <span class="course-money pull-right">128人已学习</span>
+        </div>
+    </a>
+</div>
+
+            
+            
+
+
+<div class="col-md-3 col-sm-6  course">
+    <a class="course-box" href="show.html">
+        <div class="sign-box">
+            
+            
+            
+            <i class="fa fa-star-o course-follow pull-right"
+                data-follow-url="/courses/1/follow"
+                data-unfollow-url="/courses/1/unfollow"  style="display:none"  ></i>
+            
+        </div>
+        <div class="course-img">
+            
+            <img alt="企业项目实战PC专题页" src="../img/企业项目PC端.png">
+            
+        </div>
+        
+        <div class="course-body">
+            <span class="course-title" data-toggle="tooltip" data-placement="bottom" title="企业项目实战PC专题页">企业项目实战PC专题页</span>
+        </div>
+        <div class="course-footer">
+			<span class="course-per-num pull-left">
+                <i class="fa fa-users"></i>
+                
+                下载量972
+                
+			</span>
+            
+                 <span class="course-money pull-right">97人已学习</span>
+            
+        </div>
+    </a>
+</div>
+
+            
+            
+
+
+<div class="col-md-3 col-sm-6  course">
+    <a class="course-box" href="show.html">
+        <div class="sign-box">
+            
+            
+            
+            <i class="fa fa-star-o course-follow pull-right"
+                data-follow-url="/courses/719/follow"
+                data-unfollow-url="/courses/719/unfollow"  style="display:none"  ></i>
+            
+        </div>
+        <div class="course-img">
+            
+            <img alt="百度外卖项目教程" src="../img/百度外卖.png">
+            
+        </div>
+        
+        <div class="course-body">
+            <span class="course-title" data-toggle="tooltip" data-placement="bottom" title="百度外卖项目教程">百度外卖项目教程</span>
+        </div>
+        <div class="course-footer">
+			<span class="course-per-num pull-left">
+                <i class="fa fa-users"></i>
+                
+                下载量2260
+                
+			</span>
+            
+               <span class="course-money pull-right">185人已学习</span>
+            
+        </div>
+    </a>
+</div>
+
+            
+    
+
+
+<div class="col-md-3 col-sm-6  course">
+    <a class="course-box" href="show.html">
+        <div class="sign-box">
+            
+            
+            
+            <i class="fa fa-star-o course-follow pull-right"
+                data-follow-url="/courses/717/follow"
+                data-unfollow-url="/courses/717/unfollow"  style="display:none"  ></i>
+            
+        </div>
+        <div class="course-img">
+            
+            <img alt="Ajax从入门到精通" src="../img/Ajax入门到精通.png">
+            
+        </div>
+        
+        <div class="course-body">
+            <span class="course-title" data-toggle="tooltip" data-placement="bottom" title="Ajax从入门到精通">Ajax从入门到精通</span>
+        </div>
+        <div class="course-footer">
+			<span class="course-per-num pull-left">
+                <i class="fa fa-users"></i>
+                
+                下载量3304
+                
+			</span>
+            
+                <span class="course-money pull-right">226人已学习</span>
+            
+        </div>
+    </a>
+</div>
+
+            
+            
+
+
+<div class="col-md-3 col-sm-6  course">
+    <a class="course-box" href="show.html">
+        <div class="sign-box">
+            
+            
+            
+            <i class="fa fa-star-o course-follow pull-right"
+                data-follow-url="/courses/721/follow"
+                data-unfollow-url="/courses/721/unfollow"  style="display:none"  ></i>
+            
+        </div>
+        <div class="course-img">
+            
+            <img alt="Vue2.0从入门到实战" src="../img/Vue2.0从入门到实战.png">
+            
+        </div>
+        
+        <div class="course-body">
+            <span class="course-title" data-toggle="tooltip" data-placement="bottom" title="Vue2.0从入门到实战">Vue2.0从入门到实战</span>
+        </div>
+        <div class="course-footer">
+			<span class="course-per-num pull-left">
+                <i class="fa fa-users"></i>
+                
+                下载量4939
+                
+			</span>
+            
+                 <span class="course-money pull-right">213人已学习</span>
+            
+        </div>
+    </a>
+</div>
+
+            
+            
+
+
+<div class="col-md-3 col-sm-6  course">
+    <a class="course-box" href="show.html">
+        <div class="sign-box">
+            
+            
+            
+            <i class="fa fa-star-o course-follow pull-right"
+                data-follow-url="/courses/729/follow"
+                data-unfollow-url="/courses/729/unfollow"  style="display:none"  ></i>
+            
+        </div>
+        <div class="course-img">
+            
+            <img alt="2017版C/C++与数据库开发" src="../img/2017版C教程.png">
+            
+        </div>
+        
+        <div class="course-body">
+            <span class="course-title" data-toggle="tooltip" data-placement="bottom" title="2017版C/C++与数据库开发">2017版C/C++与数据库开发</span>
+        </div>
+        <div class="course-footer">
+			<span class="course-per-num pull-left">
+                <i class="fa fa-users"></i>
+                
+                下载量2312
+                
+			</span>
+            
+                 <span class="course-money pull-right">136人已学习</span>
+            
+        </div>
+    </a>
+</div>
+
+            
+            
+
+
+<div class="col-md-3 col-sm-6  course">
+    <a class="course-box" href="show.html">
+        <div class="sign-box">
+            
+            
+            
+            <i class="fa fa-star-o course-follow pull-right"
+                data-follow-url="/courses/713/follow"
+                data-unfollow-url="/courses/713/unfollow"  style="display:none"  ></i>
+            
+        </div>
+        <div class="course-img">
+            
+            <img alt="2017年版服务器开发之Linux网络编程" src="../img/Linux网络编程.png">
+            
+        </div>
+        
+        <div class="course-body">
+            <span class="course-title" data-toggle="tooltip" data-placement="bottom" title="2017年版服务器开发之Linux网络编程">2017年版服务器开发之Linux网络编程</span>
+        </div>
+        <div class="course-footer">
+			<span class="course-per-num pull-left">
+                <i class="fa fa-users"></i>
+                
+                下载量2663
+                
+			</span>
+            
+                 <span class="course-money pull-right">130人已学习</span>
+            
+        </div>
+    </a>
+</div>
+
+            
+            
+
+
+<div class="col-md-3 col-sm-6  course">
+    <a class="course-box" href="show.html">
+        <div class="sign-box">
+            
+            
+            
+            <i class="fa fa-star-o course-follow pull-right"
+                data-follow-url="/courses/698/follow"
+                data-unfollow-url="/courses/698/unfollow"  style="display:none"  ></i>
+            
+        </div>
+        <div class="course-img">
+            
+            <img alt="Bootstrap教程" src="../img/Bootstrap教程.png">
+            
+        </div>
+        
+        <div class="course-body">
+            <span class="course-title" data-toggle="tooltip" data-placement="bottom" title="Bootstrap教程">Bootstrap教程</span>
+        </div>
+        <div class="course-footer">
+			<span class="course-per-num pull-left">
+                <i class="fa fa-users"></i>
+                
+                下载量7081
+                
+			</span>
+            
+                 <span class="course-money pull-right">415人已学习</span>
+            
+        </div>
+    </a>
+</div>
+
+            
+            
+
+
+<div class="col-md-3 col-sm-6  course">
+    <a class="course-box" href="show.html">
+        <div class="sign-box">
+            
+            
+            
+            <i class="fa fa-star-o course-follow pull-right"
+                data-follow-url="/courses/702/follow"
+                data-unfollow-url="/courses/702/unfollow"  style="display:none"  ></i>
+            
+        </div>
+        <div class="course-img">
+            
+            <img alt="C语言小白入门教程" src="../img/C语言小白入门教程.png">
+            
+        </div>
+        
+        <div class="course-body">
+            <span class="course-title" data-toggle="tooltip" data-placement="bottom" title="C语言小白入门教程">C语言小白入门教程</span>
+        </div>
+        <div class="course-footer">
+			<span class="course-per-num pull-left">
+                <i class="fa fa-users"></i>
+                
+                下载量4909
+                
+			</span>
+            
+                 <span class="course-money pull-right">230人已学习</span>
+            
+        </div>
+    </a>
+</div>
+
+            
+            
+
+
+<div class="col-md-3 col-sm-6  course">
+    <a class="course-box" href="show.html">
+        <div class="sign-box">
+            
+            
+            
+            <i class="fa fa-star-o course-follow pull-right"
+                data-follow-url="/courses/726/follow"
+                data-unfollow-url="/courses/726/unfollow"  style="display:none"  ></i>
+            
+        </div>
+        <div class="course-img">
+            
+            <img alt="Python入门教程完整版" src="../img/Python入门教程完整版.png">
+            
+        </div>
+        
+        <div class="course-body">
+            <span class="course-title" data-toggle="tooltip" data-placement="bottom" title="Python入门教程完整版">Python入门教程完整版</span>
+        </div>
+        <div class="course-footer">
+			<span class="course-per-num pull-left">
+                <i class="fa fa-users"></i>
+                
+                下载量14970
+                
+			</span>
+            
+                 <span class="course-money pull-right">1230人已学习</span>
+            
+        </div>
+    </a>
+</div>
+
+            
+            
+
+
+<div class="col-md-3 col-sm-6  course">
+    <a class="course-box" href="show.html">
+        <div class="sign-box">
+            
+            
+            
+            <i class="fa fa-star-o course-follow pull-right"
+                data-follow-url="/courses/725/follow"
+                data-unfollow-url="/courses/725/unfollow"  style="display:none"  ></i>
+            
+        </div>
+        <div class="course-img">
+            
+            <img alt="PHP初级 - CSS教程" src="../img/PHP初级CSS教程.png">
+            
+        </div>
+        
+        <div class="course-body">
+            <span class="course-title" data-toggle="tooltip" data-placement="bottom" title="PHP初级 - CSS教程">PHP初级 - CSS教程</span>
+        </div>
+        <div class="course-footer">
+			<span class="course-per-num pull-left">
+                <i class="fa fa-users"></i>
+                
+                下载量1479
+                
+			</span>
+            
+                 <span class="course-money pull-right">530人已学习</span>
+            
+        </div>
+    </a>
+</div>
+
+            
+            
+
+
+<div class="col-md-3 col-sm-6  course">
+    <a class="course-box" href="show.html">
+        <div class="sign-box">
+            
+            
+            
+            <i class="fa fa-star-o course-follow pull-right"
+                data-follow-url="/courses/724/follow"
+                data-unfollow-url="/courses/724/unfollow"  style="display:none"  ></i>
+            
+        </div>
+        <div class="course-img">
+            
+            <img alt="13天学会Java编程" src="../img/13天学会Java编程.png">
+            
+        </div>
+        
+        <div class="course-body">
+            <span class="course-title" data-toggle="tooltip" data-placement="bottom" title="13天学会Java编程">13天学会Java编程</span>
+        </div>
+        <div class="course-footer">
+			<span class="course-per-num pull-left">
+                <i class="fa fa-users"></i>
+                
+                下载量7823
+                
+			</span>
+            <span class="course-money pull-right">730人已学习</span>
+                
+            
+        </div>
+    </a>
+</div>
+
+            
+            
+
+
+<div class="col-md-3 col-sm-6  course">
+    <a class="course-box" href="show.html">
+        <div class="sign-box">
+            
+            
+            
+            <i class="fa fa-star-o course-follow pull-right"
+                data-follow-url="/courses/716/follow"
+                data-unfollow-url="/courses/716/unfollow"  style="display:none"  ></i>
+            
+        </div>
+        <div class="course-img">
+            
+            <img alt="Java教程_面试题破解之交通管理系统教程" src="../img/Java交通面试题.png">
+            
+        </div>
+        
+        <div class="course-body">
+            <span class="course-title" data-toggle="tooltip" data-placement="bottom" title="Java教程_面试题破解之交通管理系统教程">Java教程_面试题破解之交通管理系统教程</span>
+        </div>
+        <div class="course-footer">
+			<span class="course-per-num pull-left">
+                <i class="fa fa-users"></i>
+                
+                下载量1873
+                
+			</span>
+            
+                
+                <span class="course-money pull-right">123人已学习</span>
+                
+            
+        </div>
+    </a>
+</div>
+
+            
+            
+
+
+<div class="col-md-3 col-sm-6  course">
+    <a class="course-box" href="show.html">
+        <div class="sign-box">
+            
+            
+            
+            <i class="fa fa-star-o course-follow pull-right"
+                data-follow-url="/courses/715/follow"
+                data-unfollow-url="/courses/715/unfollow"  style="display:none"  ></i>
+            
+        </div>
+        <div class="course-img">
+            
+            <img alt="美食美刻网站制作实战" src="../img/美食美刻网站制作实战.png">
+            
+        </div>
+        
+        <div class="course-body">
+            <span class="course-title" data-toggle="tooltip" data-placement="bottom" title="美食美刻网站制作实战">美食美刻网站制作实战</span>
+        </div>
+        <div class="course-footer">
+			<span class="course-per-num pull-left">
+                <i class="fa fa-users"></i>
+                
+                下载量5202
+                
+			</span>
+            
+                
+                <span class="course-money pull-right">395人已学习</span>
+                
+            
+        </div>
+    </a>
+</div>
+
+            
+            
+
+
+<div class="col-md-3 col-sm-6  course">
+    <a class="course-box" href="show.html">
+        <div class="sign-box">
+            
+            
+            
+            <i class="fa fa-star-o course-follow pull-right"
+                data-follow-url="/courses/708/follow"
+                data-unfollow-url="/courses/708/unfollow"  style="display:none"  ></i>
+            
+        </div>
+        <div class="course-img">
+            
+            <img alt="Scrapy爬虫框架教程" src="../img/Scrapy爬虫框架.png">
+            
+        </div>
+        
+        <div class="course-body">
+            <span class="course-title" data-toggle="tooltip" data-placement="bottom" title="Scrapy爬虫框架教程">Scrapy爬虫框架教程</span>
+        </div>
+        <div class="course-footer">
+			<span class="course-per-num pull-left">
+                <i class="fa fa-users"></i>
+                
+                下载量8242
+                
+			</span>
+            
+                
+                <span class="course-money pull-right">359人已学习</span>
+                
+            
+        </div>
+    </a>
+</div>
+
+            
+        
+        
+        </div>
+        
+
+<nav class="pagination-container">
+    <ul class="pagination">
+        
+        <li class="disabled">
+            <a href="#" aria-label="Previous">
+                <span aria-hidden="true">上一页</span>
+            </a>
+        </li>
+        
+        
+        
+        <li class="active">
+            <a href="/courses/?course_type=all&amp;tag=all&amp;fee=all&amp;page=1">1</a>
+        </li>
+        
+        
+        
+        <li class="">
+            <a href="/courses/?course_type=all&amp;tag=all&amp;fee=all&amp;page=2">2</a>
+        </li>
+        
+        
+        
+        <li class="">
+            <a href="/courses/?course_type=all&amp;tag=all&amp;fee=all&amp;page=3">3</a>
+        </li>
+        
+        
+        
+        <li class="">
+            <a href="/courses/?course_type=all&amp;tag=all&amp;fee=all&amp;page=4">4</a>
+        </li>
+        
+        
+        
+        <li class="">
+            <a href="/courses/?course_type=all&amp;tag=all&amp;fee=all&amp;page=5">5</a>
+        </li>
+        
+        
+        
+        <li>
+            <a href='#'>...</a>
+        </li>
+        
+        
+        
+        <li class="">
+            <a href="/courses/?course_type=all&amp;tag=all&amp;fee=all&amp;page=24">24</a>
+        </li>
+        
+        
+        
+        <li class="">
+            <a href="/courses/?course_type=all&amp;tag=all&amp;fee=all&amp;page=25">25</a>
+        </li>
+        
+        
+        
+        <li class="">
+            <a aria-label="Next" href="/courses/?course_type=all&amp;tag=all&amp;fee=all&amp;page=2">
+                <span aria-hidden="true">下一页</span>
+            </a>
+        </li>
+        
+    </ul>
+</nav>
+
+
+    </div>
+
+        </div>
+        
+        
+        <!--<div class="col-md-3 layout-side">
+            
+	
+
+
+
+
+<div class="panel panel-default panel-userinfo">
+    <div class="panel-body body-userinfo">
+        <div class="media userinfo-header">
+            <div class="media-left">
+                <div class="user-avatar">
+                    
+                     <a class="avatar" href="#sign-modal" data-toggle="modal" data-sign="signin">
+                         <img class="circle" src="../img/logo-grey.png">
+                     </a>
+                      
+                </div>
+             </div>
+            <div class="media-body">
+                
+                 <span class="media-heading username">欢迎来到实验楼</span>
+                 <p class="vip-remain">做实验，学编程</p>
+                 
+            </div>
+        </div> 
+        
+        <div class="row userinfo-data">
+            
+            <hr>
+            <div class="btn-group-lr">
+            <a href="#sign-modal" type="button" class="btn btn-success col-md-5 col-xs-6 login-btn" data-toggle="modal" data-sign="signin">登录</a>
+            <a href="#sign-modal" type="button" class="btn btn-success col-md-5 col-xs-6 col-md-offset-1 register-btn" data-toggle="modal" data-sign="signup">注册</a>
+            </div>
+            
+        </div>
+        
+        <div class="userinfo-footer row">
+            <div class="col-md-6 col-xs-6 pos-left">
+                
+                <a href="#sign-modal" data-toggle="modal" data-sign="signin"><span class="glyphicon glyphicon-bookmark"></span> 加入私有课</a>
+                
+            </div>
+            <div class="col-md-6 col-xs-6 pos-right">
+                <a href="/contribute" target="_blank"><span class="glyphicon glyphicon-send"></span> 我要投稿</a>
+            </div>
+
+            <div id="join-private-course" class="modal fade words-ctrl" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">加入私有课</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div style="margin:15px 0; font:16px;">输入教师提供的私有课程码可以加入教师的私有课程。</div>
+                            <form id="private-course-form" method="POST" action="/courses/join">
+                                <div class="form-group">
+                                    <label for="code">邀请码</label>
+                                    <input class="form-control" id="code" name="code" type="text" value="">
+                                    <input name="_csrf_token" type=hidden value="1483780974##87f89328c5616669f00302a263fe9061bb852818">
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" onclick="document.getElementById('private-course-form').submit();">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="sidebox">
+    
+	<div class="sidebox-header">
+		<h4 class="sidebox-title">最热路径</h4>
+	</div>
+	<div class="sidebox-body course-content side-list-body">
+        <a href="/paths/python"><img style="width:25px;height:25px" src="../img/1471513769430.png"> Python 研发工程师</a>
+        <a href="/paths/bigdata"><img style="width:25px;height:25px" src="../img/1471513926288.png"> 大数据工程师</a>
+        <a href="/paths/cpp"><img style="width:25px;height:25px" src="../img/1471513793360.png"> C++ 研发工程师</a>
+        <a href="/paths/security"><img style="width:25px;height:25px" src="../img/1471513867033.png"> 信息安全工程师</a>
+        <a href="/paths/linuxsys"><img style="width:25px;height:25px" src="../img/1471514004752.png"> Linux 运维工程师</a>
+	</div>
+    
+</div>
+
+<div class="side-image side-qrcode">
+    <img src="../img/ShiyanlouQRCode.png">
+    <div class="side-image-text">关注公众号，手机看教程</div>
+</div>
+
+        </div>-->
+    </div>
+</div>
+
+
+	<div class="modal fade" id="invite-user" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">邀请好友，双方都可获赠实验豆！</h4>
+				</div>
+				<div class="modal-body">
+                    
+                        <p><h4><a href="#sign-modal" data-toggle="modal" data-sign="signin">登录</a>后邀请好友注册，您和好友将分别获赠3个实验豆！</h4></p>
+                    
+					<div id="msg-modal"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="flash-message" tabindex="-1" role="dialog">
+		<div class="modal-dialog" rolw="document">
+		</div>
+	</div>
+	<div class="modal fade" id="modal-message" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">注意</h4>
+				</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary confirm" data-dismiss="modal">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+    
+
+    
+    
+
+	
+		
+			
+		
+	
+
+    <div class="modal fade" id="sign-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <button type="button" class="close-modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="modal-body">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#signin-form" aria-controls="signin-form" role="tab" data-toggle="tab">登录</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#signup-form" aria-controls="signup-form" role="tab" data-toggle="tab">注册</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="signin-form">
+                        <form action="/login" method="post">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-envelope" style="margin:0;"></i>
+                                    </div>
+                                    <input type="email" name="login" class="form-control" placeholder="请输入邮箱">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-lock" style="margin:0;"></i>
+                                    </div>
+                                    <input type="password" name="password" class="form-control" placeholder="请输入密码">
+                                </div>
+                            </div>
+                            <div class="form-inline verify-code-item" style="display:none;">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" name="captcha_v" class="form-control" placeholder="请输入验证码">
+                                    </div>
+                                </div>
+                                <img class="verify-code" src="" source="img/captcha.gif">
+                            </div>
+                            <div class="form-group remember-login">
+                                <input name="remember" type="checkbox" value="y"> 下次自动登录
+                                <a class="pull-right" href="../reset_password/index.html">忘记密码？</a>
+                            </div>
+                            <div class="form-group">
+                                <input class="btn btn-primary" name="submit" type="submit" value="进入实验楼">
+                            </div>
+                            <div class="form-group widget-signin">
+                                <span>快速登录</span>
+                                <a href="/auth/qq?next="><i class="fa fa-qq"></i></a>
+                                <a href="/auth/weibo?next="><i class="fa fa-weibo"></i></a>
+                                <a href="/auth/weixin?next="><i class="fa fa-weixin"></i></a>
+                                <a href="/auth/github?next="><i class="fa fa-github"></i></a>
+                                <a href="/auth/renren?next="><i class="fa fa-renren"></i></a>
+                            </div>
+                            <div class="form-group error-msg">
+                                <div class="alert alert-danger" role="alert"></div>
+                            </div>
+                        </form>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="signup-form">
+                        <form action="/register" method="post">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-envelope" style="margin:0;"></i>
+                                    </div>
+                                    <input type="email" name="email" class="form-control" placeholder="请输入邮箱">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-lock" style="margin:0;"></i>
+                                    </div>
+                                    <input type="password" name="password" class="form-control" placeholder="请输入密码">
+                                </div>
+                            </div>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" name="captcha_v" class="form-control" placeholder="请输入验证码">
+                                    </div>
+                                </div>
+                                <img class="verify-code" src="" source="img/captcha.gif">
+                            </div>
+                            <div class="form-group">
+                                <input class="btn btn-primary" name="submit" type="submit" value="注册">
+                            </div>
+                            <div class="form-group agree-privacy">
+                                注册表示您已经同意我们的<a href="../privacy/index.html" target="_blank">隐私条款</a>
+                            </div>
+                            <div class="form-group widget-signup">
+                                <span>快速注册</span>
+                                <a href="/auth/qq?next="><i class="fa fa-qq"></i></a>
+                                <a href="/auth/weibo?next="><i class="fa fa-weibo"></i></a>
+                                <a href="/auth/weixin?next="><i class="fa fa-weixin"></i></a>
+                                <a href="/auth/github?next="><i class="fa fa-github"></i></a>
+                                <a href="/auth/renren?next="><i class="fa fa-renren"></i></a>
+                            </div>
+                            <div class="form-group error-msg">
+                                <div class="alert alert-danger" role="alert"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div id="base-data"
+        
+        
+            data-flash="false"
+            
+        
+        
+        data-is-login=false
+        
+        data-is-jwt=true
+        data-socket-url="wss://comet.xxxxxx.com"
+        data-msg-user=""
+        data-msg-system=""
+    ></div>
+
+    <script src="../app/dest/lib/lib.js?=2016121272249"></script>
+    <script src="../static/jquery/2.2.4/jquery.min.js"></script>
+    <script src="../static/ace/1.2.5/ace.js"></script>
+    <script src="../static/aliyun/aliyun-oss-sdk-4.3.0.min.js"></script>
+    <script src="../static/highlight.js/9.8.0/highlight.min.js"></script>
+    <script src="../static/jspdf/1.2.61/jspdf.min.js"></script>
+    <script src="../static/plupload/2.1.9/js/plupload.full.min.js"></script>
+    <script src="../static/zeroclipboard/2.2.0/ZeroClipboard.min.js"></script>
+    <script src="../static/videojs/video.min.js"></script>
+    <script src="../static/bootstrap-tour/0.11.0/js/bootstrap-tour.min.js"></script>
+    <script src="../static/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
+    <script src="../static/bootstrap-table/1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../static/bootstrap-table/1.11.0/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+
+    <script src="../static/ravenjs/3.7.0/raven.min.js"></script>
+    <script>
+        Raven.config('https://bc3878b7ed0a4468a65390bd79e6e73f@sentry.xxxxxx.com/5', {
+            release: '3.12.13'
+        }).install();
+    </script>
+
+    
+
+
+
+
+<div id="jinja-data"
+    data-loginurl="/login"
+    data-private-course-url="/courses/join"
+    data-site-type="0"
+    
+></div>
+
+<script src="../app/dest/course/index.js?=2016121272249"></script>
+
+
+	
+        
+            
+            
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 clearfix footer-col">
+                <img src="../img/黑马logo.png">
+                <div class="footer-slogan">动手看视频，轻松学编程</div>
+                <div class="col-xs-2">
+                    <div class="social-item footer-weixin-item">
+                        <i class="fa fa-weixin"></i>
+                        <div class="footer-weixin">
+                            <img src="../img/footer-weixin.png">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="social-item footer-qq-item">
+                        <i class="fa fa-qq"></i>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="social-item footer-weibo-item">
+                        <a href="#" target="_blank">
+                            <i class="fa fa-weibo"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-3 col-md-2 footer-col">
+                <div class="col-title">公司</div>
+                <a href="../aboutus/index.html" target="_blank">关于我们</a><br>
+                <a href="../contact/index.html" target="_blank">联系我们</a><br>
+                <a href="#" target="_blank">加入我们</a><br>
+                <a href="#" target="_blank">技术博客</a><br>
+            </div>
+            <div class="col-xs-6 col-sm-3 col-md-2 footer-col">
+                <div class="col-title">合作</div>
+                <a href="../contribute/index.html" target="_blank">我要投稿</a><br>
+                <a href="../labs/index.html" target="_blank">教师合作</a><br>
+                <a href="../edu/index.html" target="_blank">高校合作</a><br>
+                <a href="../friends/index.html" target="_blank">友情链接</a>
+            </div>
+            <div class="col-xs-6 col-sm-3 col-md-2 footer-col">
+                <div class="col-title">服务</div>
+                <a href="../bootcamp/index.html" target="_blank">实战训练营</a><br>
+                <a href="../vip/index.html" target="_blank">会员服务</a><br>
+                <a href="../courses/reports/index.html" target="_blank">实验报告</a><br>
+                <a href="../questions/index.html?tag=%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" target="_blank">常见问题</a><br>
+                <a href="../privacy/index.html" target="_blank">隐私条款</a>
+            </div>
+            <div class="col-xs-6 col-sm-3 col-md-2 footer-col">
+                <div class="col-title">学习路径</div>
+                <a href="../paths/python/index.html" target="_blank">Python学习路径</a><br>
+                <a href="../paths/linuxdev/index.html" target="_blank">Linux学习路径</a><br>
+                <a href="../paths/bigdata/index.html" target="_blank">大数据学习路径</a><br>
+                <a href="../paths/java/index.html" target="_blank">Java学习路径</a><br>
+                <a href="../paths/php/index.html" target="_blank">PHP学习路径</a><br>
+                <a href="../paths/index.html", target="_blank">全部</a>
+            </div>
+        </div>
+    </div>
+    <div class="text-center copyright">
+        <span>Copyright @2013-2016 在线教育</span>
+        <span class="ver-line"> | </span>
+        <a href="#" target="_blank">蜀ICP备00000000号</a>
+
+    </div>
+</div>
+
+            
+        
+	
+</body>
+</html>

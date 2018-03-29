@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vm.movie.dao.mapper.VmFilmmakersMapper">
+<resultMap type="com.vm.movie.dao.po.VmFilmmakers"  id="VmFilmmakersMap">
+  <id column="id" property="id"/>
+  <result column="name" property="name"/>
+  <result column="alias" property="alias"/>
+  <result column="profession" property="profession"/>
+  <result column="blood_type" property="bloodType"/>
+  <result column="sex" property="sex"/>
+  <result column="birthday" property="birthday"/>
+  <result column="country" property="country"/>
+  <result column="description" property="description"/>
+  <result column="img_url" property="imgUrl"/>
+  <result column="create_time" property="createTime"/>
+  <result column="update_time" property="updateTime"/>
+  <result column="is_deleted" property="isDeleted"/>
+  <result column="status" property="status"/>
+</resultMap>
+
+    <sql id="BASE_ALL_CLOUM">
+        id,
+        <include refid="BASE_COLUM_WITHOUT_ID"/>
+    </sql>
+
+	<sql id="BASE_COLUM_WITHOUT_ID">
+		name,
+		alias,
+		profession,
+		blood_type,
+		sex,
+		birthday,
+		country,
+		description,
+		img_url,
+		create_time,
+		update_time,
+		is_deleted,
+		status
+	</sql>
+
+
+
+	<select id="count" resultType="int">
+		SELECT 
+			count(1)
+		FROM
+		vm_filmmakers
+		<include refid="queryCondition" />
+	</select>
+
+<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO vm_filmmakers(
+        <include refid="BASE_COLUM_WITHOUT_ID"/>
+        )
+        VALUES (
+#{name},
+#{alias},
+#{profession},
+#{bloodType},
+#{sex},
+#{birthday},
+#{country},
+#{description},
+#{imgUrl},
+#{createTime},
+#{updateTime},
+#{isDeleted},
+#{status}
+       )
+				 </insert>
+
+<delete id="delete">
+		DELETE
+		FROM
+			vm_filmmakers
+		WHERE
+			id = #{id}
+	</delete>
+
+<delete id="deleteBy">
+		DELETE
+		FROM
+			vm_filmmakers
+		<include refid="queryCondition" />
+	</delete>
+
+    <delete id="deleteInIds" >
+        delete
+        FROM
+        vm_filmmakers
+        WHERE id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </delete>
+
+<update id="update" >
+UPDATE
+		vm_filmmakers
+<include refid="setFields" />
+WHERE
+id=#{id}
+</update>
+
+
+<update id="batchUpdate">
+UPDATE
+		vm_filmmakers
+<include refid="setFields" />
+<include refid="queryCondition" />
+</update>
+
+
+    <update id="updateInIds">
+        update 
+        vm_filmmakers
+       <include refid="setFields" />        WHERE id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </update>
+
+	<select id="selectList" resultMap="VmFilmmakersMap">
+		SELECT
+			<include refid="BASE_ALL_CLOUM"/>
+		FROM
+		vm_filmmakers
+		<include refid="queryCondition" />
+		LIMIT #{start},#{size}
+
+	</select>
+
+	<select id="selectListOrderBy" resultMap="VmFilmmakersMap">
+		SELECT
+			<include refid="BASE_ALL_CLOUM"/>
+		FROM
+		vm_filmmakers
+		<include refid="queryCondition" />
+	<if test="orderBy != null and orderType != null">
+			order by ${orderBy} ${orderType}
+		</if>
+		limit #{start},#{size}
+
+	</select>
+
+<sql id="queryCondition">
+<trim prefix="where" prefixOverrides="and">
+<if test="query != null">
+<if test="query.name != null ">
+		and name=#{query.name}
+</if>
+<if test="query.alias != null ">
+		and alias=#{query.alias}
+</if>
+<if test="query.profession != null ">
+		and profession=#{query.profession}
+</if>
+<if test="query.bloodType != null ">
+		and blood_type=#{query.bloodType}
+</if>
+<if test="query.sex != null ">
+		and sex=#{query.sex}
+</if>
+<if test="query.birthday != null ">
+		and birthday=#{query.birthday}
+</if>
+<if test="query.country != null ">
+		and country=#{query.country}
+</if>
+<if test="query.description != null ">
+		and description=#{query.description}
+</if>
+<if test="query.imgUrl != null ">
+		and img_url=#{query.imgUrl}
+</if>
+<if test="query.createTime != null ">
+		and create_time=#{query.createTime}
+</if>
+<if test="query.updateTime != null ">
+		and update_time=#{query.updateTime}
+</if>
+<if test="query.isDeleted != null ">
+		and is_deleted=#{query.isDeleted}
+</if>
+<if test="query.status != null ">
+		and status=#{query.status}
+</if>
+</if>
+</trim>
+</sql>
+
+
+<sql id="setFields">
+<set>
+<trim suffix="" suffixOverrides=",">
+<if test="newObj.name != null">name=#{newObj.name},</if>
+<if test="newObj.alias != null">alias=#{newObj.alias},</if>
+<if test="newObj.profession != null">profession=#{newObj.profession},</if>
+<if test="newObj.bloodType != null">blood_type=#{newObj.bloodType},</if>
+<if test="newObj.sex != null">sex=#{newObj.sex},</if>
+<if test="newObj.birthday != null">birthday=#{newObj.birthday},</if>
+<if test="newObj.country != null">country=#{newObj.country},</if>
+<if test="newObj.description != null">description=#{newObj.description},</if>
+<if test="newObj.imgUrl != null">img_url=#{newObj.imgUrl},</if>
+<if test="newObj.createTime != null">create_time=#{newObj.createTime},</if>
+<if test="newObj.updateTime != null">update_time=#{newObj.updateTime},</if>
+<if test="newObj.isDeleted != null">is_deleted=#{newObj.isDeleted},</if>
+<if test="newObj.status != null">status=#{newObj.status}</if>
+</trim>
+</set>
+</sql>
+
+
+<insert id="batchInsert"  useGeneratedKeys="true" parameterType="java.util.List" keyProperty="id">
+        INSERT INTO vm_filmmakers(
+        <include refid="BASE_COLUM_WITHOUT_ID"/>
+)        VALUES 
+   <foreach collection ="list" item ="item" index ="index" separator =","> 
+(
+#{item.name},
+#{item.alias},
+#{item.profession},
+#{item.bloodType},
+#{item.sex},
+#{item.birthday},
+#{item.country},
+#{item.description},
+#{item.imgUrl},
+#{item.createTime},
+#{item.updateTime},
+#{item.isDeleted},
+#{item.status}
+)
+</foreach> 
+</insert>
+
+
+    <select id="select" resultMap="VmFilmmakersMap">
+        SELECT * FROM vm_filmmakers WHERE id = #{id}
+    </select>
+
+
+    <select id="selectInIds" resultMap="VmFilmmakersMap">
+        SELECT
+        <include refid="BASE_ALL_CLOUM"/>
+        FROM
+        vm_filmmakers
+        WHERE id IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <select id="selectByAndInIds" resultMap="VmFilmmakersMap">
+        SELECT
+        <include refid="BASE_ALL_CLOUM"/>
+        FROM
+        vm_filmmakers
+        <include refid="queryCondition" />
+        and id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <select id="selectIdList" resultType="java.lang.Long">
+        SELECT
+ 		 id 
+        FROM
+        vm_filmmakers
+        <include refid="queryCondition" />
+
+    </select>
+
+
+	<select id="selectBy" resultMap="VmFilmmakersMap">
+		SELECT * 
+		FROM
+		vm_filmmakers
+		<include refid="queryCondition" />
+	</select>
+
+
+	<select id="selectOneBy" resultMap="VmFilmmakersMap">
+		SELECT * 
+		FROM
+		vm_filmmakers
+		<include refid="queryCondition" />
+		LIMIT 1 
+	</select>
+
+</mapper>

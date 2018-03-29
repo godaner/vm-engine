@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vm.admin.dao.mapper.VmAdminsMapper">
+<resultMap type="com.vm.admin.dao.po.VmAdmins"  id="VmAdminsMap">
+  <id column="id" property="id"/>
+  <result column="username" property="username"/>
+  <result column="password" property="password"/>
+  <result column="description" property="description"/>
+  <result column="create_time" property="createTime"/>
+  <result column="update_time" property="updateTime"/>
+  <result column="is_deleted" property="isDeleted"/>
+  <result column="status" property="status"/>
+  <result column="immutable" property="immutable"/>
+</resultMap>
+
+    <sql id="BASE_ALL_CLOUM">
+        id,
+        <include refid="BASE_COLUM_WITHOUT_ID"/>
+    </sql>
+
+	<sql id="BASE_COLUM_WITHOUT_ID">
+		username,
+		password,
+		description,
+		create_time,
+		update_time,
+		is_deleted,
+		status,
+		immutable
+	</sql>
+
+
+
+	<select id="count" resultType="int">
+		SELECT 
+			count(1)
+		FROM
+		vm_admins
+		<include refid="queryCondition" />
+	</select>
+
+<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO vm_admins(
+        <include refid="BASE_COLUM_WITHOUT_ID"/>
+        )
+        VALUES (
+#{username},
+#{password},
+#{description},
+#{createTime},
+#{updateTime},
+#{isDeleted},
+#{status},
+#{immutable}
+       )
+				 </insert>
+
+<delete id="delete">
+		DELETE
+		FROM
+			vm_admins
+		WHERE
+			id = #{id}
+	</delete>
+
+<delete id="deleteBy">
+		DELETE
+		FROM
+			vm_admins
+		<include refid="queryCondition" />
+	</delete>
+
+    <delete id="deleteInIds" >
+        delete
+        FROM
+        vm_admins
+        WHERE id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </delete>
+
+<update id="update" >
+UPDATE
+		vm_admins
+<include refid="setFields" />
+WHERE
+id=#{id}
+</update>
+
+
+<update id="batchUpdate">
+UPDATE
+		vm_admins
+<include refid="setFields" />
+<include refid="queryCondition" />
+</update>
+
+
+    <update id="updateInIds">
+        update 
+        vm_admins
+       <include refid="setFields" />        WHERE id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </update>
+
+	<select id="selectList" resultMap="VmAdminsMap">
+		SELECT
+			<include refid="BASE_ALL_CLOUM"/>
+		FROM
+		vm_admins
+		<include refid="queryCondition" />
+		LIMIT #{start},#{size}
+
+	</select>
+
+	<select id="selectListOrderBy" resultMap="VmAdminsMap">
+		SELECT
+			<include refid="BASE_ALL_CLOUM"/>
+		FROM
+		vm_admins
+		<include refid="queryCondition" />
+	<if test="orderBy != null and orderType != null">
+			order by ${orderBy} ${orderType}
+		</if>
+		limit #{start},#{size}
+
+	</select>
+
+<sql id="queryCondition">
+<trim prefix="where" prefixOverrides="and">
+<if test="query != null">
+<if test="query.username != null ">
+		and username=#{query.username}
+</if>
+<if test="query.password != null ">
+		and password=#{query.password}
+</if>
+<if test="query.description != null ">
+		and description=#{query.description}
+</if>
+<if test="query.createTime != null ">
+		and create_time=#{query.createTime}
+</if>
+<if test="query.updateTime != null ">
+		and update_time=#{query.updateTime}
+</if>
+<if test="query.isDeleted != null ">
+		and is_deleted=#{query.isDeleted}
+</if>
+<if test="query.status != null ">
+		and status=#{query.status}
+</if>
+<if test="query.immutable != null ">
+		and immutable=#{query.immutable}
+</if>
+</if>
+</trim>
+</sql>
+
+
+<sql id="setFields">
+<set>
+<trim suffix="" suffixOverrides=",">
+<if test="newObj.username != null">username=#{newObj.username},</if>
+<if test="newObj.password != null">password=#{newObj.password},</if>
+<if test="newObj.description != null">description=#{newObj.description},</if>
+<if test="newObj.createTime != null">create_time=#{newObj.createTime},</if>
+<if test="newObj.updateTime != null">update_time=#{newObj.updateTime},</if>
+<if test="newObj.isDeleted != null">is_deleted=#{newObj.isDeleted},</if>
+<if test="newObj.status != null">status=#{newObj.status},</if>
+<if test="newObj.immutable != null">immutable=#{newObj.immutable}</if>
+</trim>
+</set>
+</sql>
+
+
+<insert id="batchInsert"  useGeneratedKeys="true" parameterType="java.util.List" keyProperty="id">
+        INSERT INTO vm_admins(
+        <include refid="BASE_COLUM_WITHOUT_ID"/>
+)        VALUES 
+   <foreach collection ="list" item ="item" index ="index" separator =","> 
+(
+#{item.username},
+#{item.password},
+#{item.description},
+#{item.createTime},
+#{item.updateTime},
+#{item.isDeleted},
+#{item.status},
+#{item.immutable}
+)
+</foreach> 
+</insert>
+
+
+    <select id="select" resultMap="VmAdminsMap">
+        SELECT * FROM vm_admins WHERE id = #{id}
+    </select>
+
+
+    <select id="selectInIds" resultMap="VmAdminsMap">
+        SELECT
+        <include refid="BASE_ALL_CLOUM"/>
+        FROM
+        vm_admins
+        WHERE id IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <select id="selectByAndInIds" resultMap="VmAdminsMap">
+        SELECT
+        <include refid="BASE_ALL_CLOUM"/>
+        FROM
+        vm_admins
+        <include refid="queryCondition" />
+        and id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <select id="selectIdList" resultType="java.lang.Long">
+        SELECT
+ 		 id 
+        FROM
+        vm_admins
+        <include refid="queryCondition" />
+
+    </select>
+
+
+	<select id="selectBy" resultMap="VmAdminsMap">
+		SELECT * 
+		FROM
+		vm_admins
+		<include refid="queryCondition" />
+	</select>
+
+
+	<select id="selectOneBy" resultMap="VmAdminsMap">
+		SELECT * 
+		FROM
+		vm_admins
+		<include refid="queryCondition" />
+		LIMIT 1 
+	</select>
+
+</mapper>

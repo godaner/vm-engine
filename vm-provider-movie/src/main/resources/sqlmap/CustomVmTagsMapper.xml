@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vm.movie.dao.mapper.custom.CustomVmTagsMapper">
+
+    <!--**************************** 用户端mapper start ****************************-->
+
+    <select id="selectTagsIdAndNameByTagGroupId" resultMap="com.vm.movie.dao.mapper.VmTagsMapper.VmTagsMap">
+        SELECT
+        t.id,
+        t.name
+        from vm_tags t
+        where t.`status` =1
+        and t.tag_group_id=#{tagGroupId}
+    </select>
+    <select id="getTagsIdAndNameOfMovie" resultMap="com.vm.movie.dao.mapper.VmTagsMapper.VmTagsMap">
+        SELECT
+            t.id,
+            t.name
+        FROM
+            vm_tags t,
+            vm_movies_tags_realation mtr
+        WHERE
+            t.`status` = #{query.status}
+        AND mtr.`status` = #{query.status}
+        AND t.is_deleted = #{query.isDeleted}
+        AND mtr.is_deleted = #{query.isDeleted}
+        AND mtr.movie_id = #{query.movieId}
+        AND mtr.tag_id = t.id
+    </select>
+
+
+    <!--**************************** 管理端mapper end ****************************-->
+    <select id="getTagIdsByTagGroupIds" resultType="long">
+        SELECT
+        id
+        FROM
+        vm_tags
+        WHERE
+        is_deleted = #{query.isDeleted}
+        and tag_group_id in
+        <foreach collection="query.tagGroupIds" separator="," item="item" open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+</mapper>

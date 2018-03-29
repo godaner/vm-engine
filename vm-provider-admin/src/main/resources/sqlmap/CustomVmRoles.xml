@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vm.admin.dao.mapper.custom.CustomVmRolesMapper">
+    <select id="getRoles" resultMap="com.vm.admin.dao.mapper.VmRolesMapper.VmRolesMap">
+        SELECT
+        *
+        FROM
+        vm_roles
+        where
+        is_deleted = #{query.isDeleted}
+        <if test="query != null">
+            <if test="query.roleName != null and query.roleName != ''">
+                and role_name like concat('%',#{query.roleName},'%')
+            </if>
+        </if>
+        <if test="page != null">
+            <if test="page.orderBy != null and page.orderBy!='' and page.orderType != null and page.orderType!=''">
+                order by ${page.orderBy} ${page.orderType}
+            </if>
+            <if test="page.start != null and page.size != null">
+                limit #{page.start},#{page.size}
+            </if>
+        </if>
+    </select>
+    <select id="getRolesTotal" resultType="long">
+        SELECT
+        count(id)
+        FROM
+        vm_roles
+        where
+        is_deleted = #{query.isDeleted}
+        <if test="query != null">
+            <if test="query.roleName != null and query.roleName != ''">
+                and role_name like concat('%',#{query.roleName},'%')
+            </if>
+        </if>
+
+    </select>
+</mapper>

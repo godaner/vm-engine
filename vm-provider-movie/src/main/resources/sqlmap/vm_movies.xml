@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vm.movie.dao.mapper.VmMoviesMapper">
+<resultMap type="com.vm.movie.dao.po.VmMovies"  id="VmMoviesMap">
+  <id column="id" property="id"/>
+  <result column="name" property="name"/>
+  <result column="alias" property="alias"/>
+  <result column="description" property="description"/>
+  <result column="director_id" property="directorId"/>
+  <result column="release_time" property="releaseTime"/>
+  <result column="score" property="score"/>
+  <result column="watch_num" property="watchNum"/>
+  <result column="movie_time" property="movieTime"/>
+  <result column="poster_url" property="posterUrl"/>
+  <result column="img_url" property="imgUrl"/>
+  <result column="create_time" property="createTime"/>
+  <result column="update_time" property="updateTime"/>
+  <result column="is_deleted" property="isDeleted"/>
+  <result column="status" property="status"/>
+</resultMap>
+
+    <sql id="BASE_ALL_CLOUM">
+        id,
+        <include refid="BASE_COLUM_WITHOUT_ID"/>
+    </sql>
+
+	<sql id="BASE_COLUM_WITHOUT_ID">
+		name,
+		alias,
+		description,
+		director_id,
+		release_time,
+		score,
+		watch_num,
+		movie_time,
+		poster_url,
+		img_url,
+		create_time,
+		update_time,
+		is_deleted,
+		status
+	</sql>
+
+
+
+	<select id="count" resultType="int">
+		SELECT 
+			count(1)
+		FROM
+		vm_movies
+		<include refid="queryCondition" />
+	</select>
+
+<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO vm_movies(
+        <include refid="BASE_COLUM_WITHOUT_ID"/>
+        )
+        VALUES (
+#{name},
+#{alias},
+#{description},
+#{directorId},
+#{releaseTime},
+#{score},
+#{watchNum},
+#{movieTime},
+#{posterUrl},
+#{imgUrl},
+#{createTime},
+#{updateTime},
+#{isDeleted},
+#{status}
+       )
+				 </insert>
+
+<delete id="delete">
+		DELETE
+		FROM
+			vm_movies
+		WHERE
+			id = #{id}
+	</delete>
+
+<delete id="deleteBy">
+		DELETE
+		FROM
+			vm_movies
+		<include refid="queryCondition" />
+	</delete>
+
+    <delete id="deleteInIds" >
+        delete
+        FROM
+        vm_movies
+        WHERE id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </delete>
+
+<update id="update" >
+UPDATE
+		vm_movies
+<include refid="setFields" />
+WHERE
+id=#{id}
+</update>
+
+
+<update id="batchUpdate">
+UPDATE
+		vm_movies
+<include refid="setFields" />
+<include refid="queryCondition" />
+</update>
+
+
+    <update id="updateInIds">
+        update 
+        vm_movies
+       <include refid="setFields" />        WHERE id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </update>
+
+	<select id="selectList" resultMap="VmMoviesMap">
+		SELECT
+			<include refid="BASE_ALL_CLOUM"/>
+		FROM
+		vm_movies
+		<include refid="queryCondition" />
+		LIMIT #{start},#{size}
+
+	</select>
+
+	<select id="selectListOrderBy" resultMap="VmMoviesMap">
+		SELECT
+			<include refid="BASE_ALL_CLOUM"/>
+		FROM
+		vm_movies
+		<include refid="queryCondition" />
+	<if test="orderBy != null and orderType != null">
+			order by ${orderBy} ${orderType}
+		</if>
+		limit #{start},#{size}
+
+	</select>
+
+<sql id="queryCondition">
+<trim prefix="where" prefixOverrides="and">
+<if test="query != null">
+<if test="query.name != null ">
+		and name=#{query.name}
+</if>
+<if test="query.alias != null ">
+		and alias=#{query.alias}
+</if>
+<if test="query.description != null ">
+		and description=#{query.description}
+</if>
+<if test="query.directorId != null ">
+		and director_id=#{query.directorId}
+</if>
+<if test="query.releaseTime != null ">
+		and release_time=#{query.releaseTime}
+</if>
+<if test="query.score != null ">
+		and score=#{query.score}
+</if>
+<if test="query.watchNum != null ">
+		and watch_num=#{query.watchNum}
+</if>
+<if test="query.movieTime != null ">
+		and movie_time=#{query.movieTime}
+</if>
+<if test="query.posterUrl != null ">
+		and poster_url=#{query.posterUrl}
+</if>
+<if test="query.imgUrl != null ">
+		and img_url=#{query.imgUrl}
+</if>
+<if test="query.createTime != null ">
+		and create_time=#{query.createTime}
+</if>
+<if test="query.updateTime != null ">
+		and update_time=#{query.updateTime}
+</if>
+<if test="query.isDeleted != null ">
+		and is_deleted=#{query.isDeleted}
+</if>
+<if test="query.status != null ">
+		and status=#{query.status}
+</if>
+</if>
+</trim>
+</sql>
+
+
+<sql id="setFields">
+<set>
+<trim suffix="" suffixOverrides=",">
+<if test="newObj.name != null">name=#{newObj.name},</if>
+<if test="newObj.alias != null">alias=#{newObj.alias},</if>
+<if test="newObj.description != null">description=#{newObj.description},</if>
+<if test="newObj.directorId != null">director_id=#{newObj.directorId},</if>
+<if test="newObj.releaseTime != null">release_time=#{newObj.releaseTime},</if>
+<if test="newObj.score != null">score=#{newObj.score},</if>
+<if test="newObj.watchNum != null">watch_num=#{newObj.watchNum},</if>
+<if test="newObj.movieTime != null">movie_time=#{newObj.movieTime},</if>
+<if test="newObj.posterUrl != null">poster_url=#{newObj.posterUrl},</if>
+<if test="newObj.imgUrl != null">img_url=#{newObj.imgUrl},</if>
+<if test="newObj.createTime != null">create_time=#{newObj.createTime},</if>
+<if test="newObj.updateTime != null">update_time=#{newObj.updateTime},</if>
+<if test="newObj.isDeleted != null">is_deleted=#{newObj.isDeleted},</if>
+<if test="newObj.status != null">status=#{newObj.status}</if>
+</trim>
+</set>
+</sql>
+
+
+<insert id="batchInsert"  useGeneratedKeys="true" parameterType="java.util.List" keyProperty="id">
+        INSERT INTO vm_movies(
+        <include refid="BASE_COLUM_WITHOUT_ID"/>
+)        VALUES 
+   <foreach collection ="list" item ="item" index ="index" separator =","> 
+(
+#{item.name},
+#{item.alias},
+#{item.description},
+#{item.directorId},
+#{item.releaseTime},
+#{item.score},
+#{item.watchNum},
+#{item.movieTime},
+#{item.posterUrl},
+#{item.imgUrl},
+#{item.createTime},
+#{item.updateTime},
+#{item.isDeleted},
+#{item.status}
+)
+</foreach> 
+</insert>
+
+
+    <select id="select" resultMap="VmMoviesMap">
+        SELECT * FROM vm_movies WHERE id = #{id}
+    </select>
+
+
+    <select id="selectInIds" resultMap="VmMoviesMap">
+        SELECT
+        <include refid="BASE_ALL_CLOUM"/>
+        FROM
+        vm_movies
+        WHERE id IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <select id="selectByAndInIds" resultMap="VmMoviesMap">
+        SELECT
+        <include refid="BASE_ALL_CLOUM"/>
+        FROM
+        vm_movies
+        <include refid="queryCondition" />
+        and id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <select id="selectIdList" resultType="java.lang.Long">
+        SELECT
+ 		 id 
+        FROM
+        vm_movies
+        <include refid="queryCondition" />
+
+    </select>
+
+
+	<select id="selectBy" resultMap="VmMoviesMap">
+		SELECT * 
+		FROM
+		vm_movies
+		<include refid="queryCondition" />
+	</select>
+
+
+	<select id="selectOneBy" resultMap="VmMoviesMap">
+		SELECT * 
+		FROM
+		vm_movies
+		<include refid="queryCondition" />
+		LIMIT 1 
+	</select>
+
+</mapper>

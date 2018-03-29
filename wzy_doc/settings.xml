@@ -20,16 +20,16 @@ under the License.
 -->
 
 <!--
- | This is the configuration file for Maven. It can be specified at two levels:
+ | This is configtion file for Maven. It can be specified at two levels:
  |
- |  1. User Level. This settings.xml file provides configuration for a single user, 
+ |  1. User Level. This settings.xml file proviconfigtion for a single user,
  |                 and is normally provided in ${user.home}/.m2/settings.xml.
  |
  |                 NOTE: This location can be overridden with the CLI option:
  |
  |                 -s /path/to/user/settings.xml
  |
- |  2. Global Level. This settings.xml file provides configuration for all Maven
+ |  2. Global Level. This settings.xml file proviconfigtion for all Maven
  |                 users on a machine (assuming they're all using the same Maven
  |                 installation). It's normally provided in 
  |                 ${maven.home}/conf/settings.xml.
@@ -241,7 +241,7 @@ under the License.
    | Finally, the list of active profiles can be specified directly from the command line.
    |
    | NOTE: For profiles defined in the settings.xml, you are restricted to specifying only artifact
-   |       repositories, plugin repositories, and free-form properties to be used as configuration
+   |       repositories, plugin repositories, and free-form properties to be usedconfigtion
    |       variables frontend.pluginsgins in the POM.
    |
    |-->
@@ -278,7 +278,7 @@ under the License.
 
     <!--
      | Here is another profile, activated by the system property 'target-env' with a value of 'dev',
-     | which provides a specific path to the Tomcat instance. To use this, your plugin configuration
+     | which provides a specific path to the Tomcat instance. To use this, your pluconfigtion
      | might hypothetically look like:
      |
      | ...
@@ -286,13 +286,13 @@ under the License.
      |   <groupId>org.myco.myplugins</groupId>
      |   <artifactId>myplugin</artifactId>
      |   
-     |   <configuration>
+     |configtion>
      |     <tomcatLocation>${tomcatPath}</tomcatLocation>
-     |   </configuration>
+     | configtion>
      | </plugin>
      | ...
      |
-     | NOTE: If you just wanted to inject this configuration whenever someone set 'target-env' to
+     | NOTE: If you just wanted to inject tconfigtion whenever someone set 'target-env' to
      |       anything, you could just leave off the <value/> inside the activation-property.
      |
     <profile>

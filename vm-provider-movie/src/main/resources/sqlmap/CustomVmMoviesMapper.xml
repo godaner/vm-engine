@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vm.movie.dao.mapper.custom.CustomVmMoviesMapper">
+
+    <!--**************************** 用户端mapper end ****************************-->
+    <resultMap id="CustomVmMoviesMap" type="com.vm.movie.dao.po.custom.CustomVmMovies">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="alias" property="alias"/>
+        <result column="description" property="description"/>
+        <result column="director_id" property="directorId"/>
+        <result column="release_time" property="releaseTime"/>
+        <result column="score" property="score"/>
+        <result column="watch_num" property="watchNum"/>
+        <result column="movie_time" property="movieTime"/>
+        <result column="poster_url" property="posterUrl"/>
+        <result column="img_url" property="imgUrl"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="status" property="status"/>
+        <association property="director" column="director_id"
+                     select="com.vm.movie.dao.mapper.custom.CustomVmFilmmakersMapper.selectDirectorIdAndNameByDirectorId">
+        </association>
+        <collection property="actors" column="id"
+                    select="com.vm.movie.dao.mapper.custom.CustomVmFilmmakersMapper.selectActorsIdAndNameByMovieId">
+        </collection>
+
+    </resultMap>
+    <!--获取movie列表-->
+    <select id="getMovies" resultMap="CustomVmMoviesMap">
+
+        SELECT
+        m.id,
+        m.name,
+        m.alias,
+        m.description,
+        m.director_id,
+        m.release_time,
+        m.score,
+        m.watch_num,
+        m.movie_time,
+        m.img_url
+        FROM
+        vm_movies m
+        WHERE
+        m.`status` = #{query.status}
+        <if test="query.keyword!=null">
+            AND m.name LIKE concat('%',#{query.keyword},'%')
+        </if>
+        <if test="query.tagIds!=null">
+            AND m.id IN (
+            SELECT
+            r.movie_id
+            FROM
+            vm_movies_tags_realation r
+            WHERE
+            r.`status` = #{query.status}
+            and r.is_deleted = #{query.isDeleted}
+            AND r.tag_id IN
+            <foreach collection="query.tagIds" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            GROUP BY
+            r.movie_id
+            HAVING
+            count(r.tag_id) >= #{query.tagIdsLength}
+            )
+        </if>
+        <if test="page.orderBy != null and page.orderType != null">
+            order by ${page.orderBy} ${page.orderType}
+        </if>
+        <if test="page.start != null and page.size != null">
+            limit #{page.start},#{page.size}
+        </if>
+
+    </select>
+    <select id="getMoviesCount" resultType="long">
+        SELECT
+        count(m.id)
+        FROM
+        vm_movies m
+        WHERE
+        m.`status` = #{query.status}
+        and m.is_deleted = #{query.isDeleted}
+        <if test="query.keyword!=null">
+            AND m.name LIKE concat('%',#{query.keyword},'%')
+        </if>
+        <if test="query.tagIds!=null">
+            AND m.id IN (
+            SELECT
+            r.movie_id
+            FROM
+            vm_movies_tags_realation r
+            WHERE
+            r.`status` = #{query.status}
+            and r.is_deleted = #{query.isDeleted}
+            AND r.tag_id IN
+            <foreach collection="query.tagIds" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            GROUP BY
+            r.movie_id
+            HAVING
+            count(r.tag_id) >= #{query.tagIdsLength}
+            )
+        </if>
+
+    </select>
+
+    <!--获取单个movie-->
+    <select id="getMovie" resultMap="CustomVmMoviesMap">
+        SELECT
+        m.*
+        FROM vm_movies m
+        where m.id = #{movieId}
+            and m.`status` = 1
+            and m.is_deleted = 1
+    </select>
+
+
+    <select id="getAboutTagsMovies" resultMap="CustomVmMoviesMap">
+        SELECT
+        DISTINCT
+        m.id,
+        m.name,
+        m.alias,
+        m.description,
+        m.director_id,
+        m.release_time,
+        m.score,
+        m.watch_num,
+        m.movie_time,
+        m.img_url
+        FROM
+        vm_movies m,
+        vm_movies_tags_realation tr
+        WHERE
+        m.`status` = #{query.status}
+        and m.is_deleted = #{query.isDeleted}
+        AND tr.`status` = #{query.status}
+        AND tr.is_deleted = #{query.isDeleted}
+        AND tr.movie_id = m.id
+        AND m.id !=#{query.excludeMovieId}
+        AND tr.tag_id IN
+        <foreach collection="query.tagIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <if test="page.orderBy != null and page.orderType != null">
+            order by ${page.orderBy} ${page.orderType}
+        </if>
+        <if test="page.start != null and page.size != null">
+            limit #{page.start},#{page.size}
+        </if>
+    </select>
+    <select id="getAboutFilmmakersMovies" resultMap="CustomVmMoviesMap">
+        SELECT
+        DISTINCT
+        m.id,
+        m.name,
+        m.alias,
+        m.description,
+        m.director_id,
+        m.release_time,
+        m.score,
+        m.watch_num,
+        m.movie_time,
+        m.img_url
+        FROM
+        vm_movies m,
+        vm_movies_filmmakers_realation mfr
+        WHERE
+        m.`status` = #{query.status}
+        and m.is_deleted = #{query.isDeleted}
+        AND mfr.`status` = #{query.status}
+        and mfr.is_deleted = #{query.isDeleted}
+        AND mfr.movie_id = m.id
+        <if test="query.excludeMovieId != null">
+            AND m.id !=#{query.excludeMovieId}
+        </if>
+        AND mfr.filmmaker_id in
+        <foreach collection="query.filmmakerIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <if test="page.orderBy != null and page.orderType != null">
+            order by ${page.orderBy} ${page.orderType}
+        </if>
+        <if test="page.start != null and page.size != null">
+            limit #{page.start},#{page.size}
+        </if>
+    </select>
+
+    <!--**************************** 管理端mapper end ****************************-->
+    <select id="getBackendMovies" resultMap="com.vm.movie.dao.mapper.VmMoviesMapper.VmMoviesMap">
+        SELECT
+        m.*
+        FROM vm_movies m
+        where
+        m.is_deleted = #{query.isDeleted}
+        <if test="query != null and query.name != null and query.name != ''">
+             m.`name` like concat('%',#{query.name},'%')
+        </if>
+        <if test="page != null and page.orderBy != null and page.orderBy!='' and page.orderType != null and page.orderType!=''">
+            order by ${page.orderBy} ${page.orderType}
+        </if>
+        <if test="page != null and page.start != null and page.size != null">
+            limit #{page.start},#{page.size}
+        </if>
+    </select>
+    <select id="getBackendMoviesTotal" resultType="long">
+        SELECT
+        count(m.id)
+        FROM vm_movies m
+        where
+        m.is_deleted = #{query.isDeleted}
+        <if test="query != null and query.name != null and query.name != ''">
+             m.`name` like concat('%',#{query.name},'%')
+        </if>
+    </select>
+    <update id="emptyDirectorIdByFilmmakerIds">
+        update vm_movies
+        set director_id = NULL
+        where director_id in
+        <foreach collection="query.deletedIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+</mapper>

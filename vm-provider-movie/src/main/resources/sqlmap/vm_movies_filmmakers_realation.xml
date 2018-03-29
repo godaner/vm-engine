@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vm.movie.dao.mapper.VmMoviesFilmmakersRealationMapper">
+<resultMap type="com.vm.movie.dao.po.VmMoviesFilmmakersRealation"  id="VmMoviesFilmmakersRealationMap">
+  <id column="id" property="id"/>
+  <result column="movie_id" property="movieId"/>
+  <result column="filmmaker_id" property="filmmakerId"/>
+  <result column="create_time" property="createTime"/>
+  <result column="update_time" property="updateTime"/>
+  <result column="is_deleted" property="isDeleted"/>
+  <result column="status" property="status"/>
+</resultMap>
+
+    <sql id="BASE_ALL_CLOUM">
+        id,
+        <include refid="BASE_COLUM_WITHOUT_ID"/>
+    </sql>
+
+	<sql id="BASE_COLUM_WITHOUT_ID">
+		movie_id,
+		filmmaker_id,
+		create_time,
+		update_time,
+		is_deleted,
+		status
+	</sql>
+
+
+
+	<select id="count" resultType="int">
+		SELECT 
+			count(1)
+		FROM
+		vm_movies_filmmakers_realation
+		<include refid="queryCondition" />
+	</select>
+
+<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO vm_movies_filmmakers_realation(
+        <include refid="BASE_COLUM_WITHOUT_ID"/>
+        )
+        VALUES (
+#{movieId},
+#{filmmakerId},
+#{createTime},
+#{updateTime},
+#{isDeleted},
+#{status}
+       )
+				 </insert>
+
+<delete id="delete">
+		DELETE
+		FROM
+			vm_movies_filmmakers_realation
+		WHERE
+			id = #{id}
+	</delete>
+
+<delete id="deleteBy">
+		DELETE
+		FROM
+			vm_movies_filmmakers_realation
+		<include refid="queryCondition" />
+	</delete>
+
+    <delete id="deleteInIds" >
+        delete
+        FROM
+        vm_movies_filmmakers_realation
+        WHERE id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </delete>
+
+<update id="update" >
+UPDATE
+		vm_movies_filmmakers_realation
+<include refid="setFields" />
+WHERE
+id=#{id}
+</update>
+
+
+<update id="batchUpdate">
+UPDATE
+		vm_movies_filmmakers_realation
+<include refid="setFields" />
+<include refid="queryCondition" />
+</update>
+
+
+    <update id="updateInIds">
+        update 
+        vm_movies_filmmakers_realation
+       <include refid="setFields" />        WHERE id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </update>
+
+	<select id="selectList" resultMap="VmMoviesFilmmakersRealationMap">
+		SELECT
+			<include refid="BASE_ALL_CLOUM"/>
+		FROM
+		vm_movies_filmmakers_realation
+		<include refid="queryCondition" />
+		LIMIT #{start},#{size}
+
+	</select>
+
+	<select id="selectListOrderBy" resultMap="VmMoviesFilmmakersRealationMap">
+		SELECT
+			<include refid="BASE_ALL_CLOUM"/>
+		FROM
+		vm_movies_filmmakers_realation
+		<include refid="queryCondition" />
+	<if test="orderBy != null and orderType != null">
+			order by ${orderBy} ${orderType}
+		</if>
+		limit #{start},#{size}
+
+	</select>
+
+<sql id="queryCondition">
+<trim prefix="where" prefixOverrides="and">
+<if test="query != null">
+<if test="query.movieId != null ">
+		and movie_id=#{query.movieId}
+</if>
+<if test="query.filmmakerId != null ">
+		and filmmaker_id=#{query.filmmakerId}
+</if>
+<if test="query.createTime != null ">
+		and create_time=#{query.createTime}
+</if>
+<if test="query.updateTime != null ">
+		and update_time=#{query.updateTime}
+</if>
+<if test="query.isDeleted != null ">
+		and is_deleted=#{query.isDeleted}
+</if>
+<if test="query.status != null ">
+		and status=#{query.status}
+</if>
+</if>
+</trim>
+</sql>
+
+
+<sql id="setFields">
+<set>
+<trim suffix="" suffixOverrides=",">
+<if test="newObj.movieId != null">movie_id=#{newObj.movieId},</if>
+<if test="newObj.filmmakerId != null">filmmaker_id=#{newObj.filmmakerId},</if>
+<if test="newObj.createTime != null">create_time=#{newObj.createTime},</if>
+<if test="newObj.updateTime != null">update_time=#{newObj.updateTime},</if>
+<if test="newObj.isDeleted != null">is_deleted=#{newObj.isDeleted},</if>
+<if test="newObj.status != null">status=#{newObj.status}</if>
+</trim>
+</set>
+</sql>
+
+
+<insert id="batchInsert"  useGeneratedKeys="true" parameterType="java.util.List" keyProperty="id">
+        INSERT INTO vm_movies_filmmakers_realation(
+        <include refid="BASE_COLUM_WITHOUT_ID"/>
+)        VALUES 
+   <foreach collection ="list" item ="item" index ="index" separator =","> 
+(
+#{item.movieId},
+#{item.filmmakerId},
+#{item.createTime},
+#{item.updateTime},
+#{item.isDeleted},
+#{item.status}
+)
+</foreach> 
+</insert>
+
+
+    <select id="select" resultMap="VmMoviesFilmmakersRealationMap">
+        SELECT * FROM vm_movies_filmmakers_realation WHERE id = #{id}
+    </select>
+
+
+    <select id="selectInIds" resultMap="VmMoviesFilmmakersRealationMap">
+        SELECT
+        <include refid="BASE_ALL_CLOUM"/>
+        FROM
+        vm_movies_filmmakers_realation
+        WHERE id IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <select id="selectByAndInIds" resultMap="VmMoviesFilmmakersRealationMap">
+        SELECT
+        <include refid="BASE_ALL_CLOUM"/>
+        FROM
+        vm_movies_filmmakers_realation
+        <include refid="queryCondition" />
+        and id IN
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <select id="selectIdList" resultType="java.lang.Long">
+        SELECT
+ 		 id 
+        FROM
+        vm_movies_filmmakers_realation
+        <include refid="queryCondition" />
+
+    </select>
+
+
+	<select id="selectBy" resultMap="VmMoviesFilmmakersRealationMap">
+		SELECT * 
+		FROM
+		vm_movies_filmmakers_realation
+		<include refid="queryCondition" />
+	</select>
+
+
+	<select id="selectOneBy" resultMap="VmMoviesFilmmakersRealationMap">
+		SELECT * 
+		FROM
+		vm_movies_filmmakers_realation
+		<include refid="queryCondition" />
+		LIMIT 1 
+	</select>
+
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vm.admin.dao.mapper.custom.CustomVmAuthsMapper">
+    <select id="getAuthCodesByAuthIds" resultType="string">
+        select
+        DISTINCT auth_code
+        from
+        vm_auths
+        where
+        is_deleted=#{query.isDeleted}
+        and status=#{query.status}
+        and id in
+        <foreach collection="query.authIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

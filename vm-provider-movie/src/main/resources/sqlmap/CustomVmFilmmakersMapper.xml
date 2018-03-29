@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vm.movie.dao.mapper.custom.CustomVmFilmmakersMapper">
+
+    <!--**************************** 用户端mapper start ****************************-->
+
+    <select id="selectActorsByMovieId" resultMap="com.vm.movie.dao.mapper.VmFilmmakersMapper.VmFilmmakersMap">
+        SELECT
+        fm.*
+        FROM
+        vm_movies_filmmakers_realation r,
+        vm_filmmakers fm,
+        vm_movies m
+        WHERE
+        m.id = r.movie_id
+        AND fm.id = r.filmmaker_id
+        AND m.id = #{query.movieId}
+        AND m.`status` = #{query.status}
+        AND r.`status` =  #{query.status}
+        AND fm.`status` =  #{query.status}
+        AND m.is_deleted = #{query.isDeleted}
+        AND r.is_deleted = #{query.isDeleted}
+        AND fm.is_deleted = #{query.isDeleted}
+      </select>
+    <select id="selectActorsIdAndNameByMovieId" resultMap="com.vm.movie.dao.mapper.VmFilmmakersMapper.VmFilmmakersMap">
+      SELECT
+      fm.id,fm.name
+      FROM
+      vm_movies_filmmakers_realation r,
+      vm_filmmakers fm,
+      vm_movies m
+      WHERE
+      m.id = r.movie_id
+      AND fm.id = r.filmmaker_id
+      AND m.id = #{movieId}
+      AND m.`status` = 1
+      AND r.`status` = 1
+      AND fm.`status` = 1
+        AND m.is_deleted = 1
+        AND r.is_deleted = 1
+        AND fm.is_deleted = 1
+
+    </select>
+    <select id="selectDirectorIdAndNameByDirectorId"
+            resultMap="com.vm.movie.dao.mapper.VmFilmmakersMapper.VmFilmmakersMap">
+        select
+        f.id,f.name
+        from vm_filmmakers f
+        where id = #{directorId}
+        AND f.`status` = 1
+        AND f.is_deleted = 1
+
+    </select>
+    <!--**************************** 管理端端mapper start ****************************-->
+
+    <select id="getFilmmakers" resultMap="com.vm.movie.dao.mapper.VmFilmmakersMapper.VmFilmmakersMap">
+        select
+        *
+        from vm_filmmakers f
+        where
+        f.is_deleted = #{query.isDeleted}
+        <if test="query != null and query.name != null and query.name != ''">
+            and f.`name` like concat('%',#{query.name},'%')
+        </if>
+        <if test="page != null and page.orderBy != null and page.orderBy!='' and page.orderType != null and page.orderType!=''">
+            order by ${page.orderBy} ${page.orderType}
+        </if>
+        <if test="page != null and page.start != null and page.size != null">
+            limit #{page.start},#{page.size}
+        </if>
+    </select>
+    <select id="getFilmmakersTotal" resultType="long">
+        select
+        count(f.id)
+        from vm_filmmakers f
+        where
+        f.is_deleted = #{query.isDeleted}
+        <if test="query != null and query.name != null and query.name != ''">
+            and f.`name` like concat('%',#{query.name},'%')
+        </if>
+
+    </select>
+    <select id="getActorIds" resultType="long">
+        select
+        DISTINCT  r.filmmaker_id
+        from vm_movies_filmmakers_realation r
+        where
+        r.is_deleted = #{query.isDeleted}
+        and movie_id = ${query.movieId}
+    </select>
+
+</mapper>
