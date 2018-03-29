@@ -18,7 +18,6 @@ import com.vm.base.util.SessionCacheManager;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,6 +61,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     //service
     @Autowired
     VmAuthsService vmAuthsService;
+
     @Override
     public List<VmAdminsDto> getAdmins(PageBean page, VmAdminsQueryBean query) {
         List<VmAdmins> admins = customVmAdminsMapper.getAdmins(page, query);
@@ -279,7 +279,6 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     }
 
 
-
     @Override
     public VmAdminsDto getOnlineAdminBasicInfo(String token) {
 
@@ -337,5 +336,41 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         vmAdminsDto.setDescription(vmAdmins.getDescription());
         vmAdminsDto.setToken(token);
         return vmAdminsDto;
+    }
+
+    @Override
+    @Transactional
+    public void deleteAdmin(VmAdminsDto vmAdminsDto) {
+        int cnt = 0;
+        String deletedIdsStr = vmAdminsDto.getDeletedIds();
+        if (isEmptyString(deletedIdsStr)) {
+            throw new VmAdminException("deleteAdmin deleteIdsStr is empty ! deleteIdsStr is : " + deletedIdsStr);
+        }
+        List<Long> deletedIds = parseStringArray2Long(deletedIdsStr);
+
+        if (isEmptyList(deletedIds)) {
+            return;
+        }
+
+        //delete admin role realation
+        List<Long> realationIds = customVmAdminsRolesRealationMapper.getRealationIdsByAdminIds(ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.YES.getCode(),
+                "adminIds", deletedIds
+        ));
+        cnt = vmAdminsRolesRealationMapper.updateInIds(realationIds, ImmutableMap.of(
+
+                "isDeleted", BasePo.IsDeleted.YES.getCode()
+        ));
+        if (realationIds.size() != cnt) {
+            throw new VmAdminException("deleteAdmin vmAdminsRolesRealationMapper#updateInIds is fail ! deletedIds is : " + deletedIds);
+        }
+
+        //delete admin
+        cnt = vmAdminsMapper.updateInIds(deletedIds, ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.YES.getCode()
+        ));
+        if (deletedIds.size() != cnt) {
+            throw new VmAdminException("deleteAdmin vmAdminsMapper#updateInIds is fail ! deletedIds is : " + deletedIds);
+        }
     }
 }

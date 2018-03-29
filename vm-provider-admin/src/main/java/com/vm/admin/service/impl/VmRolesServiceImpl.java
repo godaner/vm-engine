@@ -8,6 +8,7 @@ import com.vm.admin.dao.po.VmRolesAuthsRealation;
 import com.vm.admin.dao.po.VmRolesMenusRealation;
 import com.vm.admin.dao.qo.VmRolesQueryBean;
 import com.vm.admin.service.dto.VmRolesDto;
+import com.vm.admin.service.exception.VmAdminException;
 import com.vm.admin.service.exception.VmRolesException;
 import com.vm.admin.service.inf.VmAuthsService;
 import com.vm.admin.service.inf.VmRolesService;
@@ -17,7 +18,6 @@ import com.vm.base.util.SessionCacheManager;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,7 +63,6 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
     VmRolesMenusRealationMapper vmRolesMenusRealationMapper;
     @Autowired
     CustomVmMenusMapper customVmMenusMapper;
-
 
 
     //service
@@ -229,16 +228,15 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
         vmRoles = this.getRoleById(roleId, BasePo.IsDeleted.NO);
 
 
-
         //if admin online ,update admin auth codes in cache
         List<Long> adminIds = customVmAdminsRolesRealationMapper.getAdminIdsByRoleId(ImmutableMap.of(
                 "isDeleted", BasePo.IsDeleted.NO.getCode(),
-                "roleId",roleId
+                "roleId", roleId
         ));
 
-        for(Long adminId :adminIds){
+        for (Long adminId : adminIds) {
             String accessToken = SessionCacheManager.getOnlineUserToken(adminId);
-            if(!isEmptyString(accessToken)){//online ?
+            if (!isEmptyString(accessToken)) {//online ?
 
                 List<String> authCodes = vmAuthsService.getUseableAuthCodesByAdminId(adminId);
 
@@ -263,6 +261,54 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
                 "adminId", adminId,
                 "isDeleted", BasePo.IsDeleted.NO.getCode()
         ));
+    }
+
+    @Override
+    @Transactional
+    public void deleteRole(VmRolesDto vmRolesDto) {
+        int cnt = 0;
+        String deletedIdsStr = vmRolesDto.getDeletedIds();
+        if (isEmptyString(deletedIdsStr)) {
+            throw new VmAdminException("deleteRole deleteIdsStr is empty ! deleteIdsStr is : " + deletedIdsStr);
+        }
+        List<Long> deletedIds = parseStringArray2Long(deletedIdsStr);
+
+        if (isEmptyList(deletedIds)) {
+            return;
+        }
+        //delete role menu realations
+        List<Long> realationIds = customVmRolesMenusRealationMapper.getMenuIdsByRoleIds(ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                "roleIds", deletedIds
+        ));
+        cnt = vmRolesMenusRealationMapper.updateInIds(realationIds, ImmutableMap.of(
+
+                "isDeleted", BasePo.IsDeleted.YES.getCode()
+        ));
+        if (realationIds.size() != cnt) {
+            throw new VmAdminException("deleteRole vmRolesMenusRealationMapper#updateInIds is fail ! deletedIds is : " + deletedIds);
+        }
+
+        //delete role auth realations
+        realationIds = customVmRolesAuthsRealationMapper.getAuthIdsByRoleIds(ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                "roleIds", deletedIds
+        ));
+        cnt = vmRolesAuthsRealationMapper.updateInIds(realationIds, ImmutableMap.of(
+
+                "isDeleted", BasePo.IsDeleted.YES.getCode()
+        ));
+        if (realationIds.size() != cnt) {
+            throw new VmAdminException("deleteRole vmRolesAuthsRealationMapper#updateInIds is fail ! deletedIds is : " + deletedIds);
+        }
+
+        //delete roles
+        cnt = vmRolesMapper.updateInIds(deletedIds, ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.YES.getCode()
+        ));
+        if (deletedIds.size() != cnt) {
+            throw new VmAdminException("deleteRole vmRolesMapper#updateInIds is fail ! deletedIds is : " + deletedIds);
+        }
     }
 
     private List<VmRolesMenusRealation> makeVmRolesMenusRealations(Long roleId, List<Long> menuIds) {

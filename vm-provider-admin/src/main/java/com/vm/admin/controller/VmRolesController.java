@@ -8,10 +8,7 @@ import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by ZhangKe on 2018/3/26.
@@ -76,11 +73,24 @@ public class VmRolesController extends ServiceController<VmRolesService> {
      *
      * @return
      */
-    @RequiredAuth(auths = {"admin:edit"})
+    @RequiredAuth(auths = {"role:edit"})
     @RequestMapping(value = "/info", method = RequestMethod.PUT)
     @ResponseBody
     public Object editRole(VmRolesDto vmRolesDto) throws Exception {
 
         return response.putData("role", service.editRole(vmRolesDto));
+    }
+
+    /**
+     * 删除
+     *
+     * @return
+     */
+    @RequiredAuth(auths = {"role:delete"})
+    @RequestMapping(value = "/info", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Object deleteRole(@RequestBody VmRolesDto vmRolesDto) throws Exception {
+        service.deleteRole(vmRolesDto);
+        return response;
     }
 }

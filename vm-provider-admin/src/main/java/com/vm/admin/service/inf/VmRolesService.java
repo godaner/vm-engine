@@ -22,4 +22,6 @@ public interface VmRolesService {
     List<VmRolesDto> getAllRoles();
 
     List<Long> getRoleIdsByAdminId(Long adminId);
+
+    void deleteRole(VmRolesDto vmRolesDto);
 }

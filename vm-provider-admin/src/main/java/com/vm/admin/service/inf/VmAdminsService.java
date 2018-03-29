@@ -34,4 +34,5 @@ public interface VmAdminsService {
 
     VmAdminsDto makeVmAdminDto(VmAdmins vmAdmins, String token);
 
+    void deleteAdmin(VmAdminsDto vmAdminsDto);
 }

@@ -1,5 +1,6 @@
 package com.vm.admin.controller;
 
+import com.vm.admin.dao.po.VmAdmins;
 import com.vm.admin.dao.qo.VmAdminsQueryBean;
 import com.vm.admin.resolver.OnlineAdmin;
 import com.vm.admin.service.dto.VmAdminsDto;
@@ -9,6 +10,7 @@ import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -92,5 +94,17 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
     public Object addAdmin(VmAdminsDto vmAdminsDto) throws Exception {
 
         return response.putData("admin", service.addAdmin(vmAdminsDto));
+    }
+    /**
+     * 删除
+     *
+     * @return
+     */
+    @RequiredAuth(auths = {"admin:delete"})
+    @RequestMapping(value = "/info", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Object deleteAdmin(@RequestBody VmAdminsDto vmAdminsDto) throws Exception {
+        service.deleteAdmin(vmAdminsDto);
+        return response;
     }
 }

@@ -26,4 +26,16 @@
         and role_id =#{query.roleId}
     </select>
 
+    <select id="getRealationIdsByAdminIds" resultType="long">
+        SELECT
+        id
+        FROM
+        vm_admins_roles_realation
+        WHERE
+        is_deleted = #{query.isDeleted}
+        and admin_id in
+        <foreach collection="query.adminIds" separator="," item="item" open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
 </mapper>
