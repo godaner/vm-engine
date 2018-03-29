@@ -271,6 +271,12 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         }
 
         //adminLogin in session
+
+        //logout old session
+        String oldToken = SessionCacheManager.getOnlineUserToken(vmAdmins.getId());
+        if(!isEmptyString(oldToken)){
+            SessionCacheManager.userLogout(oldToken);
+        }
         String token = SessionCacheManager.userLogin(vmAdmins.getId());
 
         //save admin auths

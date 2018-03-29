@@ -90,7 +90,14 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         }
 
         //login in session
+
+        //clear old session
+        String oldToken = SessionCacheManager.getOnlineUserToken(dbUser.getId());
+        if(!isEmptyString(oldToken)){
+            SessionCacheManager.userLogout(oldToken);
+        }
         String token = SessionCacheManager.userLogin(dbUser.getId());
+
 
         return makeVmUsersDto(dbUser, token);
     }
