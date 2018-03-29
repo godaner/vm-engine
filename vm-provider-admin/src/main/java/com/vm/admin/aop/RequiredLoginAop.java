@@ -28,7 +28,7 @@ public class RequiredLoginAop extends CommonUtil {
     private final Logger logger = LoggerFactory.getLogger(RequiredLoginAop.class);
 
 
-    @Pointcut("execution(* com.vm.admin.controller..*.*(..))")
+    @Pointcut("execution(* com.vm..*.controller..*.*(..))")
     public void declareJoinPointExpression() {
     }
 
