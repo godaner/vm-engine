@@ -281,26 +281,32 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
                 "isDeleted", BasePo.IsDeleted.NO.getCode(),
                 "roleIds", deletedIds
         ));
-        cnt = vmRolesMenusRealationMapper.updateInIds(realationIds, ImmutableMap.of(
+        if (!isEmptyList(realationIds)) {
+            cnt = vmRolesMenusRealationMapper.updateInIds(realationIds, ImmutableMap.of(
 
-                "isDeleted", BasePo.IsDeleted.YES.getCode()
-        ));
-        if (realationIds.size() != cnt) {
-            throw new VmAdminException("deleteRole vmRolesMenusRealationMapper#updateInIds is fail ! deletedIds is : " + deletedIds);
+                    "isDeleted", BasePo.IsDeleted.YES.getCode()
+            ));
+            if (0 > cnt) {
+                throw new VmAdminException("deleteRole vmRolesMenusRealationMapper#updateInIds is fail ! deletedIds is : " + deletedIds);
+            }
         }
+
 
         //delete role auth realations
         realationIds = customVmRolesAuthsRealationMapper.getAuthIdsByRoleIds(ImmutableMap.of(
                 "isDeleted", BasePo.IsDeleted.NO.getCode(),
                 "roleIds", deletedIds
         ));
-        cnt = vmRolesAuthsRealationMapper.updateInIds(realationIds, ImmutableMap.of(
+        if (!isEmptyList(realationIds)) {
+            cnt = vmRolesAuthsRealationMapper.updateInIds(realationIds, ImmutableMap.of(
 
-                "isDeleted", BasePo.IsDeleted.YES.getCode()
-        ));
-        if (realationIds.size() != cnt) {
-            throw new VmAdminException("deleteRole vmRolesAuthsRealationMapper#updateInIds is fail ! deletedIds is : " + deletedIds);
+                    "isDeleted", BasePo.IsDeleted.YES.getCode()
+            ));
+            if (0 > cnt) {
+                throw new VmAdminException("deleteRole vmRolesAuthsRealationMapper#updateInIds is fail ! deletedIds is : " + deletedIds);
+            }
         }
+
 
         //delete roles
         cnt = vmRolesMapper.updateInIds(deletedIds, ImmutableMap.of(

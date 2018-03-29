@@ -164,11 +164,14 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
                 "isDeleted", BasePo.IsDeleted.NO.getCode(),
                 "adminId", adminId
         ));
-        if (0 > vmAdminsRolesRealationMapper.updateInIds(realationIds, ImmutableMap.of(
-                "isDeleted", BasePo.IsDeleted.YES.getCode()
-        ))) {
-            throw new VmAdminException("addAdmin vmAdminsRolesRealationMapper#updateInIds is fail !! vmAdminsDto is : " + vmAdminsDto);
+        if (!isEmptyList(realationIds)) {
+            if (0 > vmAdminsRolesRealationMapper.updateInIds(realationIds, ImmutableMap.of(
+                    "isDeleted", BasePo.IsDeleted.YES.getCode()
+            ))) {
+                throw new VmAdminException("addAdmin vmAdminsRolesRealationMapper#updateInIds is fail !! vmAdminsDto is : " + vmAdminsDto);
+            }
         }
+
 
         //insert admin role realations
         String roleIdsStr = vmAdminsDto.getRoleIds();
@@ -354,22 +357,25 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
 
         //delete admin role realation
         List<Long> realationIds = customVmAdminsRolesRealationMapper.getRealationIdsByAdminIds(ImmutableMap.of(
-                "isDeleted", BasePo.IsDeleted.YES.getCode(),
+                "isDeleted", BasePo.IsDeleted.NO.getCode(),
                 "adminIds", deletedIds
         ));
-        cnt = vmAdminsRolesRealationMapper.updateInIds(realationIds, ImmutableMap.of(
+        if (!isEmptyList(realationIds)) {
+            cnt = vmAdminsRolesRealationMapper.updateInIds(realationIds, ImmutableMap.of(
 
-                "isDeleted", BasePo.IsDeleted.YES.getCode()
-        ));
-        if (realationIds.size() != cnt) {
-            throw new VmAdminException("deleteAdmin vmAdminsRolesRealationMapper#updateInIds is fail ! deletedIds is : " + deletedIds);
+                    "isDeleted", BasePo.IsDeleted.YES.getCode()
+            ));
+            if (0 > cnt) {
+                throw new VmAdminException("deleteAdmin vmAdminsRolesRealationMapper#updateInIds is fail ! deletedIds is : " + deletedIds);
+            }
         }
+
 
         //delete admin
         cnt = vmAdminsMapper.updateInIds(deletedIds, ImmutableMap.of(
                 "isDeleted", BasePo.IsDeleted.YES.getCode()
         ));
-        if (deletedIds.size() != cnt) {
+        if (0 > cnt) {
             throw new VmAdminException("deleteAdmin vmAdminsMapper#updateInIds is fail ! deletedIds is : " + deletedIds);
         }
     }
