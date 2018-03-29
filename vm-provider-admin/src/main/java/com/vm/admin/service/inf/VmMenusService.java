@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface VmMenusService {
     /*************** status ******************/
+    List<VmMenusDto> getUseableMenusTreeByAdminId(Long adminId);
     List<VmMenusDto> getMenusTreeByAdminId(Long adminId);
 
     /*************** unStatus ******************/

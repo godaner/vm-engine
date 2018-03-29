@@ -285,7 +285,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
 
         AuthCacheManager.saveAuthCodes(token, authCodes);
         //save admin menuTree
-        List<VmMenusDto> menuTree = vmMenusService.getMenusTreeByAdminId(vmAdmins.getId());
+        List<VmMenusDto> menuTree = vmMenusService.getUseableMenusTreeByAdminId(vmAdmins.getId());
 
         MenuCacheManager.saveMenuTree(token, menuTree);
 
