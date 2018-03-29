@@ -41,7 +41,8 @@ public class RequiredAdminLoginAop extends CommonUtil {
 
         Long userId = (Long) SessionCacheManager.getOnlineUserId(token);
         if (userId == null) {
-            throw new VmCommonException(VmCommonException.ErrorCode.ADMIN_IS_OFFLINE.getCode(),
+            throw new VmCommonException("RequiredAdminLoginAop adminId : " + userId + " is offline !",
+                    VmCommonException.ErrorCode.ADMIN_IS_OFFLINE.getCode(),
                     VmCommonException.ErrorCode.ADMIN_IS_OFFLINE.getMsg());
         }
 
