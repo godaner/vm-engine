@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
 
 /**
  * Created by ZhangKe on 2018/3/28.
@@ -33,13 +32,14 @@ public class MenuCacheManager extends CommonUtil {
         this.redisRepositoryCache = this.redisRepository;
     }
 
-    public static void saveMenuTree(String accessToken, List authCodes) {
+    public static void saveMenuTree(String accessToken, String menuTree) {
 
-        redisRepositoryCache.set(generateKey(accessToken), authCodes, timeout);
+        redisRepositoryCache.set(generateKey(accessToken), menuTree, timeout);
     }
 
-    public static List getMenuTree(String accessToken) {
-        return (List) redisRepositoryCache.get(generateKey(accessToken));
+    public static String getMenuTree(String accessToken) {
+        String l = (String) redisRepositoryCache.get(generateKey(accessToken));
+        return (String) redisRepositoryCache.get(generateKey(accessToken));
     }
 
 

@@ -1,5 +1,6 @@
 package com.vm.admin.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableMap;
 import com.vm.admin.dao.mapper.*;
 import com.vm.admin.dao.mapper.custom.*;
@@ -63,6 +64,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
 
     @Autowired
     VmMenusService vmMenusService;
+
     @Override
     public List<VmAdminsDto> getAdmins(PageBean page, VmAdminsQueryBean query) {
         List<VmAdmins> admins = customVmAdminsMapper.getAdmins(page, query);
@@ -275,7 +277,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
 
         //logout old session
         String oldToken = SessionCacheManager.getOnlineUserToken(vmAdmins.getId());
-        if(!isEmptyString(oldToken)){
+        if (!isEmptyString(oldToken)) {
             SessionCacheManager.userLogout(oldToken);
         }
         String token = SessionCacheManager.userLogin(vmAdmins.getId());
@@ -287,7 +289,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         //save admin menuTree
         List<VmMenusDto> menuTree = vmMenusService.getUseableMenusTreeByAdminId(vmAdmins.getId());
 
-        MenuCacheManager.saveMenuTree(token, menuTree);
+        MenuCacheManager.saveMenuTree(token, JSON.toJSONString(menuTree));
 
 
         return makeVmAdminDto(vmAdmins, token);

@@ -1,5 +1,6 @@
 package com.vm.admin.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.vm.admin.dao.mapper.*;
 import com.vm.admin.dao.mapper.custom.*;
@@ -80,10 +81,10 @@ public class VmMenusServiceImpl extends BaseService implements VmMenusService {
     @Override
     public List<VmMenusDto> getMenusTreeByAdminId(Long adminId) {
         String token = SessionCacheManager.getOnlineUserToken(adminId);
-        if(isEmptyString(token)){
+        if (isEmptyString(token)) {
             return Lists.newArrayList();
         }
-        return MenuCacheManager.getMenuTree(token);
+        return JSONObject.parseArray(MenuCacheManager.getMenuTree(token), VmMenusDto.class);
     }
 
     @Override
