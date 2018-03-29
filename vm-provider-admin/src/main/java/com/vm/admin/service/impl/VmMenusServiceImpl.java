@@ -84,7 +84,7 @@ public class VmMenusServiceImpl extends BaseService implements VmMenusService {
         if (isEmptyString(token)) {
             return Lists.newArrayList();
         }
-        return JSONObject.parseArray(MenuCacheManager.getMenuTree(token), VmMenusDto.class);
+        return (List<VmMenusDto>) MenuCacheManager.getMenuTree(token);
     }
 
     @Override

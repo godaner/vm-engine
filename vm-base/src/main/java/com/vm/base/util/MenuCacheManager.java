@@ -32,14 +32,14 @@ public class MenuCacheManager extends CommonUtil {
         this.redisRepositoryCache = this.redisRepository;
     }
 
-    public static void saveMenuTree(String accessToken, String menuTree) {
+    public static void saveMenuTree(String accessToken, Object menuTree) {
 
-        redisRepositoryCache.set(generateKey(accessToken), menuTree, timeout);
+        redisRepositoryCache.set(generateKey(accessToken), SerializeUtil.serialize(menuTree), timeout);
     }
 
-    public static String getMenuTree(String accessToken) {
-        String l = (String) redisRepositoryCache.get(generateKey(accessToken));
-        return (String) redisRepositoryCache.get(generateKey(accessToken));
+    public static Object getMenuTree(String accessToken) {
+        byte[] bytes = (byte[]) redisRepositoryCache.get(generateKey(accessToken));
+        return SerializeUtil.unserialize(bytes);
     }
 
 

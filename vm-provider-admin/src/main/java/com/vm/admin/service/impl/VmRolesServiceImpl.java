@@ -344,7 +344,7 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
                 //menuTree
                 List<VmMenusDto> menuTree = vmMenusService.getUseableMenusTreeByAdminId(adminId);
 
-                MenuCacheManager.saveMenuTree(accessToken, JSON.toJSONString(menuTree));
+                MenuCacheManager.saveMenuTree(accessToken, menuTree);
             }
         }
     }

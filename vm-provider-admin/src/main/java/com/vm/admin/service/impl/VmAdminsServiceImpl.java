@@ -1,6 +1,5 @@
 package com.vm.admin.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableMap;
 import com.vm.admin.dao.mapper.*;
 import com.vm.admin.dao.mapper.custom.*;
@@ -289,7 +288,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         //save admin menuTree
         List<VmMenusDto> menuTree = vmMenusService.getUseableMenusTreeByAdminId(vmAdmins.getId());
 
-        MenuCacheManager.saveMenuTree(token, JSON.toJSONString(menuTree));
+        MenuCacheManager.saveMenuTree(token, menuTree);
 
 
         return makeVmAdminDto(vmAdmins, token);
