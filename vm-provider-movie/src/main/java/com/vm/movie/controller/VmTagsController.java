@@ -1,5 +1,6 @@
 package com.vm.movie.controller;
 
+import com.vm.base.aop.RequiredAdminLogin;
 import com.vm.base.aop.RequiredAuth;
 import com.vm.base.util.ServiceController;
 import com.vm.movie.service.dto.VmTagsDto;
@@ -41,6 +42,7 @@ public class VmTagsController extends ServiceController<VmTagsService> {
     }
     /*********************************管理端****************************/
 
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"tag:select"})
     @RequestMapping(value = "/info/{tagGroupId}", method = RequestMethod.GET)
     @ResponseBody
@@ -48,6 +50,7 @@ public class VmTagsController extends ServiceController<VmTagsService> {
         return response.putData("list", service.getTagsByTagGroupId(tagGroupId));
     }
 
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"tag:add"})
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ResponseBody
@@ -55,6 +58,7 @@ public class VmTagsController extends ServiceController<VmTagsService> {
         return response.putData("tag", service.addTag(vmTagsDto));
     }
 
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"tag:edit"})
     @RequestMapping(value = "/info", method = RequestMethod.PUT)
     @ResponseBody
@@ -62,6 +66,7 @@ public class VmTagsController extends ServiceController<VmTagsService> {
         return response.putData("tag", service.editTag(vmTagsDto));
     }
 
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"tag:edit"})
     @RequestMapping(value = "/info", method = RequestMethod.DELETE)
     @ResponseBody
@@ -69,6 +74,7 @@ public class VmTagsController extends ServiceController<VmTagsService> {
         service.deleteTags(vmTagsDto);
         return response;
     }
+    @RequiredAdminLogin
     @RequestMapping(value = "/id/list/{movieId}", method = RequestMethod.GET)
     @ResponseBody
     public Object getTagIdsByMovieId(@PathVariable("movieId")Long movieId) throws Exception {

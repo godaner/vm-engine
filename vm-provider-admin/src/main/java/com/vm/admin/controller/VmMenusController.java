@@ -2,6 +2,7 @@ package com.vm.admin.controller;
 
 import com.vm.admin.service.dto.VmMenusDto;
 import com.vm.admin.service.inf.VmMenusService;
+import com.vm.base.aop.RequiredAdminLogin;
 import com.vm.base.util.ServiceController;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ public class VmMenusController extends ServiceController<VmMenusService> {
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequestMapping(value = "/tree/byAdminId/{adminId}", method = RequestMethod.GET)
     @ResponseBody
     public Object getMenusTreeByAdminId(@PathVariable("adminId") Long adminId) throws Exception {
@@ -34,6 +36,7 @@ public class VmMenusController extends ServiceController<VmMenusService> {
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequestMapping(value = "/tree/all", method = RequestMethod.GET)
     @ResponseBody
     public Object getAllMenusTree(VmMenusDto vmMenusDto) throws Exception {
@@ -45,6 +48,7 @@ public class VmMenusController extends ServiceController<VmMenusService> {
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequestMapping(value = "/leaf/id/list/byRoleId/{roleId}", method = RequestMethod.GET)
     @ResponseBody
     public Object getLeafMenuIdsByRoleId(@PathVariable("roleId") Long roleId) throws Exception {

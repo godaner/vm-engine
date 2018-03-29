@@ -1,5 +1,6 @@
 package com.vm.movie.controller;
 
+import com.vm.base.aop.RequiredAdminLogin;
 import com.vm.base.aop.RequiredAuth;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.ServiceController;
@@ -59,6 +60,7 @@ public class VmFilmmakersController extends ServiceController<VmFilmmakersServic
 
     /*********************************管理端****************************/
 
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"filmmaker:select"})
     @RequestMapping(value = "/info/list", method = RequestMethod.GET)
     @ResponseBody
@@ -66,12 +68,14 @@ public class VmFilmmakersController extends ServiceController<VmFilmmakersServic
         return response.putData("list", service.getFilmmakers(page,query))
                 .putData("total", service.getFilmmakersTotal(page,query));
     }
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"filmmaker:add"})
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ResponseBody
     public Object addFilmmaker(VmFilmmakersDto vmFilmmakersDto) throws Exception {
         return response.putData("filmmaker", service.addFilmmaker(vmFilmmakersDto));
     }
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"filmmaker:edit"})
     @RequestMapping(value = "/info", method = RequestMethod.PUT)
     @ResponseBody
@@ -79,6 +83,7 @@ public class VmFilmmakersController extends ServiceController<VmFilmmakersServic
         return response.putData("filmmaker", service.editFilmmaker(vmFilmmakersDto));
     }
 
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"filmmaker:delete"})
     @RequestMapping(value = "/info", method = RequestMethod.DELETE)
     @ResponseBody
@@ -91,6 +96,7 @@ public class VmFilmmakersController extends ServiceController<VmFilmmakersServic
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"filmmaker:edit"})
     @RequestMapping(value = "/img", method = RequestMethod.PUT)
     @ResponseBody
@@ -100,6 +106,7 @@ public class VmFilmmakersController extends ServiceController<VmFilmmakersServic
                 putData("imgUrl", vmFilmmakersDto.getImgUrl());
     }
 
+    @RequiredAdminLogin
     @RequestMapping(value = "/id/list/{movieId}", method = RequestMethod.GET)
     @ResponseBody
     public Object getActorIds(@PathVariable("movieId")Long movieId) throws Exception {

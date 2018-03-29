@@ -1,5 +1,6 @@
 package com.vm.movie.controller;
 
+import com.vm.base.aop.RequiredAdminLogin;
 import com.vm.base.aop.RequiredAuth;
 import com.vm.base.util.ServiceController;
 import com.vm.movie.service.dto.VmMoviesSrcVersionDto;
@@ -37,6 +38,7 @@ public class VmMovieSrcVersionsController extends ServiceController<VmMovieSrcVe
      * @return
      * @throws Exception
      */
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"movieVersion:add"})
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ResponseBody
@@ -49,6 +51,7 @@ public class VmMovieSrcVersionsController extends ServiceController<VmMovieSrcVe
      * @return
      * @throws Exception
      */
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"movieVersion:select"})
     @RequestMapping(value = "/info/list/ByMovieId/{movieId}", method = RequestMethod.GET)
     @ResponseBody
@@ -62,6 +65,7 @@ public class VmMovieSrcVersionsController extends ServiceController<VmMovieSrcVe
      * @return
      * @throws Exception
      */
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"movieVersion:edit"})
     @RequestMapping(value = "/info", method = RequestMethod.PUT)
     @ResponseBody
@@ -75,6 +79,7 @@ public class VmMovieSrcVersionsController extends ServiceController<VmMovieSrcVe
      * @return
      * @throws Exception
      */
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"movieVersion:delete"})
     @RequestMapping(value = "/info", method = RequestMethod.DELETE)
     @ResponseBody

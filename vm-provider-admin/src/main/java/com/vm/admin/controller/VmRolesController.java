@@ -3,6 +3,7 @@ package com.vm.admin.controller;
 import com.vm.admin.dao.qo.VmRolesQueryBean;
 import com.vm.admin.service.dto.VmRolesDto;
 import com.vm.admin.service.inf.VmRolesService;
+import com.vm.base.aop.RequiredAdminLogin;
 import com.vm.base.aop.RequiredAuth;
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
@@ -23,6 +24,7 @@ public class VmRolesController extends ServiceController<VmRolesService> {
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"role:select"})
     @RequestMapping(value = "/info/list", method = RequestMethod.GET)
     @ResponseBody
@@ -36,6 +38,7 @@ public class VmRolesController extends ServiceController<VmRolesService> {
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequestMapping(value = "/info/all", method = RequestMethod.GET)
     @ResponseBody
     public Object getAllRoles() throws Exception {
@@ -48,6 +51,7 @@ public class VmRolesController extends ServiceController<VmRolesService> {
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequestMapping(value = "/id/list/byAdminId/{adminId}", method = RequestMethod.GET)
     @ResponseBody
     public Object getRoleIdsByAdminId(@PathVariable("adminId") Long adminId) throws Exception {
@@ -60,6 +64,7 @@ public class VmRolesController extends ServiceController<VmRolesService> {
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"role:add"})
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ResponseBody
@@ -73,6 +78,7 @@ public class VmRolesController extends ServiceController<VmRolesService> {
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"role:edit"})
     @RequestMapping(value = "/info", method = RequestMethod.PUT)
     @ResponseBody
@@ -86,6 +92,7 @@ public class VmRolesController extends ServiceController<VmRolesService> {
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"role:delete"})
     @RequestMapping(value = "/info", method = RequestMethod.DELETE)
     @ResponseBody

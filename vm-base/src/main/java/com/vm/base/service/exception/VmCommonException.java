@@ -1,27 +1,23 @@
-package com.vm.admin.service.exception;
-
-import com.vm.base.service.exception.VmRuntimeException;
+package com.vm.base.service.exception;
 
 /**
- * Created by ZhangKe on 2018/3/26.
+ * Created by ZhangKe on 2018/3/29.
  */
-public class VmAdminException extends VmRuntimeException {
-    public VmAdminException(int errorCode, String errorMsg) {
+public class VmCommonException extends  VmRuntimeException {
+    public VmCommonException(int errorCode, String errorMsg) {
         super(errorCode, errorMsg);
     }
 
-    public VmAdminException(String logMsg, int errorCode, String errorMsg) {
+    public VmCommonException(String logMsg, int errorCode, String errorMsg) {
         super(logMsg, errorCode, errorMsg);
     }
 
-    public VmAdminException(String logMsg) {
+    public VmCommonException(String logMsg) {
         super(logMsg);
     }
     public enum ErrorCode {
-        USERNAME_IS_EXITS(-1,"用户名已存在"),
-        CAN_NOT_OPERATE_IMMUTABLE(-2,"不可操作内置对象"),
-        USERNAME_IS_NOT_EXITS(-3,"用户名不存在"),
-        PASSWORD_ERROR(-4,"密码错误" );
+        ADMIN_HAVE_NOT_AUTH(-555,"您没有权限进行此操作！"),
+        ADMIN_IS_OFFLINE(-9999,"管理员已离线");
 
         int code;
         String msg;

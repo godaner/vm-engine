@@ -1,9 +1,11 @@
 package com.vm.base.service.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by ZhangKe on 2018/3/22.
  */
-public class BaseDto {
+public class BaseDto implements Serializable {
 
     private Long id;
 

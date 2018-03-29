@@ -1,6 +1,6 @@
 package com.vm.admin.controller;
 
-import com.vm.admin.dao.po.VmAdmins;
+import com.vm.base.aop.RequiredAdminLogin;
 import com.vm.admin.dao.qo.VmAdminsQueryBean;
 import com.vm.admin.resolver.OnlineAdmin;
 import com.vm.admin.service.dto.VmAdminsDto;
@@ -64,6 +64,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"admin:select"})
     @RequestMapping(value = "/info/list", method = RequestMethod.GET)
     @ResponseBody
@@ -76,6 +77,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"admin:edit"})
     @RequestMapping(value = "/info", method = RequestMethod.PUT)
     @ResponseBody
@@ -88,6 +90,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"admin:add"})
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ResponseBody
@@ -100,6 +103,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"admin:delete"})
     @RequestMapping(value = "/info", method = RequestMethod.DELETE)
     @ResponseBody

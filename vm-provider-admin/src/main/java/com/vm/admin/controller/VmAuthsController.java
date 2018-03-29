@@ -1,6 +1,7 @@
 package com.vm.admin.controller;
 
 import com.vm.admin.service.inf.VmAuthsService;
+import com.vm.base.aop.RequiredAdminLogin;
 import com.vm.base.util.ServiceController;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ public class VmAuthsController extends ServiceController<VmAuthsService> {
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequestMapping(value = "/info/all", method = RequestMethod.GET)
     @ResponseBody
     public Object getAllAuths() throws Exception {
@@ -34,6 +36,7 @@ public class VmAuthsController extends ServiceController<VmAuthsService> {
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequestMapping(value = "/id/list/byRoleId/{roleId}", method = RequestMethod.GET)
     @ResponseBody
     public Object getAuthIdsByRoleId(@PathVariable("roleId") Long roleId) throws Exception {

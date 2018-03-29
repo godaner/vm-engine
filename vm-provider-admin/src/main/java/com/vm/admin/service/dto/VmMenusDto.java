@@ -8,6 +8,9 @@ import java.util.List;
  * Created by ZhangKe on 2018/3/26.
  */
 public class VmMenusDto extends BaseDto {
+
+    private static final long serialVersionUID = 7247714666080613254L;
+
     private String menuName;
     private String keyProp;
     private Long pid;

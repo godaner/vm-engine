@@ -1,5 +1,6 @@
 package com.vm.user.controller;
 
+import com.vm.base.aop.RequiredAdminLogin;
 import com.vm.base.aop.RequiredAuth;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 
@@ -187,6 +188,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 //    }
 
     /*********************************管理端****************************/
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"user:select"})
     @RequestMapping(value = "/user/info/list", method = RequestMethod.GET)
     @ResponseBody
@@ -197,6 +199,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response.putData("list", list).putData("total", total);
     }
 
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"user:add"})
     @RequestMapping(value = "/user/info", method = RequestMethod.POST)
     @ResponseBody
@@ -204,6 +207,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response.putData("user", service.addUser(vmUsersDto));
     }
 
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"user:edit"})
     @RequestMapping(value = "/user/info", method = RequestMethod.PUT)
     @ResponseBody
@@ -211,6 +215,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response.putData("user", service.editUser(vmUsersDto));
     }
 
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"user:delete"})
     @RequestMapping(value = "/user/info", method = RequestMethod.DELETE)
     @ResponseBody
@@ -224,6 +229,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequestMapping(value = "/user/img", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateUserHeadImg(UpdateHeadImgInfo updateHeadImgInfo) throws Exception {

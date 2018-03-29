@@ -1,6 +1,6 @@
 package com.vm.base.aop;
 
-import com.vm.base.service.exception.VmRuntimeException;
+import com.vm.base.service.exception.VmCommonException;
 import com.vm.base.util.AuthCacheManager;
 import com.vm.base.util.CommonUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -24,7 +24,7 @@ import java.util.List;
 @Component
 @Aspect
 @Order(3)
-public class AuthValidateAop extends CommonUtil {
+public class RequiredAuthAop extends CommonUtil {
     private final Logger logger = LoggerFactory.getLogger(ExceptionHandlerAop.class);
 
     @Pointcut("execution(* com.vm..*controller..*.*(..))")
@@ -57,8 +57,9 @@ public class AuthValidateAop extends CommonUtil {
         }
 
         if (!haveAuth) {
-            throw new VmRuntimeException("AuthValidateAop admin accessToken : " + token + " is have not auth ! required auth codes is : " + requiredAuthCodes + " , admin have auth codes is : " + haveAuthCodes,
-                    -555, "您没有权限进行此操作");
+            throw new VmCommonException("AuthValidateAop admin accessToken : " + token + " is have not auth ! required auth codes is : " + requiredAuthCodes + " , admin have auth codes is : " + haveAuthCodes,
+                    VmCommonException.ErrorCode.ADMIN_HAVE_NOT_AUTH.getCode(),
+                    VmCommonException.ErrorCode.ADMIN_HAVE_NOT_AUTH.getMsg());
         }
 
         return joinPoint.proceed();

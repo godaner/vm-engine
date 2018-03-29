@@ -1,5 +1,6 @@
 package com.vm.user.controller;
 
+import com.vm.base.aop.RequiredAdminLogin;
 import com.vm.base.aop.RequiredAuth;
 import com.vm.dao.util.PageBean;
 import com.vm.base.util.ServiceController;
@@ -22,6 +23,7 @@ public class VmUsersLoginLogsController extends ServiceController<VmUsersLoginLo
      *
      * @return
      */
+    @RequiredAdminLogin
     @RequiredAuth(auths = {"user:userLoginLogs"})
     @RequestMapping(value = "/user/login/logs", method = RequestMethod.GET)
     @ResponseBody

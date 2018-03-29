@@ -1,7 +1,6 @@
-package com.vm.admin.aop;
+package com.vm.base.aop;
 
-import com.vm.admin.service.exception.VmAdminException;
-import com.vm.base.aop.OnlineConstants;
+import com.vm.base.service.exception.VmCommonException;
 import com.vm.base.util.CommonUtil;
 import com.vm.base.util.SessionCacheManager;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -18,14 +17,14 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 当方法含有{@link RequiredLogin}注解，那么去除其token 验证是否登录
+ * 当方法含有{@link RequiredAdminLogin}注解，那么去除其token 验证是否登录
  */
 @Component
 @Aspect
 @Order(2)
-public class RequiredLoginAop extends CommonUtil {
+public class RequiredAdminLoginAop extends CommonUtil {
 
-    private final Logger logger = LoggerFactory.getLogger(RequiredLoginAop.class);
+    private final Logger logger = LoggerFactory.getLogger(RequiredAdminLoginAop.class);
 
 
     @Pointcut("execution(* com.vm..*.controller..*.*(..))")
@@ -34,7 +33,7 @@ public class RequiredLoginAop extends CommonUtil {
 
 
     @Around("declareJoinPointExpression() && @annotation(requiredLogin)")
-    public Object doAroundAdvice(ProceedingJoinPoint joinPoint, RequiredLogin requiredLogin) throws Throwable {
+    public Object doAroundAdvice(ProceedingJoinPoint joinPoint, RequiredAdminLogin requiredLogin) throws Throwable {
 
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
@@ -42,8 +41,8 @@ public class RequiredLoginAop extends CommonUtil {
 
         Long userId = (Long) SessionCacheManager.getOnlineUserId(token);
         if (userId == null) {
-            throw new VmAdminException(VmAdminException.ErrorCode.ADMIN_IS_OFFLINE.getCode(),
-                    VmAdminException.ErrorCode.ADMIN_IS_OFFLINE.getMsg());
+            throw new VmCommonException(VmCommonException.ErrorCode.ADMIN_IS_OFFLINE.getCode(),
+                    VmCommonException.ErrorCode.ADMIN_IS_OFFLINE.getMsg());
         }
 
         /**
