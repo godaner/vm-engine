@@ -7,17 +7,21 @@ import com.vm.admin.dao.po.VmRoles;
 import com.vm.admin.dao.po.VmRolesAuthsRealation;
 import com.vm.admin.dao.po.VmRolesMenusRealation;
 import com.vm.admin.dao.qo.VmRolesQueryBean;
+import com.vm.admin.service.dto.VmMenusDto;
 import com.vm.admin.service.dto.VmRolesDto;
 import com.vm.admin.service.exception.VmAdminException;
 import com.vm.admin.service.exception.VmRolesException;
 import com.vm.admin.service.inf.VmAuthsService;
+import com.vm.admin.service.inf.VmMenusService;
 import com.vm.admin.service.inf.VmRolesService;
 import com.vm.base.util.AuthCacheManager;
 import com.vm.base.util.BaseService;
+import com.vm.base.util.MenuCacheManager;
 import com.vm.base.util.SessionCacheManager;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,6 +72,8 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
     //service
     @Autowired
     VmAuthsService vmAuthsService;
+    @Autowired
+    VmMenusService vmMenusService;
 
     @Override
     public List<VmRolesDto> getRoles(PageBean page, VmRolesQueryBean query) {
@@ -228,22 +234,18 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
         vmRoles = this.getRoleById(roleId, BasePo.IsDeleted.NO);
 
 
-        //if admin online ,update admin auth codes in cache
-        List<Long> adminIds = customVmAdminsRolesRealationMapper.getAdminIdsByRoleId(ImmutableMap.of(
+        //update auth and menu cache
+        //if admin online ,update admin auth codes and menu tree in cache
+
+
+        //get affected admin ids
+        List<Long> adminIds = customVmAdminsRolesRealationMapper.getAdminIdsByRoleIds(ImmutableMap.of(
                 "isDeleted", BasePo.IsDeleted.NO.getCode(),
-                "roleId", roleId
+                "roleIds", Lists.newArrayList(roleId)
         ));
 
-        for (Long adminId : adminIds) {
-            String accessToken = SessionCacheManager.getOnlineUserToken(adminId);
-            if (!isEmptyString(accessToken)) {//online ?
-
-                List<String> authCodes = vmAuthsService.getUseableAuthCodesByAdminId(adminId);
-
-                AuthCacheManager.saveAuthCodes(accessToken, authCodes);
-            }
-        }
-
+        //update auth and menu cache
+        this.refreshOnlineAdminAuthsAndMenus(adminIds);
 
         return makeRolesDto(vmRoles);
     }
@@ -308,12 +310,41 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
         }
 
 
+        //get affected admin ids
+        List<Long> adminIds = customVmAdminsRolesRealationMapper.getAdminIdsByRoleIds(ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.NO.getCode(),
+                "roleIds", Lists.newArrayList(deletedIds)
+        ));
+
         //delete roles
         cnt = vmRolesMapper.updateInIds(deletedIds, ImmutableMap.of(
                 "isDeleted", BasePo.IsDeleted.YES.getCode()
         ));
         if (deletedIds.size() != cnt) {
             throw new VmAdminException("deleteRole vmRolesMapper#updateInIds is fail ! deletedIds is : " + deletedIds);
+        }
+        //update auth and menu cache
+        this.refreshOnlineAdminAuthsAndMenus(adminIds);
+
+
+    }
+
+    private void refreshOnlineAdminAuthsAndMenus(List<Long> adminIds) {
+        //if admin online ,update admin auth codes and menu tree in cache
+        for (Long adminId : adminIds) {
+            String accessToken = SessionCacheManager.getOnlineUserToken(adminId);
+            if (!isEmptyString(accessToken)) {//online ?
+
+                //auths
+                List<String> authCodes = vmAuthsService.getUseableAuthCodesByAdminId(adminId);
+
+                AuthCacheManager.saveAuthCodes(accessToken, authCodes);
+
+                //menuTree
+                List<VmMenusDto> menuTree = vmMenusService.getMenusTreeByAdminId(adminId);
+
+                MenuCacheManager.saveMenuTree(accessToken, menuTree);
+            }
         }
     }
 

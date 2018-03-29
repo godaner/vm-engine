@@ -11,7 +11,7 @@ import java.util.List;
 public interface CustomVmAdminsRolesRealationMapper {
     List<Long> getRoleIdsByAdminId(@Param("query") Object query);
 
-    List<Long> getAdminIdsByRoleId(@Param("query") Object query);
+    List<Long> getAdminIdsByRoleIds(@Param("query") Object query);
 
     List<Long> getRealationIdsByAdminIds(@Param("query") Object query);
 }

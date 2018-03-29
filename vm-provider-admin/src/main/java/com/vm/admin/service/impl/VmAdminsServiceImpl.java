@@ -8,13 +8,12 @@ import com.vm.admin.dao.po.VmAdminsLoginLogs;
 import com.vm.admin.dao.po.VmAdminsRolesRealation;
 import com.vm.admin.dao.qo.VmAdminsQueryBean;
 import com.vm.admin.service.dto.VmAdminsDto;
+import com.vm.admin.service.dto.VmMenusDto;
 import com.vm.admin.service.exception.VmAdminException;
 import com.vm.admin.service.inf.VmAdminsService;
 import com.vm.admin.service.inf.VmAuthsService;
-import com.vm.base.util.AuthCacheManager;
-import com.vm.base.util.BaseService;
-import com.vm.base.util.DateUtil;
-import com.vm.base.util.SessionCacheManager;
+import com.vm.admin.service.inf.VmMenusService;
+import com.vm.base.util.*;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
@@ -62,6 +61,8 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     @Autowired
     VmAuthsService vmAuthsService;
 
+    @Autowired
+    VmMenusService vmMenusService;
     @Override
     public List<VmAdminsDto> getAdmins(PageBean page, VmAdminsQueryBean query) {
         List<VmAdmins> admins = customVmAdminsMapper.getAdmins(page, query);
@@ -283,6 +284,11 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         List<String> authCodes = vmAuthsService.getUseableAuthCodesByAdminId(vmAdmins.getId());
 
         AuthCacheManager.saveAuthCodes(token, authCodes);
+        //save admin menuTree
+        List<VmMenusDto> menuTree = vmMenusService.getMenusTreeByAdminId(vmAdmins.getId());
+
+        MenuCacheManager.saveMenuTree(token, menuTree);
+
 
         return makeVmAdminDto(vmAdmins, token);
     }
