@@ -4,15 +4,24 @@
 
 <mapper namespace="com.vm.admin.dao.mapper.custom.CustomVmAdminsRolesRealationMapper">
     <select id="getRoleIdsByAdminId" resultType="long">
-        SELECT
-        DISTINCT role_id
-        from vm_admins_roles_realation
-        WHERE
+        select ID
+        from vm_roles
+        where
         is_deleted = #{query.isDeleted}
         <if test="query.status!=null">
             and status = #{query.status}
         </if>
-        and admin_id =#{query.adminId}
+        and id in (
+            SELECT
+            DISTINCT role_id
+            from vm_admins_roles_realation
+            WHERE
+            is_deleted = #{query.isDeleted}
+            <if test="query.status!=null">
+                and status = #{query.status}
+            </if>
+            and admin_id =#{query.adminId}
+        )
     </select>
     <select id="getAdminIdsByRoleIds" resultType="long">
         SELECT
