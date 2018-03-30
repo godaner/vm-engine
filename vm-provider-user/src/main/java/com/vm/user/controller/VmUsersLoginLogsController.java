@@ -24,7 +24,7 @@ public class VmUsersLoginLogsController extends ServiceController<VmUsersLoginLo
      * @return
      */
     @RequiredAdminLogin
-    @RequiredAuth(auths = {"user:userLoginLogs"})
+    @RequiredAuth(auths = {"userLoginLogs:select"})
     @RequestMapping(value = "/user/login/logs", method = RequestMethod.GET)
     @ResponseBody
     public Object getUserLoginLogs(VmUsersLoginLogsQueryBean query, PageBean page) throws Exception {
