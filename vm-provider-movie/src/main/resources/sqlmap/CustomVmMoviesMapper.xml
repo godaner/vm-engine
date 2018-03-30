@@ -45,6 +45,7 @@
         vm_movies m
         WHERE
         m.`status` = #{query.status}
+        and m.is_deleted = #{query.isDeleted}
         <if test="query.keyword!=null">
             AND m.name LIKE concat('%',#{query.keyword},'%')
         </if>

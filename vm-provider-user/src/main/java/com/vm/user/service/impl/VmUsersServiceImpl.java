@@ -91,11 +91,11 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         //login in session
 
         //clear old session
-        String oldToken = AdminSessionCacheManager.getOnlineUserToken(dbUser.getId());
-        if(!isEmptyString(oldToken)){
-            AdminSessionCacheManager.userLogout(oldToken);
+        String oldToken = UserSessionCacheManager.getOnlineUserToken(dbUser.getId());
+        if (!isEmptyString(oldToken)) {
+            UserSessionCacheManager.userLogout(oldToken);
         }
-        String token = AdminSessionCacheManager.userLogin(dbUser.getId());
+        String token = UserSessionCacheManager.userLogin(dbUser.getId());
 
 
         return makeVmUsersDto(dbUser, token);
@@ -228,7 +228,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
 
         //login in session
-        String token = AdminSessionCacheManager.userLogin(vmUsers.getId());
+        String token = UserSessionCacheManager.userLogin(vmUsers.getId());
 
         return makeVmUsersDto(vmUsers, token);
     }
@@ -325,7 +325,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
 //        Long userId = (Long) SessionManager.getOnlineUserId(token);
 
-        AdminSessionCacheManager.userLogout(token);
+        UserSessionCacheManager.userLogout(token);
 
     }
 
@@ -335,7 +335,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         if (null == token) {
             return null;
         }
-        Long userId = AdminSessionCacheManager.getOnlineUserId(token);
+        Long userId = UserSessionCacheManager.getOnlineUserId(token);
 
         if (null == userId) {
             return null;
