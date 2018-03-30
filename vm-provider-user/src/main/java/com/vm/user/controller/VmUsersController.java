@@ -7,7 +7,7 @@ import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
 import com.vm.base.aop.IgnoreExtendSessionLife;
-import com.vm.user.aop.RequiredUserLogin;
+import com.vm.base.aop.RequiredUserLogin;
 import com.vm.user.dao.qo.VmUserQueryBean;
 import com.vm.user.resolver.OnlineUser;
 import com.vm.user.service.dto.VmUsersDto;

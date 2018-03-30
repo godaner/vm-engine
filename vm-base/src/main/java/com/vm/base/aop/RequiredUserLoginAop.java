@@ -1,10 +1,8 @@
-package com.vm.user.aop;
+package com.vm.base.aop;
 
+import com.vm.base.service.exception.VmCommonException;
 import com.vm.base.util.CommonUtil;
-import com.vm.base.aop.OnlineConstants;
 import com.vm.base.util.UserSessionCacheManager;
-import com.vm.user.resolver.OnlineUserMethodArgumentResolver;
-import com.vm.user.service.exception.VmUsersException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -29,7 +27,7 @@ public class RequiredUserLoginAop extends CommonUtil {
     private final Logger logger = LoggerFactory.getLogger(RequiredUserLoginAop.class);
 
 
-    @Pointcut("execution(* com.vm.user.controller..*.*(..))")
+    @Pointcut("execution(* com.vm..*.controller..*.*(..))")
     public void declareJoinPointExpression() {
     }
 
@@ -43,8 +41,8 @@ public class RequiredUserLoginAop extends CommonUtil {
 
         Long userId = (Long) UserSessionCacheManager.getOnlineUserId(token);
         if (userId == null) {
-            throw new VmUsersException(VmUsersException.ErrorCode.USER_IS_OFFLINE.getCode(),
-                    VmUsersException.ErrorCode.USER_IS_OFFLINE.getMsg());
+            throw new VmCommonException(VmCommonException.ErrorCode.USER_IS_OFFLINE.getCode(),
+                    VmCommonException.ErrorCode.USER_IS_OFFLINE.getMsg());
         }
 
         /**
