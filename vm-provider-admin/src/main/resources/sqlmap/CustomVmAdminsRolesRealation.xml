@@ -29,7 +29,7 @@
             and a.status = #{query.status}
             and b.status = #{query.status}
         </if>
-        and a.role_id
+        and a.role_id in
         <foreach collection="query.roleIds" separator="," item="item" open="(" close=")">
             #{item}
         </foreach>
