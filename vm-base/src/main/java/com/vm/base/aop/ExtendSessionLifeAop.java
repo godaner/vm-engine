@@ -25,12 +25,12 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 @Aspect
 @Order(3)
-public class ExtendUserSessionLifeAop extends CommonUtil {
+public class ExtendSessionLifeAop extends CommonUtil {
 
-    private final Logger logger = LoggerFactory.getLogger(ExtendUserSessionLifeAop.class);
+    private final Logger logger = LoggerFactory.getLogger(ExtendSessionLifeAop.class);
 
 
-    @Pointcut("execution(* com.vm..*.controller..*.*(..))&&!@annotation(com.vm.base.aop.IgnoreUserExtendSessionLife)")
+    @Pointcut("execution(* com.vm..*.controller..*.*(..))&&!@annotation(com.vm.base.aop.IgnoreExtendSessionLife)")
     public void declareJoinPointExpression() {
     }
 
