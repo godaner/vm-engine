@@ -13,9 +13,9 @@ import javax.annotation.PostConstruct;
  * 记录<token,userId>的键值对,token被记录则代表在线
  */
 @Component
-public class SessionCacheManager extends CommonUtil {
+public class AdminSessionCacheManager extends CommonUtil {
 
-    private static String sessionManagerUniqueId = uuid();
+    private static String sessionManagerUniqueId = AdminSessionCacheManager.class.toString();
 
     private static Long timeout = 60l;//default (s)
 
@@ -28,6 +28,14 @@ public class SessionCacheManager extends CommonUtil {
     public void init() {
 
         this.redisRepositoryCache = this.redisRepository;
+    }
+
+    public static Long getTimeout() {
+        return timeout;
+    }
+
+    public static void setTimeout(Long timeout) {
+        AdminSessionCacheManager.timeout = timeout;
     }
 
     private static String generateToken() {
@@ -165,16 +173,8 @@ public class SessionCacheManager extends CommonUtil {
      */
     public static boolean userLogout(String token) {
         return (boolean)
-                SessionCacheManager.clearSession(token);
+                AdminSessionCacheManager.clearSession(token);
     }
 
-    /**
-     * 设置配置
-     *
-     * @param userSessionLifetime
-     */
-    public static void set(Long userSessionLifetime,String sessionManagerUniqueId) {
-        SessionCacheManager.timeout = userSessionLifetime;
-        SessionCacheManager.sessionManagerUniqueId = sessionManagerUniqueId;
-    }
+
 }

@@ -6,9 +6,9 @@ import com.vm.admin.dao.mapper.custom.*;
 import com.vm.admin.dao.po.VmMenus;
 import com.vm.admin.service.dto.VmMenusDto;
 import com.vm.admin.service.inf.VmMenusService;
+import com.vm.base.util.AdminSessionCacheManager;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.MenuCacheManager;
-import com.vm.base.util.SessionCacheManager;
 import com.vm.dao.util.BasePo;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +79,7 @@ public class VmMenusServiceImpl extends BaseService implements VmMenusService {
 
     @Override
     public List<VmMenusDto> getMenusTreeByAdminId(Long adminId) {
-        String token = SessionCacheManager.getOnlineUserToken(adminId);
+        String token = AdminSessionCacheManager.getOnlineUserToken(adminId);
         if (isEmptyString(token)) {
             return Lists.newArrayList();
         }

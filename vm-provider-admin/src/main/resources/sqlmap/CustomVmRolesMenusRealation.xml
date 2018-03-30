@@ -4,29 +4,26 @@
 
 <mapper namespace="com.vm.admin.dao.mapper.custom.CustomVmRolesMenusRealationMapper">
     <select id="getMenuIdsByRoleIds" resultType="long">
-        SELECT  id
-        from vm_menus
-        is_deleted = #{query.isDeleted}
+
+        select
+        DISTINCT b.id
+        from vm_roles_menus_realation a,vm_menus b
+        WHERE
+        a.menu_id = b.id
+        and a.is_deleted = #{query.isDeleted}
+        and b.is_deleted = #{query.isDeleted}
         <if test="query.status!=null">
-            and status = #{query.status}
+            and a.status = #{query.status}
+            and b.status = #{query.status}
         </if>
-        and id in
-        (
-            select menu_id
-            from vm_roles_menus_realation
-            WHERE
-            is_deleted = #{query.isDeleted}
-            <if test="query.status!=null">
-                and status = #{query.status}
-            </if>
-            and role_id in
-            <foreach item="item" index="index" collection="query.roleIds" open="(" separator="," close=")">
-                #{item}
-            </foreach>
-        )
+        and a.role_id in
+        <foreach item="item" index="index" collection="query.roleIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
     <select id="getLeafMenuIdsByRoleId" resultType="long">
-        select DISTINCT  m.id
+        select
+        DISTINCT  m.id
         from vm_roles_menus_realation r, vm_menus m
         WHERE
         r.menu_id = m.id

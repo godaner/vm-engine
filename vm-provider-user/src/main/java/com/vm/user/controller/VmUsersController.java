@@ -7,7 +7,7 @@ import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
 import com.vm.base.aop.IgnoreExtendSessionLife;
-import com.vm.user.aop.RequiredLogin;
+import com.vm.user.aop.RequiredUserLogin;
 import com.vm.user.dao.qo.VmUserQueryBean;
 import com.vm.user.resolver.OnlineUser;
 import com.vm.user.service.dto.VmUsersDto;
@@ -74,7 +74,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      * @return
      * @throws Exception
      */
-    @RequiredLogin
+    @RequiredUserLogin
     @RequestMapping(value = "/user/online", method = RequestMethod.GET)
     @ResponseBody
     public Object getOnlineUser(@OnlineUser VmUsersDto onlineUser) throws Exception {
@@ -83,7 +83,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     }
 
 
-    @RequiredLogin
+    @RequiredUserLogin
     @RequestMapping(value = "/user/logout", method = RequestMethod.PUT)
     @ResponseBody
     public Object userLogout(@OnlineUser VmUsersDto onlineUser) throws Exception {
@@ -102,7 +102,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     }
 
 
-    @RequiredLogin
+    @RequiredUserLogin
     @RequestMapping(value = "/user/online", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateOnlineUserBasicInfo(@OnlineUser VmUsersDto onlineUser,
@@ -137,7 +137,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @return
      */
-//    @RequiredLogin
+//    @RequiredUserLogin
 //    @RequestMapping(value = "/img/temp", method = RequestMethod.POST)
 //    @ResponseBody
 //    public Object uploadUserTempHeadImg(@OnlineUser VmUsersDto onlineUser,
@@ -165,7 +165,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      *
      * @return
      */
-    @RequiredLogin
+    @RequiredUserLogin
     @RequestMapping(value = "/user/online/img", method = RequestMethod.PUT)
     @ResponseBody
     public Object updateUserHeadImg(@OnlineUser VmUsersDto onlineUser,

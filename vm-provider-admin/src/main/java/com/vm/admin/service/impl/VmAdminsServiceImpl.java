@@ -196,7 +196,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     public void refreshOnlineAdminAuthsAndMenus(List<Long> adminIds) {
         //if admin online ,update admin auth codes and menu tree in cache
         adminIds.stream().parallel().forEach(adminId -> {
-            String accessToken = SessionCacheManager.getOnlineUserToken(adminId);
+            String accessToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
             if (!isEmptyString(accessToken)) {//online ?
 
                 //auths
@@ -216,7 +216,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     public void refreshOnlineAdminMenus(List<Long> adminIds) {
         //if admin online ,update admin menu tree in cache
         adminIds.stream().parallel().forEach(adminId -> {
-            String accessToken = SessionCacheManager.getOnlineUserToken(adminId);
+            String accessToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
             if (!isEmptyString(accessToken)) {//online ?
 
                 //menuTree
@@ -231,7 +231,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     public void refreshOnlineAdminAuths(List<Long> adminIds) {
         //if admin online ,update admin auth codes tree in cache
         adminIds.stream().parallel().forEach(adminId -> {
-            String accessToken = SessionCacheManager.getOnlineUserToken(adminId);
+            String accessToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
             if (!isEmptyString(accessToken)) {//online ?
 
                 //auths
@@ -331,12 +331,12 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
 
 
         //logout old session
-        String oldToken = SessionCacheManager.getOnlineUserToken(adminId);
+        String oldToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
         if (!isEmptyString(oldToken)) {
-            SessionCacheManager.userLogout(oldToken);
+            AdminSessionCacheManager.userLogout(oldToken);
         }
         //add new session
-        String token = SessionCacheManager.userLogin(adminId);
+        String token = AdminSessionCacheManager.userLogin(adminId);
 
         //refresh admin auth and menu
         this.refreshOnlineAdminAuthsAndMenus(Lists.newArrayList(adminId));
@@ -353,7 +353,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         if (null == token) {
             return null;
         }
-        Long adminId = SessionCacheManager.getOnlineUserId(token);
+        Long adminId = AdminSessionCacheManager.getOnlineUserId(token);
 
         if (null == adminId) {
             return null;
@@ -371,7 +371,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
 
     @Override
     public void adminLogout(String token) {
-        SessionCacheManager.userLogout(token);
+        AdminSessionCacheManager.userLogout(token);
     }
 
 

@@ -1,6 +1,5 @@
 package com.vm.admin.dao.mapper.custom;
 
-import com.google.common.collect.ImmutableMap;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

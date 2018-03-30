@@ -4,27 +4,21 @@
 
 <mapper namespace="com.vm.admin.dao.mapper.custom.CustomVmRolesAuthsRealationMapper">
     <select id="getAuthIdsByRoleIds" resultType="long">
-        select ID
-        from vm_auths
-        where
-        is_deleted = #{query.isDeleted}
+        select
+        DISTINCT b.id
+        from vm_roles_auths_realation a,vm_auths b
+        WHERE
+        a.auth_id=b.id
+        and a.is_deleted = #{query.isDeleted}
+        and b.is_deleted = #{query.isDeleted}
         <if test="query.status !=null and query.status!=''">
-            and status = #{query.status}
+            and a.status = #{query.status}
+            and b.status = #{query.status}
         </if>
-        and id in
-        (
-            select auth_id
-            from vm_roles_auths_realation
-            WHERE
-            is_deleted = #{query.isDeleted}
-            <if test="query.status !=null and query.status!=''">
-                and status = #{query.status}
-            </if>
-            and role_id in
-            <foreach item="item" index="index" collection="query.roleIds" open="(" separator="," close=")">
-                #{item}
-            </foreach>
-        )
+        and a.role_id in
+        <foreach item="item" index="index" collection="query.roleIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
 </mapper>
