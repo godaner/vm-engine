@@ -38,9 +38,9 @@
                             <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
                         </goals>
                         <!--可以生成不含依赖包的不可执行Jar包-->
-                        <!-- configuration>
+                        <configtion>
                           <classifier>exec</classifier>
-                        </configuration> -->
+                      configtion> -->
                     </execution>
                 </executions>
             </plugin>
