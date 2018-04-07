@@ -1,5 +1,6 @@
 package com.vm.user.service.dto;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.vm.base.service.dto.BaseDto;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +22,7 @@ public class VmUsersDto extends BaseDto{
     private String imgUrl;
 
     private String token;
-
+    @JSONField(serialize = false)
     private MultipartFile file;
 
 

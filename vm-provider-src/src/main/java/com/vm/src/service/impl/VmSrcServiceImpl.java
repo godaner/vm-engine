@@ -146,7 +146,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     }
 
     @Override
-    public Long saveImg(MultipartFile file) throws IOException {
+    public Long saveImg(MultipartFile file) throws Exception {
 
         logger.info("saveImg file is : {} !", file.getOriginalFilename());
 
@@ -178,7 +178,9 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             //save head Img
             inputStream = imgFile.getInputStream();
             outputStream = new FileOutputStream(targetPathName);
-            org.apache.commons.io.IOUtils.copy(inputStream, outputStream);
+            //compress img
+            ImageUtil.resize(inputStream,outputStream,600,-1);
+//            org.apache.commons.io.IOUtils.copy(inputStream, outputStream);
 
 
             //写入数据库

@@ -1,5 +1,6 @@
 package com.vm.src.controller;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.vm.base.util.ServiceController;
 import com.vm.src.config.SrcConfig;
 import com.vm.src.service.dto.VmFilesDto;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class VmSrcController extends ServiceController<VmSrcService> {
     @Autowired
     private SrcConfig srcConfig;
+
     /**
      * 获取视频资源
      *
@@ -26,10 +28,11 @@ public class VmSrcController extends ServiceController<VmSrcService> {
      */
     @RequestMapping(value = "/video", method = RequestMethod.POST)
     @ResponseBody
-    public Object uploadVideo(@RequestParam("file") MultipartFile file) throws Exception {
+    public Object uploadVideo(@JSONField(serialize = false) @RequestParam("file") MultipartFile file) throws Exception {
         Long fileId = service.uploadVideo(file);
         return response.putData("videoUrl", srcConfig.getSrcVideoUrl() + "/" + fileId).putData("fileId", fileId);
     }
+
     /**
      * 获取视频资源
      *
@@ -52,6 +55,7 @@ public class VmSrcController extends ServiceController<VmSrcService> {
         service.sendImgSrc(fileId, width, getResponse());
 
     }
+
     /**
      * 获取图片资源
      *
@@ -73,7 +77,7 @@ public class VmSrcController extends ServiceController<VmSrcService> {
      */
     @RequestMapping(value = "/img", method = RequestMethod.POST)
     @ResponseBody
-    public Object uploadImgFile(@RequestParam("file") MultipartFile file) throws Exception {
+    public Object uploadImgFile(@JSONField(serialize = false) @RequestParam("file") MultipartFile file) throws Exception {
         Long fileId = service.saveImg(file);
         return response.putData("imgUrl", srcConfig.getSrcImgUrl() + "/" + fileId).putData("fileId", fileId);
     }

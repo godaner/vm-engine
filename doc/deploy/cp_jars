@@ -5,4 +5,4 @@ cp ../../vm-provider-admin/target/vm-provider-admin-1.0.0.jar ./jars/
 cp ../../vm-provider-user/target/vm-provider-user-1.0.0.jar ./jars/
 cp ../../vm-provider-movie/target/vm-provider-movie-1.0.0.jar ./jars/
 cp ../../vm-provider-src/target/vm-provider-src-1.0.0.jar ./jars/
-pause
+

@@ -37,7 +37,7 @@ eureka:
       initial-instance-info-replication-interval-seconds: 150 #询问Eureka服务url信息变化的时间间隔（s），默认为300秒
       service-url:
             defaultZone:
-              http://server01:1111/eureka/,http://server02:1112/eureka/
+              http://devServer00:1111/eureka/,http://devServer01:1112/eureka/
   instance:
     #服务过期时间配置,超过这个时间没有接收到心跳EurekaServer就会将这个实例剔除
     #注意，EurekaServer一定要设置eureka.server.eviction-interval-timer-in-ms否则这个配置无效，这个配置一般为服务刷新时间配置的三倍
@@ -65,7 +65,7 @@ eureka:
       initial-instance-info-replication-interval-seconds: 300 #询问Eureka服务url信息变化的时间间隔（s），默认为300秒
       service-url:
             defaultZone:
-              http://server01:1111/eureka/,http://server02:1112/eureka/
+              http://server00:1111/eureka/,http://server01:1112/eureka/
   instance:
     #服务过期时间配置,超过这个时间没有接收到心跳EurekaServer就会将这个实例剔除
     #注意，EurekaServer一定要设置eureka.server.eviction-interval-timer-in-ms否则这个配置无效，这个配置一般为服务刷新时间配置的三倍

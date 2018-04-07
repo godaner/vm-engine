@@ -1,5 +1,6 @@
 package com.vm.src.service.dto;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -16,6 +17,7 @@ public class VmFilesDto {
     private Integer scaleX;
     private Integer scaleY;
     private String versions;
+    @JSONField(serialize = false)
     private MultipartFile file;
 
     public MultipartFile getFile() {

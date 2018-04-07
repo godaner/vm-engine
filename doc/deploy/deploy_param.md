@@ -14,11 +14,8 @@
     输入==> 127.0.0.1  server01 server02 
 
 #2.
-    # nohup java -jar vm-eureka-1.0.0.jar --spring.profiles.active=eureka01 
-	-Xms64m -Xmx128m -Xmn48m >eureka01.out 2>&1 &
+    # nohup java -jar vm-eureka-1.0.0.jar --spring.profiles.active=eureka01 -Xms64m -Xmx128m -Xmn48m >eureka01.out 2>&1 &
      
-    # nohup java -jar vm-eureka-1.0.0.jar --
-	-Xms64m -Xmx128m -Xmn48m >eureka02.out 2>&1 &
 #3.
     http://eureka01:1111
     

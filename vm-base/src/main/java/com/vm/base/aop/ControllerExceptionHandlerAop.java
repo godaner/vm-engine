@@ -17,8 +17,8 @@ import java.util.Map;
 @Component
 @Aspect
 @Order(1)
-public class ExceptionHandlerAop extends CommonUtil {
-    private final Logger logger = LoggerFactory.getLogger(ExceptionHandlerAop.class);
+public class ControllerExceptionHandlerAop extends CommonUtil {
+    private final Logger logger = LoggerFactory.getLogger(ControllerExceptionHandlerAop.class);
 
     @Pointcut("execution(* com.vm..*controller..*.*(..))")
     public void declareJoinPointExpression() {
