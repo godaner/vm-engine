@@ -17,7 +17,7 @@ public class VmFilesDto {
     private Integer scaleX;
     private Integer scaleY;
     private String versions;
-    @JSONField(serialize = false)
+
     private MultipartFile file;
 
     public MultipartFile getFile() {

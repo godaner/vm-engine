@@ -22,7 +22,7 @@ public class VmUsersDto extends BaseDto{
     private String imgUrl;
 
     private String token;
-    @JSONField(serialize = false)
+
     private MultipartFile file;
 
 

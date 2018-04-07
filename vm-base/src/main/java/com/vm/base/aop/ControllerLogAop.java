@@ -6,10 +6,15 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.assertj.core.util.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by sigh on 2015/6/25.
@@ -30,12 +35,10 @@ public class ControllerLogAop extends CommonUtil {
         long startTime = System.currentTimeMillis();
 
         Object[] args = proceedingJoinPoint.getArgs();
-        if (isNullObject(args)) {
-            args = new Object[]{};
-        }
+        List nArgs = filterObjs(Lists.newArrayList(args));
         String name = proceedingJoinPoint.getSignature().getName();
         logger.info("======>> In class is : {}, function name is : {} !", proceedingJoinPoint.getTarget().getClass().getName(), name);
-        logger.info("Request args is : {} !", JSONObject.toJSON(args).toString());
+        logger.info("Request args is : {} !", JSONObject.toJSON(nArgs).toString());
 
 
         Object result = proceedingJoinPoint.proceed();
@@ -50,4 +53,23 @@ public class ControllerLogAop extends CommonUtil {
         return result;
     }
 
+    private List filterObjs(List<Object> objects) {
+        if(isEmptyList(objects)){
+            return Lists.newArrayList();
+
+        }
+        List ret = objects.stream().parallel().filter(o -> {
+            return !isByteArray(o);
+        }).map(o -> {
+            return o;
+        }).collect(toList());
+        if (isEmptyList(ret)) {
+        }
+        return ret;
+    }
+
+    public boolean isByteArray(Object o) {
+
+        return (o instanceof Byte[] || o instanceof byte[]);
+    }
 }

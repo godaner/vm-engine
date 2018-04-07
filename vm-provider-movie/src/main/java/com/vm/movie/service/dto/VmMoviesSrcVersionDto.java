@@ -12,7 +12,7 @@ public class VmMoviesSrcVersionDto extends BaseDto {
     private Byte sharpness;
 
     private String srcUrl;
-    @JSONField(serialize = false)
+
     private MultipartFile file;
     private Long movieId;
 

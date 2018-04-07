@@ -1,6 +1,5 @@
 package com.vm.src.controller;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.vm.base.util.ServiceController;
 import com.vm.src.config.SrcConfig;
 import com.vm.src.service.dto.VmFilesDto;
@@ -28,7 +27,7 @@ public class VmSrcController extends ServiceController<VmSrcService> {
      */
     @RequestMapping(value = "/video", method = RequestMethod.POST)
     @ResponseBody
-    public Object uploadVideo(@JSONField(serialize = false) @RequestParam("file") MultipartFile file) throws Exception {
+    public Object uploadVideo(@RequestParam("file") MultipartFile file) throws Exception {
         Long fileId = service.uploadVideo(file);
         return response.putData("videoUrl", srcConfig.getSrcVideoUrl() + "/" + fileId).putData("fileId", fileId);
     }
@@ -69,7 +68,7 @@ public class VmSrcController extends ServiceController<VmSrcService> {
     }
 
     /**
-     * 上传图片不剪切
+     * 上传图片不压缩
      *
      * @param file
      * @return
@@ -77,8 +76,22 @@ public class VmSrcController extends ServiceController<VmSrcService> {
      */
     @RequestMapping(value = "/img", method = RequestMethod.POST)
     @ResponseBody
-    public Object uploadImgFile(@JSONField(serialize = false) @RequestParam("file") MultipartFile file) throws Exception {
-        Long fileId = service.saveImg(file);
+    public Object uploadImgFile(@RequestParam("file") MultipartFile file) throws Exception {
+        Long fileId = service.saveImg(file, null);
+        return response.putData("imgUrl", srcConfig.getSrcImgUrl() + "/" + fileId).putData("fileId", fileId);
+    }
+
+    /**
+     * 上传图片根据宽高比例压缩
+     *
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/img/{width}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object uploadImgFile(@RequestParam("file") MultipartFile file, @PathVariable("width") Integer width) throws Exception {
+        Long fileId = service.saveImg(file, width);
         return response.putData("imgUrl", srcConfig.getSrcImgUrl() + "/" + fileId).putData("fileId", fileId);
     }
 
