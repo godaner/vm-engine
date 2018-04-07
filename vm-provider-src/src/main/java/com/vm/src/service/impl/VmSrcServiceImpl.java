@@ -259,7 +259,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     public Long uploadAndCut(VmFilesDto vmFilesDto) throws Exception {
         logger.info("uploadAndCut vmFilesDto is : {} !", vmFilesDto);
 
-        Long fileId = this.saveImg(vmFilesDto.getFile());
+        Long fileId = this.saveImg(vmFilesDto.getFile(),null);
 
         vmFilesDto.setFileId(fileId);
 

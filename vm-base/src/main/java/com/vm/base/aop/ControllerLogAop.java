@@ -37,7 +37,7 @@ public class ControllerLogAop extends CommonUtil {
         Object[] args = proceedingJoinPoint.getArgs();
         List nArgs = filterObjs(Lists.newArrayList(args));
         String name = proceedingJoinPoint.getSignature().getName();
-        logger.info("======>> In class is : {}, function name is : {} !", proceedingJoinPoint.getTarget().getClass().getName(), name);
+        logger.info("======>> In controller is : {}, function name is : {} !", proceedingJoinPoint.getTarget().getClass().getName(), name);
         logger.info("Request args is : {} !", JSONObject.toJSON(nArgs).toString());
 
 
