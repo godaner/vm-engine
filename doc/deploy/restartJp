@@ -13,7 +13,7 @@ else
 
             kill -9 ${pi}
     fi
-    `/usr/bin/nohup ${JAVA_HOME}/bin/java -jar /usr/local/src/${1} --spring.profiles.active=${2} >/usr/local/src/${1}.out 2>&1 &`
+    `/usr/bin/nohup ${JAVA_HOME}/bin/java -jar /usr/local/src/${1} --spring.profiles.active=${2} -Xms64m -Xmx128m -Xmn48m>/usr/local/src/${1}.out 2>&1 &`
     echo "====>>>> start progress $1 with pid ":`${JAVA_HOME}/bin/jps -l | /usr/bin/grep $1  | awk '{print $1}'`
 fi
 

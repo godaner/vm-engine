@@ -3,11 +3,13 @@ if [ $# = 0 ];then
     echo "Error : hostname is empty !
 Input like : root@47.106.119.0 ! "
 else
+    #cd ../../
+    #mvn clean package
     ./cp_jars
 
     sed -i 's/^M//g' ./restartJp
     sed -i 's/^M//g' ./restartServers
-    scp -r ./restartJp ./restartServers  $1:/usr/local/src/
+    scp -r ./restartJp ./restartServers ./jars/*  $1:/usr/local/src/
     ssh $1 "/usr/local/src/restartServers"
 fi
 
