@@ -1,0 +1,6 @@
+#!/bin/bash
+./restartJp vm-gateway-1.0.0.jar prod00
+./restartJp vm-provider-user-1.0.0.jar prod
+./restartJp vm-provider-admin-1.0.0.jar prod
+./restartJp vm-provider-movie-1.0.0.jar prod
+./restartJp vm-provider-src-1.0.0.jar prod

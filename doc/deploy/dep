@@ -1,0 +1,13 @@
+#!/bin/bash
+if [ $# = 0 ];then
+    echo "Error : hostname is empty !
+Input like : root@47.106.119.0 ! "
+else
+    ./cp_jars
+    cat -v ./restartJp | tr -d '^M'  > ./restartJp
+    cat -v ./restartServers | tr -d '^M'  > ./restartServers
+    scp -r ./restartJp ./restartServers ./jars/* $1:/usr/local/src/
+    ssh $1 '/usr/local/src/restartServers'
+fi
+
+

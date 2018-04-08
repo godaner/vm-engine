@@ -1,3 +1,0 @@
-./cp_jars
-scp -r ./jars/* $1:/usr/local/src/
-
