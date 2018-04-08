@@ -1,13 +1,19 @@
 #!/bin/bash
-pi=`jps -l|grep $1 |awk '{print $1}'`
-if  [ -n "${pi}" ] ;
-then
+source /etc/profile
+if [ '' = ${JAVA_HOME} ];then
+    echo 'Error : JAVA_HOME is need !'
+else
+    pi=`${JAVA_HOME}/bin/jps -l | grep $1 | awk '{print $1}'`
+    if  [ -n "${pi}" ] ;
+    then
 
-        echo "kill progress $1 with pid ${pi}"
+            echo "<<<<==== kill progress $1 with pid ${pi}"
 
-        kill -9 ${pi}
+            kill -9 ${pi}
 
-        kill -9 ${pi}
+            kill -9 ${pi}
+    fi
+    `/usr/bin/nohup ${JAVA_HOME}/bin/java -jar /usr/local/src/${1} --spring.profiles.active=${2} >/usr/local/src/${1}.out 2>&1 &`
+    echo "====>>>> start progress $1 with pid ":`${JAVA_HOME}/bin/jps -l | /usr/bin/grep $1  | awk '{print $1}'`
 fi
-nohup java -jar ${1} --spring.profiles.active=${2} >${1}.out 2>&1 &
-echo `jps -l|grep $1`
+

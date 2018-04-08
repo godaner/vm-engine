@@ -4,10 +4,11 @@ if [ $# = 0 ];then
 Input like : root@47.106.119.0 ! "
 else
     ./cp_jars
-    cat -v ./restartJp | tr -d '^M'  > ./restartJp
-    cat -v ./restartServers | tr -d '^M'  > ./restartServers
-    scp -r ./restartJp ./restartServers ./jars/* $1:/usr/local/src/
-    ssh $1 '/usr/local/src/restartServers'
+
+    sed -i 's/^M//g' ./restartJp
+    sed -i 's/^M//g' ./restartServers
+    scp -r ./restartJp ./restartServers  $1:/usr/local/src/
+    ssh $1 "/usr/local/src/restartServers"
 fi
 
 
