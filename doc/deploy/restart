@@ -1,4 +1,6 @@
 #!/bin/bash
+/usr/local/src/restartJp vm-eureka-1.0.0.jar prod00
+/usr/local/src/restartJp vm-config-server-1.0.0.jar prod
 /usr/local/src/restartJp vm-gateway-1.0.0.jar prod00
 /usr/local/src/restartJp vm-provider-user-1.0.0.jar prod
 /usr/local/src/restartJp vm-provider-admin-1.0.0.jar prod

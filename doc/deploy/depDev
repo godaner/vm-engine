@@ -8,9 +8,9 @@ else
     ./cp_jars
 
     sed -i 's/^M//g' ./restartJp
-    sed -i 's/^M//g' ./restart
-    scp -r ./restartJp ./restart ./jars/*  $1:/usr/local/src/
-    ssh $1 "/usr/local/src/restart"
+    sed -i 's/^M//g' ./restartDev
+    scp -r ./restartJp ./restartDev ./jars/*  $1:/usr/local/src/
+    ssh $1 "/usr/local/src/restartDev"
 fi
 
 
