@@ -23,6 +23,7 @@ public class VmUsersDto extends BaseDto{
 
     private String token;
 
+
     private MultipartFile file;
 
 

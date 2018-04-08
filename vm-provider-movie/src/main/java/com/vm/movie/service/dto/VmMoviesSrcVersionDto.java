@@ -13,7 +13,9 @@ public class VmMoviesSrcVersionDto extends BaseDto {
 
     private String srcUrl;
 
+
     private MultipartFile file;
+
     private Long movieId;
 
     public MultipartFile getFile() {

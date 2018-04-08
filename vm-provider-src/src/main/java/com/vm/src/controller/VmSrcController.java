@@ -1,5 +1,6 @@
 package com.vm.src.controller;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.vm.base.util.ServiceController;
 import com.vm.src.config.SrcConfig;
 import com.vm.src.service.dto.VmFilesDto;
@@ -76,7 +77,7 @@ public class VmSrcController extends ServiceController<VmSrcService> {
      */
     @RequestMapping(value = "/img", method = RequestMethod.POST)
     @ResponseBody
-    public Object uploadImgFile(@RequestParam("file") MultipartFile file) throws Exception {
+    public Object uploadImgFile( @RequestParam("file") MultipartFile file) throws Exception {
         Long fileId = service.saveImg(file, null);
         return response.putData("imgUrl", srcConfig.getSrcImgUrl() + "/" + fileId).putData("fileId", fileId);
     }
@@ -90,7 +91,7 @@ public class VmSrcController extends ServiceController<VmSrcService> {
      */
     @RequestMapping(value = "/img/{width}", method = RequestMethod.POST)
     @ResponseBody
-    public Object uploadImgFile(@RequestParam("file") MultipartFile file, @PathVariable("width") Integer width) throws Exception {
+    public Object uploadImgFile( @RequestParam("file") MultipartFile file, @PathVariable("width") Integer width) throws Exception {
         Long fileId = service.saveImg(file, width);
         return response.putData("imgUrl", srcConfig.getSrcImgUrl() + "/" + fileId).putData("fileId", fileId);
     }

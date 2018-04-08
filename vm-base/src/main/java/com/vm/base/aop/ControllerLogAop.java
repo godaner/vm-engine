@@ -6,15 +6,14 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.assertj.core.util.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by sigh on 2015/6/25.
@@ -23,7 +22,7 @@ import static java.util.stream.Collectors.toList;
 @Aspect
 @Order(0)
 public class ControllerLogAop extends CommonUtil {
-    private final Logger logger = LoggerFactory.getLogger(ControllerExceptionHandlerAop.class);
+    private final static Logger logger = LoggerFactory.getLogger(ControllerExceptionHandlerAop.class);
 
     @Pointcut("execution(* com.vm..*controller..*.*(..))")
     public void logPointcut() {
@@ -32,44 +31,30 @@ public class ControllerLogAop extends CommonUtil {
     @Around("logPointcut()")
     public Object doSurround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
-        long startTime = System.currentTimeMillis();
-
         Object[] args = proceedingJoinPoint.getArgs();
-        List nArgs = filterObjs(Lists.newArrayList(args));
-        String name = proceedingJoinPoint.getSignature().getName();
-        logger.info("======>> In controller is : {}, function name is : {} !", proceedingJoinPoint.getTarget().getClass().getName(), name);
-        logger.info("Request args is : {} !", JSONObject.toJSON(nArgs).toString());
+        if (isNullObject(args)) {
+            args = new Object[]{};
+        }
 
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 
+        HttpServletRequest request = attributes.getRequest();
+
+        String url = request.getRequestURL().toString();
+        String httpMethod = request.getMethod();
+        String functionName = proceedingJoinPoint.getSignature().getName();
+        String argsStr = JSONObject.toJSON(args).toString();
+
+        logger.info(">>>>>>>>>>>>> Request info is : {}#{} {}#{} ! ", url, httpMethod, functionName, argsStr);
         Object result = proceedingJoinPoint.proceed();
-
-
         if (isNullObject(result)) {
             result = new Object();
         }
-        logger.info("Response is : {} !", JSONObject.toJSON(result).toString());
-        logger.info("<<======= Out execute time: {} !", System.currentTimeMillis() - startTime);
+        String resStr = JSONObject.toJSON(result).toString();
+        logger.info("<<<<<<<<<<<<< Response string is : {} !", resStr);
 
         return result;
     }
 
-    private List filterObjs(List<Object> objects) {
-        if(isEmptyList(objects)){
-            return Lists.newArrayList();
 
-        }
-        List ret = objects.stream().parallel().filter(o -> {
-            return !isByteArray(o);
-        }).map(o -> {
-            return o;
-        }).collect(toList());
-        if (isEmptyList(ret)) {
-        }
-        return ret;
-    }
-
-    public boolean isByteArray(Object o) {
-
-        return (o instanceof Byte[] || o instanceof byte[]);
-    }
 }
