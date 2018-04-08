@@ -311,7 +311,6 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         } finally {
             IOUtil.closeStream(inputStream, outputStream);
         }
-
         logger.info("uploadVideo end !!");
         return vmFiles.getId();
     }

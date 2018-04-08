@@ -18,7 +18,6 @@ public class VmFilesDto {
     private Integer scaleY;
     private String versions;
 
-
     private MultipartFile file;
 
     public MultipartFile getFile() {
