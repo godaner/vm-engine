@@ -1,0 +1,12 @@
+
+#!/bin/bash
+
+
+while [[ $p != 'y' && $p != 'n' ]]; do
+    echo " [Copy] ${1} to ${2} ? y/n"
+    read p
+done
+if [[ $p = 'y' ]];then
+    cp ${1} ${2}
+    echo " [Success] ${1} to ${2} success ! "
+fi

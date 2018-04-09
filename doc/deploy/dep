@@ -8,7 +8,7 @@ else
     ./cp_jars
 
     sed -i 's/^M//g' ./restartJp
-    sed -i 's/^M//g' ./restartList
+    sed -i 's/^M//g' $2
     sed -i 's/^M//g' ./startJp
     sed -i 's/^M//g' ./stopJp
     scp -r $2 $1:/usr/local/src/restartList

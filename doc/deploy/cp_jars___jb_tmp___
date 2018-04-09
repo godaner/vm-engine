@@ -1,4 +1,4 @@
-echo " [Cleaning jars] ..."
+echo " [Cleaning jars] ... "
 rm -rf jars/*
 echo " [Clean jars] success! "
 ./pcp ../../vm-eureka/target/vm-eureka-1.0.0.jar ./jars/
