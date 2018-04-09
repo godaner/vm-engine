@@ -48,11 +48,7 @@ public class ControllerLogAop extends CommonUtil {
             }
 
         };
-        SerializeWriter sw = new SerializeWriter();
-        JSONSerializer serializer = new JSONSerializer(sw);
-        serializer.getPropertyFilters().add(profilter);
-        serializer.write(obj);
-        return sw.toString();
+        return JSON.toJSONString(obj, profilter);
     }
 
     @Around("logPointcut()")
