@@ -6,14 +6,18 @@ else
     cd ../../
     mvn clean package
     cd doc/deploy
+    echo " [Target host] $1"
     ./cp_jars
-
+    echo " [Handling shell] ..."
     sed -i 's/^M//g' ./restartJp
     sed -i 's/^M//g' $2
     sed -i 's/^M//g' ./startJp
     sed -i 's/^M//g' ./stopJp
+    echo " [Handle shell ] success !"
+    echo " [Sending file] ..."
     scp -r $2 $1:/usr/local/src/restartList
     scp -r ./restartJp ./startJp ./stopJp ./jars/* $1:/usr/local/src/
+    echo " [Send file] success !"
     ssh $1 "/usr/local/src/restartList $1"
 fi
 

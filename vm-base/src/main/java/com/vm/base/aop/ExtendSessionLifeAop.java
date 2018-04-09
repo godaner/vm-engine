@@ -16,6 +16,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 //import com.vm.user.resolver.OnlineConstants;
 //import com.vm.user.util.SessionManager;
@@ -43,10 +44,18 @@ public class ExtendSessionLifeAop extends CommonUtil {
         HttpServletRequest request = attributes.getRequest();
         String token = request.getHeader(OnlineConstants.KEY_OF_ACCESS_TOKEN);
 
+        Map res = null;
+
         //延长其生命周期
-        AdminSessionCacheManager.extendSessionLife(token);
+        res = AdminSessionCacheManager.extendSessionLife(token);
+        if (!isNullObject(res)) {
+            logger.info("ExtendSessionLifeAop extend user session life ! userId is : " + res.get("userId") + " , token is : " + res.get("token"));
+        }
 
         UserSessionCacheManager.extendSessionLife(token);
+        if (!isNullObject(res)) {
+            logger.info("ExtendSessionLifeAop extend admin session life ! adminId is : " + res.get("userId") + " , token is : " + res.get("token"));
+        }
         //execute
         data = joinPoint.proceed();
 

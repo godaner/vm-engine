@@ -2,6 +2,7 @@ package com.vm.admin.controller;
 
 import com.vm.admin.service.dto.VmMenusDto;
 import com.vm.admin.service.inf.VmMenusService;
+import com.vm.base.aop.IgnoreExtendSessionLife;
 import com.vm.base.aop.RequiredAdminLogin;
 import com.vm.base.util.ServiceController;
 import org.springframework.context.annotation.Scope;
@@ -24,6 +25,7 @@ public class VmMenusController extends ServiceController<VmMenusService> {
      *
      * @return
      */
+    @IgnoreExtendSessionLife
     @RequiredAdminLogin
     @RequestMapping(value = "/tree/byAdminId/{adminId}", method = RequestMethod.GET)
     @ResponseBody

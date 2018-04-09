@@ -1,12 +1,14 @@
 package com.vm.base.util;
 
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.vm.redis.repository.RedisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Map;
 
 /**
  * Created by ZhangKe on 2018/1/17.
@@ -78,20 +80,14 @@ public class UserSessionCacheManager extends CommonUtil {
         return true;
     }
 
-    /**
-     * 延长session生命时间
-     *
-     * @param token
-     * @return
-     */
-    public static void extendSessionLife(String token) {
+    public static Map extendSessionLife(String token) {
         if (null == token) {
-            return;
+            return null;
         }
         String tokenKey = generateTokenKey(token);
         Object userId = redisRepositoryCache.get(tokenKey);
         if (userId == null) {
-            return;
+            return null;
         }
 
         //extend tokenKey
@@ -101,8 +97,11 @@ public class UserSessionCacheManager extends CommonUtil {
         String userIdKey = generateUserIdKey((Long) userId);
 
         redisRepositoryCache.expire(userIdKey, timeout);
+        return ImmutableMap.of(
+                "userId", userId,
+                "token", token
+        );
     }
-
 
     /**
      * 获取在线用户userId
@@ -110,6 +109,7 @@ public class UserSessionCacheManager extends CommonUtil {
      * @param token
      * @return
      */
+
     public static Long getOnlineUserId(String token) {
         if (null == token) {
             return null;

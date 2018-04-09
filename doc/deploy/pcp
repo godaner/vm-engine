@@ -1,7 +1,5 @@
 
 #!/bin/bash
-
-
 while [[ $p != 'y' && $p != 'n' ]]; do
     echo " [Copy] ${1} to ${2} ? y/n"
     read p
