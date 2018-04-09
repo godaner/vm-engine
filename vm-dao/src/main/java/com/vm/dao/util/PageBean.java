@@ -54,13 +54,4 @@ public class PageBean extends CommonUtil {
         this.orderType = orderType;
     }
 
-    @Override
-    public String toString() {
-        return "PageBean{" +
-                "start=" + start +
-                ", size=" + size +
-                ", orderBy='" + orderBy + '\'' +
-                ", orderType='" + orderType + '\'' +
-                '}';
-    }
 }

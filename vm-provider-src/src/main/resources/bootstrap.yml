@@ -38,7 +38,7 @@ server:
   port: 0
 ---
 spring:
-  profiles: dev
+  profiles: dev00
   cloud:
     config:
       label: master #branch
@@ -72,7 +72,7 @@ eureka:
 
 ---
 spring:
-  profiles: dev00
+  profiles: dev01
   cloud:
     config:
       label: master #branch

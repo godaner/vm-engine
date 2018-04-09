@@ -1,5 +1,7 @@
 package com.vm.base.aop;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.JSONSerializer;
 import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.alibaba.fastjson.serializer.SerializeWriter;
@@ -58,7 +60,6 @@ public class ControllerLogAop extends CommonUtil {
 
         Object[] args = proceedingJoinPoint.getArgs();
 
-
         if (isNullObject(args)) {
             args = new Object[]{};
         }
@@ -71,12 +72,12 @@ public class ControllerLogAop extends CommonUtil {
         String httpMethod = request.getMethod();
         String functionName = proceedingJoinPoint.getSignature().getName();
 
-        logger.info("====>>>> Request info is : {}#{} {}#{} ! ", url, httpMethod, functionName, obj2JSONString(Lists.newArrayList(args)));
+        logger.info("=====>>>> Request info is : {}#{} {}#{} ! ", url, httpMethod, functionName, obj2JSONString(Lists.newArrayList(args)));
         Object result = proceedingJoinPoint.proceed();
         if (isNullObject(result)) {
             result = new Object();
         }
-        logger.info("<<<<==== Response string is : {} !", obj2JSONString(Lists.newArrayList(result)));
+        logger.info("<<<<===== Response string is : {} !", obj2JSONString(Lists.newArrayList(result)));
 
         return result;
     }
