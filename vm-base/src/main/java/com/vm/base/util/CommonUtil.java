@@ -1,28 +1,14 @@
 package com.vm.base.util;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.google.common.collect.Lists;
-import net.coobird.thumbnailator.Thumbnails;
-import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.apache.commons.io.IOUtils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.lang.reflect.InvocationTargetException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List;
+import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
 
@@ -44,9 +30,33 @@ public class CommonUtil {
 
     private final static String DEFAULT_SPLIT_STRING = ",";
 
+
+    public final static String obj2JSONStringWithoutByte(Object obj) {
+
+        return CommonUtil.obj2JSONString(obj, Lists.newArrayList(Byte.class, Byte[].class));
+    }
+
+    public final static String obj2JSONString(Object obj, List<Class> refuseCls) {
+        PropertyFilter profilter = new PropertyFilter() {
+
+            @Override
+            public boolean apply(Object object, String name, Object value) {
+                if (refuseCls.contains(object.getClass())) {
+                    //false表示last字段将被排除在外
+                    return false;
+                }
+                return true;
+            }
+
+        };
+        return JSON.toJSONString(obj, profilter);
+    }
+
+
     public final static List<Long> parseStringArray2Long(String stringArray) {
         return parseStringArray(stringArray, Long.class);
     }
+
     public final static <T> List<T> parseStringArray(String stringArray, Class<T> targetCls) {
         String splitString = DEFAULT_SPLIT_STRING;
         return parseStringArray(stringArray, splitString, targetCls);
