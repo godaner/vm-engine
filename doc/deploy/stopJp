@@ -1,0 +1,23 @@
+#!/bin/bash
+# 1执行start，0不执行start
+pi=`${JAVA_HOME}/bin/jps -l | grep $1 | awk '{print $1}'`
+if [ -n "${pi}" ];then
+    while [[ $q != 'y' && $q != 'n' ]]; do
+        echo " [Stop] progress ${1} ? y/n"
+        read q
+    done
+    if [[ $q = 'y' ]];then
+
+        echo " ### kill progress $1 with pid ${pi}"
+
+        kill -9 ${pi}
+
+        kill -9 ${pi}
+
+        exit 1
+    else
+        exit 0
+    fi
+else
+    exit 1
+fi

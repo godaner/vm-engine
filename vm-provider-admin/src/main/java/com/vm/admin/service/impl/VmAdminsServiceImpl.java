@@ -17,6 +17,7 @@ import com.vm.base.util.*;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -185,8 +186,63 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
             }
         }
 
+        //update auth and menu cache
+        this.refreshOnlineAdminAuthsAndMenus(Lists.newArrayList(adminId));
+
         return makeBackendAdminsDto(vmAdmins);
     }
+
+    @Override
+    public void refreshOnlineAdminAuthsAndMenus(List<Long> adminIds) {
+        //if admin online ,update admin auth codes and menu tree in cache
+        adminIds.stream().parallel().forEach(adminId -> {
+            String accessToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
+            if (!isEmptyString(accessToken)) {//online ?
+
+                //auths
+                List<String> authCodes = vmAuthsService.getUseableAuthCodesByAdminId(adminId);
+
+                AuthCacheManager.saveAuthCodes(accessToken, authCodes);
+
+                //menuTree
+                List<VmMenusDto> menuTree = vmMenusService.getUseableMenusTreeByAdminId(adminId);
+
+                MenuCacheManager.saveMenuTree(accessToken, menuTree);
+            }
+        });
+    }
+
+    @Override
+    public void refreshOnlineAdminMenus(List<Long> adminIds) {
+        //if admin online ,update admin menu tree in cache
+        adminIds.stream().parallel().forEach(adminId -> {
+            String accessToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
+            if (!isEmptyString(accessToken)) {//online ?
+
+                //menuTree
+                List<VmMenusDto> menuTree = vmMenusService.getUseableMenusTreeByAdminId(adminId);
+
+                MenuCacheManager.saveMenuTree(accessToken, menuTree);
+            }
+        });
+    }
+
+    @Override
+    public void refreshOnlineAdminAuths(List<Long> adminIds) {
+        //if admin online ,update admin auth codes tree in cache
+        adminIds.stream().parallel().forEach(adminId -> {
+            String accessToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
+            if (!isEmptyString(accessToken)) {//online ?
+
+                //auths
+                List<String> authCodes = vmAuthsService.getUseableAuthCodesByAdminId(adminId);
+
+                AuthCacheManager.saveAuthCodes(accessToken, authCodes);
+
+            }
+        });
+    }
+
 
     private List<VmAdminsRolesRealation> makeVmAdminsRolesRealations(Long adminId, List<Long> roleIds) {
         return roleIds.stream().parallel().map(roleId -> {
@@ -267,28 +323,23 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
                     VmAdminException.ErrorCode.PASSWORD_ERROR.getMsg());
         }
 
+        Long adminId = vmAdmins.getId();
         //write adminLogin record to db
-        if (1 != vmAdminsLoginLogsMapper.insert(makeAdminLogins(vmAdminsDto, vmAdmins.getId()))) {
+        if (1 != vmAdminsLoginLogsMapper.insert(makeAdminLogins(vmAdminsDto, adminId))) {
             throw new VmAdminException("adminLogin vmAdminsLoginLogsMapper#insert is fail ! user is :  " + vmAdminsDto);
         }
 
-        //adminLogin in session
 
         //logout old session
-        String oldToken = SessionCacheManager.getOnlineUserToken(vmAdmins.getId());
+        String oldToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
         if (!isEmptyString(oldToken)) {
-            SessionCacheManager.userLogout(oldToken);
+            AdminSessionCacheManager.userLogout(oldToken);
         }
-        String token = SessionCacheManager.userLogin(vmAdmins.getId());
+        //add new session
+        String token = AdminSessionCacheManager.userLogin(adminId);
 
-        //save admin auths
-        List<String> authCodes = vmAuthsService.getUseableAuthCodesByAdminId(vmAdmins.getId());
-
-        AuthCacheManager.saveAuthCodes(token, authCodes);
-        //save admin menuTree
-        List<VmMenusDto> menuTree = vmMenusService.getUseableMenusTreeByAdminId(vmAdmins.getId());
-
-        MenuCacheManager.saveMenuTree(token, menuTree);
+        //refresh admin auth and menu
+        this.refreshOnlineAdminAuthsAndMenus(Lists.newArrayList(adminId));
 
 
         return makeVmAdminDto(vmAdmins, token);
@@ -302,7 +353,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         if (null == token) {
             return null;
         }
-        Long adminId = SessionCacheManager.getOnlineUserId(token);
+        Long adminId = AdminSessionCacheManager.getOnlineUserId(token);
 
         if (null == adminId) {
             return null;
@@ -320,7 +371,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
 
     @Override
     public void adminLogout(String token) {
-        SessionCacheManager.userLogout(token);
+        AdminSessionCacheManager.userLogout(token);
     }
 
 

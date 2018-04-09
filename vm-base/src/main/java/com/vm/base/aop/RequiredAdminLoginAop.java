@@ -1,8 +1,8 @@
 package com.vm.base.aop;
 
 import com.vm.base.service.exception.VmCommonException;
+import com.vm.base.util.AdminSessionCacheManager;
 import com.vm.base.util.CommonUtil;
-import com.vm.base.util.SessionCacheManager;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -38,8 +38,7 @@ public class RequiredAdminLoginAop extends CommonUtil {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         String token = request.getHeader(OnlineConstants.KEY_OF_ACCESS_TOKEN);
-
-        Long userId = (Long) SessionCacheManager.getOnlineUserId(token);
+        Long userId = (Long) AdminSessionCacheManager.getOnlineUserId(token);
         if (userId == null) {
             throw new VmCommonException("RequiredAdminLoginAop adminId : " + userId + " is offline !",
                     VmCommonException.ErrorCode.ADMIN_IS_OFFLINE.getCode(),

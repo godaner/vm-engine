@@ -1,12 +1,10 @@
 package com.vm.base.util;
 
-
 import com.alibaba.fastjson.JSONObject;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class Response implements Serializable {
 
@@ -88,14 +86,6 @@ public class Response implements Serializable {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return "Response{" +
-                "code=" + code +
-                ", data=" + data +
-                ", msg='" + msg + '\'' +
-                '}';
-    }
 
     public static final Response parseJSON(String res) {
 //        private int code;

@@ -18,7 +18,7 @@ public interface VmSrcService {
     void sendImgSrc(Long fileId, HttpServletResponse response) throws Exception;
 
 
-    Long saveImg(MultipartFile file) throws Exception;
+    Long saveImg(MultipartFile file,Integer width) throws Exception;
 
     Long cutUploadedImgFile(VmFilesDto vmFilesDto) throws Exception;
 

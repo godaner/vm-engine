@@ -1,0 +1,19 @@
+#!/bin/bash
+if [ $# = 0 ];then
+    echo "Error : hostname is empty !
+Input like : root@47.106.119.0 ! "
+else
+    #cd ../../
+    #mvn clean package
+    ./cp_jars
+
+    sed -i 's/^M//g' ./restartJp
+    sed -i 's/^M//g' $2
+    sed -i 's/^M//g' ./startJp
+    sed -i 's/^M//g' ./stopJp
+    scp -r $2 $1:/usr/local/src/restartList
+    scp -r ./restartJp ./startJp ./stopJp ./jars/* $1:/usr/local/src/
+    ssh $1 "/usr/local/src/restartList $1"
+fi
+
+

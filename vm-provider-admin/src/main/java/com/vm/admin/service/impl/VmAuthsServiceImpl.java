@@ -43,7 +43,8 @@ public class VmAuthsServiceImpl extends BaseService implements VmAuthsService {
     CustomVmMenusMapper customVmMenusMapper;
     @Autowired
     CustomVmAuthsMapper customVmAuthsMapper;
-
+    @Autowired
+    VmRolesMapper vmRolesMapper;
     @Autowired
     CustomVmAdminsRolesRealationMapper customVmAdminsRolesRealationMapper;
 
@@ -59,6 +60,7 @@ public class VmAuthsServiceImpl extends BaseService implements VmAuthsService {
                 "status", BasePo.Status.NORMAL.getCode()
 
         ));
+
         if (!isEmptyList(roleIds)) {
             List<Long> authIds = customVmRolesAuthsRealationMapper.getAuthIdsByRoleIds(ImmutableMap.of(
                     "roleIds", roleIds,

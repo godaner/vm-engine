@@ -1,0 +1,2 @@
+#!/bin/bash
+./dep root@47.106.119.0 restartListProd

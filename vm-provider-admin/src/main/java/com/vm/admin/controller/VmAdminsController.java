@@ -1,5 +1,6 @@
 package com.vm.admin.controller;
 
+import com.vm.base.aop.IgnoreExtendSessionLife;
 import com.vm.base.aop.RequiredAdminLogin;
 import com.vm.admin.dao.qo.VmAdminsQueryBean;
 import com.vm.admin.resolver.OnlineAdmin;
@@ -53,6 +54,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
      *
      * @return
      */
+    @IgnoreExtendSessionLife
     @RequestMapping(value = "/online", method = RequestMethod.GET)
     @ResponseBody
     public Object getOnlineAdmin(@OnlineAdmin VmAdminsDto onlineAdmin) throws Exception {

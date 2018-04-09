@@ -17,7 +17,8 @@ public class VmCommonException extends  VmRuntimeException {
     }
     public enum ErrorCode {
         ADMIN_HAVE_NOT_AUTH(-555,"您没有权限进行此操作！"),
-        ADMIN_IS_OFFLINE(-9999,"管理员已离线");
+        ADMIN_IS_OFFLINE(-9999,"您已离线"),
+        USER_IS_OFFLINE(-5, "您已离线");
 
         int code;
         String msg;

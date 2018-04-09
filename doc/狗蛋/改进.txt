@@ -1,6 +1,0 @@
-﻿
-vm_movies添加=》poster
-
-添加movie和file的中间表vm_movie_file_relation,其中有 =》清晰度（sharpness ）
-
-vm_file表添加=》content_type字段

@@ -17,7 +17,6 @@ import com.vm.user.feign.service.SrcServiceClient;
 import com.vm.user.service.dto.VmUsersDto;
 import com.vm.user.service.exception.VmUsersException;
 import com.vm.user.service.inf.VmUsersService;
-import com.vm.base.util.SessionCacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,11 +91,11 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         //login in session
 
         //clear old session
-        String oldToken = SessionCacheManager.getOnlineUserToken(dbUser.getId());
-        if(!isEmptyString(oldToken)){
-            SessionCacheManager.userLogout(oldToken);
+        String oldToken = UserSessionCacheManager.getOnlineUserToken(dbUser.getId());
+        if (!isEmptyString(oldToken)) {
+            UserSessionCacheManager.userLogout(oldToken);
         }
-        String token = SessionCacheManager.userLogin(dbUser.getId());
+        String token = UserSessionCacheManager.userLogin(dbUser.getId());
 
 
         return makeVmUsersDto(dbUser, token);
@@ -229,7 +228,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
 
         //login in session
-        String token = SessionCacheManager.userLogin(vmUsers.getId());
+        String token = UserSessionCacheManager.userLogin(vmUsers.getId());
 
         return makeVmUsersDto(vmUsers, token);
     }
@@ -326,7 +325,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
 //        Long userId = (Long) SessionManager.getOnlineUserId(token);
 
-        SessionCacheManager.userLogout(token);
+        UserSessionCacheManager.userLogout(token);
 
     }
 
@@ -336,7 +335,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         if (null == token) {
             return null;
         }
-        Long userId = SessionCacheManager.getOnlineUserId(token);
+        Long userId = UserSessionCacheManager.getOnlineUserId(token);
 
         if (null == userId) {
             return null;

@@ -146,7 +146,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     }
 
     @Override
-    public Long saveImg(MultipartFile file) throws IOException {
+    public Long saveImg(MultipartFile file,Integer width) throws Exception {
 
         logger.info("saveImg file is : {} !", file.getOriginalFilename());
 
@@ -178,7 +178,12 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             //save head Img
             inputStream = imgFile.getInputStream();
             outputStream = new FileOutputStream(targetPathName);
-            org.apache.commons.io.IOUtils.copy(inputStream, outputStream);
+            //compress img
+            if(width == null ||width<=0){
+                width =  800;
+            }
+            ImageUtil.resize(inputStream,outputStream,width,-1);
+//            org.apache.commons.io.IOUtils.copy(inputStream, outputStream);
 
 
             //写入数据库
@@ -254,7 +259,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     public Long uploadAndCut(VmFilesDto vmFilesDto) throws Exception {
         logger.info("uploadAndCut vmFilesDto is : {} !", vmFilesDto);
 
-        Long fileId = this.saveImg(vmFilesDto.getFile());
+        Long fileId = this.saveImg(vmFilesDto.getFile(),null);
 
         vmFilesDto.setFileId(fileId);
 
@@ -306,7 +311,6 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         } finally {
             IOUtil.closeStream(inputStream, outputStream);
         }
-
         logger.info("uploadVideo end !!");
         return vmFiles.getId();
     }

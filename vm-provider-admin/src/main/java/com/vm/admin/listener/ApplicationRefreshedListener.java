@@ -1,7 +1,8 @@
 package com.vm.admin.listener;
 
 import com.vm.admin.config.AdminConfig;
-import com.vm.base.util.SessionCacheManager;
+import com.vm.base.util.AdminSessionCacheManager;
+import com.vm.base.util.UserSessionCacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,10 @@ public class ApplicationRefreshedListener implements ApplicationListener<Context
     @Autowired
     private AdminConfig adminConfig;
 
+
+
     private Logger logger = LoggerFactory.getLogger(ApplicationRefreshedListener.class);
 
-    private final String sessionManagerUniqueId = "adminSessionManager";
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -27,7 +29,7 @@ public class ApplicationRefreshedListener implements ApplicationListener<Context
 
             adminConfig = event.getApplicationContext().getBean(AdminConfig.class);
 
-            SessionCacheManager.set(adminConfig.getUserSessionLifetime(), sessionManagerUniqueId);
+            AdminSessionCacheManager.setTimeout(adminConfig.getUserSessionLifetime());
 
             logger.info("ApplicationRefreshedListener start successful !");
         } catch (Exception e) {

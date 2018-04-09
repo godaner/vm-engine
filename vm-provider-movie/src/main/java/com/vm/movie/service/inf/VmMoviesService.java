@@ -6,11 +6,7 @@ import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.movie.dao.po.VmMovies;
 import com.vm.movie.dao.qo.VmMoviesQueryBean;
-import com.vm.movie.service.dto.VmFilmmakersDto;
 import com.vm.movie.service.dto.VmMoviesDto;
-import com.vm.movie.service.dto.VmMoviesSrcVersionDto;
-import com.vm.movie.service.dto.VmTagsDto;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 

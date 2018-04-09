@@ -63,14 +63,5 @@ public class VmMoviesQueryBean extends BaseQueryBean{
         this.tagIds = tagIds;
     }
 
-    @Override
-    public String toString() {
-        return "VmMoviesQueryBean{" +
-                "tagIds=" + tagIds +
-                ", filmmakerIds=" + filmmakerIds +
-                ", excludeMovieId=" + excludeMovieId +
-                ", name='" + name + '\'' +
-                ", tagIdsLength=" + tagIdsLength +
-                "} " + super.toString();
-    }
+
 }

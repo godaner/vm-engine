@@ -1,6 +1,5 @@
 package com.vm.admin.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableMap;
 import com.vm.admin.dao.mapper.*;
 import com.vm.admin.dao.mapper.custom.*;
@@ -8,17 +7,12 @@ import com.vm.admin.dao.po.VmRoles;
 import com.vm.admin.dao.po.VmRolesAuthsRealation;
 import com.vm.admin.dao.po.VmRolesMenusRealation;
 import com.vm.admin.dao.qo.VmRolesQueryBean;
-import com.vm.admin.service.dto.VmMenusDto;
 import com.vm.admin.service.dto.VmRolesDto;
 import com.vm.admin.service.exception.VmAdminException;
 import com.vm.admin.service.exception.VmRolesException;
-import com.vm.admin.service.inf.VmAuthsService;
-import com.vm.admin.service.inf.VmMenusService;
+import com.vm.admin.service.inf.VmAdminsService;
 import com.vm.admin.service.inf.VmRolesService;
-import com.vm.base.util.AuthCacheManager;
 import com.vm.base.util.BaseService;
-import com.vm.base.util.MenuCacheManager;
-import com.vm.base.util.SessionCacheManager;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
@@ -72,9 +66,7 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
 
     //service
     @Autowired
-    VmAuthsService vmAuthsService;
-    @Autowired
-    VmMenusService vmMenusService;
+    VmAdminsService vmAdminsService;
 
     @Override
     public List<VmRolesDto> getRoles(PageBean page, VmRolesQueryBean query) {
@@ -235,9 +227,6 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
         vmRoles = this.getRoleById(roleId, BasePo.IsDeleted.NO);
 
 
-        //update auth and menu cache
-        //if admin online ,update admin auth codes and menu tree in cache
-
 
         //get affected admin ids
         List<Long> adminIds = customVmAdminsRolesRealationMapper.getAdminIdsByRoleIds(ImmutableMap.of(
@@ -246,7 +235,7 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
         ));
 
         //update auth and menu cache
-        this.refreshOnlineAdminAuthsAndMenus(adminIds);
+        vmAdminsService.refreshOnlineAdminAuthsAndMenus(adminIds);
 
         return makeRolesDto(vmRoles);
     }
@@ -325,29 +314,12 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
             throw new VmAdminException("deleteRole vmRolesMapper#updateInIds is fail ! deletedIds is : " + deletedIds);
         }
         //update auth and menu cache
-        this.refreshOnlineAdminAuthsAndMenus(adminIds);
+        vmAdminsService.refreshOnlineAdminAuthsAndMenus(adminIds);
 
 
     }
 
-    private void refreshOnlineAdminAuthsAndMenus(List<Long> adminIds) {
-        //if admin online ,update admin auth codes and menu tree in cache
-        for (Long adminId : adminIds) {
-            String accessToken = SessionCacheManager.getOnlineUserToken(adminId);
-            if (!isEmptyString(accessToken)) {//online ?
 
-                //auths
-                List<String> authCodes = vmAuthsService.getUseableAuthCodesByAdminId(adminId);
-
-                AuthCacheManager.saveAuthCodes(accessToken, authCodes);
-
-                //menuTree
-                List<VmMenusDto> menuTree = vmMenusService.getUseableMenusTreeByAdminId(adminId);
-
-                MenuCacheManager.saveMenuTree(accessToken, menuTree);
-            }
-        }
-    }
 
     private List<VmRolesMenusRealation> makeVmRolesMenusRealations(Long roleId, List<Long> menuIds) {
         return menuIds.stream().parallel().map(menuId -> {

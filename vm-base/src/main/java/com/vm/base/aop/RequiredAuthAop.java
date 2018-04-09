@@ -25,7 +25,7 @@ import java.util.List;
 @Aspect
 @Order(3)
 public class RequiredAuthAop extends CommonUtil {
-    private final Logger logger = LoggerFactory.getLogger(ExceptionHandlerAop.class);
+    private final Logger logger = LoggerFactory.getLogger(ControllerExceptionHandlerAop.class);
 
     @Pointcut("execution(* com.vm..*controller..*.*(..))")
     public void declareJoinPointExpression() {
