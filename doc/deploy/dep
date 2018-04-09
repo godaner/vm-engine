@@ -3,8 +3,9 @@ if [ $# = 0 ];then
     echo "Error : hostname is empty !
 Input like : root@47.106.119.0 ! "
 else
-    #cd ../../
-    #mvn clean package
+    cd ../../
+    mvn clean package
+    cd doc/deploy
     ./cp_jars
 
     sed -i 's/^M//g' ./restartJp
