@@ -27,4 +27,5 @@ build
 
 
 .idea
+G_PATH_IS_UNDEFINED
 .sass-cache
