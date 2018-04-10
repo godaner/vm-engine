@@ -35,7 +35,6 @@ public class VmUsersCountController extends ServiceController<VmUsersCountServic
      *
      * @return
      */
-    @RequiredAdminLogin
     @RequestMapping(value = "/sex", method = RequestMethod.GET)
     @ResponseBody
     public Object getUserSexCount( ) throws Exception {

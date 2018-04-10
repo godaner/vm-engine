@@ -20,6 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 /**
  * Created by ZhangKe on 2018/4/10.
+ * controller层测试，自带打印
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest

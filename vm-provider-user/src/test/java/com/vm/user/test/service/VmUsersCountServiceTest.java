@@ -8,6 +8,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 /**
  * Created by ZhangKe on 2018/4/10.
+ * service层测试，不自带打印
  */
 @ActiveProfiles(profiles = "dev")
 public class VmUsersCountServiceTest extends VmServiceBaseUnitTest {
