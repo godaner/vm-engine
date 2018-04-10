@@ -15,4 +15,5 @@ public class VmUsersControllerTest extends VmControllerBaseUnitTest {
     public void getUserBasicInfo() throws Exception {
         g("/user/6");
     }
+
 }

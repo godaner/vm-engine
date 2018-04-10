@@ -61,4 +61,13 @@
         </if>
 
     </select>
+    <select id="countUserLoginArea" resultType="com.vm.user.dao.po.custom.CustomVmUsersLoginAreaCount">
+
+        SELECT city,count(id)
+        FROM vm_users_login_logs
+        where
+        is_deleted = #{query.isDeleted}
+        group by city
+    </select>
+
 </mapper>

@@ -14,22 +14,14 @@ public class VmUsersTimer {
     private final static Logger logger = LoggerFactory.getLogger(VmUsersTimer.class);
     @Autowired
     private VmUsersCountService vmUsersCountService;
-    @Scheduled(fixedRate = 5000)
-    public void timerRate() {
-        logger.info("VmUsersTimer timerRate");
-    }
 
-    //第一次延迟1秒执行，当执行完后2秒再执行
-    @Scheduled(initialDelay = 1000, fixedDelay = 2000)
-    public void timerInit() {
-        logger.info("VmUsersTimer timerInit");
+    @Scheduled(initialDelay = 1000, fixedDelay = 60*1000*60)
+    public void countUserSex() {
+        logger.info("VmUsersTimer start !");
         vmUsersCountService.countUserSex();
-
+        vmUsersCountService.countUserLoginArea();
+        logger.info("VmUsersTimer end !");
     }
 
-    //每天20点16分50秒时执行
-    @Scheduled(cron = "50 16 20 * * ?")
-    public void timerCron() {
-        logger.info("VmUsersTimer timerCron");
-    }
+
 }

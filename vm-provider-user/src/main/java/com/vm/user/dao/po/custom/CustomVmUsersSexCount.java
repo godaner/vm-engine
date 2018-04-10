@@ -3,7 +3,7 @@ package com.vm.user.dao.po.custom;
 /**
  * Created by ZhangKe on 2018/4/10.
  */
-public class CustomVmUsersCount {
+public class CustomVmUsersSexCount {
     private Byte sex;
     private Long number;
 

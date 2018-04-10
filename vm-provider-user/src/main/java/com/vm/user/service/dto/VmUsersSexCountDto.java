@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * Created by ZhangKe on 2018/1/10.
  */
-public class VmUsersCountDto extends BaseDto{
+public class VmUsersSexCountDto extends BaseDto{
 
     private Byte sex;
 
