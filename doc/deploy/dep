@@ -4,7 +4,8 @@ if [ $# = 0 ];then
 Input like : root@47.106.119.0 ! "
 else
     cd ../../
-    mvn clean package
+    mvn clean
+    mvn package -DskipTests
     cd doc/deploy
     echo " [Target host] $1"
     ./cp_jars

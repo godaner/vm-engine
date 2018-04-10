@@ -14,6 +14,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 @ActiveProfiles(profiles = "dev")
 public class VmServiceBaseUnitTest extends CommonUtil {
-    private final static Logger logger = LoggerFactory.getLogger(VmServiceBaseUnitTest.class);
+    protected final static Logger logger = LoggerFactory.getLogger(VmServiceBaseUnitTest.class);
 
+    protected final static void print(Object obj) {
+        logger.info("====>>>>Unit test response is : {} ! ", obj2JSONStringWithoutByte(obj));
+    }
 }

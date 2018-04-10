@@ -2,6 +2,7 @@ package com.vm.base.util;
 
 import com.vm.redis.repository.RedisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
@@ -9,6 +10,7 @@ import javax.annotation.PostConstruct;
  * Created by ZhangKe on 2018/4/10.
  * 统计缓存
  */
+@Component
 public class CountCacheManager {
     private static Long timeout = -1l;//default (s)
 
