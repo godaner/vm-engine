@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles(profiles = "dev")
-public class VmControllerBaseUnitTest extends CommonUtil  {
+public class VmControllerBaseUnitTest extends CommonUtil {
     private final static Logger logger = LoggerFactory.getLogger(VmControllerBaseUnitTest.class);
     //@Autowired
     protected MockMvc mockMvc;
@@ -33,7 +33,7 @@ public class VmControllerBaseUnitTest extends CommonUtil  {
     protected WebApplicationContext webApplicationContext;
 
     @Before
-    public void setup(){
+    public void setup() {
         //MockMvcBuilders使用构建MockMvc对象   （项目拦截器有效）
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
@@ -41,18 +41,20 @@ public class VmControllerBaseUnitTest extends CommonUtil  {
         // mockMvc = MockMvcBuilders.standaloneSteup(userController).build();
 
     }
-    protected void p(String url,MultiValueMap<String, String> params) throws Exception {
+
+    protected void p(String url, MultiValueMap<String, String> params) throws Exception {
         mockMvc.perform(post(url).params(params));
     }
+
     protected void p(String url) throws Exception {
         mockMvc.perform(post(url));
     }
-    protected void g(String url,MultiValueMap<String, String> params) throws Exception {
-        Object res = mockMvc.perform(get(url).params(params)).andReturn();
-        logger.info("[Response url] is : {} ! ",res);
+
+    protected void g(String url, MultiValueMap<String, String> params) throws Exception {
+        mockMvc.perform(get(url).params(params));
     }
+
     protected void g(String url) throws Exception {
-        Object res = mockMvc.perform(get(url)).andReturn();
-        logger.info("[Response url] is : {} ! ",res);
+        mockMvc.perform(get(url));
     }
 }

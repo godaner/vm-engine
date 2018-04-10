@@ -8,11 +8,11 @@ import org.springframework.test.context.ActiveProfiles;
  * Created by ZhangKe on 2018/4/10.
  */
 @ActiveProfiles(profiles = "dev")
-public class VmUsersControllerTest extends VmControllerBaseUnitTest {
+public class VmUsersCountControllerTest extends VmControllerBaseUnitTest {
 
 
     @Test
     public void getUserBasicInfo() throws Exception {
-        g("/user/6");
+        g("/user/count/sex");
     }
 }
