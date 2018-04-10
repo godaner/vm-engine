@@ -27,7 +27,7 @@ public class VmUsersCountServiceTest extends VmServiceBaseUnitTest {
     @Test
     public void getUserAreaCount() {
 
-        print(vmUsersCountService.getUserAreaCount());
+        print(vmUsersCountService.getUserLoginAreaCount());
     }
 
 }

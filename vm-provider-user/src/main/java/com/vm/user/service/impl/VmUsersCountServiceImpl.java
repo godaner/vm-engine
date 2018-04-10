@@ -23,7 +23,7 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class VmUsersCountServiceImpl implements VmUsersCountService {
     private final static String KEY_OF_USERS_SEX_COUNT = "userSexCount";
-    private final static String KEY_OF_USERS_AREA_COUNT = "userAreaCount";
+    private final static String KEY_OF_USERS_LOGIN_AREA_COUNT = "userLoginAreaCount";
     @Autowired
     private CustomVmUsersMapper customVmUsersMapper;
 
@@ -63,12 +63,12 @@ public class VmUsersCountServiceImpl implements VmUsersCountService {
             return makeVmUsersLoginAreaCountDtos(vmUsersLoginAreaCount);
         }).collect(toList());
 
-        CountCacheManager.saveCount(KEY_OF_USERS_AREA_COUNT, vmUsersLoginAreaCountDtos);
+        CountCacheManager.saveCount(KEY_OF_USERS_LOGIN_AREA_COUNT, vmUsersLoginAreaCountDtos);
     }
 
     @Override
-    public List<VmUsersLoginAreaCountDto> getUserAreaCount() {
-        return (List<VmUsersLoginAreaCountDto>) CountCacheManager.getCount(KEY_OF_USERS_AREA_COUNT);
+    public List<VmUsersLoginAreaCountDto> getUserLoginAreaCount() {
+        return (List<VmUsersLoginAreaCountDto>) CountCacheManager.getCount(KEY_OF_USERS_LOGIN_AREA_COUNT);
     }
 
     private VmUsersLoginAreaCountDto makeVmUsersLoginAreaCountDtos(CustomVmUsersLoginAreaCount vmUsersLoginAreaCount) {

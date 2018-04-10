@@ -37,10 +37,10 @@ public class VmUsersCountController extends ServiceController<VmUsersCountServic
      *
      * @return
      */
-    @RequestMapping(value = "/area", method = RequestMethod.GET)
+    @RequestMapping(value = "/login_area", method = RequestMethod.GET)
     @ResponseBody
-    public Object getUserAreaCount( ) throws Exception {
-        List<VmUsersLoginAreaCountDto> vmUsersLoginAreaCountDtos = service.getUserAreaCount();
+    public Object getUserLoginAreaCount( ) throws Exception {
+        List<VmUsersLoginAreaCountDto> vmUsersLoginAreaCountDtos = service.getUserLoginAreaCount();
         return response.putData("list", vmUsersLoginAreaCountDtos);
     }
 

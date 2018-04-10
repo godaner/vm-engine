@@ -15,5 +15,5 @@ public interface VmUsersCountService {
 
     void countUserLoginArea();
 
-    List<VmUsersLoginAreaCountDto> getUserAreaCount();
+    List<VmUsersLoginAreaCountDto> getUserLoginAreaCount();
 }

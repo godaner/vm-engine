@@ -15,7 +15,7 @@ public class VmUsersCountControllerTest extends VmControllerBaseUnitTest {
         g("/user/count/sex");
     }
     @Test
-    public void getUserAreaCount() throws Exception {
-        g("/user/count/area");
+    public void getUserLoginAreaCount() throws Exception {
+        g("/user/count/login_area");
     }
 }
