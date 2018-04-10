@@ -10,7 +10,6 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles(profiles = "dev")
 public class VmUsersCountControllerTest extends VmControllerBaseUnitTest {
 
-
     @Test
     public void getUserBasicInfo() throws Exception {
         g("/user/count/sex");

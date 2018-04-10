@@ -14,5 +14,5 @@ public interface CustomVmUsersMapper {
 
     Long getUserListTotal(@Param("query") VmUserQueryBean query, @Param("page") PageBean page);
 
-    List<CustomVmUsersCount> countUserSex();
+    List<CustomVmUsersCount> countUserSex(@Param("query") Object query);
 }

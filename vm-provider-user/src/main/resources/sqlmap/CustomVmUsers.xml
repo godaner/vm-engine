@@ -27,4 +27,11 @@
         </if>
 
     </select>
+    <select id="countUserSex" resultType="com.vm.user.dao.po.custom.CustomVmUsersCount">
+        SELECT sex,count(id) as number
+        FROM vm_users
+        where is_deleted = #{query.isDeleted}
+        group by sex
+    </select>
+
 </mapper>
