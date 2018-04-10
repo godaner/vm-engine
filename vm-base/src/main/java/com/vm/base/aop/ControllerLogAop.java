@@ -45,7 +45,7 @@ public class ControllerLogAop extends CommonUtil {
         String httpMethod = request.getMethod();
         String functionName = proceedingJoinPoint.getSignature().getName();
 
-        logger.info("=====>>>> Request info is : {}#{} {}#{} ! ", url, httpMethod, functionName, obj2JSONStringWithoutByte(args));
+        logger.info("=====>>>> Request info is : {}#{} {}#{} ! ", functionName, obj2JSONStringWithoutByte(args), url, httpMethod);
         Object result = proceedingJoinPoint.proceed();
         if (isNullObject(result)) {
             result = new Object();
