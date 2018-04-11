@@ -1,6 +1,7 @@
 package com.vm.user.service.inf;
 
 import com.vm.user.service.dto.VmUsersLoginAreaCountDto;
+import com.vm.user.service.dto.VmUsersLoginSystemCountDto;
 import com.vm.user.service.dto.VmUsersSexCountDto;
 
 import java.util.List;
@@ -16,4 +17,8 @@ public interface VmUsersCountService {
     void countUserLoginArea();
 
     List<VmUsersLoginAreaCountDto> getUserLoginAreaCount();
+
+    List<VmUsersLoginSystemCountDto> getUserLoginSystemCount();
+
+    void countUserLoginSystem();
 }

@@ -6,8 +6,10 @@ import com.vm.dao.util.BasePo;
 import com.vm.user.dao.mapper.custom.CustomVmUsersLoginLogsMapper;
 import com.vm.user.dao.mapper.custom.CustomVmUsersMapper;
 import com.vm.user.dao.po.custom.CustomVmUsersLoginAreaCount;
+import com.vm.user.dao.po.custom.CustomVmUsersLoginSystemCount;
 import com.vm.user.dao.po.custom.CustomVmUsersSexCount;
 import com.vm.user.service.dto.VmUsersLoginAreaCountDto;
+import com.vm.user.service.dto.VmUsersLoginSystemCountDto;
 import com.vm.user.service.dto.VmUsersSexCountDto;
 import com.vm.user.service.inf.VmUsersCountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import static java.util.stream.Collectors.toList;
 public class VmUsersCountServiceImpl implements VmUsersCountService {
     private final static String KEY_OF_USERS_SEX_COUNT = "userSexCount";
     private final static String KEY_OF_USERS_LOGIN_AREA_COUNT = "userLoginAreaCount";
+    private final static String KEY_OF_USERS_LOGIN_SYSTEM_COUNT = "userLoginSystemCount";
     @Autowired
     private CustomVmUsersMapper customVmUsersMapper;
 
@@ -69,6 +72,29 @@ public class VmUsersCountServiceImpl implements VmUsersCountService {
     @Override
     public List<VmUsersLoginAreaCountDto> getUserLoginAreaCount() {
         return (List<VmUsersLoginAreaCountDto>) CountCacheManager.getCount(KEY_OF_USERS_LOGIN_AREA_COUNT);
+    }
+
+    @Override
+    public List<VmUsersLoginSystemCountDto> getUserLoginSystemCount() {
+        return (List<VmUsersLoginSystemCountDto>) CountCacheManager.getCount(KEY_OF_USERS_LOGIN_SYSTEM_COUNT);
+    }
+
+    @Override
+    public void countUserLoginSystem() {
+        List<VmUsersLoginSystemCountDto> vmUsersLoginSystemCountDtos = customVmUsersLoginLogsMapper.countUserLoginSystem(ImmutableMap.of(
+                "isDeleted", BasePo.IsDeleted.NO.getCode()
+        )).stream().parallel().map(vmUsersLoginSystemCount -> {
+            return makeVmUsersLoginSystemCountDtos(vmUsersLoginSystemCount);
+        }).collect(toList());
+
+        CountCacheManager.saveCount(KEY_OF_USERS_LOGIN_SYSTEM_COUNT, vmUsersLoginSystemCountDtos);
+    }
+
+    private VmUsersLoginSystemCountDto makeVmUsersLoginSystemCountDtos(CustomVmUsersLoginSystemCount vmUsersLoginSystemCount) {
+        VmUsersLoginSystemCountDto vmUsersLoginSystemCountDto = new VmUsersLoginSystemCountDto();
+        vmUsersLoginSystemCountDto.setNumber(vmUsersLoginSystemCount.getNumber());
+        vmUsersLoginSystemCountDto.setSystem(vmUsersLoginSystemCount.getSystem());
+        return vmUsersLoginSystemCountDto;
     }
 
     private VmUsersLoginAreaCountDto makeVmUsersLoginAreaCountDtos(CustomVmUsersLoginAreaCount vmUsersLoginAreaCount) {

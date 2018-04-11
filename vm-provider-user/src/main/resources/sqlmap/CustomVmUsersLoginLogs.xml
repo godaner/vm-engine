@@ -63,11 +63,19 @@
     </select>
     <select id="countUserLoginArea" resultType="com.vm.user.dao.po.custom.CustomVmUsersLoginAreaCount">
 
-        SELECT city as area,count(id) as number
+        SELECT province as area,count(id) as number
         FROM vm_users_login_logs
         where
         is_deleted = #{query.isDeleted}
-        group by city
+        group by province
+    </select>
+    <select id="countUserLoginSystem" resultType="com.vm.user.dao.po.custom.CustomVmUsersLoginSystemCount">
+
+        SELECT system,count(id) as number
+        FROM vm_users_login_logs
+        where
+        is_deleted = #{query.isDeleted}
+        group by system
     </select>
 
 </mapper>

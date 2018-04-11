@@ -20,6 +20,7 @@ public class VmUsersTimer {
         logger.info("VmUsersTimer start !");
         vmUsersCountService.countUserSex();
         vmUsersCountService.countUserLoginArea();
+        vmUsersCountService.countUserLoginSystem();
         logger.info("VmUsersTimer end !");
     }
 

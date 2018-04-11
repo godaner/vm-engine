@@ -2,6 +2,7 @@ package com.vm.user.controller;
 
 import com.vm.base.util.ServiceController;
 import com.vm.user.service.dto.VmUsersLoginAreaCountDto;
+import com.vm.user.service.dto.VmUsersLoginSystemCountDto;
 import com.vm.user.service.dto.VmUsersSexCountDto;
 import com.vm.user.service.inf.VmUsersCountService;
 import org.springframework.context.annotation.Scope;
@@ -33,7 +34,7 @@ public class VmUsersCountController extends ServiceController<VmUsersCountServic
         return response.putData("list", usersCountDtos);
     }
     /**
-     * 统计用户性别<br/>
+     * 统计用户登录地区<br/>
      *
      * @return
      */
@@ -42,6 +43,17 @@ public class VmUsersCountController extends ServiceController<VmUsersCountServic
     public Object getUserLoginAreaCount( ) throws Exception {
         List<VmUsersLoginAreaCountDto> vmUsersLoginAreaCountDtos = service.getUserLoginAreaCount();
         return response.putData("list", vmUsersLoginAreaCountDtos);
+    }
+    /**
+     * 统计用户登录地区<br/>
+     *
+     * @return
+     */
+    @RequestMapping(value = "/login_system", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getUserLoginSystemCount( ) throws Exception {
+        List<VmUsersLoginSystemCountDto> vmUsersLoginSystemCountDtos = service.getUserLoginSystemCount();
+        return response.putData("list", vmUsersLoginSystemCountDtos);
     }
 
 }
