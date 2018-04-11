@@ -1,6 +1,6 @@
 package com.vm.user.listener;
 
-import com.vm.base.util.UserSessionCacheManager;
+import com.vm.base.cache.UserSessionCacheManager;
 import com.vm.user.config.UserConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

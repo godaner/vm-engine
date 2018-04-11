@@ -1,7 +1,7 @@
 package com.vm.user.service.impl;
 
 import com.google.common.collect.ImmutableMap;
-import com.vm.base.util.CountCacheManager;
+import com.vm.base.cache.CountCacheManager;
 import com.vm.dao.util.BasePo;
 import com.vm.user.dao.mapper.custom.CustomVmUsersLoginLogsMapper;
 import com.vm.user.dao.mapper.custom.CustomVmUsersMapper;

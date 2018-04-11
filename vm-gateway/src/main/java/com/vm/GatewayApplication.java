@@ -1,5 +1,7 @@
-package com.vm.gateway.config;
+package com.vm;
 
+import com.vm.gateway.config.CorsConfig;
+import com.vm.gateway.filter.ConsoleLogFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -22,8 +24,8 @@ public class GatewayApplication {
     }
 
     @Bean
-    public ConsoleLogConfig logFilter(){
-        return new ConsoleLogConfig();
+    public ConsoleLogFilter logFilter(){
+        return new ConsoleLogFilter();
     }
 
     @Bean

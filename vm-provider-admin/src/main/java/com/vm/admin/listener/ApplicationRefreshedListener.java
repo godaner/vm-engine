@@ -1,8 +1,7 @@
 package com.vm.admin.listener;
 
 import com.vm.admin.config.AdminConfig;
-import com.vm.base.util.AdminSessionCacheManager;
-import com.vm.base.util.UserSessionCacheManager;
+import com.vm.base.cache.AdminSessionCacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

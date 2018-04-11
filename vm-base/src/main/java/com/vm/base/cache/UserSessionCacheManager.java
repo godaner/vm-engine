@@ -1,8 +1,9 @@
-package com.vm.base.util;
+package com.vm.base.cache;
 
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.vm.base.util.CommonUtil;
 import com.vm.redis.repository.RedisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.vm.gateway.config;
+package com.vm.gateway.filter;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,41 +11,28 @@ import com.netflix.zuul.context.RequestContext;
 /**
  * Created by ZhangKe on 2017/12/26.
  */
-public class ConsoleLogConfig extends ZuulFilter {
+public class ConsoleLogFilter extends ZuulFilter {
 
-    private static Logger logger = LoggerFactory.getLogger(ConsoleLogConfig.class);
+    private static Logger logger = LoggerFactory.getLogger(ConsoleLogFilter.class);
 
-    /* (non-Javadoc)
-     * @see com.netflix.zuul.IZuulFilter#shouldFilter()
-     */
     @Override
     public boolean shouldFilter() {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see com.netflix.zuul.IZuulFilter#run()
-     */
     @Override
     public Object run() {
-        logger.info("running ConsoleLogConfig");
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
-        logger.info("request path is : {}", request.getServletPath());
+        logger.info("[Gateway] ====>>>>> request path is : {} ! ", request.getServletPath());
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see com.netflix.zuul.ZuulFilter#filterType()
-     */
     @Override
     public String filterType() {
         return "pre";
     }
 
-    /* (non-Javadoc)
-     * @see com.netflix.zuul.ZuulFilter#filterOrder()
-     */
     @Override
     public int filterOrder() {
         return 0;

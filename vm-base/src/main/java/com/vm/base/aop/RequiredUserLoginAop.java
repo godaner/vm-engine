@@ -2,7 +2,7 @@ package com.vm.base.aop;
 
 import com.vm.base.service.exception.VmCommonException;
 import com.vm.base.util.CommonUtil;
-import com.vm.base.util.UserSessionCacheManager;
+import com.vm.base.cache.UserSessionCacheManager;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
