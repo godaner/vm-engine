@@ -15,10 +15,10 @@
         </dependency>
 
         <!--ratelimit start-->
-        <dependency>
-            <groupId>com.marcosbarbero.cloud</groupId>
-            <artifactId>spring-cloud-zuul-ratelimit</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.marcosbarbero.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-zuul-ratelimit</artifactId>-->
+        <!--</dependency>-->
         <!--ratelimit end-->
 
         <!--config start-->

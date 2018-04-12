@@ -145,6 +145,12 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
 
         VmRoles vmRoles = this.getRoleById(roleId, BasePo.IsDeleted.NO);
 
+        if (BasePo.Immutable.isImmutable(vmRoles.getImmutable())) {
+            throw new VmAdminException("editRole can not operate immutable obj !! vmRolesDto is : " + vmRolesDto,
+                    VmRolesException.ErrorCode.CAN_NOT_OPERATE_IMMUTABLE.getCode(),
+                    VmRolesException.ErrorCode.CAN_NOT_OPERATE_IMMUTABLE.getMsg());
+        }
+
 
         if (!vmRoles.getRoleName().equals(vmRolesDto.getRoleName())) {//if change username
             vmRoles = vmRolesMapper.selectOneBy(ImmutableMap.of(
@@ -225,7 +231,6 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
 
         //get new obj
         vmRoles = this.getRoleById(roleId, BasePo.IsDeleted.NO);
-
 
 
         //get affected admin ids
@@ -318,7 +323,6 @@ public class VmRolesServiceImpl extends BaseService implements VmRolesService {
 
 
     }
-
 
 
     private List<VmRolesMenusRealation> makeVmRolesMenusRealations(Long roleId, List<Long> menuIds) {

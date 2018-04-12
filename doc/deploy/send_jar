@@ -1,0 +1,10 @@
+if [ $1 = '' ];then
+    echo ' [Error] hostname is need ! like root@47.106.119.0 ! '
+else
+    if [ $2 = '' ];then
+        echo ' [Error] jar name is need ! like vm-provider-user ! '
+    else
+        scp -r $2 $1:/usr/local/src/
+    fi
+
+fi
