@@ -11,9 +11,9 @@ import com.netflix.zuul.context.RequestContext;
 /**
  * Created by ZhangKe on 2017/12/26.
  */
-public class ConsoleLogFilter extends ZuulFilter {
+public class LogFilter extends ZuulFilter {
 
-    private static Logger logger = LoggerFactory.getLogger(ConsoleLogFilter.class);
+    private static Logger logger = LoggerFactory.getLogger(LogFilter.class);
 
     @Override
     public boolean shouldFilter() {
