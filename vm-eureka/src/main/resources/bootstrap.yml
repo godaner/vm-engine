@@ -1,50 +1,8 @@
+
 spring:
   application:
     name: vm-eureka
-zuul:
-  ratelimit:
-    key-prefix: GATEWAY_RATELIMIT_KEY_PREFIX
-    enabled: true
-    repository: REDIS
-    behind-proxy: true
-    default-policy:
-      limit: 10
-      refresh-interval: 60
-      type: origin
-  info:
-    request: true
-  host:
-    connect-timeout-millis: 6000000
-    socket-timeout-millis: 6000000
-  routes:
-    user:
-      path: /user/**
-      serviceId: vm-provider-user
-      stripPrefix: false
-    src:
-      path: /src/**
-      serviceId: vm-provider-src
-      stripPrefix: false
-    filmmaker:
-      path: /filmmaker/**
-      serviceId: vm-provider-movie
-      stripPrefix: false
-    movie:
-      path: /movie/**
-      serviceId: vm-provider-movie
-      stripPrefix: false
-    tagGroup:
-      path: /tagGroup/**
-      serviceId: vm-provider-movie
-      stripPrefix: false
-    tag:
-      path: /tag/**
-      serviceId: vm-provider-movie
-      stripPrefix: false
-    admin:
-      path: /admin/**
-      serviceId: vm-provider-admin
-      stripPrefix: false
+
 # eureka profiles,devxx为测试环境，prodxx为正式环境
 ---
 spring:

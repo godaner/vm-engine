@@ -2,6 +2,7 @@
 spring:
   application:
     name: vm-gateway
+
 # gateway profiles,devxx为测试环境，prodxx为正式环境
 ---
 spring:
