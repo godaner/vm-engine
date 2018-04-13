@@ -36,7 +36,6 @@ public class CommonUtil {
     public final static String obj2SimpleJSONString(Object obj) {
 
         return CommonUtil.obj2JSONString(obj, Lists.newArrayList(Byte.class, Byte[].class, File.class, MultipartFile.class));
-//        return "";
     }
 
     public final static String obj2JSONString(Object obj, List<Class> refuseCls) {
