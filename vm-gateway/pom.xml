@@ -14,13 +14,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!--ratelimit start-->
-        <!--<dependency>-->
-            <!--<groupId>com.marcosbarbero.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-zuul-ratelimit</artifactId>-->
-        <!--</dependency>-->
-        <!--ratelimit end-->
-
         <!--config start-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
