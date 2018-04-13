@@ -3,7 +3,9 @@ package com.vm.base.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.google.common.collect.Lists;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
@@ -31,9 +33,10 @@ public class CommonUtil {
     private final static String DEFAULT_SPLIT_STRING = ",";
 
 
-    public final static String obj2JSONStringWithoutByte(Object obj) {
+    public final static String obj2SimpleJSONString(Object obj) {
 
-        return CommonUtil.obj2JSONString(obj, Lists.newArrayList(Byte.class, Byte[].class));
+        return CommonUtil.obj2JSONString(obj, Lists.newArrayList(Byte.class, Byte[].class, File.class, MultipartFile.class));
+//        return "";
     }
 
     public final static String obj2JSONString(Object obj, List<Class> refuseCls) {
@@ -49,6 +52,7 @@ public class CommonUtil {
             }
 
         };
+
         return JSON.toJSONString(obj, profilter);
     }
 
