@@ -1,7 +1,7 @@
 <!-- Logbconfigtion. See http://logback.qos.ch/manual/index.html -->
 <configuration scan="true" scanPeriod="10 seconds">
     <logger name="com.vm.src.dao.mapper" level="DEBUG"/>
-    <logger name="com.vm.src.feign.service" level="DEBUG"/>
+    <!--<logger name="com.vm.src.feign.service" level="DEBUG"/>-->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder charset="UTF-8"
                  class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
