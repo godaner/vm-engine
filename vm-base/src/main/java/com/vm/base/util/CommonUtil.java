@@ -38,7 +38,7 @@ public class CommonUtil {
      * @param obj
      * @return
      */
-    public final static String jsonLogger(Object obj) {
+    public final static String jsonLog(Object obj) {
         return gson.toJson(obj);
     }
 

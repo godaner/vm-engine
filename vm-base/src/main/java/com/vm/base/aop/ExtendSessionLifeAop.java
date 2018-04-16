@@ -52,7 +52,7 @@ public class ExtendSessionLifeAop extends CommonUtil {
             logger.info("ExtendSessionLifeAop extend user session life ! userId is : " + res.get("userId") + " , token is : " + res.get("token"));
         }
 
-        UserSessionCacheManager.extendSessionLife(token);
+        res = UserSessionCacheManager.extendSessionLife(token);
         if (!isNullObject(res)) {
             logger.info("ExtendSessionLifeAop extend admin session life ! adminId is : " + res.get("userId") + " , token is : " + res.get("token"));
         }
