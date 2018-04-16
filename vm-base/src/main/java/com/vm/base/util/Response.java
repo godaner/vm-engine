@@ -1,6 +1,7 @@
 package com.vm.base.util;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 public class Response implements Serializable {
 
+    private final static Gson gson = new Gson();
     private static final long serialVersionUID = 7247714616080613254L;
 
     private int code;
@@ -88,15 +90,7 @@ public class Response implements Serializable {
 
 
     public static final Response parseJSON(String res) {
-//        private int code;
-//        private Map<Object, Object> data = new HashMap<Object, Object>();
-//        private String msg;
-        Response response = new Response();
-        JSONObject json = JSONObject.parseObject(res);
-        response.code = json.getInteger("code");
-        response.data = json.getObject("data", Map.class);
-        response.msg = json.getString("msg");
-        return response;
+        return gson.fromJson(res,Response.class);
     }
 
     /**

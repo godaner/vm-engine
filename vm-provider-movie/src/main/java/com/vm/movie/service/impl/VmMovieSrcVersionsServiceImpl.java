@@ -88,7 +88,7 @@ public class VmMovieSrcVersionsServiceImpl extends BaseService implements VmMovi
     public VmMoviesSrcVersionDto addMovieSrcVersion(VmMoviesSrcVersionDto vmMoviesSrcVersionDto) {
         logger.info("addMovieSrcVersion start !");
         String res = srcServiceClient.uploadVideo(vmMoviesSrcVersionDto.getFile());
-        logger.info("addMovieSrcVersion srcServiceClient#uploadVideo res is : " + obj2JSONString(res));
+        logger.info("addMovieSrcVersion srcServiceClient#uploadVideo res is : " + jsonLogger(res));
         Response response = Response.parseJSON(res);
         if (response.isFailure()) {
             throw new VmMoviesSrcVersionsException("addMovieSrcVersion srcServiceClient#addMovieSrcVersion is fail !! vmMoviesSrcVersionDto is :" + vmMoviesSrcVersionDto);

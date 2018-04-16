@@ -31,17 +31,16 @@ public class CommonUtil {
     private final static String DEFAULT_SPLIT_STRING = ",";
 
 
-
     private final static Gson gson = new Gson();
 
-    public final static JSONString toJSONString = gson::toJson;
-
-    public final static String obj2JSONString(Object obj) {
-
-
-        return toJSONString.toString(obj);
+    /**
+     * 请使用gson打印日志，如果使用fastjson打印日志会照成内存泄露，服务将会直接宕掉
+     * @param obj
+     * @return
+     */
+    public final static String jsonLogger(Object obj) {
+        return gson.toJson(obj);
     }
-
 
     public final static List<Long> parseStringArray2Long(String stringArray) {
         return parseStringArray(stringArray, Long.class);

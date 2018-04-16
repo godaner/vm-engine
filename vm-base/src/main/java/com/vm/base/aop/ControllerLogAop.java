@@ -1,7 +1,5 @@
 package com.vm.base.aop;
 
-import com.alibaba.fastjson.JSONObject;
-import com.google.gson.Gson;
 import com.vm.base.util.CommonUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -43,11 +41,11 @@ public class ControllerLogAop extends CommonUtil {
         String httpMethod = request.getMethod();
         String functionName = proceedingJoinPoint.getSignature().getName();
 
-        logger.info("=====>>>> Request [ {} ] , info is : {}#{} , args is : [ {} ] ! ", functionName, httpMethod, url, obj2JSONString(args));
+        logger.info("=====>>>> Request [ {} ] , info is : {}#{} , args is : [ {} ] ! ", functionName, httpMethod, url, jsonLogger(args));
 
         Object result = proceedingJoinPoint.proceed();
 
-        logger.info("<<<<===== Response [ string ] is : {} !", obj2JSONString(result));
+        logger.info("<<<<===== Response [ string ] is : {} !", jsonLogger(result));
 
         return result;
     }
