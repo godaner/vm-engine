@@ -1,5 +1,7 @@
 package com.vm.base.aop;
 
+import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
 import com.vm.base.util.CommonUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -33,10 +35,6 @@ public class ControllerLogAop extends CommonUtil {
 
         Object[] args = proceedingJoinPoint.getArgs();
 
-        if (isNullObject(args)) {
-            args = new Object[]{};
-        }
-
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 
         HttpServletRequest request = attributes.getRequest();
@@ -45,13 +43,11 @@ public class ControllerLogAop extends CommonUtil {
         String httpMethod = request.getMethod();
         String functionName = proceedingJoinPoint.getSignature().getName();
 
-        logger.info("=====>>>> Request [ info ] is : [ {} # {} ] [ {} # {} ] ! ", functionName, obj2SimpleJSONString(args), url, httpMethod);
-//        logger.info("=====>>>> Request info is : {} {}#{} ! ", functionName,url, httpMethod);
+        logger.info("=====>>>> Request [ {} ] , info is : {}#{} , args is : [ {} ] ! ", functionName, httpMethod, url, obj2JSONString(args));
+
         Object result = proceedingJoinPoint.proceed();
-        if (isNullObject(result)) {
-            result = new Object();
-        }
-        logger.info("<<<<===== Response [ string ] is : {} !", obj2SimpleJSONString(result));
+
+        logger.info("<<<<===== Response [ string ] is : {} !", obj2JSONString(result));
 
         return result;
     }

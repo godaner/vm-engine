@@ -1,6 +1,5 @@
 package com.vm.movie.service.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.vm.base.service.dto.BaseDto;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,7 +11,6 @@ public class VmMoviesSrcVersionDto extends BaseDto {
     private Byte sharpness;
 
     private String srcUrl;
-
 
     private MultipartFile file;
 

@@ -1,11 +1,9 @@
 package com.vm.base.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.google.common.collect.Lists;
-import org.springframework.web.multipart.MultipartFile;
+import com.google.gson.Gson;
+import com.vm.base.inf.JSONString;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
@@ -33,27 +31,15 @@ public class CommonUtil {
     private final static String DEFAULT_SPLIT_STRING = ",";
 
 
-    public final static String obj2SimpleJSONString(Object obj) {
 
-        return CommonUtil.obj2JSONString(obj, Lists.newArrayList(Byte.class, Byte[].class));
-//        return JSON.toJSON(obj).toString();
-    }
+    private final static Gson gson = new Gson();
 
-    public final static String obj2JSONString(Object obj, List<Class> refuseCls) {
-        PropertyFilter profilter = new PropertyFilter() {
+    public final static JSONString toJSONString = gson::toJson;
 
-            @Override
-            public boolean apply(Object object, String name, Object value) {
-                if (refuseCls.contains(object.getClass())) {
-                    //false表示last字段将被排除在外
-                    return false;
-                }
-                return true;
-            }
+    public final static String obj2JSONString(Object obj) {
 
-        };
 
-        return JSON.toJSONString(obj, profilter);
+        return toJSONString.toString(obj);
     }
 
 
