@@ -3,8 +3,6 @@ spring:
   application:
     name: vm-provider-user
 
-
-
 server:
   port: 0
 ---

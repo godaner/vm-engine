@@ -262,7 +262,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         //feign
         String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
-        Response response = Response.parseJSON(res);
+        Response response = Response.fromJSON(res);
         if (response.isFailure()) {
             throw new VmUsersException("updateUserHeadImg srcServiceClient#cutUploadedImgFile is fail !! onlineUserId is :" + onlineUserId + " , updateHeadImgInfo is : " + updateHeadImgInfo);
         }
@@ -433,7 +433,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         //feign
         String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
-        Response response = Response.parseJSON(res);
+        Response response = Response.fromJSON(res);
         if (response.isFailure()) {
             throw new VmUsersException("updateUserHeadImg srcServiceClient#cutUploadedImgFile is fail !! updateHeadImgInfo is :" + updateHeadImgInfo);
         }

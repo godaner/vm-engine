@@ -305,7 +305,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
         //feign
         String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
-        Response response = Response.parseJSON(res);
+        Response response = Response.fromJSON(res);
         if (response.isFailure()) {
             throw new VmMoviesException("updateImg srcServiceClient#cutUploadedImgFile is fail !! updateHeadImgInfo is :" + updateHeadImgInfo);
         }
@@ -331,7 +331,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
 
         //feign
         String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
-        Response response = Response.parseJSON(res);
+        Response response = Response.fromJSON(res);
         if (response.isFailure()) {
             throw new VmMoviesException("updatePoster srcServiceClient#cutUploadedImgFile is fail !! updateHeadImgInfo is :" + updateHeadImgInfo);
         }

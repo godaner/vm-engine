@@ -260,7 +260,7 @@ public class VmFilmmakersServiceImpl extends BaseService implements VmFilmmakers
 
         //feign
         String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
-        Response response = Response.parseJSON(res);
+        Response response = Response.fromJSON(res);
         if (response.isFailure()) {
             throw new VmMoviesException("updateImg srcServiceClient#cutUploadedImgFile is fail !! updateHeadImgInfo is :" + updateHeadImgInfo);
         }

@@ -89,8 +89,12 @@ public class Response implements Serializable {
     }
 
 
-    public static final Response parseJSON(String res) {
-        return gson.fromJson(res,Response.class);
+    public static final Response fromJSON(String res) {
+        return gson.fromJson(res, Response.class);
+    }
+
+    public String toJSON() {
+        return gson.toJson(this);
     }
 
     /**
