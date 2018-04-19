@@ -5,6 +5,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.vm.base.util.CommonUtil;
 import com.vm.redis.repository.RedisRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,8 @@ import java.util.Map;
 public class AdminSessionCacheManager extends CommonUtil {
 
     private static String sessionManagerUniqueId = AdminSessionCacheManager.class.toString();
+
+    private final static Logger logger = LoggerFactory.getLogger(AdminSessionCacheManager.class);
 
     private static Long timeout = 60l;//default (s)
 
@@ -154,7 +158,7 @@ public class AdminSessionCacheManager extends CommonUtil {
      */
     public static String userLogin(Long userId) throws Exception {
         if (userId == null) {
-            throw new Exception("SessionManager token info is null ! userId is : " + userId);
+            throw new Exception("AdminSessionCacheManager token info is null ! userId is : " + userId);
         }
 
         String token = generateToken();
@@ -167,6 +171,9 @@ public class AdminSessionCacheManager extends CommonUtil {
         //save userIdKey
         String userIdKey = generateUserIdKey(userId);
         redisRepositoryCache.set(userIdKey, token, timeout);
+
+        logger.info("AdminSessionCacheManager login user id is : {} , token is : {} , timeout is : {} !", userId, token, timeout);
+
 
         return token;
     }

@@ -9,7 +9,7 @@ import com.vm.base.util.Response;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
-import com.vm.movie.config.MovieConfig;
+import com.vm.movie.config.VmMovieConfig;
 import com.vm.movie.dao.mapper.*;
 import com.vm.movie.dao.mapper.custom.*;
 import com.vm.movie.dao.po.VmMovies;
@@ -62,7 +62,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     @Autowired
     CustomVmMoviesTagsRealationMapper customVmMoviesTagsRealationMapper;
     @Autowired
-    private MovieConfig movieConfig;
+    private VmMovieConfig movieConfig;
     @Autowired
     private SrcServiceClient srcServiceClient;
 

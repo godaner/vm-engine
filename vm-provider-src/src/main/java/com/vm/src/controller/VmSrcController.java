@@ -1,8 +1,7 @@
 package com.vm.src.controller;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.vm.base.util.ServiceController;
-import com.vm.src.config.SrcConfig;
+import com.vm.src.config.VmSrcConfig;
 import com.vm.src.service.dto.VmFilesDto;
 import com.vm.src.service.inf.VmSrcService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Scope("prototype")
 public class VmSrcController extends ServiceController<VmSrcService> {
     @Autowired
-    private SrcConfig srcConfig;
+    private VmSrcConfig srcConfig;
 
     /**
      * 获取视频资源

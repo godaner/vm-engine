@@ -7,7 +7,7 @@ import com.vm.base.util.IOUtil;
 import com.vm.base.util.ImageUtil;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.QuickSelectOne;
-import com.vm.src.config.SrcConfig;
+import com.vm.src.config.VmSrcConfig;
 import com.vm.src.dao.mapper.VmFilesMapper;
 import com.vm.src.dao.po.VmFiles;
 import com.vm.src.service.dto.VmFilesDto;
@@ -35,7 +35,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     @Autowired
     private VmFilesMapper vmFilesMapper;
     @Autowired
-    private SrcConfig srcConfig;
+    private VmSrcConfig srcConfig;
 
     @Override
     public void sendVideoSrc(Long fileId, HttpServletResponse response) throws IOException, NoSuchAlgorithmException {

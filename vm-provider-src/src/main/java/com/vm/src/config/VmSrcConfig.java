@@ -2,13 +2,15 @@ package com.vm.src.config;
 
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
 /**
  * Created by ZhangKe on 2018/2/28.
  */
 @Component
-public class SrcConfig {
+@RefreshScope
+public class VmSrcConfig {
     @Value("${vm.src.img.allowSuffix}")
     private String srcImgAllowSuffix;
     @Value("${vm.src.img.url}")

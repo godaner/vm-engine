@@ -7,7 +7,7 @@ import com.vm.base.util.*;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
-import com.vm.user.config.UserConfig;
+import com.vm.user.config.VmUserConfig;
 import com.vm.user.dao.mapper.VmUsersLoginLogsMapper;
 import com.vm.user.dao.mapper.VmUsersMapper;
 import com.vm.user.dao.mapper.custom.CustomVmUsersMapper;
@@ -42,7 +42,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Autowired
     private SrcServiceClient srcServiceClient;
     @Autowired
-    private UserConfig userConfig;
+    private VmUserConfig userConfig;
 
     private VmUsersDto makeVmUsersDto(VmUsers user, String token) {
         VmUsersDto vmUsersDto = new VmUsersDto();

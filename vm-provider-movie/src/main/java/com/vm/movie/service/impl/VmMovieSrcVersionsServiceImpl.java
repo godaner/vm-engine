@@ -5,7 +5,7 @@ import com.vm.base.util.BaseService;
 import com.vm.base.util.Response;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.QuickSelectOne;
-import com.vm.movie.config.MovieConfig;
+import com.vm.movie.config.VmMovieConfig;
 import com.vm.movie.dao.mapper.*;
 import com.vm.movie.dao.mapper.custom.CustomVmFilmmakersMapper;
 import com.vm.movie.dao.mapper.custom.CustomVmMoviesMapper;
@@ -54,7 +54,7 @@ public class VmMovieSrcVersionsServiceImpl extends BaseService implements VmMovi
     @Autowired
     private VmMoviesTagsRealationMapper vmMoviesTagsRealationMapper;
     @Autowired
-    private MovieConfig movieConfig;
+    private VmMovieConfig movieConfig;
     @Autowired
     private SrcServiceClient srcServiceClient;
 
