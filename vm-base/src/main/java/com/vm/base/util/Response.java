@@ -93,7 +93,7 @@ public class Response implements Serializable {
         return gson.fromJson(res, Response.class);
     }
 
-    public String toJSON() {
+    public String toJSONString() {
         return gson.toJson(this);
     }
 

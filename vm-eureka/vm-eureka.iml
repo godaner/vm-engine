@@ -31,15 +31,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-starter-eureka-server:1.2.6.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-netflix-eureka-server:1.2.6.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-freemarker:1.4.5.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.freemarker:freemarker:2.3.25-incubating" level="project" />
-    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-servlet:1.19.1" level="project" />
-    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-server:1.19.1" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.8.7" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.8.7" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.woodstox:woodstox-core:5.0.3" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-starter-eureka-server:1.2.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.cloud:spring-cloud-starter:1.1.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:1.4.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:1.4.5.RELEASE" level="project" />
