@@ -1,0 +1,8 @@
+spring:
+  redis:
+    database: 0
+    host: 39.108.231.231
+    password: ZK19951217.
+    port: 6666
+  session:
+    store-type: redis
