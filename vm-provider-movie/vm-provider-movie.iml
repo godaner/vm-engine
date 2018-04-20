@@ -84,7 +84,6 @@
     <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-juli:8.5.11" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:4.3.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.39" level="project" />
-    <orderEntry type="library" name="Maven: com.vm:vm-bus:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: io.github.openfeign.form:feign-form:2.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.16.14" level="project" />
     <orderEntry type="library" name="Maven: io.github.openfeign.form:feign-form-spring:2.1.0" level="project" />

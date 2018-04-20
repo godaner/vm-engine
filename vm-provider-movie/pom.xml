@@ -26,12 +26,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>vm-bus</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
 
         <dependency>
             <groupId>io.github.openfeign.form</groupId>
