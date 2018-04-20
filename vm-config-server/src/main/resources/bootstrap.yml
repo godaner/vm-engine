@@ -14,13 +14,20 @@ spring:
           basedir:
             target/config  #git的配置文件会加载到本地的目录
     #label: master
-#springboot 1.5.X 以上默认开通了安全认证，所以需要在配置文件application.properties添加以下配置，以post请求的方式来访问http://localhost:8081/refresh 就会更新修改后的配置文件
+    bus:
+      trace:
+        enabled: true
+  rabbitmq:
+    host: 39.108.231.231
+    port: 5672
+    username: root
+    password: 123
 management:
   security:
     enabled: false
 
 server:
-  port: 0
+  port: ${random.int[10000,19999]}
 
 ---
 spring:
@@ -47,7 +54,7 @@ eureka:
     #默认30s
     lease-renewal-interval-in-seconds: 5
     prefer-ip-address: true #在eureka页面显示ip而不是linux主机名，微服务使用这里展示的进行调用，如果是使用主机名，那么可能无法调用
-    instance-id: ${spring.cloud.client.ipAddress}:${random.int(0,10000)} #实例的id
+#    instance-id: ${spring.cloud.client.ipAddress}:${random.int(0,10000)} #实例的id
 
 
 ---
@@ -75,4 +82,4 @@ eureka:
     #默认30s
     lease-renewal-interval-in-seconds: 30
     prefer-ip-address: true #在eureka页面显示ip而不是linux主机名，微服务使用这里展示的进行调用，如果是使用主机名，那么可能无法调用
-    instance-id: ${spring.cloud.client.ipAddress}:${random.int(0,10000)} #实例的id
+#    instance-id: ${spring.cloud.client.ipAddress}:${random.int(0,10000)} #实例的id

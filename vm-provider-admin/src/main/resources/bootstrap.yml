@@ -4,7 +4,7 @@ spring:
     name: vm-provider-admin
 
 server:
-  port: 0
+  port: ${random.int[10000,19999]}
 ---
 spring:
   profiles: dev
@@ -37,7 +37,7 @@ eureka:
     #默认30s
     lease-renewal-interval-in-seconds: 5
     prefer-ip-address: true #在eureka页面显示ip而不是linux主机名，微服务使用这里展示的进行调用，如果是使用主机名，那么可能无法调用
-    instance-id: ${spring.cloud.client.ipAddress}:${random.int(0,10000)} #实例的id
+#    instance-id: ${spring.cloud.client.ipAddress}:${random.int(0,10000)} #实例的id
 
 
 ---
@@ -72,7 +72,7 @@ eureka:
     #默认30s
     lease-renewal-interval-in-seconds: 30
     prefer-ip-address: true #在eureka页面显示ip而不是linux主机名，微服务使用这里展示的进行调用，如果是使用主机名，那么可能无法调用
-    instance-id: ${spring.cloud.client.ipAddress}:${random.int(0,10000)} #实例的id
+#    instance-id: ${spring.cloud.client.ipAddress}:${random.int(0,10000)} #实例的id
 
 
 
