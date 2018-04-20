@@ -1,7 +1,7 @@
 package com.vm.base.cache;
 
 import com.vm.base.util.SerializeUtil;
-import com.vm.redis.repository.RedisRepository;
+import com.vm.base.util.RedisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

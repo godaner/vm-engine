@@ -14,6 +14,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 
 /**
  * 当方法含有{@link RequiredAdminLogin}注解，那么去除其token 验证是否登录
@@ -37,7 +38,8 @@ public class RequiredAdminLoginAop extends CommonUtil {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         Object onlineAdminId = request.getSession().getAttribute(OnlineConstants.KEY_OF_SESSION_ADMIN_ID);
-
+        Enumeration<String> attributeNames = request.getSession().getAttributeNames();
+        logger.info(attributeNames.toString());
         if(onlineAdminId == null){
             throw new VmCommonException("RequiredAdminLoginAop admin is offline !",
                     VmCommonException.ErrorCode.ADMIN_IS_OFFLINE.getCode(),
