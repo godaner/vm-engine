@@ -16,10 +16,7 @@ public class ApplicationRefreshedListener implements ApplicationListener<Context
     @Autowired
     private VmAdminConfig adminConfig;
 
-
-
     private Logger logger = LoggerFactory.getLogger(ApplicationRefreshedListener.class);
-
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
