@@ -16,8 +16,6 @@ public class VmAdminsDto extends BaseDto{
 
     private String description;
 
-    private String token;
-
     private List<VmMenusDto> menus;
 
     private String roleIds;
@@ -50,14 +48,6 @@ public class VmAdminsDto extends BaseDto{
 
     public void setMenus(List<VmMenusDto> menus) {
         this.menus = menus;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public String getUsername() {

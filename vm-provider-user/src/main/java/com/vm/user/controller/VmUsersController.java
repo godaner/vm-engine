@@ -1,13 +1,11 @@
 package com.vm.user.controller;
 
-import com.vm.base.aop.RequiredAdminLogin;
-import com.vm.base.aop.RequiredAuth;
+import com.google.common.collect.Maps;
+import com.vm.base.aop.*;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
-import com.vm.base.aop.IgnoreExtendSessionLife;
-import com.vm.base.aop.RequiredUserLogin;
 import com.vm.user.dao.qo.VmUserQueryBean;
 import com.vm.user.resolver.OnlineUser;
 import com.vm.user.service.dto.VmUsersDto;
@@ -16,7 +14,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -26,6 +26,9 @@ import java.util.List;
 @RequestMapping("/")
 @Scope("prototype")
 public class VmUsersController extends ServiceController<VmUsersService> {
+
+    private final static Map<Long, HttpSession> sessionMap = Maps.newConcurrentMap();
+
     /*********************************用户端****************************/
 
     @IgnoreExtendSessionLife
@@ -34,6 +37,12 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     public Object userLogin(@RequestBody VmUsersDto vmUsersDto) throws Exception {
 
         VmUsersDto loginUser = service.userLogin(vmUsersDto);
+
+        Long onlineUserId = loginUser.getId();
+
+        sessionMap.put(onlineUserId, getSession());
+
+        setSessionAttr(OnlineConstants.KEY_OF_SESSION_USER_ID, onlineUserId);
 
         return response.putData("user", loginUser).setMsg("登录成功");
     }
@@ -88,7 +97,9 @@ public class VmUsersController extends ServiceController<VmUsersService> {
     @ResponseBody
     public Object userLogout(@OnlineUser VmUsersDto onlineUser) throws Exception {
 
-        service.userLogout(onlineUser.getToken());
+        removeSessionAttr(OnlineConstants.KEY_OF_SESSION_USER_ID);
+
+        sessionMap.remove(onlineUser.getId());
 
         return response;
 

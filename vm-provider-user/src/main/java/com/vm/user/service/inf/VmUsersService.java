@@ -28,10 +28,6 @@ public interface VmUsersService {
 
     VmUsersDto updateUserHeadImg(Long onlineUserId, UpdateHeadImgInfo updateHeadImgInfo) throws Exception;
 
-    void userLogout(String token) throws Exception;
-
-    VmUsersDto getOnlineUser(String token) throws Exception;
-
     List<VmUsersDto> userList(VmUserQueryBean query, PageBean page) throws Exception;
 
     Long userListTotal(VmUserQueryBean query, PageBean page) throws Exception;
@@ -44,4 +40,5 @@ public interface VmUsersService {
 
     void deleteUser(VmUsersDto vmUsersDto);
 
+    VmUsersDto getOnlineUserBasicInfo(Long onlineUserId);
 }

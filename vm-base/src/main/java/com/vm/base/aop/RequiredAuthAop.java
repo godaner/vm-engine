@@ -40,8 +40,15 @@ public class RequiredAuthAop extends CommonUtil {
 
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        String token = request.getHeader(OnlineConstants.KEY_OF_ACCESS_TOKEN);
-        List<String> haveAuthCodes = AuthCacheManager.getAuthCodes(token);
+        Object onlineAdminId = request.getSession().getAttribute(OnlineConstants.KEY_OF_SESSION_ADMIN_ID);
+
+        if(onlineAdminId == null){
+            throw new VmCommonException("RequiredAuthAop admin is offline !",
+                    VmCommonException.ErrorCode.ADMIN_IS_OFFLINE.getCode(),
+                    VmCommonException.ErrorCode.ADMIN_IS_OFFLINE.getMsg());
+        }
+
+        List<String> haveAuthCodes = AuthCacheManager.getAuthCodes(String.valueOf(onlineAdminId));
 
         if (isNullObject(haveAuthCodes)) {
             haveAuthCodes = Lists.newArrayList();
@@ -57,7 +64,7 @@ public class RequiredAuthAop extends CommonUtil {
         }
 
         if (!haveAuth) {
-            throw new VmCommonException("AuthValidateAop admin accessToken : " + token + " is have not auth ! required auth codes is : " + requiredAuthCodes + " , admin have auth codes is : " + haveAuthCodes,
+            throw new VmCommonException("AuthValidateAop admin [ id : " + onlineAdminId + " ] is have not auth ! required auth codes is : " + requiredAuthCodes + " , admin have auth codes is : " + haveAuthCodes,
                     VmCommonException.ErrorCode.ADMIN_HAVE_NOT_AUTH.getCode(),
                     VmCommonException.ErrorCode.ADMIN_HAVE_NOT_AUTH.getMsg());
         }

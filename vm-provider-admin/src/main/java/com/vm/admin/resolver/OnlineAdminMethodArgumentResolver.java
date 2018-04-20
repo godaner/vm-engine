@@ -4,6 +4,7 @@ import com.vm.admin.service.dto.VmAdminsDto;
 import com.vm.admin.service.inf.VmAdminsService;
 import com.vm.base.aop.OnlineConstants;
 import com.vm.base.util.CommonUtil;
+import com.vm.dao.util.BasePo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.Order;
@@ -32,25 +33,19 @@ public class OnlineAdminMethodArgumentResolver extends CommonUtil implements Han
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
-        String token = webRequest.getHeader(OnlineConstants.KEY_OF_ACCESS_TOKEN);
+        Object onlineAdminId = webRequest.getAttribute(OnlineConstants.KEY_OF_SESSION_ADMIN_ID,NativeWebRequest.SCOPE_SESSION);
 
 
         VmAdminsDto vmAdminsDto = null;
         try {
-            vmAdminsDto = vmAdminsService.getOnlineAdminBasicInfo(token);
+            vmAdminsDto = vmAdminsService.getOnlineAdminBasicInfo((Long) onlineAdminId);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-        if (vmAdminsDto != null) {
-            //set token
-            vmAdminsDto.setToken(token);
-            return vmAdminsDto;
-        }
         return vmAdminsDto;
-//        throw new MissingServletRequestPartException(OnlineConstants.KEY_OF_ONLINE_USER);
     }
 
 

@@ -1,7 +1,6 @@
 package com.vm.user.service.impl;
 
 import com.google.common.collect.ImmutableMap;
-import com.vm.base.cache.UserSessionCacheManager;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.*;
 import com.vm.dao.util.BasePo;
@@ -44,17 +43,6 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Autowired
     private VmUserConfig userConfig;
 
-    private VmUsersDto makeVmUsersDto(VmUsers user, String token) {
-        VmUsersDto vmUsersDto = new VmUsersDto();
-        vmUsersDto.setUsername(user.getUsername());
-        vmUsersDto.setId(user.getId());
-        vmUsersDto.setBirthday(user.getBirthday());
-        vmUsersDto.setDescription(user.getDescription());
-        vmUsersDto.setSex(user.getSex());
-        vmUsersDto.setImgUrl(user.getImgUrl());
-        vmUsersDto.setToken(token);
-        return vmUsersDto;
-    }
 
     private VmUsersDto makeVmUsersDto(VmUsers user) {
         VmUsersDto vmUsersDto = new VmUsersDto();
@@ -92,14 +80,14 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         //login in session
 
         //clear old session
-        String oldToken = UserSessionCacheManager.getOnlineUserToken(dbUser.getId());
-        if (!isEmptyString(oldToken)) {
-            UserSessionCacheManager.userLogout(oldToken);
-        }
-        String token = UserSessionCacheManager.userLogin(dbUser.getId());
+//        String oldToken = UserSessionCacheManager.getOnlineUserToken(dbUser.getId());
+//        if (!isEmptyString(oldToken)) {
+//            UserSessionCacheManager.userLogout(oldToken);
+//        }
+//        String token = UserSessionCacheManager.userLogin(dbUser.getId());
 
 
-        return makeVmUsersDto(dbUser, token);
+        return makeVmUsersDto(dbUser);
     }
 
     private VmUsersLoginLogs makeUserLogins(VmUsersDto vmUsersDto, Long userId) {
@@ -130,7 +118,8 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         if (isNullObject(dbUser) || VmUsers.IsDeleted.isDeleted(dbUser.getIsDeleted())) {
             throw new VmUsersException("getUserBasicInfo user is not exits! userId is : " + userId,
-                    VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(), VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
+                    VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getCode(),
+                    VmUsersException.ErrorCode.USER_IS_NOT_EXITS.getMsg());
         }
 
 
@@ -229,9 +218,9 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
 
         //login in session
-        String token = UserSessionCacheManager.userLogin(vmUsers.getId());
+//        String token = UserSessionCacheManager.userLogin(vmUsers.getId());
 
-        return makeVmUsersDto(vmUsers, token);
+        return makeVmUsersDto(vmUsers);
     }
 
 
@@ -321,35 +310,6 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         return QuickSelectOne.getObjectById(vmUsersMapper, userId, isDeleted);
     }
 
-    @Override
-    public void userLogout(String token) throws Exception {
-
-//        Long userId = (Long) SessionManager.getOnlineUserId(token);
-
-        UserSessionCacheManager.userLogout(token);
-
-    }
-
-    @Override
-    public VmUsersDto getOnlineUser(String token) throws Exception {
-
-        if (null == token) {
-            return null;
-        }
-        Long userId = UserSessionCacheManager.getOnlineUserId(token);
-
-        if (null == userId) {
-            return null;
-        }
-        VmUsers vmUsers = this.getUsableUserById(userId, BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
-        if (null == vmUsers) {
-            return null;
-        }
-        //get db use
-        VmUsersDto dbUser = makeVmUsersDto(vmUsers, token);
-
-        return dbUser;
-    }
 
     @Override
     public List<VmUsersDto> userList(VmUserQueryBean query, PageBean page) {
@@ -469,6 +429,17 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         ))) {
             throw new VmUsersException("deleteUser is fail ! deleteIds is : " + deletedIds);
         }
+    }
+
+    @Override
+    public VmUsersDto getOnlineUserBasicInfo(Long onlineUserId) {
+        VmUsers vmUsers = this.getUsableUserById(onlineUserId, BasePo.Status.NORMAL, BasePo.IsDeleted.NO);
+
+        if (null == vmUsers) {
+            return null;
+        }
+
+        return makeVmUsersDto(vmUsers);
     }
 
     private VmUsers makeEditUser(VmUsersDto vmUsersDto, String imgUrl) {

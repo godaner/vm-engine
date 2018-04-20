@@ -1,12 +1,12 @@
 package com.vm;
 
-import com.vm.user.listener.ApplicationRefreshedListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 
 @SpringBootApplication
@@ -14,11 +14,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableFeignClients
 @ServletComponentScan
 @EnableScheduling
+@EnableRedisHttpSession
 public class ProviderUserApplication {
     public static void main(String[] args) {
 
         SpringApplication springApplication = new SpringApplication(ProviderUserApplication.class);
-        springApplication.addListeners(new ApplicationRefreshedListener());
         springApplication.run(args);
 
     }

@@ -34,11 +34,7 @@ public interface VmAdminsService {
 
     VmAdminsDto adminLogin(VmAdminsDto vmAdminsDto) throws Exception;
 
-    VmAdminsDto getOnlineAdminBasicInfo(String token);
-
-    void adminLogout(String token);
-
-    VmAdminsDto makeVmAdminDto(VmAdmins vmAdmins, String token);
+    VmAdminsDto getOnlineAdminBasicInfo(Long onlineAdminId);
 
     void deleteAdmin(VmAdminsDto vmAdminsDto);
 }

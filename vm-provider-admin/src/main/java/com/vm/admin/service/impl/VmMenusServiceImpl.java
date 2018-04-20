@@ -6,7 +6,6 @@ import com.vm.admin.dao.mapper.custom.*;
 import com.vm.admin.dao.po.VmMenus;
 import com.vm.admin.service.dto.VmMenusDto;
 import com.vm.admin.service.inf.VmMenusService;
-import com.vm.base.cache.AdminSessionCacheManager;
 import com.vm.base.util.BaseService;
 import com.vm.base.cache.MenuCacheManager;
 import com.vm.dao.util.BasePo;
@@ -79,11 +78,8 @@ public class VmMenusServiceImpl extends BaseService implements VmMenusService {
 
     @Override
     public List<VmMenusDto> getMenusTreeByAdminId(Long adminId) {
-        String token = AdminSessionCacheManager.getOnlineUserToken(adminId);
-        if (isEmptyString(token)) {
-            return Lists.newArrayList();
-        }
-        return (List<VmMenusDto>) MenuCacheManager.getMenuTree(token);
+
+        return (List<VmMenusDto>) MenuCacheManager.getMenuTree(String.valueOf(adminId));
     }
 
     @Override

@@ -32,24 +32,18 @@ public class OnlineUserMethodArgumentResolver extends CommonUtil implements Hand
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
-        String token = webRequest.getHeader(OnlineConstants.KEY_OF_ACCESS_TOKEN);
+        Object onlineAdminId = webRequest.getAttribute(OnlineConstants.KEY_OF_SESSION_USER_ID, NativeWebRequest.SCOPE_SESSION);
 
 
         VmUsersDto vmUsersDto = null;
         try {
-            vmUsersDto = vmUsersService.getOnlineUser(token);
+
+            vmUsersDto = vmUsersService.getOnlineUserBasicInfo((Long) onlineAdminId);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-        if (vmUsersDto != null) {
-            //set token
-            vmUsersDto.setToken(token);
-            return vmUsersDto;
-        }
         return vmUsersDto;
-//        throw new MissingServletRequestPartException(OnlineConstants.KEY_OF_ONLINE_USER);
     }
 
 

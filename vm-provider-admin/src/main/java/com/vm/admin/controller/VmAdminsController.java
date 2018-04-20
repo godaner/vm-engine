@@ -1,6 +1,8 @@
 package com.vm.admin.controller;
 
+import com.google.common.collect.Maps;
 import com.vm.base.aop.IgnoreExtendSessionLife;
+import com.vm.base.aop.OnlineConstants;
 import com.vm.base.aop.RequiredAdminLogin;
 import com.vm.admin.dao.qo.VmAdminsQueryBean;
 import com.vm.admin.resolver.OnlineAdmin;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
+import java.util.Map;
+
 /**
  * Created by ZhangKe on 2018/3/26.
  */
@@ -23,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/admin")
 @Scope("prototype")
 public class VmAdminsController extends ServiceController<VmAdminsService> {
+    private final static Map<Long, HttpSession> sessionMap = Maps.newConcurrentMap();
+
     /**
      * 登录
      *
@@ -34,8 +41,15 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
 
         VmAdminsDto admin = service.adminLogin(vmAdminsDto);
 
+        Long adminId = admin.getId();
+
+        sessionMap.put(adminId, getSession());
+
+        setSessionAttr(OnlineConstants.KEY_OF_SESSION_ADMIN_ID, adminId);
+
         return response.putData("admin", admin).setMsg("登录成功");
     }
+
     /**
      * 登出
      *
@@ -45,10 +59,13 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
     @ResponseBody
     public Object adminLogout(@OnlineAdmin VmAdminsDto onlineAdmin) throws Exception {
 
-        service.adminLogout(onlineAdmin.getToken());
+        removeSessionAttr(OnlineConstants.KEY_OF_SESSION_ADMIN_ID);
+
+        sessionMap.remove(onlineAdmin.getId());
 
         return response;
     }
+
     /**
      * 获取在线用户
      *
@@ -59,8 +76,9 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
     @ResponseBody
     public Object getOnlineAdmin(@OnlineAdmin VmAdminsDto onlineAdmin) throws Exception {
 
-        return response.putData("admin",onlineAdmin);
+        return response.putData("admin", onlineAdmin);
     }
+
     /**
      * 获取列表
      *
@@ -74,6 +92,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
 
         return response.putData("list", service.getAdmins(page, query)).putData("total", service.getAdminsTotal(page, query));
     }
+
     /**
      * 更新
      *
@@ -87,6 +106,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
 
         return response.putData("admin", service.editAdmin(vmAdminsDto));
     }
+
     /**
      * 添加
      *
@@ -100,6 +120,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
 
         return response.putData("admin", service.addAdmin(vmAdminsDto));
     }
+
     /**
      * 删除
      *
