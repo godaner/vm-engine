@@ -15,8 +15,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-redis:1.4.5.RELEASE" level="project" />
     <orderEntry type="module" module-name="vm-base" />
-    <orderEntry type="module" module-name="vm-redis" />
+    <orderEntry type="library" name="Maven: com.vm:vm-redis:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-redis:1.4.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-redis:1.7.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-keyvalue:1.1.8.RELEASE" level="project" />
