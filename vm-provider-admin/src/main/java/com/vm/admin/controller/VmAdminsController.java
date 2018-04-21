@@ -11,6 +11,8 @@ import com.vm.admin.service.inf.VmAdminsService;
 import com.vm.base.aop.RequiredAuth;
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +31,7 @@ import java.util.Map;
 @Scope("prototype")
 public class VmAdminsController extends ServiceController<VmAdminsService> {
     private final static Map<Long, HttpSession> sessionMap = Maps.newConcurrentMap();
+    private final static Logger logger = LoggerFactory.getLogger(VmAdminsController.class);
 
     /**
      * 登录
@@ -47,6 +50,8 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
 
         setSessionAttr(OnlineConstants.KEY_OF_SESSION_ADMIN_ID, adminId);
 
+        String id = getSession().getId();
+        logger.info(id);
         return response.putData("admin", admin).setMsg("登录成功");
     }
 

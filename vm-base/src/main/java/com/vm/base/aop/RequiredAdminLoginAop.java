@@ -21,7 +21,7 @@ import java.util.Enumeration;
  */
 @Component
 @Aspect
-@Order(2)
+@Order(100)
 public class RequiredAdminLoginAop extends CommonUtil {
 
     private final Logger logger = LoggerFactory.getLogger(RequiredAdminLoginAop.class);
@@ -40,6 +40,9 @@ public class RequiredAdminLoginAop extends CommonUtil {
         Object onlineAdminId = request.getSession().getAttribute(OnlineConstants.KEY_OF_SESSION_ADMIN_ID);
         Enumeration<String> attributeNames = request.getSession().getAttributeNames();
         logger.info(attributeNames.toString());
+
+        String id = request.getSession().getId();
+        logger.info(id);
         if(onlineAdminId == null){
             throw new VmCommonException("RequiredAdminLoginAop admin is offline !",
                     VmCommonException.ErrorCode.ADMIN_IS_OFFLINE.getCode(),
