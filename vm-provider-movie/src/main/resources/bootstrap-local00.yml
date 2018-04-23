@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: vm-provider-movie
+  profiles:
+    active: git
   cloud:
     config:
       label: master #branch

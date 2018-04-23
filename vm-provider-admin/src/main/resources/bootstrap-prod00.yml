@@ -3,7 +3,8 @@ server:
 spring:
   application:
     name: vm-provider-admin
-  profiles: prod00
+  profiles:
+    active: git
   cloud:
     config:
       label: master #branch

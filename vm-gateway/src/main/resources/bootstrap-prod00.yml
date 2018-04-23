@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: vm-gateway
+  profiles:
+    active: git
   cloud:
     config:
       label: master #branch
