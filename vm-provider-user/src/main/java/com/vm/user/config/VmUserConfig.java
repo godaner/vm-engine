@@ -1,6 +1,7 @@
 package com.vm.user.config;
 
 
+import com.vm.base.cache.ConfigCacheManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
@@ -12,15 +13,14 @@ import org.springframework.stereotype.Component;
 @RefreshScope
 public class VmUserConfig {
 
-    @Value("${vm.user.session.lifetime}")
     private Long userSessionLifetime;
-    @Value("${vm.user.img.versions}")
     private String userImgVersions;
 
     public String getUserImgVersions() {
         return userImgVersions;
     }
 
+    @Value("${vm.user.img.versions}")
     public void setUserImgVersions(String userImgVersions) {
         this.userImgVersions = userImgVersions;
     }
@@ -29,7 +29,10 @@ public class VmUserConfig {
         return userSessionLifetime;
     }
 
+    @Value("${vm.user.session.lifetime}")
     public void setUserSessionLifetime(Long userSessionLifetime) {
+
+        ConfigCacheManager.savePro("vm.user.session.lifetime",userSessionLifetime);
         this.userSessionLifetime = userSessionLifetime;
     }
 }

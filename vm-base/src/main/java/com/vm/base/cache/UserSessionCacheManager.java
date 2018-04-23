@@ -24,7 +24,7 @@ public class UserSessionCacheManager extends CommonUtil {
 
     private final static Logger logger = LoggerFactory.getLogger(AdminSessionCacheManager.class);
 
-    private static Long timeout = 60l;//default (s)
+    private final static String KEY_OF_TIMEOUT_CONFIG = "vm.user.session.lifetime";
 
     @Autowired
     private RedisRepository redisRepository;
@@ -35,14 +35,6 @@ public class UserSessionCacheManager extends CommonUtil {
     public void init() {
 
         this.redisRepositoryCache = this.redisRepository;
-    }
-
-    public static Long getTimeout() {
-        return timeout;
-    }
-
-    public static void setTimeout(Long timeout) {
-        UserSessionCacheManager.timeout = timeout;
     }
 
     private static String generateToken() {
@@ -95,6 +87,7 @@ public class UserSessionCacheManager extends CommonUtil {
             return null;
         }
 
+        Long timeout = Long.valueOf(ConfigCacheManager.getPro(KEY_OF_TIMEOUT_CONFIG).toString());
         //extend tokenKey
         redisRepositoryCache.expire(tokenKey, timeout);
 
@@ -156,6 +149,7 @@ public class UserSessionCacheManager extends CommonUtil {
         }
 
         String token = generateToken();
+        Long timeout = Long.valueOf(ConfigCacheManager.getPro(KEY_OF_TIMEOUT_CONFIG).toString());
         //save tokenKey
 
         String tokenKey = generateTokenKey(token);

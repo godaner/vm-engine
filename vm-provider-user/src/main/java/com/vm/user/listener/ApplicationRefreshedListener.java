@@ -13,8 +13,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
  */
 public class ApplicationRefreshedListener implements ApplicationListener<ContextRefreshedEvent> {
 
-    @Autowired
-    private VmUserConfig userConfig;
+//    @Autowired
+//    private VmUserConfig userConfig;
 
     private Logger logger = LoggerFactory.getLogger(ApplicationRefreshedListener.class);
 
@@ -23,9 +23,9 @@ public class ApplicationRefreshedListener implements ApplicationListener<Context
     public void onApplicationEvent(ContextRefreshedEvent event) {
         try {
             logger.info("ApplicationRefreshedListener starting !");
-            userConfig = event.getApplicationContext().getBean(VmUserConfig.class);
-
-            UserSessionCacheManager.setTimeout(userConfig.getUserSessionLifetime());
+//            userConfig = event.getApplicationContext().getBean(VmUserConfig.class);
+//
+//            UserSessionCacheManager.setTimeout(userConfig.getUserSessionLifetime());
 
             logger.info("ApplicationRefreshedListener start successful !");
         } catch (Exception e) {
