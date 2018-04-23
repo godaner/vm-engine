@@ -15,7 +15,6 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 @SpringBootApplication
 @ServletComponentScan
 @EnableDiscoveryClient
-//@RemoteApplicationEventScan(basePackages = "com.example.configclient.event")
 public class ProviderAdminApplication {
 
     public static void main(String[] args) {
