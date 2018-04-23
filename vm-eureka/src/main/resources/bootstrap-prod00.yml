@@ -1,0 +1,40 @@
+server:
+  port: 1110
+spring:
+  application:
+    name: vm-eureka
+eureka:
+  server:
+    enableSelfPreservation: false #自我保护模式，当出现出现网络分区、eureka在短时间内丢失过多客户端时，会进入自我保护模式，即一个服务长时间没有发送心跳，eureka也不会将其删除，默认为true
+    #eureka server刷新readCacheMap的时间，注意，client读取的是readCacheMap，这个时间决定了多久会把readWriteCacheMap的缓存更新到readCacheMap上
+    #默认30000ms
+    response-cache-update-interval-ms: 30000
+    #eureka server缓存readWriteCacheMap失效时间，这个只有在这个时间过去后缓存才会失效，失效前不会更新，过期后从registry重新读取注册服务信息，registry是一个ConcurrentHashMap。
+    #由于启用了evict其实就用不太上改这个配置了
+    #默认180s
+    response-cache-auto-expiration-in-seconds: 180
+    #清理无效节点的时间间隔,启用主动失效，并且每次主动失效检测间隔为3s
+    #默认为60000ms
+    eviction-interval-timer-in-ms: 60000
+  client:
+    #eureka client刷新本地缓存时间
+    #默认30s
+    registry-fetch-interval-seconds: 30
+    registerWithEureka: true #实例是否在eureka服务器上注册自己的信息以供其他服务发现，默认为true
+    fetchRegistry: true #此客户端是否获取eureka服务器注册表上的注册信息，默认为true
+    instance-info-replication-interval-seconds: 30 #复制实例变化信息到eureka服务器所需要的时间间隔（s），默认为30秒
+    eureka-service-url-poll-interval-seconds: 40 #最初复制实例信息到eureka服务器所需的时间（s），默认为40秒
+    initial-instance-info-replication-interval-seconds: 300 #询问Eureka服务url信息变化的时间间隔（s），默认为300秒
+    service-url:
+          defaultZone:
+          ${vm.eureka.listOfProd}
+  instance:
+    #服务过期时间配置,超过这个时间没有接收到心跳EurekaServer就会将这个实例剔除
+    #注意，EurekaServer一定要设置eureka.server.eviction-interval-timer-in-ms否则这个配置无效，这个配置一般为服务刷新时间配置的三倍
+    #默认90s
+    lease-expiration-duration-in-seconds: 90
+    #服务刷新时间配置，每隔这个时间会主动心跳一次
+    #默认30s
+    lease-renewal-interval-in-seconds: 30
+    prefer-ip-address: true #在eureka页面显示ip而不是linux主机名，微服务使用这里展示的进行调用，如果是使用主机名，那么可能无法调用
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port} #实例的id
