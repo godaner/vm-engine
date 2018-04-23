@@ -13,17 +13,17 @@ import org.springframework.stereotype.Component;
 @RefreshScope
 public class VmAdminConfig {
 
+    @Value("${vm.admin.session.lifetime}")
     private Long userSessionLifetime;
 
     public Long getUserSessionLifetime() {
         return userSessionLifetime;
     }
 
-    @Value("${vm.admin.session.lifetime}")
     public void setUserSessionLifetime(Long userSessionLifetime) {
 
 
-        ConfigCacheManager.savePro("vm.admin.session.lifetime",userSessionLifetime);
+//        ConfigCacheManager.savePro("vm.admin.session.lifetime",userSessionLifetime);
         this.userSessionLifetime = userSessionLifetime;
     }
 }

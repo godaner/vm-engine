@@ -2,10 +2,10 @@ package com.vm.base.cache;
 
 import com.vm.redis.repository.RedisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
 
 /**
  * Created by ZhangKe on 2018/4/23.

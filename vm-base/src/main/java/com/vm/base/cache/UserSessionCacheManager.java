@@ -8,6 +8,8 @@ import com.vm.redis.repository.RedisRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -18,23 +20,36 @@ import java.util.Map;
  * 记录<token,userId>的键值对,token被记录则代表在线
  */
 @Component
+@RefreshScope
 public class UserSessionCacheManager extends CommonUtil {
 
     private static String sessionManagerUniqueId = UserSessionCacheManager.class.toString();
 
     private final static Logger logger = LoggerFactory.getLogger(AdminSessionCacheManager.class);
 
-    private final static String KEY_OF_TIMEOUT_CONFIG = "vm.user.session.lifetime";
+    @Value("${vm.user.session.lifetime}")
+    private Long userSessionLifetime;
 
+    public Long getUserSessionLifetime() {
+        return userSessionLifetime;
+    }
+
+    public void setUserSessionLifetime(Long userSessionLifetime) {
+        this.userSessionLifetime = userSessionLifetime;
+    }
+
+    private static Long userSessionLifetimeCache;
     @Autowired
     private RedisRepository redisRepository;
 
     private static RedisRepository redisRepositoryCache;
 
     @PostConstruct
+    @RefreshScope
     public void init() {
 
         this.redisRepositoryCache = this.redisRepository;
+        this.userSessionLifetimeCache = this.userSessionLifetime == null ? 0 : this.userSessionLifetime;
     }
 
     private static String generateToken() {
@@ -87,14 +102,13 @@ public class UserSessionCacheManager extends CommonUtil {
             return null;
         }
 
-        Long timeout = Long.valueOf(ConfigCacheManager.getPro(KEY_OF_TIMEOUT_CONFIG).toString());
         //extend tokenKey
-        redisRepositoryCache.expire(tokenKey, timeout);
+        redisRepositoryCache.expire(tokenKey, userSessionLifetimeCache);
 
         //extend userIdKey
         String userIdKey = generateUserIdKey((Long) userId);
 
-        redisRepositoryCache.expire(userIdKey, timeout);
+        redisRepositoryCache.expire(userIdKey, userSessionLifetimeCache);
         return ImmutableMap.of(
                 "userId", userId,
                 "token", token
@@ -149,18 +163,17 @@ public class UserSessionCacheManager extends CommonUtil {
         }
 
         String token = generateToken();
-        Long timeout = Long.valueOf(ConfigCacheManager.getPro(KEY_OF_TIMEOUT_CONFIG).toString());
         //save tokenKey
 
         String tokenKey = generateTokenKey(token);
-        redisRepositoryCache.set(tokenKey, userId, timeout);
+        redisRepositoryCache.set(tokenKey, userId, userSessionLifetimeCache);
 
 
         //save userIdKey
         String userIdKey = generateUserIdKey(userId);
-        redisRepositoryCache.set(userIdKey, token, timeout);
+        redisRepositoryCache.set(userIdKey, token, userSessionLifetimeCache);
 
-        logger.info("UserSessionCacheManager login user id is : {} , token is : {} , timeout is : {} !", userId, token, timeout);
+        logger.info("UserSessionCacheManager login user id is : {} , token is : {} , timeout is : {} !", userId, token, userSessionLifetimeCache);
 
         return token;
     }
