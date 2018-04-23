@@ -25,6 +25,7 @@ public class ApplicationRefreshedListener implements ApplicationListener<Context
 
 
     @Override
+    @RefreshScope
     public void onApplicationEvent(ContextRefreshedEvent event) {
         try {
             logger.info("ApplicationRefreshedListener starting !");
