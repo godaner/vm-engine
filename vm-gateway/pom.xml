@@ -8,6 +8,13 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>vm-gateway</artifactId>
     <dependencies>
+
+        <dependency>
+            <groupId>com.vm</groupId>
+            <artifactId>vm-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.vm</groupId>
             <artifactId>vm-base</artifactId>

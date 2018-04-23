@@ -12,6 +12,12 @@
     <dependencies>
 
 
+        <dependency>
+            <groupId>com.vm</groupId>
+            <artifactId>vm-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!--bus start-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
