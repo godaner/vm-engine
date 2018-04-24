@@ -36,6 +36,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
 
         return response.putData("admin", admin).setMsg("登录成功");
     }
+
     /**
      * 登出
      *
@@ -45,10 +46,14 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
     @ResponseBody
     public Object adminLogout(@OnlineAdmin VmAdminsDto onlineAdmin) throws Exception {
 
-        service.adminLogout(onlineAdmin.getToken());
+        if (!isNullObject(onlineAdmin) && !isNullObject(onlineAdmin.getId())) {
+
+            service.adminLogout(onlineAdmin.getToken());
+        }
 
         return response;
     }
+
     /**
      * 获取在线用户
      *
@@ -59,8 +64,9 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
     @ResponseBody
     public Object getOnlineAdmin(@OnlineAdmin VmAdminsDto onlineAdmin) throws Exception {
 
-        return response.putData("admin",onlineAdmin);
+        return response.putData("admin", onlineAdmin);
     }
+
     /**
      * 获取列表
      *
@@ -74,6 +80,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
 
         return response.putData("list", service.getAdmins(page, query)).putData("total", service.getAdminsTotal(page, query));
     }
+
     /**
      * 更新
      *
@@ -87,6 +94,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
 
         return response.putData("admin", service.editAdmin(vmAdminsDto));
     }
+
     /**
      * 添加
      *
@@ -100,6 +108,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
 
         return response.putData("admin", service.addAdmin(vmAdminsDto));
     }
+
     /**
      * 删除
      *
