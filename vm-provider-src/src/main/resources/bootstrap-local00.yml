@@ -13,6 +13,7 @@ spring:
       discovery:
         enabled: true
         serviceId: vm-config-server
+      name: ${spring.application.name},vm-base
 
 eureka:
   client:

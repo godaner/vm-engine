@@ -1,13 +1,13 @@
 package com.vm.src.service.impl;
 
 import com.google.common.collect.Lists;
+import com.vm.base.VmBaseConfig;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.DateUtil;
 import com.vm.base.util.IOUtil;
 import com.vm.base.util.ImageUtil;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.QuickSelectOne;
-import com.vm.src.config.VmSrcConfig;
 import com.vm.src.dao.mapper.VmFilesMapper;
 import com.vm.src.dao.po.VmFiles;
 import com.vm.src.service.dto.VmFilesDto;
@@ -35,7 +35,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     @Autowired
     private VmFilesMapper vmFilesMapper;
     @Autowired
-    private VmSrcConfig srcConfig;
+    private VmBaseConfig vmBaseConfig;
 
     @Override
     public void sendVideoSrc(Long fileId, HttpServletResponse response) throws IOException, NoSuchAlgorithmException {
@@ -46,7 +46,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         OutputStream output = null;
         try {
             VmFiles file = this.getUsableVmFilesById(fileId);
-            String movieSrcPath = srcConfig.getSrcVideoPath();
+            String movieSrcPath = vmBaseConfig.getSrcVideoPath();
 
             String movieSrcName = null;
             String contentType = null;
@@ -57,7 +57,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             File f = new File(movieSrcPath + File.separator + movieSrcName);
             //不存在，返回默认图片
             if (!f.exists()) {
-                movieSrcName = srcConfig.getSrcVideoDefault();
+                movieSrcName = vmBaseConfig.getSrcVideoDefault();
                 f = new File(movieSrcPath + File.separator + movieSrcName);
             }
             input = new FileInputStream(f);
@@ -82,12 +82,12 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         //获取图片id信息
         VmFiles file = this.getUsableVmFilesById(fileId);
         ;
-        String imgPath = srcConfig.getSrcImgPath();
+        String imgPath = vmBaseConfig.getSrcImgPath();
         String imgName = null;
         String contentType = "image/png";
         String imgPathName = null;
         if (null == file) {//if db have not this file record
-            imgPathName = imgPath + srcConfig.getSrcImgDefault();
+            imgPathName = imgPath + vmBaseConfig.getSrcImgDefault();
             sendFileToHttpResponse(imgPathName, contentType, response);
             return;
         }
@@ -106,12 +106,12 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         //获取图片id信息
         VmFiles file = this.getUsableVmFilesById(fileId);
         ;
-        String imgPath = srcConfig.getSrcImgPath();
+        String imgPath = vmBaseConfig.getSrcImgPath();
         String imgName = null;
         String contentType = "image/png";
         String imgPathName = null;
         if (null == file) {//if db have not this file record
-            imgPathName = imgPath + srcConfig.getSrcImgDefault();
+            imgPathName = imgPath + vmBaseConfig.getSrcImgDefault();
             sendFileToHttpResponse(imgPathName, contentType, response);
             return;
         }
@@ -161,7 +161,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             //uuid
             String uuid = uuid();
             //targetPath
-            String targetPath = srcConfig.getSrcImgPath();
+            String targetPath = vmBaseConfig.getSrcImgPath();
             //contentType
             String contentType = imgFile.getContentType();
             //originalFilename
@@ -210,7 +210,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         VmFiles vmFiles = this.getUsableVmFilesById(vmFilesDto.getFileId());
 
         //delete temp file
-        String filePath = srcConfig.getSrcImgPath();
+        String filePath = vmBaseConfig.getSrcImgPath();
         String fileName = vmFiles.getFilename();
 
         final String canNotChangePathName = filePath + fileName;
@@ -281,7 +281,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             //uuid
             String uuid = uuid();
             //targetPath
-            String targetPath = srcConfig.getSrcVideoPath();
+            String targetPath = vmBaseConfig.getSrcVideoPath();
             //contentType
             String contentType = file.getContentType();
             //originalFilename

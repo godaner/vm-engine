@@ -1,6 +1,6 @@
 package com.vm.src.listener;
 
-import com.vm.src.config.VmSrcConfig;
+import com.vm.base.VmBaseConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -13,7 +13,7 @@ import java.io.File;
  */
 public class ApplicationRefreshedListener implements ApplicationListener<ContextRefreshedEvent> {
 
-    private VmSrcConfig srcConfig;
+    private VmBaseConfig vmBaseConfig;
 
     private Logger logger = LoggerFactory.getLogger(ApplicationRefreshedListener.class);
 
@@ -21,7 +21,7 @@ public class ApplicationRefreshedListener implements ApplicationListener<Context
     public void onApplicationEvent(ContextRefreshedEvent event) {
         try {
             logger.info("ApplicationRefreshedListener starting !");
-            srcConfig = event.getApplicationContext().getBean(VmSrcConfig.class);
+            vmBaseConfig = event.getApplicationContext().getBean(VmBaseConfig.class);
 
             //初始化项目目录，例如图片储存，电影储存
             initFileDir();
@@ -39,9 +39,9 @@ public class ApplicationRefreshedListener implements ApplicationListener<Context
      */
     private void initFileDir() {
 
-        checkAndCreateDir(srcConfig.getSrcImgPath());
+        checkAndCreateDir(vmBaseConfig.getSrcImgPath());
 
-        checkAndCreateDir(srcConfig.getSrcVideoPath());
+        checkAndCreateDir(vmBaseConfig.getSrcVideoPath());
 
     }
 

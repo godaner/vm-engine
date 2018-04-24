@@ -3,11 +3,14 @@ package com.vm.base.cache;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.vm.base.VmBaseConfig;
 import com.vm.base.util.CommonUtil;
 import com.vm.redis.repository.RedisRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -18,24 +21,30 @@ import java.util.Map;
  * 记录<token,userId>的键值对,token被记录则代表在线
  */
 @Component
+@RefreshScope
 public class AdminSessionCacheManager extends CommonUtil {
 
     private static String sessionManagerUniqueId = AdminSessionCacheManager.class.toString();
 
     private final static Logger logger = LoggerFactory.getLogger(AdminSessionCacheManager.class);
 
-    private final static String KEY_OF_TIMEOUT_CONFIG = "vm.admin.session.lifetime";
-
     @Autowired
     private RedisRepository redisRepository;
 
     private static RedisRepository redisRepositoryCache;
 
+    @Autowired
+    private VmBaseConfig vmBaseConfig;
+
+    private static VmBaseConfig vmBaseConfigCache;
+
     @PostConstruct
     public void init() {
 
         this.redisRepositoryCache = this.redisRepository;
+        this.vmBaseConfigCache = this.vmBaseConfig;
     }
+
 
 
     private static String generateToken() {
@@ -94,7 +103,7 @@ public class AdminSessionCacheManager extends CommonUtil {
             return null;
         }
 
-        Long timeout = Long.valueOf(ConfigCacheManager.getPro(KEY_OF_TIMEOUT_CONFIG).toString());
+        Long timeout = Long.valueOf(vmBaseConfigCache.getAdminSessionLifetime().toString());
         //extend tokenKey
         redisRepositoryCache.expire(tokenKey, timeout);
 
@@ -156,8 +165,7 @@ public class AdminSessionCacheManager extends CommonUtil {
         }
 
         String token = generateToken();
-
-        Long timeout = Long.valueOf(ConfigCacheManager.getPro(KEY_OF_TIMEOUT_CONFIG).toString());
+        Long timeout = Long.valueOf(vmBaseConfigCache.getAdminSessionLifetime().toString());
         //save tokenKey
 
         String tokenKey = generateTokenKey(token);

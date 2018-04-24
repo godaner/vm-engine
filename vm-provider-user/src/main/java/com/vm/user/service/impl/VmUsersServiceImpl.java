@@ -1,13 +1,13 @@
 package com.vm.user.service.impl;
 
 import com.google.common.collect.ImmutableMap;
+import com.vm.base.VmBaseConfig;
 import com.vm.base.cache.UserSessionCacheManager;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.*;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
-import com.vm.user.config.VmUserConfig;
 import com.vm.user.dao.mapper.VmUsersLoginLogsMapper;
 import com.vm.user.dao.mapper.VmUsersMapper;
 import com.vm.user.dao.mapper.custom.CustomVmUsersMapper;
@@ -42,7 +42,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Autowired
     private SrcServiceClient srcServiceClient;
     @Autowired
-    private VmUserConfig userConfig;
+    private VmBaseConfig vmBaseConfig;
 
     private VmUsersDto makeVmUsersDto(VmUsers user, String token) {
         VmUsersDto vmUsersDto = new VmUsersDto();
@@ -258,7 +258,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Transactional
     public VmUsersDto updateUserHeadImg(Long onlineUserId, UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
         //set versions
-        updateHeadImgInfo.setVersions(userConfig.getUserImgVersions());
+        updateHeadImgInfo.setVersions(vmBaseConfig.getUserImgVersions());
 
         //feign
         String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
@@ -429,7 +429,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
     @Override
     public VmUsersDto updateUserHeadImg(UpdateHeadImgInfo updateHeadImgInfo) throws Exception {
         //set versions
-        updateHeadImgInfo.setVersions(userConfig.getUserImgVersions());
+        updateHeadImgInfo.setVersions(vmBaseConfig.getUserImgVersions());
 
         //feign
         String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));

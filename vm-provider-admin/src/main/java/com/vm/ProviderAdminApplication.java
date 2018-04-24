@@ -4,6 +4,7 @@ import com.vm.admin.listener.ApplicationRefreshedListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.cloud.bus.jackson.RemoteApplicationEventScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 
@@ -15,7 +16,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 @SpringBootApplication
 @ServletComponentScan
 @EnableDiscoveryClient
-//@RemoteApplicationEventScan(basePackages = "com.example.configclient.event")
+@RemoteApplicationEventScan
 public class ProviderAdminApplication {
 
     public static void main(String[] args) {

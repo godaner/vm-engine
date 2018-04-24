@@ -1,7 +1,7 @@
 package com.vm.src.controller;
 
+import com.vm.base.VmBaseConfig;
 import com.vm.base.util.ServiceController;
-import com.vm.src.config.VmSrcConfig;
 import com.vm.src.service.dto.VmFilesDto;
 import com.vm.src.service.inf.VmSrcService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Scope("prototype")
 public class VmSrcController extends ServiceController<VmSrcService> {
     @Autowired
-    private VmSrcConfig srcConfig;
+    private VmBaseConfig vmBaseConfig;
 
     /**
      * 获取视频资源
@@ -29,7 +29,7 @@ public class VmSrcController extends ServiceController<VmSrcService> {
     @ResponseBody
     public Object uploadVideo(@RequestParam("file") MultipartFile file) throws Exception {
         Long fileId = service.uploadVideo(file);
-        return response.putData("videoUrl", srcConfig.getSrcVideoUrl() + "/" + fileId).putData("fileId", fileId);
+        return response.putData("videoUrl", vmBaseConfig.getSrcVideoUrl() + "/" + fileId).putData("fileId", fileId);
     }
 
     /**
@@ -78,7 +78,7 @@ public class VmSrcController extends ServiceController<VmSrcService> {
     @ResponseBody
     public Object uploadImgFile( @RequestParam("file") MultipartFile file) throws Exception {
         Long fileId = service.saveImg(file, null);
-        return response.putData("imgUrl", srcConfig.getSrcImgUrl() + "/" + fileId).putData("fileId", fileId);
+        return response.putData("imgUrl", vmBaseConfig.getSrcImgUrl() + "/" + fileId).putData("fileId", fileId);
     }
 
     /**
@@ -92,7 +92,7 @@ public class VmSrcController extends ServiceController<VmSrcService> {
     @ResponseBody
     public Object uploadImgFile( @RequestParam("file") MultipartFile file, @PathVariable("width") Integer width) throws Exception {
         Long fileId = service.saveImg(file, width);
-        return response.putData("imgUrl", srcConfig.getSrcImgUrl() + "/" + fileId).putData("fileId", fileId);
+        return response.putData("imgUrl", vmBaseConfig.getSrcImgUrl() + "/" + fileId).putData("fileId", fileId);
     }
 
     /**
@@ -106,7 +106,7 @@ public class VmSrcController extends ServiceController<VmSrcService> {
     @ResponseBody
     public Object cutUploadedImgFile(VmFilesDto vmFilesDto) throws Exception {
         Long fileId = service.cutUploadedImgFile(vmFilesDto);
-        return response.putData("imgUrl", srcConfig.getSrcImgUrl() + "/" + fileId).putData("fileId", fileId);
+        return response.putData("imgUrl", vmBaseConfig.getSrcImgUrl() + "/" + fileId).putData("fileId", fileId);
     }
 
     /**
@@ -120,7 +120,7 @@ public class VmSrcController extends ServiceController<VmSrcService> {
     @ResponseBody
     public Object uploadAndCut(VmFilesDto vmFilesDto) throws Exception {
         Long fileId = service.uploadAndCut(vmFilesDto);
-        return response.putData("imgUrl", srcConfig.getSrcImgUrl() + "/" + fileId).putData("fileId", fileId);
+        return response.putData("imgUrl", vmBaseConfig.getSrcImgUrl() + "/" + fileId).putData("fileId", fileId);
     }
 
 }

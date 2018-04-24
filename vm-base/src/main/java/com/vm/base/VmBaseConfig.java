@@ -1,16 +1,20 @@
-package com.vm.src.config;
-
+package com.vm.base;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by ZhangKe on 2018/2/28.
+ * Created by ZhangKe on 2018/4/24.
  */
 @Component
 @RefreshScope
-public class VmSrcConfig {
+public class VmBaseConfig {
+
+    @Value("${vm.user.session.lifetime}")
+    private Long userSessionLifetime;
+    @Value("${vm.user.img.versions}")
+    private String userImgVersions;
     @Value("${vm.src.img.allowSuffix}")
     private String srcImgAllowSuffix;
     @Value("${vm.src.img.url}")
@@ -27,6 +31,38 @@ public class VmSrcConfig {
     private String srcVideoDefault;
     @Value("${vm.src.video.url}")
     private String srcVideoUrl;
+    @Value("${vm.movie.img.versions}")
+    private String movieImgVersions;
+    @Value("${vm.movie.poster.versions}")
+    private String moviePosterVersions;
+    @Value("${vm.admin.session.lifetime}")
+    private Long adminSessionLifetime;
+
+    public Long getAdminSessionLifetime() {
+        return adminSessionLifetime;
+    }
+
+    public void setAdminSessionLifetime(Long adminSessionLifetime) {
+
+
+        this.adminSessionLifetime = adminSessionLifetime;
+    }
+
+    public String getMoviePosterVersions() {
+        return moviePosterVersions;
+    }
+
+    public void setMoviePosterVersions(String moviePosterVersions) {
+        this.moviePosterVersions = moviePosterVersions;
+    }
+
+    public String getMovieImgVersions() {
+        return movieImgVersions;
+    }
+
+    public void setMovieImgVersions(String movieImgVersions) {
+        this.movieImgVersions = movieImgVersions;
+    }
 
     public String getSrcImgAllowSuffix() {
         return srcImgAllowSuffix;
@@ -90,5 +126,23 @@ public class VmSrcConfig {
 
     public void setSrcVideoUrl(String srcVideoUrl) {
         this.srcVideoUrl = srcVideoUrl;
+    }
+
+    public String getUserImgVersions() {
+        return userImgVersions;
+    }
+
+    public void setUserImgVersions(String userImgVersions) {
+        this.userImgVersions = userImgVersions;
+    }
+
+    public Long getUserSessionLifetime() {
+        return userSessionLifetime;
+    }
+
+
+    public void setUserSessionLifetime(Long userSessionLifetime) {
+
+        this.userSessionLifetime = userSessionLifetime;
     }
 }

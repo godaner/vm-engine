@@ -1,6 +1,7 @@
 package com.vm.movie.service.impl;
 
 import com.google.common.collect.ImmutableMap;
+import com.vm.base.VmBaseConfig;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.BeanMapUtil;
@@ -9,7 +10,6 @@ import com.vm.base.util.Response;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
-import com.vm.movie.config.VmMovieConfig;
 import com.vm.movie.dao.mapper.*;
 import com.vm.movie.dao.mapper.custom.*;
 import com.vm.movie.dao.po.VmMovies;
@@ -62,7 +62,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     @Autowired
     CustomVmMoviesTagsRealationMapper customVmMoviesTagsRealationMapper;
     @Autowired
-    private VmMovieConfig movieConfig;
+    private VmBaseConfig vmBaseConfig;
     @Autowired
     private SrcServiceClient srcServiceClient;
 
@@ -301,7 +301,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     @Override
     public VmMoviesDto updateImg(UpdateHeadImgInfo updateHeadImgInfo) {
         //set versions
-        updateHeadImgInfo.setVersions(movieConfig.getMovieImgVersions());
+        updateHeadImgInfo.setVersions(vmBaseConfig.getMovieImgVersions());
 
         //feign
         String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
@@ -327,7 +327,7 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
     @Transactional
     public VmMoviesDto updatePoster(UpdateHeadImgInfo updateHeadImgInfo) {
         //set versions
-        updateHeadImgInfo.setVersions(movieConfig.getMoviePosterVersions());
+        updateHeadImgInfo.setVersions(vmBaseConfig.getMoviePosterVersions());
 
         //feign
         String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));
