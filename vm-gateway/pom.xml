@@ -69,105 +69,27 @@
     </dependencies>
     <build>
         <plugins>
-            <!--<plugin>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-            <!--<configuration>&lt;!&ndash; 指定该Main Class为全局的唯一入口 &ndash;&gt;-->
-            <!--<mainClass>com.vm.GatewayApplication</mainClass>-->
-            <!--<layout>ZIP</layout>-->
-            <!--</configuration>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<goals>-->
-            <!--<goal>repackage</goal>&lt;!&ndash;可以把依赖的包都打包到生成的Jar包中&ndash;&gt;-->
-            <!--</goals>-->
-            <!--&lt;!&ndash;可以生成不含依赖包的不可执行Jar包&ndash;&gt;-->
-            <!--&lt;!&ndash; configuration>-->
-            <!--<classifier>exec</classifier>-->
-            <!--</configuration> &ndash;&gt;-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--</plugin>-->
-
             <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>1.0.0</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration><!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>com.vm.GatewayApplication</mainClass>
+                    <layout>ZIP</layout>
+                </configuration>
                 <executions>
-                    <!--执行 mvn package 时 自动 执行 mvn docker:build-->
                     <execution>
-                        <id>build-image</id>
-                        <phase>package</phase>
                         <goals>
-                            <goal>build</goal>
+                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
                         </goals>
+                        <!--可以生成不含依赖包的不可执行Jar包-->
+                        <!-- configuration>
+                        <classifier>exec</classifier>
+                        </configuration> -->
                     </execution>
                 </executions>
-                <configuration>
-                    <!--推送到私有仓库-->
-                    <!-- <imageName>localhost:5000/fox/fox-eureka-server</imageName> -->
-                    <!--本地-->
-                    <imageName>vm/vm-eureka-server</imageName>
-                    <imageTags>
-                        <imageTag>0.0.1</imageTag>
-                        <!--可以指定多个标签-->
-                        <imageTag>latest</imageTag>
-                    </imageTags>
-                    <!--覆盖已存在的标签 镜像-->
-                    <forceTags>true</forceTags>
-                    <!--使用pom 配置-->
-                    <baseImage>java</baseImage>
-                    <entryPoint>["java","-jar","/${project.build.finalName}.jar"]</entryPoint>
-                    <!--使用pom 配置 END-->
-                    <!--使用 Dockerfile-->
-                    <!--<dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>-->
-                    <!--使用 Dockerfile  END-->
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
-                </configuration>
             </plugin>
+
         </plugins>
     </build>
-    <repositories>
-        <repository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>https://repo.spring.io/snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>https://repo.spring.io/snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 </project>
