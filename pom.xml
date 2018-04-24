@@ -35,6 +35,8 @@
     <dependencyManagement>
         <dependencies>
 
+
+
             <!--spring cloud start-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -44,6 +46,8 @@
                 <scope>import</scope>
             </dependency>
             <!--spring cloud end-->
+
+
 
             <!--gson start-->
             <dependency>

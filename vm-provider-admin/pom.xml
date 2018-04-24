@@ -54,6 +54,14 @@
         </dependency>
         <!--eureka end-->
 
+        <!--websocket start-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <!--websocket end-->
+
+
 
         <!--热部署 start-->
         <dependency>

@@ -3,6 +3,7 @@ package com.vm.movie.service.impl;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.vm.base.config.VmBaseConfig;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.BeanMapUtil;
@@ -10,7 +11,6 @@ import com.vm.base.util.Response;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
-import com.vm.movie.config.FilmmakerConfig;
 import com.vm.movie.dao.mapper.VmFilmmakersMapper;
 import com.vm.movie.dao.mapper.VmMoviesFilmmakersRealationMapper;
 import com.vm.movie.dao.mapper.VmMoviesMapper;
@@ -65,7 +65,7 @@ public class VmFilmmakersServiceImpl extends BaseService implements VmFilmmakers
     private SrcServiceClient srcServiceClient;
 
     @Autowired
-    private FilmmakerConfig filmmakerConfig;
+    private VmBaseConfig vmBaseConfig;
 
     @Autowired
     private VmMoviesService vmMoviesService;
@@ -256,7 +256,7 @@ public class VmFilmmakersServiceImpl extends BaseService implements VmFilmmakers
     @Override
     public VmFilmmakersDto updateImg(UpdateHeadImgInfo updateHeadImgInfo) {
         //set versions
-        updateHeadImgInfo.setVersions(filmmakerConfig.getFilmmakerImgVersions());
+        updateHeadImgInfo.setVersions(vmBaseConfig.getFilmmakerImgVersions());
 
         //feign
         String res = srcServiceClient.cutUploadedImgFile(BeanMapUtil.beanToMap(updateHeadImgInfo));

@@ -37,7 +37,16 @@ public class VmBaseConfig {
     private String moviePosterVersions;
     @Value("${vm.admin.session.lifetime}")
     private Long adminSessionLifetime;
+    @Value("${vm.filmmaker.img.versions}")
+    private String filmmakerImgVersions;
 
+    public String getFilmmakerImgVersions() {
+        return filmmakerImgVersions;
+    }
+
+    public void setFilmmakerImgVersions(String filmmakerImgVersions) {
+        this.filmmakerImgVersions = filmmakerImgVersions;
+    }
     public Long getAdminSessionLifetime() {
         return adminSessionLifetime;
     }
