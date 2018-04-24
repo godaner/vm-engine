@@ -1,7 +1,7 @@
 package com.vm.user.service.impl;
 
 import com.google.common.collect.ImmutableMap;
-import com.vm.base.VmBaseConfig;
+import com.vm.base.config.VmBaseConfig;
 import com.vm.base.cache.UserSessionCacheManager;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.*;

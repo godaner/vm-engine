@@ -1,4 +1,4 @@
-package com.vm.base;
+package com.vm.base.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;

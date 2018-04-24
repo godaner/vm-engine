@@ -1,6 +1,6 @@
 package com.vm.src.listener;
 
-import com.vm.base.VmBaseConfig;
+import com.vm.base.config.VmBaseConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;

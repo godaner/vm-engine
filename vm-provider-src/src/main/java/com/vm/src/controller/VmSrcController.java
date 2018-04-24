@@ -1,6 +1,6 @@
 package com.vm.src.controller;
 
-import com.vm.base.VmBaseConfig;
+import com.vm.base.config.VmBaseConfig;
 import com.vm.base.util.ServiceController;
 import com.vm.src.service.dto.VmFilesDto;
 import com.vm.src.service.inf.VmSrcService;

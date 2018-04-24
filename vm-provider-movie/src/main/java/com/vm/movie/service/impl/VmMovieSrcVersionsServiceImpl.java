@@ -1,7 +1,7 @@
 package com.vm.movie.service.impl;
 
 import com.google.common.collect.ImmutableMap;
-import com.vm.base.VmBaseConfig;
+import com.vm.base.config.VmBaseConfig;
 import com.vm.base.util.BaseService;
 import com.vm.base.util.Response;
 import com.vm.dao.util.BasePo;
