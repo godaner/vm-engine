@@ -13,10 +13,12 @@ import com.vm.admin.service.exception.VmAdminException;
 import com.vm.admin.service.inf.VmAdminsService;
 import com.vm.admin.service.inf.VmAuthsService;
 import com.vm.admin.service.inf.VmMenusService;
+import com.vm.admin.ws.AdminOnlineStatusWSController;
 import com.vm.base.cache.AdminSessionCacheManager;
 import com.vm.base.cache.AuthCacheManager;
 import com.vm.base.cache.MenuCacheManager;
-import com.vm.base.util.*;
+import com.vm.base.util.BaseService;
+import com.vm.base.util.DateUtil;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
@@ -337,6 +339,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         String oldToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
         if (!isEmptyString(oldToken)) {
             AdminSessionCacheManager.userLogout(oldToken);
+            AdminOnlineStatusWSController.tipLogoutWhenUserLoginInOtherArea(oldToken);//tip when login in other area
         }
         //add new session
         String token = AdminSessionCacheManager.userLogin(adminId);

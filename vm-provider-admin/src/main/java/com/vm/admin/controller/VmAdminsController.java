@@ -51,7 +51,7 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
             service.adminLogout(onlineAdmin.getToken());
         }
 
-        return response;
+        return response.setMsg("登出成功");
     }
 
     /**
