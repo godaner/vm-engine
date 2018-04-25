@@ -3,7 +3,6 @@ package com.vm.admin.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
@@ -17,7 +16,8 @@ public class RedisSubListenerConfig {
                                             MessageListenerAdapter listenerAdapter) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.addMessageListener(listenerAdapter, new PatternTopic("__key*__:*"));
+        //topic -- "__key*__:*" __keysevent*__:expired
+        container.addMessageListener(listenerAdapter, new PatternTopic("__key*__:expired"));
         return container;
     }
     //利用反射来创建监听到消息之后的执行方法

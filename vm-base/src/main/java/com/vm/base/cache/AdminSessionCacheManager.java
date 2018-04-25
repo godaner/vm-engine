@@ -23,7 +23,7 @@ import java.util.Map;
 @RefreshScope
 public class AdminSessionCacheManager extends CommonUtil {
 
-    private static String sessionManagerUniqueId = AdminSessionCacheManager.class.toString();
+    private static String sessionManagerUniqueId = "AdminSessionCacheManager";
 
     private final static Logger logger = LoggerFactory.getLogger(AdminSessionCacheManager.class);
 
