@@ -28,8 +28,8 @@ public class RedisSubListenerConfig {
         return new MessageListenerAdapter(redisReceiver, "receiveMessage");
     }
     //使用默认的工厂初始化redis操作模板
-    @Bean
-    StringRedisTemplate template(RedisConnectionFactory connectionFactory) {
-        return new StringRedisTemplate(connectionFactory);
-    }
+//    @Bean
+//    StringRedisTemplate template(RedisConnectionFactory connectionFactory) {
+//        return new StringRedisTemplate(connectionFactory);
+//    }
 }

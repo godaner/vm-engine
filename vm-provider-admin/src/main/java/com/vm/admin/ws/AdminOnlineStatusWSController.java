@@ -8,10 +8,10 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class AdminOnlineStatusWSController extends BaseWSController {
 
-    public final static void tipLogoutWhenUserLoginInOtherArea(String accessToken) {
+    public final static void tipLogoutWhenUserLoginInOtherArea(String accessToken,Object newLoginRecord) {
         Response response = new Response();
         response.setCode(Code.USER_IS_LOGIN_IN_OTHER_AREA.getCode());
-        response.setMsg(Code.USER_IS_LOGIN_IN_OTHER_AREA.getMsg());
+        response.putData("loginRecord",newLoginRecord);
         AdminOnlineStatusWSController.sendToUser(accessToken, "/adminOnlineStatus", response); //一对一发送，发送特定的客户端
     }
 

@@ -1,5 +1,6 @@
 package com.vm.admin.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.vm.admin.dao.mapper.*;
 import com.vm.admin.dao.mapper.custom.*;
@@ -330,7 +331,8 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
 
         Long adminId = vmAdmins.getId();
         //write adminLogin record to db
-        if (1 != vmAdminsLoginLogsMapper.insert(makeAdminLogins(vmAdminsDto, adminId))) {
+        VmAdminsLoginLogs vmAdminsLoginLogs = makeAdminLogins(vmAdminsDto, adminId);
+        if (1 != vmAdminsLoginLogsMapper.insert(vmAdminsLoginLogs)) {
             throw new VmAdminException("adminLogin vmAdminsLoginLogsMapper#insert is fail ! user is :  " + vmAdminsDto);
         }
 
@@ -339,7 +341,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         String oldToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
         if (!isEmptyString(oldToken)) {
             AdminSessionCacheManager.userLogout(oldToken);
-            AdminOnlineStatusWSController.tipLogoutWhenUserLoginInOtherArea(oldToken);//tip when login in other area
+            AdminOnlineStatusWSController.tipLogoutWhenUserLoginInOtherArea(oldToken, vmAdminsLoginLogs);//tip when login in other area
         }
         //add new session
         String token = AdminSessionCacheManager.userLogin(adminId);

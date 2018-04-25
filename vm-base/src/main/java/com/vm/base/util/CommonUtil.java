@@ -31,7 +31,18 @@ public class CommonUtil {
     private final static String DEFAULT_SPLIT_STRING = ",";
 
 
-    private final static Gson gson = new Gson();
+    protected final static Gson gson = new Gson();
+
+
+    public boolean isUuid(String str){
+        try {
+            UUID.fromString(str);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
     public final static String[] chars = new String[] { "a", "b", "c", "d", "e", "f",
             "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",

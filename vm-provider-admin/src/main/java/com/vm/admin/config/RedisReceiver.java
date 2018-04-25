@@ -25,10 +25,10 @@ public class RedisReceiver extends CommonUtil {
         if (isNullObject(valStr) || isEmptyString(valStr)) {
             return;
         }
-        Long userId = AdminSessionCacheManager.getOnlineUserId(valStr);
-        if (isNullObject(userId)) {
-            return;
+        if(AdminSessionCacheManager.sessionManagerUniqueId.indexOf(val.toString())>=0){
+            if(isUuid(valStr)){
+                AdminOnlineStatusWSController.tipLogoutWhenUserLoginTimeout(valStr);
+            }
         }
-        AdminOnlineStatusWSController.tipLogoutWhenUserLoginTimeout(valStr);
     }
 }
