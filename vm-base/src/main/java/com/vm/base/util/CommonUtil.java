@@ -2,7 +2,6 @@ package com.vm.base.util;
 
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
-import com.vm.base.inf.JSONString;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -34,26 +33,26 @@ public class CommonUtil {
     protected final static Gson gson = new Gson();
 
 
-    public boolean isUuid(String str){
+    public final static boolean isUuid(String str) {
         try {
             UUID.fromString(str);
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
             return false;
         }
         return true;
     }
 
-    public final static String[] chars = new String[] { "a", "b", "c", "d", "e", "f",
+    public final static String[] chars = new String[]{"a", "b", "c", "d", "e", "f",
             "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
             "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5",
             "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I",
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
-            "W", "X", "Y", "Z" };
+            "W", "X", "Y", "Z"};
 
 
     /**
      * 1千万级别
+     *
      * @return
      */
     public final static String generateShortUuid() {
@@ -67,8 +66,10 @@ public class CommonUtil {
         return shortBuffer.toString();
 
     }
+
     /**
      * 请使用gson打印日志，如果使用fastjson打印日志会照成内存泄露，服务将会直接宕掉
+     *
      * @param obj
      * @return
      */
@@ -192,7 +193,7 @@ public class CommonUtil {
      * @param obj
      * @return
      */
-    protected final static boolean isNullObject(Object obj) {
+    public final static boolean isNullObject(Object obj) {
         return obj == null;
     }
 
@@ -202,7 +203,7 @@ public class CommonUtil {
      * @param list
      * @return
      */
-    protected final static boolean isEmptyList(List<?> list) {
+    public final static boolean isEmptyList(List<?> list) {
         if (list == null || list.size() == 0) {
             return true;
         }
@@ -230,7 +231,7 @@ public class CommonUtil {
      * @param str
      * @return
      */
-    protected final static boolean isEmptyString(String str) {
+    public final static boolean isEmptyString(String str) {
         return str == null || str.trim().length() == 0;
     }
 

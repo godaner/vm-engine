@@ -23,7 +23,7 @@ import java.util.Map;
 @RefreshScope
 public class AdminSessionCacheManager extends CommonUtil {
 
-    public final static String sessionManagerUniqueId = "AdminSessionCacheManager";
+    public final static String sessionManagerUniqueId = "AdminSessionCacheManager_";
 
     private final static Logger logger = LoggerFactory.getLogger(AdminSessionCacheManager.class);
 
@@ -45,17 +45,16 @@ public class AdminSessionCacheManager extends CommonUtil {
     }
 
 
-
     private static String generateToken() {
         return CommonUtil.uuid();
     }
 
     private static String generateTokenKey(String token) {
-        return sessionManagerUniqueId + "_" + token;
+        return sessionManagerUniqueId + token;
     }
 
     private static String generateUserIdKey(Long userId) {
-        return sessionManagerUniqueId + "_" + userId;
+        return sessionManagerUniqueId + userId;
     }
 
     /**

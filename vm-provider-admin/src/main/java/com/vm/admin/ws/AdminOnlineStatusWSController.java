@@ -19,6 +19,7 @@ public class AdminOnlineStatusWSController extends BaseWSController {
         Response response = new Response();
         response.setCode(Code.USER_LOGIN_TIMEOUT.getCode());
         response.setMsg(Code.USER_LOGIN_TIMEOUT.getMsg());
+        response.putData("logoutTime",now());
         AdminOnlineStatusWSController.sendToUser(accessToken, "/adminOnlineStatus", response); //一对一发送，发送特定的客户端
     }
 

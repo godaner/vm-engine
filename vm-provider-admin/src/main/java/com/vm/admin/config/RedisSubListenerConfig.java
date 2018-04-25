@@ -17,8 +17,8 @@ public class RedisSubListenerConfig {
                                             MessageListenerAdapter listenerAdapter) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        //topic -- "__key*__:*" __keysevent*__:expired
-        container.addMessageListener(listenerAdapter, new PatternTopic("__key*__:expired"));
+        //topic -- "__key*__:*" __keyevent*__:expired
+        container.addMessageListener(listenerAdapter, new PatternTopic("__keyevent@*__:expired"));
         return container;
     }
     //利用反射来创建监听到消息之后的执行方法

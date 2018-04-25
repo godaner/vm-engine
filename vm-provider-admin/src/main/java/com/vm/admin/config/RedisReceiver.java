@@ -19,16 +19,17 @@ public class RedisReceiver extends CommonUtil {
     public void receiveMessage(Object message) {
         //这里是收到通道的消息之后执行的方法
         logger.info("RedisReceiver receiveMessage message is : {} ! ", message);
-        Object val = redisRepository.get((String) message);
-        logger.info("RedisReceiver receiveMessage val is : {} ! ", val);
-        String valStr = ((String) message).split("_")[1];
-        if (isNullObject(valStr) || isEmptyString(valStr)) {
+        if (isNullObject(message)) {
             return;
         }
-        if(AdminSessionCacheManager.sessionManagerUniqueId.indexOf(val.toString())>=0){
-            if(isUuid(valStr)){
-                AdminOnlineStatusWSController.tipLogoutWhenUserLoginTimeout(valStr);
-            }
+        if (message.toString().indexOf(AdminSessionCacheManager.sessionManagerUniqueId) < 0) {
+            return;
+        }
+        String[] infos = message.toString().split(AdminSessionCacheManager.sessionManagerUniqueId);
+        String accessToken = infos[infos.length - 1];
+
+        if (CommonUtil.isUuid(accessToken)) {
+            AdminOnlineStatusWSController.tipLogoutWhenUserLoginTimeout(accessToken);
         }
     }
 }
