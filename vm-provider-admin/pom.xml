@@ -26,9 +26,20 @@
             <artifactId>vm-dao</artifactId>
             <version>${project.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.vm</groupId>
-            <artifactId>vm-redis</artifactId>
+            <artifactId>vm-controller-aop</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vm</groupId>
+            <artifactId>vm-auth-user</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vm</groupId>
+            <artifactId>vm-auth-admin</artifactId>
             <version>${project.version}</version>
         </dependency>
 

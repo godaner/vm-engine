@@ -1,13 +1,12 @@
 package com.vm.user.controller;
 
-import com.vm.base.aop.RequiredAdminLogin;
-import com.vm.base.aop.RequiredAuth;
-import com.vm.base.service.dto.UpdateHeadImgInfo;
 
+import com.vm.auth.admin.aop.RequiredAdminLogin;
+import com.vm.auth.admin.aop.RequiredAuth;
+import com.vm.auth.user.aop.RequiredUserLogin;
+import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
-import com.vm.base.aop.IgnoreExtendSessionLife;
-import com.vm.base.aop.RequiredUserLogin;
 import com.vm.user.dao.qo.VmUserQueryBean;
 import com.vm.user.resolver.OnlineUser;
 import com.vm.user.service.dto.VmUsersDto;
@@ -28,7 +27,6 @@ import java.util.List;
 public class VmUsersController extends ServiceController<VmUsersService> {
     /*********************************用户端****************************/
 
-    @IgnoreExtendSessionLife
     @RequestMapping(value = "/user/login", method = RequestMethod.PUT)
     @ResponseBody
     public Object userLogin(@RequestBody VmUsersDto vmUsersDto) throws Exception {
@@ -55,7 +53,6 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      * @return
      * @throws Exception
      */
-    @IgnoreExtendSessionLife
     @RequestMapping(value = "/user/feelerOnlineUser", method = RequestMethod.GET)
     @ResponseBody
     public Object feelerOnlineUser(@OnlineUser VmUsersDto onlineUser) throws Exception {

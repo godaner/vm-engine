@@ -1,7 +1,7 @@
 package com.vm.user.controller;
 
-import com.vm.base.aop.RequiredAdminLogin;
-import com.vm.base.aop.RequiredAuth;
+import com.vm.auth.admin.aop.RequiredAdminLogin;
+import com.vm.auth.admin.aop.RequiredAuth;
 import com.vm.dao.util.PageBean;
 import com.vm.base.util.ServiceController;
 import com.vm.user.dao.qo.VmUsersLoginLogsQueryBean;

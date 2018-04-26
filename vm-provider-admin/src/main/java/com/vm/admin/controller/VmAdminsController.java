@@ -1,12 +1,11 @@
 package com.vm.admin.controller;
 
-import com.vm.base.aop.IgnoreExtendSessionLife;
-import com.vm.base.aop.RequiredAdminLogin;
+import com.vm.auth.admin.aop.RequiredAdminLogin;
 import com.vm.admin.dao.qo.VmAdminsQueryBean;
 import com.vm.admin.resolver.OnlineAdmin;
 import com.vm.admin.service.dto.VmAdminsDto;
 import com.vm.admin.service.inf.VmAdminsService;
-import com.vm.base.aop.RequiredAuth;
+import com.vm.auth.admin.aop.RequiredAuth;
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
 import org.springframework.context.annotation.Scope;
@@ -59,7 +58,6 @@ public class VmAdminsController extends ServiceController<VmAdminsService> {
      *
      * @return
      */
-    @IgnoreExtendSessionLife
     @RequestMapping(value = "/online", method = RequestMethod.GET)
     @ResponseBody
     public Object getOnlineAdmin(@OnlineAdmin VmAdminsDto onlineAdmin) throws Exception {

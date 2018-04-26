@@ -1,7 +1,7 @@
 package com.vm.movie.controller;
 
-import com.vm.base.aop.RequiredAdminLogin;
-import com.vm.base.aop.RequiredAuth;
+import com.vm.auth.admin.aop.RequiredAdminLogin;
+import com.vm.auth.admin.aop.RequiredAuth;
 import com.vm.base.util.ServiceController;
 import com.vm.movie.service.dto.VmTagsDto;
 import com.vm.movie.service.inf.VmTagsService;

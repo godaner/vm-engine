@@ -10,29 +10,10 @@
 
     <dependencies>
 
-        <!--<dependency>-->
-            <!--<groupId>com.vm</groupId>-->
-            <!--<artifactId>vm-redis</artifactId>-->
-            <!--<version>${project.version}</version>-->
-        <!--</dependency>-->
-
-
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
-
-        <!--<dependency>-->
-        <!--<groupId>redis.clients</groupId>-->
-        <!--<artifactId>jedis</artifactId>-->
-        <!--</dependency>-->
-
-        <!--redis start-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <!--redis end-->
 
 
         <dependency>
@@ -60,12 +41,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
-        <!--spring aop start-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-        <!--spring aop end-->
 
         <!-- 邮件 start -->
         <dependency>

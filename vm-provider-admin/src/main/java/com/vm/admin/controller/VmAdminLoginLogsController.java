@@ -2,8 +2,8 @@ package com.vm.admin.controller;
 
 import com.vm.admin.dao.qo.VmAdminLoginLogsQueryBean;
 import com.vm.admin.service.inf.VmAdminLoginLogsService;
-import com.vm.base.aop.RequiredAdminLogin;
-import com.vm.base.aop.RequiredAuth;
+import com.vm.auth.admin.aop.RequiredAdminLogin;
+import com.vm.auth.admin.aop.RequiredAuth;
 import com.vm.base.util.ServiceController;
 import com.vm.dao.util.PageBean;
 import org.springframework.context.annotation.Scope;

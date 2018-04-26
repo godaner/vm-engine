@@ -22,6 +22,11 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.vm</groupId>
+            <artifactId>vm-controller-aop</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.openimaj</groupId>

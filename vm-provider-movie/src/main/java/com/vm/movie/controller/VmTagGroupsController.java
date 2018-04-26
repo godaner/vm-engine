@@ -1,9 +1,8 @@
 package com.vm.movie.controller;
 
-import com.vm.base.aop.RequiredAdminLogin;
-import com.vm.base.aop.RequiredAuth;
+import com.vm.auth.admin.aop.RequiredAdminLogin;
+import com.vm.auth.admin.aop.RequiredAuth;
 import com.vm.base.util.ServiceController;
-import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.movie.dao.qo.VmTagGroupsQueryBean;
 import com.vm.movie.service.dto.VmTagsGroupsDto;

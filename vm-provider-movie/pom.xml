@@ -32,6 +32,22 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.vm</groupId>
+            <artifactId>vm-controller-aop</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vm</groupId>
+            <artifactId>vm-auth-user</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vm</groupId>
+            <artifactId>vm-auth-admin</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>io.github.openfeign.form</groupId>

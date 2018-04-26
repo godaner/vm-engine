@@ -8,7 +8,7 @@
     <version>${project.version}</version>
     <modules>
         <module>vm-base</module>
-        <module>vm-redis</module>
+        <module>vm-auth-redis</module>
         <module>vm-eureka</module>
         <module>vm-gateway</module>
         <module>vm-provider-user</module>
@@ -18,6 +18,9 @@
         <module>vm-config-server</module>
         <module>vm-dao</module>
         <module>vm-config</module>
+        <module>vm-auth-user</module>
+        <module>vm-auth-admin</module>
+        <module>vm-controller-aop</module>
     </modules>
 
     <parent>

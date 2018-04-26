@@ -1,7 +1,7 @@
 package com.vm.admin.controller;
 
 import com.vm.admin.service.inf.VmAuthsService;
-import com.vm.base.aop.RequiredAdminLogin;
+import com.vm.auth.admin.aop.RequiredAdminLogin;
 import com.vm.base.util.ServiceController;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;

@@ -1,7 +1,8 @@
 package com.vm.movie.controller;
 
-import com.vm.base.aop.RequiredAdminLogin;
-import com.vm.base.aop.RequiredAuth;
+
+import com.vm.auth.admin.aop.RequiredAdminLogin;
+import com.vm.auth.admin.aop.RequiredAuth;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.dao.util.PageBean;
 import com.vm.base.util.ServiceController;
@@ -11,7 +12,6 @@ import com.vm.movie.service.inf.VmMoviesService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 
 /**
