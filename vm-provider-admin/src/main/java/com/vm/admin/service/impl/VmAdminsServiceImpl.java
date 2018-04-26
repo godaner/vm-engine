@@ -191,10 +191,22 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
             }
         }
 
+        // tail
+        VmAdminsDto adminsDto = makeBackendAdminsDto(vmAdmins);
+        //is frozen?
+        if (VmAdmins.Status.isFrozen(vmAdmins.getStatus())) {
+            String accessToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
+            if (!isEmptyString(accessToken)) {
+                AdminOnlineStatusWSController.tipAdminIsFrozened(accessToken);
+                AdminSessionCacheManager.userLogout(accessToken);
+            }
+            return adminsDto;
+        }
+
         //update auth and menu cache
         this.refreshOnlineAdminAuthsAndMenus(Lists.newArrayList(adminId));
 
-        return makeBackendAdminsDto(vmAdmins);
+        return adminsDto;
     }
 
     @Override
@@ -213,37 +225,9 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
                 List<VmMenusDto> menuTree = vmMenusService.getUseableMenusTreeByAdminId(adminId);
 
                 MenuCacheManager.saveMenuTree(accessToken, menuTree);
-            }
-        });
-    }
 
-    @Override
-    public void refreshOnlineAdminMenus(List<Long> adminIds) {
-        //if admin online ,update admin menu tree in cache
-        adminIds.stream().parallel().forEach(adminId -> {
-            String accessToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
-            if (!isEmptyString(accessToken)) {//online ?
-
-                //menuTree
-                List<VmMenusDto> menuTree = vmMenusService.getUseableMenusTreeByAdminId(adminId);
-
-                MenuCacheManager.saveMenuTree(accessToken, menuTree);
-            }
-        });
-    }
-
-    @Override
-    public void refreshOnlineAdminAuths(List<Long> adminIds) {
-        //if admin online ,update admin auth codes tree in cache
-        adminIds.stream().parallel().forEach(adminId -> {
-            String accessToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
-            if (!isEmptyString(accessToken)) {//online ?
-
-                //auths
-                List<String> authCodes = vmAuthsService.getUseableAuthCodesByAdminId(adminId);
-
-                AuthCacheManager.saveAuthCodes(accessToken, authCodes);
-
+                //tip admin
+                AdminOnlineStatusWSController.tipAdminUpdateMenu(accessToken, menuTree);
             }
         });
     }
@@ -449,5 +433,19 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         if (0 > cnt) {
             throw new VmAdminException("deleteAdmin vmAdminsMapper#updateInIds is fail ! deletedIds is : " + deletedIds);
         }
+
+        //tail
+        this.tipOnlineAdminsIsDeleted(deletedIds);
+
+    }
+
+    private void tipOnlineAdminsIsDeleted(List<Long> adminIds) {
+        adminIds.stream().parallel().forEach(adminId -> {
+            String accessToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
+            if (!isEmptyString(accessToken)) {//online ?
+                AdminOnlineStatusWSController.tipAdminIsDeleted(accessToken);
+                AdminSessionCacheManager.userLogout(accessToken);
+            }
+        });
     }
 }

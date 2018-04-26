@@ -24,10 +24,6 @@ public interface VmAdminsService {
 
     void refreshOnlineAdminAuthsAndMenus(List<Long> adminIds);
 
-    void refreshOnlineAdminMenus(List<Long> adminIds);
-
-    void refreshOnlineAdminAuths(List<Long> adminIds);
-
     VmAdmins getAdminById(Long userId, BasePo.Status status, BasePo.IsDeleted isDeleted);
 
     VmAdmins getAdminById(Long userId, BasePo.IsDeleted isDeleted);
