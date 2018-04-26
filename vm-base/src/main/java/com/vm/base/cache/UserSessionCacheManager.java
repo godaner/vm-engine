@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.vm.base.config.VmBaseConfig;
 import com.vm.base.util.CommonUtil;
-import com.vm.redis.repository.RedisRepository;
+import com.vm.base.util.RedisRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

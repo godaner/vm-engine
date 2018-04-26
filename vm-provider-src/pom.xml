@@ -21,11 +21,6 @@
             <artifactId>vm-dao</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>vm-redis</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
 
         <dependency>
