@@ -7,8 +7,14 @@
     <packaging>pom</packaging>
     <version>${project.version}</version>
     <modules>
+        <module>vm-config</module>
+        <module>vm-dao</module>
         <module>vm-base</module>
         <module>vm-auth-redis</module>
+        <module>vm-auth-user</module>
+        <module>vm-auth-admin</module>
+        <module>vm-controller-helper</module>
+        <module>vm-global-remote-config</module>
         <module>vm-eureka</module>
         <module>vm-gateway</module>
         <module>vm-provider-user</module>
@@ -16,17 +22,14 @@
         <module>vm-provider-src</module>
         <module>vm-provider-admin</module>
         <module>vm-config-server</module>
-        <module>vm-dao</module>
-        <module>vm-config</module>
-        <module>vm-auth-user</module>
-        <module>vm-auth-admin</module>
-        <module>vm-controller-helper</module>
-        <module>vm-global-remote-config</module>
+
+
     </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId><version>1.5.7.RELEASE</version>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.7.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <properties>
@@ -40,7 +43,6 @@
         <dependencies>
 
 
-
             <!--spring cloud start-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -52,7 +54,6 @@
             <!--spring cloud end-->
 
 
-
             <!--gson start-->
             <dependency>
                 <groupId>com.google.code.gson</groupId>
@@ -60,8 +61,6 @@
                 <version>2.8.2</version>
             </dependency>
             <!--gson end-->
-
-
 
 
             <!--xuggle start-->

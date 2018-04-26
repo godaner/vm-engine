@@ -30,7 +30,7 @@ public class ExtendAdminSessionLifeAop extends CommonUtil {
     private final Logger logger = LoggerFactory.getLogger(ExtendAdminSessionLifeAop.class);
 
 
-    @Pointcut("execution(* com.vm..*.controller..*.*(..))&&!@annotation(com.vm.base.aop.IgnoreExtendSessionLife)")
+    @Pointcut("execution(* com.vm..*.controller..*.*(..))&&@annotation(com.vm.auth.admin.aop.ExtendAdminSessionLife)&&!@annotation(com.vm.auth.admin.aop.IgnoreExtendAdminSessionLife)")
     public void declareJoinPointExpression() {
     }
 
