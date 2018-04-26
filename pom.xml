@@ -20,7 +20,8 @@
         <module>vm-config</module>
         <module>vm-auth-user</module>
         <module>vm-auth-admin</module>
-        <module>vm-controller-aop</module>
+        <module>vm-controller-helper</module>
+        <module>vm-global-remote-config</module>
     </modules>
 
     <parent>

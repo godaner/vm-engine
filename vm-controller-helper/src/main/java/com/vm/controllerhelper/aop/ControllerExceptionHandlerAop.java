@@ -1,4 +1,4 @@
-package com.vm.controller.aop;
+package com.vm.controllerhelper.aop;
 
 import com.vm.base.service.exception.VmRuntimeException;
 import com.vm.base.util.CommonUtil;

@@ -1,7 +1,7 @@
 package com.vm.admin.config;
 
 import com.vm.admin.ws.AdminOnlineStatusWSController;
-import com.vm.base.cache.AdminSessionCacheManager;
+import com.vm.auth.admin.cache.AdminSessionCacheManager;
 import com.vm.base.util.CommonUtil;
 import com.vm.auth.redis.repository.RedisRepository;
 import org.slf4j.Logger;

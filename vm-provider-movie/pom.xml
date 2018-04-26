@@ -32,9 +32,16 @@
             <version>${project.version}</version>
         </dependency>
 
+
         <dependency>
             <groupId>com.vm</groupId>
-            <artifactId>vm-controller-aop</artifactId>
+            <artifactId>vm-controller-helper</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vm</groupId>
+            <artifactId>vm-global-remote-config</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

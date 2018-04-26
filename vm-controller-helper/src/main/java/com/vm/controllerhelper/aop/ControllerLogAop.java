@@ -1,4 +1,4 @@
-package com.vm.controller.aop;
+package com.vm.controllerhelper.aop;
 
 import com.vm.base.util.CommonUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
