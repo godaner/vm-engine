@@ -3,6 +3,7 @@ package com.vm.user.controller;
 
 import com.vm.auth.admin.aop.RequiredAdminLogin;
 import com.vm.auth.admin.aop.RequiredAuth;
+import com.vm.auth.user.aop.IgnoreExtendUserSessionLife;
 import com.vm.auth.user.aop.RequiredUserLogin;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
 import com.vm.base.util.ServiceController;
@@ -53,6 +54,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
      * @return
      * @throws Exception
      */
+    @IgnoreExtendUserSessionLife
     @RequestMapping(value = "/user/feelerOnlineUser", method = RequestMethod.GET)
     @ResponseBody
     public Object feelerOnlineUser(@OnlineUser VmUsersDto onlineUser) throws Exception {

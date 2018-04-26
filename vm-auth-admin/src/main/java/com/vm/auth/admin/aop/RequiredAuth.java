@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 /**
  * Created by ZhangKe on 2018/2/27.
  */
-@Target({ElementType.METHOD})// 可用在方法名上
-@Retention(RetentionPolicy.RUNTIME)// 运行时有效
+@Target({ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
 public @interface RequiredAuth {
     /**
      * 要求权限

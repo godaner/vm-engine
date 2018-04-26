@@ -1,7 +1,6 @@
 package com.vm.auth.admin.aop;
 
 import com.vm.auth.admin.cache.AdminSessionCacheManager;
-import com.vm.base.aop.OnlineConstants;
 import com.vm.base.service.exception.VmCommonException;
 import com.vm.base.util.CommonUtil;
 import org.aspectj.lang.ProceedingJoinPoint;

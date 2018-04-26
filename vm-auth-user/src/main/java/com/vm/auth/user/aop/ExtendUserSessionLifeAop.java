@@ -2,7 +2,6 @@ package com.vm.auth.user.aop;
 
 
 import com.vm.auth.user.cache.UserSessionCacheManager;
-import com.vm.base.aop.OnlineConstants;
 import com.vm.base.util.CommonUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -20,7 +19,7 @@ import java.util.Map;
 
 
 /**
- * 延长session生命时间
+ * 如果仓库中有该token信息，那么延长其session生命时间
  */
 @Component
 @Aspect
@@ -30,7 +29,7 @@ public class ExtendUserSessionLifeAop extends CommonUtil {
     private final Logger logger = LoggerFactory.getLogger(ExtendUserSessionLifeAop.class);
 
 
-    @Pointcut("execution(* com.vm..*.controller..*.*(..))&&@annotation(com.vm.auth.user.aop.ExtendUserSessionLife)&&!@annotation(com.vm.auth.user.aop.IgnoreExtendUserSessionLife)")
+    @Pointcut("execution(* com.vm..*.controller..*.*(..))&&!@annotation(IgnoreExtendUserSessionLife)")
     public void declareJoinPointExpression() {
     }
 
@@ -56,11 +55,5 @@ public class ExtendUserSessionLifeAop extends CommonUtil {
 
     }
 
-
-//    private HttpServletRequest getHttpServletRequest() {
-//        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-//        HttpServletRequest httpServletRequest = attributes.getRequest();
-//        return httpServletRequest;
-//    }
 
 }

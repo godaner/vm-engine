@@ -1,6 +1,6 @@
 package com.vm.user.resolver;
 
-import com.vm.base.aop.OnlineConstants;
+import com.vm.auth.user.aop.OnlineConstants;
 import com.vm.base.util.CommonUtil;
 import com.vm.user.service.dto.VmUsersDto;
 import com.vm.user.service.inf.VmUsersService;

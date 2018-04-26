@@ -1,8 +1,14 @@
 package com.vm.auth.admin.aop;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
- * Created by ZhangKe on 2018/2/27.
- * 请求该注解的controller将不会拓展其session的生命周期
+ * 不延长admin的session生命周期
  */
+@Target({ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
 public @interface IgnoreExtendAdminSessionLife {
 }

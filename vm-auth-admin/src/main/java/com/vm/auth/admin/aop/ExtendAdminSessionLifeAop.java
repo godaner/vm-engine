@@ -2,7 +2,6 @@ package com.vm.auth.admin.aop;
 
 
 import com.vm.auth.admin.cache.AdminSessionCacheManager;
-import com.vm.base.aop.OnlineConstants;
 import com.vm.base.util.CommonUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -30,7 +29,7 @@ public class ExtendAdminSessionLifeAop extends CommonUtil {
     private final Logger logger = LoggerFactory.getLogger(ExtendAdminSessionLifeAop.class);
 
 
-    @Pointcut("execution(* com.vm..*.controller..*.*(..))&&@annotation(com.vm.auth.admin.aop.ExtendAdminSessionLife)&&!@annotation(com.vm.auth.admin.aop.IgnoreExtendAdminSessionLife)")
+    @Pointcut("execution(* com.vm..*.controller..*.*(..))")
     public void declareJoinPointExpression() {
     }
 
@@ -58,10 +57,5 @@ public class ExtendAdminSessionLifeAop extends CommonUtil {
     }
 
 
-//    private HttpServletRequest getHttpServletRequest() {
-//        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-//        HttpServletRequest httpServletRequest = attributes.getRequest();
-//        return httpServletRequest;
-//    }
 
 }

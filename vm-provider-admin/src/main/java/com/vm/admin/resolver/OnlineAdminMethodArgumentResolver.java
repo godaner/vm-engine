@@ -2,7 +2,7 @@ package com.vm.admin.resolver;
 
 import com.vm.admin.service.dto.VmAdminsDto;
 import com.vm.admin.service.inf.VmAdminsService;
-import com.vm.base.aop.OnlineConstants;
+import com.vm.auth.admin.aop.OnlineConstants;
 import com.vm.base.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
