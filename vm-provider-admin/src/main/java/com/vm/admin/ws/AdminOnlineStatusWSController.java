@@ -2,11 +2,18 @@ package com.vm.admin.ws;
 
 import com.vm.base.util.BaseWSController;
 import com.vm.base.util.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 
 @Controller
 public class AdminOnlineStatusWSController extends BaseWSController {
+    protected static Logger logger = LoggerFactory.getLogger(AdminOnlineStatusWSController.class);
+
 
     /**
      * 异地登陆提示
@@ -71,12 +78,13 @@ public class AdminOnlineStatusWSController extends BaseWSController {
         response.putData("time", now());
         AdminOnlineStatusWSController.sendToUser(accessToken, "/adminOnlineStatus", response); //一对一发送，发送特定的客户端
     }
+
     /**
      * 基本信息更新提示
      *
      * @param accessToken
      */
-    public final static void tipAdminInfoIsUpdated(String accessToken,Object newAdmin) {
+    public final static void tipAdminInfoIsUpdated(String accessToken, Object newAdmin) {
         Response response = new Response();
         response.setCode(Code.ADMIN_INFO_IS_UPDATED.getCode());
         response.setMsg(Code.ADMIN_INFO_IS_UPDATED.getMsg());
