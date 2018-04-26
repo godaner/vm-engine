@@ -3,7 +3,7 @@ server:
 spring:
   application:
     name: vm-provider-admin
-    index: ${random.int}
+    index: ${random.long}
   profiles:
     active: git
   cloud:
