@@ -3,6 +3,7 @@ server:
 spring:
   application:
     name: vm-gateway
+    index: ${random.int}
   profiles:
     active: git
   cloud:

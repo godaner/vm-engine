@@ -3,6 +3,7 @@ server:
 spring:
   application:
     name: vm-config-server
+    index: ${random.int}
   cloud:
     config:
       server:
@@ -13,7 +14,17 @@ spring:
           password: Zk19951217.
           basedir:
             target/config  #git的配置文件会加载到本地的目录
-
+    bus:
+      trace:
+        enabled: true
+  rabbitmq:
+    host: 39.108.231.231
+    port: 5672
+    username: root
+    password: 123
+management:
+  security:
+    enabled: false
 
 eureka:
   client:

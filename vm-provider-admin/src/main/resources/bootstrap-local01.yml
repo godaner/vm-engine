@@ -1,31 +1,19 @@
 server:
-  port: 6660
+  port: 2221
 spring:
   application:
-    name: vm-config-server
+    name: vm-provider-admin
     index: ${random.int}
+  profiles:
+    active: git
   cloud:
     config:
-      server:
-        git:
-          uri: https://github.com/godaner/vm-config.git
-          searchPaths: config
-          username: godaner
-          password: Zk19951217.
-          basedir:
-            target/config  #git的配置文件会加载到本地的目录
-    bus:
-      trace:
+      label: master #branch
+      profile: local01
+      discovery:
         enabled: true
-  rabbitmq:
-    host: 39.108.231.231
-    port: 5672
-    username: root
-    password: 123
-management:
-  security:
-    enabled: false
-
+        serviceId: vm-config-server
+      name: ${spring.application.name},vm-base
 eureka:
   client:
       #eureka client刷新本地缓存时间
@@ -38,7 +26,7 @@ eureka:
       initial-instance-info-replication-interval-seconds: 150 #询问Eureka服务url信息变化的时间间隔（s），默认为300秒
       service-url:
             defaultZone:
-              ${vm.eureka.listOfDev}
+              ${vm.eureka.listOfLocal}
   instance:
     #服务过期时间配置,超过这个时间没有接收到心跳EurekaServer就会将这个实例剔除
     #注意，EurekaServer一定要设置eureka.server.eviction-interval-timer-in-ms否则这个配置无效，这个配置一般为服务刷新时间配置的三倍

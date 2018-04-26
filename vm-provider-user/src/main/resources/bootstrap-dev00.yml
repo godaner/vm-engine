@@ -4,6 +4,7 @@ server:
 spring:
   application:
     name: vm-provider-user
+    index: ${random.int}
   profiles:
     active: git
   cloud:
