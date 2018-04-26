@@ -73,6 +73,13 @@
         </dependency>
         <!--eureka end-->
 
+        <!--websocket start-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <!--websocket end-->
+
         <!--feign start-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
