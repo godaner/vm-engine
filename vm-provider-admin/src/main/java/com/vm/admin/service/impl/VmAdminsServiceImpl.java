@@ -193,17 +193,20 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
 
         // tail
         VmAdminsDto adminsDto = makeBackendAdminsDto(vmAdmins);
-        //is frozen?
-        if (VmAdmins.Status.isFrozen(vmAdmins.getStatus())) {
-            String accessToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
-            if (!isEmptyString(accessToken)) {
-                AdminOnlineStatusWSController.tipAdminIsFrozened(accessToken);
-                AdminSessionCacheManager.userLogout(accessToken);
-            }
+        String accessToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
+        if (isEmptyString(accessToken)) {//online ?
             return adminsDto;
         }
+        //is frozen?
+        if (VmAdmins.Status.isFrozen(vmAdmins.getStatus())) {
+            AdminOnlineStatusWSController.tipAdminIsFrozened(accessToken);
+            AdminSessionCacheManager.userLogout(accessToken);
+            return adminsDto;
+        }
+        //update basic info ? tip client
+        AdminOnlineStatusWSController.tipAdminInfoIsUpdated(accessToken, adminsDto);
 
-        //update auth and menu cache
+        //update online admin's auth and menu cache
         this.refreshOnlineAdminAuthsAndMenus(Lists.newArrayList(adminId));
 
         return adminsDto;

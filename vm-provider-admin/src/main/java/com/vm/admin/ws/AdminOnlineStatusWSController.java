@@ -29,7 +29,7 @@ public class AdminOnlineStatusWSController extends BaseWSController {
         Response response = new Response();
         response.setCode(Code.USER_LOGIN_TIMEOUT.getCode());
         response.setMsg(Code.USER_LOGIN_TIMEOUT.getMsg());
-        response.putData("logoutTime", now());
+        response.putData("time", now());
         AdminOnlineStatusWSController.sendToUser(accessToken, "/adminOnlineStatus", response); //一对一发送，发送特定的客户端
     }
 
@@ -55,7 +55,7 @@ public class AdminOnlineStatusWSController extends BaseWSController {
         Response response = new Response();
         response.setCode(Code.ADMIN_IS_FROZENED.getCode());
         response.setMsg(Code.ADMIN_IS_FROZENED.getMsg());
-        response.putData("logoutTime", now());
+        response.putData("time", now());
         AdminOnlineStatusWSController.sendToUser(accessToken, "/adminOnlineStatus", response); //一对一发送，发送特定的客户端
     }
 
@@ -68,7 +68,20 @@ public class AdminOnlineStatusWSController extends BaseWSController {
         Response response = new Response();
         response.setCode(Code.ADMIN_IS_DELETED.getCode());
         response.setMsg(Code.ADMIN_IS_DELETED.getMsg());
-        response.putData("logoutTime", now());
+        response.putData("time", now());
+        AdminOnlineStatusWSController.sendToUser(accessToken, "/adminOnlineStatus", response); //一对一发送，发送特定的客户端
+    }
+    /**
+     * 基本信息更新提示
+     *
+     * @param accessToken
+     */
+    public final static void tipAdminInfoIsUpdated(String accessToken,Object newAdmin) {
+        Response response = new Response();
+        response.setCode(Code.ADMIN_INFO_IS_UPDATED.getCode());
+        response.setMsg(Code.ADMIN_INFO_IS_UPDATED.getMsg());
+        response.putData("time", now());
+        response.putData("newAdmin", newAdmin);
         AdminOnlineStatusWSController.sendToUser(accessToken, "/adminOnlineStatus", response); //一对一发送，发送特定的客户端
     }
 
@@ -77,7 +90,8 @@ public class AdminOnlineStatusWSController extends BaseWSController {
         USER_LOGIN_TIMEOUT(-2, "账户登陆超时"),
         UPDATE_MENU_TREE(-3, "菜单更新"),
         ADMIN_IS_FROZENED(-4, "被冻结"),
-        ADMIN_IS_DELETED(-5, "被删除");
+        ADMIN_IS_DELETED(-5, "被删除"),
+        ADMIN_INFO_IS_UPDATED(-6, "账户信息被更新");
 
         int code;
         String msg;
