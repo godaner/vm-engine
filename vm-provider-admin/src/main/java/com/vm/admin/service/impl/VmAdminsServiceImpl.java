@@ -236,6 +236,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
     }
 
 
+
     private List<VmAdminsRolesRealation> makeVmAdminsRolesRealations(Long adminId, List<Long> roleIds) {
         return roleIds.stream().parallel().map(roleId -> {
             return makeVmAdminsRolesRealation(adminId, roleId);
@@ -333,12 +334,35 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         String token = AdminSessionCacheManager.userLogin(adminId);
 
         //refresh admin auth and menu
-        this.refreshOnlineAdminAuthsAndMenus(Lists.newArrayList(adminId));
+        this.initOnlineAdminAuthsAndMenus(Lists.newArrayList(adminId));
 
 
         return makeVmAdminDto(vmAdmins, token);
     }
 
+    /**
+     * init online admin auth menu cache
+     * @param adminIds
+     */
+    private void initOnlineAdminAuthsAndMenus(List<Long> adminIds) {
+        //if admin online ,update admin auth codes and menu tree in cache
+        adminIds.stream().parallel().forEach(adminId -> {
+            String accessToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
+            if (!isEmptyString(accessToken)) {//online ?
+
+                //auths
+                List<String> authCodes = vmAuthsService.getUseableAuthCodesByAdminId(adminId);
+
+                AuthCacheManager.saveAuthCodes(accessToken, authCodes);
+
+                //menuTree
+                List<VmMenusDto> menuTree = vmMenusService.getUseableMenusTreeByAdminId(adminId);
+
+                MenuCacheManager.saveMenuTree(accessToken, menuTree);
+
+            }
+        });
+    }
 
     @Override
     public VmAdminsDto getOnlineAdminBasicInfo(String token) {
