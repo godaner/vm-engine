@@ -24,6 +24,7 @@
         <module>vm-config-server</module>
         <module>vm-provider-user-ws</module>
         <module>vm-mq</module>
+        <module>vm-provider-admin-ws</module>
 
 
     </modules>

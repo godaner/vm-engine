@@ -48,7 +48,11 @@
             <artifactId>vm-auth-admin</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.vm</groupId>
+            <artifactId>vm-mq</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!--bus start-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

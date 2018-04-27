@@ -13,7 +13,6 @@ import com.vm.admin.service.exception.VmAdminException;
 import com.vm.admin.service.inf.VmAdminsService;
 import com.vm.admin.service.inf.VmAuthsService;
 import com.vm.admin.service.inf.VmMenusService;
-import com.vm.admin.ws.AdminOnlineStatusWSController;
 import com.vm.auth.admin.cache.AdminSessionCacheManager;
 import com.vm.auth.admin.cache.AuthCacheManager;
 import com.vm.auth.admin.cache.MenuCacheManager;
@@ -22,6 +21,7 @@ import com.vm.base.util.DateUtil;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
+import com.vm.mq.sender.AdminOnlineStatusMQSender;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -199,12 +199,12 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         }
         //is frozen?
         if (VmAdmins.Status.isFrozen(vmAdmins.getStatus())) {
-            AdminOnlineStatusWSController.tipAdminIsFrozened(accessToken);
+            AdminOnlineStatusMQSender.tipUserIsFrozened(accessToken);
             AdminSessionCacheManager.userLogout(accessToken);
             return adminsDto;
         }
         //update basic info ? tip client
-        AdminOnlineStatusWSController.tipAdminInfoIsUpdated(accessToken, adminsDto);
+        AdminOnlineStatusMQSender.tipUserInfoIsUpdated(accessToken, adminsDto);
 
         //update online admin's auth and menu cache
         this.refreshOnlineAdminAuthsAndMenus(Lists.newArrayList(adminId));
@@ -230,7 +230,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
                 MenuCacheManager.saveMenuTree(accessToken, menuTree);
 
                 //tip admin
-                AdminOnlineStatusWSController.tipAdminUpdateMenu(accessToken, menuTree);
+                AdminOnlineStatusMQSender.tipAdminUpdateMenu(accessToken, menuTree);
             }
         });
     }
@@ -327,7 +327,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         String oldToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
         if (!isEmptyString(oldToken)) {
             AdminSessionCacheManager.userLogout(oldToken);
-            AdminOnlineStatusWSController.tipLogoutWhenUserLoginInOtherArea(oldToken, vmAdminsLoginLogs);//tip when login in other area
+            AdminOnlineStatusMQSender.tipLogoutWhenUserLoginInOtherArea(oldToken, vmAdminsLoginLogs);//tip when login in other area
         }
         //add new session
         String token = AdminSessionCacheManager.userLogin(adminId);
@@ -446,7 +446,7 @@ public class VmAdminsServiceImpl extends BaseService implements VmAdminsService 
         adminIds.stream().parallel().forEach(adminId -> {
             String accessToken = AdminSessionCacheManager.getOnlineUserToken(adminId);
             if (!isEmptyString(accessToken)) {//online ?
-                AdminOnlineStatusWSController.tipAdminIsDeleted(accessToken);
+                AdminOnlineStatusMQSender.tipUserIsDeleted(accessToken);
                 AdminSessionCacheManager.userLogout(accessToken);
             }
         });

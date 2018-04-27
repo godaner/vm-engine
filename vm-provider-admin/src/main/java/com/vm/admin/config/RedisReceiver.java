@@ -1,9 +1,10 @@
 package com.vm.admin.config;
 
-import com.vm.admin.ws.AdminOnlineStatusWSController;
+
 import com.vm.auth.admin.cache.AdminSessionCacheManager;
 import com.vm.base.util.CommonUtil;
 import com.vm.auth.redis.repository.RedisRepository;
+import com.vm.mq.sender.AdminOnlineStatusMQSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class RedisReceiver extends CommonUtil {
         String accessToken = infos[infos.length - 1];
 
         if (CommonUtil.isUuid(accessToken)) {
-            AdminOnlineStatusWSController.tipLogoutWhenUserLoginTimeout(accessToken);
+            AdminOnlineStatusMQSender.tipLogoutWhenUserLoginTimeout(accessToken);
         }
     }
 }

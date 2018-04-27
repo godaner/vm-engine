@@ -1,4 +1,4 @@
-package com.vm.admin.config;
+package com.vm.admin.ws.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MessageConverter;

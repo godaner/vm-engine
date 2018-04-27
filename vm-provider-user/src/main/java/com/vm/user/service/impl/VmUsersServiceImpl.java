@@ -97,7 +97,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         String oldToken = UserSessionCacheManager.getOnlineUserToken(dbUser.getId());
         if (!isEmptyString(oldToken)) {//online ?
             UserSessionCacheManager.userLogout(oldToken);
-            UserOnlineStatusMQSender.tipLogoutWhenUserLoginInOtherArea(oldToken,vmUsersLoginLogs);
+            UserOnlineStatusMQSender.tipLogoutWhenUserLoginInOtherArea(oldToken, vmUsersLoginLogs);
         }
         String token = UserSessionCacheManager.userLogin(dbUser.getId());
 
@@ -426,7 +426,18 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         //get new user
         vmUsers = this.getUsableUserById(vmUsers.getId(), BasePo.IsDeleted.NO);
-        return makeBackendVmUsersDto(vmUsers);
+        VmUsersDto usersDto = makeBackendVmUsersDto(vmUsers);
+        //tip online user
+        String token = UserSessionCacheManager.getOnlineUserToken(vmUsers.getId());
+        if (!isEmptyString(token)) { // online ?
+            if (VmUsers.Status.isFrozen(vmUsers.getStatus())) {
+                UserOnlineStatusMQSender.tipUserIsFrozened(token);
+            } else {
+                UserOnlineStatusMQSender.tipUserInfoIsUpdated(token, usersDto);
+            }
+        }
+
+        return usersDto;
     }
 
     @Override
@@ -450,8 +461,15 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         //get new user
         vmUsers = this.getUsableUserById(vmUsers.getId(), BasePo.IsDeleted.NO);
+        VmUsersDto usersDto = makeBackendVmUsersDto(vmUsers);
+        //tip online user
+        String token = UserSessionCacheManager.getOnlineUserToken(vmUsers.getId());
+        if (!isEmptyString(token)) { // online ?
 
-        return vmUsers == null ? null : makeBackendVmUsersDto(vmUsers);
+            UserOnlineStatusMQSender.tipUserInfoIsUpdated(token, usersDto);
+        }
+
+        return usersDto;
     }
 
     @Override
@@ -472,6 +490,18 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         ))) {
             throw new VmUsersException("deleteUser is fail ! deleteIds is : " + deletedIds);
         }
+        tipOnlineUsersIsDeleted(deletedIds);
+    }
+
+    private void tipOnlineUsersIsDeleted(List<Long> userIds) {
+        userIds.stream().parallel().forEach(userId -> {
+            //tip online user
+            String token = UserSessionCacheManager.getOnlineUserToken(userId);
+            if (!isEmptyString(token)) { // online ?
+                UserOnlineStatusMQSender.tipUserIsDeleted(token);
+            }
+        });
+
     }
 
     private VmUsers makeEditUser(VmUsersDto vmUsersDto, String imgUrl) {
