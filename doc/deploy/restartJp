@@ -4,11 +4,14 @@ if [ '' = ${JAVA_HOME} ];then
     echo 'Error : JAVA_HOME is need !'
 else
 
-    /usr/local/src/stopJp ${1}
-    if [ $? = 1 ];then
-        /usr/local/src/startJp ${1} ${2}
+    if [ '' = ${3} ];then
+        echo 'Error : Xmx is need !'
+    else
+        /usr/local/src/stopJp ${1}
+        if [ $? = 1 ];then
+            /usr/local/src/startJp ${1} ${2} ${3}
+        fi
     fi
-
 fi
 
 

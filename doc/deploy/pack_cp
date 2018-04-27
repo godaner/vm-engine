@@ -1,4 +1,6 @@
-cd ../../
-mvn clean install -DskipTests
-cd /doc/deploy
+#!/bin/bash
+mvn clean
+mvn package -DskipTests
+cd doc/deploy
 ./cp_jars
+#需要在vm-engine根目录执行

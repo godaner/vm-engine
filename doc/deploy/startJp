@@ -1,9 +1,15 @@
 #!/bin/bash
-while [[ $p != 'y' && $p != 'n' ]]; do
-    echo " [Start] progress ${1} ? y/n"
-    read p
-done
-if [[ $p = 'y' ]];then
-    `nohup ${JAVA_HOME}/bin/java -jar /usr/local/src/${1} --spring.profiles.active=${2} -Xms64m -Xmx128m -Xmn48m>/usr/local/src/${1}.out 2>&1 &`
-    echo " ### start progress $1 with pid ":`${JAVA_HOME}/bin/jps -l | grep $1  | awk '{print $1}'`
+if [ '' = ${3} ];then
+    echo 'Error : Xmx is need !'
+else
+
+    while [[ $p != 'y' && $p != 'n' ]]; do
+        echo " [Start] progress ${1} ? y/n"
+        read p
+    done
+    if [[ $p = 'y' ]];then
+        `nohup ${JAVA_HOME}/bin/java -jar /usr/local/src/${1} --spring.profiles.active=${2} -Xms${3}m -Xmx${3}m>/usr/local/src/${1}.out 2>&1 &`
+        echo " ### start progress $1 with pid ":`${JAVA_HOME}/bin/jps -l | grep $1  | awk '{print $1}'`
+    fi
+
 fi
