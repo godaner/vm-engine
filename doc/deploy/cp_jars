@@ -1,16 +1,16 @@
 echo " [Cleaning jars] ..."
 rm -rf jars/*
 echo " [Clean jars] success! "
-echo " [copying jars] ... "
-cp ../../vm-eureka/target/vm-eureka-1.0.0.jar ./jars/
-cp ../../vm-config-server/target/vm-config-server-1.0.0.jar ./jars/
-cp ../../vm-gateway/target/vm-gateway-1.0.0.jar ./jars/
-cp ../../vm-provider-admin/target/vm-provider-admin-1.0.0.jar ./jars/
-cp ../../vm-provider-user/target/vm-provider-user-1.0.0.jar ./jars/
-cp ../../vm-provider-movie/target/vm-provider-movie-1.0.0.jar ./jars/
-cp ../../vm-provider-src/target/vm-provider-src-1.0.0.jar ./jars/
-cp ../../vm-provider-src/target/vm-provider-src-1.0.0.jar ./jars/
-cp ../../vm-provider-admin-ws/target/vm-provider-admin-ws-1.0.0.jar ./jars/
-cp ../../vm-provider-user-ws/target/vm-provider-user-ws-1.0.0.jar ./jars/
+echo " [Copying jars] ... "
+cp vm-eureka/target/vm-eureka-1.0.0.jar ./doc/deploy/jars/
+cp vm-config-server/target/vm-config-server-1.0.0.jar ./doc/deploy/jars/
+cp vm-gateway/target/vm-gateway-1.0.0.jar ./doc/deploy/jars/
+cp vm-provider-admin/target/vm-provider-admin-1.0.0.jar ./doc/deploy/jars/
+cp vm-provider-user/target/vm-provider-user-1.0.0.jar ./doc/deploy/jars/
+cp vm-provider-movie/target/vm-provider-movie-1.0.0.jar ./doc/deploy/jars/
+cp vm-provider-src/target/vm-provider-src-1.0.0.jar ./doc/deploy/jars/
+cp vm-provider-src/target/vm-provider-src-1.0.0.jar ./doc/deploy/jars/
+cp vm-provider-ws/target/vm-provider-ws-1.0.0.jar ./doc/deploy/jars/
 echo " [Copy jars] success! "
+#需要在vm-engine根目录执行
 
