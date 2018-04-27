@@ -14,8 +14,6 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
  */
 
 
-@EnableWebSocket
-@EnableWebSocketMessageBroker
 @SpringBootApplication
 @ServletComponentScan
 @EnableDiscoveryClient
