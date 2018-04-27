@@ -1,4 +1,4 @@
-package com.vm.user.mq.config;
+package com.vm.user.ws.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MessageConverter;

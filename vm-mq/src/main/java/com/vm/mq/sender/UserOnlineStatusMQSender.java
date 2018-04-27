@@ -30,7 +30,7 @@ public class UserOnlineStatusMQSender extends CommonUtil {
 
     public final static void send(Object data) {
         String dataStr = gson.toJson(data);
-        logger.info("AdminMQSender send data is : " + dataStr);
+        logger.info("UserOnlineStatusMQSender send data is : " + dataStr);
         rabbitTemplateCache.convertAndSend("fanoutExchange", "", dataStr);
     }
 
