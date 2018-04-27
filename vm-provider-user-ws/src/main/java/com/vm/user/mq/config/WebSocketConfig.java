@@ -1,4 +1,4 @@
-package com.vm.user.config;
+package com.vm.user.mq.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MessageConverter;
@@ -28,7 +28,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ep_admin_ws").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/ep_user_ws").setAllowedOrigins("*").withSockJS();
     }
 
     @Override

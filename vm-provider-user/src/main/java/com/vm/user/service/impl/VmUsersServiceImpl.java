@@ -8,6 +8,7 @@ import com.vm.base.util.*;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
+import com.vm.mq.sender.UserOnlineStatusMQSender;
 import com.vm.user.dao.mapper.VmUsersLoginLogsMapper;
 import com.vm.user.dao.mapper.VmUsersMapper;
 import com.vm.user.dao.mapper.custom.CustomVmUsersMapper;
@@ -85,7 +86,8 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         }
 
         //write login record to db
-        if (1 != vmUsersLoginLogsMapper.insert(makeUserLogins(vmUsersDto, dbUser.getId()))) {
+        VmUsersLoginLogs vmUsersLoginLogs = makeUserLogins(vmUsersDto, dbUser.getId());
+        if (1 != vmUsersLoginLogsMapper.insert(vmUsersLoginLogs)) {
             throw new VmUsersException("userLogin vmUsersLoginLogsMapper#insert is fail ! user is :  " + vmUsersDto);
         }
 
@@ -93,8 +95,9 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
         //clear old session
         String oldToken = UserSessionCacheManager.getOnlineUserToken(dbUser.getId());
-        if (!isEmptyString(oldToken)) {
+        if (!isEmptyString(oldToken)) {//online ?
             UserSessionCacheManager.userLogout(oldToken);
+            UserOnlineStatusMQSender.tipLogoutWhenUserLoginInOtherArea(oldToken,vmUsersLoginLogs);
         }
         String token = UserSessionCacheManager.userLogin(dbUser.getId());
 

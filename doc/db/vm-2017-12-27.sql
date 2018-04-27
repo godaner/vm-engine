@@ -465,20 +465,20 @@ CREATE TABLE `vm_users` (
 -- ----------------------------
 -- Records of vm_users
 -- ----------------------------
-INSERT INTO `vm_users` VALUES ('1', 'asd', 'asdad', '1', '20171128', '', '1', '0', '0');
-INSERT INTO `vm_users` VALUES ('2', 'asda', 'asd', '1', '1512013538', '厉害了', '1', '1512013538', '1512013538');
-INSERT INTO `vm_users` VALUES ('3', 'asda', 'asd', '1', '1512016833', '厉害了', '1', '1512016833', '1512016833');
-INSERT INTO `vm_users` VALUES ('4', 'asda', 'asd', '1', '1512017199', '厉害了', '1', '1512017199', '1512017199');
-INSERT INTO `vm_users` VALUES ('5', 'asda', 'asd', '1', '1512017436', '厉害了', '1', '1512017436', '1512017436');
-INSERT INTO `vm_users` VALUES ('6', 'asda', 'asd', '1', '1512105885', '厉害了', '1', '1512105885', '1512105885');
-INSERT INTO `vm_users` VALUES ('7', 'asda', 'asd', '1', '1512105907', '厉害了', '1', '1512105907', '1512105907');
-INSERT INTO `vm_users` VALUES ('8', 'asda', 'asd', '1', '1512105916', '厉害了', '1', '1512105916', '1512105916');
-INSERT INTO `vm_users` VALUES ('9', 'asda', 'asd', '1', '1512105944', '厉害了', '1', '1512105944', '1512105944');
-INSERT INTO `vm_users` VALUES ('10', 'asda', 'asd', '1', '1512105987', '厉害了', '1', '1512105987', '1512105987');
-INSERT INTO `vm_users` VALUES ('11', 'asda', 'asd', '1', '1512106011', '厉害了', '1', '1512106011', '1512106011');
-INSERT INTO `vm_users` VALUES ('12', 'asda', 'asd', '1', '1512106044', '厉害了', '1', '1512106044', '1512106044');
-INSERT INTO `vm_users` VALUES ('13', 'asda', 'asd', '1', '1512106146', '厉害了', '1', '1512106146', '1512106146');
-INSERT INTO `vm_users` VALUES ('14', 'asda', 'asd', '1', '1512106191', '厉害了', '1', '1512106191', '1512106191');
+INSERT INTO `vm_users` VALUES ('1', 'config', 'asdad', '1', '20171128', '', '1', '0', '0');
+INSERT INTO `vm_users` VALUES ('2', 'asda', 'config', '1', '1512013538', '厉害了', '1', '1512013538', '1512013538');
+INSERT INTO `vm_users` VALUES ('3', 'asda', 'config', '1', '1512016833', '厉害了', '1', '1512016833', '1512016833');
+INSERT INTO `vm_users` VALUES ('4', 'asda', 'config', '1', '1512017199', '厉害了', '1', '1512017199', '1512017199');
+INSERT INTO `vm_users` VALUES ('5', 'asda', 'config', '1', '1512017436', '厉害了', '1', '1512017436', '1512017436');
+INSERT INTO `vm_users` VALUES ('6', 'asda', 'config', '1', '1512105885', '厉害了', '1', '1512105885', '1512105885');
+INSERT INTO `vm_users` VALUES ('7', 'asda', 'config', '1', '1512105907', '厉害了', '1', '1512105907', '1512105907');
+INSERT INTO `vm_users` VALUES ('8', 'asda', 'config', '1', '1512105916', '厉害了', '1', '1512105916', '1512105916');
+INSERT INTO `vm_users` VALUES ('9', 'asda', 'config', '1', '1512105944', '厉害了', '1', '1512105944', '1512105944');
+INSERT INTO `vm_users` VALUES ('10', 'asda', 'config', '1', '1512105987', '厉害了', '1', '1512105987', '1512105987');
+INSERT INTO `vm_users` VALUES ('11', 'asda', 'config', '1', '1512106011', '厉害了', '1', '1512106011', '1512106011');
+INSERT INTO `vm_users` VALUES ('12', 'asda', 'config', '1', '1512106044', '厉害了', '1', '1512106044', '1512106044');
+INSERT INTO `vm_users` VALUES ('13', 'asda', 'config', '1', '1512106146', '厉害了', '1', '1512106146', '1512106146');
+INSERT INTO `vm_users` VALUES ('14', 'asda', 'config', '1', '1512106191', '厉害了', '1', '1512106191', '1512106191');
 
 -- ----------------------------
 -- Table structure for vm_users_login_logs

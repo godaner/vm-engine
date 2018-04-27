@@ -6,7 +6,7 @@
         <version>${project.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>vm-provider-user</artifactId>
+    <artifactId>vm-provider-user-ws</artifactId>
     <packaging>jar</packaging>
     <dependencies>
 
@@ -15,11 +15,11 @@
             <artifactId>vm-config</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>vm-controller-helper</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.vm</groupId>-->
+            <!--<artifactId>vm-controller-helper</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>com.vm</groupId>
@@ -31,26 +31,28 @@
             <artifactId>vm-base</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+
         <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>vm-auth-user</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>vm-auth-admin</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>vm-dao</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>vm-mq</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>com.vm</groupId>-->
+            <!--<artifactId>vm-auth-user</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.vm</groupId>-->
+            <!--<artifactId>vm-auth-admin</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>com.vm</groupId>-->
+            <!--<artifactId>vm-dao</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
 
         <!--bus start-->
         <dependency>
@@ -86,10 +88,10 @@
         <!--websocket end-->
 
         <!--feign start-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-feign</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-feign</artifactId>-->
+        <!--</dependency>-->
         <!--feign end-->
 
         <!--热部署 start-->

@@ -81,7 +81,7 @@ INSERT INTO `vm_users` VALUES (39, '张可', '123', 3, 1519622574, '123', 152083
 INSERT INTO `vm_users` VALUES (40, 'zhangke', '123', 1, 1520932096, 'js定义两个数组。\n\nvar arrA=[1,2,3];\n\nvar arrB=[4,5,6];\n\n要实现[1,2,3,4,5,6]，如果直接arrA.push(arrB); 则arrB只会作为了arrA的一个元素。执行如图：\n\n20170803182733', 1520845708, 1520845713, '/src/img/786', 1, 1);
 INSERT INTO `vm_users` VALUES (41, 'zhangke', '123', 1, 1520327324, 'www.epfrontier.com/ind...  - 百度快照\n公司简介 - 美食杰\n美食杰 - 中国最优质的美食,食谱,菜谱网。做你最喜爱的美', 1520845762, 1521209933, '/src/img/872', 1, 1);
 INSERT INTO `vm_users` VALUES (42, 'root', '123', 3, 1520411263, '12313sada', 1520929668, 1520930151, '/src/img?fileId=641', 2, 1);
-INSERT INTO `vm_users` VALUES (43, 'asdadaaa', 'asdad', 2, 1520319959, 'asd', 1521183966, 1521183966, '/src/img/829', 2, 1);
+INSERT INTO `vm_users` VALUES (43, 'asdadaaa', 'asdad', 2, 1520319959, 'config', 1521183966, 1521183966, '/src/img/829', 2, 1);
 INSERT INTO `vm_users` VALUES (44, '12312313', '123', 2, 1519811939, '123', 1521194345, 1521194345, '/src/img/850', 2, 1);
 INSERT INTO `vm_users` VALUES (45, 'ha', 'asdsad', 2, 1520234497, 'asda', 1521530501, 1521530501, '/src/img/873', 1, 1);
 
