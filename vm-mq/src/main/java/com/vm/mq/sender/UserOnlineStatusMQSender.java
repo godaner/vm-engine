@@ -3,10 +3,13 @@ package com.vm.mq.sender;
 import com.google.common.collect.ImmutableMap;
 import com.vm.base.util.CommonUtil;
 import com.vm.base.util.Response;
+import com.vm.mq.config.UserOnlineStatusSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.Output;
+import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -19,21 +22,24 @@ public class UserOnlineStatusMQSender extends CommonUtil {
     private final static Logger logger = LoggerFactory.getLogger(UserOnlineStatusMQSender.class);
 
     @Autowired
-    private AmqpTemplate rabbitTemplate;
-    @Autowired
-    private static AmqpTemplate rabbitTemplateCache;
+    @Output(UserOnlineStatusSource.OUTPUT)
+    private MessageChannel channel;
+
+    private static MessageChannel channelCache;
+
 
     @PostConstruct
     public void init() {
-        rabbitTemplateCache = rabbitTemplate;
+        channelCache = channel;
     }
 
     public final static void send(Object data) {
-        String dataStr = gson.toJson(data);
-        logger.info("UserOnlineStatusMQSender send data is : " + dataStr);
-        rabbitTemplateCache.convertAndSend("fanoutExchange", "", dataStr);
-    }
 
+
+        String dataStr = gson.toJson(data);
+        logger.info("AdminOnlineStatusMQSender send data is : " + dataStr);
+        channelCache.send(MessageBuilder.withPayload(dataStr).build());
+    }
     /**
      * 异地登陆提示
      *
