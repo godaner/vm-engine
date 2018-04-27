@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="vm-provider-src:war">
+    <output-path>$PROJECT_DIR$/vm-provider-src/target</output-path>
+    <root id="archive" name="vm-provider-src.war">
+      <element id="artifact" artifact-name="vm-provider-src:war exploded" />
+    </root>
+  </artifact>
+</component>

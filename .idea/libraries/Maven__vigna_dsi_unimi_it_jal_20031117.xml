@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: vigna.dsi.unimi.it:jal:20031117">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/vigna/dsi/unimi/it/jal/20031117/jal-20031117.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/vigna/dsi/unimi/it/jal/20031117/jal-20031117-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/vigna/dsi/unimi/it/jal/20031117/jal-20031117-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

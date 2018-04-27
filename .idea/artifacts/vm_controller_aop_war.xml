@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="vm-controller-aop:war">
+    <output-path>$PROJECT_DIR$/vm-controller-aop/target</output-path>
+    <root id="archive" name="vm-controller-aop.war">
+      <element id="artifact" artifact-name="vm-controller-aop:war exploded" />
+    </root>
+  </artifact>
+</component>

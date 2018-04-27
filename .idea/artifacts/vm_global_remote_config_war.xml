@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="vm-global-remote-config:war">
+    <output-path>$PROJECT_DIR$/vm-global-remote-config/target</output-path>
+    <root id="archive" name="vm-global-remote-config.war">
+      <element id="artifact" artifact-name="vm-global-remote-config:war exploded" />
+    </root>
+  </artifact>
+</component>

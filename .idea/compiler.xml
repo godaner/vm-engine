@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="base" />
+        <module name="dao" />
+        <module name="frontend" />
+        <module name="redis" />
+        <module name="vm-auth-admin" />
+        <module name="vm-auth-redis" />
+        <module name="vm-auth-user" />
+        <module name="vm-backend" />
+        <module name="vm-base" />
+        <module name="vm-config" />
+        <module name="vm-config-server" />
+        <module name="vm-controller-aop" />
+        <module name="vm-controller-helper" />
+        <module name="vm-dao" />
+        <module name="vm-eureka" />
+        <module name="vm-frontend" />
+        <module name="vm-gateway" />
+        <module name="vm-global-remote-config" />
+        <module name="vm-mq" />
+        <module name="vm-provider-admin" />
+        <module name="vm-provider-movie" />
+        <module name="vm-provider-src" />
+        <module name="vm-provider-user" />
+        <module name="vm-provider-ws" />
+        <module name="vm-redis" />
+        <module name="vm-router" />
+        <module name="vm-user" />
+        <module name="vm-user-auth" />
+        <module name="vm-user-provider" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="backend" target="1.8" />
+      <module name="base" target="1.8" />
+      <module name="dao" target="1.8" />
+      <module name="frontend" target="1.8" />
+      <module name="redis" target="1.8" />
+      <module name="vm-auth-admin" target="1.8" />
+      <module name="vm-auth-redis" target="1.8" />
+      <module name="vm-auth-user" target="1.8" />
+      <module name="vm-backend" target="1.8" />
+      <module name="vm-base" target="1.8" />
+      <module name="vm-bus" target="1.8" />
+      <module name="vm-config" target="1.8" />
+      <module name="vm-config-server" target="1.8" />
+      <module name="vm-controller-aop" target="1.8" />
+      <module name="vm-controller-helper" target="1.8" />
+      <module name="vm-dao" target="1.8" />
+      <module name="vm-engine" target="1.8" />
+      <module name="vm-eureka" target="1.8" />
+      <module name="vm-frontend" target="1.8" />
+      <module name="vm-gateway" target="1.8" />
+      <module name="vm-global-remote-config" target="1.8" />
+      <module name="vm-mq" target="1.8" />
+      <module name="vm-provider-admin" target="1.8" />
+      <module name="vm-provider-admin-ws" target="1.8" />
+      <module name="vm-provider-file" target="1.8" />
+      <module name="vm-provider-movie" target="1.8" />
+      <module name="vm-provider-src" target="1.8" />
+      <module name="vm-provider-user" target="1.8" />
+      <module name="vm-provider-user-ws" target="1.8" />
+      <module name="vm-provider-ws" target="1.8" />
+      <module name="vm-redis" target="1.8" />
+      <module name="vm-router" target="1.8" />
+      <module name="vm-user" target="1.8" />
+      <module name="vm-user-auth" target="1.8" />
+      <module name="vm-user-provider" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

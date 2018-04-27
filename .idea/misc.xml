@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ClientPropertiesManager">
+    <properties class="javax.swing.AbstractButton">
+      <property name="hideActionText" class="java.lang.Boolean" />
+    </properties>
+    <properties class="javax.swing.JComponent">
+      <property name="html.disable" class="java.lang.Boolean" />
+    </properties>
+    <properties class="javax.swing.JEditorPane">
+      <property name="JEditorPane.w3cLengthUnits" class="java.lang.Boolean" />
+      <property name="JEditorPane.honorDisplayProperties" class="java.lang.Boolean" />
+      <property name="charset" class="java.lang.String" />
+    </properties>
+    <properties class="javax.swing.JList">
+      <property name="List.isFileList" class="java.lang.Boolean" />
+    </properties>
+    <properties class="javax.swing.JPasswordField">
+      <property name="JPasswordField.cutCopyAllowed" class="java.lang.Boolean" />
+    </properties>
+    <properties class="javax.swing.JSlider">
+      <property name="Slider.paintThumbArrowShape" class="java.lang.Boolean" />
+      <property name="JSlider.isFilled" class="java.lang.Boolean" />
+    </properties>
+    <properties class="javax.swing.JTable">
+      <property name="Table.isFileList" class="java.lang.Boolean" />
+      <property name="JTable.autoStartsEdit" class="java.lang.Boolean" />
+      <property name="terminateEditOnFocusLost" class="java.lang.Boolean" />
+    </properties>
+    <properties class="javax.swing.JToolBar">
+      <property name="JToolBar.isRollover" class="java.lang.Boolean" />
+    </properties>
+    <properties class="javax.swing.JTree">
+      <property name="JTree.lineStyle" class="java.lang.String" />
+    </properties>
+    <properties class="javax.swing.text.JTextComponent">
+      <property name="caretAspectRatio" class="java.lang.Double" />
+      <property name="caretWidth" class="java.lang.Integer" />
+    </properties>
+  </component>
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/vm-auth-admin" />
+    <file type="web" url="file://$PROJECT_DIR$/vm-auth-redis" />
+    <file type="web" url="file://$PROJECT_DIR$/vm-bus" />
+    <file type="web" url="file://$PROJECT_DIR$/vm-config" />
+    <file type="web" url="file://$PROJECT_DIR$/vm-config-server" />
+    <file type="web" url="file://$PROJECT_DIR$/vm-controller-helper" />
+    <file type="web" url="file://$PROJECT_DIR$/vm-eureka" />
+    <file type="web" url="file://$PROJECT_DIR$/vm-gateway" />
+    <file type="web" url="file://$PROJECT_DIR$/vm-global-remote-config" />
+    <file type="web" url="file://$PROJECT_DIR$/vm-mq" />
+    <file type="web" url="file://$PROJECT_DIR$/vm-provider-admin" />
+    <file type="web" url="file://$PROJECT_DIR$/vm-provider-file" />
+    <file type="web" url="file://$PROJECT_DIR$/vm-provider-movie" />
+    <file type="web" url="file://$PROJECT_DIR$/vm-provider-src" />
+    <file type="web" url="file://$PROJECT_DIR$/vm-provider-user" />
+    <file type="web" url="file://$PROJECT_DIR$/vm-provider-user-ws" />
+    <file type="web" url="file://$PROJECT_DIR$/vm-provider-ws" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/vm-dao/pom.xml" />
+        <option value="$PROJECT_DIR$/vm-redis/pom.xml" />
+        <option value="$PROJECT_DIR$/vm-auth-redis/pom.xml" />
+        <option value="$PROJECT_DIR$/vm-provider-user/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/vm-bus/pom.xml" />
+        <option value="$PROJECT_DIR$/vm-provider-user-ws/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+</project>

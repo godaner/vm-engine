@@ -26,6 +26,6 @@ target
 build
 
 
-.idea
-G_PATH_IS_UNDEFINED
+#.idea
+*_PATH_IS_UNDEFINED
 .sass-cache

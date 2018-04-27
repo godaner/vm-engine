@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="vm-config-server:war exploded">
+    <output-path>$PROJECT_DIR$/vm-config-server/target/vm-config-server</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="vm-config-server" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/vm-config-server/target/vm-config-server/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="vm-config-server/web/Web" />
+    </root>
+  </artifact>
+</component>

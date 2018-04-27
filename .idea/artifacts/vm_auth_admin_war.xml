@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="vm-auth-admin:war">
+    <output-path>$PROJECT_DIR$/vm-auth-admin/target</output-path>
+    <root id="archive" name="vm-auth-admin.war">
+      <element id="artifact" artifact-name="vm-auth-admin:war exploded" />
+    </root>
+  </artifact>
+</component>

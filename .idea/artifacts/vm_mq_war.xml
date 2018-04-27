@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="vm-mq:war">
+    <output-path>$PROJECT_DIR$/vm-mq/target</output-path>
+    <root id="archive" name="vm-mq.war">
+      <element id="artifact" artifact-name="vm-mq:war exploded" />
+    </root>
+  </artifact>
+</component>

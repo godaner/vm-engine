@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Maven: com.vm:vm-redis:1.0.0">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/vm/vm-redis/1.0.0/vm-redis-1.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/vm-user-auth/vm-redis-1.0.0-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/vm/vm-redis/1.0.0/vm-redis-1.0.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/vm-user-auth/vm-redis-1.0.0-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/vm/vm-redis/1.0.0/vm-redis-1.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

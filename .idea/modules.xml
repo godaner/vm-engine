@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/vm-auth-admin/vm-auth-admin.iml" filepath="$PROJECT_DIR$/vm-auth-admin/vm-auth-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vm-auth-redis/vm-auth-redis.iml" filepath="$PROJECT_DIR$/vm-auth-redis/vm-auth-redis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vm-auth-user/vm-auth-user.iml" filepath="$PROJECT_DIR$/vm-auth-user/vm-auth-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vm-base/vm-base.iml" filepath="$PROJECT_DIR$/vm-base/vm-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vm-config/vm-config.iml" filepath="$PROJECT_DIR$/vm-config/vm-config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vm-config-server/vm-config-server.iml" filepath="$PROJECT_DIR$/vm-config-server/vm-config-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vm-controller-helper/vm-controller-helper.iml" filepath="$PROJECT_DIR$/vm-controller-helper/vm-controller-helper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vm-dao/vm-dao.iml" filepath="$PROJECT_DIR$/vm-dao/vm-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/vm-engine.iml" filepath="$PROJECT_DIR$/.idea/vm-engine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vm-eureka/vm-eureka.iml" filepath="$PROJECT_DIR$/vm-eureka/vm-eureka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vm-gateway/vm-gateway.iml" filepath="$PROJECT_DIR$/vm-gateway/vm-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vm-global-remote-config/vm-global-remote-config.iml" filepath="$PROJECT_DIR$/vm-global-remote-config/vm-global-remote-config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vm-mq/vm-mq.iml" filepath="$PROJECT_DIR$/vm-mq/vm-mq.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vm-provider-admin/vm-provider-admin.iml" filepath="$PROJECT_DIR$/vm-provider-admin/vm-provider-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vm-provider-movie/vm-provider-movie.iml" filepath="$PROJECT_DIR$/vm-provider-movie/vm-provider-movie.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vm-provider-src/vm-provider-src.iml" filepath="$PROJECT_DIR$/vm-provider-src/vm-provider-src.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vm-provider-user/vm-provider-user.iml" filepath="$PROJECT_DIR$/vm-provider-user/vm-provider-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vm-provider-ws/vm-provider-ws.iml" filepath="$PROJECT_DIR$/vm-provider-ws/vm-provider-ws.iml" />
+    </modules>
+  </component>
+</project>

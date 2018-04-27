@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="vm-bus:war">
+    <output-path>$PROJECT_DIR$/vm-bus/target</output-path>
+    <root id="archive" name="vm-bus.war">
+      <element id="artifact" artifact-name="vm-bus:war exploded" />
+    </root>
+  </artifact>
+</component>

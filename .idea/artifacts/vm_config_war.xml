@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="vm-config:war">
+    <output-path>$PROJECT_DIR$/vm-config/target</output-path>
+    <root id="archive" name="vm-config.war">
+      <element id="artifact" artifact-name="vm-config:war exploded" />
+    </root>
+  </artifact>
+</component>

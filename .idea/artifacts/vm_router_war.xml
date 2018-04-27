@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="vm-router:war">
+    <output-path>$PROJECT_DIR$/vm-router/target</output-path>
+    <root id="archive" name="vm-router.war">
+      <element id="artifact" artifact-name="vm-router:war exploded" />
+    </root>
+  </artifact>
+</component>

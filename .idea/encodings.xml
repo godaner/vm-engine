@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-auth-admin" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-auth-redis" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-auth-user" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-base" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-config" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-config-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-controller-helper" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-dao" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-eureka" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-gateway" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-global-remote-config" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-mq" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-provider-admin" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-provider-admin-ws" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-provider-admin-ws" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-provider-movie" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-provider-src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-provider-user" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-provider-user" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-provider-user-ws" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-provider-user-ws" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-provider-user-ws" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vm-provider-ws" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>
