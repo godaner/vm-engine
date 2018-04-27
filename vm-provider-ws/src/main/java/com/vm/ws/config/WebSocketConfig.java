@@ -1,4 +1,4 @@
-package com.vm.admin.ws.config;
+package com.vm.ws.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MessageConverter;
@@ -28,7 +28,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ep_admin_ws").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/ep").setAllowedOrigins("*").withSockJS();
     }
 
     @Override

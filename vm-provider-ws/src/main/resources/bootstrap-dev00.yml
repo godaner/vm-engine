@@ -3,7 +3,7 @@ server:
   port: 8880
 spring:
   application:
-    name: vm-provider-user-ws
+    name: vm-provider-ws
     index: ${random.long}
   profiles:
     active: git

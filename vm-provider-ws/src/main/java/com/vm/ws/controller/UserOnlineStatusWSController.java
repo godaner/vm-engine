@@ -1,4 +1,4 @@
-package com.vm.user.ws.controller;
+package com.vm.ws.controller;
 
 import com.vm.base.util.BaseWSController;
 import org.slf4j.Logger;

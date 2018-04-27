@@ -6,7 +6,7 @@
         <version>${project.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>vm-provider-user-ws</artifactId>
+    <artifactId>vm-provider-ws</artifactId>
     <packaging>jar</packaging>
     <dependencies>
 
@@ -16,9 +16,9 @@
             <version>${project.version}</version>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>com.vm</groupId>-->
-            <!--<artifactId>vm-controller-helper</artifactId>-->
-            <!--<version>${project.version}</version>-->
+        <!--<groupId>com.vm</groupId>-->
+        <!--<artifactId>vm-controller-helper</artifactId>-->
+        <!--<version>${project.version}</version>-->
         <!--</dependency>-->
 
         <dependency>
@@ -39,19 +39,19 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>com.vm</groupId>-->
-            <!--<artifactId>vm-auth-user</artifactId>-->
-            <!--<version>${project.version}</version>-->
+        <!--<groupId>com.vm</groupId>-->
+        <!--<artifactId>vm-auth-user</artifactId>-->
+        <!--<version>${project.version}</version>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>com.vm</groupId>-->
-            <!--<artifactId>vm-auth-admin</artifactId>-->
-            <!--<version>${project.version}</version>-->
+        <!--<groupId>com.vm</groupId>-->
+        <!--<artifactId>vm-auth-admin</artifactId>-->
+        <!--<version>${project.version}</version>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>com.vm</groupId>-->
-            <!--<artifactId>vm-dao</artifactId>-->
-            <!--<version>${project.version}</version>-->
+        <!--<groupId>com.vm</groupId>-->
+        <!--<artifactId>vm-dao</artifactId>-->
+        <!--<version>${project.version}</version>-->
         <!--</dependency>-->
 
         <!--bus start-->
@@ -89,8 +89,8 @@
 
         <!--feign start-->
         <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-feign</artifactId>-->
+        <!--<groupId>org.springframework.cloud</groupId>-->
+        <!--<artifactId>spring-cloud-starter-feign</artifactId>-->
         <!--</dependency>-->
         <!--feign end-->
 
@@ -109,7 +109,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration><!-- 指定该Main Class为全局的唯一入口 -->
-                    <mainClass>com.vm.ProviderUserWSApplication</mainClass>
+                    <mainClass>com.vm.ProviderUserApplication</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>

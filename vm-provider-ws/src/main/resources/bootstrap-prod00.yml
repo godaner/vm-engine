@@ -1,9 +1,9 @@
 
 server:
-  port: 9990
+  port: 8880
 spring:
   application:
-    name: vm-provider-admin-ws
+    name: vm-provider-ws
     index: ${random.long}
   profiles:
     active: git

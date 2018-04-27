@@ -1,16 +1,16 @@
 
 server:
-  port: 9990
+  port: 8880
 spring:
   application:
-    name: vm-provider-admin-ws
+    name: vm-provider-ws
     index: ${random.long}
   profiles:
     active: git
   cloud:
     config:
       label: master #branch
-      profile: dev00
+      profile: local00
       discovery:
         enabled: true
         serviceId: vm-config-server
@@ -39,3 +39,4 @@ eureka:
     lease-renewal-interval-in-seconds: 5
     prefer-ip-address: true #在eureka页面显示ip而不是linux主机名，微服务使用这里展示的进行调用，如果是使用主机名，那么可能无法调用
     instance-id: ${spring.cloud.client.ipAddress}:${server.port} #实例的id
+
