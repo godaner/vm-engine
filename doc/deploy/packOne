@@ -1,0 +1,9 @@
+#!/bin/bash
+if [ '' = "${1}" ];then
+    echo 'Error : module name is null !'
+else
+    mvn clean
+    mvn -pl ${1} -am install -DskipTests
+    ./doc/deploy/cp_jars
+fi
+#需要在vm-engine根目录执行

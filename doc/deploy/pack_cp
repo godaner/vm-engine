@@ -1,5 +1,5 @@
 #!/bin/bash
 mvn clean
 mvn package -DskipTests
-./cp_jars
+./doc/deploy/cp_jars
 #需要在vm-engine根目录执行

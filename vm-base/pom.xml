@@ -7,6 +7,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>vm-base</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
 
