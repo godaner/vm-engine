@@ -1,0 +1,4 @@
+cd ../../
+mvn clean install -DskipTests
+cd /doc/deploy
+./cp_jars

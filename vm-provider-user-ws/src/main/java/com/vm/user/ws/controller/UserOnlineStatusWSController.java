@@ -20,7 +20,7 @@ public class UserOnlineStatusWSController extends BaseWSController {
 
     @RabbitHandler
     public void process(String dataStr) {
-        logger.debug("UserOnlineStatusWSController process data is : {} ! ", dataStr);
+        logger.info("UserOnlineStatusWSController process data is : {} ! ", dataStr);
         Map data = gson.fromJson(dataStr, Map.class);
         String accessToken = (String) data.get("accessToken");
         Object response = data.get("response");
