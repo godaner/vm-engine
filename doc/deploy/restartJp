@@ -4,7 +4,7 @@ if [ '' = ${JAVA_HOME} ];then
     echo 'Error : JAVA_HOME is need !'
 else
 
-    if [ '' = ${3} ];then
+    if [ '' = "${3}" ];then
         echo 'Error : Xmx is need !'
     else
         /usr/local/src/stopJp ${1}

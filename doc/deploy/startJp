@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ '' = ${3} ];then
+if [ '' = "${3}" ];then
     echo 'Error : Xmx is need !'
 else
 
