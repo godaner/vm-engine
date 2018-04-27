@@ -9,7 +9,7 @@ else
     done
 
     if [[ $p = 'y' ]];then
-        if [[ "${4}" = '' ]];then
+        if [ "${4}" = '' ];then
             `nohup ${JAVA_HOME}/bin/java -jar /usr/local/src/${1} --spring.profiles.active=${2} --server.port=${4} -Xms${3}m -Xmx${3}m >/usr/local/src/${1}.out 2>&1 &`
         else
 

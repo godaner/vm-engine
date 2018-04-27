@@ -9,7 +9,7 @@ else
     else
         /usr/local/src/stopJp ${1}
         if [ $? = 1 ];then
-            /usr/local/src/startJp ${1} ${2} ${3}
+            /usr/local/src/startJp ${1} ${2} ${3} ${4}
         fi
     fi
 fi
