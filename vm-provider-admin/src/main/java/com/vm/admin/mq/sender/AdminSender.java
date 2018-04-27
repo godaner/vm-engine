@@ -1,48 +1,43 @@
-package com.vm.mq.sender;
+package com.vm.admin.mq.sender;
 
 import com.google.common.collect.ImmutableMap;
+import com.vm.admin.config.AdminSendChannel;
 import com.vm.base.util.CommonUtil;
 import com.vm.base.util.Response;
-import com.vm.mq.config.AdminOnlineStatusSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
 /**
  * Created by ZhangKe on 2018/4/27.
  */
-@Component
-@EnableBinding(AdminOnlineStatusSource.class)
-public class AdminOnlineStatusMQSender extends CommonUtil {
+@Service
+public class AdminSender extends CommonUtil {
 
-    private final static Logger logger = LoggerFactory.getLogger(AdminOnlineStatusMQSender.class);
-
+    private final static Logger logger = LoggerFactory.getLogger(AdminSender.class);
     @Autowired
-    @Output(AdminOnlineStatusSource.OUTPUT)
-    private MessageChannel channel;
+    private AdminSendChannel adminSendChannel;
 
-    private static MessageChannel channelCache;
-
-
+    private static AdminSendChannel adminSendChannelCache;
 
     @PostConstruct
     public void init() {
-        channelCache = channel;
+        adminSendChannelCache = adminSendChannel;
     }
 
-    public final static void send(Object data) {
-
-
+    public final static void send( Object data) {
         String dataStr = gson.toJson(data);
-        logger.info("AdminOnlineStatusMQSender send data is : " + dataStr);
-        channelCache.send(MessageBuilder.withPayload(dataStr).build());
+        logger.info("AdminSender send data is : " + dataStr);
+        adminSendChannelCache.adminOutput().send(MessageBuilder.withPayload(dataStr).build());
     }
 
     /**
@@ -52,9 +47,9 @@ public class AdminOnlineStatusMQSender extends CommonUtil {
      */
     public final static void tipLogoutWhenUserLoginInOtherArea(String accessToken, Object newLoginRecord) {
         Response response = new Response();
-        response.setCode(AdminOnlineStatusMQSender.Code.USER_IS_LOGIN_IN_OTHER_AREA.getCode());
+        response.setCode(AdminSender.Code.USER_IS_LOGIN_IN_OTHER_AREA.getCode());
         response.putData("loginRecord", newLoginRecord);
-        AdminOnlineStatusMQSender.send(ImmutableMap.of(
+        AdminSender.send(ImmutableMap.of(
                 "accessToken", accessToken,
                 "response", response
         ));
@@ -67,10 +62,10 @@ public class AdminOnlineStatusMQSender extends CommonUtil {
      */
     public final static void tipLogoutWhenUserLoginTimeout(String accessToken) {
         Response response = new Response();
-        response.setCode(AdminOnlineStatusMQSender.Code.USER_LOGIN_TIMEOUT.getCode());
-        response.setMsg(AdminOnlineStatusMQSender.Code.USER_LOGIN_TIMEOUT.getMsg());
+        response.setCode(AdminSender.Code.USER_LOGIN_TIMEOUT.getCode());
+        response.setMsg(AdminSender.Code.USER_LOGIN_TIMEOUT.getMsg());
         response.putData("time", now());
-        AdminOnlineStatusMQSender.send(ImmutableMap.of(
+        AdminSender.send(ImmutableMap.of(
                 "accessToken", accessToken,
                 "response", response
         ));
@@ -84,10 +79,10 @@ public class AdminOnlineStatusMQSender extends CommonUtil {
      */
     public final static void tipUserIsFrozened(String accessToken) {
         Response response = new Response();
-        response.setCode(AdminOnlineStatusMQSender.Code.USER_IS_FROZENED.getCode());
-        response.setMsg(AdminOnlineStatusMQSender.Code.USER_IS_FROZENED.getMsg());
+        response.setCode(AdminSender.Code.USER_IS_FROZENED.getCode());
+        response.setMsg(AdminSender.Code.USER_IS_FROZENED.getMsg());
         response.putData("time", now());
-        AdminOnlineStatusMQSender.send(ImmutableMap.of(
+        AdminSender.send(ImmutableMap.of(
                 "accessToken", accessToken,
                 "response", response
         ));
@@ -100,10 +95,10 @@ public class AdminOnlineStatusMQSender extends CommonUtil {
      */
     public final static void tipUserIsDeleted(String accessToken) {
         Response response = new Response();
-        response.setCode(AdminOnlineStatusMQSender.Code.USER_IS_DELETED.getCode());
-        response.setMsg(AdminOnlineStatusMQSender.Code.USER_IS_DELETED.getMsg());
+        response.setCode(AdminSender.Code.USER_IS_DELETED.getCode());
+        response.setMsg(AdminSender.Code.USER_IS_DELETED.getMsg());
         response.putData("time", now());
-        AdminOnlineStatusMQSender.send(ImmutableMap.of(
+        AdminSender.send(ImmutableMap.of(
                 "accessToken", accessToken,
                 "response", response
         ));
@@ -119,7 +114,7 @@ public class AdminOnlineStatusMQSender extends CommonUtil {
         response.setCode(Code.UPDATE_MENU_TREE.getCode());
         response.setMsg(Code.UPDATE_MENU_TREE.getMsg());
         response.putData("newMenuTree", newMenuTree);
-        AdminOnlineStatusMQSender.send(ImmutableMap.of(
+        AdminSender.send(ImmutableMap.of(
                 "accessToken", accessToken,
                 "response", response
         ));
@@ -132,11 +127,11 @@ public class AdminOnlineStatusMQSender extends CommonUtil {
      */
     public final static void tipUserInfoIsUpdated(String accessToken, Object newUser) {
         Response response = new Response();
-        response.setCode(AdminOnlineStatusMQSender.Code.USER_INFO_IS_UPDATED.getCode());
-        response.setMsg(AdminOnlineStatusMQSender.Code.USER_INFO_IS_UPDATED.getMsg());
+        response.setCode(AdminSender.Code.USER_INFO_IS_UPDATED.getCode());
+        response.setMsg(AdminSender.Code.USER_INFO_IS_UPDATED.getMsg());
         response.putData("time", now());
         response.putData("newUser", newUser);
-        AdminOnlineStatusMQSender.send(ImmutableMap.of(
+        AdminSender.send(ImmutableMap.of(
                 "accessToken", accessToken,
                 "response", response
         ));

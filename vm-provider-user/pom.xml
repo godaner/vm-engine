@@ -46,10 +46,15 @@
             <artifactId>vm-dao</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.vm</groupId>-->
+            <!--<artifactId>vm-mq</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
+
         <dependency>
-            <groupId>com.vm</groupId>
-            <artifactId>vm-mq</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
         </dependency>
 
         <!--bus start-->

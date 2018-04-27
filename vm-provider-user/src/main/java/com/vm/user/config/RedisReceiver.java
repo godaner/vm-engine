@@ -3,7 +3,7 @@ package com.vm.user.config;
 import com.vm.auth.admin.cache.AdminSessionCacheManager;
 import com.vm.auth.redis.repository.RedisRepository;
 import com.vm.base.util.CommonUtil;
-import com.vm.mq.sender.UserOnlineStatusMQSender;
+import com.vm.user.mq.sender.UserSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class RedisReceiver extends CommonUtil {
         String accessToken = infos[infos.length - 1];
 
         if (CommonUtil.isUuid(accessToken)) {
-            UserOnlineStatusMQSender.tipLogoutWhenUserLoginTimeout(accessToken);
+            UserSender.tipLogoutWhenUserLoginTimeout(accessToken);
         }
     }
 }

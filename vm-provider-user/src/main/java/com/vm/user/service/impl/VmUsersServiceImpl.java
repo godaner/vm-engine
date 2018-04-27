@@ -4,11 +4,13 @@ import com.google.common.collect.ImmutableMap;
 import com.vm.auth.user.cache.UserSessionCacheManager;
 import com.vm.base.config.VmBaseConfig;
 import com.vm.base.service.dto.UpdateHeadImgInfo;
-import com.vm.base.util.*;
+import com.vm.base.util.BaseService;
+import com.vm.base.util.BeanMapUtil;
+import com.vm.base.util.DateUtil;
+import com.vm.base.util.Response;
 import com.vm.dao.util.BasePo;
 import com.vm.dao.util.PageBean;
 import com.vm.dao.util.QuickSelectOne;
-import com.vm.mq.sender.UserOnlineStatusMQSender;
 import com.vm.user.dao.mapper.VmUsersLoginLogsMapper;
 import com.vm.user.dao.mapper.VmUsersMapper;
 import com.vm.user.dao.mapper.custom.CustomVmUsersMapper;
@@ -16,6 +18,7 @@ import com.vm.user.dao.po.VmUsers;
 import com.vm.user.dao.po.VmUsersLoginLogs;
 import com.vm.user.dao.qo.VmUserQueryBean;
 import com.vm.user.feign.service.SrcServiceClient;
+import com.vm.user.mq.sender.UserSender;
 import com.vm.user.service.dto.VmUsersDto;
 import com.vm.user.service.exception.VmUsersException;
 import com.vm.user.service.inf.VmUsersService;
@@ -97,7 +100,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         String oldToken = UserSessionCacheManager.getOnlineUserToken(dbUser.getId());
         if (!isEmptyString(oldToken)) {//online ?
             UserSessionCacheManager.userLogout(oldToken);
-            UserOnlineStatusMQSender.tipLogoutWhenUserLoginInOtherArea(oldToken, vmUsersLoginLogs);
+            UserSender.tipLogoutWhenUserLoginInOtherArea(oldToken, vmUsersLoginLogs);
         }
         String token = UserSessionCacheManager.userLogin(dbUser.getId());
 
@@ -431,9 +434,9 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         String token = UserSessionCacheManager.getOnlineUserToken(vmUsers.getId());
         if (!isEmptyString(token)) { // online ?
             if (VmUsers.Status.isFrozen(vmUsers.getStatus())) {
-                UserOnlineStatusMQSender.tipUserIsFrozened(token);
+                UserSender.tipUserIsFrozened(token);
             } else {
-                UserOnlineStatusMQSender.tipUserInfoIsUpdated(token, usersDto);
+                UserSender.tipUserInfoIsUpdated(token, usersDto);
             }
         }
 
@@ -466,7 +469,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         String token = UserSessionCacheManager.getOnlineUserToken(vmUsers.getId());
         if (!isEmptyString(token)) { // online ?
 
-            UserOnlineStatusMQSender.tipUserInfoIsUpdated(token, usersDto);
+            UserSender.tipUserInfoIsUpdated(token, usersDto);
         }
 
         return usersDto;
@@ -498,7 +501,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             //tip online user
             String token = UserSessionCacheManager.getOnlineUserToken(userId);
             if (!isEmptyString(token)) { // online ?
-                UserOnlineStatusMQSender.tipUserIsDeleted(token);
+                UserSender.tipUserIsDeleted(token);
             }
         });
 

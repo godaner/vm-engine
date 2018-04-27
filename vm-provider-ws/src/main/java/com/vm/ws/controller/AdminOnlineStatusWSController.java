@@ -1,7 +1,7 @@
 package com.vm.ws.controller;
 
 import com.vm.base.util.BaseWSController;
-import com.vm.ws.config.AdminOnlineStatusSink;
+import com.vm.ws.config.AdminReceiverChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -11,13 +11,13 @@ import org.springframework.messaging.Message;
 import java.util.Map;
 
 
-@EnableBinding(AdminOnlineStatusSink.class)
+@EnableBinding({AdminReceiverChannel.class})
 public class AdminOnlineStatusWSController extends BaseWSController {
     private final static Logger logger = LoggerFactory.getLogger(AdminOnlineStatusWSController.class);
 
     private final static String DESTINATION = "/adminOnlineStatus";
 
-    @StreamListener(AdminOnlineStatusSink.INPUT)
+    @StreamListener(AdminReceiverChannel.ADMIN_INPUT)
     public void receive(Message<String> message) {
         String dataStr = message.getPayload();
         logger.info("AdminOnlineStatusWSController process data is : {} ! ", dataStr);
