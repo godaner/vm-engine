@@ -1,18 +1,13 @@
 package com.vm.admin.mq.sender;
 
 import com.google.common.collect.ImmutableMap;
-import com.vm.admin.config.AdminSendChannel;
+import com.vm.admin.mq.channel.AdminSendChannel;
 import com.vm.base.util.CommonUtil;
 import com.vm.base.util.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.integration.support.MessageBuilder;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;

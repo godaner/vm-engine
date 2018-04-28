@@ -29,7 +29,7 @@ public class ExtendUserSessionLifeAop extends CommonUtil {
     private final Logger logger = LoggerFactory.getLogger(ExtendUserSessionLifeAop.class);
 
 
-    @Pointcut("execution(* com.vm..*.controller..*.*(..))&&!@annotation(IgnoreExtendUserSessionLife)")
+    @Pointcut("execution(* com.vm..controller.*.*(..))&&!@annotation(IgnoreExtendUserSessionLife)")
     public void declareJoinPointExpression() {
     }
 
@@ -46,7 +46,7 @@ public class ExtendUserSessionLifeAop extends CommonUtil {
 
         res = UserSessionCacheManager.extendSessionLife(token);
         if (!isNullObject(res)) {
-            logger.info("ExtendSessionLifeAop extend admin session life ! adminId is : " + res.get("userId") + " , token is : " + res.get("token"));
+            logger.info("ExtendSessionLifeAop extend user session life ! user id is : " + res.get("userId") + " , token is : " + res.get("token"));
         }
         //execute
         data = joinPoint.proceed();

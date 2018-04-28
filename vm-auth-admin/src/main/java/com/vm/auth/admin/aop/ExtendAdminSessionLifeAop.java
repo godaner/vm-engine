@@ -23,13 +23,12 @@ import java.util.Map;
  */
 @Component
 @Aspect
-@Order(3)
+@Order(2)
 public class ExtendAdminSessionLifeAop extends CommonUtil {
 
     private final Logger logger = LoggerFactory.getLogger(ExtendAdminSessionLifeAop.class);
 
-
-    @Pointcut("execution(* com.vm..*.controller..*.*(..))")
+    @Pointcut("execution(* com.vm..controller.*.*(..))&&!@annotation(IgnoreExtendAdminSessionLife)")
     public void declareJoinPointExpression() {
     }
 
@@ -46,7 +45,7 @@ public class ExtendAdminSessionLifeAop extends CommonUtil {
         //延长其生命周期
         res = AdminSessionCacheManager.extendSessionLife(token);
         if (!isNullObject(res)) {
-            logger.info("ExtendSessionLifeAop extend user session life ! userId is : " + res.get("userId") + " , token is : " + res.get("token"));
+            logger.info("ExtendSessionLifeAop extend admin session life ! admin id is : " + res.get("userId") + " , token is : " + res.get("token"));
         }
 
         //execute

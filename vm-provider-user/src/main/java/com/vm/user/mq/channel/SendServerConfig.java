@@ -1,4 +1,4 @@
-package com.vm.user.config;
+package com.vm.user.mq.channel;
 
 import org.springframework.cloud.stream.annotation.EnableBinding;
 

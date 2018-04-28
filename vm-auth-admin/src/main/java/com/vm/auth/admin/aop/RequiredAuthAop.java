@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Component
 @Aspect
-@Order(3)
+@Order(4)
 public class RequiredAuthAop extends CommonUtil {
     private final Logger logger = LoggerFactory.getLogger(RequiredAuthAop.class);
 

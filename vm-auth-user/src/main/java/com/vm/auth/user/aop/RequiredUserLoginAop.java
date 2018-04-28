@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Component
 @Aspect
-@Order(2)
+@Order(5)
 public class RequiredUserLoginAop extends CommonUtil {
 
     private final Logger logger = LoggerFactory.getLogger(RequiredUserLoginAop.class);

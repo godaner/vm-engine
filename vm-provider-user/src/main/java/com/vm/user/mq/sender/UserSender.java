@@ -3,7 +3,7 @@ package com.vm.user.mq.sender;
 import com.google.common.collect.ImmutableMap;
 import com.vm.base.util.CommonUtil;
 import com.vm.base.util.Response;
-import com.vm.user.config.UserSendChannel;
+import com.vm.user.mq.channel.UserSendChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
