@@ -1,5 +1,5 @@
 server:
-  port: 3333
+  port: 3330
 spring:
   application:
     name: vm-provider-movie
