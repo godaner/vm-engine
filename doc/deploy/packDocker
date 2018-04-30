@@ -1,0 +1,5 @@
+#!/bin/bash
+mvn clean
+#DOCKER_HOST=tcp://localhost:2375 mvn -pl ${1} -am install -DskipTests
+mvn install
+#需要在vm-engine根目录执行

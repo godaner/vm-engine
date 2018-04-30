@@ -1,0 +1,9 @@
+#!/bin/bash
+if [ '' = "${1}" ];then
+    echo 'Error : module name is null !'
+else
+    mvn clean
+    #DOCKER_HOST=tcp://localhost:2375 mvn -pl ${1} -am install -DskipTests
+    mvn -pl ${1} -am install
+fi
+#需要在vm-engine根目录执行
