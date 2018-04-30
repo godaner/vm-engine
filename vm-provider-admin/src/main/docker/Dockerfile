@@ -3,4 +3,4 @@ VOLUME /tmp
 ADD vm-provider-admin-1.0.0.jar *.jar
 #RUN bash -c 'touch /*.jar'
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/*.jar"]
-EXPOSE 1-65535
+EXPOSE 2220-2320

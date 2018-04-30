@@ -3,4 +3,4 @@ VOLUME /tmp
 ADD  vm-eureka-1.0.0.jar *.jar
 #RUN bash -c 'touch /*.jar'
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/*.jar"]
-EXPOSE 1-65535
+EXPOSE 1110-1210

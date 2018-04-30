@@ -46,7 +46,7 @@ jvm参数：
     Compressed Class Space ： 使用 -XX：CompressedClassSpaceSize 设置为压缩类空间保留的最大内存。
     Direct NIO Buffers
 
-
+# jar运行：
 nohup java -jar vm-eureka-1.0.0.jar --spring.profiles.active=prod00 -Xms64m -Xmx128m -Xmn48m >eureka00.out 2>&1 &
 nohup java -jar vm-config-server-1.0.0.jar --spring.profiles.active=prod -Xms24m -Xmx64m -Xmn24m >config00.out 2>&1 &
 nohup java -jar vm-gateway-1.0.0.jar --spring.profiles.active=prod00 -Xms64m -Xmx128m -Xmn48m >gateway00.out 2>&1 &
@@ -55,3 +55,5 @@ nohup java -jar vm-provider-admin-1.0.0.jar --spring.profiles.active=prod -Xms64
 nohup java -jar vm-provider-user-1.0.0.jar --spring.profiles.active=prod -Xms64m -Xmx128m -Xmn48m >user00.out 2>&1 &
 nohup java -jar vm-provider-movie-1.0.0.jar --spring.profiles.active=prod -Xms64m -Xmx128m -Xmn48m >movie00.out 2>&1 &
 
+# docker运行：
+docker run -e "SPRING_PROFILES_ACTIVE=prod00" -p 1110:1110 -d vm-eureka-1.0.0
