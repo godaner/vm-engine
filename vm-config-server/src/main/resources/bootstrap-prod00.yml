@@ -1,3 +1,6 @@
+logging:
+  config: classpath:logback-prod.xml
+  path: /usr/local/src/logs/
 server:
   port: 6660
 spring:

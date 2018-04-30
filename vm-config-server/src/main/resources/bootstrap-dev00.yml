@@ -1,3 +1,6 @@
+logging:
+  config: classpath:logback-dev.xml
+  path: d://logs//
 server:
   port: 6660
 spring:
