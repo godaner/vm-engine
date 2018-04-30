@@ -56,4 +56,4 @@ nohup java -jar vm-provider-user-1.0.0.jar --spring.profiles.active=prod -Xms64m
 nohup java -jar vm-provider-movie-1.0.0.jar --spring.profiles.active=prod -Xms64m -Xmx128m -Xmn48m >movie00.out 2>&1 &
 
 # docker运行：
-docker run -e "SPRING_PROFILES_ACTIVE=prod00" -p 1110:1110 -d vm-eureka-1.0.0
+docker run --net="host" -e "SPRING_PROFILES_ACTIVE=prod00" -p 1110:1110 -d vm-eureka-1.0.0
