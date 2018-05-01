@@ -1,6 +1,5 @@
-FROM java:8
+FROM fabric8/java-alpine-openjdk8-jre
 VOLUME /tmp
-ADD vm-provider-admin-1.0.0.jar *.jar
-#RUN bash -c 'touch /*.jar'
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/*.jar"]
+ADD vm-provider-admin-1.0.0.jar vm-provider-admin-1.0.0.jar
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/vm-provider-admin-1.0.0.jar"]
 EXPOSE 2220-2320
