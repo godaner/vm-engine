@@ -4,6 +4,6 @@ if [ '' = "${1}" ];then
 else
     mvn clean
     #DOCKER_HOST=tcp://localhost:2375 mvn -pl ${1} -am install -DskipTests
-    mvn -pl ${1} -am install
+    mvn -pl ${1} -am install -s /D/maven3/conf/settings.xml
 fi
 #需要在vm-engine根目录执行

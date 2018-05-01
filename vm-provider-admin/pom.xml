@@ -154,7 +154,7 @@
                     <pushImage>true</pushImage>
                     <registryUrl>${docker.registry}</registryUrl>
                     <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-                    <imageName>${docker.registry}/${project.artifactId}:${project.version}</imageName>
+                    <imageName>${docker.registry}/${docker.namespace}/${project.artifactId}:${project.version}</imageName>
                     <imageTags>
                         <imageTag>${project.version}</imageTag>
                     </imageTags>
