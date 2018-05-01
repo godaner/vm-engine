@@ -1,4 +1,4 @@
-FROM java:8
+FROM fabric8/java-alpine-openjdk8-jre
 VOLUME /tmp
 ADD vm-provider-movie-1.0.0.jar vm-provider-movie-1.0.0.jar
 #RUN bash -c 'touch /*.jar'

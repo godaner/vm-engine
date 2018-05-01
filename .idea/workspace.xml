@@ -3,19 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="5740da97-a601-47eb-b3d9-49616afe8974" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-config-server/pom.xml" afterPath="$PROJECT_DIR$/vm-config-server/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-config-server/src/main/docker/Dockerfile" afterPath="$PROJECT_DIR$/vm-config-server/src/main/docker/Dockerfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-eureka/pom.xml" afterPath="$PROJECT_DIR$/vm-eureka/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-eureka/src/main/docker/Dockerfile" afterPath="$PROJECT_DIR$/vm-eureka/src/main/docker/Dockerfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-gateway/pom.xml" afterPath="$PROJECT_DIR$/vm-gateway/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-gateway/src/main/docker/Dockerfile" afterPath="$PROJECT_DIR$/vm-gateway/src/main/docker/Dockerfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-movie/pom.xml" afterPath="$PROJECT_DIR$/vm-provider-movie/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-movie/src/main/docker/Dockerfile" afterPath="$PROJECT_DIR$/vm-provider-movie/src/main/docker/Dockerfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-src/pom.xml" afterPath="$PROJECT_DIR$/vm-provider-src/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-src/src/main/docker/Dockerfile" afterPath="$PROJECT_DIR$/vm-provider-src/src/main/docker/Dockerfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-user/pom.xml" afterPath="$PROJECT_DIR$/vm-provider-user/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-user/src/main/docker/Dockerfile" afterPath="$PROJECT_DIR$/vm-provider-user/src/main/docker/Dockerfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-ws/pom.xml" afterPath="$PROJECT_DIR$/vm-provider-ws/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-ws/src/main/docker/Dockerfile" afterPath="$PROJECT_DIR$/vm-provider-ws/src/main/docker/Dockerfile" />
     </list>
     <ignored path="$PROJECT_DIR$/vm-backend/target/" />
@@ -107,11 +100,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Dockerfile" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Dockerfile" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vm-config-server/src/main/docker/Dockerfile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="2" column="53" lean-forward="false" selection-start-line="2" selection-start-column="53" selection-end-line="2" selection-end-column="53" />
+            <state relative-caret-position="0">
+              <caret line="0" column="5" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -140,8 +133,8 @@
       <file leaf-file-name="Dockerfile" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vm-provider-admin/src/main/docker/Dockerfile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="81">
-              <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+            <state relative-caret-position="0">
+              <caret line="0" column="37" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -151,7 +144,7 @@
         <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/docker/Dockerfile">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="108">
-              <caret line="4" column="69" lean-forward="true" selection-start-line="4" selection-start-column="69" selection-end-line="4" selection-end-column="93" />
+              <caret line="4" column="69" lean-forward="false" selection-start-line="4" selection-start-column="69" selection-end-line="4" selection-end-column="93" />
               <folding />
             </state>
           </provider>
@@ -177,11 +170,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Dockerfile" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Dockerfile" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vm-provider-ws/src/main/docker/Dockerfile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="4" column="94" lean-forward="false" selection-start-line="4" selection-start-column="94" selection-end-line="4" selection-end-column="94" />
+            <state relative-caret-position="0">
+              <caret line="0" column="37" lean-forward="false" selection-start-line="0" selection-start-column="37" selection-end-line="0" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -202,13 +195,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>edit</find>
-      <find>UPDATE_MENU_TREE</find>
-      <find>UserOnlineStatusWSController</find>
-      <find>server.port}:${random.long} #实例的id</find>
-      <find>A</find>
-      <find>Ad</find>
-      <find>AdminOnline</find>
       <find>AdminOnlineS</find>
       <find>AdminOnlineSt</find>
       <find>AdminOnlineStat</find>
@@ -232,9 +218,15 @@
       <find>docker.repostory</find>
       <find>docker.registry.name</find>
       <find>docker.repository</find>
+      <find>fabric8/java-alpine-openjdk8-jre</find>
+      <find>j</find>
+      <find>java</find>
+      <find>java&quot;</find>
+      <find>java&quot;8</find>
+      <find>java8</find>
+      <find>java:8</find>
     </findStrings>
     <replaceStrings>
-      <replace>AdminSessionCacheManager</replace>
       <replace>UserSessionCacheManager</replace>
       <replace>devServer0</replace>
       <replace />
@@ -264,6 +256,7 @@
       <replace>docker.repository</replace>
       <replace>docker.namespace</replace>
       <replace>docker.registry</replace>
+      <replace>fabric8/java-alpine-openjdk8-jre</replace>
     </replaceStrings>
     <dirStrings>
       <dir>E:\zk\vm-engine\vm-frontend\src\main\java\com\vm\frontend\websocket</dir>
@@ -335,13 +328,13 @@
         <option value="$PROJECT_DIR$/vm-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/vm-eureka/pom.xml" />
         <option value="$PROJECT_DIR$/vm-config-server/pom.xml" />
-        <option value="$PROJECT_DIR$/vm-config-server/src/main/docker/Dockerfile" />
         <option value="$PROJECT_DIR$/vm-eureka/src/main/docker/Dockerfile" />
         <option value="$PROJECT_DIR$/vm-gateway/src/main/docker/Dockerfile" />
         <option value="$PROJECT_DIR$/vm-provider-movie/src/main/docker/Dockerfile" />
         <option value="$PROJECT_DIR$/vm-provider-src/src/main/docker/Dockerfile" />
         <option value="$PROJECT_DIR$/vm-provider-user/src/main/docker/Dockerfile" />
         <option value="$PROJECT_DIR$/vm-provider-ws/src/main/docker/Dockerfile" />
+        <option value="$PROJECT_DIR$/vm-config-server/src/main/docker/Dockerfile" />
       </list>
     </option>
   </component>
@@ -1598,7 +1591,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1147731000" />
+    <option name="totallyTimeSpent" value="1147924000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1612,6 +1605,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1634,7 +1628,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5835141" sideWeight="0.4936034" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286334" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37093276" sideWeight="0.49093816" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28997868" sideWeight="0.4937833" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28997868" sideWeight="0.4937833" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286334" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -1740,6 +1734,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="243">
           <caret line="23" column="8" lean-forward="false" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1762,6 +1757,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
           <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1769,6 +1765,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="31" column="22" lean-forward="false" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1776,6 +1773,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="39" column="6" lean-forward="true" selection-start-line="39" selection-start-column="6" selection-end-line="39" selection-end-column="6" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2061,14 +2061,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vm-config-server/src/main/docker/Dockerfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="2" column="53" lean-forward="false" selection-start-line="2" selection-start-column="53" selection-end-line="2" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vm-eureka/src/main/docker/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
@@ -2085,18 +2077,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vm-provider-admin/src/main/docker/Dockerfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/docker/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
-          <caret line="4" column="69" lean-forward="true" selection-start-line="4" selection-start-column="69" selection-end-line="4" selection-end-column="93" />
+          <caret line="4" column="69" lean-forward="false" selection-start-line="4" selection-start-column="69" selection-end-line="4" selection-end-column="93" />
           <folding />
         </state>
       </provider>
@@ -2119,8 +2103,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vm-provider-ws/src/main/docker/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="4" column="94" lean-forward="false" selection-start-line="4" selection-start-column="94" selection-end-line="4" selection-end-column="94" />
+        <state relative-caret-position="0">
+          <caret line="0" column="37" lean-forward="false" selection-start-line="0" selection-start-column="37" selection-end-line="0" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-provider-admin/src/main/docker/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="37" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-config-server/src/main/docker/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="5" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
           <folding />
         </state>
       </provider>
