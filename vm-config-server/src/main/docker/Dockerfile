@@ -1,4 +1,4 @@
-FROM wrlennon/alpine-java8-jre
+FROM java:8
 VOLUME /tmp
 ADD vm-config-server-1.0.0.jar vm-config-server-1.0.0.jar
 #RUN bash -c 'touch /*.jar'

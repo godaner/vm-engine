@@ -11,8 +11,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-src/src/main/docker/Dockerfile" afterPath="$PROJECT_DIR$/vm-provider-src/src/main/docker/Dockerfile" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-user/src/main/docker/Dockerfile" afterPath="$PROJECT_DIR$/vm-provider-user/src/main/docker/Dockerfile" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-ws/src/main/docker/Dockerfile" afterPath="$PROJECT_DIR$/vm-provider-ws/src/main/docker/Dockerfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-ws/src/main/java/com/vm/ws/controller/AdminOnlineStatusWSController.java" afterPath="$PROJECT_DIR$/vm-provider-ws/src/main/java/com/vm/ws/controller/AdminOnlineStatusWSController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-ws/src/main/java/com/vm/ws/controller/UserOnlineStatusWSController.java" afterPath="$PROJECT_DIR$/vm-provider-ws/src/main/java/com/vm/ws/controller/UserOnlineStatusWSController.java" />
     </list>
     <ignored path="$PROJECT_DIR$/vm-backend/target/" />
     <ignored path="$PROJECT_DIR$/vm-base/target/" />
@@ -107,7 +105,7 @@
         <entry file="file://$PROJECT_DIR$/vm-provider-ws/src/main/docker/Dockerfile">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="30" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="30" />
+              <caret line="0" column="11" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -116,8 +114,8 @@
       <file leaf-file-name="Dockerfile" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vm-config-server/src/main/docker/Dockerfile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="5" column="16" lean-forward="true" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
+            <state relative-caret-position="0">
+              <caret line="0" column="5" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -138,7 +136,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>vm-provider-user</find>
       <find>AdminOnlineStatus</find>
       <find>AdminOnlineStatusWSControlle</find>
       <find>disconnect</find>
@@ -168,9 +165,9 @@
       <find>.jar.jar</find>
       <find>fabric8/java-alpine-openjdk8-jre</find>
       <find>errordeveloper/oracle-jre</find>
+      <find>wrlennon/alpine-java8-jre</find>
     </findStrings>
     <replaceStrings>
-      <replace>.</replace>
       <replace>OnlineAdminStatusWS</replace>
       <replace>OnlineAdminAuthsWS</replace>
       <replace>spring-cloud-starter-netflix-eureka-server</replace>
@@ -200,6 +197,7 @@
       <replace>.jar</replace>
       <replace>errordeveloper/oracle-jre</replace>
       <replace>wrlennon/alpine-java8-jre</replace>
+      <replace>java:8</replace>
     </replaceStrings>
     <dirStrings>
       <dir>E:\zk\vm-engine\vm-frontend\src\main\java\com\vm\frontend\websocket</dir>
@@ -1420,7 +1418,7 @@
       <workItem from="1524824770722" duration="24055000" />
       <workItem from="1525069307097" duration="11596000" />
       <workItem from="1525238629109" duration="1022000" />
-      <workItem from="1525251983328" duration="418000" />
+      <workItem from="1525251983328" duration="1083000" />
     </task>
     <servers />
   </component>
@@ -1457,7 +1455,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1162721000" />
+    <option name="totallyTimeSpent" value="1163386000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1980,15 +1978,15 @@
     <entry file="file://$PROJECT_DIR$/vm-provider-ws/src/main/docker/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="30" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="30" />
+          <caret line="0" column="11" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="11" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vm-config-server/src/main/docker/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="5" column="16" lean-forward="true" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
+        <state relative-caret-position="0">
+          <caret line="0" column="5" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
           <folding />
         </state>
       </provider>
