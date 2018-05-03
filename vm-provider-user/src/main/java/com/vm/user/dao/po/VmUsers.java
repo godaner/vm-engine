@@ -5,7 +5,7 @@ import com.vm.base.util.ByteConstant;
 
 public class VmUsers extends BasePo {
 
-    public final static String DEFAULT_IMG_URL = null;
+    public final static String DEFAULT_IMG_URL = "/src/img/" + uuid();
 
     private String username;
 
@@ -55,7 +55,6 @@ public class VmUsers extends BasePo {
 
 
     }
-
 
 
     public String getUsername() {

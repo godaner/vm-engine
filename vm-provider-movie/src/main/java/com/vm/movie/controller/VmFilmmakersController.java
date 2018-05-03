@@ -22,17 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class VmFilmmakersController extends ServiceController<VmFilmmakersService> {
 
     /*********************************用户端****************************/
-    /**
-     * 获取电影图片
-     *
-     * @return
-     */
-//    @RequestMapping(value = "/img/{filmmakerId}", method = RequestMethod.GET)
-//    public void sendFilmmakerImg(@PathVariable("filmmakerId") Long filmmakerId, Integer width) throws Exception {
-//
-//        service.sendFilmmakerImg(filmmakerId, width, getResponse());
-//
-//    }
+
 
     /**
      * 获取电影人基本信息

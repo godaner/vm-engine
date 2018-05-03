@@ -111,53 +111,11 @@ public class VmUsersController extends ServiceController<VmUsersService> {
 
         Object vmUsers = service.updateOnlineUserBasicInfo(user);
 
-//        setSessionAttr(KEY_OF_ONLINE_USER, vmUsers);
 
         return response.putData("user", vmUsers);
     }
 
-    /**
-     * 获取用户图片
-     *
-     * @return
-     */
-//    @RequestMapping(value = "/img/{fileId}", method = RequestMethod.GET)
-//    @ResponseBody
-//    public Object getUserImg(
-//            @PathVariable("fileId") Long fileId,
-//            @RequestParam("width") Integer width) throws Exception {
-//        service.sendUserImg(fileId, width, getResponse());
-//        return response;
-//    }
 
-
-    /**
-     * 上传用户临时(缓存)头像
-     *
-     * @return
-     */
-//    @RequiredUserLogin
-//    @RequestMapping(value = "/img/temp", method = RequestMethod.POST)
-//    @ResponseBody
-//    public Object uploadUserTempHeadImg(@OnlineUser VmUsersDto onlineUser,
-//                                        @RequestParam("img") MultipartFile headImg) throws Exception {
-////        VmUsersDto onlineUser = getSessionAttr(KEY_OF_ONLINE_USER);
-//        Map<String,String> res = service.saveUserTempHeadImg(onlineUser.getId(), headImg);
-//        return response.putData("tempImgUrl", res.get("imgUrl")).
-//                putData("fileId", res.get("fileId"));
-//    }
-
-
-    /**
-     * 获取{@link VmUsersController#uploadUserTempHeadImg}接口缓存的图片;
-     *
-     * @throws Exception
-     */
-//    @RequestMapping(value = "/img/temp/{fileId}", method = RequestMethod.GET)
-//    @ResponseBody
-//    public void getUserTempHeadImg(@PathVariable("fileId") Long fileId) throws Exception {
-//        service.getUserTempHeadImg(fileId, getResponse());
-//    }
 
     /**
      * 更具已缓存图片更新在线用户头像<br/>
@@ -173,18 +131,7 @@ public class VmUsersController extends ServiceController<VmUsersService> {
         return response.putData("user", onlineUser).
                 putData("imgUrl", onlineUser.getImgUrl());
     }
-//
-//    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-//    public @ResponseBody
-//    Object updateOnlineUserBasicInfo(@Validated(value = {VmUsersGroups.UpdateUserBasicInfo.class}) CustomVmUsers user,
-//                               BindingResult result) throws Exception {
-//
-//        VmUsers vmUsers = service.updateOnlineUserBasicInfo(user);
-//
-//        response.putData("user",vmUsers);
-//
-//        return response;
-//    }
+
 
     /*********************************管理端****************************/
     @RequiredAdminLogin

@@ -2,11 +2,12 @@ package com.vm.dao.util;
 
 
 import com.vm.base.util.ByteConstant;
+import com.vm.base.util.CommonUtil;
 
 /**
  * Created by ZhangKe on 2017/12/11.
  */
-public class BasePo {
+public class BasePo extends CommonUtil{
 
     private Long id;
 

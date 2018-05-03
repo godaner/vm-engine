@@ -8,9 +8,9 @@ public class VmMovies extends BasePo {
 
     public static final Long DEFAULT_WATCH_NUM = 0l;
 
-    public static final String DEFAULT_POSTER_URL = null;
+    public static final String DEFAULT_POSTER_URL = "/src/img/" + uuid();
 
-    public static final String DEFAULT_IMG_URL = null;
+    public static final String DEFAULT_IMG_URL = "/src/img/" + uuid();
 
     public static final Long DEFAULT_DIRECTOR_ID = null;
 

@@ -393,9 +393,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
                     VmUsersException.ErrorCode.USERNAME_IS_EXITS.getCode(),
                     VmUsersException.ErrorCode.USERNAME_IS_EXITS.getMsg());
         }
-        String imgUrl = VmUsers.DEFAULT_IMG_URL;
-
-        VmUsers vmUsers = makeAddUser(vmUsersDto, imgUrl);
+        VmUsers vmUsers = makeAddUser(vmUsersDto);
 
         if (1 != vmUsersMapper.insert(vmUsers)) {
             throw new VmUsersException("addUser vmUsersMapper#insert is fail !! vmUsersDto is :" + vmUsersDto);
@@ -522,12 +520,12 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         return vmUsers;
     }
 
-    private VmUsers makeAddUser(VmUsersDto vmUsersDto, String imgUrl) {
+    private VmUsers makeAddUser(VmUsersDto vmUsersDto) {
         Integer now = DateUtil.unixTime().intValue();
         VmUsers vmUsers = new VmUsers();
         vmUsers.setBirthday(vmUsersDto.getBirthday());
         vmUsers.setDescription(vmUsersDto.getDescription());
-        vmUsers.setImgUrl(imgUrl);
+        vmUsers.setImgUrl(VmUsers.DEFAULT_IMG_URL);
         vmUsers.setPassword(vmUsersDto.getPassword());
         vmUsers.setSex(vmUsersDto.getSex());
         vmUsers.setStatus(vmUsersDto.getStatus());
