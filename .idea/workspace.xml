@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5740da97-a601-47eb-b3d9-49616afe8974" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vm-base/src/main/java/com/vm/base/inf/JSONString.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-dao/src/main/java/com/vm/dao/util/BasePo.java" afterPath="$PROJECT_DIR$/vm-dao/src/main/java/com/vm/dao/util/BasePo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/controller/VmFilmmakersController.java" afterPath="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/controller/VmFilmmakersController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/controller/VmMoviesController.java" afterPath="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/controller/VmMoviesController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-global-remote-config/src/main/java/com/vm/base/config/VmBaseConfig.java" afterPath="$PROJECT_DIR$/vm-global-remote-config/src/main/java/com/vm/base/config/VmBaseConfig.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/dao/po/VmFilmmakers.java" afterPath="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/dao/po/VmFilmmakers.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/dao/po/VmMovies.java" afterPath="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/dao/po/VmMovies.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/controller/VmUsersController.java" afterPath="$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/controller/VmUsersController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/impl/VmFilmmakersServiceImpl.java" afterPath="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/impl/VmFilmmakersServiceImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/impl/VmMoviesServiceImpl.java" afterPath="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/impl/VmMoviesServiceImpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/dao/po/VmUsers.java" afterPath="$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/dao/po/VmUsers.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/service/impl/VmUsersServiceImpl.java" afterPath="$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/service/impl/VmUsersServiceImpl.java" />
     </list>
@@ -84,8 +84,8 @@
       <file leaf-file-name="VmUsersServiceImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/service/impl/VmUsersServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="495">
+              <caret line="545" column="62" lean-forward="false" selection-start-line="545" selection-start-column="62" selection-end-line="545" selection-end-column="62" />
               <folding />
             </state>
           </provider>
@@ -94,18 +94,33 @@
       <file leaf-file-name="VmUsers.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/dao/po/VmUsers.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="11" column="28" lean-forward="true" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+            <state relative-caret-position="162">
+              <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VmMoviesController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="VmBaseConfig.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/vm-global-remote-config/src/main/java/com/vm/base/config/VmBaseConfig.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="313">
+              <caret line="45" column="31" lean-forward="false" selection-start-line="45" selection-start-column="15" selection-end-line="45" selection-end-column="31" />
+              <folding>
+                <element signature="e#1456#1457#0" expanded="true" />
+                <element signature="e#1495#1496#0" expanded="true" />
+                <element signature="e#1559#1560#0" expanded="true" />
+                <element signature="e#1615#1616#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VmMoviesController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/controller/VmMoviesController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
-              <caret line="29" column="7" lean-forward="true" selection-start-line="29" selection-start-column="7" selection-end-line="29" selection-end-column="7" />
+            <state relative-caret-position="378">
+              <caret line="24" column="39" lean-forward="false" selection-start-line="24" selection-start-column="39" selection-end-line="24" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -114,9 +129,22 @@
       <file leaf-file-name="VmMoviesServiceImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/impl/VmMoviesServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="529">
-              <caret line="411" column="5" lean-forward="true" selection-start-line="411" selection-start-column="5" selection-end-line="411" selection-end-column="5" />
+            <state relative-caret-position="353">
+              <caret line="408" column="48" lean-forward="false" selection-start-line="408" selection-start-column="48" selection-end-line="408" selection-end-column="48" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VmMoviesDto.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/dto/VmMoviesDto.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="298">
+              <caret line="76" column="16" lean-forward="false" selection-start-line="76" selection-start-column="16" selection-end-line="76" selection-end-column="16" />
+              <folding>
+                <element signature="e#1402#1403#0" expanded="true" />
+                <element signature="e#1435#1436#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -124,8 +152,8 @@
       <file leaf-file-name="VmFilmmakersController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/controller/VmFilmmakersController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1530">
-              <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+            <state relative-caret-position="783">
+              <caret line="39" column="20" lean-forward="true" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -134,8 +162,8 @@
       <file leaf-file-name="VmFilmmakersServiceImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/impl/VmFilmmakersServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="718">
-              <caret line="366" column="54" lean-forward="false" selection-start-line="366" selection-start-column="54" selection-end-line="366" selection-end-column="54" />
+            <state relative-caret-position="-1458">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -144,18 +172,8 @@
       <file leaf-file-name="VmFilmmakers.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/dao/po/VmFilmmakers.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VmFilmmakersService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/inf/VmFilmmakersService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="25" column="23" lean-forward="false" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
+            <state relative-caret-position="108">
+              <caret line="4" column="42" lean-forward="false" selection-start-line="4" selection-start-column="42" selection-end-line="4" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -164,18 +182,8 @@
       <file leaf-file-name="VmMovies.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/dao/po/VmMovies.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VmUsersController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/controller/VmUsersController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1242">
-              <caret line="61" column="16" lean-forward="true" selection-start-line="61" selection-start-column="16" selection-end-line="61" selection-end-column="16" />
+            <state relative-caret-position="216">
+              <caret line="8" column="52" lean-forward="false" selection-start-line="8" selection-start-column="52" selection-end-line="8" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -196,8 +204,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>adminL</find>
-      <find>vm-provider-admin-ws</find>
       <find>vm-provider-user-ws</find>
       <find>neStatusWSController</find>
       <find>&quot;output&quot;</find>
@@ -226,9 +232,10 @@
       <find>vmSrcServiceImpl</find>
       <find>add</find>
       <find>vmMovies</find>
+      <find>VmFilmmakers.DEFAULT_IMG_URL</find>
+      <find>VmMovies.DEFAULT_POSTER_URL</find>
     </findStrings>
     <replaceStrings>
-      <replace>OnlineAdminStatusWS</replace>
       <replace>OnlineAdminAuthsWS</replace>
       <replace>spring-cloud-starter-netflix-eureka-server</replace>
       <replace>spring-cloud-starter-netflix-eureka-client</replace>
@@ -258,6 +265,7 @@
       <replace>errordeveloper/oracle-jre</replace>
       <replace>wrlennon/alpine-java8-jre</replace>
       <replace>java:8</replace>
+      <replace>vmBaseConfig.getSrcImgDefaultUrl()</replace>
     </replaceStrings>
     <dirStrings>
       <dir>E:\zk\vm-engine\vm-frontend\src\main\java\com\vm\frontend\websocket</dir>
@@ -286,9 +294,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/vm-auth-admin/src/main/java/com/vm/auth/admin/aop/RequiredAuthAop.java" />
-        <option value="$PROJECT_DIR$/vm-auth-user/src/main/java/com/vm/auth/user/aop/RequiredUserLoginAop.java" />
-        <option value="$PROJECT_DIR$/vm-auth-admin/src/main/java/com/vm/auth/admin/aop/ExtendAdminSessionLifeAop.java" />
         <option value="$PROJECT_DIR$/vm-auth-user/src/main/java/com/vm/auth/user/aop/ExtendUserSessionLifeAop.java" />
         <option value="$PROJECT_DIR$/vm-provider-admin/src/main/java/com/vm/admin/mq/sender/AdminSender.java" />
         <option value="$PROJECT_DIR$/vm-provider-admin/src/main/Dockfile" />
@@ -330,13 +335,16 @@
         <option value="$PROJECT_DIR$/vm-base/src/main/java/com/vm/base/util/IOUtil.java" />
         <option value="$PROJECT_DIR$/vm-provider-src/src/main/java/com/vm/src/service/impl/VmSrcServiceImpl.java" />
         <option value="$PROJECT_DIR$/vm-dao/src/main/java/com/vm/dao/util/BasePo.java" />
-        <option value="$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/dao/po/VmUsers.java" />
         <option value="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/controller/VmMoviesController.java" />
-        <option value="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/dao/po/VmMovies.java" />
-        <option value="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/dao/po/VmFilmmakers.java" />
-        <option value="$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/service/impl/VmUsersServiceImpl.java" />
         <option value="$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/controller/VmUsersController.java" />
         <option value="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/controller/VmFilmmakersController.java" />
+        <option value="$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/dao/po/VmUsers.java" />
+        <option value="$PROJECT_DIR$/vm-global-remote-config/src/main/java/com/vm/base/config/VmBaseConfig.java" />
+        <option value="$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/service/impl/VmUsersServiceImpl.java" />
+        <option value="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/dao/po/VmMovies.java" />
+        <option value="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/dao/po/VmFilmmakers.java" />
+        <option value="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/impl/VmFilmmakersServiceImpl.java" />
+        <option value="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/impl/VmMoviesServiceImpl.java" />
       </list>
     </option>
   </component>
@@ -406,7 +414,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -871,10 +879,132 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vm-engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vm-engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vm-base" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vm-engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vm-engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vm-base" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vm-engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vm-engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vm-base" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vm-engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vm-engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vm-base" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="base" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="util" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vm-engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vm-engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vm-base" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="base" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="service" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -887,7 +1017,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
-    <property name="SearchEverywhereHistoryKey" value="RefreshRemoteApplicationEvent&#9;PSI&#9;JAVA://org.springframework.cloud.bus.event.RefreshRemoteApplicationEvent&#10;com.netflix.loadbalancer.RoundRobinRule&#9;PSI&#9;JAVA://com.netflix.loadbalancer.RoundRobinRule&#10;zuul.&#9;null&#9;null&#10;RateLimitPreFilter&#9;FILE&#9;jar://C:/Users/Administrator/.m2/repository/com/marcosbarbero/cloud/spring-cloud-zuul-ratelimit-core/1.6.0.RELEASE/spring-cloud-zuul-ratelimit-core-1.6.0.RELEASE-sources.jar!/com/marcosbarbero/cloud/autoconfigure/zuul/ratelimit/filters/RateLimitPreFilter.java&#10;RateLimiterPreFilter&#9;PSI&#9;JAVA://com.marcosbarbero.cloud.autoconfigure.zuul.ratelimit.RateLimitAutoConfiguration#rateLimiterPreFilter&#10;org.springframework.cloud.netflix.zuul.ZuulConfiguration&#9;PSI&#9;JAVA://org.springframework.cloud.netflix.zuul.ZuulConfiguration" />
+    <property name="SearchEverywhereHistoryKey" value="vmBase&#9;PSI&#9;JAVA://com.vm.base.config.VmBaseConfig&#10;RefreshRemoteApplicationEvent&#9;PSI&#9;JAVA://org.springframework.cloud.bus.event.RefreshRemoteApplicationEvent&#10;com.netflix.loadbalancer.RoundRobinRule&#9;PSI&#9;JAVA://com.netflix.loadbalancer.RoundRobinRule&#10;zuul.&#9;null&#9;null&#10;RateLimitPreFilter&#9;FILE&#9;jar://C:/Users/Administrator/.m2/repository/com/marcosbarbero/cloud/spring-cloud-zuul-ratelimit-core/1.6.0.RELEASE/spring-cloud-zuul-ratelimit-core-1.6.0.RELEASE-sources.jar!/com/marcosbarbero/cloud/autoconfigure/zuul/ratelimit/filters/RateLimitPreFilter.java&#10;RateLimiterPreFilter&#9;PSI&#9;JAVA://com.marcosbarbero.cloud.autoconfigure.zuul.ratelimit.RateLimitAutoConfiguration#rateLimiterPreFilter&#10;org.springframework.cloud.netflix.zuul.ZuulConfiguration&#9;PSI&#9;JAVA://org.springframework.cloud.netflix.zuul.ZuulConfiguration" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
@@ -1817,7 +1947,8 @@
       <workItem from="1525069307097" duration="11596000" />
       <workItem from="1525238629109" duration="1022000" />
       <workItem from="1525251983328" duration="1083000" />
-      <workItem from="1525328772008" duration="352000" />
+      <workItem from="1525328772008" duration="454000" />
+      <workItem from="1525329629197" duration="437000" />
     </task>
     <servers />
   </component>
@@ -1854,7 +1985,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1166985000" />
+    <option name="totallyTimeSpent" value="1167524000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1891,8 +2022,8 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5835141" sideWeight="0.4936034" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286334" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37093276" sideWeight="0.49093816" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29957357" sideWeight="0.4937833" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286334" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30277187" sideWeight="0.4937833" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -1993,27 +2124,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/spotify/docker-maven-plugin/1.0.0/docker-maven-plugin-1.0.0.jar!/META-INF/maven/plugin.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="256" column="8" lean-forward="false" selection-start-line="256" selection-start-column="8" selection-end-line="256" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/docker/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
@@ -2127,7 +2237,6 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="324">
             <caret line="12" column="44" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="44" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -2223,7 +2332,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4617">
           <caret line="171" column="36" lean-forward="false" selection-start-line="171" selection-start-column="36" selection-end-line="171" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2231,7 +2339,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="4" column="16" lean-forward="false" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2239,7 +2346,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="11" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2254,7 +2360,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2262,7 +2367,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="27">
           <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2278,12 +2382,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7344">
           <caret line="282" column="5" lean-forward="false" selection-start-line="282" selection-start-column="5" selection-end-line="282" selection-end-column="5" />
-          <folding>
-            <element signature="e#6846#6847#0" expanded="false" />
-            <element signature="e#6900#6901#0" expanded="false" />
-            <element signature="e#6953#6954#0" expanded="false" />
-            <element signature="e#6989#6990#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2307,7 +2405,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2315,7 +2412,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="5" column="15" lean-forward="true" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2329,22 +2425,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/dao/po/VmMovies.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/impl/VmMoviesServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="411" column="5" lean-forward="true" selection-start-line="411" selection-start-column="5" selection-end-line="411" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/inf/VmFilmmakersService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="486">
@@ -2353,59 +2433,107 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/impl/VmFilmmakersServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="718">
-          <caret line="366" column="54" lean-forward="false" selection-start-line="366" selection-start-column="54" selection-end-line="366" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/dao/po/VmFilmmakers.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/dao/po/VmUsers.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="11" column="28" lean-forward="true" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/service/impl/VmUsersServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/controller/VmUsersController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1242">
-          <caret line="61" column="16" lean-forward="true" selection-start-line="61" selection-start-column="16" selection-end-line="61" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/controller/VmFilmmakersController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1530">
-          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <caret line="61" column="16" lean-forward="false" selection-start-line="61" selection-start-column="16" selection-end-line="61" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/controller/VmMoviesController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="29" column="7" lean-forward="true" selection-start-line="29" selection-start-column="7" selection-end-line="29" selection-end-column="7" />
+        <state relative-caret-position="378">
+          <caret line="24" column="39" lean-forward="false" selection-start-line="24" selection-start-column="39" selection-end-line="24" selection-end-column="39" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/controller/VmFilmmakersController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="783">
+          <caret line="39" column="20" lean-forward="true" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/dao/po/VmUsers.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-base/src/main/java/com/vm/base/inf/JSONString.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="6" column="17" lean-forward="false" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/service/impl/VmUsersServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="545" column="62" lean-forward="false" selection-start-line="545" selection-start-column="62" selection-end-line="545" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/dao/po/VmMovies.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="8" column="52" lean-forward="false" selection-start-line="8" selection-start-column="52" selection-end-line="8" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/dao/po/VmFilmmakers.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="4" column="42" lean-forward="false" selection-start-line="4" selection-start-column="42" selection-end-line="4" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/impl/VmFilmmakersServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1458">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/dto/VmMoviesDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="76" column="16" lean-forward="false" selection-start-line="76" selection-start-column="16" selection-end-line="76" selection-end-column="16" />
+          <folding>
+            <element signature="e#1402#1403#0" expanded="true" />
+            <element signature="e#1435#1436#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/impl/VmMoviesServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="353">
+          <caret line="408" column="48" lean-forward="false" selection-start-line="408" selection-start-column="48" selection-end-line="408" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-global-remote-config/src/main/java/com/vm/base/config/VmBaseConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="45" column="31" lean-forward="false" selection-start-line="45" selection-start-column="15" selection-end-line="45" selection-end-column="31" />
+          <folding>
+            <element signature="e#1456#1457#0" expanded="true" />
+            <element signature="e#1495#1496#0" expanded="true" />
+            <element signature="e#1559#1560#0" expanded="true" />
+            <element signature="e#1615#1616#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

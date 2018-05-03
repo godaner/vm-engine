@@ -418,8 +418,8 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
             }
         }
 
-        String imgUrl = VmUsers.DEFAULT_IMG_URL;
-        VmUsers vmUsers = makeEditUser(vmUsersDto, imgUrl);
+
+        VmUsers vmUsers = makeEditUser(vmUsersDto);
 
         if (1 != vmUsersMapper.update(vmUsers.getId(), vmUsers)) {
             throw new VmUsersException("editUser vmUsersMapper#update is fail !! vmUsersDto is :" + vmUsersDto);
@@ -505,12 +505,11 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
 
     }
 
-    private VmUsers makeEditUser(VmUsersDto vmUsersDto, String imgUrl) {
+    private VmUsers makeEditUser(VmUsersDto vmUsersDto) {
         Integer now = DateUtil.unixTime().intValue();
         VmUsers vmUsers = new VmUsers();
         vmUsers.setBirthday(vmUsersDto.getBirthday());
         vmUsers.setDescription(vmUsersDto.getDescription());
-//        vmUsers.setImgUrl(imgUrl);
         vmUsers.setPassword(vmUsersDto.getPassword());
         vmUsers.setSex(vmUsersDto.getSex());
         vmUsers.setStatus(vmUsersDto.getStatus());
@@ -525,7 +524,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         VmUsers vmUsers = new VmUsers();
         vmUsers.setBirthday(vmUsersDto.getBirthday());
         vmUsers.setDescription(vmUsersDto.getDescription());
-        vmUsers.setImgUrl(VmUsers.DEFAULT_IMG_URL);
+        vmUsers.setImgUrl(vmBaseConfig.getSrcImgDefaultUrl());
         vmUsers.setPassword(vmUsersDto.getPassword());
         vmUsers.setSex(vmUsersDto.getSex());
         vmUsers.setStatus(vmUsersDto.getStatus());
@@ -544,7 +543,7 @@ public class VmUsersServiceImpl extends BaseService implements VmUsersService {
         vmUsers.setCreateTime(DateUtil.unixTime().intValue());
         vmUsers.setStatus(VmUsers.Status.NORMAL.getCode());
         vmUsers.setSex(VmUsers.Sex.UNKNOWN.getCode());
-        vmUsers.setImgUrl(VmUsers.DEFAULT_IMG_URL);//暂时搁置
+        vmUsers.setImgUrl(vmBaseConfig.getSrcImgDefaultUrl());
         return vmUsers;
     }
 

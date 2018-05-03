@@ -4,8 +4,6 @@ import com.vm.dao.util.BasePo;
 
 public class VmFilmmakers extends BasePo {
 
-    public static final String DEFAULT_IMG_URL = "/src/img/" + uuid();
-
     private String name;
 
     private String alias;

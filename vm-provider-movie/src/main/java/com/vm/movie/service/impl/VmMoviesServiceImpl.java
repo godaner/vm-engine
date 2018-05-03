@@ -405,8 +405,8 @@ public class VmMoviesServiceImpl extends BaseService implements VmMoviesService 
         vmMovies.setIsDeleted(BasePo.IsDeleted.NO.getCode());
         vmMovies.setScore(VmMovies.DEFAULT_SCORE);
         vmMovies.setWatchNum(VmMovies.DEFAULT_WATCH_NUM);
-        vmMovies.setPosterUrl(VmMovies.DEFAULT_POSTER_URL);
-        vmMovies.setImgUrl(VmMovies.DEFAULT_IMG_URL);
+        vmMovies.setPosterUrl(vmBaseConfig.getSrcImgDefaultUrl());
+        vmMovies.setImgUrl(vmBaseConfig.getSrcImgDefaultUrl());
         vmMovies.setDirectorId(vmMoviesDto.getDirectorId());
         return vmMovies;
     }

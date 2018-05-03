@@ -364,7 +364,7 @@ public class VmFilmmakersServiceImpl extends BaseService implements VmFilmmakers
         vmFilmmakers.setIsDeleted(BasePo.IsDeleted.NO.getCode());
         vmFilmmakers.setCreateTime(now);
         vmFilmmakers.setUpdateTime(now);
-        vmFilmmakers.setImgUrl(VmFilmmakers.DEFAULT_IMG_URL);
+        vmFilmmakers.setImgUrl(vmBaseConfig.getSrcImgDefaultUrl());
         return vmFilmmakers;
     }
 

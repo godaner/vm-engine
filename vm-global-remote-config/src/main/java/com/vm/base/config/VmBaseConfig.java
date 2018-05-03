@@ -25,6 +25,8 @@ public class VmBaseConfig {
     private String srcImgPath;
     @Value("${vm.src.img.default}")
     private String srcImgDefault;
+    @Value("${vm.src.img.defaultUrl}")
+    private String srcImgDefaultUrl;
     @Value("${vm.src.video.path}")
     private String srcVideoPath;
     @Value("${vm.src.video.default}")
@@ -39,6 +41,14 @@ public class VmBaseConfig {
     private Long adminSessionLifetime;
     @Value("${vm.filmmaker.img.versions}")
     private String filmmakerImgVersions;
+
+    public String getSrcImgDefaultUrl() {
+        return srcImgDefaultUrl;
+    }
+
+    public void setSrcImgDefaultUrl(String srcImgDefaultUrl) {
+        this.srcImgDefaultUrl = srcImgDefaultUrl;
+    }
 
     public String getFilmmakerImgVersions() {
         return filmmakerImgVersions;
