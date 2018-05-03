@@ -79,47 +79,51 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     @Override
     public void sendImgSrc(Long fileId, Integer width, HttpServletResponse response) throws IOException {
         logger.info("sendImgSrc fileId is : {} , width is : {} !", fileId, width);
-        //获取图片id信息
         VmFiles file = this.getUsableVmFilesById(fileId);
-        ;
         String imgPath = vmBaseConfig.getSrcImgPath();
-        String imgName = null;
+        String defaultImgName = vmBaseConfig.getSrcImgDefault();
+        String defaultImgPathName  = imgPath + defaultImgName;
         String contentType = "image/png";
-        String imgPathName = null;
         if (null == file) {//if db have not this file record
-            imgPathName = imgPath + vmBaseConfig.getSrcImgDefault();
-            sendFileToHttpResponse(imgPathName, contentType, response);
+            logger.error("sendImgSrc file is not exits ! fileId is : {} , width is : {} !", fileId, width);
+            sendFileToHttpResponse(defaultImgPathName, contentType, response);
             return;
         }
-        imgName = file.getFilename();
+        String imgName = file.getFilename();
+        String imgPathName = imgPath + File.separator + width + "_" + imgName;
+        if(!IOUtil.isExits(imgPathName)){
+            logger.error("sendImgSrc file is not exits ! fileId is : {} , width is : {} !", fileId, width);
+            sendFileToHttpResponse(defaultImgPathName, contentType, response);
+            return ;
+        }
         contentType = file.getContentType();
-
-        imgPathName = imgPath + File.separator + width + "_" + imgName;
         logger.info("sendImgSrc file is : {} !", imgPathName);
         sendFileToHttpResponse(imgPathName, contentType, response);
+
 
     }
 
     @Override
     public void sendImgSrc(Long fileId, HttpServletResponse response) throws Exception {
         logger.info("sendImgSrc fileId  is : {} !", fileId);
-        //获取图片id信息
         VmFiles file = this.getUsableVmFilesById(fileId);
-        ;
         String imgPath = vmBaseConfig.getSrcImgPath();
-        String imgName = null;
+        String defaultImgName = vmBaseConfig.getSrcImgDefault();
+        String defaultImgPathName  = imgPath + defaultImgName;
         String contentType = "image/png";
-        String imgPathName = null;
         if (null == file) {//if db have not this file record
-            imgPathName = imgPath + vmBaseConfig.getSrcImgDefault();
-            sendFileToHttpResponse(imgPathName, contentType, response);
+            logger.error("sendImgSrc file is not exits ! fileId is : {} !", fileId);
+            sendFileToHttpResponse(defaultImgPathName, contentType, response);
             return;
         }
-        imgName = file.getFilename();
+        String imgName = file.getFilename();
+        String imgPathName = imgPath + File.separator + imgName;
+        if(!IOUtil.isExits(imgPathName)){
+            logger.error("sendImgSrc file is not exits ! fileId is : {} !", fileId);
+            sendFileToHttpResponse(defaultImgPathName, contentType, response);
+            return ;
+        }
         contentType = file.getContentType();
-
-        imgPathName = imgPath + File.separator + imgName;
-
         logger.info("sendImgSrc file is : {} !", imgPathName);
         sendFileToHttpResponse(imgPathName, contentType, response);
     }
@@ -135,10 +139,12 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             httpServletResponse.setContentType(contentType); // 设置返回的文件类型
             IOUtils.copy(input, output);
 
-            logger.error("sendImgSrc#sendFileToHttpResponse send file : {} success ！", filePathName);
-        } catch (IOException e) {
+        } catch (Exception e) {
+            String imgPath = vmBaseConfig.getSrcImgPath();
+            filePathName = imgPath + vmBaseConfig.getSrcImgDefault();
+            input = new FileInputStream(filePathName);
+            IOUtils.copy(input, output);
             e.printStackTrace();
-            throw e;
         } finally {
             IOUtil.closeStream(input, output);
         }
@@ -146,7 +152,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     }
 
     @Override
-    public Long saveImg(MultipartFile file,Integer width) throws Exception {
+    public Long saveImg(MultipartFile file, Integer width) throws Exception {
 
         logger.info("saveImg file is : {} !", file.getOriginalFilename());
 
@@ -179,15 +185,15 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             inputStream = imgFile.getInputStream();
             outputStream = new FileOutputStream(targetPathName);
             //compress img
-            if(width == null ||width<=0){
-                width =  800;
+            if (width == null || width <= 0) {
+                width = 800;
             }
-            ImageUtil.resize(inputStream,outputStream,width,-1);
+            ImageUtil.resize(inputStream, outputStream, width, -1);
 //            org.apache.commons.io.IOUtils.copy(inputStream, outputStream);
 
 
             //写入数据库
-            vmFiles = makeVmFiles(size,originalFilename,targetFileName,contentType);
+            vmFiles = makeVmFiles(size, originalFilename, targetFileName, contentType);
 
 
             vmFilesMapper.insert(vmFiles);
@@ -259,7 +265,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     public Long uploadAndCut(VmFilesDto vmFilesDto) throws Exception {
         logger.info("uploadAndCut vmFilesDto is : {} !", vmFilesDto);
 
-        Long fileId = this.saveImg(vmFilesDto.getFile(),null);
+        Long fileId = this.saveImg(vmFilesDto.getFile(), null);
 
         vmFilesDto.setFileId(fileId);
 
@@ -269,7 +275,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
     }
 
     @Override
-    public Long uploadVideo(MultipartFile file) throws Exception{
+    public Long uploadVideo(MultipartFile file) throws Exception {
         logger.info("uploadVideo start !!");
 
         InputStream inputStream = null;
@@ -299,7 +305,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
             org.apache.commons.io.IOUtils.copy(inputStream, outputStream);
 
             //写入数据库
-            vmFiles = makeVmFiles(size,originalFilename,targetFileName,contentType);
+            vmFiles = makeVmFiles(size, originalFilename, targetFileName, contentType);
 
             vmFilesMapper.insert(vmFiles);
 
@@ -315,7 +321,7 @@ public class VmSrcServiceImpl extends BaseService implements VmSrcService {
         return vmFiles.getId();
     }
 
-    private VmFiles makeVmFiles(Long size,String originalFilename,String targetFileName,String contentType) {
+    private VmFiles makeVmFiles(Long size, String originalFilename, String targetFileName, String contentType) {
         VmFiles vmFiles = new VmFiles();
         Integer now = DateUtil.unixTime().intValue();
 

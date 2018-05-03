@@ -275,4 +275,10 @@ public class IOUtil {
         return new File(filePathName);
     }
 
+    public final static boolean isExits(String filePathName) {
+        return new File(filePathName).exists();
+    }
+    public final static boolean isExits(File file) {
+        return file.exists();
+    }
 }
