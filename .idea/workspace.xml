@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5740da97-a601-47eb-b3d9-49616afe8974" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/school_doc/07-20144206232_张可_电影网站设计与实现.doc" afterPath="$PROJECT_DIR$/doc/school_doc/07-20144206232_张可_电影网站设计与实现.doc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="5740da97-a601-47eb-b3d9-49616afe8974" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/vm-backend/target/" />
     <ignored path="$PROJECT_DIR$/vm-base/target/" />
     <ignored path="$PROJECT_DIR$/vm-frontend/target/" />
@@ -528,9 +525,6 @@
     <property name="SearchEverywhereHistoryKey" value="vmBase&#9;PSI&#9;JAVA://com.vm.base.config.VmBaseConfig&#10;RefreshRemoteApplicationEvent&#9;PSI&#9;JAVA://org.springframework.cloud.bus.event.RefreshRemoteApplicationEvent&#10;com.netflix.loadbalancer.RoundRobinRule&#9;PSI&#9;JAVA://com.netflix.loadbalancer.RoundRobinRule&#10;zuul.&#9;null&#9;null&#10;RateLimitPreFilter&#9;FILE&#9;jar://C:/Users/Administrator/.m2/repository/com/marcosbarbero/cloud/spring-cloud-zuul-ratelimit-core/1.6.0.RELEASE/spring-cloud-zuul-ratelimit-core-1.6.0.RELEASE-sources.jar!/com/marcosbarbero/cloud/autoconfigure/zuul/ratelimit/filters/RateLimitPreFilter.java&#10;RateLimiterPreFilter&#9;PSI&#9;JAVA://com.marcosbarbero.cloud.autoconfigure.zuul.ratelimit.RateLimitAutoConfiguration#rateLimiterPreFilter&#10;org.springframework.cloud.netflix.zuul.ZuulConfiguration&#9;PSI&#9;JAVA://org.springframework.cloud.netflix.zuul.ZuulConfiguration" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.base.test" />
-    </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="com.vm.user.test.service" />
     </key>
@@ -541,12 +535,19 @@
       <recent name="com.vm.user.ws" />
       <recent name="com.vm" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\zk\vm-engine\vm-provider-ws\src\main" />
+      <recent name="E:\zk\vm-engine\vm-provider-src\src\main" />
+      <recent name="E:\zk\vm-engine\vm-config-server\src\main" />
+      <recent name="E:\zk\vm-engine\vm-provider-admin\src\main\docker" />
+      <recent name="E:\zk\vm-engine\vm-provider-ws\src\main\java\com\vm\user\ws\controller" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\zk\vm-engine\doc\school_doc" />
       <recent name="E:\zk\vm-engine\vm-provider-ws\src\main\java" />
       <recent name="E:\zk\vm-engine\vm-provider-user\src\main" />
       <recent name="E:\zk\vm-engine\vm-provider-src\src\main\java" />
       <recent name="E:\zk\vm-engine\vm-provider-movie\src\main" />
-      <recent name="E:\zk\vm-engine\vm-gateway\src\main" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.vm.user.mq.sender" />
@@ -555,12 +556,8 @@
       <recent name="com.vm.admin.ws.controller" />
       <recent name="com.vm.mq.sender" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\zk\vm-engine\vm-provider-ws\src\main" />
-      <recent name="E:\zk\vm-engine\vm-provider-src\src\main" />
-      <recent name="E:\zk\vm-engine\vm-config-server\src\main" />
-      <recent name="E:\zk\vm-engine\vm-provider-admin\src\main\docker" />
-      <recent name="E:\zk\vm-engine\vm-provider-ws\src\main\java\com\vm\user\ws\controller" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.base.test" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -1459,7 +1456,7 @@
       <workItem from="1525329629197" duration="1067000" />
       <workItem from="1525331151864" duration="1893000" />
       <workItem from="1525334456101" duration="1494000" />
-      <workItem from="1525401565085" duration="1456000" />
+      <workItem from="1525401565085" duration="1669000" />
     </task>
     <servers />
   </component>
@@ -1496,7 +1493,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1172997000" />
+    <option name="totallyTimeSpent" value="1173210000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1509,8 +1506,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="1" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1533,7 +1529,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5835141" sideWeight="0.4936034" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286334" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37093276" sideWeight="0.49093816" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31236672" sideWeight="0.4937833" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31236672" sideWeight="0.4937833" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286334" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
