@@ -9,10 +9,6 @@
         <webroots>
           <root url="file://$MODULE_DIR$/../vm-provider-admin-ws/src/main/webapp" relative="/" />
         </webroots>
-        <sourceRoots>
-          <root url="file://$MODULE_DIR$/../vm-provider-admin-ws/src/main/java" />
-          <root url="file://$MODULE_DIR$/../vm-provider-admin-ws/src/main/resources" />
-        </sourceRoots>
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
