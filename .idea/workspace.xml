@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5740da97-a601-47eb-b3d9-49616afe8974" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/doc/school_doc/07-20144206232_张可_电影网站设计与实现.doc" afterPath="$PROJECT_DIR$/doc/school_doc/07-20144206232_张可_电影网站设计与实现.doc" />
-      <change beforePath="$PROJECT_DIR$/vm-auth-user/vm-auth-user.iml" afterPath="$PROJECT_DIR$/vm-auth-user/vm-auth-user.iml" />
-      <change beforePath="$PROJECT_DIR$/vm-base/vm-base.iml" afterPath="$PROJECT_DIR$/vm-base/vm-base.iml" />
-      <change beforePath="$PROJECT_DIR$/vm-config-server/vm-config-server.iml" afterPath="$PROJECT_DIR$/vm-config-server/vm-config-server.iml" />
-      <change beforePath="$PROJECT_DIR$/vm-controller-helper/vm-controller-helper.iml" afterPath="$PROJECT_DIR$/vm-controller-helper/vm-controller-helper.iml" />
-      <change beforePath="$PROJECT_DIR$/vm-dao/vm-dao.iml" afterPath="$PROJECT_DIR$/vm-dao/vm-dao.iml" />
-      <change beforePath="$PROJECT_DIR$/vm-eureka/vm-eureka.iml" afterPath="$PROJECT_DIR$/vm-eureka/vm-eureka.iml" />
-      <change beforePath="$PROJECT_DIR$/vm-gateway/vm-gateway.iml" afterPath="$PROJECT_DIR$/vm-gateway/vm-gateway.iml" />
-      <change beforePath="$PROJECT_DIR$/vm-provider-admin/vm-provider-admin.iml" afterPath="$PROJECT_DIR$/vm-provider-admin/vm-provider-admin.iml" />
-      <change beforePath="$PROJECT_DIR$/vm-provider-movie/vm-provider-movie.iml" afterPath="$PROJECT_DIR$/vm-provider-movie/vm-provider-movie.iml" />
-      <change beforePath="$PROJECT_DIR$/vm-provider-src/vm-provider-src.iml" afterPath="$PROJECT_DIR$/vm-provider-src/vm-provider-src.iml" />
-      <change beforePath="$PROJECT_DIR$/vm-provider-user/vm-provider-user.iml" afterPath="$PROJECT_DIR$/vm-provider-user/vm-provider-user.iml" />
-      <change beforePath="$PROJECT_DIR$/vm-provider-ws/vm-provider-ws.iml" afterPath="$PROJECT_DIR$/vm-provider-ws/vm-provider-ws.iml" />
     </list>
     <ignored path="$PROJECT_DIR$/vm-backend/target/" />
     <ignored path="$PROJECT_DIR$/vm-base/target/" />
@@ -85,16 +72,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="VmUsersController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/controller/VmUsersController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="99" column="54" lean-forward="false" selection-start-line="99" selection-start-column="54" selection-end-line="99" selection-end-column="54" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="VmUsersService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/service/inf/VmUsersService.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -108,18 +85,18 @@
       <file leaf-file-name="VmUsersServiceImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/service/impl/VmUsersServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
+            <state relative-caret-position="1515">
               <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="143" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bootstrap-prod00.yml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="bootstrap-prod00.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vm-config-server/src/main/resources/bootstrap-prod00.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="300">
+              <caret line="20" column="12" lean-forward="true" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -165,11 +142,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AdminReceiverChannel.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AdminReceiverChannel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vm-provider-ws/src/main/java/com/vm/ws/config/AdminReceiverChannel.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
               <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="11" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bootstrap-dev00.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vm-config-server/src/main/resources/bootstrap-dev00.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="525">
+              <caret line="35" column="40" lean-forward="true" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -410,12 +397,41 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
               <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-config-server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-config-server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-config-server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-config-server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
@@ -591,9 +607,6 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="AndroidView" />
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1516,6 +1529,7 @@
       <workItem from="1525401565085" duration="2309000" />
       <workItem from="1525410683693" duration="2436000" />
       <workItem from="1525537943262" duration="1483000" />
+      <workItem from="1525587832952" duration="593000" />
     </task>
     <servers />
   </component>
@@ -1552,7 +1566,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1177769000" />
+    <option name="totallyTimeSpent" value="1178362000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1566,6 +1580,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1932" height="1056" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44251627" sideWeight="0.51599145" order="7" side_tool="true" content_ui="tabs" />
@@ -1696,7 +1711,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/cloud/spring-cloud-stream/1.2.2.RELEASE/spring-cloud-stream-1.2.2.RELEASE-sources.jar!/org/springframework/cloud/stream/annotation/EnableBinding.java" />
     <entry file="file://$PROJECT_DIR$/vm-provider-ws/src/main/java/com/vm/ws/controller/UserOnlineStatusWSController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="118">
@@ -1916,7 +1930,6 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="270">
             <caret line="18" column="36" lean-forward="false" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
-            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -1926,7 +1939,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="305">
           <caret line="65" column="20" lean-forward="false" selection-start-line="65" selection-start-column="20" selection-end-line="65" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1934,7 +1946,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
           <caret line="93" column="34" lean-forward="false" selection-start-line="93" selection-start-column="34" selection-end-line="93" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1942,7 +1953,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="750">
           <caret line="66" column="5" lean-forward="false" selection-start-line="34" selection-start-column="3" selection-end-line="66" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1950,7 +1960,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="98" column="57" lean-forward="false" selection-start-line="98" selection-start-column="57" selection-end-line="98" selection-end-column="57" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1958,7 +1967,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="28" column="22" lean-forward="false" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1966,7 +1974,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="665">
           <caret line="189" column="5" lean-forward="false" selection-start-line="164" selection-start-column="3" selection-end-line="189" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1982,13 +1989,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="507">
           <caret line="243" column="49" lean-forward="false" selection-start-line="243" selection-start-column="49" selection-end-line="243" selection-end-column="49" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/controller/VmUsersController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
+        <state relative-caret-position="1260">
           <caret line="99" column="54" lean-forward="false" selection-start-line="99" selection-start-column="54" selection-end-line="99" selection-end-column="54" />
           <folding />
         </state>
@@ -2004,16 +2010,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vm-provider-user/src/main/java/com/vm/user/service/impl/VmUsersServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
+        <state relative-caret-position="1515">
           <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="143" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm-config-server/src/main/resources/bootstrap-prod00.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -2062,6 +2060,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="11" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-config-server/src/main/resources/bootstrap-dev00.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="35" column="40" lean-forward="true" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-config-server/src/main/resources/bootstrap-prod00.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="12" lean-forward="true" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
           <folding />
         </state>
       </provider>
