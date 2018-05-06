@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5740da97-a601-47eb-b3d9-49616afe8974" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/doc/school_doc/07-20144206232_张可_电影网站设计与实现.doc" afterPath="$PROJECT_DIR$/doc/school_doc/07-20144206232_张可_电影网站设计与实现.doc" />
+      <change beforePath="$PROJECT_DIR$/doc/school_doc/~$-20144206232_张可_电影网站设计与实现.doc" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/doc/school_doc/~WRL0005.tmp" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/vm-backend/target/" />
     <ignored path="$PROJECT_DIR$/vm-base/target/" />
@@ -95,8 +98,8 @@
       <file leaf-file-name="bootstrap-prod00.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vm-config-server/src/main/resources/bootstrap-prod00.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="12" lean-forward="true" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
+            <state relative-caret-position="585">
+              <caret line="39" column="76" lean-forward="false" selection-start-line="39" selection-start-column="76" selection-end-line="39" selection-end-column="76" />
               <folding />
             </state>
           </provider>
@@ -156,7 +159,7 @@
         <entry file="file://$PROJECT_DIR$/vm-config-server/src/main/resources/bootstrap-dev00.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="525">
-              <caret line="35" column="40" lean-forward="true" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
+              <caret line="35" column="40" lean-forward="false" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -347,7 +350,7 @@
   <component name="MavenProjectNavigator">
     <treeState />
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1932" />
@@ -1529,7 +1532,7 @@
       <workItem from="1525401565085" duration="2309000" />
       <workItem from="1525410683693" duration="2436000" />
       <workItem from="1525537943262" duration="1483000" />
-      <workItem from="1525587832952" duration="593000" />
+      <workItem from="1525587832952" duration="1204000" />
     </task>
     <servers />
   </component>
@@ -1566,7 +1569,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1178362000" />
+    <option name="totallyTimeSpent" value="1178973000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1579,7 +1582,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1932" height="1056" extended-state="0" />
+    <frame x="-8" y="-8" width="1932" height="1056" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -2067,15 +2070,15 @@
     <entry file="file://$PROJECT_DIR$/vm-config-server/src/main/resources/bootstrap-dev00.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="525">
-          <caret line="35" column="40" lean-forward="true" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
+          <caret line="35" column="40" lean-forward="false" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vm-config-server/src/main/resources/bootstrap-prod00.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="12" lean-forward="true" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
+        <state relative-caret-position="585">
+          <caret line="39" column="76" lean-forward="false" selection-start-line="39" selection-start-column="76" selection-end-line="39" selection-end-column="76" />
           <folding />
         </state>
       </provider>
