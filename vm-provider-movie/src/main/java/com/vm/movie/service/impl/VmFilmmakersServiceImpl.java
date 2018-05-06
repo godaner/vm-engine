@@ -141,39 +141,6 @@ public class VmFilmmakersServiceImpl extends BaseService implements VmFilmmakers
         return vmFilmmakersDto;
     }
 
-//    @Override
-//    public void sendFilmmakerImg(Long filmmakerId, Integer width, HttpServletResponse response) throws Exception {
-//        FileInputStream input = null;
-//        ServletOutputStream output = null;
-//        try {
-//            if (isNullObject(width)) {
-//                width = 300;
-//            }
-//            //获取电影图片id信息
-//            VmFiles file = vmFilesMapper.select(filmmakerId);
-//            String USERImgPath = Config.VM_FILMMAKER_IMG_PATH;
-//            String USERImgName = null;
-//            String contentType = null;
-//            if (file != null) {
-//                USERImgName = file.getFilename();
-//                contentType = file.getContentType();
-//            }
-//            File f = new File(USERImgPath + File.separator + width + "_" + USERImgName);
-//            //不存在，返回默认图片
-//            if (!f.exists()) {
-//                f = new File(USERImgPath + File.separator + ServerConfig.VM_FILMMAKER_IMG_DEFAULT_NAME);
-//            }
-//            input = new FileInputStream(f);
-//            output = response.getOutputStream();
-//            //设置响应的媒体类型
-//            response.setContentType(contentType); // 设置返回的文件类型
-//            IOUtils.copy(input, output);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            closeStream(input, output);
-//        }
-//    }
 
     @Override
     public VmFilmmakersDto getFilmmakerBasicInfo(Long filmmakerId) throws Exception {

@@ -62,13 +62,6 @@ public class VmMovieSrcVersionsServiceImpl extends BaseService implements VmMovi
     @Override
     public List<VmMoviesSrcVersionDto> getMovieSrcVersions(Long movieId) throws Exception {
 
-//        VmMovies vmMovies = this.getVmMoviesById(movieId, BasePo.IsDeleted.NO);
-//
-//        if (isNullObject(vmMovies)) {
-//            throw new VmMoviesException("getMovieFilmmakers vmMovies is not exist ! movieId is : " + movieId,
-//                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getCode(),
-//                    VmMoviesException.ErrorCode.MOVIE_IS_NOT_EXITS.getMsg());
-//        }
         List<VmMoviesSrcVersion> vmMoviesSrcVersions = vmMoviesSrcVersionMapper.selectBy(ImmutableMap.of(
                 "movieId", movieId,
                 "status", BasePo.Status.NORMAL.getCode(),
@@ -122,7 +115,6 @@ public class VmMovieSrcVersionsServiceImpl extends BaseService implements VmMovi
 
         List<VmMoviesSrcVersion> vmMoviesSrcVersions = vmMoviesSrcVersionMapper.selectBy(ImmutableMap.of(
                 "movieId", movieId,
-//                "status", BasePo.Status.NORMAL.getCode(),
                 "isDeleted", BasePo.IsDeleted.NO.getCode()
         ));
 
