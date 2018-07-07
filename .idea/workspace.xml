@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5740da97-a601-47eb-b3d9-49616afe8974" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_objenesis_objenesis_1_2.xml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_4_0.xml" afterPath="" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/doc/school_doc/~$134206040+徐文琴+网上招聘系统设计与实现+定稿.docx" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/doc/school_doc/~$测试报表.docx" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/doc/school_doc/~$谕_20144206267_毕业设计三稿.doc" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/doc/school_doc/~WRL0363.tmp" afterPath="" />
       <change beforePath="$PROJECT_DIR$/vm-auth-admin/vm-auth-admin.iml" afterPath="$PROJECT_DIR$/vm-auth-admin/vm-auth-admin.iml" />
+      <change beforePath="$PROJECT_DIR$/vm-auth-user/vm-auth-user.iml" afterPath="$PROJECT_DIR$/vm-auth-user/vm-auth-user.iml" />
       <change beforePath="$PROJECT_DIR$/vm-base/vm-base.iml" afterPath="$PROJECT_DIR$/vm-base/vm-base.iml" />
       <change beforePath="$PROJECT_DIR$/vm-config-server/vm-config-server.iml" afterPath="$PROJECT_DIR$/vm-config-server/vm-config-server.iml" />
       <change beforePath="$PROJECT_DIR$/vm-controller-helper/vm-controller-helper.iml" afterPath="$PROJECT_DIR$/vm-controller-helper/vm-controller-helper.iml" />
@@ -16,8 +15,6 @@
       <change beforePath="$PROJECT_DIR$/vm-global-remote-config/vm-global-remote-config.iml" afterPath="$PROJECT_DIR$/vm-global-remote-config/vm-global-remote-config.iml" />
       <change beforePath="$PROJECT_DIR$/vm-mq/vm-mq.iml" afterPath="$PROJECT_DIR$/vm-mq/vm-mq.iml" />
       <change beforePath="$PROJECT_DIR$/vm-provider-admin/vm-provider-admin.iml" afterPath="$PROJECT_DIR$/vm-provider-admin/vm-provider-admin.iml" />
-      <change beforePath="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/impl/VmFilmmakersServiceImpl.java" afterPath="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/impl/VmFilmmakersServiceImpl.java" />
-      <change beforePath="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/impl/VmMovieSrcVersionsServiceImpl.java" afterPath="$PROJECT_DIR$/vm-provider-movie/src/main/java/com/vm/movie/service/impl/VmMovieSrcVersionsServiceImpl.java" />
       <change beforePath="$PROJECT_DIR$/vm-provider-movie/vm-provider-movie.iml" afterPath="$PROJECT_DIR$/vm-provider-movie/vm-provider-movie.iml" />
       <change beforePath="$PROJECT_DIR$/vm-provider-src/vm-provider-src.iml" afterPath="$PROJECT_DIR$/vm-provider-src/vm-provider-src.iml" />
       <change beforePath="$PROJECT_DIR$/vm-provider-user/vm-provider-user.iml" afterPath="$PROJECT_DIR$/vm-provider-user/vm-provider-user.iml" />
@@ -105,8 +102,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>neStatusWSController</find>
-      <find>&quot;output&quot;</find>
       <find>S</find>
       <find>Source</find>
       <find>UserOnlineStatusMQSenderUserOnlineStatusMQSender</find>
@@ -135,6 +130,8 @@
       <find>VmFilmmakers.DEFAULT_IMG_URL</find>
       <find>VmMovies.DEFAULT_POSTER_URL</find>
       <find>docker</find>
+      <find>mysq</find>
+      <find>gs</find>
     </findStrings>
     <replaceStrings>
       <replace>OnlineAdminAuthsWS</replace>
@@ -318,8 +315,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -327,12 +325,190 @@
               <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
               <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-base" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-base" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-base" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-base" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-base" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="base" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-base" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="base" type="462c0819:PsiDirectoryNode" />
+              <item name="util" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-dao" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-provider-admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-provider-admin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-provider-admin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-provider-admin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-provider-admin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="vm" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-provider-admin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="vm" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-provider-admin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="vm" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-provider-admin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="vm" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="dao" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-provider-admin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="vm" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="dao" type="462c0819:PsiDirectoryNode" />
+              <item name="po" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-provider-src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-provider-src" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-provider-src" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-provider-src" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-provider-src" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-provider-src" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="vm-engine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vm-engine" type="462c0819:PsiDirectoryNode" />
+              <item name="vm-provider-ws" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
-      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1258,6 +1434,8 @@
       <workItem from="1525587832952" duration="2150000" />
       <workItem from="1525612190321" duration="39000" />
       <workItem from="1526022680113" duration="596000" />
+      <workItem from="1527674349436" duration="1671000" />
+      <workItem from="1527679155941" duration="3982000" />
     </task>
     <servers />
   </component>
@@ -1294,7 +1472,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1180554000" />
+    <option name="totallyTimeSpent" value="1186207000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1311,7 +1489,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44251627" sideWeight="0.51599145" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.164405" sideWeight="0.4928717" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1691023" sideWeight="0.4928717" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1438,73 +1616,10 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vm-provider-ws/src/main/java/com/vm/ws/controller/AdminOnlineStatusWSController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="21" column="25" lean-forward="false" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm-gateway/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="136" column="36" lean-forward="false" selection-start-line="136" selection-start-column="36" selection-end-line="136" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm-provider-admin/src/main/resources/bootstrap-dev00.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm-gateway/src/main/docker/Dockerfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="5" column="16" lean-forward="true" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm-eureka/src/main/docker/Dockerfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="4" column="85" lean-forward="false" selection-start-line="4" selection-start-column="85" selection-end-line="4" selection-end-column="85" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm-provider-admin/src/main/docker/Dockerfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="4" column="16" lean-forward="false" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm-provider-ws/src/main/docker/Dockerfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="11" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm-config-server/src/main/docker/Dockerfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="5" lean-forward="false" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vm-provider-src/src/test/java/GenerateSrcMapperXml.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm-provider-user/src/test/java/com/vm/user/test/controller/VmUsersControllerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1515,24 +1630,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vm-provider-src/src/test/java/com/vm/src/test/controller/VmSrcontrollerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vm-provider-src/src/main/docker/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="5" column="15" lean-forward="true" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm-dao/src/main/java/com/vm/dao/util/BasePo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="9" column="38" lean-forward="false" selection-start-line="9" selection-start-column="38" selection-end-line="9" selection-end-column="38" />
         </state>
       </provider>
     </entry>
@@ -1593,25 +1694,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5755">
-          <caret line="32" column="30" lean-forward="false" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vm-eureka/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="449">
           <caret line="22" column="51" lean-forward="false" selection-start-line="22" selection-start-column="45" selection-end-line="22" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vm-base/src/main/java/com/vm/base/util/VmControllerBaseUnitTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="38" column="33" lean-forward="false" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -1665,7 +1751,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1260">
           <caret line="99" column="54" lean-forward="false" selection-start-line="99" selection-start-column="54" selection-end-line="99" selection-end-column="54" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1729,7 +1814,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="945">
           <caret line="35" column="40" lean-forward="false" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1737,7 +1821,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="864">
           <caret line="32" column="9" lean-forward="false" selection-start-line="32" selection-start-column="9" selection-end-line="32" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1745,7 +1828,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="839">
           <caret line="142" column="0" lean-forward="true" selection-start-line="142" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1753,7 +1835,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2457">
           <caret line="116" column="35" lean-forward="false" selection-start-line="116" selection-start-column="35" selection-end-line="116" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1761,7 +1842,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
           <caret line="34" column="13" lean-forward="false" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1769,7 +1849,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
           <caret line="29" column="13" lean-forward="false" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1777,7 +1856,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2295">
           <caret line="93" column="34" lean-forward="false" selection-start-line="93" selection-start-column="34" selection-end-line="93" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1785,7 +1863,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7047">
           <caret line="285" column="13" lean-forward="false" selection-start-line="285" selection-start-column="13" selection-end-line="285" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1793,7 +1870,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="567">
           <caret line="27" column="1" lean-forward="true" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1801,6 +1877,109 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4293">
           <caret line="188" column="20" lean-forward="true" selection-start-line="188" selection-start-column="20" selection-end-line="188" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-provider-src/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2472">
+          <caret line="103" column="23" lean-forward="false" selection-start-line="103" selection-start-column="23" selection-end-line="103" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-provider-user/src/test/java/com/vm/user/test/controller/VmUsersCountControllerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-provider-user/src/test/java/com/vm/user/test/controller/VmUsersControllerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="10" column="45" lean-forward="false" selection-start-line="10" selection-start-column="45" selection-end-line="10" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/4.3.11.RELEASE/spring-web-4.3.11.RELEASE.jar!/org/springframework/http/HttpHeaders.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-10872">
+          <caret line="42" column="26" lean-forward="false" selection-start-line="42" selection-start-column="26" selection-end-line="42" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.3.11.RELEASE/spring-core-4.3.11.RELEASE-sources.jar!/org/springframework/util/MultiValueMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="27" column="23" lean-forward="false" selection-start-line="27" selection-start-column="23" selection-end-line="27" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-provider-admin/src/main/java/com/vm/admin/controller/VmAdminsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="30" column="60" lean-forward="false" selection-start-line="30" selection-start-column="47" selection-end-line="30" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2972">
+          <caret line="62" column="24" lean-forward="false" selection-start-line="62" selection-start-column="24" selection-end-line="62" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-provider-admin/src/main/java/com/vm/admin/dao/po/VmAdmins.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="4" column="34" lean-forward="false" selection-start-line="4" selection-start-column="34" selection-end-line="4" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-provider-user/src/test/java/com/vm/user/test/service/VmUsersCountServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-provider-src/src/test/java/com/vm/src/test/controller/VmSrcontrollerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="15" column="19" lean-forward="false" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-base/src/main/java/com/vm/base/util/VmServiceBaseUnitTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="15" column="29" lean-forward="true" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-dao/src/main/java/com/vm/dao/util/BasePo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="167" column="7" lean-forward="true" selection-start-line="167" selection-start-column="7" selection-end-line="167" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vm-base/src/main/java/com/vm/base/util/VmControllerBaseUnitTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="27" column="30" lean-forward="false" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
           <folding />
         </state>
       </provider>
