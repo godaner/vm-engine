@@ -23,6 +23,42 @@
     * ws集群 -- 利用rabbitmq实现ws集群
     * 注：具体可查询pom.xml
 
+## *模块介绍
+### vm-auth-admin
+    依赖：管理员权限相关模块
+### vm-auth-redis
+    依赖：为权限管理提供redis支持
+### vm-auth-user
+    依赖：用户权限相关模块
+### vm-base
+    依赖：基础模块，提供例如：工具，共同常量等
+### vm-config
+    依赖：公共配置
+### vm-controller-helper
+    依赖：为controller层提供aop服务：日志打印，异常捕获等
+### vm-dao
+    依赖：提供基础dao功能
+### vm-global-remote-config
+    依赖：配置中心配置获取
+### vm-mq
+    依赖：mq支持
+### vm-config-server
+    微服务：配置中心
+### vm-eureka
+    微服务：注册中心
+### vm-gateway
+    微服务：网关
+### vm-provider-admin
+    微服务：管理员相关微服务
+### vm-provider-movie
+    微服务：电影相关微服务
+### vm-provider-src
+    微服务：文件服务器
+### vm-provider-user
+    微服务：用户相关微服务
+### vm-provider-ws
+    微服务：支持websocket集群
+
 
 
 
